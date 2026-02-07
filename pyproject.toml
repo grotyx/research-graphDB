@@ -1,0 +1,36 @@
+[project]
+name = "spine-graphrag"
+version = "7.14.15"
+description = "Spine GraphRAG - Neo4j based medical literature knowledge graph system"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "PyMuPDF>=1.23.0",
+    "requests>=2.31.0",
+    "beautifulsoup4>=4.12.0",
+    "lxml>=4.9.0",
+    "sentence-transformers>=2.2.0",
+    "torch>=2.0.0",
+    # chromadb removed in v7.14.12 - Neo4j Vector Index only
+    "mcp>=1.0.0",
+    "pyyaml>=6.0.0",
+    "python-dateutil>=2.8.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+markers = [
+    "integration: marks tests as integration tests (require real Neo4j)",
+]
+addopts = "-m 'not integration'"

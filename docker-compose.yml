@@ -1,0 +1,66 @@
+services:
+  neo4j:
+    image: neo4j:5.26-community
+    container_name: spine_graphrag_neo4j
+    ports:
+      - "7474:7474"  # HTTP (Browser)
+      - "7687:7687"  # Bolt
+    environment:
+      # Authentication
+      - NEO4J_AUTH=neo4j/spineGraph2024
+
+      # APOC Configuration
+      - NEO4J_PLUGINS=["apoc"]
+      - NEO4J_apoc_export_file_enabled=true
+      - NEO4J_apoc_import_file_enabled=true
+      - NEO4J_apoc_import_file_use__neo4j__config=true
+
+      # Memory Configuration
+      - NEO4J_server_memory_heap_initial__size=512m
+      - NEO4J_server_memory_heap_max__size=2g
+      - NEO4J_server_memory_pagecache_size=512m
+
+      # Performance Tuning
+      - NEO4J_db_tx__log_rotation_retention__policy=100M size
+      - NEO4J_dbms_logs_query_enabled=INFO
+      - NEO4J_dbms_logs_query_threshold=0
+
+      # Bolt Thread Pool (동시 연결 처리 수, .env에서 설정 가능)
+      - NEO4J_dbms_connector_bolt_thread__pool__max__size=${NEO4J_BOLT_THREAD_POOL_SIZE:-40}
+
+      # Security
+      - NEO4J_dbms_security_procedures_unrestricted=apoc.*
+      - NEO4J_dbms_security_procedures_allowlist=apoc.*
+
+    volumes:
+      # Data persistence
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+      - neo4j_import:/var/lib/neo4j/import
+      - neo4j_plugins:/plugins
+
+    networks:
+      - spine_network
+
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:7474 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+    restart: unless-stopped
+
+volumes:
+  neo4j_data:
+    driver: local
+  neo4j_logs:
+    driver: local
+  neo4j_import:
+    driver: local
+  neo4j_plugins:
+    driver: local
+
+networks:
+  spine_network:
+    driver: bridge

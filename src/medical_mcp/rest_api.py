@@ -1,0 +1,229 @@
+"""Medical KAG REST API Server.
+
+MCP 도구들을 REST API로 제공하는 간단한 HTTP 서버.
+
+Usage:
+    python -m medical_mcp.rest_api --port 8080
+
+Endpoints:
+    GET  /health          - 서버 상태 확인
+    GET  /tools           - 사용 가능한 도구 목록
+    POST /tool/{name}     - 도구 실행
+
+Example:
+    curl http://localhost:8080/health
+    curl http://localhost:8080/tools
+    curl -X POST http://localhost:8080/tool/search \
+        -H "Content-Type: application/json" \
+        -d '{"query": "UBE lumbar stenosis", "top_k": 5}'
+"""
+
+import argparse
+import asyncio
+import json
+import logging
+import os
+import sys
+from typing import Any
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+try:
+    from fastapi import FastAPI, HTTPException
+    from fastapi.middleware.cors import CORSMiddleware
+    from pydantic import BaseModel
+    import uvicorn
+    FASTAPI_AVAILABLE = True
+except ImportError:
+    FASTAPI_AVAILABLE = False
+
+from medical_mcp.medical_kag_server import MedicalKAGServer
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Global server instance
+kag_server: MedicalKAGServer = None
+
+
+class ToolRequest(BaseModel):
+    """Tool execution request."""
+    class Config:
+        extra = "allow"  # Allow any additional fields
+
+
+def create_app() -> "FastAPI":
+    """Create FastAPI application."""
+    global kag_server
+
+    app = FastAPI(
+        title="Medical KAG API",
+        description="Spine Surgery Knowledge Graph REST API",
+        version="7.5.0"
+    )
+
+    # CORS 설정 (외부 접속 허용)
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
+    @app.on_event("startup")
+    async def startup():
+        global kag_server
+        logger.info("Initializing Medical KAG Server...")
+        kag_server = MedicalKAGServer()
+        logger.info("Medical KAG Server initialized")
+
+    @app.get("/health")
+    async def health_check():
+        """서버 상태 확인."""
+        return {
+            "status": "healthy",
+            "server": "medical-kag",
+            "neo4j_available": kag_server.neo4j_client is not None,
+            "llm_enabled": kag_server.llm_enabled,
+        }
+
+    @app.get("/tools")
+    async def list_tools():
+        """사용 가능한 도구 목록."""
+        tools = [
+            {"name": "search", "description": "논문 검색 (query, top_k)"},
+            {"name": "add_pdf", "description": "PDF 추가 (file_path)"},
+            {"name": "list_documents", "description": "문서 목록 조회"},
+            {"name": "get_stats", "description": "시스템 통계"},
+            {"name": "pubmed_bulk_search", "description": "PubMed 대량 검색 (query, max_results, year_from, year_to)"},
+            {"name": "import_papers_by_pmids", "description": "PMID로 논문 임포트 (pmids: list)"},
+            {"name": "analyze_text", "description": "텍스트 직접 분석 (text, title, pmid)"},
+            {"name": "get_intervention_hierarchy", "description": "수술법 계층 조회 (intervention_name)"},
+            {"name": "find_conflicts", "description": "연구 결과 충돌 탐지 (topic)"},
+            {"name": "get_topic_clusters", "description": "주제별 논문 클러스터"},
+            {"name": "get_paper_relations", "description": "논문 관계 조회 (paper_id)"},
+            {"name": "compare_papers", "description": "논문 비교 (paper_ids: list)"},
+        ]
+        return {"tools": tools}
+
+    @app.post("/tool/search")
+    async def search(request: ToolRequest):
+        """논문 검색."""
+        data = request.model_dump()
+        result = await kag_server.search(
+            query=data.get("query", ""),
+            top_k=data.get("top_k", 10),
+            search_type=data.get("search_type", "hybrid"),
+            tier=data.get("tier"),
+            rerank=data.get("rerank", False),
+        )
+        return result
+
+    @app.post("/tool/pubmed_bulk_search")
+    async def pubmed_search(request: ToolRequest):
+        """PubMed 대량 검색."""
+        data = request.model_dump()
+        result = await kag_server.pubmed_bulk_search(
+            query=data.get("query", ""),
+            max_results=data.get("max_results", 20),
+            year_from=data.get("year_from"),
+            year_to=data.get("year_to"),
+            publication_types=data.get("publication_types"),
+            auto_import=data.get("auto_import", False),
+        )
+        return result
+
+    @app.post("/tool/import_papers_by_pmids")
+    async def import_by_pmids(request: ToolRequest):
+        """PMID로 논문 임포트."""
+        data = request.model_dump()
+        result = await kag_server.import_papers_by_pmids(
+            pmids=data.get("pmids", [])
+        )
+        return result
+
+    @app.post("/tool/analyze_text")
+    async def analyze_text(request: ToolRequest):
+        """텍스트 직접 분석."""
+        data = request.model_dump()
+        result = await kag_server.analyze_text(
+            text=data.get("text", ""),
+            title=data.get("title", ""),
+            pmid=data.get("pmid"),
+            metadata=data.get("metadata"),
+        )
+        return result
+
+    @app.get("/tool/list_documents")
+    async def list_documents():
+        """문서 목록 조회."""
+        return await kag_server.list_documents()
+
+    @app.get("/tool/get_stats")
+    async def get_stats():
+        """시스템 통계."""
+        return await kag_server.get_stats()
+
+    @app.post("/tool/get_intervention_hierarchy")
+    async def get_intervention_hierarchy(request: ToolRequest):
+        """수술법 계층 조회."""
+        data = request.model_dump()
+        return await kag_server.get_intervention_hierarchy(
+            intervention_name=data.get("intervention_name", "")
+        )
+
+    @app.post("/tool/find_conflicts")
+    async def find_conflicts(request: ToolRequest):
+        """연구 결과 충돌 탐지."""
+        data = request.model_dump()
+        return await kag_server.find_conflicts(
+            topic=data.get("topic", ""),
+            document_ids=data.get("document_ids"),
+        )
+
+    @app.get("/tool/get_topic_clusters")
+    async def get_topic_clusters():
+        """주제별 논문 클러스터."""
+        return await kag_server.get_topic_clusters()
+
+    @app.post("/tool/get_paper_relations")
+    async def get_paper_relations(request: ToolRequest):
+        """논문 관계 조회."""
+        data = request.model_dump()
+        return await kag_server.get_paper_relations(
+            paper_id=data.get("paper_id", "")
+        )
+
+    @app.post("/tool/compare_papers")
+    async def compare_papers(request: ToolRequest):
+        """논문 비교."""
+        data = request.model_dump()
+        return await kag_server.compare_papers(
+            paper_ids=data.get("paper_ids", [])
+        )
+
+    return app
+
+
+def main():
+    if not FASTAPI_AVAILABLE:
+        print("Error: FastAPI not available. Install dependencies:")
+        print("  pip install fastapi uvicorn")
+        sys.exit(1)
+
+    parser = argparse.ArgumentParser(description="Medical KAG REST API Server")
+    parser.add_argument("--host", default="0.0.0.0", help="Host to bind to")
+    parser.add_argument("--port", type=int, default=8080, help="Port to bind to")
+    args = parser.parse_args()
+
+    logger.info(f"Starting REST API server on http://{args.host}:{args.port}")
+    logger.info(f"  API docs: http://{args.host}:{args.port}/docs")
+    logger.info(f"  Health:   http://{args.host}:{args.port}/health")
+
+    app = create_app()
+    uvicorn.run(app, host=args.host, port=args.port)
+
+
+if __name__ == "__main__":
+    main()

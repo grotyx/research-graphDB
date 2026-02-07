@@ -1,0 +1,44 @@
+{
+  "journal_mappings": {},
+  "custom_styles": {
+    "jns_spine": {
+      "name": "jns_spine",
+      "base_style": "ama",
+      "author": {
+        "format": "last_initials",
+        "separator": ", ",
+        "last_separator": ", ",
+        "et_al_threshold": 6,
+        "et_al_min": 3,
+        "et_al_text": "et al",
+        "initials_format": "no_space",
+        "hyphen_handling": "keep"
+      },
+      "title_quotes": false,
+      "title_italics": false,
+      "title_period": true,
+      "title_case": "sentence",
+      "journal": {
+        "use_abbreviation": true,
+        "italicize": true,
+        "bold": false
+      },
+      "date": {
+        "format": "year_only",
+        "position": "after_authors"
+      },
+      "volume_bold": false,
+      "volume_format": "{volume}({issue})",
+      "issue_in_parens": true,
+      "pages_format": "full",
+      "pages_prefix": ":",
+      "include_doi": false,
+      "doi_format": "doi:{doi}",
+      "include_pmid": false,
+      "pmid_format": "PMID: {pmid}",
+      "element_separator": ". ",
+      "final_period": true
+    }
+  },
+  "updated_at": "2025-12-26T17:17:50.627271"
+}
