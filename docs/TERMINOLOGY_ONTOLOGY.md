@@ -600,6 +600,8 @@ RELATED_TERMS = {
 | **Total** | **140** | **88** | **52** | **62.9%** |
 
 > **v7.14.15 변경사항**: SNOMED 중복 제거 및 정리, 공식 코드 전환 (Wound Dehiscence → 225553008)
+>
+> **v7.15.0 변경사항**: `entity_normalizer.py` OUTCOME_ALIASES/PATHOLOGY_ALIASES 딕셔너리 중복 키 5건 merge — SF-12(5개 alias 복원), Cervical Myelopathy(4개), PJK(1개), DJK, Adjacent Segment Disease(2개). Python dict 중복 키는 마지막 값만 유지되므로 이전 alias가 손실되고 있었음.
 
 ### 7.2 확장 코드 필요 항목
 

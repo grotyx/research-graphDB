@@ -2,6 +2,103 @@
 
 ## Version History
 
+### v7.15.1 (2026-02-14): 런타임 안정성 및 테스트 커버리지 강화
+
+v7.15.0 QC에서 식별된 잔여 저우선도 항목 수정 및 신규 테스트 추가.
+
+#### 버그 수정
+
+| # | 이슈 | 수정 파일 |
+|---|------|----------|
+| 1 | **Rate Limiter Lock Contention**: `asyncio.sleep()` 중 lock 유지 → lock 해제 후 sleep, while 루프로 재검증 | `claude_client.py` |
+| 2 | **Embedding Cache hit_rate 100% 버그**: `_miss_count`/`_hit_count` 미추적 → 인스턴스 변수 추가, get/get_batch에서 추적 | `embedding_cache.py` |
+| 3 | **chain_builder factory 크래시**: `TieredVectorDB = None` → try/except import, `Optional[Any]` 파라미터, graceful degradation | `chain_builder.py` |
+
+#### LOW 항목 수정
+
+| # | 카테고리 | 수정 내용 | 파일 |
+|---|---------|----------|------|
+| 4 | Dead code | `with_fallback` unused import, `ERROR_HANDLER_AVAILABLE` flag, `graph_connectivity` 변수 제거 | `hybrid_ranker.py` |
+| 5 | Deprecated | `storage/__init__.py`에 `DeprecationWarning` 추가 | `storage/__init__.py` |
+| 6 | Magic numbers | 7개 scoring 상수 추출 (SEMANTIC_WEIGHT, KEY_FINDING_BOOST 등) | `hybrid_ranker.py` |
+| 7 | Type hints | `__init__`, `_init_components`, `_init_handlers`에 `-> None` 추가 | `metadata_extractor.py`, `medical_kag_server.py` |
+| 8 | Bare except | `except:` → `except Exception:` (2건) | `unified_pdf_processor.py` |
+| 9 | Anti-pattern | `'x' in dir()` → `'x' in locals()` | `unified_pdf_processor.py` |
+| 10 | Logging | `_LOG_MAX_BYTES`, `_LOG_BACKUP_COUNT` 상수 추출 | `medical_kag_server.py` |
+
+#### 신규 테스트 (4개 파일)
+
+| 테스트 파일 | 테스트 수 | 대상 모듈 |
+|------------|----------|----------|
+| `tests/orchestrator/test_cypher_generator.py` | ~20 | Cypher 파라미터화, $param 구문, 인텐트별 생성 |
+| `tests/graph/test_entity_normalizer.py` | ~60 | 중복 키 alias 보존, SF-12/PJK/DJK/ASD 검증 |
+| `tests/solver/test_hybrid_ranker.py` | ~15 | `_merge_results` immutability, scoring 로직 |
+| `tests/medical_mcp/test_security.py` | ~10 | 파라미터화 쿼리, path traversal, 소유권 체크 |
+
+---
+
+### v7.15.0 (2026-02-14): 보안 강화 및 코드 품질 개선 (QC)
+
+전체 코드 QC를 수행하여 보안 취약점 7건, 런타임 크래시 4건, 로직 버그 14건을 수정했습니다.
+데이터베이스 스키마 변경 없음 — 코드 수준 수정만 포함.
+
+#### P0: Security (Critical)
+
+| # | 이슈 | 수정 파일 |
+|---|------|----------|
+| 1 | **Cypher Injection**: `_get_user_filter_clause`에서 사용자 입력을 f-string으로 Cypher에 직접 삽입 → `$param` 파라미터화 | `medical_kag_server.py`, `document_handler.py` |
+| 2 | **Cypher Injection**: `cypher_generator.py` 전체 `_generate_*` 메서드가 엔티티 이름을 f-string으로 삽입 → 파라미터화된 `(cypher, params)` 튜플 반환으로 전환 | `cypher_generator.py`, `search_handler.py` |
+| 3 | **File Path Traversal**: MCP `add_pdf`/`add_json`에서 임의 경로 접근 가능 → 허용 디렉토리 검증 추가 | `pdf_handler.py`, `json_handler.py` |
+| 4 | **XSS**: Web UI에서 Neo4j/PubMed 데이터를 `unsafe_allow_html=True`로 HTML escape 없이 렌더링 → `html.escape()` 적용 | `app.py`, `2_PubMed_Import.py`, `3_Knowledge_Graph.py` |
+
+#### P1: Runtime Crash & Logic Bug Fixes
+
+| # | 이슈 | 수정 파일 |
+|---|------|----------|
+| 5 | `asyncio.run()` — 이미 실행 중인 event loop에서 `RuntimeError` → event loop 감지 후 분기 처리 | `cache_manager.py` |
+| 6 | `vector_db`가 `None`일 때 `search_all()` 호출 → `AttributeError` 방지 guard 추가 | `hybrid_ranker.py` |
+| 7 | `from .web_scraper import WebMetadata` — 존재하지 않는 모듈 import → 제거, `Any` 타입으로 대체 | `text_chunker.py` |
+| 8 | Cypher `WHERE` 절이 `OPTIONAL MATCH` 뒤에 위치하여 유효 결과 행 누락 → `MATCH`와 `OPTIONAL MATCH` 사이로 이동 (3개 쿼리) | `hybrid_ranker.py` |
+| 9 | OUTCOME/PATHOLOGY_ALIASES 딕셔너리 중복 키 — `SF-12` 등 5개 엔트리에서 alias 손실 → 중복 merge | `entity_normalizer.py` |
+| 10 | `delete_document` 소유권 검증 없음 → 소유권 체크 추가 | `document_handler.py` |
+| 11 | `reset_database` 권한 검증 없음 → system 사용자만 허용 | `document_handler.py` |
+
+#### P2: Logic Bug & Quality Improvements
+
+| # | 이슈 | 수정 파일 |
+|---|------|----------|
+| 12 | `max_tokens` 기본값 불일치 (dataclass 32768 vs _parse_config 8192) → 32768으로 통일 | `config.py` |
+| 13 | LLM 비용 계산이 Gemini Flash 가격 사용 → Claude Haiku 4.5 가격으로 변경 | `cache.py` |
+| 14 | `_process_text_with_llm`에서 `None` safety 패턴 누락 → `or {}` 패턴 적용 | `pubmed_bulk_processor.py` |
+| 15 | `_merge_results`가 입력 객체의 score를 직접 변경 (mutation) → 복사본 사용 | `hybrid_ranker.py` |
+| 16 | `metadata_extractor.py` LLM 응답에 JSON repair 없음 → markdown 블록 추출 로직 추가 | `metadata_extractor.py` |
+| 17 | Web footer 버전 "v5.3" → "v7.15.0"으로 업데이트 | `app.py` |
+
+#### 수정 파일 목록 (15개)
+
+| 파일 | 수정 항목 |
+|------|----------|
+| `src/medical_mcp/medical_kag_server.py` | Cypher injection 방지 (파라미터화) |
+| `src/medical_mcp/handlers/document_handler.py` | Cypher injection, 삭제 권한, DB reset 권한 |
+| `src/medical_mcp/handlers/search_handler.py` | 파라미터화된 Cypher 호출 |
+| `src/medical_mcp/handlers/pdf_handler.py` | Path traversal 방지 |
+| `src/medical_mcp/handlers/json_handler.py` | Path traversal 방지 |
+| `src/orchestrator/cypher_generator.py` | 전체 Cypher 생성 파라미터화 |
+| `src/solver/hybrid_ranker.py` | WHERE 절 위치, vector_db guard, score mutation |
+| `src/graph/entity_normalizer.py` | 5개 중복 딕셔너리 키 merge |
+| `src/cache/cache_manager.py` | asyncio.run() 안전 처리 |
+| `src/core/text_chunker.py` | web_scraper import 제거 |
+| `src/core/config.py` | max_tokens 기본값 통일 |
+| `src/llm/cache.py` | Claude Haiku 가격으로 변경 |
+| `src/llm/claude_client.py` | generate_batch 에러 타입 힌트 |
+| `src/builder/metadata_extractor.py` | JSON repair 로직 추가 |
+| `src/builder/pubmed_bulk_processor.py` | None safety 패턴 |
+| `web/app.py` | XSS 방지, 버전 업데이트 |
+| `web/pages/2_📚_PubMed_Import.py` | XSS 방지 |
+| `web/pages/3_📊_Knowledge_Graph.py` | XSS 방지 |
+
+---
+
 ### v7.14.31 (2026-02-13): 26개 저널별 참고문헌 스타일 추가
 
 #### Journal-Specific Reference Styles

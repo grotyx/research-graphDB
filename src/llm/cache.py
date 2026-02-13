@@ -355,9 +355,10 @@ class LLMCache:
             total_input = row["total_input"] or 0
             total_output = row["total_output"] or 0
 
-            # Gemini 2.5 Flash 가격
-            input_cost = (total_input / 1_000_000) * 0.15
-            output_cost = (total_output / 1_000_000) * 0.60
+            # Approximate pricing - default model is Claude Haiku 4.5
+            # Claude Haiku 4.5: input $0.80/1M tokens, output $4.00/1M tokens
+            input_cost = (total_input / 1_000_000) * 0.80
+            output_cost = (total_output / 1_000_000) * 4.00
 
             return {
                 "total_input_tokens": total_input,

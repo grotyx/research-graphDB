@@ -184,15 +184,22 @@ def render_relation_card(rel: dict, rel_type: str, selected_paper: str = None) -
     evidence_html = ""
     if evidence:
         evidence_display = evidence[:100] + "..." if len(evidence) > 100 else evidence
+        # v7.15: XSS 방지
+        import html as html_mod
+        evidence_display = html_mod.escape(evidence_display)
         evidence_html = f'<p style="margin: 0; font-size: 0.85rem; color: #64748b; font-style: italic;">{evidence_display}</p>'
 
     # Build confidence badge
     badge_html = get_confidence_badge(conf)
 
+    # v7.15: XSS 방지 — Neo4j 데이터 HTML escape
+    import html as html_mod
+    safe_target = html_mod.escape(str(target_display))
+
     # Render card with single-line styles
     html = f'''<div style="background: {bg_color}; border-radius: 8px; padding: 12px 16px; margin-bottom: 8px; border-left: 4px solid {text_color};">
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-<span style="font-weight: 600; color: {text_color};">{emoji} {target_display}</span>
+<span style="font-weight: 600; color: {text_color};">{emoji} {safe_target}</span>
 {badge_html}
 </div>
 {evidence_html}

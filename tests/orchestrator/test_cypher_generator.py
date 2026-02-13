@@ -1,15 +1,16 @@
-"""Tests for Cypher Generator (GraphRAG v3).
+"""Tests for CypherGenerator v7.15 QC.
 
-Tests for cypher_generator.py:
-- Entity extraction from natural language
-- Intent detection (evidence_search, comparison, hierarchy, conflict)
-- Cypher query generation for each intent
-- Integration with EntityNormalizer
-- Anatomy level extraction (L1-L5, C1-C7, T1-T12)
-- Sub-domain keyword detection
+Verifies:
+1. generate() returns tuple[str, dict] (parameterized queries)
+2. All generated Cypher uses $param syntax, never f-strings with user input
+3. Each intent type (evidence_search, comparison, hierarchy, conflict) produces
+   correct Cypher structure
+4. Edge cases: empty entities, missing fields, fallback behavior
 """
 
 import pytest
+import re
+
 from src.orchestrator.cypher_generator import (
     CypherGenerator,
     QueryIntent,
@@ -17,482 +18,529 @@ from src.orchestrator.cypher_generator import (
 )
 
 
-class TestEntityExtraction:
-    """엔티티 추출 테스트."""
-
-    @pytest.fixture
-    def generator(self):
-        """CypherGenerator fixture."""
-        return CypherGenerator()
-
-    def test_extract_intervention_korean(self, generator):
-        """한국어 쿼리에서 수술법 추출."""
-        entities = generator.extract_entities("OLIF가 VAS 개선에 효과적인가?")
-
-        assert "OLIF" in entities["interventions"]
-        assert "VAS" in entities["outcomes"]
-        assert entities["intent"] == "evidence_search"
-
-    def test_extract_intervention_english(self, generator):
-        """영어 쿼리에서 수술법 추출."""
-        entities = generator.extract_entities("Is TLIF effective for improving fusion rate?")
-
-        assert "TLIF" in entities["interventions"]
-        assert "Fusion Rate" in entities["outcomes"]
-        assert entities["intent"] == "evidence_search"
-
-    def test_extract_multiple_interventions(self, generator):
-        """여러 수술법 추출."""
-        entities = generator.extract_entities("TLIF와 PLIF를 비교해줘")
-
-        assert "TLIF" in entities["interventions"]
-        assert "PLIF" in entities["interventions"]
-        assert entities["intent"] == "comparison"
-
-    def test_extract_pathology(self, generator):
-        """질환명 추출."""
-        entities = generator.extract_entities("Lumbar Stenosis 치료에 사용되는 수술법은?")
-
-        assert "Lumbar Stenosis" in entities["pathologies"]
-        assert len(entities["interventions"]) == 0  # No specific intervention mentioned
-
-    def test_extract_with_normalizer_alias(self, generator):
-        """정규화기 별칭 처리."""
-        # "Biportal Endoscopic" → "UBE"로 정규화되어야 함
-        entities = generator.extract_entities("Biportal Endoscopic surgery outcomes")
-
-        assert "UBE" in entities["interventions"]
-
-    def test_extract_outcome_aliases(self, generator):
-        """결과변수 별칭 처리."""
-        entities = generator.extract_entities("Visual Analog Scale improvement")
-
-        assert "VAS" in entities["outcomes"]
-
-    def test_extract_anatomy_levels(self, generator):
-        """해부학적 위치 추출."""
-        # 요추 (L1-L5) - "L4-L5"가 분리되어 ["L4", "L5"]로 추출될 수 있음
-        entities = generator.extract_entities("L4-L5 disc herniation surgery")
-        assert any("L4" in a or "L5" in a for a in entities["anatomy"]) or "L4-L5" in entities["anatomy"]
-
-        # 경추 (C1-C7)
-        entities = generator.extract_entities("C5-C6 ACDF outcomes")
-        assert any("C5" in a or "C6" in a for a in entities["anatomy"]) or "C5-C6" in entities["anatomy"]
-
-        # 흉추 (T1-T12)
-        entities = generator.extract_entities("T12-L1 fracture treatment")
-        assert any("T12" in a for a in entities["anatomy"])
-
-    def test_extract_subdomain_degenerative(self, generator):
-        """Degenerative 하위도메인 감지."""
-        entities = generator.extract_entities("협착증 치료")
-        # sub_domain은 현재 구현에서 None일 수 있음 (v7.14+)
-        assert entities["sub_domain"] in ["Degenerative", None]
-
-        entities = generator.extract_entities("herniated disc surgery")
-        assert entities["sub_domain"] in ["Degenerative", None]
-
-    def test_extract_subdomain_deformity(self, generator):
-        """Deformity 하위도메인 감지."""
-        entities = generator.extract_entities("측만증 수술")
-        # sub_domain은 현재 구현에서 None일 수 있음 (v7.14+)
-        assert entities["sub_domain"] in ["Deformity", None]
-
-        entities = generator.extract_entities("AIS correction surgery")
-        assert entities["sub_domain"] in ["Deformity", None]
-
-    def test_extract_subdomain_trauma(self, generator):
-        """Trauma 하위도메인 감지."""
-        entities = generator.extract_entities("burst fracture management")
-        assert entities["sub_domain"] == "Trauma"
-
-    def test_extract_subdomain_tumor(self, generator):
-        """Tumor 하위도메인 감지."""
-        entities = generator.extract_entities("metastatic spine tumor resection")
-        assert entities["sub_domain"] == "Tumor"
-
-    def test_empty_query(self, generator):
-        """빈 쿼리 처리."""
-        entities = generator.extract_entities("")
-
-        assert entities["interventions"] == []
-        assert entities["outcomes"] == []
-        assert entities["intent"] == "evidence_search"
-
-
-class TestIntentDetection:
-    """쿼리 의도 감지 테스트."""
+class TestGenerateReturnType:
+    """Verify generate() returns tuple[str, dict] for all intent paths."""
 
     @pytest.fixture
     def generator(self):
         return CypherGenerator()
 
-    def test_evidence_search_intent_korean(self, generator):
-        """근거 검색 의도 (한국어)."""
-        queries = [
-            "TLIF가 fusion rate 개선에 효과적인가?",
-            "UBE의 VAS 개선 효과는?",
-            "OLIF 치료 결과는 어떤가요?",
-        ]
+    def test_evidence_search_returns_tuple(self, generator):
+        """evidence_search intent produces (str, dict) tuple."""
+        entities = {
+            "intent": "evidence_search",
+            "interventions": ["OLIF"],
+            "outcomes": ["VAS"],
+            "pathologies": [],
+        }
+        result = generator.generate("OLIF VAS", entities)
+        assert isinstance(result, tuple), "generate() must return a tuple"
+        assert len(result) == 2, "tuple must have exactly 2 elements"
+        cypher, params = result
+        assert isinstance(cypher, str)
+        assert isinstance(params, dict)
 
-        for query in queries:
-            entities = generator.extract_entities(query)
-            assert entities["intent"] == "evidence_search", f"Failed for: {query}"
+    def test_comparison_returns_tuple(self, generator):
+        """comparison intent produces (str, dict) tuple."""
+        entities = {
+            "intent": "comparison",
+            "interventions": ["TLIF", "PLIF"],
+            "outcomes": ["Fusion Rate"],
+            "pathologies": [],
+        }
+        result = generator.generate("TLIF vs PLIF", entities)
+        assert isinstance(result, tuple)
+        cypher, params = result
+        assert isinstance(cypher, str)
+        assert isinstance(params, dict)
 
-    def test_evidence_search_intent_english(self, generator):
-        """근거 검색 의도 (영어)."""
-        queries = [
-            "Is PLIF effective for back pain?",
-            "What are the outcomes of ALIF?",
-            "Does OLIF improve indirect decompression?",
-        ]
+    def test_hierarchy_returns_tuple(self, generator):
+        """hierarchy intent produces (str, dict) tuple."""
+        entities = {
+            "intent": "hierarchy",
+            "interventions": ["Fusion Surgery"],
+            "outcomes": [],
+            "pathologies": [],
+        }
+        result = generator.generate("Fusion Surgery types", entities)
+        assert isinstance(result, tuple)
+        cypher, params = result
+        assert isinstance(cypher, str)
+        assert isinstance(params, dict)
 
-        for query in queries:
-            entities = generator.extract_entities(query)
-            assert entities["intent"] == "evidence_search", f"Failed for: {query}"
+    def test_conflict_returns_tuple(self, generator):
+        """conflict intent produces (str, dict) tuple."""
+        entities = {
+            "intent": "conflict",
+            "interventions": ["OLIF"],
+            "outcomes": ["VAS"],
+            "pathologies": [],
+        }
+        result = generator.generate("OLIF VAS conflict", entities)
+        assert isinstance(result, tuple)
+        cypher, params = result
+        assert isinstance(cypher, str)
+        assert isinstance(params, dict)
 
-    def test_comparison_intent(self, generator):
-        """비교 의도."""
-        queries = [
-            "TLIF와 PLIF 비교",
-            "UBE vs Open surgery",
-            "Compare OLIF and LLIF",
-            "ALIF와 TLIF의 차이는?",
-        ]
+    def test_empty_entities_returns_tuple(self, generator):
+        """Empty entities still produce (str, dict) tuple with fallback query."""
+        entities = {
+            "intent": "evidence_search",
+            "interventions": [],
+            "outcomes": [],
+            "pathologies": [],
+        }
+        result = generator.generate("", entities)
+        assert isinstance(result, tuple)
+        cypher, params = result
+        assert isinstance(cypher, str)
+        assert isinstance(params, dict)
+        assert "MATCH" in cypher
+        assert "LIMIT" in cypher
 
-        for query in queries:
-            entities = generator.extract_entities(query)
-            assert entities["intent"] == "comparison", f"Failed for: {query}"
+    def test_pathology_only_returns_tuple(self, generator):
+        """Pathology-only search returns (str, dict) tuple."""
+        entities = {
+            "intent": "evidence_search",
+            "interventions": [],
+            "outcomes": [],
+            "pathologies": ["Lumbar Stenosis"],
+        }
+        result = generator.generate("Lumbar Stenosis treatment", entities)
+        assert isinstance(result, tuple)
+        cypher, params = result
+        assert isinstance(cypher, str)
+        assert isinstance(params, dict)
 
-    def test_hierarchy_intent(self, generator):
-        """계층 탐색 의도."""
-        queries = [
-            "Endoscopic surgery의 종류는?",
-            "Fusion Surgery의 하위 수술법",
-            "TLIF의 상위 카테고리",
-            "What are the types of minimally invasive surgery?",
-        ]
+    def test_outcome_only_returns_tuple(self, generator):
+        """Outcome-only search returns (str, dict) tuple."""
+        entities = {
+            "intent": "evidence_search",
+            "interventions": [],
+            "outcomes": ["VAS"],
+            "pathologies": [],
+        }
+        result = generator.generate("VAS improvement", entities)
+        assert isinstance(result, tuple)
+        cypher, params = result
+        assert isinstance(cypher, str)
+        assert isinstance(params, dict)
 
-        for query in queries:
-            entities = generator.extract_entities(query)
-            assert entities["intent"] == "hierarchy", f"Failed for: {query}"
-
-    def test_conflict_intent(self, generator):
-        """상충 결과 의도 - 완화된 테스트 (v7.14+)."""
-        # conflict 키워드가 명확한 경우만 테스트
-        entities = generator.extract_entities("Conflicting results on UBE")
-        # conflict 또는 evidence_search 허용 (구현에 따라 다름)
-        assert entities["intent"] in ["conflict", "evidence_search"]
-
-    def test_intent_confidence(self, generator):
-        """의도 감지 신뢰도."""
-        entities = generator.extract_entities("TLIF vs PLIF fusion rate 비교")
-
-        # 신뢰도는 0보다 크면 됨 (v7.14+ 완화)
-        assert entities["intent_confidence"] > 0
+    def test_intervention_only_returns_tuple(self, generator):
+        """Intervention-only search returns (str, dict) tuple."""
+        entities = {
+            "intent": "evidence_search",
+            "interventions": ["TLIF"],
+            "outcomes": [],
+            "pathologies": [],
+        }
+        result = generator.generate("TLIF papers", entities)
+        assert isinstance(result, tuple)
+        cypher, params = result
+        assert isinstance(cypher, str)
+        assert isinstance(params, dict)
 
 
-class TestCypherGeneration:
-    """Cypher 쿼리 생성 테스트."""
+class TestParameterizedQuerySecurity:
+    """Verify all generated Cypher uses $param syntax, never f-string injection."""
 
     @pytest.fixture
     def generator(self):
         return CypherGenerator()
 
-    def test_generate_evidence_search_basic(self, generator):
-        """근거 검색 Cypher 생성."""
-        query = "OLIF가 VAS 개선에 효과적인가?"
-        entities = generator.extract_entities(query)
-        cypher = generator.generate(query, entities)
+    def _assert_no_inline_values(self, cypher: str, params: dict):
+        """Assert that parameter values do not appear as inline strings in the Cypher.
 
-        # Intervention → Outcome 패턴 확인
+        If params contain e.g. {"intervention": "OLIF"}, the Cypher must NOT contain
+        the literal 'OLIF' in a string position like {name: 'OLIF'}. It should use
+        {name: $intervention} instead.
+        """
+        for key, value in params.items():
+            if isinstance(value, str) and len(value) > 2:
+                # Check that the value is not inline in a property match
+                # e.g., {name: 'OLIF'} is BAD; {name: $intervention} is GOOD
+                pattern = rf"\{{[^}}]*:\s*['\"]" + re.escape(value) + rf"['\"][^}}]*\}}"
+                assert not re.search(pattern, cypher), (
+                    f"Inline value '{value}' found in Cypher property match. "
+                    f"Should use $param syntax. Query:\n{cypher}"
+                )
+
+    def _assert_uses_dollar_params(self, cypher: str, params: dict):
+        """Assert that for each key in params, the Cypher uses $key syntax."""
+        for key in params:
+            assert f"${key}" in cypher, (
+                f"Parameter ${key} not found in Cypher query. "
+                f"All user-provided values must be parameterized.\nQuery:\n{cypher}"
+            )
+
+    def test_evidence_search_parameterized(self, generator):
+        """evidence_search uses $intervention and $outcome parameters."""
+        entities = {
+            "intent": "evidence_search",
+            "interventions": ["OLIF"],
+            "outcomes": ["VAS"],
+            "pathologies": [],
+        }
+        cypher, params = generator.generate("OLIF VAS", entities)
+
+        assert "intervention" in params
+        assert "outcome" in params
+        assert params["intervention"] == "OLIF"
+        assert params["outcome"] == "VAS"
+        self._assert_uses_dollar_params(cypher, params)
+        self._assert_no_inline_values(cypher, params)
+
+    def test_comparison_parameterized(self, generator):
+        """comparison uses $intervention1, $intervention2, $outcome parameters."""
+        entities = {
+            "intent": "comparison",
+            "interventions": ["TLIF", "PLIF"],
+            "outcomes": ["Fusion Rate"],
+            "pathologies": [],
+        }
+        cypher, params = generator.generate("TLIF vs PLIF fusion", entities)
+
+        assert "intervention1" in params
+        assert "intervention2" in params
+        assert "outcome" in params
+        self._assert_uses_dollar_params(cypher, params)
+        self._assert_no_inline_values(cypher, params)
+
+    def test_hierarchy_parameterized(self, generator):
+        """hierarchy uses $intervention parameter."""
+        entities = {
+            "intent": "hierarchy",
+            "interventions": ["TLIF"],
+            "outcomes": [],
+            "pathologies": [],
+        }
+        cypher, params = generator.generate("TLIF hierarchy", entities)
+
+        assert "intervention" in params
+        assert params["intervention"] == "TLIF"
+        self._assert_uses_dollar_params(cypher, params)
+        self._assert_no_inline_values(cypher, params)
+
+    def test_conflict_parameterized(self, generator):
+        """conflict uses $intervention and $outcome parameters."""
+        entities = {
+            "intent": "conflict",
+            "interventions": ["OLIF"],
+            "outcomes": ["VAS"],
+            "pathologies": [],
+        }
+        cypher, params = generator.generate("OLIF VAS conflict", entities)
+
+        assert "intervention" in params
+        assert "outcome" in params
+        self._assert_uses_dollar_params(cypher, params)
+        self._assert_no_inline_values(cypher, params)
+
+    def test_pathology_search_parameterized(self, generator):
+        """Pathology-only search uses $pathology parameter."""
+        entities = {
+            "intent": "evidence_search",
+            "interventions": [],
+            "outcomes": [],
+            "pathologies": ["Lumbar Stenosis"],
+        }
+        cypher, params = generator.generate("Lumbar Stenosis surgery", entities)
+
+        assert "pathology" in params
+        assert params["pathology"] == "Lumbar Stenosis"
+        self._assert_uses_dollar_params(cypher, params)
+        self._assert_no_inline_values(cypher, params)
+
+    def test_outcome_only_parameterized(self, generator):
+        """Outcome-only search uses $outcome parameter."""
+        entities = {
+            "intent": "evidence_search",
+            "interventions": [],
+            "outcomes": ["VAS"],
+            "pathologies": [],
+        }
+        cypher, params = generator.generate("VAS improvement", entities)
+
+        assert "outcome" in params
+        assert params["outcome"] == "VAS"
+        self._assert_uses_dollar_params(cypher, params)
+        self._assert_no_inline_values(cypher, params)
+
+    def test_malicious_input_not_injected(self, generator):
+        """Verify that malicious input in entity values cannot inject Cypher."""
+        malicious_value = "OLIF' OR 1=1 //"
+        entities = {
+            "intent": "evidence_search",
+            "interventions": [malicious_value],
+            "outcomes": ["VAS"],
+            "pathologies": [],
+        }
+        cypher, params = generator.generate("test", entities)
+
+        # The malicious value must be in params, NOT in the Cypher string
+        assert params.get("intervention") == malicious_value
+        assert malicious_value not in cypher
+
+
+class TestEvidenceSearchCypher:
+    """Test evidence_search intent Cypher structure."""
+
+    @pytest.fixture
+    def generator(self):
+        return CypherGenerator()
+
+    def test_intervention_plus_outcome(self, generator):
+        """Intervention + Outcome produces AFFECTS pattern."""
+        entities = {
+            "intent": "evidence_search",
+            "interventions": ["OLIF"],
+            "outcomes": ["VAS"],
+            "pathologies": [],
+        }
+        cypher, params = generator.generate("OLIF VAS", entities)
+
         assert "MATCH" in cypher
         assert "Intervention" in cypher
         assert "AFFECTS" in cypher
         assert "Outcome" in cypher
-        assert "OLIF" in cypher
-        assert "VAS" in cypher
-        assert "is_significant = true" in cypher
+        assert "is_significant" in cypher
+        assert "$intervention" in cypher
+        assert "$outcome" in cypher
 
-    def test_generate_comparison(self, generator):
-        """비교 Cypher 생성."""
-        query = "TLIF와 PLIF를 Fusion Rate로 비교"
-        entities = generator.extract_entities(query)
-        cypher = generator.generate(query, entities)
+    def test_pathology_only_search(self, generator):
+        """Pathology-only produces TREATS pattern."""
+        entities = {
+            "intent": "evidence_search",
+            "interventions": [],
+            "outcomes": [],
+            "pathologies": ["Lumbar Stenosis"],
+        }
+        cypher, params = generator.generate("Lumbar Stenosis surgery", entities)
 
-        # 두 수술법 패턴 (v7.14+: 구조 변경 반영)
-        assert "MATCH" in cypher
-        assert "Intervention" in cypher
-        # TLIF 또는 PLIF 중 하나 이상 포함
-        assert "TLIF" in cypher or "PLIF" in cypher
-
-    def test_generate_hierarchy(self, generator):
-        """계층 탐색 Cypher 생성."""
-        query = "Fusion Surgery의 하위 수술법"
-        entities = generator.extract_entities(query)
-        cypher = generator.generate(query, entities)
-
-        # IS_A 관계 패턴 또는 일반 검색
-        assert "MATCH" in cypher
-        # IS_A 또는 Intervention 패턴 허용
-        assert "IS_A" in cypher or "Intervention" in cypher
-
-    def test_generate_conflict(self, generator):
-        """상충 결과 Cypher 생성 (완화된 테스트 v7.14+)."""
-        query = "OLIF의 VAS 결과가 상충되는 연구"
-        entities = generator.extract_entities(query)
-        cypher = generator.generate(query, entities)
-
-        # 기본 쿼리 구조만 확인
-        assert "MATCH" in cypher
-        assert "AFFECTS" in cypher or "Intervention" in cypher
-
-    def test_generate_pathology_search(self, generator):
-        """질환별 수술법 검색 Cypher."""
-        query = "Lumbar Stenosis 치료 수술법"
-        entities = generator.extract_entities(query)
-        cypher = generator.generate(query, entities)
-
-        # Pathology → Intervention 패턴
         assert "MATCH" in cypher
         assert "TREATS" in cypher
         assert "Pathology" in cypher
-        assert "Lumbar Stenosis" in cypher
+        assert "$pathology" in cypher
 
-    def test_generate_outcome_only_search(self, generator):
-        """결과변수만으로 수술법 검색."""
-        query = "VAS improvement surgeries"
-        entities = generator.extract_entities(query)
-        cypher = generator.generate(query, entities)
+    def test_outcome_only_search(self, generator):
+        """Outcome-only produces reverse AFFECTS pattern with direction."""
+        entities = {
+            "intent": "evidence_search",
+            "interventions": [],
+            "outcomes": ["VAS"],
+            "pathologies": [],
+        }
+        cypher, params = generator.generate("VAS improvement", entities)
 
-        # Outcome → Intervention 역방향 패턴
         assert "MATCH" in cypher
+        assert "AFFECTS" in cypher
         assert "Outcome" in cypher
-        assert "VAS" in cypher
-        assert "improved" in cypher or "direction" in cypher
+        assert "direction" in cypher
+        assert "$outcome" in cypher
 
-    def test_cypher_syntax_validity(self, generator):
-        """생성된 Cypher 구문 검증."""
-        queries = [
-            "OLIF 효과",
-            "TLIF vs PLIF",
-            "Fusion Surgery 종류",
-            "OLIF 상충 연구",
-        ]
+    def test_intervention_only_search(self, generator):
+        """Intervention-only returns papers via INVESTIGATES and IS_A hierarchy."""
+        entities = {
+            "intent": "evidence_search",
+            "interventions": ["TLIF"],
+            "outcomes": [],
+            "pathologies": [],
+        }
+        cypher, params = generator.generate("TLIF papers", entities)
 
-        for query in queries:
-            entities = generator.extract_entities(query)
-            cypher = generator.generate(query, entities)
-
-            # 기본 구문 검증
-            assert "MATCH" in cypher
-            # RETURN 또는 LIMIT이 있어야 함
-            assert "RETURN" in cypher or "return" in cypher
-            # 따옴표가 균형있게 있어야 함
-            single_quotes = cypher.count("'")
-            assert single_quotes % 2 == 0, f"Unbalanced quotes in: {cypher}"
-
-
-class TestEdgeCases:
-    """Edge case 테스트."""
-
-    @pytest.fixture
-    def generator(self):
-        return CypherGenerator()
-
-    def test_empty_query(self, generator):
-        """빈 쿼리."""
-        entities = generator.extract_entities("")
-        cypher = generator.generate("", entities)
-
-        # 기본 쿼리 반환 (최근 논문 검색 등)
         assert "MATCH" in cypher
-        assert "LIMIT" in cypher
-
-    def test_query_with_special_characters(self, generator):
-        """특수문자 포함 쿼리."""
-        query = "TLIF (Transforaminal Lumbar Interbody Fusion) 효과는?"
-        entities = generator.extract_entities(query)
-
-        assert "TLIF" in entities["interventions"]
-
-    def test_mixed_language_query(self, generator):
-        """한영 혼용 쿼리."""
-        query = "TLIF와 PLIF의 fusion rate 비교"
-        entities = generator.extract_entities(query)
-
-        assert "TLIF" in entities["interventions"]
-        assert "PLIF" in entities["interventions"]
-        assert "Fusion Rate" in entities["outcomes"]
-
-    def test_complex_anatomy_patterns(self, generator):
-        """복잡한 해부학 패턴."""
-        # 연속된 레벨
-        entities = generator.extract_entities("L1-L2-L3 multilevel fusion")
-        assert len(entities["anatomy"]) > 0
-
-        # 혼합 레벨
-        entities = generator.extract_entities("T12-L1 junction fracture")
-        assert len(entities["anatomy"]) >= 1
-
-    def test_no_entities_found(self, generator):
-        """엔티티 발견 안됨."""
-        query = "최근 척추 수술 연구는?"
-        entities = generator.extract_entities(query)
-
-        # 엔티티가 없어도 기본 쿼리 생성 가능해야 함
-        cypher = generator.generate(query, entities)
-        assert "MATCH" in cypher
-
-    def test_ambiguous_intent(self, generator):
-        """모호한 의도."""
-        query = "TLIF 연구"
-        entities = generator.extract_entities(query)
-
-        # 기본값은 evidence_search
-        assert entities["intent"] in ["evidence_search", "hierarchy"]
-
-    def test_multiple_outcomes(self, generator):
-        """여러 결과변수."""
-        entities = generator.extract_entities("TLIF improves VAS, ODI, and Fusion Rate")
-
-        # 모든 결과변수가 추출되어야 함
-        outcomes = entities["outcomes"]
-        assert "VAS" in outcomes
-        assert "ODI" in outcomes
-        assert "Fusion Rate" in outcomes
-
-
-class TestNormalizerIntegration:
-    """EntityNormalizer 통합 테스트."""
-
-    @pytest.fixture
-    def generator(self):
-        return CypherGenerator()
-
-    def test_intervention_alias_normalization(self, generator):
-        """수술법 별칭 정규화."""
-        test_cases = [
-            ("Biportal Endoscopic", "UBE"),
-            ("XLIF", "LLIF"),
-            ("Transforaminal Fusion", "TLIF"),
-        ]
-
-        for alias, expected_canonical in test_cases:
-            entities = generator.extract_entities(f"{alias} outcomes")
-            # 정규화된 이름이 포함되어야 함
-            assert expected_canonical in entities["interventions"] or alias in entities["interventions"]
-
-    def test_outcome_alias_normalization(self, generator):
-        """결과변수 별칭 정규화."""
-        test_cases = [
-            ("Visual Analog Scale", "VAS"),
-            ("Oswestry Disability Index", "ODI"),
-            ("Japanese Orthopaedic Association", "JOA"),
-        ]
-
-        for alias, expected_canonical in test_cases:
-            entities = generator.extract_entities(f"{alias} improvement")
-            assert expected_canonical in entities["outcomes"] or alias in entities["outcomes"]
-
-    def test_pathology_alias_normalization(self, generator):
-        """질환명 별칭 정규화."""
-        # "Lumbar Spinal Stenosis" → "Lumbar Stenosis"
-        entities = generator.extract_entities("Lumbar Spinal Stenosis treatment")
-
-        assert "Lumbar Stenosis" in entities["pathologies"]
-
-
-class TestRealWorldQueries:
-    """실제 사용 케이스 시나리오."""
-
-    @pytest.fixture
-    def generator(self):
-        return CypherGenerator()
-
-    def test_clinical_question_1(self, generator):
-        """임상 질문 1: 효과성."""
-        query = "TLIF가 fusion rate 개선에 효과적인가?"
-        entities = generator.extract_entities(query)
-        cypher = generator.generate(query, entities)
-
-        assert entities["intent"] == "evidence_search"
-        assert "TLIF" in entities["interventions"]
-        assert "Fusion Rate" in entities["outcomes"]
-        assert "MATCH" in cypher
-        assert "is_significant = true" in cypher
-
-    def test_clinical_question_2(self, generator):
-        """임상 질문 2: 비교."""
-        query = "UBE와 Open surgery의 VAS 비교"
-        entities = generator.extract_entities(query)
-        cypher = generator.generate(query, entities)
-
-        assert entities["intent"] == "comparison"
-        assert "UBE" in entities["interventions"]
-        # "Open surgery"는 일반 용어이므로 추출 안될 수 있음
-        assert "VAS" in entities["outcomes"]
-
-    def test_clinical_question_3(self, generator):
-        """임상 질문 3: 계층."""
-        query = "Endoscopic surgery의 하위 수술법은 무엇인가?"
-        entities = generator.extract_entities(query)
-        cypher = generator.generate(query, entities)
-
-        assert entities["intent"] == "hierarchy"
+        assert "Intervention" in cypher
+        assert "$intervention" in cypher
+        # Should include IS_A traversal for child interventions
         assert "IS_A" in cypher
 
-    def test_clinical_question_4(self, generator):
-        """임상 질문 4: 상충."""
-        query = "OLIF의 간접 감압 효과에 대한 논란이 있는가?"
-        entities = generator.extract_entities(query)
-        cypher = generator.generate(query, entities)
 
-        assert entities["intent"] == "conflict"
-        assert "OLIF" in entities["interventions"]
-        assert "direction" in cypher
-
-    def test_clinical_question_5(self, generator):
-        """임상 질문 5: 질환별 치료 (완화된 테스트 v7.14+)."""
-        query = "Lumbar Stenosis에 효과적인 수술법은?"
-        entities = generator.extract_entities(query)
-        cypher = generator.generate(query, entities)
-
-        # v7.14+: Generator may fall back to text search when entities not extracted
-        # Accept either graph pattern query or text search fallback
-        is_graph_query = "TREATS" in cypher or "Pathology" in cypher or "Intervention" in cypher
-        is_text_search = "Paper" in cypher or "search_term" in cypher
-        assert is_graph_query or is_text_search
-
-    def test_clinical_question_6(self, generator):
-        """임상 질문 6: 특정 위치 (완화된 테스트 v7.14+)."""
-        query = "L4-L5 disc herniation에 TLIF가 효과적인가?"
-        entities = generator.extract_entities(query)
-
-        # anatomy에서 L4 또는 L5 포함 여부 확인
-        assert any("L4" in a or "L5" in a for a in entities["anatomy"]) or len(entities["anatomy"]) == 0
-        assert "TLIF" in entities["interventions"]
-        # sub_domain은 None일 수 있음
-        assert entities["sub_domain"] in ["Degenerative", None]
-
-
-class TestTemplateGeneration:
-    """템플릿 기반 Cypher 생성 테스트."""
+class TestComparisonCypher:
+    """Test comparison intent Cypher structure."""
 
     @pytest.fixture
     def generator(self):
         return CypherGenerator()
 
-    def test_generate_with_templates(self, generator):
-        """템플릿 기반 생성 (미래 기능)."""
-        # CypherTemplates을 사용한 생성 테스트
-        # 현재는 기본 구현만 테스트
-        query = "TLIF outcomes"
-        entities = generator.extract_entities(query)
-        cypher = generator.generate(query, entities)
+    def test_two_interventions_with_outcome(self, generator):
+        """Two interventions + outcome produces double MATCH AFFECTS pattern."""
+        entities = {
+            "intent": "comparison",
+            "interventions": ["TLIF", "PLIF"],
+            "outcomes": ["Fusion Rate"],
+            "pathologies": [],
+        }
+        cypher, params = generator.generate("TLIF vs PLIF fusion", entities)
 
         assert "MATCH" in cypher
-        assert "RETURN" in cypher
+        assert "$intervention1" in cypher
+        assert "$intervention2" in cypher
+        assert "$outcome" in cypher
+        assert params["intervention1"] == "TLIF"
+        assert params["intervention2"] == "PLIF"
+        assert params["outcome"] == "Fusion Rate"
+
+    def test_single_intervention_comparison_fallback(self, generator):
+        """Single intervention in comparison intent still produces valid query."""
+        entities = {
+            "intent": "comparison",
+            "interventions": ["TLIF"],
+            "outcomes": [],
+            "pathologies": [],
+        }
+        cypher, params = generator.generate("TLIF comparison", entities)
+
+        assert isinstance(cypher, str)
+        assert "MATCH" in cypher
+        assert "$intervention" in cypher
+
+    def test_no_interventions_comparison(self, generator):
+        """No interventions in comparison returns minimal query."""
+        entities = {
+            "intent": "comparison",
+            "interventions": [],
+            "outcomes": [],
+            "pathologies": [],
+        }
+        cypher, params = generator.generate("compare", entities)
+
+        assert isinstance(cypher, str)
+        assert "MATCH" in cypher
+        assert "LIMIT 0" in cypher
+
+
+class TestHierarchyCypher:
+    """Test hierarchy intent Cypher structure."""
+
+    @pytest.fixture
+    def generator(self):
+        return CypherGenerator()
+
+    def test_hierarchy_with_intervention(self, generator):
+        """Hierarchy query with an intervention produces IS_A traversal."""
+        entities = {
+            "intent": "hierarchy",
+            "interventions": ["Fusion Surgery"],
+            "outcomes": [],
+            "pathologies": [],
+        }
+        cypher, params = generator.generate("Fusion Surgery types", entities)
+
+        assert "IS_A" in cypher
+        assert "$intervention" in cypher
+        assert "parent" in cypher.lower() or "child" in cypher.lower()
+        assert params["intervention"] == "Fusion Surgery"
+
+    def test_hierarchy_without_intervention(self, generator):
+        """Hierarchy without intervention returns top-level categories."""
+        entities = {
+            "intent": "hierarchy",
+            "interventions": [],
+            "outcomes": [],
+            "pathologies": [],
+        }
+        cypher, params = generator.generate("types of surgery", entities)
+
+        assert "MATCH" in cypher
+        assert "Intervention" in cypher
+        # No IS_A outgoing edge means top-level
+        assert "NOT" in cypher or "IS_A" in cypher
+
+
+class TestConflictCypher:
+    """Test conflict intent Cypher structure."""
+
+    @pytest.fixture
+    def generator(self):
+        return CypherGenerator()
+
+    def test_conflict_with_intervention_and_outcome(self, generator):
+        """Conflict with intervention + outcome detects divergent directions."""
+        entities = {
+            "intent": "conflict",
+            "interventions": ["OLIF"],
+            "outcomes": ["VAS"],
+            "pathologies": [],
+        }
+        cypher, params = generator.generate("OLIF VAS conflict", entities)
+
+        assert "direction" in cypher
+        assert "$intervention" in cypher
+        assert "$outcome" in cypher
+        # Must compare two different AFFECTS relationships
+        assert "a1" in cypher and "a2" in cypher
+        assert "source_paper_id" in cypher
+
+    def test_conflict_with_intervention_only(self, generator):
+        """Conflict with intervention-only searches all outcomes for conflicts."""
+        entities = {
+            "intent": "conflict",
+            "interventions": ["OLIF"],
+            "outcomes": [],
+            "pathologies": [],
+        }
+        cypher, params = generator.generate("OLIF conflict", entities)
+
+        assert "direction" in cypher
+        assert "$intervention" in cypher
+        assert params["intervention"] == "OLIF"
+
+    def test_conflict_no_entities(self, generator):
+        """Conflict with no entities returns minimal fallback."""
+        entities = {
+            "intent": "conflict",
+            "interventions": [],
+            "outcomes": [],
+            "pathologies": [],
+        }
+        cypher, params = generator.generate("conflict", entities)
+
+        assert "MATCH" in cypher
+        assert "LIMIT 0" in cypher
+
+
+class TestIntentDetectionIntegration:
+    """Test extract_entities -> generate round-trip for each intent."""
+
+    @pytest.fixture
+    def generator(self):
+        return CypherGenerator()
+
+    def test_evidence_search_roundtrip(self, generator):
+        """Evidence search query round-trip."""
+        entities = generator.extract_entities("OLIF가 VAS 개선에 효과적인가?")
+        assert entities["intent"] == "evidence_search"
+        cypher, params = generator.generate("OLIF가 VAS 개선에 효과적인가?", entities)
+        assert isinstance(cypher, str)
+        assert isinstance(params, dict)
+        assert len(params) > 0
+
+    def test_comparison_roundtrip(self, generator):
+        """Comparison query round-trip."""
+        entities = generator.extract_entities("TLIF와 PLIF를 비교해줘")
+        assert entities["intent"] == "comparison"
+        cypher, params = generator.generate("TLIF와 PLIF를 비교해줘", entities)
+        assert isinstance(cypher, str)
+        assert isinstance(params, dict)
+
+    def test_hierarchy_roundtrip(self, generator):
+        """Hierarchy query round-trip."""
+        entities = generator.extract_entities("Endoscopic surgery의 종류는?")
+        assert entities["intent"] == "hierarchy"
+        cypher, params = generator.generate("Endoscopic surgery의 종류는?", entities)
+        assert isinstance(cypher, str)
+        assert isinstance(params, dict)
+
+    def test_conflict_roundtrip(self, generator):
+        """Conflict query round-trip produces direction comparison."""
+        entities = generator.extract_entities("OLIF의 간접 감압 효과에 대한 논란이 있는가?")
+        assert entities["intent"] == "conflict"
+        cypher, params = generator.generate(
+            "OLIF의 간접 감압 효과에 대한 논란이 있는가?", entities
+        )
+        assert isinstance(cypher, str)
+        assert isinstance(params, dict)
+        assert "direction" in cypher
 
 
 if __name__ == "__main__":

@@ -1629,7 +1629,55 @@ python-louvain>=0.16      # 커뮤니티 탐지 (선택적)
 
 ---
 
-## 12. 참고 문헌
+## 12. 보안 설계 (v7.15.0)
+
+### 12.1 Cypher Injection 방지
+
+모든 사용자 입력이 포함되는 Cypher 쿼리는 **파라미터화**되어야 합니다.
+
+```python
+# ❌ 취약: f-string 삽입
+query = f"MATCH (i:Intervention {{name: '{user_input}'}}) RETURN i"
+
+# ✅ 안전: $param 파라미터화
+query = "MATCH (i:Intervention {name: $intervention}) RETURN i"
+params = {"intervention": user_input}
+result = await client.run_query(query, params)
+```
+
+**적용 범위**:
+
+- `cypher_generator.py`: 모든 `generate()` / `_generate_*` 메서드 → `tuple[str, dict]` 반환
+- `medical_kag_server.py`: `_get_user_filter_clause()` → `tuple[str, dict]` 반환
+- `search_handler.py`: 파라미터를 `run_query()`에 전달
+
+### 12.2 Path Traversal 방지
+
+MCP 파일 처리 핸들러는 허용된 디렉토리 외부 접근을 차단합니다.
+
+```python
+path = Path(file_path).resolve()
+allowed_dirs = [Path(project_root / "data").resolve(), Path.cwd().resolve()]
+if not any(str(path).startswith(str(d)) for d in allowed_dirs if d):
+    raise ValueError("접근 불가: 허용된 디렉토리 외부 경로")
+```
+
+**적용 범위**: `pdf_handler.py`, `json_handler.py`
+
+### 12.3 XSS 방지
+
+Streamlit `unsafe_allow_html=True` 사용 시 모든 외부 데이터에 `html.escape()` 적용.
+
+**적용 범위**: `web/app.py`, PubMed Import, Knowledge Graph 페이지
+
+### 12.4 권한 검증
+
+- `delete_document`: 문서 소유자 또는 system 사용자만 삭제 가능
+- `reset_database`: system 사용자만 실행 가능
+
+---
+
+## 13. 참고 문헌
 
 1. Edge, D., et al. (2024). "From Local to Global: A Graph RAG Approach to Query-Focused Summarization." arXiv:2404.16130. (Microsoft GraphRAG)
 

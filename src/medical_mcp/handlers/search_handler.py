@@ -294,7 +294,7 @@ class SearchHandler:
             if search_type != "evidence":
                 entities["intent"] = search_type
 
-            cypher = self.cypher_generator.generate(query, entities)
+            cypher, cypher_params = self.cypher_generator.generate(query, entities)
 
             # Execute search based on intent
             intent = entities.get("intent", "evidence_search")
@@ -316,7 +316,7 @@ class SearchHandler:
                 elif interventions and not outcomes:
                     # v7.14.18: Intervention만 있는 경우 → cypher_generator가 생성한 쿼리 사용
                     # IS_A 계층을 통해 하위 수술법도 포함하여 관련 논문 검색
-                    results = await self.neo4j_client.run_query(cypher)
+                    results = await self.neo4j_client.run_query(cypher, cypher_params)
                     result = {
                         "query": query,
                         "results": results,
@@ -324,9 +324,9 @@ class SearchHandler:
                     }
                 else:
                     # Fallback to general search with search_term
+                    merged_params = {**cypher_params, "search_term": query, "limit": limit}
                     results = await self.neo4j_client.run_query(
-                        cypher,
-                        {"search_term": query, "limit": limit}
+                        cypher, merged_params
                     )
                     result = {
                         "query": query,

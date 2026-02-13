@@ -246,6 +246,9 @@ except ImportError as e:
 # Configure logging with file handler
 from logging.handlers import RotatingFileHandler
 
+_LOG_MAX_BYTES: int = 10 * 1024 * 1024  # 10MB per log file
+_LOG_BACKUP_COUNT: int = 5              # Number of rotated log files to keep
+
 _log_dir = Path(__file__).parent.parent.parent / "logs"
 _log_dir.mkdir(exist_ok=True)
 _log_file = _log_dir / "medical_kag.log"
@@ -257,8 +260,8 @@ logging.basicConfig(
         logging.StreamHandler(sys.stderr),
         RotatingFileHandler(
             _log_file,
-            maxBytes=10*1024*1024,  # 10MB
-            backupCount=5,
+            maxBytes=_LOG_MAX_BYTES,
+            backupCount=_LOG_BACKUP_COUNT,
             encoding='utf-8'
         )
     ]
@@ -321,22 +324,23 @@ class MedicalKAGServer:
         self.current_user = user_id or "system"
         logger.info(f"User context set to: {self.current_user}")
 
-    def _get_user_filter_clause(self, alias: str = "p") -> str:
-        """사용자 필터링 Cypher WHERE 절 생성 (v7.5).
+    def _get_user_filter_clause(self, alias: str = "p") -> tuple[str, dict]:
+        """사용자 필터링 Cypher WHERE 절 생성 (v7.5, v7.15 보안 강화).
 
         본인 소유 문서 + 공유 문서만 조회.
+        Cypher injection 방지를 위해 파라미터화된 쿼리 반환.
 
         Args:
             alias: Paper 노드 별칭 (기본: 'p')
 
         Returns:
-            Cypher WHERE 절 문자열 (예: "WHERE p.owner = 'kim' OR p.shared = true")
+            (Cypher WHERE 절 문자열, 파라미터 딕셔너리) 튜플
         """
         if self.current_user == "system":
-            return ""  # system 사용자는 모든 문서 접근 가능
-        return f"WHERE {alias}.owner = '{self.current_user}' OR {alias}.shared = true"
+            return "", {}  # system 사용자는 모든 문서 접근 가능
+        return f"WHERE {alias}.owner = $current_user OR {alias}.shared = true", {"current_user": self.current_user}
 
-    def _init_components(self):
+    def _init_components(self) -> None:
         """컴포넌트 초기화."""
         # v5.3 Phase 4: ChromaDB 제거 - Neo4j Vector Index만 사용
         # self.vector_db는 더 이상 사용하지 않음 - 하위 호환성을 위해 None으로 유지
@@ -644,7 +648,7 @@ class MedicalKAGServer:
             quality_metrics=quality_metrics,
         )
 
-    def _init_handlers(self):
+    def _init_handlers(self) -> None:
         """Initialize domain-specific handlers (v7.7)."""
         if not HANDLERS_AVAILABLE:
             logger.warning("Handler modules not available - handlers not initialized")

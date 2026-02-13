@@ -830,6 +830,7 @@ class EntityNormalizer:
             "sf-36", "Sf-36", "sf36",
         ],
         # v7.14.11: SF-12를 별도 항목으로 분리
+        # v7.15: merged duplicate entries
         "SF-12": [
             "Short Form 12", "SF12", "SF-12 score", "SF 12",
             "sf-12", "Sf-12", "sf12",
@@ -1007,9 +1008,6 @@ class EntityNormalizer:
         # ========================================
         # Quality of Life
         # ========================================
-        "SF-12": [
-            "Short Form 12", "SF12"
-        ],
         "PROMIS": [
             "PROMIS Physical Function", "PROMIS Pain Intensity",
             "PROMIS score"
@@ -1130,10 +1128,13 @@ class EntityNormalizer:
             "Facet hypertrophy", "facet hypertrophy",
         ],
         # v7.14.1: Cervical Myelopathy 신규 추가
+        # v7.15: merged duplicate entries
         "Cervical Myelopathy": [
             "Degenerative cervical myelopathy", "degenerative cervical myelopathy",
             "DCM", "Cervical spondylotic myelopathy",
             "cervical myelopathy", "Myelopathy",
+            "CSM", "Cervical Spondylotic Myelopathy",
+            "Cervical cord compression", "경추 척수병증",
         ],
         # v7.14.1: Cervical Radiculopathy 신규 추가
         "Cervical Radiculopathy": [
@@ -1209,21 +1210,26 @@ class EntityNormalizer:
             "Global sagittal imbalance", "global sagittal imbalance",
         ],
         # v7.14.1: PJK 신규 추가
+        # v7.15: merged duplicate entries
         "PJK": [
             "Proximal Junctional Kyphosis", "proximal junctional kyphosis",
             "PJF", "Proximal junctional failure", "proximal junctional failure",
             "Junctional kyphosis", "junctional kyphosis",
+            "근위부 접합부 후만",
         ],
         # v7.14.1: DJK 신규 추가
+        # v7.15: merged duplicate entries
         "DJK": [
             "Distal Junctional Kyphosis", "distal junctional kyphosis",
             "Distal junctional failure",
         ],
         # v7.14.1: Adjacent Segment Disease 신규 추가
+        # v7.15: merged duplicate entries
         "Adjacent Segment Disease": [
             "adjacent segment disease", "ASD (Adjacent Segment)",
             "Adjacent segment degeneration", "adjacent segment degeneration",
             "Adjacent level disease", "Radiographic ASD",
+            "ASDis", "인접분절 퇴행",
         ],
 
         # Trauma Pathologies
@@ -1293,10 +1299,6 @@ class EntityNormalizer:
         # ========================================
         # Cervical-Specific Pathologies
         # ========================================
-        "Cervical Myelopathy": [
-            "CSM", "Cervical Spondylotic Myelopathy", "Myelopathy",
-            "Cervical cord compression", "경추 척수병증"
-        ],
         "Cervical Radiculopathy": [
             "Cervical nerve root compression", "Cervical root pain",
             "경추 신경근병증"
@@ -1348,10 +1350,6 @@ class EntityNormalizer:
         "Failed Back Surgery Syndrome": [
             "FBSS", "Post-laminectomy syndrome",
             "척추수술후 증후군"
-        ],
-        "Adjacent Segment Disease": [
-            "Adjacent segment degeneration", "ASDis",
-            "인접분절 퇴행"
         ],
 
         # ========================================
@@ -1436,13 +1434,6 @@ class EntityNormalizer:
         ],
         "Junctional Kyphosis": [
             "Thoracolumbar kyphosis", "TL kyphosis"
-        ],
-        "PJK": [
-            "Proximal Junctional Kyphosis", "Proximal junctional failure",
-            "근위부 접합부 후만"
-        ],
-        "DJK": [
-            "Distal Junctional Kyphosis", "Distal junctional failure"
         ],
         "Post-laminectomy Kyphosis": [
             "Post-surgical kyphosis", "수술후 후만"

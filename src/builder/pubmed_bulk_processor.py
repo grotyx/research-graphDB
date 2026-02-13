@@ -1153,8 +1153,8 @@ class PubMedBulkProcessor:
         logger.info(f"Text LLM processing successful (input={result.input_tokens}, output={result.output_tokens})")
 
         # Neo4j 관계 구축 (_process_abstract_with_llm과 동일 로직)
-        spine_meta = extracted_data.get("spine_metadata", {})
-        chunks_data = extracted_data.get("chunks", [])
+        spine_meta = extracted_data.get("spine_metadata") or {}
+        chunks_data = extracted_data.get("chunks") or []
 
         try:
             anatomy_level = spine_meta.get("anatomy_level", "")

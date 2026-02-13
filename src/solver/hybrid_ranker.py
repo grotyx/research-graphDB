@@ -40,13 +40,8 @@ except ImportError:
 
 # Optional error handling import
 try:
-    from ..core.error_handler import (
-        with_fallback,
-        Neo4jConnectionError,
-    )
-    ERROR_HANDLER_AVAILABLE = True
+    from ..core.error_handler import Neo4jConnectionError
 except ImportError:
-    ERROR_HANDLER_AVAILABLE = False
     Neo4jConnectionError = Exception
 
 # CypherGenerator for query parsing
@@ -63,6 +58,15 @@ logger = logging.getLogger(__name__)
 # ============================================================================
 # v7.0 Evidence-based Ranking Configuration
 # ============================================================================
+
+# Scoring Formula Constants (v7.0)
+DEFAULT_SEMANTIC_WEIGHT: float = 0.6    # Semantic score weight in final formula
+DEFAULT_AUTHORITY_WEIGHT: float = 0.4   # Authority score weight in final formula
+KEY_FINDING_BOOST: float = 1.2          # Boost multiplier for key findings
+STATISTICS_BOOST: float = 1.1           # Boost multiplier for results with statistics
+DIRECTION_IMPROVED_BOOST: float = 1.2   # Direction boost for improved outcomes
+DIRECTION_WORSENED_BOOST: float = 0.8   # Direction boost for worsened outcomes
+DIRECTION_UNCHANGED_BOOST: float = 0.9  # Direction boost for unchanged outcomes
 
 # Evidence Level Weights (OCEBM hierarchy)
 EVIDENCE_LEVEL_WEIGHTS = {
@@ -443,18 +447,23 @@ class HybridRanker:
         vector_results: list[HybridResult] = []
         vector_degraded = False
 
-        try:
-            vector_search_results = self.vector_db.search_all(
-                query_embedding=query_embedding,
-                top_k=top_k * 2,  # 여유있게 검색
-                tier1_weight=1.0,
-                tier2_weight=0.7
-            )
-            vector_results = self._score_vector_results(vector_search_results)
-            logger.info(f"Vector search: {len(vector_results)} results")
-        except Exception as e:
-            logger.error(f"Vector search failed: {e}")
+        # v7.15: vector_db None guard 추가
+        if self.vector_db is None:
+            logger.info("Vector DB not available, skipping vector search")
             vector_degraded = True
+        else:
+            try:
+                vector_search_results = self.vector_db.search_all(
+                    query_embedding=query_embedding,
+                    top_k=top_k * 2,  # 여유있게 검색
+                    tier1_weight=1.0,
+                    tier2_weight=0.7
+                )
+                vector_results = self._score_vector_results(vector_search_results)
+                logger.info(f"Vector search: {len(vector_results)} results")
+            except Exception as e:
+                logger.error(f"Vector search failed: {e}")
+                vector_degraded = True
 
             # If both failed, return empty results with warning
             if graph_degraded or not graph_results:
@@ -519,10 +528,11 @@ class HybridRanker:
         # Build Cypher query based on extracted entities
         if interventions and outcomes:
             # Intervention → Outcome search
+            # v7.15: WHERE 절을 MATCH와 OPTIONAL MATCH 사이로 이동 (결과 누락 방지)
             cypher = """
             MATCH (i:Intervention {name: $intervention})-[a:AFFECTS]->(o:Outcome {name: $outcome})
-            OPTIONAL MATCH (p:Paper)-[:INVESTIGATES]->(i)
             WHERE (a.is_significant = true OR a.p_value < $min_p_value)
+            OPTIONAL MATCH (p:Paper)-[:INVESTIGATES]->(i)
             RETURN i.name as intervention,
                    o.name as outcome,
                    a.value as value,
@@ -584,10 +594,11 @@ class HybridRanker:
 
         elif interventions:
             # Search for intervention's all outcomes
+            # v7.15: WHERE 절을 MATCH와 OPTIONAL MATCH 사이로 이동 (결과 누락 방지)
             cypher = """
             MATCH (i:Intervention {name: $intervention})-[a:AFFECTS]->(o:Outcome)
-            OPTIONAL MATCH (p:Paper)-[:INVESTIGATES]->(i)
             WHERE (a.is_significant = true OR a.p_value < $min_p_value)
+            OPTIONAL MATCH (p:Paper)-[:INVESTIGATES]->(i)
             RETURN i.name as intervention,
                    o.name as outcome,
                    a.value as value,
@@ -635,10 +646,11 @@ class HybridRanker:
 
         elif outcomes:
             # Search for outcome's all interventions
+            # v7.15: WHERE 절을 MATCH와 OPTIONAL MATCH 사이로 이동 (결과 누락 방지)
             cypher = """
             MATCH (i:Intervention)-[a:AFFECTS]->(o:Outcome {name: $outcome})
-            OPTIONAL MATCH (p:Paper)-[:INVESTIGATES]->(i)
             WHERE (a.is_significant = true OR a.p_value < $min_p_value)
+            OPTIONAL MATCH (p:Paper)-[:INVESTIGATES]->(i)
             RETURN i.name as intervention,
                    o.name as outcome,
                    a.value as value,
@@ -815,11 +827,11 @@ class HybridRanker:
             # Direction matters (improved > unchanged > worsened)
             direction_boost = 1.0
             if evidence.direction == "improved":
-                direction_boost = 1.2
+                direction_boost = DIRECTION_IMPROVED_BOOST
             elif evidence.direction == "worsened":
-                direction_boost = 0.8
+                direction_boost = DIRECTION_WORSENED_BOOST
             elif evidence.direction == "unchanged":
-                direction_boost = 0.9
+                direction_boost = DIRECTION_UNCHANGED_BOOST
 
             # Final Score (simplified)
             final_score = evidence_weight * direction_boost
@@ -886,21 +898,17 @@ class HybridRanker:
 
             # 3. Key Finding Boost
             if vr.is_key_finding:
-                semantic_score *= 1.2
+                semantic_score *= KEY_FINDING_BOOST
 
             # 4. Statistics Boost
             if vr.has_statistics:
-                semantic_score *= 1.1
+                semantic_score *= STATISTICS_BOOST
 
             # 5. Calculate Authority Score (v7.0)
             authority_score = self._calculate_authority_score_from_metadata(vr)
 
-            # 6. Combine: 60% semantic + 40% authority
-            final_score = 0.6 * semantic_score + 0.4 * authority_score
-
-            # Graph connectivity boost (if available)
-            # Note: Not available in vector results, set to 0
-            graph_connectivity = 0
+            # 6. Combine: semantic + authority (weighted)
+            final_score = DEFAULT_SEMANTIC_WEIGHT * semantic_score + DEFAULT_AUTHORITY_WEIGHT * authority_score
 
             # Normalize to 0~1
             final_score = min(final_score, 1.0)
@@ -1025,7 +1033,7 @@ class HybridRanker:
                 evidence_weight = EVIDENCE_LEVEL_WEIGHTS.get(evidence_level, 0.1)
 
                 # Key finding 부스트
-                key_finding_boost = 1.2 if raw.get("is_key_finding", False) else 1.0
+                kf_boost = KEY_FINDING_BOOST if raw.get("is_key_finding", False) else 1.0
 
                 # v7.0: Calculate authority score from paper metadata
                 paper_year = raw.get("paper_year", 0)
@@ -1035,13 +1043,13 @@ class HybridRanker:
                 recency_boost = get_recency_boost(paper_year) if paper_year else 1.0
 
                 # Semantic score (from Neo4j vector similarity)
-                semantic_score = raw.get("score", 0.0) * key_finding_boost
+                semantic_score = raw.get("score", 0.0) * kf_boost
 
                 # Authority score
                 authority_score = evidence_weight * design_weight * recency_boost
 
-                # Combined: 60% semantic + 40% authority
-                final_score = 0.6 * semantic_score + 0.4 * authority_score
+                # Combined: semantic + authority (weighted)
+                final_score = DEFAULT_SEMANTIC_WEIGHT * semantic_score + DEFAULT_AUTHORITY_WEIGHT * authority_score
                 final_score = min(final_score, 1.0)
 
                 results.append(HybridResult(
@@ -1132,15 +1140,37 @@ class HybridRanker:
         Returns:
             병합된 HybridResult 목록
         """
-        # 1. 가중치 적용
+        # 1. 가중치 적용 (use copies to avoid mutating input scores)
+        weighted_graph = []
         for gr in graph_results:
-            gr.score *= graph_weight
+            weighted_score = gr.score * graph_weight
+            weighted_graph.append(HybridResult(
+                result_type=gr.result_type,
+                score=weighted_score,
+                content=gr.content,
+                source_id=gr.source_id,
+                metadata=gr.metadata,
+                evidence=gr.evidence,
+                paper=gr.paper,
+                vector_result=gr.vector_result,
+            ))
 
+        weighted_vector = []
         for vr in vector_results:
-            vr.score *= vector_weight
+            weighted_score = vr.score * vector_weight
+            weighted_vector.append(HybridResult(
+                result_type=vr.result_type,
+                score=weighted_score,
+                content=vr.content,
+                source_id=vr.source_id,
+                metadata=vr.metadata,
+                evidence=vr.evidence,
+                paper=vr.paper,
+                vector_result=vr.vector_result,
+            ))
 
         # 2. 병합
-        all_results = graph_results + vector_results
+        all_results = weighted_graph + weighted_vector
 
         # 3. 중복 제거 (같은 source_id는 점수 높은 것만)
         deduped: dict[str, HybridResult] = {}

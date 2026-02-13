@@ -106,6 +106,8 @@ class EmbeddingCache:
         """
         self.db_path = Path(db_path)
         self.ttl_days = ttl_days
+        self._hit_count: int = 0
+        self._miss_count: int = 0
         self._initialize_db()
 
     def _initialize_db(self) -> None:
@@ -179,6 +181,7 @@ class EmbeddingCache:
             row = cursor.fetchone()
 
             if row is None:
+                self._miss_count += 1
                 logger.debug(f"Embedding cache miss: {text[:50]}...")
                 return None
 
@@ -188,6 +191,7 @@ class EmbeddingCache:
             if expires_at:
                 expires_dt = datetime.fromisoformat(expires_at)
                 if datetime.now() > expires_dt:
+                    self._miss_count += 1
                     logger.debug(f"Embedding cache expired: {text[:50]}...")
                     self._delete(text_hash)
                     return None
@@ -201,6 +205,7 @@ class EmbeddingCache:
 
             # Deserialize embedding
             embedding = pickle.loads(embedding_blob)
+            self._hit_count += 1
             logger.debug(f"Embedding cache hit: {text[:50]}...")
             return embedding
 
@@ -311,10 +316,16 @@ class EmbeddingCache:
                 )
                 conn.commit()
 
+            # Track hit/miss counts
+            self._hit_count += len(found_hashes)
+
             # Add None for missing texts
+            miss_count = 0
             for text in texts:
                 if text not in results:
                     results[text] = None
+                    miss_count += 1
+            self._miss_count += miss_count
 
             logger.debug(f"Batch get: {len(found_hashes)}/{len(texts)} cached")
             return results
@@ -449,7 +460,8 @@ class EmbeddingCache:
                 return EmbeddingCacheStats(
                     total_entries=total_entries or 0,
                     total_size_mb=total_size_mb,
-                    hit_count=total_hits or 0,
+                    hit_count=self._hit_count,
+                    miss_count=self._miss_count,
                     avg_embedding_size=avg_embedding_size
                 )
 

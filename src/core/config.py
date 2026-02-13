@@ -617,7 +617,7 @@ class ConfigManager:
             model=llm_data.get("model", "gemini-2.5-flash-preview-05-20"),
             api_key=llm_data.get("api_key", ""),
             temperature=llm_data.get("temperature", 0.1),
-            max_tokens=llm_data.get("max_tokens", 8192),
+            max_tokens=llm_data.get("max_tokens", 32768),
             timeout=llm_data.get("timeout", 60),
             max_retries=llm_data.get("max_retries", 3),
             retry_delay=llm_data.get("retry_delay", 1.0),

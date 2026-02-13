@@ -277,11 +277,16 @@ class CacheManager:
             expired = self.embedding_cache.cleanup_expired()
             results["embedding_cache_expired"] = expired
 
-        # LLM cache
+        # LLM cache — v7.15: asyncio.run() 대신 event loop 안전 처리
         if self.llm_cache:
             import asyncio
-            expired = asyncio.run(self.llm_cache.cleanup_expired())
-            results["llm_cache_expired"] = expired
+            try:
+                loop = asyncio.get_running_loop()
+                loop.create_task(self.llm_cache.cleanup_expired())
+                results["llm_cache_expired"] = "scheduled"
+            except RuntimeError:
+                expired = asyncio.run(self.llm_cache.cleanup_expired())
+                results["llm_cache_expired"] = expired
 
         logger.info(f"Cache cleanup completed: {results}")
         return results
@@ -299,9 +304,14 @@ class CacheManager:
         if self.embedding_cache:
             self.embedding_cache.cleanup_expired()
 
+        # v7.15: asyncio.run() 대신 event loop 안전 처리
         if self.llm_cache:
             import asyncio
-            asyncio.run(self.llm_cache.cleanup_expired())
+            try:
+                loop = asyncio.get_running_loop()
+                loop.create_task(self.llm_cache.cleanup_expired())
+            except RuntimeError:
+                asyncio.run(self.llm_cache.cleanup_expired())
 
         logger.info("All caches cleared")
 

@@ -6,6 +6,7 @@ Streamlit 기반 웹 인터페이스의 메인 대시보드 (Redesigned v2.0).
     streamlit run web/app.py
 """
 
+import html as html_mod
 import streamlit as st
 from pathlib import Path
 
@@ -597,9 +598,12 @@ def main():
 
                 display_name = doc_id[:35] + "..." if len(doc_id) > 35 else doc_id
 
+                # v7.15: XSS 방지 — HTML escape
+                safe_name = html_mod.escape(display_name)
+
                 st.markdown(f"""
                 <div class="list-card">
-                    <div class="list-card-title">{display_name}</div>
+                    <div class="list-card-title">{safe_name}</div>
                     <div class="list-card-meta">📑 {chunks} chunks (T1: {tier1}, T2: {tier2})</div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -622,9 +626,12 @@ def main():
                 medal = medals[i] if i < len(medals) else f"{i+1}."
                 badge = '<span class="list-card-badge">SNOMED</span>' if snomed else ""
 
+                # v7.15: XSS 방지 — HTML escape
+                safe_intervention = html_mod.escape(name)
+
                 st.markdown(f"""
                 <div class="list-card">
-                    <div class="list-card-title">{medal} {name} {badge}</div>
+                    <div class="list-card-title">{medal} {safe_intervention} {badge}</div>
                     <div class="list-card-meta">📄 {count} papers</div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -634,7 +641,7 @@ def main():
     # Footer
     st.markdown("""
     <div class="footer">
-        Spine GraphRAG v5.3 | Neo4j Unified | Claude Haiku 4.5 | Single-Store Architecture
+        Spine GraphRAG v7.15.0 | Neo4j Unified | Claude Haiku 4.5 | Single-Store Architecture
     </div>
     """, unsafe_allow_html=True)
 

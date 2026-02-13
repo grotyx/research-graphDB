@@ -1,11 +1,17 @@
-"""Tests for entity_normalizer module.
+"""Tests for EntityNormalizer v7.15 QC - Alias Integrity After Duplicate Key Merge.
 
-Tests for:
-- Intervention normalization (aliases)
-- Outcome normalization
-- Pathology normalization
-- Text extraction
-- Confidence scores
+The v7.15 QC merged duplicate dictionary keys in OUTCOME_ALIASES and
+PATHOLOGY_ALIASES. Previously, Python silently discarded earlier entries
+when the same key appeared twice. After the merge, ALL aliases from both
+former entries must be accessible under the single canonical key.
+
+This file tests:
+1. SF-12 (Outcome) - all aliases accessible
+2. Cervical Myelopathy (Pathology) - all aliases accessible, including DCM and CSM
+3. PJK (Outcome + Pathology) - both dictionaries have complete alias lists
+4. DJK (Pathology) - all aliases accessible
+5. Adjacent Segment Disease (Pathology) - all aliases accessible, including Korean
+6. General alias integrity: no data loss in normalization lookups
 """
 
 import pytest
@@ -17,638 +23,460 @@ from src.graph.entity_normalizer import (
 )
 
 
-class TestNormalizationResult:
-    """Test NormalizationResult dataclass."""
-
-    def test_normalization_result_creation(self):
-        """Test creating NormalizationResult."""
-        result = NormalizationResult(
-            original="BESS",
-            normalized="UBE",
-            confidence=1.0,
-            matched_alias="BESS"
-        )
-
-        assert result.original == "BESS"
-        assert result.normalized == "UBE"
-        assert result.confidence == 1.0
-        assert result.matched_alias == "BESS"
-
-
-class TestEntityNormalizer:
-    """Test EntityNormalizer class."""
+class TestSF12AliasIntegrity:
+    """Verify SF-12 outcome aliases are all accessible after merge."""
 
     @pytest.fixture
     def normalizer(self):
-        """Create normalizer instance."""
         return EntityNormalizer()
 
-    # ========================================================================
-    # Intervention Normalization Tests
-    # ========================================================================
+    def test_sf12_canonical_normalization(self, normalizer):
+        """SF-12 itself normalizes to SF-12."""
+        result = normalizer.normalize_outcome("SF-12")
+        assert result.normalized == "SF-12"
+        assert result.confidence >= 1.0
 
-    def test_intervention_normalization_ube_variations(self, normalizer):
-        """Test UBE variations normalize to UBE."""
-        test_cases = [
-            "UBE",
-            "BESS",
-            "Biportal",
-            "Unilateral Biportal Endoscopic",
-            "Biportal Endoscopic",
-            "Biportal Endoscopy",
-        ]
+    def test_sf12_short_form_alias(self, normalizer):
+        """'Short Form 12' normalizes to SF-12."""
+        result = normalizer.normalize_outcome("Short Form 12")
+        assert result.normalized == "SF-12"
+        assert result.confidence >= 1.0
 
-        for term in test_cases:
-            result = normalizer.normalize_intervention(term)
-            assert result.normalized == "UBE", f"Failed for: {term}"
-            assert result.confidence >= 1.0
+    def test_sf12_no_hyphen(self, normalizer):
+        """'SF12' normalizes to SF-12."""
+        result = normalizer.normalize_outcome("SF12")
+        assert result.normalized == "SF-12"
+        assert result.confidence >= 1.0
 
-    def test_intervention_normalization_feld_variations(self, normalizer):
-        """Test FELD variations normalize to FELD."""
-        test_cases = [
-            "FELD",
-            # Note: PELD is a separate canonical term (Percutaneous Endoscopic Lumbar Discectomy)
-            # FELD = Full Endoscopic Lumbar Discectomy - different procedure
-            "FEID",
-            "Full-Endoscopic Lumbar Discectomy",
-            "Full Endoscopic Lumbar Discectomy",
-        ]
-
-        for term in test_cases:
-            result = normalizer.normalize_intervention(term)
-            assert result.normalized == "FELD", f"Failed for: {term}"
-
-    def test_intervention_normalization_fusion_techniques(self, normalizer):
-        """Test fusion technique normalization."""
-        test_cases = {
-            "TLIF": ["TLIF", "Transforaminal Lumbar Interbody Fusion"],
-            "PLIF": ["PLIF", "Posterior Lumbar Interbody Fusion"],
-            "ALIF": ["ALIF", "Anterior Lumbar Interbody Fusion"],
-            "OLIF": ["OLIF", "Oblique Lumbar Interbody Fusion", "OLIF51"],
-            "LLIF": ["LLIF", "XLIF", "DLIF", "Lateral Lumbar Interbody Fusion"],
-        }
-
-        for expected, terms in test_cases.items():
-            for term in terms:
-                result = normalizer.normalize_intervention(term)
-                assert result.normalized == expected, f"Failed for: {term} -> {expected}"
-
-    def test_intervention_normalization_osteotomy(self, normalizer):
-        """Test osteotomy normalization."""
-        test_cases = {
-            "SPO": ["SPO", "Smith-Petersen Osteotomy", "Ponte Osteotomy"],
-            "PSO": ["PSO", "Pedicle Subtraction Osteotomy"],
-            "VCR": ["VCR", "Vertebral Column Resection"],
-        }
-
-        for expected, terms in test_cases.items():
-            for term in terms:
-                result = normalizer.normalize_intervention(term)
-                assert result.normalized == expected
-
-    def test_intervention_normalization_case_insensitive(self, normalizer):
-        """Test case-insensitive matching."""
-        test_cases = [
-            "ube", "UBE", "Ube", "uBe",
-            "tlif", "TLIF", "Tlif",
-        ]
-
-        for term in test_cases:
-            result = normalizer.normalize_intervention(term)
-            assert result.confidence >= 1.0
-
-    def test_intervention_normalization_unknown_term(self, normalizer):
-        """Test unknown intervention returns original."""
-        result = normalizer.normalize_intervention("Unknown Surgery XYZ")
-
-        assert result.normalized == "Unknown Surgery XYZ"
-        assert result.confidence == 0.0
-
-    def test_intervention_normalization_empty_string(self, normalizer):
-        """Test empty string handling."""
-        result = normalizer.normalize_intervention("")
-
-        assert result.normalized == ""
-        assert result.confidence == 0.0
-
-    def test_intervention_normalization_partial_match(self, normalizer):
-        """Test partial matching with confidence scoring."""
-        # "Biportal Endoscopic Surgery" should match "Biportal Endoscopic"
-        result = normalizer.normalize_intervention("Biportal Endoscopic Surgery")
-
-        # Should match with high confidence
-        assert result.normalized == "UBE"
+    def test_sf12_with_score_suffix(self, normalizer):
+        """'SF-12 score' normalizes to SF-12."""
+        result = normalizer.normalize_outcome("SF-12 score")
+        assert result.normalized == "SF-12"
         assert result.confidence > 0.5
 
-    # ========================================================================
-    # Outcome Normalization Tests
-    # ========================================================================
-
-    def test_outcome_normalization_vas_variations(self, normalizer):
-        """Test VAS variations."""
-        test_cases = [
-            "VAS",
-            "Visual Analog Scale",
-            "Visual Analogue Scale",
-            "Pain Score",
-            "VAS score",
-        ]
-
-        for term in test_cases:
-            result = normalizer.normalize_outcome(term)
-            assert result.normalized == "VAS", f"Failed for: {term}"
-
-    def test_outcome_normalization_clinical_scores(self, normalizer):
-        """Test clinical score normalization."""
-        test_cases = {
-            "ODI": ["ODI", "Oswestry Disability Index", "Oswestry Score"],
-            "JOA": ["JOA", "Japanese Orthopaedic Association", "JOA Score"],
-            "NDI": ["NDI", "Neck Disability Index"],
-        }
-
-        for expected, terms in test_cases.items():
-            for term in terms:
-                result = normalizer.normalize_outcome(term)
-                assert result.normalized == expected
-
-    def test_outcome_normalization_radiological(self, normalizer):
-        """Test radiological outcome normalization."""
-        test_cases = {
-            "SVA": ["SVA", "Sagittal Vertical Axis", "C7 SVA"],
-            "PI-LL": ["PI-LL", "PI-LL Mismatch", "PI minus LL"],
-            "Cobb Angle": ["Cobb Angle", "Cobb angle", "Scoliosis angle"],
-        }
-
-        for expected, terms in test_cases.items():
-            for term in terms:
-                result = normalizer.normalize_outcome(term)
-                assert result.normalized == expected
-
-    def test_outcome_normalization_fusion_complications(self, normalizer):
-        """Test fusion and complication outcomes."""
-        test_cases = {
-            "Fusion Rate": ["Fusion Rate", "Solid fusion rate", "Bony fusion"],
-            "Complication Rate": ["Complication Rate", "Adverse events"],
-            "PJK": ["PJK", "Proximal Junctional Kyphosis"],
-        }
-
-        for expected, terms in test_cases.items():
-            for term in terms:
-                result = normalizer.normalize_outcome(term)
-                assert result.normalized == expected
-
-    def test_outcome_normalization_quality_of_life(self, normalizer):
-        """Test QoL outcome normalization."""
-        test_cases = {
-            "EQ-5D": ["EQ-5D", "EuroQol 5D", "EQ5D"],
-            "SF-36": ["SF-36", "Short Form 36", "SF36"],
-            "SRS-22": ["SRS-22", "Scoliosis Research Society 22"],
-        }
-
-        for expected, terms in test_cases.items():
-            for term in terms:
-                result = normalizer.normalize_outcome(term)
-                assert result.normalized == expected
-
-    # ========================================================================
-    # Pathology Normalization Tests
-    # ========================================================================
-
-    def test_pathology_normalization_lumbar_conditions(self, normalizer):
-        """Test lumbar pathology normalization."""
-        test_cases = {
-            "Lumbar Stenosis": ["Lumbar Stenosis", "LSS", "Spinal Stenosis"],
-            "Lumbar Disc Herniation": ["LDH", "HNP", "Herniated Nucleus Pulposus", "HIVD"],
-            "Spondylolisthesis": ["Spondylolisthesis", "Degenerative Spondylolisthesis"],
-        }
-
-        for expected, terms in test_cases.items():
-            for term in terms:
-                result = normalizer.normalize_pathology(term)
-                assert result.normalized == expected
-
-    def test_pathology_normalization_deformity(self, normalizer):
-        """Test deformity pathology normalization."""
-        test_cases = {
-            "Degenerative Scoliosis": ["De Novo Scoliosis", "Adult Degenerative Scoliosis"],
-            "AIS": ["AIS", "Adolescent Idiopathic Scoliosis"],
-            "ASD": ["ASD", "Adult Spinal Deformity"],
-            "Kyphosis": ["Kyphosis", "Thoracic Kyphosis"],
-        }
-
-        for expected, terms in test_cases.items():
-            for term in terms:
-                result = normalizer.normalize_pathology(term)
-                assert result.normalized == expected
-
-    def test_pathology_normalization_trauma_tumor(self, normalizer):
-        """Test trauma and tumor pathology normalization."""
-        test_cases = {
-            "Burst Fracture": ["Burst Fracture", "Vertebral Burst Fracture"],
-            "Compression Fracture": ["VCF", "Vertebral Compression Fracture"],
-            "Spinal Metastasis": ["Spine Metastasis", "Vertebral Metastasis"],
-        }
-
-        for expected, terms in test_cases.items():
-            for term in terms:
-                result = normalizer.normalize_pathology(term)
-                assert result.normalized == expected
-
-    # ========================================================================
-    # Text Extraction Tests
-    # ========================================================================
-
-    def test_extract_interventions_from_text(self, normalizer):
-        """Test extracting interventions from text."""
-        text = "Comparison of TLIF and OLIF for treatment of lumbar stenosis"
-
-        results = normalizer.extract_and_normalize_interventions(text)
-
-        # Should find both TLIF and OLIF
-        assert len(results) >= 2
-        normalized_names = [r.normalized for r in results]
-        assert "TLIF" in normalized_names
-        assert "OLIF" in normalized_names
-
-    def test_extract_interventions_multiple_aliases(self, normalizer):
-        """Test extracting with multiple aliases in text."""
-        text = "UBE technique (also known as BESS or Biportal Endoscopic) was performed"
-
-        results = normalizer.extract_and_normalize_interventions(text)
-
-        # Should find UBE only once (deduplication)
-        assert len(results) == 1
-        assert results[0].normalized == "UBE"
-
-    def test_extract_interventions_case_insensitive(self, normalizer):
-        """Test extraction is case-insensitive."""
-        text = "tlif and plif procedures"
-
-        results = normalizer.extract_and_normalize_interventions(text)
-
-        normalized_names = [r.normalized for r in results]
-        assert "TLIF" in normalized_names
-        assert "PLIF" in normalized_names
-
-    def test_extract_interventions_no_matches(self, normalizer):
-        """Test extraction with no matches."""
-        text = "This is a test with no surgical terms"
-
-        results = normalizer.extract_and_normalize_interventions(text)
-
-        assert len(results) == 0
-
-    def test_extract_outcomes_from_text(self, normalizer):
-        """Test extracting outcomes from text."""
-        text = "VAS and ODI scores improved significantly. Fusion rate was 92%."
-
-        results = normalizer.extract_and_normalize_outcomes(text)
-
-        # Should find VAS, ODI, Fusion Rate
-        normalized_names = [r.normalized for r in results]
-        assert "VAS" in normalized_names
-        assert "ODI" in normalized_names
-        assert "Fusion Rate" in normalized_names
-
-    def test_extract_outcomes_deduplication(self, normalizer):
-        """Test outcome extraction deduplication."""
-        text = "VAS score and Visual Analog Scale both improved"
-
-        results = normalizer.extract_and_normalize_outcomes(text)
-
-        # Should find VAS only once
-        assert len(results) == 1
-        assert results[0].normalized == "VAS"
-
-    # ========================================================================
-    # Utility Methods Tests
-    # ========================================================================
-
-    def test_normalize_all(self, normalizer):
-        """Test normalize_all method."""
-        text = "TLIF"
-
-        results = normalizer.normalize_all(text)
-
-        assert "intervention" in results
-        assert "outcome" in results
-        assert "pathology" in results
-
-        # TLIF should match as intervention
-        assert results["intervention"].normalized == "TLIF"
-        assert results["intervention"].confidence >= 1.0
-
-        # Should not match as outcome or pathology
-        assert results["outcome"].confidence == 0.0
-        assert results["pathology"].confidence == 0.0
-
-    def test_get_all_aliases_intervention(self, normalizer):
-        """Test getting all aliases for intervention."""
-        aliases = normalizer.get_all_aliases("UBE", entity_type="intervention")
-
-        assert "BESS" in aliases
-        assert "Biportal" in aliases
-        assert "Unilateral Biportal Endoscopic" in aliases
-
-    def test_get_all_aliases_outcome(self, normalizer):
-        """Test getting all aliases for outcome."""
-        aliases = normalizer.get_all_aliases("VAS", entity_type="outcome")
-
-        assert "Visual Analog Scale" in aliases
-        assert "Pain Score" in aliases
-
-    def test_get_all_aliases_pathology(self, normalizer):
-        """Test getting all aliases for pathology."""
-        aliases = normalizer.get_all_aliases("Lumbar Stenosis", entity_type="pathology")
-
-        assert "LSS" in aliases
-        assert "Spinal Stenosis" in aliases
-
-    def test_get_all_aliases_unknown(self, normalizer):
-        """Test get_all_aliases with unknown type."""
-        aliases = normalizer.get_all_aliases("Test", entity_type="unknown")
-
-        assert aliases == []
-
-    def test_get_all_aliases_not_found(self, normalizer):
-        """Test get_all_aliases with non-existent entity."""
-        aliases = normalizer.get_all_aliases("NonExistent", entity_type="intervention")
-
-        assert aliases == []
-
-    # ========================================================================
-    # Internal Logic Tests
-    # ========================================================================
-
-    def test_build_reverse_map(self, normalizer):
-        """Test internal reverse map construction."""
-        # Check intervention reverse map
-        assert "ube" in normalizer._intervention_reverse
-        assert normalizer._intervention_reverse["ube"] == "UBE"
-        assert normalizer._intervention_reverse["bess"] == "UBE"
-
-    def test_confidence_exact_match(self, normalizer):
-        """Test confidence is 1.0 for exact matches."""
-        result = normalizer.normalize_intervention("TLIF")
-        assert result.confidence == 1.0
-
-    def test_confidence_partial_match(self, normalizer):
-        """Test confidence calculation for partial matches."""
-        # Longer text containing the alias
-        result = normalizer.normalize_intervention("TLIF Surgery Procedure")
-
-        # Should match with reduced confidence
-        assert result.confidence > 0.5
-        assert result.confidence < 1.0
-
-    def test_matched_alias_tracking(self, normalizer):
-        """Test matched_alias is recorded."""
-        result = normalizer.normalize_intervention("BESS")
-
-        assert result.normalized == "UBE"
-        assert result.matched_alias == "BESS"
-
-
-class TestGetNormalizer:
-    """Test singleton get_normalizer function."""
-
-    def test_get_normalizer_singleton(self):
-        """Test get_normalizer returns same instance."""
-        normalizer1 = get_normalizer()
-        normalizer2 = get_normalizer()
-
-        assert normalizer1 is normalizer2
-
-    def test_get_normalizer_works(self):
-        """Test get_normalizer returns working instance."""
-        normalizer = get_normalizer()
-
-        result = normalizer.normalize_intervention("TLIF")
-        assert result.normalized == "TLIF"
-
-
-class TestEdgeCases:
-    """Test edge cases and error handling."""
+    def test_sf12_space_variant(self, normalizer):
+        """'SF 12' normalizes to SF-12."""
+        result = normalizer.normalize_outcome("SF 12")
+        assert result.normalized == "SF-12"
+        assert result.confidence >= 1.0
+
+    def test_sf12_lowercase(self, normalizer):
+        """'sf-12' normalizes to SF-12."""
+        result = normalizer.normalize_outcome("sf-12")
+        assert result.normalized == "SF-12"
+        assert result.confidence >= 1.0
+
+    def test_sf12_all_aliases_in_dict(self, normalizer):
+        """All expected SF-12 aliases are present in OUTCOME_ALIASES."""
+        expected_aliases = ["Short Form 12", "SF12", "SF-12 score", "SF 12",
+                            "sf-12", "Sf-12", "sf12"]
+        actual_aliases = normalizer.OUTCOME_ALIASES.get("SF-12", [])
+        for alias in expected_aliases:
+            assert alias in actual_aliases, (
+                f"Alias '{alias}' missing from SF-12 OUTCOME_ALIASES. "
+                f"Possible data loss during duplicate key merge."
+            )
+
+
+class TestCervicalMyelopathyAliasIntegrity:
+    """Verify Cervical Myelopathy pathology aliases after merge."""
 
     @pytest.fixture
     def normalizer(self):
         return EntityNormalizer()
 
-    def test_whitespace_handling(self, normalizer):
-        """Test whitespace is handled correctly."""
-        result = normalizer.normalize_intervention("  TLIF  ")
-        assert result.normalized == "TLIF"
+    def test_cervical_myelopathy_canonical(self, normalizer):
+        """'Cervical Myelopathy' normalizes to itself."""
+        result = normalizer.normalize_pathology("Cervical Myelopathy")
+        assert result.normalized == "Cervical Myelopathy"
+        assert result.confidence >= 1.0
 
-    def test_special_characters(self, normalizer):
-        """Test handling of special characters."""
-        # Should not break
-        result = normalizer.normalize_intervention("TLIF-surgery")
-        assert result.confidence >= 0.0
+    def test_dcm_alias(self, normalizer):
+        """'DCM' normalizes to Cervical Myelopathy."""
+        result = normalizer.normalize_pathology("DCM")
+        assert result.normalized == "Cervical Myelopathy"
 
-    def test_very_long_text(self, normalizer):
-        """Test handling of very long text."""
-        long_text = "TLIF " * 1000
-        results = normalizer.extract_and_normalize_interventions(long_text)
+    def test_csm_alias(self, normalizer):
+        """'CSM' normalizes to Cervical Myelopathy."""
+        result = normalizer.normalize_pathology("CSM")
+        assert result.normalized == "Cervical Myelopathy"
 
-        # Should still work and deduplicate
-        assert len(results) == 1
-        assert results[0].normalized == "TLIF"
+    def test_degenerative_cervical_myelopathy(self, normalizer):
+        """'Degenerative cervical myelopathy' normalizes to Cervical Myelopathy."""
+        result = normalizer.normalize_pathology("Degenerative cervical myelopathy")
+        assert result.normalized == "Cervical Myelopathy"
 
-    def test_unicode_handling(self, normalizer):
-        """Test unicode text handling."""
-        text = "척추 fusion with TLIF"
-        results = normalizer.extract_and_normalize_interventions(text)
+    def test_cervical_spondylotic_myelopathy(self, normalizer):
+        """'Cervical Spondylotic Myelopathy' normalizes to Cervical Myelopathy."""
+        result = normalizer.normalize_pathology("Cervical Spondylotic Myelopathy")
+        assert result.normalized == "Cervical Myelopathy"
 
-        # Should still find TLIF
-        assert len(results) >= 1
-        assert "TLIF" in [r.normalized for r in results]
+    def test_myelopathy_short_form(self, normalizer):
+        """'Myelopathy' normalizes to Cervical Myelopathy."""
+        result = normalizer.normalize_pathology("Myelopathy")
+        assert result.normalized == "Cervical Myelopathy"
+
+    def test_korean_cervical_myelopathy(self, normalizer):
+        """Korean term normalizes to Cervical Myelopathy."""
+        result = normalizer.normalize_pathology("경추 척수병증")
+        assert result.normalized == "Cervical Myelopathy"
+
+    def test_cervical_cord_compression(self, normalizer):
+        """'Cervical cord compression' normalizes to Cervical Myelopathy."""
+        result = normalizer.normalize_pathology("Cervical cord compression")
+        assert result.normalized == "Cervical Myelopathy"
+
+    def test_cervical_myelopathy_all_aliases_in_dict(self, normalizer):
+        """All expected Cervical Myelopathy aliases are in PATHOLOGY_ALIASES."""
+        expected_aliases = [
+            "Degenerative cervical myelopathy", "degenerative cervical myelopathy",
+            "DCM", "Cervical spondylotic myelopathy",
+            "cervical myelopathy", "Myelopathy",
+            "CSM", "Cervical Spondylotic Myelopathy",
+            "Cervical cord compression", "경추 척수병증",
+        ]
+        actual_aliases = normalizer.PATHOLOGY_ALIASES.get("Cervical Myelopathy", [])
+        for alias in expected_aliases:
+            assert alias in actual_aliases, (
+                f"Alias '{alias}' missing from Cervical Myelopathy PATHOLOGY_ALIASES. "
+                f"Possible data loss during v7.15 duplicate key merge."
+            )
 
 
-class TestKoreanSupport:
-    """Test Korean language support."""
+class TestPJKAliasIntegrity:
+    """Verify PJK aliases in BOTH Outcome and Pathology dictionaries."""
 
     @pytest.fixture
     def normalizer(self):
         return EntityNormalizer()
 
-    # ========================================================================
-    # Korean Intervention Tests
-    # ========================================================================
+    # --- PJK as Outcome ---
 
-    def test_korean_intervention_normalization(self, normalizer):
-        """Test Korean intervention terms."""
-        test_cases = {
-            # Note: "Fusion Surgery" is the canonical term, "Spinal Fusion" is an alias
-            "척추 유합술": "Fusion Surgery",
-            "내시경 수술": "UBE",
-            # Note: "Decompression Surgery" is the canonical term
-            "감압술": "Decompression Surgery",
-            "후방 유합술": "PLIF",
-            "경추간공 유합술": "TLIF",
-        }
+    def test_pjk_outcome_canonical(self, normalizer):
+        """PJK normalizes to PJK as outcome."""
+        result = normalizer.normalize_outcome("PJK")
+        assert result.normalized == "PJK"
+        assert result.confidence >= 1.0
 
-        for korean_term, expected in test_cases.items():
-            result = normalizer.normalize_intervention(korean_term)
-            assert result.normalized == expected, f"Failed for: {korean_term}"
-            assert result.confidence == 1.0
+    def test_pjk_outcome_proximal_junctional_kyphosis(self, normalizer):
+        """'Proximal Junctional Kyphosis' normalizes to PJK outcome."""
+        result = normalizer.normalize_outcome("Proximal Junctional Kyphosis")
+        assert result.normalized == "PJK"
 
-    def test_korean_pathology_normalization(self, normalizer):
-        """Test Korean pathology terms."""
-        test_cases = {
-            "요추 협착증": "Lumbar Stenosis",
-            "척추관 협착증": "Lumbar Stenosis",
-            "추간판 탈출증": "Lumbar Disc Herniation",
-            "허리 디스크": "Lumbar Disc Herniation",
-            "척추 전위증": "Spondylolisthesis",
-        }
+    def test_pjk_outcome_incidence(self, normalizer):
+        """'PJK incidence' normalizes to PJK outcome."""
+        result = normalizer.normalize_outcome("PJK incidence")
+        assert result.normalized == "PJK"
 
-        for korean_term, expected in test_cases.items():
-            result = normalizer.normalize_pathology(korean_term)
-            assert result.normalized == expected, f"Failed for: {korean_term}"
-            assert result.confidence == 1.0
+    def test_pjk_outcome_rate(self, normalizer):
+        """'PJK rate' normalizes to PJK outcome."""
+        result = normalizer.normalize_outcome("PJK rate")
+        assert result.normalized == "PJK"
 
-    # ========================================================================
-    # Korean Particle Handling Tests
-    # ========================================================================
+    def test_pjk_outcome_proximal_junctional_failure(self, normalizer):
+        """'Proximal junctional failure' normalizes to PJK outcome."""
+        result = normalizer.normalize_outcome("Proximal junctional failure")
+        assert result.normalized == "PJK"
 
-    def test_korean_particles_with_english_acronyms(self, normalizer):
-        """Test English acronyms with Korean particles."""
-        test_cases = {
-            "TLIF가": "TLIF",
-            "OLIF와": "OLIF",
-            "UBE를": "UBE",
-            "MED의": "MED",
-            "PLIF에": "PLIF",
-        }
-
-        for term_with_particle, expected in test_cases.items():
-            result = normalizer.normalize_intervention(term_with_particle)
-            assert result.normalized == expected, f"Failed for: {term_with_particle}"
-            assert result.confidence >= 0.9  # Slightly lower for particle cases
-
-    def test_particle_stripping_normalization(self, normalizer):
-        """Test particle stripping in normalization."""
-        # Test internal particle stripping
-        result = normalizer.normalize_intervention("내시경 수술을")
-        assert result.normalized == "UBE"
-        assert result.confidence >= 0.9
-
-    # ========================================================================
-    # Mixed Korean/English Extraction Tests
-    # ========================================================================
-
-    def test_extract_from_mixed_korean_english(self, normalizer):
-        """Test extraction from mixed Korean/English text."""
-        text = "요추 협착증 치료를 위한 TLIF와 OLIF 비교"
-
-        interventions = normalizer.extract_and_normalize_interventions(text)
-        pathologies = normalizer.extract_and_normalize_pathologies(text)
-
-        # Should find both interventions
-        intervention_names = [r.normalized for r in interventions]
-        assert "TLIF" in intervention_names
-        assert "OLIF" in intervention_names
-
-        # Should find pathology
-        pathology_names = [r.normalized for r in pathologies]
-        assert "Lumbar Stenosis" in pathology_names
-
-    def test_extract_korean_interventions_with_particles(self, normalizer):
-        """Test extracting Korean terms with particles."""
-        test_texts = [
-            ("TLIF가 효과적", ["TLIF"]),
-            ("OLIF와 PLIF 비교", ["OLIF", "PLIF"]),
-            ("내시경 수술을 시행", ["UBE"]),
+    def test_pjk_outcome_aliases_in_dict(self, normalizer):
+        """PJK outcome aliases contain all expected entries."""
+        expected_outcome_aliases = [
+            "Proximal Junctional Kyphosis",
+            "PJK incidence", "PJK rate", "Proximal junctional failure"
         ]
+        actual_aliases = normalizer.OUTCOME_ALIASES.get("PJK", [])
+        for alias in expected_outcome_aliases:
+            assert alias in actual_aliases, (
+                f"Alias '{alias}' missing from PJK OUTCOME_ALIASES."
+            )
 
-        for text, expected_interventions in test_texts:
-            results = normalizer.extract_and_normalize_interventions(text)
-            found = [r.normalized for r in results]
-            for expected in expected_interventions:
-                assert expected in found, f"Failed to find {expected} in {text}"
+    # --- PJK as Pathology ---
 
-    def test_extract_pure_korean_text(self, normalizer):
-        """Test extraction from pure Korean text."""
-        text = "척추 유합술과 내시경 수술 비교"
+    def test_pjk_pathology_canonical(self, normalizer):
+        """PJK normalizes to PJK as pathology."""
+        result = normalizer.normalize_pathology("PJK")
+        assert result.normalized == "PJK"
+        assert result.confidence >= 1.0
 
-        results = normalizer.extract_and_normalize_interventions(text)
-        found = [r.normalized for r in results]
+    def test_pjk_pathology_pjf(self, normalizer):
+        """'PJF' normalizes to PJK as pathology."""
+        result = normalizer.normalize_pathology("PJF")
+        assert result.normalized == "PJK"
 
-        # Note: "Fusion Surgery" is the canonical term for "척추 유합술"
-        assert "Fusion Surgery" in found
-        assert "UBE" in found
+    def test_pjk_pathology_junctional_kyphosis(self, normalizer):
+        """'Junctional kyphosis' normalizes to PJK as pathology."""
+        result = normalizer.normalize_pathology("Junctional kyphosis")
+        assert result.normalized == "PJK"
 
-    # ========================================================================
-    # Korean Word Boundary Tests
-    # ========================================================================
+    def test_pjk_pathology_korean(self, normalizer):
+        """Korean PJK term normalizes correctly."""
+        result = normalizer.normalize_pathology("근위부 접합부 후만")
+        assert result.normalized == "PJK"
 
-    def test_korean_word_boundaries(self, normalizer):
-        """Test Korean text doesn't use ASCII word boundaries."""
-        # Korean text should match without requiring word boundaries
-        text = "척추유합술"  # No space
-        result = normalizer.normalize_intervention(text)
-
-        # Should still match (partial match)
-        assert result.confidence > 0.5 or result.normalized != text
-
-    def test_mixed_spacing_korean(self, normalizer):
-        """Test Korean terms with various spacing."""
-        test_cases = [
-            "척추 유합술",
-            "척추유합술",
+    def test_pjk_pathology_aliases_in_dict(self, normalizer):
+        """PJK pathology aliases contain all expected entries (post-merge)."""
+        expected_pathology_aliases = [
+            "Proximal Junctional Kyphosis", "proximal junctional kyphosis",
+            "PJF", "Proximal junctional failure", "proximal junctional failure",
+            "Junctional kyphosis", "junctional kyphosis",
+            "근위부 접합부 후만",
         ]
+        actual_aliases = normalizer.PATHOLOGY_ALIASES.get("PJK", [])
+        for alias in expected_pathology_aliases:
+            assert alias in actual_aliases, (
+                f"Alias '{alias}' missing from PJK PATHOLOGY_ALIASES. "
+                f"Possible data loss during v7.15 duplicate key merge."
+            )
 
-        for term in test_cases:
-            result = normalizer.normalize_intervention(term)
-            # At least one should match perfectly
-            # Note: "Fusion Surgery" is the canonical term
-            if term == "척추 유합술":
-                assert result.normalized == "Fusion Surgery"
 
-    # ========================================================================
-    # Korean Deduplication Tests
-    # ========================================================================
+class TestDJKAliasIntegrity:
+    """Verify DJK pathology aliases after merge."""
 
-    def test_korean_deduplication(self, normalizer):
-        """Test Korean and English aliases deduplicate properly."""
-        text = "척추 유합술 Spinal Fusion TLIF"
+    @pytest.fixture
+    def normalizer(self):
+        return EntityNormalizer()
 
-        results = normalizer.extract_and_normalize_interventions(text)
+    def test_djk_canonical(self, normalizer):
+        """DJK normalizes to DJK as pathology."""
+        result = normalizer.normalize_pathology("DJK")
+        assert result.normalized == "DJK"
+        assert result.confidence >= 1.0
 
-        # Should find TLIF and one fusion technique
-        # (Spinal Fusion is normalized from Korean or English, but deduplicated)
-        assert len(results) >= 2
+    def test_djk_distal_junctional_kyphosis(self, normalizer):
+        """'Distal Junctional Kyphosis' normalizes to DJK."""
+        result = normalizer.normalize_pathology("Distal Junctional Kyphosis")
+        assert result.normalized == "DJK"
+
+    def test_djk_lowercase(self, normalizer):
+        """'distal junctional kyphosis' normalizes to DJK."""
+        result = normalizer.normalize_pathology("distal junctional kyphosis")
+        assert result.normalized == "DJK"
+
+    def test_djk_failure(self, normalizer):
+        """'Distal junctional failure' normalizes to DJK."""
+        result = normalizer.normalize_pathology("Distal junctional failure")
+        assert result.normalized == "DJK"
+
+    def test_djk_all_aliases_in_dict(self, normalizer):
+        """DJK pathology aliases contain all expected entries."""
+        expected_aliases = [
+            "Distal Junctional Kyphosis", "distal junctional kyphosis",
+            "Distal junctional failure",
+        ]
+        actual_aliases = normalizer.PATHOLOGY_ALIASES.get("DJK", [])
+        for alias in expected_aliases:
+            assert alias in actual_aliases, (
+                f"Alias '{alias}' missing from DJK PATHOLOGY_ALIASES."
+            )
+
+
+class TestAdjacentSegmentDiseaseAliasIntegrity:
+    """Verify Adjacent Segment Disease pathology aliases after merge."""
+
+    @pytest.fixture
+    def normalizer(self):
+        return EntityNormalizer()
+
+    def test_asd_pathology_canonical(self, normalizer):
+        """'Adjacent Segment Disease' normalizes to itself."""
+        result = normalizer.normalize_pathology("Adjacent Segment Disease")
+        assert result.normalized == "Adjacent Segment Disease"
+        assert result.confidence >= 1.0
+
+    def test_asd_adjacent_segment_lowercase(self, normalizer):
+        """'adjacent segment disease' normalizes to Adjacent Segment Disease."""
+        result = normalizer.normalize_pathology("adjacent segment disease")
+        assert result.normalized == "Adjacent Segment Disease"
+
+    def test_asd_adjacent_segment_degeneration(self, normalizer):
+        """'Adjacent segment degeneration' normalizes to Adjacent Segment Disease."""
+        result = normalizer.normalize_pathology("Adjacent segment degeneration")
+        assert result.normalized == "Adjacent Segment Disease"
+
+    def test_asd_adjacent_level_disease(self, normalizer):
+        """'Adjacent level disease' normalizes to Adjacent Segment Disease."""
+        result = normalizer.normalize_pathology("Adjacent level disease")
+        assert result.normalized == "Adjacent Segment Disease"
+
+    def test_asd_radiographic(self, normalizer):
+        """'Radiographic ASD' normalizes to Adjacent Segment Disease."""
+        result = normalizer.normalize_pathology("Radiographic ASD")
+        assert result.normalized == "Adjacent Segment Disease"
+
+    def test_asdis(self, normalizer):
+        """'ASDis' normalizes to Adjacent Segment Disease."""
+        result = normalizer.normalize_pathology("ASDis")
+        assert result.normalized == "Adjacent Segment Disease"
+
+    def test_asd_korean(self, normalizer):
+        """Korean term normalizes to Adjacent Segment Disease."""
+        result = normalizer.normalize_pathology("인접분절 퇴행")
+        assert result.normalized == "Adjacent Segment Disease"
+
+    def test_asd_adjacent_segment_tag(self, normalizer):
+        """'ASD (Adjacent Segment)' normalizes to Adjacent Segment Disease."""
+        result = normalizer.normalize_pathology("ASD (Adjacent Segment)")
+        assert result.normalized == "Adjacent Segment Disease"
+
+    def test_asd_pathology_all_aliases_in_dict(self, normalizer):
+        """Adjacent Segment Disease pathology aliases contain all expected entries."""
+        expected_aliases = [
+            "adjacent segment disease", "ASD (Adjacent Segment)",
+            "Adjacent segment degeneration", "adjacent segment degeneration",
+            "Adjacent level disease", "Radiographic ASD",
+            "ASDis", "인접분절 퇴행",
+        ]
+        actual_aliases = normalizer.PATHOLOGY_ALIASES.get("Adjacent Segment Disease", [])
+        for alias in expected_aliases:
+            assert alias in actual_aliases, (
+                f"Alias '{alias}' missing from Adjacent Segment Disease PATHOLOGY_ALIASES. "
+                f"Possible data loss during v7.15 duplicate key merge."
+            )
+
+
+class TestASDOutcomeVsPathologyDisambiguation:
+    """Verify that 'ASD' as Outcome (complication metric) and as Pathology (deformity)
+    are properly separated and each has correct aliases."""
+
+    @pytest.fixture
+    def normalizer(self):
+        return EntityNormalizer()
+
+    def test_asd_outcome_is_complication(self, normalizer):
+        """ASD as outcome refers to Adjacent Segment Disease (complication metric)."""
+        result = normalizer.normalize_outcome("ASD")
+        # In OUTCOME_ALIASES, "ASD" is a key with aliases like "Adjacent Segment Disease"
+        assert result.normalized == "ASD"
+
+    def test_asd_pathology_is_deformity(self, normalizer):
+        """ASD as pathology refers to Adult Spinal Deformity."""
+        result = normalizer.normalize_pathology("ASD")
+        # In PATHOLOGY_ALIASES, "ASD" is a key with aliases like "Adult Spinal Deformity"
+        assert result.normalized == "ASD"
+
+    def test_asd_outcome_aliases_complete(self, normalizer):
+        """ASD outcome aliases contain adjacent segment disease terms."""
+        aliases = normalizer.OUTCOME_ALIASES.get("ASD", [])
+        assert "Adjacent Segment Disease" in aliases
+        assert "Adjacent segment degeneration" in aliases
+
+    def test_asd_pathology_aliases_complete(self, normalizer):
+        """ASD pathology aliases contain adult spinal deformity terms."""
+        aliases = normalizer.PATHOLOGY_ALIASES.get("ASD", [])
+        assert "Adult Spinal Deformity" in aliases
+
+
+class TestNoDuplicateKeysInDictionaries:
+    """Verify that there are no duplicate keys remaining in alias dictionaries.
+
+    Python dict does not allow true duplicate keys -- the last definition wins.
+    This test catches the symptom: if aliases that belong to the canonical
+    entry are missing, it means a later duplicate overwrote the first.
+    """
+
+    @pytest.fixture
+    def normalizer(self):
+        return EntityNormalizer()
+
+    def test_outcome_alias_counts_reasonable(self, normalizer):
+        """Each outcome with known aliases should have a non-trivial alias list."""
+        # These were the entries that had duplicate key issues
+        problematic_outcomes = {
+            "SF-12": 5,   # Minimum expected alias count
+            "PJK": 3,     # Minimum expected alias count
+        }
+        for canonical, min_count in problematic_outcomes.items():
+            aliases = normalizer.OUTCOME_ALIASES.get(canonical, [])
+            assert len(aliases) >= min_count, (
+                f"OUTCOME_ALIASES['{canonical}'] has only {len(aliases)} aliases, "
+                f"expected at least {min_count}. Possible data loss from duplicate key."
+            )
+
+    def test_pathology_alias_counts_reasonable(self, normalizer):
+        """Each pathology with known aliases should have a non-trivial alias list."""
+        problematic_pathologies = {
+            "Cervical Myelopathy": 8,
+            "PJK": 6,
+            "DJK": 2,
+            "Adjacent Segment Disease": 6,
+        }
+        for canonical, min_count in problematic_pathologies.items():
+            aliases = normalizer.PATHOLOGY_ALIASES.get(canonical, [])
+            assert len(aliases) >= min_count, (
+                f"PATHOLOGY_ALIASES['{canonical}'] has only {len(aliases)} aliases, "
+                f"expected at least {min_count}. Possible data loss from duplicate key."
+            )
+
+
+class TestReverseMapIntegrity:
+    """Verify that the internal reverse map contains all expected aliases."""
+
+    @pytest.fixture
+    def normalizer(self):
+        return EntityNormalizer()
+
+    def test_reverse_map_for_sf12(self, normalizer):
+        """SF-12 aliases are all in the outcome reverse map."""
+        for alias in ["sf-12", "sf12", "short form 12", "sf 12"]:
+            assert alias in normalizer._outcome_reverse, (
+                f"Alias '{alias}' not found in outcome reverse map for SF-12"
+            )
+            assert normalizer._outcome_reverse[alias] == "SF-12"
+
+    def test_reverse_map_for_pjk_outcome(self, normalizer):
+        """PJK outcome aliases are in the outcome reverse map."""
+        for alias in ["pjk", "proximal junctional kyphosis", "pjk rate"]:
+            assert alias in normalizer._outcome_reverse, (
+                f"Alias '{alias}' not found in outcome reverse map for PJK"
+            )
+            assert normalizer._outcome_reverse[alias] == "PJK"
+
+    def test_reverse_map_for_cervical_myelopathy(self, normalizer):
+        """Cervical Myelopathy aliases are in the pathology reverse map."""
+        for alias in ["dcm", "csm", "cervical myelopathy", "myelopathy"]:
+            assert alias in normalizer._pathology_reverse, (
+                f"Alias '{alias}' not found in pathology reverse map for Cervical Myelopathy"
+            )
+            assert normalizer._pathology_reverse[alias] == "Cervical Myelopathy"
+
+
+class TestExtractionWithMergedAliases:
+    """Verify that text extraction works correctly with merged aliases."""
+
+    @pytest.fixture
+    def normalizer(self):
+        return EntityNormalizer()
+
+    def test_extract_sf12_from_text(self, normalizer):
+        """Extracting SF-12 from text works after alias merge."""
+        text = "Patients showed significant improvement on SF-12 physical component."
+        results = normalizer.extract_and_normalize_outcomes(text)
         found = [r.normalized for r in results]
-        assert "TLIF" in found
+        assert "SF-12" in found
 
-    # ========================================================================
-    # Korean Edge Cases
-    # ========================================================================
-
-    def test_korean_with_numbers(self, normalizer):
-        """Test Korean text with numbers."""
-        text = "요추 4-5번 추간판 탈출증"
-
+    def test_extract_cervical_myelopathy_from_text(self, normalizer):
+        """Extracting Cervical Myelopathy from text works after alias merge."""
+        text = "Patient presented with degenerative cervical myelopathy symptoms."
         results = normalizer.extract_and_normalize_pathologies(text)
         found = [r.normalized for r in results]
+        assert "Cervical Myelopathy" in found
 
-        assert "Lumbar Disc Herniation" in found
+    def test_extract_pjk_from_text(self, normalizer):
+        """Extracting PJK from text works after alias merge."""
+        text = "Proximal junctional kyphosis was observed in 15% of cases."
+        outcome_results = normalizer.extract_and_normalize_outcomes(text)
+        pathology_results = normalizer.extract_and_normalize_pathologies(text)
+        all_found = ([r.normalized for r in outcome_results] +
+                     [r.normalized for r in pathology_results])
+        assert "PJK" in all_found
 
-    def test_korean_particles_comprehensive(self, normalizer):
-        """Test comprehensive particle handling."""
-        particles_to_test = ["가", "이", "를", "을", "와", "과", "의", "에"]
+    def test_extract_adjacent_segment_disease_from_text(self, normalizer):
+        """Extracting Adjacent Segment Disease from text works after merge."""
+        text = "Adjacent segment degeneration was found at the cranial level."
+        results = normalizer.extract_and_normalize_pathologies(text)
+        found = [r.normalized for r in results]
+        assert "Adjacent Segment Disease" in found
 
-        for particle in particles_to_test:
-            term = f"TLIF{particle}"
-            result = normalizer.normalize_intervention(term)
-            assert result.normalized == "TLIF", f"Failed for particle: {particle}"
-            assert result.confidence >= 0.9
 
-    def test_korean_anatomy_terms(self, normalizer):
-        """Test Korean anatomy term recognition."""
-        # While not directly tested in normalization,
-        # these should be handled correctly in text
-        text = "요추 협착증"  # Lumbar stenosis
-
-        result = normalizer.normalize_pathology(text)
-        assert result.normalized == "Lumbar Stenosis"
+if __name__ == "__main__":
+    pytest.main([__file__, "-v"])

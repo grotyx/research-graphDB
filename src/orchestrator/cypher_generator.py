@@ -220,19 +220,19 @@ class CypherGenerator:
 
         return None
 
-    def generate(self, query: str, entities: dict) -> str:
-        """자연어 쿼리를 Cypher로 변환.
+    def generate(self, query: str, entities: dict) -> tuple[str, dict]:
+        """자연어 쿼리를 파라미터화된 Cypher로 변환 (v7.15 보안 강화).
 
         Args:
             query: 사용자 쿼리
             entities: extract_entities()로 추출된 엔티티
 
         Returns:
-            Cypher 쿼리 문자열
+            (Cypher 쿼리 문자열, 파라미터 딕셔너리) 튜플
 
         Example:
             Input: "OLIF가 VAS 개선에 효과적인가?"
-            Output: "MATCH (i:Intervention {name: 'OLIF'})-[a:AFFECTS]->..."
+            Output: ("MATCH (i:Intervention {name: $intervention})...", {"intervention": "OLIF"})
         """
         intent = entities.get("intent", "evidence_search")
         interventions = entities.get("interventions", [])
@@ -261,14 +261,12 @@ class CypherGenerator:
         interventions: list[str],
         outcomes: list[str],
         pathologies: list[str]
-    ) -> str:
-        """근거 기반 검색 Cypher 생성."""
+    ) -> tuple[str, dict]:
+        """근거 기반 검색 Cypher 생성 (파라미터화)."""
         if interventions and outcomes:
             # Intervention → Outcome 검색
-            intervention = interventions[0]
-            outcome = outcomes[0]
-            return f"""
-            MATCH (i:Intervention {{name: '{intervention}'}})-[a:AFFECTS]->(o:Outcome {{name: '{outcome}'}})
+            return ("""
+            MATCH (i:Intervention {name: $intervention})-[a:AFFECTS]->(o:Outcome {name: $outcome})
             WHERE a.is_significant = true
             RETURN i.name as intervention,
                    o.name as outcome,
@@ -279,26 +277,24 @@ class CypherGenerator:
                    a.source_paper_id as source_paper_id
             ORDER BY a.p_value ASC
             LIMIT 20
-            """
+            """, {"intervention": interventions[0], "outcome": outcomes[0]})
 
         elif pathologies and not interventions:
             # Pathology → Intervention 검색
-            pathology = pathologies[0]
-            return f"""
-            MATCH (i:Intervention)-[:TREATS]->(path:Pathology {{name: '{pathology}'}})
+            return ("""
+            MATCH (i:Intervention)-[:TREATS]->(path:Pathology {name: $pathology})
             OPTIONAL MATCH (i)-[a:AFFECTS]->(o:Outcome)
             WHERE a.is_significant = true
             RETURN i.name as intervention,
                    i.full_name as full_name,
-                   collect(DISTINCT {{outcome: o.name, value: a.value, p_value: a.p_value}}) as outcomes
+                   collect(DISTINCT {outcome: o.name, value: a.value, p_value: a.p_value}) as outcomes
             LIMIT 20
-            """
+            """, {"pathology": pathologies[0]})
 
         elif outcomes and not interventions:
             # Outcome → Intervention 검색
-            outcome = outcomes[0]
-            return f"""
-            MATCH (i:Intervention)-[a:AFFECTS]->(o:Outcome {{name: '{outcome}'}})
+            return ("""
+            MATCH (i:Intervention)-[a:AFFECTS]->(o:Outcome {name: $outcome})
             WHERE a.is_significant = true AND a.direction = 'improved'
             RETURN i.name as intervention,
                    a.value as value,
@@ -306,14 +302,13 @@ class CypherGenerator:
                    a.source_paper_id as source_paper_id
             ORDER BY a.p_value ASC
             LIMIT 20
-            """
+            """, {"outcome": outcomes[0]})
 
         elif interventions and not outcomes:
             # v7.14.18: Intervention만 있는 경우 → 해당 수술법 관련 논문 검색
             # IS_A 계층을 통해 하위 수술법도 포함
-            intervention = interventions[0]
-            return f"""
-            MATCH (target:Intervention {{name: '{intervention}'}})
+            return ("""
+            MATCH (target:Intervention {name: $intervention})
             OPTIONAL MATCH (child:Intervention)-[:IS_A*1..2]->(target)
             WITH COLLECT(DISTINCT target.name) + COLLECT(DISTINCT child.name) AS intervention_names
             MATCH (p:Paper)-[:INVESTIGATES]->(i:Intervention)
@@ -326,12 +321,11 @@ class CypherGenerator:
                    p.study_design as study_design
             ORDER BY p.year DESC
             LIMIT 20
-            """
+            """, {"intervention": interventions[0]})
 
         else:
             # 기본: 검색어 기반 제목/초록 검색 (v7.14.18)
-            # 엔티티가 추출되지 않아도 검색어로 관련 논문 검색
-            return """
+            return ("""
             MATCH (p:Paper)
             WHERE toLower(p.title) CONTAINS toLower($search_term)
                OR toLower(p.abstract) CONTAINS toLower($search_term)
@@ -341,21 +335,19 @@ class CypherGenerator:
                    p.evidence_level as evidence_level
             ORDER BY p.year DESC
             LIMIT 20
-            """
+            """, {})
 
     def _generate_comparison(
         self,
         interventions: list[str],
         outcomes: list[str]
-    ) -> str:
-        """수술법 비교 Cypher 생성."""
+    ) -> tuple[str, dict]:
+        """수술법 비교 Cypher 생성 (파라미터화)."""
         if len(interventions) >= 2 and outcomes:
             # 두 수술법의 동일 결과변수 비교
-            i1, i2 = interventions[0], interventions[1]
-            outcome = outcomes[0]
-            return f"""
-            MATCH (i1:Intervention {{name: '{i1}'}})-[a1:AFFECTS]->(o:Outcome {{name: '{outcome}'}})
-            MATCH (i2:Intervention {{name: '{i2}'}})-[a2:AFFECTS]->(o)
+            return ("""
+            MATCH (i1:Intervention {name: $intervention1})-[a1:AFFECTS]->(o:Outcome {name: $outcome})
+            MATCH (i2:Intervention {name: $intervention2})-[a2:AFFECTS]->(o)
             WHERE a1.is_significant = true AND a2.is_significant = true
             RETURN i1.name as intervention1,
                    i2.name as intervention2,
@@ -366,30 +358,28 @@ class CypherGenerator:
                    a2.p_value as p_value2,
                    a1.source_paper_id as paper1,
                    a2.source_paper_id as paper2
-            """
+            """, {"intervention1": interventions[0], "intervention2": interventions[1], "outcome": outcomes[0]})
 
         elif interventions:
             # 한 수술법의 모든 결과 조회
-            intervention = interventions[0]
-            return f"""
-            MATCH (i:Intervention {{name: '{intervention}'}})-[a:AFFECTS]->(o:Outcome)
+            return ("""
+            MATCH (i:Intervention {name: $intervention})-[a:AFFECTS]->(o:Outcome)
             WHERE a.is_significant = true
             RETURN o.name as outcome,
                    a.value as value,
                    a.p_value as p_value,
                    a.direction as direction
             ORDER BY a.p_value ASC
-            """
+            """, {"intervention": interventions[0]})
 
         else:
-            return "MATCH (n) RETURN n LIMIT 0"
+            return ("MATCH (n) RETURN n LIMIT 0", {})
 
-    def _generate_hierarchy(self, interventions: list[str]) -> str:
-        """계층 탐색 Cypher 생성."""
+    def _generate_hierarchy(self, interventions: list[str]) -> tuple[str, dict]:
+        """계층 탐색 Cypher 생성 (파라미터화)."""
         if interventions:
-            intervention = interventions[0]
-            return f"""
-            MATCH (i:Intervention {{name: '{intervention}'}})
+            return ("""
+            MATCH (i:Intervention {name: $intervention})
             OPTIONAL MATCH path1 = (i)-[:IS_A*1..5]->(parent:Intervention)
             OPTIONAL MATCH path2 = (child:Intervention)-[:IS_A*1..3]->(i)
             RETURN i.name as name,
@@ -397,28 +387,26 @@ class CypherGenerator:
                    i.category as category,
                    collect(DISTINCT parent.name) as parents,
                    collect(DISTINCT child.name) as children
-            """
+            """, {"intervention": interventions[0]})
         else:
             # 최상위 카테고리 조회
-            return """
+            return ("""
             MATCH (i:Intervention)
             WHERE NOT (i)-[:IS_A]->()
             RETURN i.name as name,
                    i.category as category
             ORDER BY i.name
-            """
+            """, {})
 
     def _generate_conflict(
         self,
         interventions: list[str],
         outcomes: list[str]
-    ) -> str:
-        """상충 결과 탐지 Cypher 생성."""
+    ) -> tuple[str, dict]:
+        """상충 결과 탐지 Cypher 생성 (파라미터화)."""
         if interventions and outcomes:
-            intervention = interventions[0]
-            outcome = outcomes[0]
-            return f"""
-            MATCH (i:Intervention {{name: '{intervention}'}})-[a1:AFFECTS]->(o:Outcome {{name: '{outcome}'}})
+            return ("""
+            MATCH (i:Intervention {name: $intervention})-[a1:AFFECTS]->(o:Outcome {name: $outcome})
             MATCH (i)-[a2:AFFECTS]->(o)
             WHERE a1.direction <> a2.direction
               AND a1.is_significant = true AND a2.is_significant = true
@@ -433,13 +421,12 @@ class CypherGenerator:
                    a2.p_value as p_value2,
                    a1.source_paper_id as paper1,
                    a2.source_paper_id as paper2
-            """
+            """, {"intervention": interventions[0], "outcome": outcomes[0]})
 
         elif interventions:
             # 한 수술법의 모든 상충 검색
-            intervention = interventions[0]
-            return f"""
-            MATCH (i:Intervention {{name: '{intervention}'}})-[a1:AFFECTS]->(o:Outcome)
+            return ("""
+            MATCH (i:Intervention {name: $intervention})-[a1:AFFECTS]->(o:Outcome)
             MATCH (i)-[a2:AFFECTS]->(o)
             WHERE a1.direction <> a2.direction
               AND a1.is_significant = true AND a2.is_significant = true
@@ -449,10 +436,10 @@ class CypherGenerator:
                    a2.direction as direction2,
                    a1.source_paper_id as paper1,
                    a2.source_paper_id as paper2
-            """
+            """, {"intervention": interventions[0]})
 
         else:
-            return "MATCH (n) RETURN n LIMIT 0"
+            return ("MATCH (n) RETURN n LIMIT 0", {})
 
     def generate_with_templates(
         self,

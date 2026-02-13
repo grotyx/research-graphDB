@@ -175,6 +175,15 @@ def format_paper_card(paper: dict, show_checkbox: bool = True, key_prefix: str =
 
     container = col2 if show_checkbox and pmid else st
 
+    # v7.15: XSS 방지 — 외부 PubMed 데이터 HTML escape
+    import html as html_mod
+    safe_title = html_mod.escape(str(title))
+    safe_authors = html_mod.escape(str(authors_str))
+    safe_journal = html_mod.escape(str(journal))
+    safe_abstract = html_mod.escape(str(abstract_preview))
+    safe_pmid = html_mod.escape(str(pmid))
+    safe_doi = html_mod.escape(str(doi))
+
     with container:
         st.markdown(f"""
         <div style="
@@ -184,12 +193,12 @@ def format_paper_card(paper: dict, show_checkbox: bool = True, key_prefix: str =
             margin-bottom: 6px;
             background: white;
         ">
-            <div style="margin: 0 0 4px 0; font-weight: 600; color: #1e293b; font-size: 0.95rem; line-height: 1.3;">{title}</div>
-            <div style="margin: 0 0 2px 0; color: #64748b; font-size: 0.8rem;">{authors_str}</div>
+            <div style="margin: 0 0 4px 0; font-weight: 600; color: #1e293b; font-size: 0.95rem; line-height: 1.3;">{safe_title}</div>
+            <div style="margin: 0 0 2px 0; color: #64748b; font-size: 0.8rem;">{safe_authors}</div>
             <div style="margin: 0 0 4px 0; color: #94a3b8; font-size: 0.75rem;">
-                <strong>{journal}</strong> ({year}){f' | PMID: {pmid}' if pmid else ''}{f' | DOI: {doi}' if doi else ''}
+                <strong>{safe_journal}</strong> ({year}){f' | PMID: {safe_pmid}' if pmid else ''}{f' | DOI: {safe_doi}' if doi else ''}
             </div>
-            <div style="margin: 0; color: #475569; font-size: 0.8rem; line-height: 1.4;">{abstract_preview}</div>
+            <div style="margin: 0; color: #475569; font-size: 0.8rem; line-height: 1.4;">{safe_abstract}</div>
         </div>
         """, unsafe_allow_html=True)
 

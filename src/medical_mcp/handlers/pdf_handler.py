@@ -71,7 +71,16 @@ class PDFHandler:
         Returns:
             처리 결과 딕셔너리
         """
-        path = Path(file_path)
+        path = Path(file_path).resolve()
+
+        # v7.15: Path traversal 방지 — 허용 디렉토리 검증
+        allowed_dirs = [
+            Path(self.server.project_root / "data").resolve() if hasattr(self.server, 'project_root') else None,
+            Path.cwd().resolve(),
+        ]
+        if not any(d and str(path).startswith(str(d)) for d in allowed_dirs if d):
+            logger.warning(f"Path traversal attempt blocked: {file_path}")
+            return {"success": False, "error": "접근 불가: 허용된 디렉토리 외부 경로입니다"}
 
         if not path.exists():
             return {"success": False, "error": f"파일 없음: {file_path}"}

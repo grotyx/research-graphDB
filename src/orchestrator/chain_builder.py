@@ -62,7 +62,11 @@ from ..graph.neo4j_client import Neo4jClient
 from ..storage import SearchResult as VectorSearchResult
 
 # TieredVectorDB is deprecated (v7.14.12), Neo4j Vector Index is used instead
-TieredVectorDB = None  # Placeholder for backward compatibility
+# Attempt import for backward compatibility; gracefully degrade if missing
+try:
+    from ..storage.vector_db import TieredVectorDB
+except (ImportError, ModuleNotFoundError):
+    TieredVectorDB = None  # ChromaDB removed; Neo4j Vector Index is used instead
 from ..solver.hybrid_ranker import HybridRanker, HybridResult
 from ..solver.graph_search import GraphSearch
 from .cypher_generator import CypherGenerator
@@ -275,7 +279,7 @@ class SpineGraphChain:
     def __init__(
         self,
         neo4j_client: Neo4jClient,
-        vector_db: TieredVectorDB,
+        vector_db: Optional[Any] = None,
         config: Optional[ChainConfig] = None,
         api_key: Optional[str] = None,
         provider: Optional[str] = None,
@@ -284,7 +288,8 @@ class SpineGraphChain:
 
         Args:
             neo4j_client: Neo4j 클라이언트
-            vector_db: ChromaDB 벡터 DB
+            vector_db: Vector DB 인스턴스 (Optional, deprecated since v7.14.12.
+                       Neo4j Vector Index is used instead when None.)
             config: 체인 설정 (None이면 기본값 사용)
             api_key: LLM API 키 (None이면 환경변수에서 로드)
             provider: LLM provider ("claude" or "gemini", overrides config)
@@ -301,9 +306,11 @@ class SpineGraphChain:
         self.llm = self._create_llm(api_key)
 
         # Hybrid Ranker
+        # When vector_db is None (ChromaDB removed), fall back to Neo4j hybrid search
         self.hybrid_ranker = HybridRanker(
             vector_db=vector_db,
             neo4j_client=neo4j_client,
+            use_neo4j_hybrid=(vector_db is None),
         )
 
         # Cypher Generator
@@ -731,8 +738,15 @@ async def create_chain(
     neo4j_client = Neo4jClient(config=neo4j_config)
     await neo4j_client.connect()
 
-    # Vector DB
-    vector_db = TieredVectorDB(persist_directory=chromadb_path)
+    # Vector DB (deprecated: ChromaDB removed in v7.14.12, Neo4j Vector Index used instead)
+    vector_db = None
+    if TieredVectorDB is not None:
+        try:
+            vector_db = TieredVectorDB(persist_directory=chromadb_path)
+        except Exception as e:
+            logger.warning(f"TieredVectorDB initialization failed: {e}. Continuing without ChromaDB vector search.")
+    else:
+        logger.info("TieredVectorDB not available. Using Neo4j Vector Index for vector search.")
 
     # 체인 생성
     chain = SpineGraphChain(

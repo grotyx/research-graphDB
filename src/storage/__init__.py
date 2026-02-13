@@ -12,9 +12,18 @@ v7.14.12: ChromaDB 완전 제거
     TextChunk, SearchFilters는 하위 호환성을 위해 유지.
 """
 
+import warnings
 from dataclasses import dataclass, field
 from typing import Optional
 from enum import Enum
+
+warnings.warn(
+    "The 'storage' module is deprecated since v5.3. "
+    "Use 'graph.neo4j_client' instead. "
+    "This module will be removed in a future version.",
+    DeprecationWarning,
+    stacklevel=2,
+)
 
 
 class Tier(Enum):

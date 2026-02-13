@@ -170,31 +170,46 @@ class RateLimiter:
         self._lock = asyncio.Lock()
 
     async def acquire(self, estimated_tokens: int = 1000) -> None:
-        """Rate limit 획득."""
+        """Rate limit 획득.
+
+        Lock is released before sleeping to avoid blocking other coroutines.
+        After sleeping, the loop re-checks conditions under a fresh lock.
+        """
         async with self.semaphore:
-            async with self._lock:
-                now = time.time()
+            while True:
+                wait_time = 0.0
+                async with self._lock:
+                    now = time.time()
 
-                # 1분 이전 기록 제거
-                while self.request_times and self.request_times[0] < now - 60:
-                    self.request_times.popleft()
-                while self.token_usage and self.token_usage[0][0] < now - 60:
-                    self.token_usage.popleft()
+                    # 1분 이전 기록 제거
+                    while self.request_times and self.request_times[0] < now - 60:
+                        self.request_times.popleft()
+                    while self.token_usage and self.token_usage[0][0] < now - 60:
+                        self.token_usage.popleft()
 
-                # RPM 체크
-                if len(self.request_times) >= self.rpm:
-                    wait_time = 60 - (now - self.request_times[0])
-                    if wait_time > 0:
-                        await asyncio.sleep(wait_time)
+                    # RPM 체크
+                    if len(self.request_times) >= self.rpm:
+                        wait_time = 60 - (now - self.request_times[0])
+                        if wait_time > 0:
+                            pass  # will sleep outside the lock
+                        else:
+                            wait_time = 0.0
 
-                # TPM 체크
-                current_tokens = sum(t[1] for t in self.token_usage)
-                if current_tokens + estimated_tokens > self.tpm:
-                    wait_time = 60 - (now - self.token_usage[0][0])
-                    if wait_time > 0:
-                        await asyncio.sleep(wait_time)
+                    # TPM 체크 (only if RPM is not already limiting)
+                    if wait_time <= 0:
+                        current_tokens = sum(t[1] for t in self.token_usage)
+                        if current_tokens + estimated_tokens > self.tpm:
+                            wait_time = 60 - (now - self.token_usage[0][0])
+                            if wait_time <= 0:
+                                wait_time = 0.0
 
-                self.request_times.append(time.time())
+                    # No wait needed — record request and proceed
+                    if wait_time <= 0:
+                        self.request_times.append(time.time())
+                        return
+
+                # Sleep outside the lock so other coroutines can proceed
+                await asyncio.sleep(wait_time)
 
     async def record_usage(self, tokens: int) -> None:
         """토큰 사용량 기록 (thread-safe with lock)."""
@@ -576,8 +591,8 @@ Respond ONLY with the JSON object, no additional text or markdown formatting."""
         tasks = [process_request(i, req) for i, req in enumerate(requests)]
         results = await asyncio.gather(*tasks, return_exceptions=True)
 
-        # 순서 정렬 및 에러 처리
-        sorted_results = []
+        # v7.15: 순서 정렬 및 에러 처리 — 실패 시 None 유지하여 인덱스 보존
+        sorted_results: list[tuple[int, Optional[ClaudeResponse]]] = []
         for r in results:
             if isinstance(r, Exception):
                 logger.error(f"배치 요청 실패: {r}")

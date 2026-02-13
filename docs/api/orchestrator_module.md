@@ -349,15 +349,16 @@ def extract_entities(self, query: str) -> dict:
         }
     """
 
-def generate(self, query: str, entities: dict) -> str:
-    """Generate Cypher query from natural language.
+def generate(self, query: str, entities: dict) -> tuple[str, dict]:
+    """Generate parameterized Cypher query from natural language.
 
     Args:
         query: User query
         entities: Entities from extract_entities()
 
     Returns:
-        Cypher query string
+        Tuple of (cypher_query, params) — Cypher injection 방지를 위해
+        엔티티 값은 $param으로 파라미터화됨 (v7.15.0)
     """
 ```
 
@@ -375,21 +376,21 @@ def _extract_subdomain(self, query: str) -> Optional[str]:
 
 def _generate_evidence_search(
     self, interventions: list[str], outcomes: list[str], pathologies: list[str]
-) -> str:
-    """Generate evidence search Cypher."""
+) -> tuple[str, dict]:
+    """Generate evidence search Cypher with parameters."""
 
 def _generate_comparison(
     self, interventions: list[str], outcomes: list[str]
-) -> str:
-    """Generate comparison Cypher."""
+) -> tuple[str, dict]:
+    """Generate comparison Cypher with parameters."""
 
-def _generate_hierarchy(self, interventions: list[str]) -> str:
-    """Generate hierarchy traversal Cypher."""
+def _generate_hierarchy(self, interventions: list[str]) -> tuple[str, dict]:
+    """Generate hierarchy traversal Cypher with parameters."""
 
 def _generate_conflict(
     self, interventions: list[str], outcomes: list[str]
-) -> str:
-    """Generate conflict detection Cypher."""
+) -> tuple[str, dict]:
+    """Generate conflict detection Cypher with parameters."""
 ```
 
 **Example Usage**:
@@ -407,26 +408,27 @@ entities = generator.extract_entities(query)
 #     "intent": "evidence_search"
 # }
 
-# Generate Cypher
-cypher = generator.generate(query, entities)
-# """
-# MATCH (i:Intervention {name: 'OLIF'})-[a:AFFECTS]->(o:Outcome {name: 'VAS'})
+# Generate parameterized Cypher (v7.15.0: returns tuple)
+cypher, params = generator.generate(query, entities)
+# cypher: """
+# MATCH (i:Intervention {name: $intervention})-[a:AFFECTS]->(o:Outcome {name: $outcome})
 # WHERE a.is_significant = true
 # RETURN i.name, o.name, a.value, a.p_value, a.source_paper_id
 # ORDER BY a.p_value
 # """
+# params: {"intervention": "OLIF", "outcome": "VAS"}
 
 # Comparison query
 query = "TLIF vs PLIF 융합률 비교"
 entities = generator.extract_entities(query)
-cypher = generator.generate(query, entities)
-# Returns Cypher for comparing TLIF and PLIF on Fusion Rate
+cypher, params = generator.generate(query, entities)
+# Returns parameterized Cypher for comparing TLIF and PLIF on Fusion Rate
 
 # Hierarchy query
 query = "TLIF의 상위 수술법은?"
 entities = generator.extract_entities(query)
-cypher = generator.generate(query, entities)
-# Returns Cypher for traversing IS_A relationships
+cypher, params = generator.generate(query, entities)
+# Returns parameterized Cypher for traversing IS_A relationships
 ```
 
 **Intent Detection Examples**:

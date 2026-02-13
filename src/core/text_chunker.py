@@ -4,7 +4,7 @@ import hashlib
 import re
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import TYPE_CHECKING, Optional
+from typing import Any, TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
     from .pdf_parser import DocumentMetadata, PageContent
@@ -190,20 +190,21 @@ class TextChunker:
     def chunk_web_content(
         self,
         text: str,
-        metadata: "WebMetadata"
+        metadata: Any
     ) -> list[Chunk]:
-        """
-        Split web content into chunks.
+        """Split web content into chunks.
 
         Args:
             text: Web page text content
-            metadata: Web metadata
+            metadata: Web metadata object (must have url, title, author attributes)
 
         Returns:
             List of Chunk objects
-        """
-        from .web_scraper import WebMetadata
 
+        Note:
+            v7.15: web_scraper 모듈 제거에 따라 타입 힌트를 Any로 변경.
+            metadata는 url, title, author 속성을 가진 객체이면 됩니다.
+        """
         document_id = self._generate_doc_id(metadata.url)
 
         meta_dict = {

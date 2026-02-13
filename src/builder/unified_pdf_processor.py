@@ -801,7 +801,7 @@ def _repair_json(text: str) -> str:
             try:
                 json.loads(text)
                 return text
-            except:
+            except Exception:
                 pass
 
         # Fix: control character errors - remove problematic control chars
@@ -811,7 +811,7 @@ def _repair_json(text: str) -> str:
             try:
                 json.loads(text)
                 return text
-            except:
+            except Exception:
                 pass
 
         # Return text as-is if all fixes fail
@@ -962,7 +962,7 @@ class ClaudeBackend:
         except json.JSONDecodeError as e:
             logger.error(f"JSON parsing error at position {e.pos}: {e.msg}")
             # Log context around error for debugging
-            raw_text = collected_text if 'collected_text' in dir() else ''
+            raw_text = collected_text if 'collected_text' in locals() else ''
             if hasattr(e, 'pos') and e.pos > 0 and raw_text:
                 start = max(0, e.pos - 50)
                 end = min(len(raw_text), e.pos + 50)

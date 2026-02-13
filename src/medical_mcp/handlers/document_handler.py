@@ -31,16 +31,17 @@ class DocumentHandler:
         self.neo4j_client = server.neo4j_client
         self.current_user = server.current_user
 
-    def _get_user_filter_clause(self, alias: str = "p") -> str:
+    def _get_user_filter_clause(self, alias: str = "p") -> tuple[str, dict]:
         """Get user filtering Cypher WHERE clause.
 
         Delegates to server's method for consistent user filtering logic.
+        Returns parameterized clause to prevent Cypher injection.
 
         Args:
             alias: Paper node alias (default: 'p')
 
         Returns:
-            Cypher WHERE clause string
+            (Cypher WHERE clause string, parameters dict) tuple
         """
         return self.server._get_user_filter_clause(alias)
 
@@ -67,8 +68,8 @@ class DocumentHandler:
             # Neo4j에서 문서(Paper) 및 청크 정보 조회
             documents = []
             async with self.neo4j_client as client:
-                # v7.5: 사용자 필터링 적용
-                user_filter = self._get_user_filter_clause("p")
+                # v7.5: 사용자 필터링 적용, v7.15: 파라미터화
+                user_filter, filter_params = self._get_user_filter_clause("p")
 
                 # Paper 노드 조회 (청크 수 포함)
                 query = f"""
@@ -90,7 +91,7 @@ class DocumentHandler:
                        tier2_count
                 ORDER BY p.created_at DESC
                 """
-                result = await client.run_query(query)
+                result = await client.run_query(query, filter_params)
 
                 for record in result:
                     documents.append({
@@ -233,6 +234,22 @@ class DocumentHandler:
             if not self.neo4j_client:
                 return {"success": False, "error": "Neo4j client not available"}
 
+            # Authorization check: verify ownership before deletion
+            async with self.neo4j_client as client:
+                paper = await client.get_paper(document_id)
+                if paper:
+                    paper_owner = paper.get("owner", "system")
+                    current_user = self.server.current_user
+                    if current_user != "system" and paper_owner != current_user:
+                        logger.warning(
+                            f"Access denied: user '{current_user}' cannot delete "
+                            f"document '{document_id}' owned by '{paper_owner}'"
+                        )
+                        return {
+                            "success": False,
+                            "error": f"Access denied: document owned by '{paper_owner}'"
+                        }
+
             # Neo4j에서 Paper 노드, Chunk 노드 및 관계 삭제
             neo4j_result = {
                 "nodes_deleted": 0,
@@ -294,6 +311,17 @@ class DocumentHandler:
         """
         try:
             logger.warning(f"Database reset requested (include_taxonomy={include_taxonomy})")
+
+            # Authorization check: only system user can reset the database
+            if self.server.current_user != "system":
+                logger.warning(
+                    f"Access denied: user '{self.server.current_user}' "
+                    f"attempted database reset"
+                )
+                return {
+                    "success": False,
+                    "error": "Access denied: only system user can reset the database"
+                }
 
             if not self.neo4j_client:
                 return {"success": False, "error": "Neo4j client not available"}

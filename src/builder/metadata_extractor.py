@@ -227,7 +227,7 @@ class MetadataExtractor:
     Ensures citation-ready metadata for all document types.
     """
 
-    def __init__(self, llm_client: Optional[LLMClient] = None):
+    def __init__(self, llm_client: Optional[LLMClient] = None) -> None:
         """Initialize extractor.
 
         Args:
@@ -367,7 +367,13 @@ Return JSON:
 
         try:
             response = await self.llm.generate(prompt)
-            result = json.loads(response)
+            # v7.15: JSON 추출/repair — LLM이 markdown 블록으로 감싸는 경우 처리
+            text = response if isinstance(response, str) else str(response)
+            if "```json" in text:
+                text = text.split("```json")[1].split("```")[0]
+            elif "```" in text:
+                text = text.split("```")[1].split("```")[0]
+            result = json.loads(text.strip())
             return result
         except Exception as e:
             logger.warning(f"LLM core extraction failed: {e}")
