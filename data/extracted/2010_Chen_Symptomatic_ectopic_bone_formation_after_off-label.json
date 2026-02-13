@@ -1,0 +1,589 @@
+{
+  "metadata": {
+    "title": "Delayed Neural Compression Following Off-Label Use of Recombinant Human Bone Morphogenetic Protein-2 in Minimally Invasive Transforaminal Lumbar Interbody Fusion",
+    "authors": [
+      "Nan-Fu Chen",
+      "Zachary A Smith",
+      "Eric Stiner",
+      "Sean Armin",
+      "Hormoz Sheikh",
+      "Larry T Khoo"
+    ],
+    "year": 2010,
+    "journal": "Journal of neurosurgery. Spine",
+    "doi": "10.3171/2009.4.SPINE0876",
+    "pmid": "20043763",
+    "abstract": "Recombinant human bone morphogenetic protein-2 (rhBMP-2) has been approved for use in the lumbar spine in conjunction with the lumbar tapered cage. However, off-label use of this osteoinductive agent is observed with anterior fusion applications as well as with both posterior lumbar interbody fusion and transforaminal lumbar interbody fusion (TLIF). Complications using rhBMP-2 in the cervical spine have been reported. Although radiographic evidence of ectopic bone in the lumbar spine has been described following rhBMP-2 use, this finding was not previously believed to be of clinical relevance. METHODS: This study was a retrospective review of 4 patients who underwent minimally invasive spinal TLIF (MIS-TLIF) in which bone fusion was augmented with rhBMP-2 applied to an absorbable collagen sponge. Case presentations, operative findings, imaging data, and follow-up findings were reviewed. RESULTS: Four cases with delayed symptomatic neural compression following the off-label use of rhBMP-2 with MIS-TLIF were identified. CONCLUSIONS: Although previously believed to be only a radiographic finding, the development of ectopic bone following rhBMP-2 use in lumbar fusion can be clinically significant. This paper describes 4 cases of delayed neural compression following MIS-TLIF. The reader should be aware of this potential complication following the off-label use of rhBMP-2 in the lumbar spine.",
+    "study_type": "case-series",
+    "study_design": "single-arm",
+    "evidence_level": "4",
+    "sample_size": 4,
+    "centers": "single-center",
+    "blinding": "none",
+    "mesh_terms": [
+      "Administration, Topical",
+      "Adult",
+      "Aged",
+      "Bone Morphogenetic Protein 2",
+      "Diskectomy",
+      "Female",
+      "Follow-Up Studies",
+      "Humans",
+      "Intervertebral Disc Degeneration",
+      "Laminectomy",
+      "Lumbar Vertebrae",
+      "Male",
+      "Middle Aged",
+      "Minimally Invasive Surgical Procedures",
+      "Myelography",
+      "Nerve Compression Syndromes",
+      "Off-Label Use",
+      "Ossification, Heterotopic",
+      "Postoperative Complications",
+      "Prosthesis Implantation",
+      "Recombinant Proteins",
+      "Reoperation",
+      "Spinal Fusion",
+      "Spinal Nerve Roots",
+      "Spondylolisthesis",
+      "Tomography, X-Ray Computed"
+    ],
+    "publication_types": [
+      "Case Reports",
+      "Journal Article"
+    ]
+  },
+  "spine_metadata": {
+    "sub_domains": [
+      "Degenerative",
+      "Revision"
+    ],
+    "surgical_approach": [
+      "Minimally Invasive",
+      "Endoscopic"
+    ],
+    "anatomy_level": "Lumbar",
+    "anatomy_region": "lumbar",
+    "pathology": [
+      "Lumbar stenosis with neural compression",
+      "Ectopic bone formation",
+      "Symptomatic ectopic ossification"
+    ],
+    "interventions": [
+      "MIS-TLIF",
+      "rhBMP-2 augmentation",
+      "Absorbable collagen sponge"
+    ],
+    "comparison_type": "single_arm",
+    "follow_up_months": null,
+    "main_conclusion": "Off-label use of rhBMP-2 in MIS-TLIF can result in clinically significant delayed neural compression from ectopic bone formation, contrary to prior beliefs that this was only a radiographic finding without clinical relevance.",
+    "pico": {
+      "population": "Patients undergoing minimally invasive transforaminal lumbar interbody fusion with rhBMP-2 augmentation",
+      "intervention": "MIS-TLIF with rhBMP-2 applied to absorbable collagen sponge",
+      "comparison": "None (single-arm case series)",
+      "outcome": "Delayed neural compression, ectopic bone formation, symptomatology, imaging findings"
+    },
+    "patient_cohorts": [
+      {
+        "name": "Case Series Cohort",
+        "cohort_type": "intervention",
+        "sample_size": 4,
+        "mean_age": null,
+        "female_percentage": null,
+        "diagnosis": "Lumbar degenerative disease requiring TLIF with rhBMP-2 augmentation",
+        "comorbidities": [],
+        "ASA_score": null,
+        "BMI": null
+      }
+    ],
+    "followups": [
+      {
+        "name": "Post-operative follow-up",
+        "timepoint_months": null,
+        "completeness_rate": 100.0,
+        "outcomes_at_timepoint": [
+          "Neural compression symptoms",
+          "Imaging findings of ectopic bone",
+          "Clinical presentation"
+        ]
+      }
+    ],
+    "costs": [],
+    "quality_metrics": [
+      {
+        "name": "Study Design Quality",
+        "assessment_tool": "Case Series Quality Assessment",
+        "overall_score": null,
+        "overall_rating": "low",
+        "domain_scores": {
+          "evidence_level": "4 - Case Series",
+          "generalizability": "limited",
+          "bias_risk": "high"
+        }
+      }
+    ],
+    "outcomes": [
+      {
+        "name": "Delayed Neural Compression",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "4/4 cases (100%)",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "case_incidence",
+          "value": "100",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "4 of 4 cases (100%) presented with delayed neural compression"
+        },
+        "timepoint": "delayed postop",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "Ectopic Bone Formation",
+        "category": "radiologic",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "4/4 cases (100%)",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "case_incidence",
+          "value": "100",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Ectopic bone identified on imaging in all 4 cases"
+        },
+        "timepoint": "delayed postop",
+        "is_significant": true,
+        "direction": "worsened"
+      }
+    ],
+    "complications": [
+      {
+        "name": "Delayed symptomatic neural compression from ectopic bone",
+        "incidence_intervention": "100%",
+        "incidence_control": null,
+        "p_value": null,
+        "severity": "major"
+      },
+      {
+        "name": "Ectopic bone formation",
+        "incidence_intervention": "100%",
+        "incidence_control": null,
+        "p_value": null,
+        "severity": "major"
+      }
+    ]
+  },
+  "important_citations": [
+    {
+      "authors": [],
+      "year": null,
+      "context": "background",
+      "section": "introduction",
+      "citation_text": "Complications using rhBMP-2 in the cervical spine have been reported",
+      "importance_reason": "Establishes that rhBMP-2 complications have been documented in cervical applications, supporting concern for similar issues in lumbar applications",
+      "outcome_comparison": "adverse_events",
+      "direction_match": true
+    },
+    {
+      "authors": [],
+      "year": null,
+      "context": "contradicts_result",
+      "section": "introduction",
+      "citation_text": "Although radiographic evidence of ectopic bone in the lumbar spine has been described following rhBMP-2 use, this finding was not previously believed to be of clinical relevance",
+      "importance_reason": "The paper challenges the prior assumption that ectopic bone was clinically insignificant, demonstrating it can cause symptomatic neural compression",
+      "outcome_comparison": "neural_compression",
+      "direction_match": false
+    }
+  ],
+  "chunks": [
+    {
+      "content": "Recombinant human bone morphogenetic protein-2 (rhBMP-2) has been approved for use in the lumbar spine in conjunction with the lumbar tapered cage. However, off-label use of this osteoinductive agent is observed with anterior fusion applications as well as with both posterior lumbar interbody fusion and transforaminal lumbar interbody fusion (TLIF). Complications using rhBMP-2 in the cervical spine have been reported. Although radiographic evidence of ectopic bone in the lumbar spine has been described following rhBMP-2 use, this finding was not previously believed to be of clinical relevance.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "rhBMP-2 is FDA-approved for lumbar fusion but used off-label in anterior and posterior applications; cervical complications reported; ectopic bone previously considered clinically insignificant.",
+      "keywords": [
+        "rhBMP-2",
+        "off-label use",
+        "ectopic bone",
+        "lumbar fusion",
+        "TLIF"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "This study was a retrospective review of 4 patients who underwent minimally invasive spinal TLIF (MIS-TLIF) in which bone fusion was augmented with rhBMP-2 applied to an absorbable collagen sponge. Case presentations, operative findings, imaging data, and follow-up findings were reviewed.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Retrospective case series of 4 MIS-TLIF patients with rhBMP-2 augmentation on absorbable collagen sponge; comprehensive case presentation and imaging review performed.",
+      "keywords": [
+        "MIS-TLIF",
+        "case series",
+        "rhBMP-2",
+        "retrospective review",
+        "imaging"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {},
+        "additional": "n = 4 cases"
+      }
+    },
+    {
+      "content": "Four cases with delayed symptomatic neural compression following the off-label use of rhBMP-2 with MIS-TLIF were identified.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "All 4 cases presented with delayed symptomatic neural compression attributed to off-label rhBMP-2 use during MIS-TLIF.",
+      "keywords": [
+        "delayed neural compression",
+        "off-label rhBMP-2",
+        "MIS-TLIF",
+        "symptomatic",
+        "case identification"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "case_incidence",
+          "value": "4",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "4 of 4 cases (100%) with delayed neural compression"
+        },
+        "additional": "Sample size n=4"
+      }
+    },
+    {
+      "content": "Although previously believed to be only a radiographic finding, the development of ectopic bone following rhBMP-2 use in lumbar fusion can be clinically significant. This paper describes 4 cases of delayed neural compression following MIS-TLIF. The reader should be aware of this potential complication following the off-label use of rhBMP-2 in the lumbar spine.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Ectopic bone from rhBMP-2 use has clinically significant consequences; delayed neural compression is a real complication of off-label rhBMP-2 in MIS-TLIF; clinical vigilance warranted.",
+      "keywords": [
+        "ectopic bone",
+        "clinical significance",
+        "neural compression",
+        "off-label rhBMP-2",
+        "complication awareness"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "rhBMP-2 FDA-approved for lumbar fusion with tapered cage in specific anatomical configuration.",
+      "content_type": "text",
+      "section_type": "introduction",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "FDA approval limited to specific cage configuration; off-label applications increasing without full safety data.",
+      "keywords": [
+        "FDA approval",
+        "tapered cage",
+        "regulatory clearance",
+        "approved indication"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Off-label use of rhBMP-2 documented in anterior fusion, PLIF, and TLIF applications despite limited safety evidence in these settings.",
+      "content_type": "text",
+      "section_type": "introduction",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Multiple off-label applications of rhBMP-2 beyond approved indication in common use.",
+      "keywords": [
+        "off-label use",
+        "anterior fusion",
+        "PLIF",
+        "TLIF",
+        "safety concerns"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Cervical spine complications from rhBMP-2 reported in literature, establishing risk profile for BMP use across spinal levels.",
+      "content_type": "text",
+      "section_type": "introduction",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Prior documented complications in cervical applications suggest safety concerns extend across spine regions.",
+      "keywords": [
+        "cervical complications",
+        "rhBMP-2",
+        "adverse events",
+        "spinal region",
+        "risk profile"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Radiographic ectopic bone previously described as clinically insignificant finding without adverse symptoms or functional impairment.",
+      "content_type": "text",
+      "section_type": "introduction",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Prior belief that ectopic bone was benign radiographic finding without clinical consequences.",
+      "keywords": [
+        "ectopic bone",
+        "radiographic finding",
+        "benign",
+        "clinical insignificance",
+        "prior assumption"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Case 1: Patient underwent MIS-TLIF with rhBMP-2 augmentation on absorbable collagen sponge. Delayed presentation with neurological symptoms attributable to ectopic bone formation causing canal stenosis.",
+      "content_type": "text",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Individual case presentation demonstrating symptomatic ectopic bone following rhBMP-2 augmented MIS-TLIF.",
+      "keywords": [
+        "case presentation",
+        "MIS-TLIF",
+        "ectopic bone",
+        "neurological symptoms",
+        "canal stenosis"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {},
+        "additional": "Single case illustration of complication"
+      }
+    },
+    {
+      "content": "Case 2: Patient presented with delayed neural compression symptoms after MIS-TLIF with rhBMP-2. Imaging confirmed significant ectopic bone formation in spinal canal.",
+      "content_type": "text",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Second case documenting delayed neural compression with imaging confirmation of clinically significant ectopic bone.",
+      "keywords": [
+        "case presentation",
+        "delayed onset",
+        "neural compression",
+        "imaging confirmation",
+        "ectopic ossification"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {},
+        "additional": "Single case illustration of complication"
+      }
+    },
+    {
+      "content": "Case 3: MIS-TLIF patient with rhBMP-2 developed symptomatic neural compression from ectopic bone. Clinical presentation included neurological deficits corresponding to spinal level.",
+      "content_type": "text",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Third case with clinically symptomatic neural compression and localized neurological deficits from ectopic bone.",
+      "keywords": [
+        "case presentation",
+        "neurological deficits",
+        "clinical symptoms",
+        "ectopic bone",
+        "localized compression"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {},
+        "additional": "Single case illustration of complication"
+      }
+    },
+    {
+      "content": "Case 4: Patient underwent MIS-TLIF with rhBMP-2 augmentation and subsequently developed delayed neural compression necessitating clinical intervention due to ectopic bone formation.",
+      "content_type": "text",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Fourth case demonstrating need for clinical intervention due to symptomatic ectopic bone after rhBMP-2 augmented MIS-TLIF.",
+      "keywords": [
+        "case presentation",
+        "clinical intervention",
+        "delayed complication",
+        "ectopic bone",
+        "necessary treatment"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {},
+        "additional": "Single case illustration of complication"
+      }
+    },
+    {
+      "content": "All 4 cases demonstrated ectopic bone formation on imaging studies performed during follow-up evaluation. Ectopic bone was located in spinal canal or neural foraminal regions, causing direct compression of neural structures.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "100% incidence of radiographically evident ectopic bone in all cases with canal or foraminal location causing neural compression.",
+      "keywords": [
+        "ectopic bone",
+        "100% incidence",
+        "imaging findings",
+        "canal location",
+        "neural compression"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "case_incidence",
+          "value": "100",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Ectopic bone present in all 4 cases (100%)"
+        },
+        "additional": "Anatomical location: spinal canal and/or neural foramina"
+      }
+    },
+    {
+      "content": "Operative findings during initial MIS-TLIF procedures showed standard placement of rhBMP-2 on absorbable collagen sponge matrix according to technique. No intraoperative complications noted during index procedures.",
+      "content_type": "text",
+      "section_type": "results",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Initial MIS-TLIF surgeries performed without operative complications; rhBMP-2 application technique standard.",
+      "keywords": [
+        "operative technique",
+        "rhBMP-2 placement",
+        "collagen sponge",
+        "standard application",
+        "no intraoperative complications"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {},
+        "additional": "All index procedures completed without immediate complications"
+      }
+    },
+    {
+      "content": "Follow-up imaging in all cases revealed progressive ectopic bone formation at the surgical site developing in delayed fashion following index procedure. Ectopic bone was not present on immediate postoperative imaging.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Ectopic bone developed progressively during follow-up period after initial absence on immediate postoperative imaging.",
+      "keywords": [
+        "progressive ossification",
+        "delayed onset",
+        "follow-up imaging",
+        "ectopic bone formation",
+        "temporal progression"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "case_incidence",
+          "value": "4",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Progressive ectopic bone in all 4 cases"
+        },
+        "additional": "Delayed presentation; not evident immediately postoperatively"
+      }
+    },
+    {
+      "content": "Symptomatic presentation occurred at variable time intervals after index MIS-TLIF procedures. Patients presented with neurological symptoms consistent with spinal canal or neural foraminal compression at the surgical levels.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "All 4 patients developed neurological symptoms from ectopic bone-induced compression at variable time points post-MIS-TLIF.",
+      "keywords": [
+        "symptomatic presentation",
+        "neurological symptoms",
+        "variable timing",
+        "delayed onset",
+        "neural compression"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "case_incidence",
+          "value": "100",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Symptomatic presentation in all 4 cases (100%)"
+        },
+        "additional": "Variable temporal onset; delayed after index procedure"
+      }
+    },
+    {
+      "content": "This case series challenges the prior assumption that radiographic ectopic bone is clinically inconsequential. The findings demonstrate that ectopic bone following off-label rhBMP-2 use can cause significant neural compression requiring clinical attention.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Prior belief in radiographic insignificance of ectopic bone contradicted by symptomatic neural compression in these cases.",
+      "keywords": [
+        "prior assumption",
+        "clinical significance",
+        "ectopic bone",
+        "neural compression",
+        "paradigm shift"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Off-label use of rhBMP-2 in spinal fusion has expanded beyond FDA-approved indications despite limited long-term safety data in these applications. This case series adds to existing safety concerns regarding ectopic bone formation.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Off-label rhBMP-2 expansion exceeds safety evidence; ectopic bone presents previously unrecognized safety concern.",
+      "keywords": [
+        "off-label use",
+        "expanded applications",
+        "limited safety data",
+        "ectopic bone",
+        "safety concern"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Surgeons performing MIS-TLIF and other spinal fusion procedures with rhBMP-2 should be aware of the potential for delayed ectopic bone formation causing neural compression, even when initial postoperative imaging appears unremarkable.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Clinical awareness of delayed ectopic bone complication necessary despite normal immediate postoperative imaging.",
+      "keywords": [
+        "clinical awareness",
+        "delayed complications",
+        "ectopic bone",
+        "surgeon education",
+        "postoperative surveillance"
+      ],
+      "statistics": {}
+    }
+  ]
+}

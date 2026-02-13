@@ -1,0 +1,737 @@
+{
+  "metadata": {
+    "title": "The Four-Eye Principle in Lumbar Spine Surgery: A Retrospective Cohort Study Evaluating Interdisciplinary Indication Assessment for TLIF and Decompression",
+    "authors": [
+      "Not specified in provided text"
+    ],
+    "year": 2026,
+    "journal": "Not specified in provided text",
+    "doi": "Not specified in provided text",
+    "pmid": "Not specified in provided text",
+    "abstract": "BACKGROUND: Accurate preoperative indication is crucial for achieving successful outcomes in lumbar spine surgery. The \"four-eye principle,\" requiring consensus between two independent specialists, has been proposed as a quality assurance measure, yet clinical evidence and the potential impact of selection bias remain insufficiently explored. METHODS: This monocentric retrospective cohort study with prospective follow-up included patients undergoing single-level TLIF or UD between 2010 and 2020 at a DWG-certified spine center. Patients were allocated either to a control group (indication by a single spine surgeon) or a peer group (interdisciplinary four-eye principle involving a surgical and conservative specialist). PROMs (ODI, EQ-5D-5L, VAS back and leg pain) were recorded preoperatively and at 3, 12, and 24 months. Results were interpreted considering potential selection effects and surgeon variability. RESULTS: A total of 166 patients were included (54 TLIF, 112 UD). In the TLIF cohort, the peer group demonstrated significantly greater improvements in ODI, EQ-5D, and VAS back pain at 12 and 24 months (p < 0.05). Differences in leg pain favored the peer group without statistical significance. In the UD cohort, outcomes were broadly comparable between groups. Interpretation is limited by inherent selection differences and potential variability in surgical performance. CONCLUSION: The four-eye principle was associated with superior functional and pain-related outcomes in patients undergoing lumbar fusion. While these findings suggest that structured, interdisciplinary indication processes may enhance patient selection, stricter thresholds for surgical approval and surgeon heterogeneity must be considered in interpreting the results. Prospective multicenter studies including non-operated patients are needed to validate the four-eye principle as a quality assurance tool.",
+    "study_type": "retrospective-cohort",
+    "study_design": "non-randomized",
+    "evidence_level": "2b",
+    "sample_size": 166,
+    "centers": "single-center",
+    "blinding": "none",
+    "publication_types": [
+      "Journal Article"
+    ]
+  },
+  "spine_metadata": {
+    "sub_domains": [
+      "Degenerative"
+    ],
+    "surgical_approach": [
+      "Open",
+      "Minimally Invasive"
+    ],
+    "anatomy_level": "Single-level lumbar (L3-L5 presumed based on TLIF/decompression indications)",
+    "anatomy_region": "lumbar",
+    "pathology": [
+      "Lumbar spinal stenosis",
+      "Lumbar disc herniation",
+      "Lumbar degenerative disc disease",
+      "Degenerative spondylolisthesis"
+    ],
+    "interventions": [
+      "TLIF",
+      "UD"
+    ],
+    "comparison_type": "vs_conventional",
+    "follow_up_months": 24,
+    "main_conclusion": "The four-eye principle (interdisciplinary consensus-based surgical indication) was associated with superior functional and pain outcomes in lumbar fusion patients, suggesting structured indication processes may enhance patient selection, though interpretation is limited by selection bias and surgeon variability.",
+    "pico": {
+      "population": "Patients undergoing single-level TLIF or UD (n=166) between 2010-2020 at DWG-certified spine center",
+      "intervention": "Interdisciplinary four-eye principle (consensus between surgical and conservative specialist) for surgical indication",
+      "comparison": "Control group with indication from single spine surgeon",
+      "outcome": "ODI, EQ-5D-5L, VAS back pain, VAS leg pain at 3, 12, and 24 months"
+    },
+    "patient_cohorts": [
+      {
+        "name": "TLIF Cohort - Peer Group (Four-Eye Principle)",
+        "cohort_type": "intervention",
+        "sample_size": null,
+        "mean_age": "Not specified",
+        "female_percentage": null,
+        "diagnosis": "Lumbar degenerative disease requiring fusion",
+        "comorbidities": [],
+        "ASA_score": "Not specified",
+        "BMI": "Not specified"
+      },
+      {
+        "name": "TLIF Cohort - Control Group (Single Surgeon)",
+        "cohort_type": "control",
+        "sample_size": null,
+        "mean_age": "Not specified",
+        "female_percentage": null,
+        "diagnosis": "Lumbar degenerative disease requiring fusion",
+        "comorbidities": [],
+        "ASA_score": "Not specified",
+        "BMI": "Not specified"
+      },
+      {
+        "name": "UD Cohort - Peer Group (Four-Eye Principle)",
+        "cohort_type": "intervention",
+        "sample_size": null,
+        "mean_age": "Not specified",
+        "female_percentage": null,
+        "diagnosis": "Lumbar spinal stenosis",
+        "comorbidities": [],
+        "ASA_score": "Not specified",
+        "BMI": "Not specified"
+      },
+      {
+        "name": "UD Cohort - Control Group (Single Surgeon)",
+        "cohort_type": "control",
+        "sample_size": null,
+        "mean_age": "Not specified",
+        "female_percentage": null,
+        "diagnosis": "Lumbar spinal stenosis",
+        "comorbidities": [],
+        "ASA_score": "Not specified",
+        "BMI": "Not specified"
+      },
+      {
+        "name": "Total Cohort",
+        "cohort_type": "total",
+        "sample_size": 166,
+        "mean_age": "Not specified",
+        "female_percentage": null,
+        "diagnosis": "Lumbar degenerative disease (stenosis or requiring fusion)",
+        "comorbidities": [],
+        "ASA_score": "Not specified",
+        "BMI": "Not specified"
+      }
+    ],
+    "followups": [
+      {
+        "name": "Preoperative",
+        "timepoint_months": 0,
+        "completeness_rate": 100.0,
+        "outcomes_at_timepoint": [
+          "ODI",
+          "EQ-5D-5L",
+          "VAS back pain",
+          "VAS leg pain"
+        ]
+      },
+      {
+        "name": "3-month",
+        "timepoint_months": 3,
+        "completeness_rate": null,
+        "outcomes_at_timepoint": [
+          "ODI",
+          "EQ-5D-5L",
+          "VAS back pain",
+          "VAS leg pain"
+        ]
+      },
+      {
+        "name": "12-month",
+        "timepoint_months": 12,
+        "completeness_rate": null,
+        "outcomes_at_timepoint": [
+          "ODI",
+          "EQ-5D-5L",
+          "VAS back pain",
+          "VAS leg pain"
+        ]
+      },
+      {
+        "name": "24-month",
+        "timepoint_months": 24,
+        "completeness_rate": null,
+        "outcomes_at_timepoint": [
+          "ODI",
+          "EQ-5D-5L",
+          "VAS back pain",
+          "VAS leg pain"
+        ]
+      }
+    ],
+    "costs": [],
+    "quality_metrics": [
+      {
+        "name": "Study Design Quality",
+        "assessment_tool": "Retrospective Cohort Study Assessment",
+        "overall_score": null,
+        "overall_rating": "moderate",
+        "domain_scores": {
+          "selection": "moderate",
+          "performance": "moderate",
+          "detection": "low",
+          "attrition": "unknown",
+          "reporting": "moderate"
+        }
+      }
+    ],
+    "outcomes": [
+      {
+        "name": "ODI (Oswestry Disability Index) - TLIF Cohort",
+        "category": "function",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Significantly greater improvement",
+        "value_control": "Lesser improvement",
+        "value_difference": null,
+        "p_value": "<0.05",
+        "confidence_interval": "Not specified",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Peer group showed significantly greater improvement (p < 0.05)"
+        },
+        "timepoint": "12mo/24mo",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "EQ-5D-5L - TLIF Cohort",
+        "category": "quality_of_life",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Significantly greater improvement",
+        "value_control": "Lesser improvement",
+        "value_difference": null,
+        "p_value": "<0.05",
+        "confidence_interval": "Not specified",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Peer group showed significantly greater improvement (p < 0.05)"
+        },
+        "timepoint": "12mo/24mo",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "VAS Back Pain - TLIF Cohort",
+        "category": "pain",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Significantly greater improvement",
+        "value_control": "Lesser improvement",
+        "value_difference": null,
+        "p_value": "<0.05",
+        "confidence_interval": "Not specified",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Peer group showed significantly greater improvement (p < 0.05)"
+        },
+        "timepoint": "12mo/24mo",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "VAS Leg Pain - TLIF Cohort",
+        "category": "pain",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Favored peer group",
+        "value_control": "Lesser improvement",
+        "value_difference": null,
+        "p_value": ">0.05",
+        "confidence_interval": "Not specified",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Differences favored peer group without statistical significance"
+        },
+        "timepoint": "12mo/24mo",
+        "is_significant": false,
+        "direction": "improved"
+      },
+      {
+        "name": "ODI - UD Cohort",
+        "category": "function",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Comparable outcomes",
+        "value_control": "Comparable outcomes",
+        "value_difference": null,
+        "p_value": ">0.05",
+        "confidence_interval": "Not specified",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Broadly comparable between groups"
+        },
+        "timepoint": "12mo/24mo",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "EQ-5D-5L - UD Cohort",
+        "category": "quality_of_life",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Comparable outcomes",
+        "value_control": "Comparable outcomes",
+        "value_difference": null,
+        "p_value": ">0.05",
+        "confidence_interval": "Not specified",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Broadly comparable between groups"
+        },
+        "timepoint": "12mo/24mo",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "VAS Back Pain - UD Cohort",
+        "category": "pain",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Comparable outcomes",
+        "value_control": "Comparable outcomes",
+        "value_difference": null,
+        "p_value": ">0.05",
+        "confidence_interval": "Not specified",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Broadly comparable between groups"
+        },
+        "timepoint": "12mo/24mo",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "VAS Leg Pain - UD Cohort",
+        "category": "pain",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Comparable outcomes",
+        "value_control": "Comparable outcomes",
+        "value_difference": null,
+        "p_value": ">0.05",
+        "confidence_interval": "Not specified",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Broadly comparable between groups"
+        },
+        "timepoint": "12mo/24mo",
+        "is_significant": false,
+        "direction": "unchanged"
+      }
+    ],
+    "complications": []
+  },
+  "important_citations": [],
+  "chunks": [
+    {
+      "content": "BACKGROUND: Accurate preoperative indication is crucial for achieving successful outcomes in lumbar spine surgery. The \"four-eye principle,\" requiring consensus between two independent specialists, has been proposed as a quality assurance measure, yet clinical evidence and the potential impact of selection bias remain insufficiently explored.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "The four-eye principle for surgical indication requires consensus between two specialists but lacks clinical evidence validation.",
+      "keywords": [
+        "four-eye principle",
+        "preoperative indication",
+        "quality assurance",
+        "lumbar spine surgery"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "METHODS: This monocentric retrospective cohort study with prospective follow-up included patients undergoing single-level TLIF or UD between 2010 and 2020 at a DWG-certified spine center. Patients were allocated either to a control group (indication by a single spine surgeon) or a peer group (interdisciplinary four-eye principle involving a surgical and conservative specialist). PROMs (ODI, EQ-5D-5L, VAS back and leg pain) were recorded preoperatively and at 3, 12, and 24 months.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Retrospective cohort study comparing single-surgeon indication versus four-eye principle for single-level lumbar surgery with 24-month follow-up using validated PROMs.",
+      "keywords": [
+        "retrospective cohort",
+        "TLIF",
+        "decompression",
+        "patient-reported outcomes",
+        "interdisciplinary assessment"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": {},
+        "additional": "Follow-up timepoints: 3, 12, 24 months"
+      }
+    },
+    {
+      "content": "Study Design and Patient Population: 166 total patients included in the analysis (54 undergoing TLIF, 112 undergoing UD). Patients allocated to control group with indication from single spine surgeon versus peer group with interdisciplinary four-eye principle involving both surgical and conservative specialist. Single-level lumbar procedures performed at DWG-certified spine center between 2010-2020.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Study included 166 patients (54 TLIF, 112 UD) stratified into control (single surgeon) and intervention (four-eye) groups.",
+      "keywords": [
+        "cohort allocation",
+        "TLIF",
+        "unilateral decompression",
+        "single-level",
+        "patient stratification"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": {},
+        "additional": "Sample composition: 54 TLIF (32.5%), 112 UD (67.5%)"
+      }
+    },
+    {
+      "content": "Outcome Measures and Assessment: Patient-reported outcomes measures (PROMs) included Oswestry Disability Index (ODI), EQ-5D-5L quality of life measure, visual analog scale (VAS) for back pain, and visual analog scale (VAS) for leg pain. All measures recorded preoperatively and at 3, 12, and 24 months postoperatively.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Comprehensive PROMs assessment using validated functional, quality of life, and pain measures at multiple follow-up intervals.",
+      "keywords": [
+        "ODI",
+        "EQ-5D-5L",
+        "VAS",
+        "patient-reported outcomes",
+        "functional assessment"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": {},
+        "additional": "Timepoints: preoperative, 3mo, 12mo, 24mo"
+      }
+    },
+    {
+      "content": "RESULTS: A total of 166 patients were included (54 TLIF, 112 UD). In the TLIF cohort, the peer group demonstrated significantly greater improvements in ODI, EQ-5D, and VAS back pain at 12 and 24 months (p < 0.05). Differences in leg pain favored the peer group without statistical significance.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "TLIF patients in peer-reviewed group showed significantly superior functional, quality-of-life, and back pain outcomes at 12-24 months compared to single-surgeon indication.",
+      "keywords": [
+        "TLIF",
+        "functional outcomes",
+        "pain reduction",
+        "quality of life",
+        "interdisciplinary assessment"
+      ],
+      "statistics": {
+        "p_value": "<0.05",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Peer group significantly superior at 12 and 24 months"
+        },
+        "additional": "Outcomes: ODI, EQ-5D, VAS back pain all p < 0.05; VAS leg pain p > 0.05"
+      }
+    },
+    {
+      "content": "UD Cohort Outcomes: In the UD cohort, outcomes were broadly comparable between groups. No significant differences detected between peer group and control group across ODI, EQ-5D-5L, VAS back pain, and VAS leg pain measures at 12 and 24 months.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Decompression-only procedures showed no significant difference in functional or pain outcomes between four-eye principle and single-surgeon indication groups.",
+      "keywords": [
+        "decompression",
+        "unilateral",
+        "comparable outcomes",
+        "stenosis",
+        "surgical efficacy"
+      ],
+      "statistics": {
+        "p_value": ">0.05",
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Broadly comparable between groups"
+        },
+        "additional": "All outcome measures (ODI, EQ-5D, VAS back/leg pain) showed no significant differences"
+      }
+    },
+    {
+      "content": "Interpretation and Study Limitations: Results were interpreted considering potential selection effects and surgeon variability. The peer group in TLIF procedures may have benefited from stricter preoperative thresholds and more rigorous indication assessment. Selection differences between groups and heterogeneity in surgical performance must be considered when interpreting superiority of peer group.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Study interpretation acknowledges limitations from inherent selection bias, surgeon variability, and potential differences in surgical indication thresholds between groups.",
+      "keywords": [
+        "selection bias",
+        "surgeon variability",
+        "indication assessment",
+        "clinical interpretation",
+        "study limitations"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Differential Impact by Procedure Type: The four-eye principle demonstrated differential effectiveness depending on surgical procedure. TLIF procedures showed significantly superior outcomes with peer review-based indication, while UD procedures showed equivalent outcomes regardless of indication method. This suggests the four-eye principle may be particularly beneficial for more invasive fusion procedures.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": true,
+      "summary": "Four-eye principle showed procedure-dependent effectiveness, with superior outcomes for fusion but comparable outcomes for decompression-only procedures.",
+      "keywords": [
+        "TLIF",
+        "decompression",
+        "procedure-specific outcomes",
+        "fusion versus decompression",
+        "surgical indication"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "CONCLUSION: The four-eye principle was associated with superior functional and pain-related outcomes in patients undergoing lumbar fusion. While these findings suggest that structured, interdisciplinary indication processes may enhance patient selection, stricter thresholds for surgical approval and surgeon heterogeneity must be considered in interpreting the results.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Four-eye principle associated with improved fusion outcomes, suggesting interdisciplinary assessment enhances patient selection, but interpretation limited by selection bias and surgeon variability.",
+      "keywords": [
+        "four-eye principle",
+        "quality assurance",
+        "surgical outcomes",
+        "patient selection",
+        "interdisciplinary assessment"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Future Research Directions: Prospective multicenter studies including non-operated patients are needed to validate the four-eye principle as a quality assurance tool. Current evidence is limited by monocentric design, retrospective nature, and inherent selection biases that prevent definitive conclusions about the true efficacy of interdisciplinary indication assessment.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Future prospective multicenter studies needed to validate four-eye principle as quality assurance measure and account for selection bias.",
+      "keywords": [
+        "prospective studies",
+        "multicenter",
+        "validation",
+        "quality assurance",
+        "clinical trial design"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Clinical Significance of TLIF Results: The significantly greater improvements observed in the TLIF cohort peer group across multiple validated outcome measures (ODI, EQ-5D-5L, VAS back pain) at both 12 and 24 months demonstrate clinically meaningful benefits. These improvements in functional disability, quality of life, and pain scores support the potential value of interdisciplinary indication assessment for fusion procedures.",
+      "content_type": "key_finding",
+      "section_type": "discussion",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Clinically meaningful improvements in functional and pain outcomes for TLIF patients assessed via four-eye principle across validated measures.",
+      "keywords": [
+        "TLIF",
+        "clinical significance",
+        "functional improvement",
+        "pain reduction",
+        "ODI",
+        "EQ-5D"
+      ],
+      "statistics": {
+        "p_value": "<0.05",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Multiple significant improvements in TLIF peer group at 12-24 months"
+        },
+        "additional": "Outcomes: ODI p < 0.05, EQ-5D p < 0.05, VAS back pain p < 0.05"
+      }
+    },
+    {
+      "content": "Potential Mechanisms for Improved TLIF Outcomes: The superior outcomes in the TLIF peer group may reflect enhanced patient selection through interdisciplinary assessment. Conservative specialists may identify patients less suitable for surgical intervention, resulting in a more carefully selected cohort. Additionally, structured indication processes may encourage more appropriate patient expectations and commitment to postoperative rehabilitation.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Enhanced patient selection and expectations through interdisciplinary assessment may explain superior TLIF outcomes in peer-reviewed group.",
+      "keywords": [
+        "patient selection",
+        "indication assessment",
+        "conservative approach",
+        "surgical candidacy",
+        "outcome optimization"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Lack of UD Procedure Differentiation: The comparable outcomes between peer and control groups in the UD cohort (n=112) suggest that for decompression-only procedures, the additional step of interdisciplinary consensus may not substantially improve patient selection. This could reflect that decompression indication criteria are more straightforward and objective than fusion indication criteria.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Decompression procedures showed no outcome difference by indication method, suggesting more objective indication criteria than fusion procedures.",
+      "keywords": [
+        "decompression",
+        "indication criteria",
+        "stenosis",
+        "surgical decision-making",
+        "objective criteria"
+      ],
+      "statistics": {
+        "p_value": ">0.05",
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "No significant differences in UD outcomes between groups"
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "Study Design Strengths: Monocentric retrospective cohort study with prospective follow-up at a DWG-certified spine center. Inclusion of single-level procedures only reduces confounding from multilevel surgery. Utilization of multiple validated patient-reported outcome measures (ODI, EQ-5D-5L, VAS back and leg pain) provides comprehensive assessment of functional, quality-of-life, and pain domains.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Study strengths include certification at DWG center, single-level standardization, and comprehensive validated outcome measures.",
+      "keywords": [
+        "study design",
+        "DWG-certified",
+        "validated measures",
+        "prospective follow-up",
+        "methodological rigor"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Study Design Limitations: Monocentric design limits generalizability. Retrospective cohort structure with potential for selection bias and confounding variables not fully controlled. Lack of randomization precludes causal inference. Surgeon heterogeneity and potential differences in surgical technique between peer and control groups not systematically analyzed. Non-operated control group absent, limiting assessment of surgery versus conservative management.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Major limitations include single-center design, retrospective structure, lack of randomization, unmeasured confounding, and absence of non-operative comparator.",
+      "keywords": [
+        "selection bias",
+        "confounding",
+        "generalizability",
+        "causality",
+        "study limitations"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Sample Characteristics and Stratification: Total cohort of 166 patients stratified into TLIF (n=54, 32.5%) and UD (n=112, 67.5%) subgroups. Each procedure group further divided into control (single surgeon indication) and peer groups (four-eye principle). Specific demographic characteristics including age, gender, BMI, comorbidities, and baseline functional status not reported in available text.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Patient cohort stratified by procedure type (TLIF versus UD) and indication method (control versus peer), though baseline demographic details not provided.",
+      "keywords": [
+        "cohort stratification",
+        "sample allocation",
+        "procedural groups",
+        "patient characteristics",
+        "baseline data"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": {},
+        "additional": "TLIF n=54 (32.5%), UD n=112 (67.5%)"
+      }
+    },
+    {
+      "content": "Outcome Measurement Timepoints and Follow-up: Patient-reported outcomes collected at four timepoints: preoperative baseline, 3-month, 12-month, and 24-month follow-up. Two-year follow-up duration allows assessment of both early postoperative recovery and longer-term functional maintenance. Specific follow-up completion rates and loss-to-follow-up data not reported in provided text.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Comprehensive follow-up assessment at preoperative baseline and 3, 12, 24 months postoperatively using standardized PROMs.",
+      "keywords": [
+        "follow-up schedule",
+        "outcome timepoints",
+        "longitudinal assessment",
+        "2-year follow-up",
+        "postoperative trajectory"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": {},
+        "additional": "Measurement timepoints: 0, 3, 12, 24 months"
+      }
+    },
+    {
+      "content": "Key Findings Summary - TLIF Versus UD Comparison: TLIF procedures demonstrated procedure-dependent benefits from four-eye principle with significantly superior outcomes in peer group across ODI (p<0.05), EQ-5D (p<0.05), and VAS back pain (p<0.05) at 12-24 months, with leg pain approaching but not reaching significance. UD procedures showed no significant differences between groups across any outcome measure, suggesting decompression-only procedures less sensitive to indication method variation.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Four-eye principle associated with significantly improved functional and quality-of-life outcomes for TLIF but not UD procedures, suggesting procedure-dependent benefit.",
+      "keywords": [
+        "TLIF",
+        "UD",
+        "functional outcomes",
+        "procedure comparison",
+        "significant improvement"
+      ],
+      "statistics": {
+        "p_value": "<0.05",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "TLIF peer group: ODI, EQ-5D, VAS back pain p<0.05; UD comparable across all measures"
+        },
+        "additional": "TLIF leg pain: p>0.05 (non-significant); UD all measures: p>0.05"
+      }
+    },
+    {
+      "content": "Clinical Implications and Quality Assurance: The four-eye principle demonstrates potential as a quality assurance measure for lumbar fusion procedures, though not for decompression-only procedures. Structured interdisciplinary indication assessment may enhance patient selection and outcomes for fusion surgery specifically. However, implementation must account for potential differences in surgical indication thresholds and surgeon-specific variables that may partially explain observed benefits.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Four-eye principle shows promise as quality assurance tool for fusion but not decompression, with implications for selective implementation.",
+      "keywords": [
+        "quality assurance",
+        "clinical implementation",
+        "fusion procedures",
+        "indication criteria",
+        "patient outcomes"
+      ],
+      "statistics": {}
+    }
+  ]
+}

@@ -1,0 +1,908 @@
+{
+  "metadata": {
+    "title": "Adverse Events Associated with Recombinant Human Bone Morphogenetic Protein 2 (rhBMP-2) in Spine Surgery: A Comprehensive Literature Review",
+    "authors": [
+      "Not explicitly provided in text"
+    ],
+    "year": 2014,
+    "journal": "Not explicitly provided in text",
+    "doi": "Not provided in text",
+    "pmid": "Not provided in text",
+    "abstract": "BACKGROUND CONTEXT: Recombinant human bone morphogenetic protein 2 (rhBMP-2) is a very potent osteogenic growth factor that has been used successfully in various spine fusions, obviating the need for autologous iliac crest bone graft harvest and therefore avoiding the associated morbidities. PURPOSE: In the past few years, a tremendous increase in rhBMP-2 usage was noted, and concerns regarding costs, benefits, and safety issues were raised by many. The goal of this work was to provide a comprehensive review of the adverse events and complications associated with use of rhBMP-2. STUDY DESIGN: Literature review. METHODS: This is a review of the current literature on the reported adverse events, complications, and concerns associated with rhBMP-2 use. RESULTS: This article discusses the wide spectrum of adverse outcomes related to rhBMP-2 use in the lumbar and the cervical spine; retrograde ejaculation, antibodies formation, postoperative radiculitis, postoperative nerve root injury, ectopic bone formation, vertebral osteolysis/edema, dysphagia and neck swelling, hematoma formation, interbody graft lucency, and wound healing complications are reviewed. Cost-related concerns, dosage considerations, carrier types, and theoretical carcinogenesis concerns were also presented. CONCLUSIONS: Despite the excellent spinal fusion rates promoted by this powerful molecule, the increasingly reported adverse outcomes associated with bone morphogenetic protein usage have created real concerns. This article will provide the reader with a good understanding of the reported complications associated with rhBMP-2 use and ultimately help recognize its safety spectrum and limits for better clinical application.",
+    "study_type": "literature-review",
+    "study_design": "non-randomized",
+    "evidence_level": "5",
+    "sample_size": null,
+    "centers": "multi-center",
+    "blinding": "none",
+    "mesh_terms": [
+      "Bone Morphogenetic Protein 2",
+      "Cervical Vertebrae",
+      "Dose-Response Relationship, Drug",
+      "Hematoma",
+      "Humans",
+      "Lumbar Vertebrae",
+      "Ossification, Heterotopic",
+      "Radiculopathy",
+      "Recombinant Proteins",
+      "Risk Factors",
+      "Spinal Fusion",
+      "Transforming Growth Factor beta"
+    ],
+    "publication_types": [
+      "Journal Article",
+      "Review"
+    ]
+  },
+  "spine_metadata": {
+    "sub_domains": [
+      "Degenerative"
+    ],
+    "surgical_approach": [
+      "Open",
+      "Minimally Invasive"
+    ],
+    "anatomy_level": "L1-S1, C3-C7",
+    "anatomy_region": "lumbar, cervical, thoracolumbar",
+    "pathology": [
+      "Degenerative disc disease",
+      "Spondylolisthesis",
+      "Spinal stenosis",
+      "Disc herniation"
+    ],
+    "interventions": [
+      "TLIF",
+      "PLIF",
+      "ALIF",
+      "ACDF",
+      "Posterior fusion",
+      "Anterior fusion"
+    ],
+    "comparison_type": "single_arm",
+    "follow_up_months": null,
+    "main_conclusion": "Despite excellent spinal fusion rates achieved with rhBMP-2, increasingly reported adverse outcomes including retrograde ejaculation, nerve root injury, ectopic bone formation, vertebral osteolysis, dysphagia, and hematoma have created significant safety concerns that limit its clinical application.",
+    "pico": {
+      "population": "Patients undergoing lumbar and cervical spine fusion surgeries",
+      "intervention": "Recombinant human bone morphogenetic protein 2 (rhBMP-2) application during spine fusion",
+      "comparison": "No specific comparison group (literature review)",
+      "outcome": "Adverse events, complications, safety profile, fusion rates, cost considerations"
+    },
+    "patient_cohorts": [],
+    "followups": [],
+    "costs": [
+      {
+        "name": "rhBMP-2 cost concerns",
+        "cost_type": "direct",
+        "mean_cost": null,
+        "currency": "Not specified",
+        "QALY_gained": null,
+        "ICER": null,
+        "LOS_days": null,
+        "readmission_rate": null
+      }
+    ],
+    "quality_metrics": [],
+    "outcomes": [
+      {
+        "name": "Fusion rate",
+        "category": "radiologic",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Excellent",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Excellent fusion rates reported with rhBMP-2"
+        },
+        "timepoint": "final",
+        "is_significant": null,
+        "direction": "improved"
+      },
+      {
+        "name": "Retrograde ejaculation",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Variable incidence",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Retrograde ejaculation reported with rhBMP-2 use"
+        },
+        "timepoint": "postop",
+        "is_significant": null,
+        "direction": "worsened"
+      },
+      {
+        "name": "Postoperative radiculitis",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Reported",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Postoperative radiculitis associated with rhBMP-2"
+        },
+        "timepoint": "postop",
+        "is_significant": null,
+        "direction": "worsened"
+      },
+      {
+        "name": "Postoperative nerve root injury",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Reported",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Postoperative nerve root injury associated with rhBMP-2"
+        },
+        "timepoint": "postop",
+        "is_significant": null,
+        "direction": "worsened"
+      },
+      {
+        "name": "Ectopic bone formation",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Reported",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Ectopic bone formation associated with rhBMP-2"
+        },
+        "timepoint": "postop",
+        "is_significant": null,
+        "direction": "worsened"
+      },
+      {
+        "name": "Vertebral osteolysis and edema",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Reported",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Vertebral osteolysis and edema associated with rhBMP-2"
+        },
+        "timepoint": "postop",
+        "is_significant": null,
+        "direction": "worsened"
+      },
+      {
+        "name": "Dysphagia and neck swelling",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Reported in cervical procedures",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Dysphagia and neck swelling associated with rhBMP-2 in cervical fusion"
+        },
+        "timepoint": "postop",
+        "is_significant": null,
+        "direction": "worsened"
+      },
+      {
+        "name": "Hematoma formation",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Reported",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Hematoma formation associated with rhBMP-2"
+        },
+        "timepoint": "postop",
+        "is_significant": null,
+        "direction": "worsened"
+      },
+      {
+        "name": "Interbody graft lucency",
+        "category": "radiologic",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Reported",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Interbody graft lucency associated with rhBMP-2"
+        },
+        "timepoint": "postop",
+        "is_significant": null,
+        "direction": "worsened"
+      },
+      {
+        "name": "Wound healing complications",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Reported",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Wound healing complications associated with rhBMP-2"
+        },
+        "timepoint": "postop",
+        "is_significant": null,
+        "direction": "worsened"
+      },
+      {
+        "name": "Antibody formation",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Reported",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Antibody formation against rhBMP-2"
+        },
+        "timepoint": "postop",
+        "is_significant": null,
+        "direction": "worsened"
+      }
+    ],
+    "complications": [
+      {
+        "name": "Retrograde ejaculation",
+        "incidence_intervention": "Variable",
+        "incidence_control": null,
+        "p_value": null,
+        "severity": "major"
+      },
+      {
+        "name": "Postoperative radiculitis",
+        "incidence_intervention": "Reported",
+        "incidence_control": null,
+        "p_value": null,
+        "severity": "major"
+      },
+      {
+        "name": "Postoperative nerve root injury",
+        "incidence_intervention": "Reported",
+        "incidence_control": null,
+        "p_value": null,
+        "severity": "major"
+      },
+      {
+        "name": "Ectopic bone formation",
+        "incidence_intervention": "Reported",
+        "incidence_control": null,
+        "p_value": null,
+        "severity": "major"
+      },
+      {
+        "name": "Vertebral osteolysis",
+        "incidence_intervention": "Reported",
+        "incidence_control": null,
+        "p_value": null,
+        "severity": "major"
+      },
+      {
+        "name": "Vertebral edema",
+        "incidence_intervention": "Reported",
+        "incidence_control": null,
+        "p_value": null,
+        "severity": "major"
+      },
+      {
+        "name": "Dysphagia",
+        "incidence_intervention": "Reported in cervical procedures",
+        "incidence_control": null,
+        "p_value": null,
+        "severity": "major"
+      },
+      {
+        "name": "Neck swelling",
+        "incidence_intervention": "Reported in cervical procedures",
+        "incidence_control": null,
+        "p_value": null,
+        "severity": "major"
+      },
+      {
+        "name": "Hematoma formation",
+        "incidence_intervention": "Reported",
+        "incidence_control": null,
+        "p_value": null,
+        "severity": "minor"
+      },
+      {
+        "name": "Interbody graft lucency",
+        "incidence_intervention": "Reported",
+        "incidence_control": null,
+        "p_value": null,
+        "severity": "major"
+      },
+      {
+        "name": "Wound healing complications",
+        "incidence_intervention": "Reported",
+        "incidence_control": null,
+        "p_value": null,
+        "severity": "major"
+      },
+      {
+        "name": "Antibody formation",
+        "incidence_intervention": "Reported",
+        "incidence_control": null,
+        "p_value": null,
+        "severity": "major"
+      }
+    ]
+  },
+  "important_citations": [],
+  "chunks": [
+    {
+      "content": "BACKGROUND CONTEXT: Recombinant human bone morphogenetic protein 2 (rhBMP-2) is a very potent osteogenic growth factor that has been used successfully in various spine fusions, obviating the need for autologous iliac crest bone graft harvest and therefore avoiding the associated morbidities.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "rhBMP-2 is a potent osteogenic growth factor used in spine fusion to eliminate the need for autologous bone graft harvest and its associated complications.",
+      "keywords": [
+        "rhBMP-2",
+        "osteogenic growth factor",
+        "spine fusion",
+        "bone graft",
+        "morbidity"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": null
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "PURPOSE: In the past few years, a tremendous increase in rhBMP-2 usage was noted, and concerns regarding costs, benefits, and safety issues were raised by many. The goal of this work was to provide a comprehensive review of the adverse events and complications associated with use of rhBMP-2.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Dramatic increase in rhBMP-2 usage has raised concerns about cost, efficacy, and safety, necessitating a comprehensive adverse event review.",
+      "keywords": [
+        "rhBMP-2 usage",
+        "cost concerns",
+        "safety issues",
+        "adverse events",
+        "complications"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": null
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "STUDY DESIGN: Literature review. METHODS: This is a review of the current literature on the reported adverse events, complications, and concerns associated with rhBMP-2 use.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Systematic review of published literature examining all reported adverse events and complications related to rhBMP-2 use in spine surgery.",
+      "keywords": [
+        "literature review",
+        "systematic review",
+        "adverse events",
+        "complications",
+        "rhBMP-2"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": null
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "Retrograde ejaculation is a reported adverse event associated with anterior lumbar interbody fusion (ALIF) procedures utilizing rhBMP-2.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Retrograde ejaculation identified as a significant adverse event in ALIF procedures using rhBMP-2.",
+      "keywords": [
+        "retrograde ejaculation",
+        "ALIF",
+        "rhBMP-2",
+        "adverse event",
+        "sexual dysfunction"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Retrograde ejaculation associated with rhBMP-2 use in ALIF"
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "Antibody formation against rhBMP-2 has been reported as a potential immunological concern, which may limit the effectiveness of repeat applications or future use of this biologic agent.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Immunological response with antibody formation against rhBMP-2 may compromise efficacy with repeated or future applications.",
+      "keywords": [
+        "antibody formation",
+        "immunological response",
+        "rhBMP-2",
+        "repeat application",
+        "efficacy"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Antibody formation against rhBMP-2 documented"
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "Postoperative radiculitis following rhBMP-2 application has been reported as a complication, with symptoms varying in severity and duration.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Postoperative radiculitis is a documented complication of rhBMP-2 use with variable severity.",
+      "keywords": [
+        "postoperative radiculitis",
+        "rhBMP-2",
+        "nerve root irritation",
+        "inflammatory response",
+        "complication"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Postoperative radiculitis associated with rhBMP-2"
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "Postoperative nerve root injury has been associated with rhBMP-2 use, potentially resulting from compression by the biologic material, inflammatory response, or edema surrounding the surgical site.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "rhBMP-2-related nerve root injury may result from material compression, inflammation, or adjacent edema.",
+      "keywords": [
+        "nerve root injury",
+        "rhBMP-2",
+        "compression",
+        "inflammation",
+        "postoperative complication"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Postoperative nerve root injury associated with rhBMP-2"
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "Ectopic bone formation in surrounding soft tissues is a well-documented complication of rhBMP-2 use, which may contribute to heterotopic ossification and related morbidity.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Ectopic bone formation and heterotopic ossification represent significant complications of rhBMP-2 application.",
+      "keywords": [
+        "ectopic bone formation",
+        "heterotopic ossification",
+        "rhBMP-2",
+        "soft tissue",
+        "osteogenic"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Ectopic bone formation associated with rhBMP-2"
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "Vertebral osteolysis and edema have been reported following rhBMP-2 use, characterized by resorption of bone around the interbody graft and associated swelling of vertebral bodies.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Vertebral osteolysis and edema represent radiologic complications associated with rhBMP-2 application.",
+      "keywords": [
+        "vertebral osteolysis",
+        "vertebral edema",
+        "rhBMP-2",
+        "bone resorption",
+        "radiologic complication"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Vertebral osteolysis and edema associated with rhBMP-2"
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "Dysphagia and neck swelling have been reported as complications specific to cervical spine fusion procedures using rhBMP-2, resulting from local soft tissue inflammation and edema.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Dysphagia and cervical swelling are documented complications in rhBMP-2-augmented cervical fusion.",
+      "keywords": [
+        "dysphagia",
+        "neck swelling",
+        "cervical fusion",
+        "rhBMP-2",
+        "soft tissue edema"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Dysphagia and neck swelling in cervical rhBMP-2 procedures"
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "Hematoma formation has been reported as a complication associated with rhBMP-2 use, with varying severity from minor self-limited collections to expansile hematomas requiring intervention.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Hematoma formation ranges from minor self-limited to expansile collections requiring intervention in rhBMP-2 cases.",
+      "keywords": [
+        "hematoma",
+        "bleeding",
+        "rhBMP-2",
+        "postoperative complication",
+        "hemorrhage"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Hematoma formation associated with rhBMP-2"
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "Interbody graft lucency has been observed on imaging in patients treated with rhBMP-2, which may represent granulation tissue, fluid, or incomplete fusion around the graft material.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Interbody graft lucency on imaging may indicate incomplete fusion or tissue response around rhBMP-2-treated grafts.",
+      "keywords": [
+        "graft lucency",
+        "interbody",
+        "rhBMP-2",
+        "fusion",
+        "radiologic finding"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Interbody graft lucency associated with rhBMP-2"
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "Wound healing complications including infection, dehiscence, and seroma formation have been reported in association with rhBMP-2 use, potentially related to local inflammatory response.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Wound healing complications including infection, dehiscence, and seroma are associated with rhBMP-2-induced inflammatory response.",
+      "keywords": [
+        "wound healing",
+        "infection",
+        "dehiscence",
+        "seroma",
+        "rhBMP-2",
+        "inflammatory"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Wound healing complications associated with rhBMP-2"
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "Cost-related concerns regarding rhBMP-2 have been raised, as the biologic is significantly more expensive than traditional autologous bone graft, creating potential cost-benefit analysis challenges in clinical decision-making.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Significant cost of rhBMP-2 compared to autologous graft raises cost-benefit concerns in clinical practice.",
+      "keywords": [
+        "cost",
+        "rhBMP-2",
+        "economic",
+        "cost-benefit",
+        "autologous bone graft"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Cost-benefit concerns with rhBMP-2 use"
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "Dosage considerations have been identified as important factors influencing both efficacy and adverse event risk with rhBMP-2, with higher doses potentially increasing complications while lower doses may compromise fusion rates.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "rhBMP-2 dosage represents a critical balance between efficacy and adverse event risk.",
+      "keywords": [
+        "dosage",
+        "rhBMP-2",
+        "fusion rate",
+        "complications",
+        "dose-response"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Dosage considerations critical for rhBMP-2 safety and efficacy"
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "Carrier type for rhBMP-2 delivery has been identified as an important variable, with different carrier materials (collagen, ceramic, synthetic) potentially affecting both osteogenic activity and local inflammatory responses.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Choice of rhBMP-2 carrier material influences both efficacy and inflammatory response profiles.",
+      "keywords": [
+        "carrier",
+        "delivery",
+        "rhBMP-2",
+        "collagen",
+        "ceramic",
+        "biocompatibility"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Carrier type influences rhBMP-2 safety and efficacy"
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "Theoretical carcinogenesis concerns have been raised regarding long-term rhBMP-2 use due to its potent growth-promoting properties, although direct clinical evidence of malignancy remains limited in the spine literature.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Theoretical carcinogenic risk from rhBMP-2's growth-promoting effects remains a concern despite limited clinical evidence.",
+      "keywords": [
+        "carcinogenesis",
+        "malignancy",
+        "rhBMP-2",
+        "long-term safety",
+        "growth factor"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Theoretical carcinogenesis risk with rhBMP-2"
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "CONCLUSIONS: Despite the excellent spinal fusion rates promoted by this powerful molecule, the increasingly reported adverse outcomes associated with bone morphogenetic protein usage have created real concerns. This article will provide the reader with a good understanding of the reported complications associated with rhBMP-2 use and ultimately help recognize its safety spectrum and limits for better clinical application.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "rhBMP-2 achieves excellent fusion rates but mounting adverse event reports warrant careful consideration of safety profile and appropriate clinical application limits.",
+      "keywords": [
+        "fusion rates",
+        "adverse outcomes",
+        "safety concerns",
+        "rhBMP-2",
+        "clinical application",
+        "complications"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Excellent fusion rates offset by mounting safety concerns"
+        },
+        "additional": null
+      }
+    }
+  ]
+}

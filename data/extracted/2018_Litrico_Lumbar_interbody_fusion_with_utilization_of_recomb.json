@@ -1,0 +1,288 @@
+{
+  "metadata": {
+    "title": "Recombinant human bone morphogenetic protein 2 in lumbar interbody fusion: A retrospective single-center cohort study with focus on complications",
+    "authors": [
+      "Stéphane Litrico",
+      "Tristan Langlais",
+      "Florent Pennes",
+      "Antoine Gennari",
+      "Philippe Paquis"
+    ],
+    "year": 2018,
+    "journal": "Neurosurgical review",
+    "doi": "10.1007/s10143-017-0834-z",
+    "pmid": "28281191",
+    "abstract": "The purpose of this study was to report an independent real-life experience about the use of recombinant human bone morphogenetic protein 2 in lumbar interbody fusion with a special focus on complications. This is a retrospective single-center cohort study between 2007 and 2013 including 277 patients treated for anterior or posterior lumbar fusion with recombinant human bone morphogenetic protein 2. We report the complications occurring during the 12 first postoperative months and analyze the fusion rate on X-rays. There are 58 cases (22.8%) of clinical complications. In 15 cases (5.9%), these complications were related to the use of recombinant human bone morphogenetic protein 2. Only one patient (0.4%) required a new intervention due to recombinant human bone morphogenetic protein 2. Fusion rate at 1 year was 98%. The low rate of specific complication suggests that recombinant human bone morphogenetic protein 2 can be safe and effective in anterior and posterior interbody fusion when used with simple precautions.",
+    "study_type": "retrospective-cohort",
+    "study_design": "single-arm",
+    "evidence_level": "2b",
+    "sample_size": 277,
+    "centers": "single-center",
+    "blinding": "none",
+    "mesh_terms": [
+      "Adult",
+      "Aged",
+      "Aged, 80 and over",
+      "Bone Morphogenetic Protein 2",
+      "Female",
+      "Humans",
+      "Lumbar Vertebrae",
+      "Male",
+      "Middle Aged",
+      "Postoperative Complications",
+      "Radiography",
+      "Recombinant Proteins",
+      "Retrospective Studies",
+      "Spinal Diseases",
+      "Spinal Fusion",
+      "Transforming Growth Factor beta"
+    ],
+    "publication_types": [
+      "Journal Article"
+    ]
+  },
+  "spine_metadata": {
+    "sub_domains": [
+      "Degenerative"
+    ],
+    "surgical_approach": [
+      "Open",
+      "Minimally Invasive"
+    ],
+    "anatomy_level": "L1-S1",
+    "anatomy_region": "lumbar",
+    "pathology": [
+      "Lumbar degenerative disc disease",
+      "Lumbar spondylolisthesis",
+      "Lumbar stenosis"
+    ],
+    "interventions": [
+      "ALIF",
+      "PLIF",
+      "TLIF",
+      "rh-BMP2"
+    ],
+    "comparison_type": "single_arm",
+    "follow_up_months": 12,
+    "main_conclusion": "Recombinant human bone morphogenetic protein 2 can be safe and effective in anterior and posterior lumbar interbody fusion with a low rate of specific complications (5.9%) when used with simple precautions, achieving 98% fusion rate at 1 year.",
+    "pico": {
+      "population": "277 patients undergoing lumbar interbody fusion (anterior or posterior approach) between 2007-2013",
+      "intervention": "Recombinant human bone morphogenetic protein 2 (rh-BMP2) in interbody fusion",
+      "comparison": "None - single arm study",
+      "outcome": "Clinical complications, BMP2-related complications, fusion rate, reoperation rate"
+    },
+    "patient_cohorts": [
+      {
+        "name": "Study Population",
+        "cohort_type": "intervention",
+        "sample_size": 277,
+        "mean_age": null,
+        "female_percentage": null,
+        "diagnosis": "Degenerative lumbar spine disease requiring interbody fusion",
+        "comorbidities": [],
+        "ASA_score": null,
+        "BMI": null
+      }
+    ],
+    "followups": [
+      {
+        "name": "12-month postoperative",
+        "timepoint_months": 12,
+        "completeness_rate": null,
+        "outcomes_at_timepoint": [
+          "Fusion rate",
+          "Complications",
+          "Clinical outcomes"
+        ]
+      }
+    ],
+    "costs": [],
+    "quality_metrics": [],
+    "outcomes": [
+      {
+        "name": "Overall Clinical Complications",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "22.8%",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "22.8",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "58/277 patients (22.8%)"
+        },
+        "timepoint": "12mo",
+        "is_significant": null,
+        "direction": "unchanged"
+      },
+      {
+        "name": "BMP2-Related Complications",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "5.9%",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "5.9",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "15/277 patients (5.9%)"
+        },
+        "timepoint": "12mo",
+        "is_significant": null,
+        "direction": "unchanged"
+      },
+      {
+        "name": "Reoperation Rate (BMP2-related)",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "0.4%",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "0.4",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "1/277 patients (0.4%)"
+        },
+        "timepoint": "12mo",
+        "is_significant": null,
+        "direction": "unchanged"
+      },
+      {
+        "name": "Fusion Rate",
+        "category": "radiologic",
+        "baseline": null,
+        "final": 98.0,
+        "value_intervention": "98%",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "98",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "98% fusion rate at 1 year"
+        },
+        "timepoint": "1yr",
+        "is_significant": null,
+        "direction": "improved"
+      }
+    ],
+    "complications": [
+      {
+        "name": "Overall Clinical Complications",
+        "incidence_intervention": "22.8%",
+        "incidence_control": null,
+        "p_value": null,
+        "severity": "mixed"
+      },
+      {
+        "name": "BMP2-Specific Complications",
+        "incidence_intervention": "5.9%",
+        "incidence_control": null,
+        "p_value": null,
+        "severity": "minor/major"
+      },
+      {
+        "name": "Reoperation (BMP2-Related)",
+        "incidence_intervention": "0.4%",
+        "incidence_control": null,
+        "p_value": null,
+        "severity": "revision_required"
+      }
+    ]
+  },
+  "important_citations": [],
+  "chunks": [
+    {
+      "content": "The purpose of this study was to report an independent real-life experience about the use of recombinant human bone morphogenetic protein 2 in lumbar interbody fusion with a special focus on complications. This is a retrospective single-center cohort study between 2007 and 2013 including 277 patients treated for anterior or posterior lumbar fusion with recombinant human bone morphogenetic protein 2.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Retrospective single-center study of 277 patients receiving rh-BMP2 in anterior or posterior lumbar interbody fusion between 2007-2013.",
+      "keywords": [
+        "recombinant human bone morphogenetic protein 2",
+        "lumbar interbody fusion",
+        "anterior fusion",
+        "posterior fusion",
+        "retrospective cohort"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "We report the complications occurring during the 12 first postoperative months and analyze the fusion rate on X-rays. There are 58 cases (22.8%) of clinical complications. In 15 cases (5.9%), these complications were related to the use of recombinant human bone morphogenetic protein 2. Only one patient (0.4%) required a new intervention due to recombinant human bone morphogenetic protein 2.",
+      "content_type": "key_finding",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Overall clinical complication rate was 22.8% (58/277), with only 5.9% (15/277) specifically related to rh-BMP2, and 0.4% (1/277) requiring reoperation.",
+      "keywords": [
+        "complications",
+        "clinical outcomes",
+        "reoperation rate",
+        "BMP2-specific complications",
+        "complication analysis"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "22.8",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "58/277 patients (22.8%) overall complications; 15/277 (5.9%) BMP2-related; 1/277 (0.4%) reoperation"
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "Fusion rate at 1 year was 98%. The low rate of specific complication suggests that recombinant human bone morphogenetic protein 2 can be safe and effective in anterior and posterior interbody fusion when used with simple precautions.",
+      "content_type": "key_finding",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "High fusion rate of 98% at 1 year with low BMP2-specific complication rate supports safety and efficacy of rh-BMP2 in lumbar interbody fusion.",
+      "keywords": [
+        "fusion rate",
+        "safety",
+        "efficacy",
+        "BMP2",
+        "interbody fusion"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "98",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Fusion rate 98% at 1 year"
+        },
+        "additional": null
+      }
+    }
+  ]
+}

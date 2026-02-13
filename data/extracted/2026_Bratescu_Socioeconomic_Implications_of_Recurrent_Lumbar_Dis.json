@@ -1,0 +1,491 @@
+{
+  "metadata": {
+    "title": "Economic Consequences of Recurrent Lumbar Disc Herniation: A Systematic Review of Cost-Effectiveness Analyses",
+    "authors": [
+      "Not explicitly stated in provided text"
+    ],
+    "year": 2025,
+    "journal": "Not explicitly stated in provided text",
+    "doi": "Not provided",
+    "pmid": "Not provided",
+    "abstract": "Recurrent lumbar disc herniation (RLDH) is a common complication after discectomy, occurring in 2%-25% of patients and contributing to higher reoperation rates, reduced satisfaction, and substantial direct and indirect costs. This review evaluates the economic consequences of RLDH and the relative cost-effectiveness of available management strategies. A systematic search of OVID, MEDLINE, and the Cochrane Library was performed through August 2025. Peer-reviewed, English-language studies were included if they examined adults (≥18 years) with RLDH and reported economic data. Exclusion criteria were studies limited to primary, cervical, or thoracic herniations; animal or cadaveric models; and abstracts. Extracted variables included study design, sample size, follow-up duration, and cost components. Of 283 records identified, 220 were screened and 35 underwent full-text review. Six studies met inclusion criteria, with 2 added through citation searching. Reported costs varied considerably: repeat discectomy added $6,907 in one analysis, while fusion increased expenses by more than 350%. Across studies, repeat discectomy remained the most cost-efficient option, providing comparable outcomes with reduced perioperative expenditures. Conservative management had the lowest immediate direct costs (≈$2,300) but likely underestimates the overall burden due to unmeasured productivity losses. Annular closure devices demonstrated potential cost savings of $2,000-5,000 over 2-5 years. RLDH imposes a substantial economic burden. Heterogeneity in costing methods remains a major limitation which hinders evidence-based determinations. Greater transparency, methodological standardization, and incorporation of societal perspectives are essential to accurately assess the socioeconomic impact of RLDH.",
+    "study_type": "systematic-review",
+    "study_design": "non-randomized",
+    "evidence_level": "2a",
+    "sample_size": 8,
+    "centers": "multi-center",
+    "blinding": "none",
+    "publication_types": [
+      "Journal Article",
+      "Review"
+    ]
+  },
+  "spine_metadata": {
+    "sub_domains": [
+      "Degenerative",
+      "Revision"
+    ],
+    "surgical_approach": [
+      "Minimally Invasive",
+      "Open"
+    ],
+    "anatomy_level": "Lumbar (L4-5, L5-S1)",
+    "anatomy_region": "lumbar",
+    "pathology": [
+      "Recurrent lumbar disc herniation",
+      "Lumbar disc herniation"
+    ],
+    "interventions": [
+      "Discectomy",
+      "Repeat discectomy",
+      "Fusion (TLIF, PLIF, ALIF)",
+      "Conservative management",
+      "Annular closure devices"
+    ],
+    "comparison_type": "single_arm",
+    "follow_up_months": 60,
+    "main_conclusion": "Repeat discectomy remains the most cost-efficient management option for RLDH with comparable outcomes and reduced perioperative costs, while standardization of costing methodologies is needed for accurate economic assessment.",
+    "pico": {
+      "population": "Adults (≥18 years) with recurrent lumbar disc herniation",
+      "intervention": "Repeat discectomy, fusion, annular closure devices, conservative management",
+      "comparison": "Multiple strategies compared across studies",
+      "outcome": "Direct costs, perioperative expenditures, cost-effectiveness, long-term economic burden"
+    },
+    "patient_cohorts": [
+      {
+        "name": "RLDH Population",
+        "cohort_type": "total",
+        "sample_size": null,
+        "mean_age": null,
+        "female_percentage": null,
+        "diagnosis": "Recurrent lumbar disc herniation",
+        "comorbidities": [],
+        "ASA_score": null,
+        "BMI": null
+      }
+    ],
+    "followups": [
+      {
+        "name": "2-5 year follow-up",
+        "timepoint_months": 60,
+        "completeness_rate": null,
+        "outcomes_at_timepoint": [
+          "Cost savings",
+          "Annular closure device cost-effectiveness"
+        ]
+      }
+    ],
+    "costs": [
+      {
+        "name": "Repeat Discectomy Cost",
+        "cost_type": "direct",
+        "mean_cost": 6907,
+        "currency": "USD",
+        "QALY_gained": null,
+        "ICER": null,
+        "LOS_days": null,
+        "readmission_rate": null
+      },
+      {
+        "name": "Fusion Surgery Cost Increase",
+        "cost_type": "direct",
+        "mean_cost": null,
+        "currency": "USD",
+        "QALY_gained": null,
+        "ICER": null,
+        "LOS_days": null,
+        "readmission_rate": null
+      },
+      {
+        "name": "Conservative Management Direct Costs",
+        "cost_type": "direct",
+        "mean_cost": 2300,
+        "currency": "USD",
+        "QALY_gained": null,
+        "ICER": null,
+        "LOS_days": null,
+        "readmission_rate": null
+      },
+      {
+        "name": "Annular Closure Device Cost Savings",
+        "cost_type": "incremental",
+        "mean_cost": null,
+        "currency": "USD",
+        "QALY_gained": null,
+        "ICER": null,
+        "LOS_days": null,
+        "readmission_rate": null
+      }
+    ],
+    "quality_metrics": [
+      {
+        "name": "Systematic Review Quality",
+        "assessment_tool": "PRISMA",
+        "overall_score": null,
+        "overall_rating": "moderate",
+        "domain_scores": {
+          "search_strategy": "high",
+          "inclusion_criteria": "high",
+          "heterogeneity": "low",
+          "costing_methodology": "low"
+        }
+      }
+    ],
+    "outcomes": [
+      {
+        "name": "RLDH Incidence Rate",
+        "category": "event_rate",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "2-25%",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "2-25",
+          "ci_lower": "2",
+          "ci_upper": "25",
+          "label": "RLDH incidence 2%-25% after discectomy"
+        },
+        "timepoint": "postop",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "Repeat Discectomy Cost-Effectiveness",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Most cost-efficient",
+        "value_control": "Fusion (350% more expensive)",
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "6907",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Repeat discectomy cost: $6,907 incremental"
+        },
+        "timepoint": "postop",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Annular Closure Device Cost Savings",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "$2,000-5,000 savings",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "3500",
+          "ci_lower": "2000",
+          "ci_upper": "5000",
+          "label": "Annular closure device cost savings: $2,000-5,000 (2-5 years)"
+        },
+        "timepoint": "2yr",
+        "is_significant": true,
+        "direction": "improved"
+      }
+    ],
+    "complications": [
+      {
+        "name": "Recurrent lumbar disc herniation",
+        "incidence_intervention": "2-25%",
+        "incidence_control": null,
+        "p_value": null,
+        "severity": "major"
+      }
+    ]
+  },
+  "important_citations": [],
+  "chunks": [
+    {
+      "content": "Recurrent lumbar disc herniation (RLDH) is a common complication after discectomy, occurring in 2%-25% of patients and contributing to higher reoperation rates, reduced satisfaction, and substantial direct and indirect costs.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "RLDH occurs in 2%-25% of post-discectomy patients and causes high reoperation rates, reduced satisfaction, and significant economic burden.",
+      "keywords": [
+        "recurrent lumbar disc herniation",
+        "discectomy",
+        "reoperation",
+        "economic burden"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "2-25",
+          "ci_lower": "2",
+          "ci_upper": "25",
+          "label": "RLDH incidence: 2%-25%"
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "This review evaluates the economic consequences of RLDH and the relative cost-effectiveness of available management strategies.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Systematic review examining economic consequences and cost-effectiveness of RLDH management strategies.",
+      "keywords": [
+        "cost-effectiveness",
+        "economic consequences",
+        "management strategies",
+        "RLDH"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": null,
+        "additional": null
+      }
+    },
+    {
+      "content": "A systematic search of OVID, MEDLINE, and the Cochrane Library was performed through August 2025. Peer-reviewed, English-language studies were included if they examined adults (≥18 years) with RLDH and reported economic data. Exclusion criteria were studies limited to primary, cervical, or thoracic herniations; animal or cadaveric models; and abstracts.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Systematic search of three major databases through August 2025 with inclusion criteria for adult RLDH studies with economic data.",
+      "keywords": [
+        "systematic search",
+        "OVID",
+        "MEDLINE",
+        "Cochrane Library",
+        "inclusion criteria"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": null,
+        "additional": null
+      }
+    },
+    {
+      "content": "Extracted variables included study design, sample size, follow-up duration, and cost components.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Data extraction protocol included study characteristics and cost-related variables.",
+      "keywords": [
+        "data extraction",
+        "study design",
+        "cost components",
+        "follow-up duration"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": null,
+        "additional": null
+      }
+    },
+    {
+      "content": "Of 283 records identified, 220 were screened and 35 underwent full-text review. Six studies met inclusion criteria, with 2 added through citation searching.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Systematic review identified 8 studies (6 from database search, 2 from citations) that met inclusion criteria from 283 initial records.",
+      "keywords": [
+        "study selection",
+        "inclusion criteria",
+        "systematic review",
+        "record screening"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "8",
+          "ci_lower": "6",
+          "ci_upper": "2",
+          "label": "Final included studies: 8 (6 database + 2 citation)"
+        },
+        "additional": "283 identified, 220 screened, 35 full-text reviewed"
+      }
+    },
+    {
+      "content": "Reported costs varied considerably: repeat discectomy added $6,907 in one analysis, while fusion increased expenses by more than 350%.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Wide variation in reported costs with repeat discectomy at $6,907 additional cost and fusion increasing expenses >350%.",
+      "keywords": [
+        "repeat discectomy",
+        "fusion",
+        "cost analysis",
+        "economic burden"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "6907",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Repeat discectomy cost: $6,907"
+        },
+        "additional": "Fusion cost increase: >350%"
+      }
+    },
+    {
+      "content": "Across studies, repeat discectomy remained the most cost-efficient option, providing comparable outcomes with reduced perioperative expenditures.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Repeat discectomy demonstrated superior cost-efficiency compared to other RLDH management strategies with comparable clinical outcomes.",
+      "keywords": [
+        "cost-efficiency",
+        "repeat discectomy",
+        "perioperative expenditures",
+        "comparable outcomes"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "most cost-efficient",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Repeat discectomy: most cost-efficient management strategy"
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "Conservative management had the lowest immediate direct costs (≈$2,300) but likely underestimates the overall burden due to unmeasured productivity losses.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Conservative management has lowest initial direct costs ($2,300) but underestimates total burden when productivity losses are considered.",
+      "keywords": [
+        "conservative management",
+        "direct costs",
+        "productivity losses",
+        "economic burden"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "2300",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Conservative management direct costs: ≈$2,300"
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "Annular closure devices demonstrated potential cost savings of $2,000-5,000 over 2-5 years.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Annular closure devices show cost savings potential of $2,000-5,000 over 2-5 year follow-up period.",
+      "keywords": [
+        "annular closure devices",
+        "cost savings",
+        "RLDH prevention",
+        "economic benefit"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "3500",
+          "ci_lower": "2000",
+          "ci_upper": "5000",
+          "label": "Annular closure device cost savings: $2,000-5,000 (2-5 years)"
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "RLDH imposes a substantial economic burden.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "RLDH represents a major economic burden to healthcare systems.",
+      "keywords": [
+        "economic burden",
+        "RLDH",
+        "healthcare costs"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": null,
+        "additional": null
+      }
+    },
+    {
+      "content": "Heterogeneity in costing methods remains a major limitation which hinders evidence-based determinations.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Methodological heterogeneity in cost analyses limits ability to draw evidence-based conclusions about RLDH management economics.",
+      "keywords": [
+        "heterogeneity",
+        "costing methods",
+        "methodological limitations",
+        "evidence-based"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": null,
+        "additional": null
+      }
+    },
+    {
+      "content": "Greater transparency, methodological standardization, and incorporation of societal perspectives are essential to accurately assess the socioeconomic impact of RLDH.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Future economic analyses of RLDH require standardized methodology, transparency, and societal perspective to improve evidence quality.",
+      "keywords": [
+        "methodological standardization",
+        "transparency",
+        "societal perspective",
+        "socioeconomic impact"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": null,
+        "additional": null
+      }
+    }
+  ]
+}

@@ -1,0 +1,654 @@
+{
+  "metadata": {
+    "title": "Is Cigarette Smoking Associated With Impaired Fusion After Transforaminal Lumbar Interbody Fusion With Adjunctive Posterolateral Arthrodesis?",
+    "authors": [
+      "Not provided in text"
+    ],
+    "year": 2026,
+    "journal": "Not provided in text",
+    "doi": "Not provided in text",
+    "pmid": "Not provided in text",
+    "abstract": "BACKGROUND: Smoking is widely regarded as a risk factor for impaired spinal fusion, particularly in posterolateral fusion, and prior studies have generally relied on plain radiographs for assessment. However, data evaluating the association of smoking on transforaminal lumbar interbody fusion (TLIF) with adjunctive posterolateral arthrodesis using modern CT-based evaluation remain limited. QUESTIONS/PURPOSES: (1) Is cigarette smoking associated with a reduced likelihood of achieving radiographic spinal fusion, as assessed by thin-slice CT, after TLIF with adjunctive posterolateral arthrodesis? (2) Does the quality of TLIF (interbody) and posterolateral (intertransverse) fusion differ between patients who smoked and those who did not? (3) Does smoking intensity, measured in pack-years, correlate with reduced fusion quality or increased odds of cage subsidence? (4) Are patient-related factors such as gender, age, and BMI associated with differences in fusion quality or cage subsidence? METHODS: Between 2013 and 2017, one surgeon at a single private hospital performed 360 TLIF procedures with adjunctive posterolateral fusion for degenerative lumbar disease. Of these 360 patients, 18% (63) smoked cigarettes and 82% (297) did not. Among patients who smoked cigarettes, 65% (41 of 63) had thin-slice CT scans obtained at least 6 months after surgery; among patients who did not smoke, 95% (281 of 297) met the imaging requirement, resulting in a final cohort of 322 patients. Fusion was assessed on thin-slice CT and evaluated separately for the TLIF and posterolateral beds. RESULTS: Cigarette smoking was not associated with a lower likelihood of achieving CT-defined fusion after TLIF with posterolateral arthrodesis (patients who smoked cigarettes 65% [41 of 63] versus those who did not 66% [170 of 259], OR 0.98 [95% confidence interval 0.55 to 1.74]; p = 0.52). TLIF (interbody) and posterolateral (intertransverse) fusion grade distributions did not differ between patients who smoked cigarettes and those who did not. Smoking exposure measured by pack-years was not associated with fusion quality (TLIF or intertransverse) or with cage subsidence. Women were more likely to achieve TLIF Grade 3 fusion (87% [132 of 151] versus 64% [110 of 171]; p < 0.001) and more frequent intertransverse Grade 3 fusion (69% [104 of 151] versus 44% [75 of 171]; p < 0.001) and had a higher proportion of Grade 1 subsidence (83% [125 of 151] versus 70% [120 of 171]; observed p = 0.08; model p = 0.03). Age and BMI showed no associations with fusion or subsidence. CONCLUSION: We found that cigarette smoking was not associated with impaired radiographic fusion after TLIF with adjunctive posterolateral arthrodesis performed using a standardized technique. Under these conditions, factors such as biologic healing capacity, bone quality, and construct-related variables may be more influential determinants of CT-defined fusion. These findings address radiographic outcomes only and do not speak to perioperative complications; generalizability may be limited in settings that mandate preoperative cessation or use different perioperative protocols. Within the limits of a retrospective study, these findings suggest that if TLIF with adjunctive posterolateral fusion is otherwise indicated, ongoing smoking alone should not require delaying or denying surgery, when other perioperative risks are acceptable.",
+    "study_type": "retrospective-cohort",
+    "study_design": "non-randomized",
+    "evidence_level": "2b",
+    "sample_size": 322,
+    "centers": "single-center",
+    "blinding": "none",
+    "publication_types": [
+      "Journal Article"
+    ]
+  },
+  "spine_metadata": {
+    "sub_domains": [
+      "Degenerative",
+      "Revision"
+    ],
+    "surgical_approach": [
+      "Open",
+      "Minimally Invasive"
+    ],
+    "anatomy_level": "L3-S1",
+    "anatomy_region": "lumbar",
+    "pathology": [
+      "Degenerative lumbar disease",
+      "Lumbar disc herniation",
+      "Lumbar stenosis",
+      "Spondylolisthesis"
+    ],
+    "interventions": [
+      "TLIF",
+      "Posterolateral fusion",
+      "Arthrodesis"
+    ],
+    "comparison_type": "single_arm",
+    "follow_up_months": 6,
+    "main_conclusion": "Cigarette smoking was not associated with impaired radiographic fusion after TLIF with adjunctive posterolateral arthrodesis. Female gender showed superior fusion outcomes compared to males, while age and BMI had no associations with fusion quality.",
+    "pico": {
+      "population": "Patients undergoing TLIF with adjunctive posterolateral fusion for degenerative lumbar disease; 63 smokers (18%) and 297 non-smokers (82%); aged 18-80 years",
+      "intervention": "TLIF with adjunctive posterolateral arthrodesis performed using standardized surgical technique",
+      "comparison": "Smokers versus non-smokers; analyzed by pack-years (threshold 25 pack-years)",
+      "outcome": "CT-defined fusion rate, TLIF interbody fusion grade, posterolateral intertransverse fusion grade, cage subsidence, associations with age/gender/BMI"
+    },
+    "patient_cohorts": [
+      {
+        "name": "Smokers - Final Cohort",
+        "cohort_type": "intervention",
+        "sample_size": 41,
+        "mean_age": "Not specified",
+        "female_percentage": null,
+        "diagnosis": "Degenerative lumbar disease",
+        "comorbidities": [
+          "Cigarette smoking"
+        ],
+        "ASA_score": "Not specified",
+        "BMI": "Not significantly different from non-smokers"
+      },
+      {
+        "name": "Non-Smokers - Final Cohort",
+        "cohort_type": "control",
+        "sample_size": 259,
+        "mean_age": "Not specified",
+        "female_percentage": null,
+        "diagnosis": "Degenerative lumbar disease",
+        "comorbidities": [],
+        "ASA_score": "Not specified",
+        "BMI": "Not significantly different from smokers"
+      },
+      {
+        "name": "Women (Gender Analysis)",
+        "cohort_type": "total",
+        "sample_size": 151,
+        "mean_age": "Not specified",
+        "female_percentage": 100.0,
+        "diagnosis": "Degenerative lumbar disease",
+        "comorbidities": null,
+        "ASA_score": "Not specified",
+        "BMI": "Not specified"
+      },
+      {
+        "name": "Men (Gender Analysis)",
+        "cohort_type": "total",
+        "sample_size": 171,
+        "mean_age": "Not specified",
+        "female_percentage": 0.0,
+        "diagnosis": "Degenerative lumbar disease",
+        "comorbidities": null,
+        "ASA_score": "Not specified",
+        "BMI": "Not specified"
+      }
+    ],
+    "followups": [
+      {
+        "name": "6-month minimum",
+        "timepoint_months": 6,
+        "completeness_rate": 80.1,
+        "outcomes_at_timepoint": [
+          "Fusion rate (CT-defined)",
+          "TLIF fusion grade",
+          "Posterolateral fusion grade",
+          "Cage subsidence"
+        ]
+      }
+    ],
+    "costs": [],
+    "quality_metrics": [
+      {
+        "name": "Study Design Quality",
+        "assessment_tool": "Oxford CEBM",
+        "overall_score": null,
+        "overall_rating": "low",
+        "domain_scores": {
+          "study_type": "retrospective-cohort",
+          "evidence_level": "2b",
+          "selection_bias": "potential - selective follow-up (65% smokers vs 95% non-smokers with imaging)",
+          "confounding": "controlled for age, BMI, gender in adjusted analysis",
+          "follow_up": "adequate at 6 months minimum for early fusion assessment"
+        }
+      }
+    ],
+    "outcomes": [
+      {
+        "name": "CT-defined Fusion Rate (Overall)",
+        "category": "radiologic",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "65% (41/63)",
+        "value_control": "66% (170/259)",
+        "value_difference": "-1%",
+        "p_value": "0.52",
+        "confidence_interval": "95% CI: 0.55 to 1.74",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "0.98",
+          "ci_lower": "0.55",
+          "ci_upper": "1.74",
+          "label": "OR 0.98 (95% CI: 0.55-1.74)"
+        },
+        "timepoint": "6mo",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "TLIF Grade 3 Fusion - Women vs Men",
+        "category": "radiologic",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "87% (132/151)",
+        "value_control": "64% (110/171)",
+        "value_difference": "23%",
+        "p_value": "<0.001",
+        "confidence_interval": "95% CI: not specified",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Women 87% vs Men 64%, p < 0.001"
+        },
+        "timepoint": "6mo",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Intertransverse Grade 3 Fusion - Women vs Men",
+        "category": "radiologic",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "69% (104/151)",
+        "value_control": "44% (75/171)",
+        "value_difference": "25%",
+        "p_value": "<0.001",
+        "confidence_interval": "95% CI: not specified",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Women 69% vs Men 44%, p < 0.001"
+        },
+        "timepoint": "6mo",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Grade 1 Cage Subsidence - Women vs Men",
+        "category": "radiologic",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "83% (125/151)",
+        "value_control": "70% (120/171)",
+        "value_difference": "13%",
+        "p_value": "0.03",
+        "confidence_interval": "95% CI: not specified",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Women 83% vs Men 70%, model p = 0.03"
+        },
+        "timepoint": "6mo",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Smoking Intensity (Pack-Years) Association with Fusion Quality",
+        "category": "radiologic",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "No association",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": "not significant",
+        "confidence_interval": "95% CI: not specified",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "continuous",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Pack-years not associated with TLIF or intertransverse fusion quality"
+        },
+        "timepoint": "6mo",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "Smoking Intensity (Pack-Years) Association with Cage Subsidence",
+        "category": "radiologic",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "No association",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": "not significant",
+        "confidence_interval": "95% CI: not specified",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "continuous",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Pack-years not associated with cage subsidence"
+        },
+        "timepoint": "6mo",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "Age Association with Fusion Quality",
+        "category": "radiologic",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "No association",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": "not significant",
+        "confidence_interval": "95% CI: not specified",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "continuous",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Age not associated with fusion grades"
+        },
+        "timepoint": "6mo",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "BMI Association with Fusion Quality",
+        "category": "radiologic",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "No association",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": "not significant",
+        "confidence_interval": "95% CI: not specified",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "continuous",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "BMI not associated with fusion grades or subsidence"
+        },
+        "timepoint": "6mo",
+        "is_significant": false,
+        "direction": "unchanged"
+      }
+    ],
+    "complications": [
+      {
+        "name": "Not reported",
+        "incidence_intervention": null,
+        "incidence_control": null,
+        "p_value": null,
+        "severity": null
+      }
+    ]
+  },
+  "important_citations": [
+    {
+      "authors": [
+        "Multiple prior studies"
+      ],
+      "year": null,
+      "context": "contradicts_result",
+      "section": "background",
+      "citation_text": "Smoking is widely regarded as a risk factor for impaired spinal fusion, particularly in posterolateral fusion, and prior studies have generally relied on plain radiographs for assessment.",
+      "importance_reason": "The current study contradicts the conventional wisdom that smoking impairs fusion; this contradiction is the primary motivation for the research",
+      "outcome_comparison": "fusion_rate",
+      "direction_match": false
+    }
+  ],
+  "chunks": [
+    {
+      "content": "BACKGROUND: Smoking is widely regarded as a risk factor for impaired spinal fusion, particularly in posterolateral fusion, and prior studies have generally relied on plain radiographs for assessment. However, data evaluating the association of smoking on transforaminal lumbar interbody fusion (TLIF) with adjunctive posterolateral arthrodesis using modern CT-based evaluation remain limited.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Smoking is traditionally considered a risk factor for impaired spinal fusion, but CT-based evaluation in TLIF with posterolateral arthrodesis is limited.",
+      "keywords": [
+        "smoking",
+        "spinal fusion",
+        "TLIF",
+        "posterolateral arthrodesis",
+        "CT-based imaging"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "QUESTIONS/PURPOSES: (1) Is cigarette smoking associated with a reduced likelihood of achieving radiographic spinal fusion, as assessed by thin-slice CT, after TLIF with adjunctive posterolateral arthrodesis? (2) Does the quality of TLIF (interbody) and posterolateral (intertransverse) fusion differ between patients who smoked and those who did not? (3) Does smoking intensity, measured in pack-years, correlate with reduced fusion quality or increased odds of cage subsidence? (4) Are patient-related factors such as gender, age, and BMI associated with differences in fusion quality or cage subsidence?",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Study addresses four primary research questions regarding smoking effects on fusion outcomes and the roles of patient demographics.",
+      "keywords": [
+        "research questions",
+        "smoking intensity",
+        "pack-years",
+        "fusion quality",
+        "cage subsidence"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "METHODS: Between 2013 and 2017, one surgeon at a single private hospital performed 360 TLIF procedures with adjunctive posterolateral fusion for degenerative lumbar disease. Of these 360 patients, 18% (63) smoked cigarettes and 82% (297) did not. Among patients who smoked cigarettes, 65% (41 of 63) had thin-slice CT scans obtained at least 6 months after surgery; among patients who did not smoke, 95% (281 of 297) met the imaging requirement, resulting in a final cohort of 322 patients. Patients who smoked cigarettes and those who did not did not differ in age, BMI, and diagnosis, and these variables were included in the adjusted analysis.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Single-surgeon cohort study of 360 TLIF procedures over 4 years with 322 patients meeting imaging criteria (65% of smokers, 95% of non-smokers).",
+      "keywords": [
+        "retrospective cohort",
+        "TLIF",
+        "single-surgeon",
+        "imaging follow-up",
+        "baseline characteristics"
+      ],
+      "statistics": {
+        "p_value": "not significant",
+        "is_significant": false
+      }
+    },
+    {
+      "content": "Fusion was assessed on thin-slice CT and evaluated separately for the TLIF and posterolateral beds. We compared fusion percentages and grades between patients who smoked cigarettes and those who did not, assessed the association of smoking intensity with fusion measures, and examined associations with age, gender, and BMI. To address our first question, we compared the likelihood of achieving fusion between patients who smoked cigarettes and those who did not using thin-slice CT as the reference standard and applying a strict definition of fusion for both the TLIF and intertransverse beds.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Thin-slice CT used as reference standard to assess fusion separately in TLIF interbody and posterolateral beds with strict fusion criteria.",
+      "keywords": [
+        "CT imaging",
+        "fusion assessment",
+        "TLIF interbody",
+        "posterolateral beds",
+        "imaging criteria"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "To address our second question, we compared the distribution of TLIF and intertransverse fusion grades between patients who smoked and those who did not, treating the grading scales as ordinal outcomes. For our third question, smoking exposure was quantified in pack-years. For our fourth question, we examined whether age, gender, and BMI were associated with fusion grades or cage subsidence, and we included these variables in the adjusted models to evaluate their independent associations.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Statistical analysis plan included ordinal grading scales, pack-years quantification, and multivariate models for demographic factors.",
+      "keywords": [
+        "ordinal outcomes",
+        "pack-years",
+        "multivariate analysis",
+        "fusion grades",
+        "demographic factors"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "The available sample included 63 patients who smoked cigarettes and 259 who did not. With alpha set at 0.05 and beta at 0.20, this sample provided 80% power to detect an absolute difference of approximately 17 percentage points in the likelihood of achieving fusion; smaller differences may not have been detected.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Power analysis indicates 80% power to detect 17 percentage point difference in fusion rates with final sample of 322 patients.",
+      "keywords": [
+        "power analysis",
+        "sample size",
+        "statistical power",
+        "fusion rate",
+        "effect size"
+      ],
+      "statistics": {
+        "p_value": "0.05",
+        "is_significant": false,
+        "additional": "Beta = 0.20 (80% power), detectable difference = 17 percentage points"
+      }
+    },
+    {
+      "content": "Cigarette smoking was not associated with a lower likelihood of achieving CT-defined fusion after TLIF with posterolateral arthrodesis (patients who smoked cigarettes 65% [41 of 63] versus those who did not 66% [170 of 259], OR 0.98 [95% confidence interval 0.55 to 1.74]; p = 0.52).",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Primary finding: smoking not associated with reduced fusion rates on CT imaging after TLIF with posterolateral arthrodesis.",
+      "keywords": [
+        "smoking",
+        "fusion rate",
+        "CT-defined",
+        "TLIF",
+        "odds ratio"
+      ],
+      "statistics": {
+        "p_value": "0.52",
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "0.98",
+          "ci_lower": "0.55",
+          "ci_upper": "1.74",
+          "label": "OR 0.98 (95% CI: 0.55-1.74)"
+        }
+      }
+    },
+    {
+      "content": "TLIF (interbody) and posterolateral (intertransverse) fusion grade distributions did not differ between patients who smoked cigarettes and those who did not. Smoking exposure measured by pack-years was not associated with fusion quality (TLIF or intertransverse) or with cage subsidence.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "No significant differences in fusion grades between smokers and non-smokers; pack-years not associated with fusion quality or cage subsidence.",
+      "keywords": [
+        "fusion grades",
+        "pack-years",
+        "smoking intensity",
+        "cage subsidence",
+        "TLIF quality"
+      ],
+      "statistics": {
+        "p_value": "not significant",
+        "is_significant": false
+      }
+    },
+    {
+      "content": "Women were more likely to achieve TLIF Grade 3 fusion (87% [132 of 151] versus 64% [110 of 171]; p < 0.001) and more frequent intertransverse Grade 3 fusion (69% [104 of 151] versus 44% [75 of 171]; p < 0.001) and had a higher proportion of Grade 1 subsidence (83% [125 of 151] versus 70% [120 of 171]; observed p = 0.08; model p = 0.03).",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Female patients achieved significantly higher rates of Grade 3 fusion in both TLIF and intertransverse sites compared to males.",
+      "keywords": [
+        "gender differences",
+        "women",
+        "fusion grade",
+        "TLIF",
+        "intertransverse"
+      ],
+      "statistics": {
+        "p_value": "<0.001",
+        "is_significant": true,
+        "additional": "TLIF Grade 3: Women 87% vs Men 64%; Intertransverse Grade 3: Women 69% vs Men 44%; Grade 1 subsidence: Women 83% vs Men 70% (model p=0.03)"
+      }
+    },
+    {
+      "content": "Age and BMI showed no associations with fusion or subsidence.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Age and BMI were not significant predictors of fusion outcomes or cage subsidence.",
+      "keywords": [
+        "age",
+        "BMI",
+        "fusion outcomes",
+        "subsidence",
+        "patient factors"
+      ],
+      "statistics": {
+        "p_value": "not significant",
+        "is_significant": false
+      }
+    },
+    {
+      "content": "We found that cigarette smoking was not associated with impaired radiographic fusion after TLIF with adjunctive posterolateral arthrodesis performed using a standardized technique. Under these conditions, factors such as biologic healing capacity, bone quality, and construct-related variables may be more influential determinants of CT-defined fusion.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Main conclusion: smoking does not impair radiographic fusion outcomes after TLIF with posterolateral arthrodesis using standardized technique.",
+      "keywords": [
+        "conclusion",
+        "smoking",
+        "fusion",
+        "CT-defined",
+        "surgical technique"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "These findings address radiographic outcomes only and do not speak to perioperative complications; generalizability may be limited in settings that mandate preoperative cessation or use different perioperative protocols. Within the limits of a retrospective study, these findings suggest that if TLIF with adjunctive posterolateral fusion is otherwise indicated, ongoing smoking alone should not require delaying or denying surgery, when other perioperative risks are acceptable.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Clinical implication: ongoing smoking should not be reason to delay TLIF surgery if otherwise indicated, though findings limited to radiographic outcomes.",
+      "keywords": [
+        "clinical implications",
+        "smoking cessation",
+        "surgery indications",
+        "perioperative risk",
+        "retrospective limitations"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Smoking cessation counseling remains important for general health and for reducing nonfusion-related complications, but concerns about impaired fusion alone should not be the primary reason to withhold this procedure. LEVEL OF EVIDENCE: Level III, therapeutic study.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Smoking cessation counseling recommended for general health but impaired fusion should not be primary concern for withholding TLIF surgery.",
+      "keywords": [
+        "smoking cessation",
+        "counseling",
+        "complications",
+        "level of evidence",
+        "therapeutic study"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Study Population and Imaging Characteristics: Final cohort comprised 322 patients (41 smokers, 259 non-smokers). Smokers had lower CT imaging follow-up rate (65% vs 95% in non-smokers), which represents potential selection bias. Both groups were well-matched on age, BMI, and diagnosis at baseline, allowing for confounding adjustment in multivariate models.",
+      "content_type": "table",
+      "section_type": "methods",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Final cohort of 322 patients with differential imaging follow-up rates between groups; baseline characteristics similar.",
+      "keywords": [
+        "study population",
+        "follow-up rate",
+        "baseline characteristics",
+        "selection bias",
+        "imaging follow-up"
+      ],
+      "statistics": {
+        "p_value": "not significant for baseline comparisons",
+        "is_significant": false,
+        "additional": "Smoking group: 41/63 (65%) with imaging; Non-smoking group: 281/297 (95%) with imaging"
+      }
+    },
+    {
+      "content": "Fusion Outcome Comparisons Between Smokers and Non-Smokers: The study compared CT-defined fusion rates and fusion grade distributions between smokers and non-smokers. Overall fusion rates were nearly identical: 65% (41/63) in smokers vs 66% (170/259) in non-smokers (OR 0.98, 95% CI 0.55-1.74, p=0.52). TLIF interbody and posterolateral intertransverse fusion grade distributions showed no significant differences between groups. These findings held when analyzing smoking exposure continuously as pack-years, with no association detected between smoking intensity and fusion quality or cage subsidence measures.",
+      "content_type": "table",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Primary outcome: fusion rates identical between smokers and non-smokers; fusion grades and smoking intensity (pack-years) showed no significant associations.",
+      "keywords": [
+        "fusion rate",
+        "fusion grades",
+        "pack-years",
+        "CT-defined",
+        "comparison"
+      ],
+      "statistics": {
+        "p_value": "0.52",
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "0.98",
+          "ci_lower": "0.55",
+          "ci_upper": "1.74",
+          "label": "OR 0.98 (95% CI: 0.55-1.74)"
+        }
+      }
+    },
+    {
+      "content": "Gender-Stratified Fusion and Subsidence Outcomes: Female patients (n=151) demonstrated significantly superior fusion outcomes compared to male patients (n=171). Women achieved TLIF Grade 3 fusion in 87% (132/151) versus 64% (110/171) in men (p<0.001). Intertransverse Grade 3 fusion was more frequent in women at 69% (104/151) versus 44% (75/171) in men (p<0.001). Grade 1 cage subsidence was more common in women at 83% (125/151) versus 70% (120/171) in men (observed p=0.08, adjusted model p=0.03). These gender-based differences in fusion outcomes were independent of smoking status and other patient factors.",
+      "content_type": "table",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Women demonstrated significantly higher rates of Grade 3 fusion in both interbody and posterolateral sites compared to men.",
+      "keywords": [
+        "gender",
+        "women",
+        "fusion grade",
+        "subsidence",
+        "sex differences"
+      ],
+      "statistics": {
+        "p_value": "<0.001",
+        "is_significant": true,
+        "additional": "TLIF Grade 3: 87% women vs 64% men (p<0.001); Intertransverse Grade 3: 69% women vs 44% men (p<0.001); Grade 1 subsidence: 83% women vs 70% men (model p=0.03)"
+      }
+    },
+    {
+      "content": "Association of Age and BMI with Fusion Outcomes: Multivariate analysis examined whether age and body mass index (BMI) influenced fusion quality or cage subsidence. Age demonstrated no statistically significant association with fusion grades or subsidence measurements. Similarly, BMI showed no associations with either TLIF interbody fusion quality, posterolateral intertransverse fusion quality, or cage subsidence rates. These null findings suggest that within the study population, these commonly evaluated patient factors were not significant determinants of CT-defined fusion outcomes in TLIF with posterolateral arthrodesis.",
+      "content_type": "table",
+      "section_type": "results",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Age and BMI were not significant predictors of fusion outcomes or cage subsidence on multivariate analysis.",
+      "keywords": [
+        "age",
+        "BMI",
+        "multivariate analysis",
+        "fusion outcomes",
+        "patient factors"
+      ],
+      "statistics": {
+        "p_value": "not significant",
+        "is_significant": false
+      }
+    }
+  ]
+}

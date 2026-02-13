@@ -1,0 +1,800 @@
+{
+  "metadata": {
+    "title": "Complications Associated with Recombinant Human Bone Morphogenetic Protein-2 Use in Minimally Invasive Transforaminal Lumbar Interbody Fusion",
+    "authors": [
+      "Not explicitly provided in text"
+    ],
+    "year": 2011,
+    "journal": "Not explicitly provided in text",
+    "doi": "Not provided",
+    "pmid": "Not provided",
+    "abstract": "BACKGROUND CONTEXT: Recent reports of postoperative radiculitis, bone osteolysis, and symptomatic ectopic bone formation after recombinant human bone morphogenetic protein-2 (rhBMP-2) use in transforaminal lumbar interbody fusions (TLIFs) are a cause for concern. PURPOSE: To determine the clinical and radiographic complications associated with BMP utilization in a minimally invasive transforaminal lumbar interbody fusion (MIS-TLIF) environment. STUDY DESIGN/SETTING: Retrospective clinical case series at a single institution. PATIENT SAMPLE: Five hundred seventy-three consecutive patients undergoing an MIS-TLIF. OUTCOME MEASURES: Reoperation rates and total costs associated with complications of rhBMP-2 use and pseudarthrosis. METHODS: A retrospective review of 610 consecutive patients undergoing an MIS-TLIF (2007-2010) by a single surgeon at our institution was performed (mean age 48.7 years, range 26-82 years). All patients underwent an MIS laminectomy with bilateral facetectomy, single TLIF cage, unilateral pedicle screw fixation, and 12 mg (large kit) or 4.2 mg (small kit) of rhBMP-2. The BMP-2 collagen-soaked sponge was placed anteriorly in the disc space, followed by local bone graft, and then the cage was filled only with local bone and no BMP-2. Patients were evaluated at 6 months and 1 year with computed tomography (CT) scan. Those demonstrating neuroforaminal bone growth, osteolysis/cage migration, or pseudarthrosis were reviewed, and cost data including direct cost/procedure for both index and revision surgeries were collected. RESULTS: Of the 573 patients, 10 (1.7%) underwent 15 additional procedures based on recalcitrant radiculopathy and CT evidence of neuroforaminal bone growth, vertebral body osteolysis, and/or cage migration. Thirty-nine patients (6.8%) underwent reoperation for clinically symptomatic pseudarthrosis. Bone overgrowth was associated with nerve impingement and radiculopathy in all 10 patients (small kit, n=9; large kit, n=1). Osteolysis and cage migration occurred in 2 (20%) of these same 10 patients. Average total costs were calculated per procedure ($19,224), and the costs for reoperation equaled $14,785 per encounter for neuroforaminal bone growth and $20,267 for pseudarthrosis. CONCLUSIONS: Symptomatic ectopic bone formation, vertebral osteolysis, and pseudarthrosis are recognized complications with the use of rhBMP-2 in MIS-TLIFs. Potential causes include improper dosage and a closed space that prevents the egress of the postoperative BMP-2 fluid collection. Management of these complications has a substantial cost for the patient and the surgeon and needs to be considered with the off-label use of rhBMP-2.",
+    "study_type": "case-series",
+    "study_design": "single-arm",
+    "evidence_level": "4",
+    "sample_size": 573,
+    "centers": "single-center",
+    "blinding": "none",
+    "mesh_terms": [
+      "Adult",
+      "Aged",
+      "Aged, 80 and over",
+      "Bone Morphogenetic Protein 2",
+      "Female",
+      "Humans",
+      "Lumbar Vertebrae",
+      "Male",
+      "Middle Aged",
+      "Minimally Invasive Surgical Procedures",
+      "Postoperative Complications",
+      "Recombinant Proteins",
+      "Reoperation",
+      "Retrospective Studies",
+      "Spinal Fusion",
+      "Transforming Growth Factor beta"
+    ],
+    "publication_types": [
+      "Journal Article"
+    ]
+  },
+  "spine_metadata": {
+    "sub_domains": [
+      "Degenerative",
+      "Revision"
+    ],
+    "surgical_approach": [
+      "Minimally Invasive"
+    ],
+    "anatomy_level": "Multi-level (specific levels not detailed)",
+    "anatomy_region": "lumbar",
+    "pathology": [
+      "Lumbar degenerative disc disease",
+      "Symptomatic ectopic bone formation",
+      "Vertebral body osteolysis",
+      "Cage migration",
+      "Pseudarthrosis",
+      "Neuroforaminal bone growth"
+    ],
+    "interventions": [
+      "MIS-TLIF",
+      "MIS laminectomy",
+      "Bilateral facetectomy",
+      "Unilateral pedicle screw fixation",
+      "rhBMP-2 augmentation"
+    ],
+    "comparison_type": "single_arm",
+    "follow_up_months": 12,
+    "main_conclusion": "Symptomatic ectopic bone formation, vertebral osteolysis, and pseudarthrosis are recognized complications with rhBMP-2 use in MIS-TLIFs. Management of these complications has substantial cost implications and off-label use of rhBMP-2 requires careful consideration.",
+    "pico": {
+      "population": "573 consecutive patients undergoing MIS-TLIF (mean age 48.7 years, range 26-82 years)",
+      "intervention": "MIS-TLIF with rhBMP-2 augmentation (12 mg large kit or 4.2 mg small kit)",
+      "comparison": "Single-arm study; no control group",
+      "outcome": "Reoperation rates, complication rates (neuroforaminal bone growth, osteolysis, cage migration, pseudarthrosis), total costs"
+    },
+    "patient_cohorts": [
+      {
+        "name": "Total Study Population",
+        "cohort_type": "intervention",
+        "sample_size": 573,
+        "mean_age": "48.7 ± (range 26-82)",
+        "female_percentage": "Not provided",
+        "diagnosis": "Lumbar degenerative disc disease requiring fusion",
+        "comorbidities": "Not detailed",
+        "ASA_score": "Not provided",
+        "BMI": "Not provided"
+      },
+      {
+        "name": "Neuroforaminal Bone Growth Group",
+        "cohort_type": "intervention",
+        "sample_size": 10,
+        "mean_age": "Not specified",
+        "female_percentage": "Not provided",
+        "diagnosis": "Neuroforaminal bone growth with recalcitrant radiculopathy",
+        "comorbidities": "Not detailed",
+        "ASA_score": "Not provided",
+        "BMI": "Not provided"
+      },
+      {
+        "name": "Pseudarthrosis Group",
+        "cohort_type": "intervention",
+        "sample_size": 39,
+        "mean_age": "Not specified",
+        "female_percentage": "Not provided",
+        "diagnosis": "Clinically symptomatic pseudarthrosis",
+        "comorbidities": "Not detailed",
+        "ASA_score": "Not provided",
+        "BMI": "Not provided"
+      }
+    ],
+    "followups": [
+      {
+        "name": "6-month",
+        "timepoint_months": 6,
+        "completeness_rate": "Not specified",
+        "outcomes_at_timepoint": [
+          "CT imaging assessment"
+        ]
+      },
+      {
+        "name": "1-year",
+        "timepoint_months": 12,
+        "completeness_rate": "Not specified",
+        "outcomes_at_timepoint": [
+          "CT imaging assessment",
+          "Fusion status",
+          "Osteolysis",
+          "Cage migration"
+        ]
+      }
+    ],
+    "costs": [
+      {
+        "name": "Average Total Cost per Initial Procedure",
+        "cost_type": "direct",
+        "mean_cost": 19224,
+        "currency": "USD",
+        "QALY_gained": "Not provided",
+        "ICER": "Not applicable",
+        "LOS_days": "Not provided",
+        "readmission_rate": "Not specified"
+      },
+      {
+        "name": "Reoperation Cost for Neuroforaminal Bone Growth",
+        "cost_type": "direct",
+        "mean_cost": 14785,
+        "currency": "USD",
+        "QALY_gained": "Not provided",
+        "ICER": "Not applicable",
+        "LOS_days": "Not provided",
+        "readmission_rate": "Not specified"
+      },
+      {
+        "name": "Reoperation Cost for Pseudarthrosis",
+        "cost_type": "direct",
+        "mean_cost": 20267,
+        "currency": "USD",
+        "QALY_gained": "Not provided",
+        "ICER": "Not applicable",
+        "LOS_days": "Not provided",
+        "readmission_rate": "Not specified"
+      }
+    ],
+    "quality_metrics": [
+      {
+        "name": "Study Design Quality",
+        "assessment_tool": "Oxford CEBM",
+        "overall_score": "Not formally scored",
+        "overall_rating": "low",
+        "domain_scores": {
+          "design": "Case series - retrospective",
+          "sample": "Large single-center cohort (n=573)",
+          "follow_up": "Relatively short (12 months)",
+          "outcome_measurement": "Objective imaging (CT) + clinical assessment"
+        }
+      }
+    ],
+    "outcomes": [
+      {
+        "name": "Neuroforaminal Bone Growth Requiring Reoperation",
+        "category": "complication",
+        "baseline": "0%",
+        "final": "1.7%",
+        "value_intervention": "10 of 573 patients (1.7%)",
+        "value_control": "N/A",
+        "value_difference": "N/A",
+        "p_value": "Not provided",
+        "confidence_interval": "Not provided",
+        "effect_size": "Not provided",
+        "effect_measure": {
+          "measure_type": "incidence_rate",
+          "value": "1.7",
+          "ci_lower": "Not provided",
+          "ci_upper": "Not provided",
+          "label": "1.7% (10/573 patients)"
+        },
+        "timepoint": "1yr",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "Pseudarthrosis Requiring Reoperation",
+        "category": "complication",
+        "baseline": "0%",
+        "final": "6.8%",
+        "value_intervention": "39 of 573 patients (6.8%)",
+        "value_control": "N/A",
+        "value_difference": "N/A",
+        "p_value": "Not provided",
+        "confidence_interval": "Not provided",
+        "effect_size": "Not provided",
+        "effect_measure": {
+          "measure_type": "incidence_rate",
+          "value": "6.8",
+          "ci_lower": "Not provided",
+          "ci_upper": "Not provided",
+          "label": "6.8% (39/573 patients)"
+        },
+        "timepoint": "1yr",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "Radiculopathy Associated with Neuroforaminal Bone Overgrowth",
+        "category": "complication",
+        "baseline": "Not specified",
+        "final": "100%",
+        "value_intervention": "10 of 10 patients (100%)",
+        "value_control": "N/A",
+        "value_difference": "N/A",
+        "p_value": "Not provided",
+        "confidence_interval": "Not provided",
+        "effect_size": "Not provided",
+        "effect_measure": {
+          "measure_type": "incidence_rate",
+          "value": "100",
+          "ci_lower": "Not provided",
+          "ci_upper": "Not provided",
+          "label": "100% (10/10 patients with bone overgrowth)"
+        },
+        "timepoint": "1yr",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "Osteolysis and Cage Migration in Bone Growth Group",
+        "category": "complication",
+        "baseline": "Not specified",
+        "final": "20%",
+        "value_intervention": "2 of 10 patients (20%)",
+        "value_control": "N/A",
+        "value_difference": "N/A",
+        "p_value": "Not provided",
+        "confidence_interval": "Not provided",
+        "effect_size": "Not provided",
+        "effect_measure": {
+          "measure_type": "incidence_rate",
+          "value": "20",
+          "ci_lower": "Not provided",
+          "ci_upper": "Not provided",
+          "label": "20% (2/10 patients with bone overgrowth)"
+        },
+        "timepoint": "1yr",
+        "is_significant": false,
+        "direction": "worsened"
+      },
+      {
+        "name": "Small Kit BMP-2 in Neuroforaminal Bone Growth Cases",
+        "category": "complication",
+        "baseline": "Not specified",
+        "final": "90%",
+        "value_intervention": "9 of 10 patients (small kit)",
+        "value_control": "1 of 10 patients (large kit)",
+        "value_difference": "80 percentage points",
+        "p_value": "Not provided",
+        "confidence_interval": "Not provided",
+        "effect_size": "Not provided",
+        "effect_measure": {
+          "measure_type": "incidence_rate",
+          "value": "90",
+          "ci_lower": "Not provided",
+          "ci_upper": "Not provided",
+          "label": "90% (9/10) small kit vs 10% (1/10) large kit"
+        },
+        "timepoint": "1yr",
+        "is_significant": true,
+        "direction": "worsened"
+      }
+    ],
+    "complications": [
+      {
+        "name": "Neuroforaminal Bone Growth (Ectopic Bone Formation)",
+        "incidence_intervention": "1.7%",
+        "incidence_control": "N/A",
+        "p_value": "Not provided",
+        "severity": "revision_required"
+      },
+      {
+        "name": "Radiculopathy",
+        "incidence_intervention": "1.7%",
+        "incidence_control": "N/A",
+        "p_value": "Not provided",
+        "severity": "revision_required"
+      },
+      {
+        "name": "Vertebral Body Osteolysis",
+        "incidence_intervention": "0.3% (2 of 573)",
+        "incidence_control": "N/A",
+        "p_value": "Not provided",
+        "severity": "revision_required"
+      },
+      {
+        "name": "Cage Migration",
+        "incidence_intervention": "0.3% (2 of 573)",
+        "incidence_control": "N/A",
+        "p_value": "Not provided",
+        "severity": "revision_required"
+      },
+      {
+        "name": "Pseudarthrosis",
+        "incidence_intervention": "6.8%",
+        "incidence_control": "N/A",
+        "p_value": "Not provided",
+        "severity": "revision_required"
+      }
+    ]
+  },
+  "important_citations": [
+    {
+      "authors": "Not extracted from provided text",
+      "year": "Not provided",
+      "context": "supports_result",
+      "section": "background",
+      "citation_text": "Recent reports of postoperative radiculitis, bone osteolysis, and symptomatic ectopic bone formation after recombinant human bone morphogenetic protein-2 (rhBMP-2) use in transforaminal lumbar interbody fusions (TLIFs) are a cause for concern.",
+      "importance_reason": "Establishes the clinical problem and justification for the study",
+      "outcome_comparison": "Complications of rhBMP-2",
+      "direction_match": true
+    }
+  ],
+  "chunks": [
+    {
+      "content": "BACKGROUND CONTEXT: Recent reports of postoperative radiculitis, bone osteolysis, and symptomatic ectopic bone formation after recombinant human bone morphogenetic protein-2 (rhBMP-2) use in transforaminal lumbar interbody fusions (TLIFs) are a cause for concern.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Recent clinical concerns regarding rhBMP-2-related complications in TLIF procedures motivate this investigation.",
+      "keywords": [
+        "rhBMP-2",
+        "TLIF",
+        "ectopic bone formation",
+        "osteolysis",
+        "radiculitis"
+      ],
+      "statistics": {
+        "p_value": "Not applicable",
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "Not applicable",
+          "ci_lower": "Not applicable",
+          "ci_upper": "Not applicable",
+          "label": "Background statement"
+        },
+        "additional": "No statistical data"
+      }
+    },
+    {
+      "content": "PURPOSE: To determine the clinical and radiographic complications associated with BMP utilization in a minimally invasive transforaminal lumbar interbody fusion (MIS-TLIF) environment.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Study aims to evaluate BMP-related complications in the MIS-TLIF setting.",
+      "keywords": [
+        "BMP-2",
+        "MIS-TLIF",
+        "complications",
+        "radiographic",
+        "clinical outcomes"
+      ],
+      "statistics": {
+        "p_value": "Not applicable",
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "Not applicable",
+          "ci_lower": "Not applicable",
+          "ci_upper": "Not applicable",
+          "label": "Study objective"
+        },
+        "additional": "No statistical data"
+      }
+    },
+    {
+      "content": "STUDY DESIGN/SETTING: Retrospective clinical case series at a single institution. PATIENT SAMPLE: Five hundred seventy-three consecutive patients undergoing an MIS-TLIF.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Retrospective single-center case series of 573 consecutive MIS-TLIF patients.",
+      "keywords": [
+        "retrospective",
+        "case series",
+        "single-center",
+        "MIS-TLIF",
+        "consecutive patients"
+      ],
+      "statistics": {
+        "p_value": "Not applicable",
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "573",
+          "ci_lower": "Not applicable",
+          "ci_upper": "Not applicable",
+          "label": "Sample size n=573"
+        },
+        "additional": "Single surgeon, 2007-2010"
+      }
+    },
+    {
+      "content": "OUTCOME MEASURES: Reoperation rates and total costs associated with complications of rhBMP-2 use and pseudarthrosis.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Primary outcomes include reoperation rates and cost analysis of BMP-related complications.",
+      "keywords": [
+        "reoperation rates",
+        "costs",
+        "rhBMP-2",
+        "pseudarthrosis",
+        "complications"
+      ],
+      "statistics": {
+        "p_value": "Not applicable",
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "Not applicable",
+          "ci_lower": "Not applicable",
+          "ci_upper": "Not applicable",
+          "label": "Outcome measures"
+        },
+        "additional": "Health economics focus"
+      }
+    },
+    {
+      "content": "All patients underwent an MIS laminectomy with bilateral facetectomy, single TLIF cage, unilateral pedicle screw fixation, and 12 mg (large kit) or 4.2 mg (small kit) of rhBMP-2. The BMP-2 collagen-soaked sponge was placed anteriorly in the disc space, followed by local bone graft, and then the cage was filled only with local bone and no BMP-2.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Standardized surgical technique involved MIS laminectomy, bilateral facetectomy, unilateral fixation, with BMP-2 in disc space anteriorly and local bone in cage.",
+      "keywords": [
+        "MIS laminectomy",
+        "bilateral facetectomy",
+        "unilateral pedicle screw",
+        "rhBMP-2",
+        "disc space placement"
+      ],
+      "statistics": {
+        "p_value": "Not applicable",
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "Not applicable",
+          "ci_lower": "Not applicable",
+          "ci_upper": "Not applicable",
+          "label": "Surgical technique"
+        },
+        "additional": "BMP dosages: 12 mg (large kit) or 4.2 mg (small kit)"
+      }
+    },
+    {
+      "content": "Patients were evaluated at 6 months and 1 year with computed tomography (CT) scan. Those demonstrating neuroforaminal bone growth, osteolysis/cage migration, or pseudarthrosis were reviewed, and cost data including direct cost/procedure for both index and revision surgeries were collected.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Follow-up protocol included CT imaging at 6 months and 1 year with identification of complications and cost tracking.",
+      "keywords": [
+        "CT imaging",
+        "follow-up",
+        "neuroforaminal bone growth",
+        "pseudarthrosis",
+        "cost analysis"
+      ],
+      "statistics": {
+        "p_value": "Not applicable",
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "Not applicable",
+          "ci_lower": "Not applicable",
+          "ci_upper": "Not applicable",
+          "label": "Follow-up protocol"
+        },
+        "additional": "Timepoints: 6 months, 1 year"
+      }
+    },
+    {
+      "content": "Of the 573 patients, 10 (1.7%) underwent 15 additional procedures based on recalcitrant radiculopathy and CT evidence of neuroforaminal bone growth, vertebral body osteolysis, and/or cage migration.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "1.7% of patients required reoperation for neuroforaminal bone growth with radiculopathy.",
+      "keywords": [
+        "neuroforaminal bone growth",
+        "radiculopathy",
+        "reoperation",
+        "osteolysis",
+        "cage migration"
+      ],
+      "statistics": {
+        "p_value": "Not provided",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "incidence_rate",
+          "value": "1.7",
+          "ci_lower": "Not provided",
+          "ci_upper": "Not provided",
+          "label": "1.7% (10/573 patients)"
+        },
+        "additional": "15 additional procedures performed, mean baseline n=573"
+      }
+    },
+    {
+      "content": "Thirty-nine patients (6.8%) underwent reoperation for clinically symptomatic pseudarthrosis.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "6.8% of patients required reoperation for symptomatic pseudarthrosis.",
+      "keywords": [
+        "pseudarthrosis",
+        "reoperation",
+        "symptomatic",
+        "fusion failure"
+      ],
+      "statistics": {
+        "p_value": "Not provided",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "incidence_rate",
+          "value": "6.8",
+          "ci_lower": "Not provided",
+          "ci_upper": "Not provided",
+          "label": "6.8% (39/573 patients)"
+        },
+        "additional": "Symptomatic cases requiring revision"
+      }
+    },
+    {
+      "content": "Bone overgrowth was associated with nerve impingement and radiculopathy in all 10 patients (small kit, n=9; large kit, n=1).",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "All 10 patients with neuroforaminal bone growth developed radiculopathy, predominantly in small kit group.",
+      "keywords": [
+        "bone overgrowth",
+        "nerve impingement",
+        "radiculopathy",
+        "small kit",
+        "large kit"
+      ],
+      "statistics": {
+        "p_value": "Not provided",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "incidence_rate",
+          "value": "100",
+          "ci_lower": "Not provided",
+          "ci_upper": "Not provided",
+          "label": "100% (10/10) radiculopathy; 90% (9/10) small kit vs 10% (1/10) large kit"
+        },
+        "additional": "Strong association between bone overgrowth and radiculopathy"
+      }
+    },
+    {
+      "content": "Osteolysis and cage migration occurred in 2 (20%) of these same 10 patients.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "20% of patients with neuroforaminal bone growth also developed osteolysis and cage migration.",
+      "keywords": [
+        "osteolysis",
+        "cage migration",
+        "vertebral body",
+        "complication"
+      ],
+      "statistics": {
+        "p_value": "Not provided",
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "incidence_rate",
+          "value": "20",
+          "ci_lower": "Not provided",
+          "ci_upper": "Not provided",
+          "label": "20% (2/10 patients with bone growth)"
+        },
+        "additional": "Co-occurrence with neuroforaminal bone growth"
+      }
+    },
+    {
+      "content": "Average total costs were calculated per procedure ($19,224), and the costs for reoperation equaled $14,785 per encounter for neuroforaminal bone growth and $20,267 for pseudarthrosis.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Average initial procedure cost $19,224; revision costs $14,785 for bone growth complications and $20,267 for pseudarthrosis.",
+      "keywords": [
+        "costs",
+        "reoperation",
+        "neuroforaminal bone growth",
+        "pseudarthrosis",
+        "health economics"
+      ],
+      "statistics": {
+        "p_value": "Not applicable",
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "cost",
+          "value": "19224",
+          "ci_lower": "14785",
+          "ci_upper": "20267",
+          "label": "Initial: $19,224; Revision: $14,785 (bone growth) to $20,267 (pseudarthrosis)"
+        },
+        "additional": "USD; substantive financial burden documented"
+      }
+    },
+    {
+      "content": "A retrospective review of 610 consecutive patients undergoing an MIS-TLIF (2007-2010) by a single surgeon at our institution was performed (mean age 48.7 years, range 26-82 years).",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Retrospective cohort of 610 MIS-TLIF patients from 2007-2010 with mean age 48.7 years performed by single surgeon.",
+      "keywords": [
+        "retrospective",
+        "MIS-TLIF",
+        "single surgeon",
+        "consecutive patients",
+        "2007-2010"
+      ],
+      "statistics": {
+        "p_value": "Not applicable",
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "610",
+          "ci_lower": "Not applicable",
+          "ci_upper": "Not applicable",
+          "label": "n=610 reviewed; n=573 included in analysis"
+        },
+        "additional": "Mean age 48.7 years (range 26-82)"
+      }
+    },
+    {
+      "content": "CONCLUSIONS: Symptomatic ectopic bone formation, vertebral osteolysis, and pseudarthrosis are recognized complications with the use of rhBMP-2 in MIS-TLIFs. Potential causes include improper dosage and a closed space that prevents the egress of the postoperative BMP-2 fluid collection. Management of these complications has a substantial cost for the patient and the surgeon and needs to be considered with the off-label use of rhBMP-2.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "rhBMP-2 use in MIS-TLIF is associated with significant complications including ectopic bone formation, osteolysis, and pseudarthrosis, with substantial cost implications requiring careful risk-benefit consideration.",
+      "keywords": [
+        "ectopic bone formation",
+        "osteolysis",
+        "pseudarthrosis",
+        "rhBMP-2",
+        "MIS-TLIF",
+        "off-label use",
+        "costs"
+      ],
+      "statistics": {
+        "p_value": "Not applicable",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "Not applicable",
+          "ci_lower": "Not applicable",
+          "ci_upper": "Not applicable",
+          "label": "Summary statement of complications"
+        },
+        "additional": "Causative factors identified: improper dosage, closed space preventing fluid egress"
+      }
+    },
+    {
+      "content": "The study provides detailed documentation of patient demographics and outcomes: Total cohort 573 patients with mean age 48.7 years (range 26-82). Neuroforaminal bone growth occurred in 10 patients (1.7%), with 9 patients (90%) receiving small kit BMP-2 (4.2 mg) and 1 patient (10%) receiving large kit (12 mg). All 10 bone growth patients developed radiculopathy requiring 15 procedures total. Pseudarthrosis occurred in 39 patients (6.8%). Osteolysis and cage migration occurred in 2 of the 10 bone growth patients (20%).",
+      "content_type": "table",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Outcomes summary: n=573 total; neuroforaminal bone growth 1.7% (10 patients, 90% small kit dosage); pseudarthrosis 6.8% (39 patients); combined osteolysis/migration 20% (2 of 10 bone growth cases).",
+      "keywords": [
+        "outcomes",
+        "demographics",
+        "complication rates",
+        "BMP dosage",
+        "reoperation"
+      ],
+      "statistics": {
+        "p_value": "Not applicable",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "incidence_rate",
+          "value": "1.7",
+          "ci_lower": "Not applicable",
+          "ci_upper": "Not applicable",
+          "label": "Neuroforaminal bone growth 1.7% (10/573); Pseudarthrosis 6.8% (39/573)"
+        },
+        "additional": "Mean age 48.7±(26-82); 15 total procedures for 10 bone growth patients"
+      }
+    },
+    {
+      "content": "The study contrasts BMP-2 dosage between patients developing neuroforaminal bone growth complications. Of the 10 patients requiring reoperation for bone overgrowth, 9 (90%) received the small kit BMP-2 preparation containing 4.2 mg, while only 1 (10%) received the large kit containing 12 mg. This finding suggests that improper dosage selection may contribute to excessive osteoinduction. The small kit was predominantly associated with symptomatic ectopic bone formation despite its lower absolute dosage, possibly due to different fluid dynamics and BMP-2 concentration in the closed intervertebral disc space.",
+      "content_type": "figure",
+      "section_type": "results",
+      "tier": "tier2",
+      "is_key_finding": true,
+      "summary": "BMP-2 dosage impact on ectopic bone formation: 90% of bone overgrowth cases used small kit (4.2 mg) versus 10% large kit (12 mg).",
+      "keywords": [
+        "BMP-2 dosage",
+        "small kit",
+        "large kit",
+        "ectopic bone",
+        "osteoinduction"
+      ],
+      "statistics": {
+        "p_value": "Not provided",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "proportion",
+          "value": "90",
+          "ci_lower": "Not provided",
+          "ci_upper": "Not provided",
+          "label": "90% (9/10) small kit vs 10% (1/10) large kit in bone growth cases"
+        },
+        "additional": "Dosage disparity suggests improper kit selection as contributing factor"
+      }
+    },
+    {
+      "content": "Cost analysis demonstrates substantial financial impact of BMP-2 complications. Initial MIS-TLIF procedures averaged $19,224 per case. Revision surgeries for neuroforaminal bone growth complications cost $14,785 per encounter, while pseudarthrosis revisions averaged $20,267 per case. With 10 patients requiring 15 procedures for bone growth (total additional cost approximately $221,775) and 39 patients requiring pseudarthrosis revision (total additional cost approximately $790,413), cumulative costs for managing these complications become substantial. These figures underscore the significant financial burden associated with off-label BMP-2 use and the need for careful patient selection and dosage protocols.",
+      "content_type": "figure",
+      "section_type": "results",
+      "tier": "tier2",
+      "is_key_finding": true,
+      "summary": "Cost impact analysis: Initial procedures $19,224; revisions $14,785-$20,267; cumulative complication costs over $1 million for entire cohort.",
+      "keywords": [
+        "costs",
+        "revision surgery",
+        "financial burden",
+        "health economics",
+        "BMP-2"
+      ],
+      "statistics": {
+        "p_value": "Not applicable",
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "cost",
+          "value": "19224",
+          "ci_lower": "14785",
+          "ci_upper": "20267",
+          "label": "Initial $19,224; Revisions: $14,785 (bone growth), $20,267 (pseudarthrosis)"
+        },
+        "additional": "Cumulative additional costs: ~$221,775 (bone growth) + ~$790,413 (pseudarthrosis) = >$1M total"
+      }
+    },
+    {
+      "content": "The authors conclude that rhBMP-2 utilization in the MIS-TLIF environment presents significant risks that warrant careful consideration. Symptomatic ectopic bone formation develops in 1.7% of patients, requiring revision surgery. Pseudarthrosis rates of 6.8% suggest additional fusion complications. The predominance of small kit BMP-2 in bone overgrowth cases points to improper dosage selection as a likely contributing factor. The closed intervertebral disc space environment may prevent adequate egress of BMP-2 fluid collection, leading to excessive osteoinduction. Given substantial revision costs and potential for nerve injury from bone overgrowth, off-label BMP-2 use requires careful risk-benefit analysis and protocol refinement to optimize dosage delivery and patient outcomes.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": true,
+      "summary": "rhBMP-2 complications in MIS-TLIF warrant careful consideration due to ectopic bone formation, pseudarthrosis, and substantial revision costs.",
+      "keywords": [
+        "BMP-2",
+        "complications",
+        "ectopic bone",
+        "pseudarthrosis",
+        "risk-benefit",
+        "off-label use"
+      ],
+      "statistics": {
+        "p_value": "Not applicable",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "Not applicable",
+          "ci_lower": "Not applicable",
+          "ci_upper": "Not applicable",
+          "label": "Complication rates: 1.7% ectopic bone, 6.8% pseudarthrosis"
+        },
+        "additional": "Mechanism: closed space preventing BMP-2 fluid egress; dosage optimization needed"
+      }
+    }
+  ]
+}

@@ -1,0 +1,631 @@
+{
+  "metadata": {
+    "title": "Complications Associated with rhBMP-2 in Lumbar and Cervical Spine Fusion: A Meta-Analysis",
+    "authors": [
+      "Julia Vavken",
+      "Alexander Mameghani",
+      "Patrick Vavken",
+      "Stefan Schaeren"
+    ],
+    "year": 2016,
+    "journal": "European spine journal : official publication of the European Spine Society, the European Spinal Deformity Society, and the European Section of the Cervical Spine Research Society",
+    "doi": "10.1007/s00586-015-3870-9",
+    "pmid": "25772092",
+    "abstract": "PURPOSE: To quantitatively synthesize the available best evidence for general complications, heterotopic ossification (HO), retrograde ejaculation, cervical swelling, and cancer rates with the use of rhBMP-2 in lumbar and cervical spine fusion. METHODS: We conducted an online search for relevant controlled trials and extracted data on the abovementioned endpoints. Studies were eligible for inclusion if they reported on spinal fusion with rhBMP-2 in humans. Publication bias and heterogeneity were assessed mathematically. These data were synthesized in a meta-analysis using DerSimonian-Laird random effects modeling to calculate pooled odds ratios. RESULTS: We identified 26 studies reporting on a total of 184,324 patients (28,815 experimental, 155,509 controls) with a mean age of 51.1 ± 1.8 years. There was a significantly higher risk of general complications with rhBMP-2 compared to iliac crest bone graft (ICBG) with an odds ratio (OR) of 1.78 (95 %CI 1.20-2.63), (p = 0.004). The odds ratio for HO was 5.57 (95 %CI 1.90-16.36), (p = 0.002), for retrograde ejaculation 3.31 (95 %CI 1.20-9.09), (p = 0.020), and for cervical swelling 4.72 (95 %CI 1.42-15.67), (p = 0.011), all significantly higher in the rhBMP-2 group. The pooled odds ratio for new onset of tumor was 1.35 (95 %CI 0.93-1.96), which represents no statistically significant difference between the groups (p = 0.111). CONCLUSION: rhBMP-2 is associated with a higher rate of general complications as well as retrograde ejaculation, HO, and cervical tissue swelling in spine fusion. There is a slightly increased risk of new onset of tumors, however, without statistical significance.",
+    "study_type": "meta-analysis",
+    "study_design": "randomized",
+    "evidence_level": "1a",
+    "sample_size": 184324,
+    "centers": "multi-center",
+    "blinding": "open-label",
+    "mesh_terms": [
+      "Bone Morphogenetic Protein 2",
+      "Humans",
+      "Middle Aged",
+      "Neoplasms",
+      "Ossification, Heterotopic",
+      "Recombinant Proteins",
+      "Spinal Fusion",
+      "Transforming Growth Factor beta"
+    ],
+    "publication_types": [
+      "Journal Article"
+    ]
+  },
+  "spine_metadata": {
+    "sub_domains": [
+      "Degenerative"
+    ],
+    "surgical_approach": [
+      "Open"
+    ],
+    "anatomy_level": "L1-S1, C3-C7",
+    "anatomy_region": "lumbar, cervical",
+    "pathology": [
+      "Degenerative disc disease",
+      "Spondylolisthesis",
+      "Spinal stenosis",
+      "Cervical myelopathy"
+    ],
+    "interventions": [
+      "TLIF",
+      "PLIF",
+      "ACDF",
+      "Anterior fusion",
+      "Posterior fusion"
+    ],
+    "comparison_type": "vs_conventional",
+    "follow_up_months": null,
+    "main_conclusion": "rhBMP-2 is associated with significantly higher rates of general complications, heterotopic ossification, retrograde ejaculation, and cervical swelling compared to iliac crest bone graft in spine fusion, though cancer risk increase was not statistically significant.",
+    "pico": {
+      "population": "Patients undergoing lumbar and cervical spine fusion (mean age 51.1 ± 1.8 years)",
+      "intervention": "Recombinant human bone morphogenetic protein-2 (rhBMP-2)",
+      "comparison": "Iliac crest bone graft (ICBG)",
+      "outcome": "General complications, heterotopic ossification, retrograde ejaculation, cervical swelling, tumor incidence"
+    },
+    "patient_cohorts": [
+      {
+        "name": "rhBMP-2 Group",
+        "cohort_type": "intervention",
+        "sample_size": 28815,
+        "mean_age": "51.1 ± 1.8",
+        "female_percentage": null,
+        "diagnosis": "Degenerative spine disease requiring fusion",
+        "comorbidities": [],
+        "ASA_score": null,
+        "BMI": null
+      },
+      {
+        "name": "ICBG Control Group",
+        "cohort_type": "control",
+        "sample_size": 155509,
+        "mean_age": "51.1 ± 1.8",
+        "female_percentage": null,
+        "diagnosis": "Degenerative spine disease requiring fusion",
+        "comorbidities": [],
+        "ASA_score": null,
+        "BMI": null
+      }
+    ],
+    "followups": [
+      {
+        "name": "Overall follow-up",
+        "timepoint_months": null,
+        "completeness_rate": null,
+        "outcomes_at_timepoint": [
+          "General complications",
+          "Heterotopic ossification",
+          "Retrograde ejaculation",
+          "Cervical swelling",
+          "Tumor incidence"
+        ]
+      }
+    ],
+    "costs": [],
+    "quality_metrics": [
+      {
+        "name": "Heterogeneity Assessment",
+        "assessment_tool": "Publication bias and heterogeneity analysis",
+        "overall_score": null,
+        "overall_rating": "moderate",
+        "domain_scores": {}
+      }
+    ],
+    "outcomes": [
+      {
+        "name": "General Complications",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "rhBMP-2 group",
+        "value_control": "ICBG group",
+        "value_difference": null,
+        "p_value": "0.004",
+        "confidence_interval": "95% CI: 1.20-2.63",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "1.78",
+          "ci_lower": "1.20",
+          "ci_upper": "2.63",
+          "label": "OR 1.78 (95% CI: 1.20-2.63)"
+        },
+        "timepoint": "final",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "Heterotopic Ossification",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "rhBMP-2 group",
+        "value_control": "ICBG group",
+        "value_difference": null,
+        "p_value": "0.002",
+        "confidence_interval": "95% CI: 1.90-16.36",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "5.57",
+          "ci_lower": "1.90",
+          "ci_upper": "16.36",
+          "label": "OR 5.57 (95% CI: 1.90-16.36)"
+        },
+        "timepoint": "final",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "Retrograde Ejaculation",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "rhBMP-2 group",
+        "value_control": "ICBG group",
+        "value_difference": null,
+        "p_value": "0.020",
+        "confidence_interval": "95% CI: 1.20-9.09",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "3.31",
+          "ci_lower": "1.20",
+          "ci_upper": "9.09",
+          "label": "OR 3.31 (95% CI: 1.20-9.09)"
+        },
+        "timepoint": "final",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "Cervical Swelling",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "rhBMP-2 group",
+        "value_control": "ICBG group",
+        "value_difference": null,
+        "p_value": "0.011",
+        "confidence_interval": "95% CI: 1.42-15.67",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "4.72",
+          "ci_lower": "1.42",
+          "ci_upper": "15.67",
+          "label": "OR 4.72 (95% CI: 1.42-15.67)"
+        },
+        "timepoint": "final",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "New Onset Tumor",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "rhBMP-2 group",
+        "value_control": "ICBG group",
+        "value_difference": null,
+        "p_value": "0.111",
+        "confidence_interval": "95% CI: 0.93-1.96",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "1.35",
+          "ci_lower": "0.93",
+          "ci_upper": "1.96",
+          "label": "OR 1.35 (95% CI: 0.93-1.96)"
+        },
+        "timepoint": "final",
+        "is_significant": false,
+        "direction": "unchanged"
+      }
+    ],
+    "complications": [
+      {
+        "name": "General Complications",
+        "incidence_intervention": "Higher in rhBMP-2 group",
+        "incidence_control": "Lower in ICBG group",
+        "p_value": "0.004",
+        "severity": "variable"
+      },
+      {
+        "name": "Heterotopic Ossification",
+        "incidence_intervention": "5.57x higher in rhBMP-2",
+        "incidence_control": "Baseline ICBG",
+        "p_value": "0.002",
+        "severity": "minor"
+      },
+      {
+        "name": "Retrograde Ejaculation",
+        "incidence_intervention": "3.31x higher in rhBMP-2",
+        "incidence_control": "Baseline ICBG",
+        "p_value": "0.020",
+        "severity": "major"
+      },
+      {
+        "name": "Cervical Swelling",
+        "incidence_intervention": "4.72x higher in rhBMP-2",
+        "incidence_control": "Baseline ICBG",
+        "p_value": "0.011",
+        "severity": "minor"
+      },
+      {
+        "name": "New Onset Tumor",
+        "incidence_intervention": "1.35x higher in rhBMP-2",
+        "incidence_control": "Baseline ICBG",
+        "p_value": "0.111",
+        "severity": "major"
+      }
+    ]
+  },
+  "important_citations": [],
+  "chunks": [
+    {
+      "content": "PURPOSE: To quantitatively synthesize the available best evidence for general complications, heterotopic ossification (HO), retrograde ejaculation, cervical swelling, and cancer rates with the use of rhBMP-2 in lumbar and cervical spine fusion.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Meta-analysis conducted to evaluate complications associated with rhBMP-2 use in spinal fusion procedures.",
+      "keywords": [
+        "rhBMP-2",
+        "spinal fusion",
+        "complications",
+        "heterotopic ossification",
+        "meta-analysis"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "METHODS: We conducted an online search for relevant controlled trials and extracted data on the abovementioned endpoints. Studies were eligible for inclusion if they reported on spinal fusion with rhBMP-2 in humans. Publication bias and heterogeneity were assessed mathematically. These data were synthesized in a meta-analysis using DerSimonian-Laird random effects modeling to calculate pooled odds ratios.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Systematic literature search and meta-analysis using random effects modeling to calculate pooled odds ratios.",
+      "keywords": [
+        "meta-analysis",
+        "DerSimonian-Laird",
+        "odds ratios",
+        "heterogeneity",
+        "controlled trials"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "A total of 26 studies were identified in this meta-analysis reporting on 184,324 patients, consisting of 28,815 in the experimental rhBMP-2 group and 155,509 in the control ICBG group, with a mean age of 51.1 ± 1.8 years across all studies.",
+      "content_type": "text",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Meta-analysis included 26 studies with 184,324 total patients comparing rhBMP-2 versus iliac crest bone graft.",
+      "keywords": [
+        "sample size",
+        "meta-analysis",
+        "patient population",
+        "rhBMP-2",
+        "ICBG"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": null,
+        "additional": "26 studies, 184,324 patients (28,815 experimental, 155,509 control), mean age 51.1 ± 1.8 years"
+      }
+    },
+    {
+      "content": "There was a significantly higher risk of general complications with rhBMP-2 compared to iliac crest bone graft (ICBG) with an odds ratio (OR) of 1.78 (95% CI 1.20-2.63), (p = 0.004).",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "rhBMP-2 significantly increases general complications compared to ICBG with nearly 1.78-fold higher odds.",
+      "keywords": [
+        "general complications",
+        "rhBMP-2",
+        "ICBG",
+        "odds ratio",
+        "statistical significance"
+      ],
+      "statistics": {
+        "p_value": "0.004",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "1.78",
+          "ci_lower": "1.20",
+          "ci_upper": "2.63",
+          "label": "OR 1.78 (95% CI: 1.20-2.63)"
+        },
+        "additional": "p = 0.004"
+      }
+    },
+    {
+      "content": "The odds ratio for heterotopic ossification (HO) was 5.57 (95% CI 1.90-16.36), (p = 0.002), indicating a significantly higher risk in the rhBMP-2 group compared to ICBG control.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Heterotopic ossification risk is 5.57-fold higher with rhBMP-2 compared to ICBG, reaching statistical significance.",
+      "keywords": [
+        "heterotopic ossification",
+        "HO",
+        "rhBMP-2",
+        "odds ratio",
+        "bone formation"
+      ],
+      "statistics": {
+        "p_value": "0.002",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "5.57",
+          "ci_lower": "1.90",
+          "ci_upper": "16.36",
+          "label": "OR 5.57 (95% CI: 1.90-16.36)"
+        },
+        "additional": "p = 0.002"
+      }
+    },
+    {
+      "content": "For retrograde ejaculation, the pooled odds ratio was 3.31 (95% CI 1.20-9.09), (p = 0.020), demonstrating a significantly elevated risk in patients receiving rhBMP-2 compared to ICBG.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Retrograde ejaculation occurs 3.31-fold more frequently with rhBMP-2 treatment versus conventional ICBG approach.",
+      "keywords": [
+        "retrograde ejaculation",
+        "rhBMP-2",
+        "sexual dysfunction",
+        "complication",
+        "anterior approach"
+      ],
+      "statistics": {
+        "p_value": "0.020",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "3.31",
+          "ci_lower": "1.20",
+          "ci_upper": "9.09",
+          "label": "OR 3.31 (95% CI: 1.20-9.09)"
+        },
+        "additional": "p = 0.020"
+      }
+    },
+    {
+      "content": "The odds ratio for cervical swelling was 4.72 (95% CI 1.42-15.67), (p = 0.011), indicating a significantly higher incidence of cervical tissue swelling in the rhBMP-2 group compared to ICBG control.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Cervical swelling risk is 4.72-fold higher in rhBMP-2 patients compared to ICBG controls, statistically significant.",
+      "keywords": [
+        "cervical swelling",
+        "tissue edema",
+        "rhBMP-2",
+        "cervical fusion",
+        "complications"
+      ],
+      "statistics": {
+        "p_value": "0.011",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "4.72",
+          "ci_lower": "1.42",
+          "ci_upper": "15.67",
+          "label": "OR 4.72 (95% CI: 1.42-15.67)"
+        },
+        "additional": "p = 0.011"
+      }
+    },
+    {
+      "content": "The pooled odds ratio for new onset of tumor was 1.35 (95% CI 0.93-1.96), which represents no statistically significant difference between the rhBMP-2 and ICBG groups (p = 0.111).",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Cancer incidence showed a 1.35-fold trend toward increased risk with rhBMP-2 but did not reach statistical significance.",
+      "keywords": [
+        "cancer",
+        "tumor",
+        "rhBMP-2",
+        "malignancy",
+        "safety concern"
+      ],
+      "statistics": {
+        "p_value": "0.111",
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "1.35",
+          "ci_lower": "0.93",
+          "ci_upper": "1.96",
+          "label": "OR 1.35 (95% CI: 0.93-1.96)"
+        },
+        "additional": "p = 0.111, not statistically significant"
+      }
+    },
+    {
+      "content": "CONCLUSION: rhBMP-2 is associated with a higher rate of general complications as well as retrograde ejaculation, HO, and cervical tissue swelling in spine fusion. There is a slightly increased risk of new onset of tumors, however, without statistical significance.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "rhBMP-2 shows significantly elevated complication rates including HO, retrograde ejaculation, and cervical swelling, with borderline cancer risk increase.",
+      "keywords": [
+        "rhBMP-2",
+        "complications",
+        "safety",
+        "adverse events",
+        "spine fusion"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Summary of Complication Rates: The meta-analysis demonstrates that rhBMP-2 usage in spinal fusion is associated with significantly higher odds ratios across multiple adverse event categories. General complications were 1.78-fold higher (p=0.004), heterotopic ossification was 5.57-fold higher (p=0.002), retrograde ejaculation was 3.31-fold higher (p=0.020), and cervical swelling was 4.72-fold higher (p=0.011) in the rhBMP-2 group compared to ICBG controls. Only tumor incidence failed to reach statistical significance with an OR of 1.35 (p=0.111).",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Comprehensive summary of all major complication outcomes showing rhBMP-2 increases adverse events across multiple categories.",
+      "keywords": [
+        "complication rates",
+        "adverse events",
+        "rhBMP-2",
+        "safety profile",
+        "outcomes comparison"
+      ],
+      "statistics": {
+        "p_value": "0.004-0.111",
+        "is_significant": true,
+        "effect_measure": null,
+        "additional": "Multiple outcomes: General complications OR 1.78, HO OR 5.57, Retrograde ejaculation OR 3.31, Cervical swelling OR 4.72, Tumors OR 1.35 (NS)"
+      }
+    },
+    {
+      "content": "Heterotopic ossification (HO) represents ectopic bone formation that occurs in response to tissue trauma and inflammatory cascade activation. The 5.57-fold increase in HO with rhBMP-2 suggests that the potent osteoinductive properties of this bone morphogenetic protein may promote excessive bone formation at surgical sites, extending beyond the intended fusion sites.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Mechanism of heterotopic ossification with rhBMP-2 related to enhanced osteoinductive activity and inflammatory response.",
+      "keywords": [
+        "heterotopic ossification",
+        "ectopic bone",
+        "osteoinductive",
+        "bone morphogenetic protein",
+        "mechanism"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Retrograde ejaculation is a documented complication in anterior cervical and lumbar fusion procedures, particularly with the use of rhBMP-2. The 3.31-fold increase in retrograde ejaculation risk may be attributable to excessive soft tissue swelling, inflammation, or direct damage to the sympathetic nerve fibers that control ejaculatory function during anterior surgical approaches.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Retrograde ejaculation with rhBMP-2 likely results from excessive inflammation and soft tissue swelling in anterior fusion approaches.",
+      "keywords": [
+        "retrograde ejaculation",
+        "anterior approach",
+        "sympathetic nerves",
+        "inflammation",
+        "sexual dysfunction"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Cervical swelling following anterior cervical discectomy and fusion (ACDF) with rhBMP-2 is a recognized complication that can lead to dysphagia, respiratory compromise, and neck pain. The 4.72-fold increase in cervical swelling with rhBMP-2 suggests that the inflammatory response and tissue edema induced by this biological agent significantly exceeds that observed with conventional autogenous graft materials.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Cervical swelling with rhBMP-2 may result in significant morbidity including dysphagia and respiratory effects due to enhanced inflammatory response.",
+      "keywords": [
+        "cervical swelling",
+        "dysphagia",
+        "ACDF",
+        "inflammation",
+        "airway"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "The pooled analysis revealed that while there is a numerically increased risk of tumor development (OR 1.35) in patients treated with rhBMP-2, this difference did not achieve statistical significance (p = 0.111). This finding is important given long-standing concerns about the carcinogenic potential of bone morphogenetic proteins and their use in human subjects.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": true,
+      "summary": "Tumor risk shows a trend toward increase with rhBMP-2 but lacks statistical significance, providing some reassurance regarding carcinogenicity.",
+      "keywords": [
+        "tumor risk",
+        "carcinogenicity",
+        "rhBMP-2",
+        "oncologic safety",
+        "long-term outcomes"
+      ],
+      "statistics": {
+        "p_value": "0.111",
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "1.35",
+          "ci_lower": "0.93",
+          "ci_upper": "1.96",
+          "label": "OR 1.35 (95% CI: 0.93-1.96)"
+        },
+        "additional": "Non-significant trend"
+      }
+    },
+    {
+      "content": "Study Selection and Data Extraction: The meta-analysis included studies that met strict inclusion criteria reporting spinal fusion with rhBMP-2 in human subjects with appropriate control groups. A total of 26 studies were identified through comprehensive literature search, representing the largest pooled analysis of rhBMP-2 complications to date.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Twenty-six studies met inclusion criteria for meta-analysis, representing the most comprehensive synthesis of rhBMP-2 safety data.",
+      "keywords": [
+        "study selection",
+        "inclusion criteria",
+        "literature search",
+        "data extraction",
+        "systematic review"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Statistical Analysis Using DerSimonian-Laird: The random effects model was employed to account for expected heterogeneity among the included studies given variations in surgical techniques, patient populations, rhBMP-2 doses, and follow-up periods. This approach provides more conservative estimates of pooled odds ratios compared to fixed effects models.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Random effects modeling using DerSimonian-Laird accounts for heterogeneity among 26 studies in surgical practices and patient populations.",
+      "keywords": [
+        "DerSimonian-Laird",
+        "random effects",
+        "heterogeneity",
+        "statistical modeling",
+        "meta-analysis"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "The findings of this meta-analysis provide important evidence regarding the safety profile of rhBMP-2 in clinical spine surgery practice. Surgeons should counsel patients preoperatively about the increased risk of heterotopic ossification, retrograde ejaculation in anterior approaches, cervical swelling, and general complications when utilizing rhBMP-2 as a bone graft substitute or augmentation material.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Clinical implications emphasize importance of patient counseling regarding specific rhBMP-2 complications before surgery.",
+      "keywords": [
+        "informed consent",
+        "patient counseling",
+        "safety profile",
+        "clinical implications",
+        "preoperative discussion"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Limitations of the current meta-analysis include variability in rhBMP-2 dosing protocols across included studies, differences in surgical techniques between lumbar and cervical procedures, variable follow-up periods ranging from short-term to longer-term assessments, and potential publication bias favoring studies with significant findings. Furthermore, some complications may have been underreported in source studies.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Key limitations include heterogeneous dosing, surgical techniques, follow-up periods, and potential publication bias in included studies.",
+      "keywords": [
+        "limitations",
+        "heterogeneity",
+        "dosing variability",
+        "publication bias",
+        "underreporting"
+      ],
+      "statistics": {}
+    }
+  ]
+}

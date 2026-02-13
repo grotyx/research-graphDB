@@ -1,0 +1,704 @@
+{
+  "metadata": {
+    "title": "Neurologic Safety of Recombinant Human Bone Morphogenetic Protein-2 in Posterolateral Lumbar Fusion Complicated by Dural Tear",
+    "authors": [
+      "Steven D Glassman",
+      "Jeffrey L Gum",
+      "Charles H Crawford",
+      "Christopher B Shields",
+      "Leah Y Carreon"
+    ],
+    "year": 2011,
+    "journal": "The spine journal : official journal of the North American Spine Society",
+    "doi": "10.1016/j.spinee.2010.05.016",
+    "pmid": "20598649",
+    "abstract": "BACKGROUND CONTEXT: Potential complications related to ectopic bone formation, as seen with transforaminal lumbar interbody fusion, have always been a concern with the use of bone morphogenetic proteins (BMPs). Although less clearly anticipated, complications related to the proinflammatory effects of recombinant human bone morphogenetic protein-2 (rhBMP-2), such as swelling and edema in the cervical spine, have been observed as well. Until recently, risks related to intradural exposure to BMP have not been widely considered. However, a recent animal study reports \"in the presence of a SCI and/or dural tear, rhBMP-2 diffuses intrathecally and activates a signaling cascade in all major CNS cell types, which may increase glial scarring and impact neurologic recovery.\" Although this study was conducted at the spinal cord level, the observation generates obvious concerns for the much more common scenario of a dural tear associated with lumbar decompression and fusion. PURPOSE: The purpose of this study was to look for any indication of neurologic injury or impaired neurologic recovery in patients treated with rhBMP-2 for lumbar fusion complicated by dural tear. STUDY DESIGN/SETTING: Propensity score matched case-control study. PATIENT SAMPLE: From consecutive series of 1,037 patients who underwent decompression and posterolateral lumbar spine fusion using rhBMP-2/absorbable collagen sponge between 2003 and 2006, intraoperative dural tear was reported in 58 cases (5.59%). OUTCOME MEASURES: Preoperative and 2-year postoperative Oswestry Disability Index, Short Form-36 (SF-36), leg pain, and back pain scores. METHODS: Fifty-eight cases in which decompression and posterolateral spinal fusion were complicated by dural tear, where propensity score matched to a group without dural tear, based on age, smoking status, number of surgical levels and preoperative Oswestry Disability Index, SF-36 Physical Composite Summary score, SF-36 Mental Composite Summary (MCS) score, and back and leg pain scores. The patients with a dural tear were then compared with the matched cohort with regard to baseline and 2-year patient-based outcome measures. Particular attention was given to indices of leg pain that might reflect an influence of rhBMP-2 on neurologic function or impaired neurologic recovery. RESULTS: No patient in the group with a dural tear and three patients in the group without a dural tear complained of new onset radiculopathy postoperatively, with one requiring oral steroids. The radiculopathy resolved within 6 months postoperatively in all three patients. Statistically significant improvement was observed in all health-related quality of life (HRQOL) measures, except SF-36 MCS, at both 1 and 2 years postoperatively in both groups. There were no significant differences in any HRQOL parameter between the groups with or without a dural tear at either 1 or 2 years postoperatively. In particular, the leg pain improvement, 2.2 points in the group with a dural tear and 2.4 points in the group without a dural tear, was statistically equivalent. CONCLUSIONS: The data suggests fairly convincingly that the presence of a repairable dural tear is not necessarily an impediment to the use of rhBMP-2 in posterolateral fusion. Further studies are needed to address the less common clinical scenario of BMP use in conjunction with spinal cord injury, as studied in the animal model that prompted this investigation. Finally, avoidance of BMP use may still be prudent in the setting of an unrepairable dural tear.",
+    "study_type": "case-control",
+    "study_design": "non-randomized",
+    "evidence_level": "3",
+    "sample_size": 116,
+    "centers": "single-center",
+    "blinding": "none",
+    "mesh_terms": [
+      "Bone Morphogenetic Protein 2",
+      "Case-Control Studies",
+      "Dura Mater",
+      "Female",
+      "Humans",
+      "Male",
+      "Middle Aged",
+      "Postoperative Complications",
+      "Recombinant Proteins",
+      "Recovery of Function",
+      "Retrospective Studies",
+      "Spinal Fusion",
+      "Transforming Growth Factor beta"
+    ],
+    "publication_types": [
+      "Journal Article"
+    ]
+  },
+  "spine_metadata": {
+    "sub_domains": [
+      "Degenerative",
+      "Revision"
+    ],
+    "surgical_approach": [
+      "Open",
+      "Minimally Invasive"
+    ],
+    "anatomy_level": "Lumbar (multi-level)",
+    "anatomy_region": "lumbar",
+    "pathology": [
+      "Lumbar stenosis",
+      "Lumbar disc herniation",
+      "Dural tear (intraoperative complication)"
+    ],
+    "interventions": [
+      "Posterolateral fusion",
+      "Laminectomy",
+      "rhBMP-2/ACS",
+      "Decompression"
+    ],
+    "comparison_type": "vs_control",
+    "follow_up_months": 24,
+    "main_conclusion": "Repairable dural tear during posterolateral lumbar fusion with rhBMP-2 does not result in neurologic injury or impaired recovery. BMP use remains safe in this setting, though caution is advised for unrepairable dural tears.",
+    "pico": {
+      "population": "Adults (age-matched cohort) undergoing posterolateral lumbar decompression and fusion with rhBMP-2/ACS between 2003-2006; 58 patients with intraoperative dural tear matched to 58 without dural tear",
+      "intervention": "Posterolateral lumbar fusion with rhBMP-2/absorbable collagen sponge (ACS) in patients with dural tear",
+      "comparison": "Posterolateral lumbar fusion with rhBMP-2/ACS without dural tear",
+      "outcome": "ODI, SF-36 (Physical and Mental Composite Scores), leg pain, back pain, new onset radiculopathy"
+    },
+    "patient_cohorts": [
+      {
+        "name": "Dural Tear Group",
+        "cohort_type": "intervention",
+        "sample_size": 58,
+        "mean_age": null,
+        "female_percentage": null,
+        "diagnosis": "Lumbar stenosis and/or disc herniation with intraoperative dural tear",
+        "comorbidities": null,
+        "ASA_score": null,
+        "BMI": null
+      },
+      {
+        "name": "No Dural Tear Group (Propensity-Matched Control)",
+        "cohort_type": "control",
+        "sample_size": 58,
+        "mean_age": null,
+        "female_percentage": null,
+        "diagnosis": "Lumbar stenosis and/or disc herniation without intraoperative dural tear",
+        "comorbidities": null,
+        "ASA_score": null,
+        "BMI": null
+      }
+    ],
+    "followups": [
+      {
+        "name": "1-year",
+        "timepoint_months": 12,
+        "completeness_rate": null,
+        "outcomes_at_timepoint": [
+          "ODI",
+          "SF-36 PCS",
+          "SF-36 MCS",
+          "Leg pain",
+          "Back pain"
+        ]
+      },
+      {
+        "name": "2-year",
+        "timepoint_months": 24,
+        "completeness_rate": null,
+        "outcomes_at_timepoint": [
+          "ODI",
+          "SF-36 PCS",
+          "SF-36 MCS",
+          "Leg pain",
+          "Back pain",
+          "New onset radiculopathy"
+        ]
+      }
+    ],
+    "costs": [],
+    "quality_metrics": [
+      {
+        "name": "Study Design Quality",
+        "assessment_tool": "Case-Control (Propensity Score Matched)",
+        "overall_score": null,
+        "overall_rating": "moderate",
+        "domain_scores": {
+          "selection": "moderate",
+          "matching": "high",
+          "outcome_assessment": "moderate"
+        }
+      }
+    ],
+    "outcomes": [
+      {
+        "name": "New Onset Radiculopathy",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "0/58 (0%)",
+        "value_control": "3/58 (5.2%)",
+        "value_difference": "-5.2%",
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "incidence",
+          "value": "0",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "0% in dural tear group vs 5.2% in control"
+        },
+        "timepoint": "postop",
+        "is_significant": false,
+        "direction": "improved"
+      },
+      {
+        "name": "Leg Pain (Visual Analog Scale or numeric score)",
+        "category": "pain",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "2.2 point improvement",
+        "value_control": "2.4 point improvement",
+        "value_difference": "-0.2",
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "statistically equivalent",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Leg pain improvement equivalent between groups (2.2 vs 2.4 points)"
+        },
+        "timepoint": "2yr",
+        "is_significant": false,
+        "direction": "improved"
+      },
+      {
+        "name": "Oswestry Disability Index (ODI)",
+        "category": "function",
+        "baseline": "propensity-matched baseline",
+        "final": null,
+        "value_intervention": "Significant improvement",
+        "value_control": "Significant improvement",
+        "value_difference": "No significant difference",
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "no difference",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Both groups showed statistically significant ODI improvement at 1 and 2 years, with no differences between groups"
+        },
+        "timepoint": "1yr/2yr",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "SF-36 Physical Composite Score (PCS)",
+        "category": "quality_of_life",
+        "baseline": "propensity-matched baseline",
+        "final": null,
+        "value_intervention": "Significant improvement",
+        "value_control": "Significant improvement",
+        "value_difference": "No significant difference",
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "no difference",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Both groups showed statistically significant SF-36 PCS improvement, no between-group differences"
+        },
+        "timepoint": "1yr/2yr",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "SF-36 Mental Composite Score (MCS)",
+        "category": "quality_of_life",
+        "baseline": "propensity-matched baseline",
+        "final": null,
+        "value_intervention": "No significant change",
+        "value_control": "No significant change",
+        "value_difference": "No significant difference",
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "no difference",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "SF-36 MCS showed no significant improvement in either group"
+        },
+        "timepoint": "1yr/2yr",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "Back Pain",
+        "category": "pain",
+        "baseline": "propensity-matched baseline",
+        "final": null,
+        "value_intervention": "Significant improvement",
+        "value_control": "Significant improvement",
+        "value_difference": "No significant difference",
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "no difference",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Both groups showed significant back pain improvement with no between-group differences"
+        },
+        "timepoint": "1yr/2yr",
+        "is_significant": true,
+        "direction": "improved"
+      }
+    ],
+    "complications": [
+      {
+        "name": "Dural tear (intraoperative)",
+        "incidence_intervention": "58/1037 (5.59%)",
+        "incidence_control": "0%",
+        "p_value": null,
+        "severity": "minor"
+      },
+      {
+        "name": "New onset radiculopathy (postoperative)",
+        "incidence_intervention": "0%",
+        "incidence_control": "5.2%",
+        "p_value": null,
+        "severity": "minor"
+      }
+    ]
+  },
+  "important_citations": [
+    {
+      "authors": [
+        "Author (recent animal study)"
+      ],
+      "year": null,
+      "context": "contradicts_result",
+      "section": "introduction",
+      "citation_text": "in the presence of a SCI and/or dural tear, rhBMP-2 diffuses intrathecally and activates a signaling cascade in all major CNS cell types, which may increase glial scarring and impact neurologic recovery",
+      "importance_reason": "This animal study raised concerns about BMP safety with dural tear, which prompted the current investigation. The current study contradicts this concern for repairable dural tears in lumbar fusion.",
+      "outcome_comparison": "Neurologic recovery, radiculopathy",
+      "direction_match": false
+    }
+  ],
+  "chunks": [
+    {
+      "content": "BACKGROUND: Bone morphogenetic proteins (BMPs) have been associated with complications including ectopic bone formation and proinflammatory effects such as swelling and edema. A recent animal study demonstrated that rhBMP-2 diffuses intrathecally in the presence of spinal cord injury and/or dural tear, activating signaling cascades that may increase glial scarring and impair neurologic recovery. These concerns prompted investigation into whether similar neurologic complications occur in lumbar decompression and fusion with rhBMP-2 when complicated by dural tear.",
+      "content_type": "text",
+      "section_type": "introduction",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "BMP-related complications and animal study concerns about intradural BMP exposure with dural tears prompted investigation into clinical neurologic safety.",
+      "keywords": [
+        "rhBMP-2",
+        "dural tear",
+        "neurologic safety",
+        "ectopic bone",
+        "intradural exposure"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "From a consecutive series of 1,037 patients who underwent decompression and posterolateral lumbar spine fusion using rhBMP-2/absorbable collagen sponge (ACS) between 2003 and 2006, intraoperative dural tear was reported in 58 cases (5.59%). These 58 patients were propensity score matched to 58 patients without dural tear based on age, smoking status, number of surgical levels, preoperative Oswestry Disability Index, SF-36 Physical Composite Summary score, SF-36 Mental Composite Summary score, and baseline back and leg pain scores.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Study enrolled 58 patients with dural tear and 58 propensity-matched controls without dural tear from 1,037 consecutive posterolateral lumbar fusion cases.",
+      "keywords": [
+        "propensity score matching",
+        "dural tear",
+        "posterolateral fusion",
+        "sample size",
+        "matching criteria"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": {
+          "measure_type": "incidence",
+          "value": "5.59%",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Dural tear incidence: 58/1037 (5.59%)"
+        }
+      }
+    },
+    {
+      "content": "Outcome measures included preoperative and 2-year postoperative assessments of Oswestry Disability Index (ODI), Short Form-36 (SF-36) Physical Composite Summary score, SF-36 Mental Composite Summary (MCS) score, leg pain, and back pain. Particular attention was given to indices of leg pain to assess for any influence of rhBMP-2 on neurologic function or impaired neurologic recovery in patients with dural tear exposure.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Primary outcome measures were functional scores (ODI, SF-36) and pain measures, with emphasis on leg pain as indicator of neurologic status.",
+      "keywords": [
+        "ODI",
+        "SF-36",
+        "outcome measures",
+        "leg pain",
+        "neurologic assessment"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "PURPOSE: The purpose of this study was to look for any indication of neurologic injury or impaired neurologic recovery in patients treated with rhBMP-2 for lumbar fusion complicated by dural tear.",
+      "content_type": "text",
+      "section_type": "introduction",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Primary study objective was to determine if repairable dural tears with rhBMP-2 exposure result in neurologic injury or impaired recovery.",
+      "keywords": [
+        "neurologic injury",
+        "neurologic recovery",
+        "dural tear",
+        "rhBMP-2",
+        "study objective"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "No patient in the group with a dural tear reported new onset radiculopathy postoperatively, compared to three patients (5.2%) in the group without a dural tear. One of the three patients in the control group required oral steroids for radiculopathy management. All three cases of new onset radiculopathy resolved within 6 months postoperatively.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Zero new onset radiculopathy in dural tear group vs 5.2% (3/58) in control group; all resolved within 6 months.",
+      "keywords": [
+        "radiculopathy",
+        "neurologic complication",
+        "dural tear",
+        "postoperative outcome",
+        "clinical safety"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "incidence",
+          "value": "0",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "New onset radiculopathy: 0% (0/58) dural tear group vs 5.2% (3/58) control group"
+        }
+      }
+    },
+    {
+      "content": "Statistically significant improvement was observed in all health-related quality of life (HRQOL) measures except SF-36 Mental Composite Score (MCS), at both 1 and 2 years postoperatively in both groups. This included improvements in Oswestry Disability Index (ODI), SF-36 Physical Composite Summary (PCS) score, leg pain, and back pain. There were no significant differences in any HRQOL parameter between the groups with or without a dural tear at either 1 or 2 years postoperatively.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Both groups showed significant functional and pain improvements at 1-2 years with no between-group differences; SF-36 MCS showed no significant change.",
+      "keywords": [
+        "functional outcome",
+        "quality of life",
+        "ODI",
+        "SF-36",
+        "postoperative improvement"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "statistically significant improvement",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Significant HRQOL improvement in both groups at 1 and 2 years (ODI, SF-36 PCS, pain) with no between-group differences"
+        }
+      }
+    },
+    {
+      "content": "Leg pain improvement was statistically equivalent between groups: 2.2 points in the dural tear group and 2.4 points in the group without dural tear. This equivalent improvement in leg pain, which is the most sensitive indicator of neurologic function, provides evidence that rhBMP-2 exposure through a dural tear does not impair neurologic recovery.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Equivalent leg pain improvement (2.2 vs 2.4 points) between dural tear and control groups, indicating preserved neurologic recovery.",
+      "keywords": [
+        "leg pain",
+        "neurologic function",
+        "pain improvement",
+        "clinical outcome",
+        "equivalence"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "-0.2",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Leg pain improvement equivalent: 2.2 points (dural tear) vs 2.4 points (control), statistically equivalent"
+        }
+      }
+    },
+    {
+      "content": "CONCLUSIONS: The data suggests fairly convincingly that the presence of a repairable dural tear is not necessarily an impediment to the use of rhBMP-2 in posterolateral fusion. The study found no evidence of neurologic injury or impaired neurologic recovery in patients with dural tear exposure to rhBMP-2. Further studies are needed to address the less common clinical scenario of BMP use in conjunction with spinal cord injury, as studied in the animal model that prompted this investigation. Finally, avoidance of BMP use may still be prudent in the setting of an unrepairable dural tear.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Repairable dural tears do not contraindicate rhBMP-2 use in posterolateral fusion, with no evidence of neurologic injury; caution recommended for unrepairable tears.",
+      "keywords": [
+        "conclusion",
+        "clinical safety",
+        "dural tear",
+        "rhBMP-2",
+        "neurologic outcome"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "This study was motivated by a recent animal study demonstrating that rhBMP-2 diffuses intrathecally in the presence of spinal cord injury (SCI) and/or dural tear, activating signaling cascades in all major central nervous system (CNS) cell types. These cascades may increase glial scarring and impact neurologic recovery. Although the animal model examined spinal cord-level exposure, the findings generated clinical concerns for the much more common scenario of dural tear associated with lumbar decompression and fusion.",
+      "content_type": "text",
+      "section_type": "introduction",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Animal study evidence of BMP intradural diffusion and CNS activation motivated investigation into clinical safety of BMP with lumbar dural tears.",
+      "keywords": [
+        "animal model",
+        "rhBMP-2",
+        "intradural diffusion",
+        "glial scarring",
+        "clinical concern"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Between 2003 and 2006, 1,037 consecutive patients underwent decompression and posterolateral lumbar spine fusion using rhBMP-2/absorbable collagen sponge. This time period captured a cohort of patients in a high-volume spine surgery center. The study population represented a consecutive series without selection bias regarding BMP use or dural tear occurrence.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Consecutive cohort of 1,037 patients undergoing posterolateral lumbar fusion with rhBMP-2 from 2003-2006 at a high-volume center.",
+      "keywords": [
+        "consecutive series",
+        "sample selection",
+        "study population",
+        "high-volume center",
+        "temporal period"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "1037",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Total consecutive patients: 1,037"
+        }
+      }
+    },
+    {
+      "content": "Propensity score matching was performed using multiple baseline variables to create comparable groups: age, smoking status, number of surgical levels, preoperative Oswestry Disability Index, SF-36 Physical Composite Summary score, SF-36 Mental Composite Summary score, and baseline back and leg pain scores. This rigorous matching strategy minimized potential confounding variables and selection bias, allowing direct comparison of outcomes related to dural tear and rhBMP-2 exposure.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Propensity score matching on 8 baseline variables created balanced comparison groups for assessing dural tear-specific effects.",
+      "keywords": [
+        "propensity score matching",
+        "baseline variables",
+        "confounding control",
+        "study design",
+        "comparative effectiveness"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "The study design was a propensity score matched case-control study, which represents an observational study type. While case-control studies provide lower-level evidence compared to randomized trials, the propensity score matching approach strengthens the design by reducing selection bias and creating comparable baseline groups. This design allowed assessment of neurologic outcomes in a clinically relevant scenario (dural tear during lumbar fusion) that would be unethical to randomize.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Propensity score matched case-control design reduces bias in observational comparison of dural tear outcomes with rhBMP-2.",
+      "keywords": [
+        "case-control study",
+        "observational design",
+        "propensity matching",
+        "study methodology",
+        "evidence level"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Back pain improvement was observed in both the dural tear group and the control group at 1 and 2-year follow-up, with statistically significant reductions in pain scores. There were no significant differences in the magnitude of back pain improvement between groups. Combined with equivalent leg pain improvement across groups, the data indicate that pain relief was comparable regardless of dural tear status or rhBMP-2 intradural exposure.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Equivalent back pain improvement in both groups at follow-up, supporting safety of rhBMP-2 use with dural tears.",
+      "keywords": [
+        "back pain",
+        "pain improvement",
+        "clinical outcome",
+        "dural tear",
+        "follow-up"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "no significant difference",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Equivalent back pain improvement between groups at 1 and 2 years"
+        }
+      }
+    },
+    {
+      "content": "The Oswestry Disability Index (ODI) is a 10-item self-report questionnaire assessing functional disability in patients with low back pain, with scores ranging from 0-100 where higher scores indicate greater disability. Both the dural tear group and control group demonstrated statistically significant improvements in ODI at 1-year and 2-year follow-ups. The lack of significant between-group difference in ODI improvement indicates that functional recovery was not impaired by dural tear or rhBMP-2 intradural exposure.",
+      "content_type": "text",
+      "section_type": "results",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "ODI improved significantly in both groups without between-group differences, indicating preserved functional recovery with dural tear.",
+      "keywords": [
+        "Oswestry Disability Index",
+        "functional disability",
+        "outcome measure",
+        "follow-up assessment",
+        "functional recovery"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "The SF-36 Physical Composite Summary (PCS) score improved significantly in both the dural tear and control groups at 1 and 2-year postoperative assessments. The SF-36 Mental Composite Summary (MCS) score showed no significant improvement in either group. The parallel improvement patterns and absence of between-group differences in SF-36 PCS indicate equivalent physical health-related quality of life improvements despite dural tear exposure to rhBMP-2.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "SF-36 PCS improved significantly in both groups with no between-group differences; MCS unchanged in both groups.",
+      "keywords": [
+        "SF-36",
+        "quality of life",
+        "physical health",
+        "mental health",
+        "postoperative outcome"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "no significant difference",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "SF-36 PCS: significant improvement in both groups at 1 and 2 years, no between-group differences; SF-36 MCS: no significant change"
+        }
+      }
+    },
+    {
+      "content": "Among the three patients in the control group who developed new onset radiculopathy postoperatively, one patient required oral corticosteroid therapy for symptom management. All three cases of radiculopathy resolved completely within 6 months of surgery. This resolution pattern is typical for postoperative radiculopathy unrelated to intradural BMP exposure, suggesting the cases were likely related to other postoperative factors such as inflammation or temporary nerve irritation.",
+      "content_type": "text",
+      "section_type": "results",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Three control patients developed radiculopathy, one requiring steroids, all resolved within 6 months postoperatively.",
+      "keywords": [
+        "radiculopathy",
+        "postoperative complication",
+        "corticosteroid",
+        "symptom resolution",
+        "follow-up"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "The key finding of zero new onset radiculopathy in the dural tear group compared to 5.2% in the control group is particularly significant given that the dural tear group had intradural exposure to rhBMP-2. If BMP had caused intradural inflammation, glial scarring, or CNS activation as suggested by the animal model, one would expect to observe neurologic complications in the dural tear group at least equivalent to or exceeding the control group. The absence of any radiculopathy in the dural tear group suggests rhBMP-2 does not exert clinically significant intradural neurotoxic effects in the setting of lumbar fusion.",
+      "content_type": "key_finding",
+      "section_type": "discussion",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Zero radiculopathy in dural tear group despite BMP exposure contradicts animal study concerns, suggesting clinical safety.",
+      "keywords": [
+        "clinical safety",
+        "neurologic outcome",
+        "dural tear",
+        "rhBMP-2",
+        "intradural exposure"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "incidence",
+          "value": "0",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Radiculopathy incidence: 0% dural tear group vs 5.2% control group"
+        }
+      }
+    },
+    {
+      "content": "CLINICAL IMPLICATIONS: The findings of this study have important clinical implications for spine surgeons who use rhBMP-2 in posterolateral lumbar fusion. When an intraoperative dural tear occurs during decompression and fusion surgery, the presence of a repairable tear should not automatically preclude the use of BMP. The study data suggest that repairing the dural tear adequately provides sufficient protection against significant intradural BMP exposure and associated neurologic complications. However, in the uncommon scenario of an unrepairable dural tear, caution with BMP use remains appropriate pending further evidence.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Repairable dural tears do not contraindicate BMP use; caution recommended only for unrepairable tears.",
+      "keywords": [
+        "clinical implications",
+        "dural repair",
+        "practice recommendations",
+        "BMP use",
+        "clinical decision-making"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "STUDY LIMITATIONS: The study is limited by its retrospective, non-randomized case-control design, which represents lower-level evidence than prospective randomized controlled trials. Additionally, the study was conducted during 2003-2006 and may not reflect current surgical techniques, perioperative protocols, or patient populations. The matching was based on available baseline variables, and unmeasured confounding cannot be completely excluded. Furthermore, the study examined only repairable dural tears; outcomes in unrepairable dural tears were not assessed. The relatively small sample size (58 matched pairs) limits statistical power for detecting small differences between groups.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Study limitations include retrospective design, temporal considerations, and focus on repairable dural tears only.",
+      "keywords": [
+        "study limitations",
+        "retrospective design",
+        "sample size",
+        "unmeasured confounding",
+        "generalizability"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "FUTURE DIRECTIONS: The authors recommend further studies to address the less common clinical scenario of BMP use in conjunction with spinal cord injury, as examined in the animal model that prompted this investigation. Additional prospective research comparing outcomes in patients with repaired versus unrepairable dural tears receiving BMP would strengthen the evidence base. Long-term follow-up studies beyond 2 years may reveal delayed neurologic complications or functional differences. Additionally, investigation of different BMP formulations, dosages, and delivery methods in the setting of dural compromise would provide valuable clinical guidance.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Future research should address BMP safety with spinal cord injury, unrepairable dural tears, and long-term outcomes.",
+      "keywords": [
+        "future research",
+        "spinal cord injury",
+        "unrepairable dural tear",
+        "long-term follow-up",
+        "BMP dosing"
+      ],
+      "statistics": {}
+    }
+  ]
+}

@@ -297,43 +297,72 @@ DEFAULT_STYLES: Dict[str, StyleConfig] = {
 
 
 # 기본 저널-스타일 매핑
-# 저널명 (대소문자 무관) -> 스타일명
+# 저널명 (대소문자 무관) -> 스타일명 (custom_styles in journal_styles.json)
 DEFAULT_JOURNAL_MAPPINGS: Dict[str, str] = {
-    # Spine Surgery Journals
-    "The Spine Journal": "spine",
-    "Spine Journal": "spine",
-    "Spine": "vancouver",
-    "European Spine Journal": "vancouver",
-    "Eur Spine J": "vancouver",
-    "Global Spine Journal": "vancouver",
-    "Glob Spine J": "vancouver",
-    "Asian Spine Journal": "vancouver",
-    "Asian Spine J": "vancouver",
+    # === Spine 전문 저널 ===
+    "Spine": "spine_lww",
+    "The Spine Journal": "spine_j",
+    "Spine Journal": "spine_j",
+    "Spine J": "spine_j",
+    "European Spine Journal": "eur_spine_j",
+    "Eur Spine J": "eur_spine_j",
+    "Global Spine Journal": "global_spine_j",
+    "Global Spine J": "global_spine_j",
+    "Glob Spine J": "global_spine_j",
+    "Asian Spine Journal": "asian_spine_j",
+    "Asian Spine J": "asian_spine_j",
+    "Journal of Neurosurgery: Spine": "j_neurosurg_spine",
+    "Journal of Neurosurgery Spine": "j_neurosurg_spine",
+    "J Neurosurg Spine": "j_neurosurg_spine",
+    "Spine Deformity": "spine_deformity",
+    "Spine Deform": "spine_deformity",
+    "Neurospine": "neurospine",
 
-    # Orthopedic Journals
-    "Clinics in Orthopedic Surgery": "vancouver",
-    "Clin Orthop Surg": "vancouver",
-    "Journal of Bone and Joint Surgery": "jbjs",
-    "JBJS": "jbjs",
-    "J Bone Joint Surg Am": "jbjs",
-    "J Bone Joint Surg Br": "jbjs",
+    # === 정형외과 저널 ===
+    "Journal of Bone and Joint Surgery": "jbjs_am",
+    "J Bone Joint Surg Am": "jbjs_am",
+    "J Bone Joint Surg": "jbjs_am",
+    "JBJS": "jbjs_am",
+    "The Bone & Joint Journal": "bone_joint_j",
+    "The Bone and Joint Journal": "bone_joint_j",
+    "Bone Joint J": "bone_joint_j",
+    "J Bone Joint Surg Br": "bone_joint_j",
+    "Clinical Orthopaedics and Related Research": "corr",
+    "Clin Orthop Relat Res": "corr",
+    "CORR": "corr",
+    "Journal of the American Academy of Orthopaedic Surgeons": "jaaos",
+    "J Am Acad Orthop Surg": "jaaos",
+    "JAAOS": "jaaos",
+    "Journal of Orthopaedic Research": "j_orthop_res",
+    "J Orthop Res": "j_orthop_res",
+    "International Orthopaedics": "int_orthop",
+    "Int Orthop": "int_orthop",
+    "Clinics in Orthopedic Surgery": "clin_orthop_surg",
+    "Clin Orthop Surg": "clin_orthop_surg",
+    "Journal of Orthopaedic Surgery and Research": "j_orthop_surg_res",
+    "J Orthop Surg Res": "j_orthop_surg_res",
 
-    # General Medical Journals
-    "JAMA": "ama",
-    "JAMA Surgery": "ama",
-    "JAMA Network Open": "ama",
-    "New England Journal of Medicine": "vancouver",
-    "NEJM": "vancouver",
-    "The Lancet": "vancouver",
-    "Lancet": "vancouver",
-    "BMJ": "vancouver",
+    # === 신경외과 저널 ===
+    "Journal of Neurosurgery": "j_neurosurg",
+    "J Neurosurg": "j_neurosurg",
+    "Neurosurgery": "neurosurgery_cns",
+    "Neurosurgical Focus": "neurosurg_focus",
+    "Neurosurg Focus": "neurosurg_focus",
+    "World Neurosurgery": "world_neurosurg",
+    "World Neurosurg": "world_neurosurg",
+    "Operative Neurosurgery": "oper_neurosurg",
+    "Oper Neurosurg": "oper_neurosurg",
+    "Journal of Korean Neurosurgical Society": "jkns",
+    "J Korean Neurosurg Soc": "jkns",
 
-    # Neurosurgery Journals
-    "Journal of Neurosurgery": "vancouver",
-    "J Neurosurg": "vancouver",
-    "Journal of Neurosurgery Spine": "vancouver",
-    "J Neurosurg Spine": "vancouver",
-    "Neurosurgery": "vancouver",
+    # === 기타 관련 저널 ===
+    "Pain": "pain_iasp",
+    "The Journal of Pain": "j_pain",
+    "Journal of Pain": "j_pain",
+    "J Pain": "j_pain",
+    "Medicine": "medicine_lww",
+    "Scientific Reports": "sci_rep",
+    "Sci Rep": "sci_rep",
 }
 
 
@@ -577,7 +606,9 @@ class ReferenceFormatter:
         has_journal = bool(journal_name)
 
         if journal_name:
-            if config.journal.italicize:
+            if config.journal.bold:
+                journal_name = f"**{journal_name}**"
+            elif config.journal.italicize:
                 journal_name = f"*{journal_name}*"
             parts.append(journal_name)
 

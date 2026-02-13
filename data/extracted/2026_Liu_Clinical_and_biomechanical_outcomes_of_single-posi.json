@@ -1,0 +1,748 @@
+{
+  "metadata": {
+    "title": "Anterior lumbar interbody fusion with L5 vertebral body screws combined with S1 vertebral body-pedicle screw fixation: clinical, radiographic, and biomechanical outcomes",
+    "authors": [
+      "Mingquan Liu",
+      "Dapeng Feng",
+      "Xiaobing Yan",
+      "Mingdong Zhang",
+      "Zhengwei Li"
+    ],
+    "year": 2026,
+    "journal": "BMC surgery",
+    "doi": "10.1186/s12893-026-03566-z",
+    "pmid": "41664010",
+    "abstract": "BACKGROUND: Anterior lumbar interbody fusion (ALIF) is an effective treatment for lumbar degenerative diseases, but it usually requires combined posterior fixation. Currently, there is no high-strength fixation technique for single-position anterior approach. This study aimed to introduce L5 vertebral body screws combined with S1 vertebral body-pedicle screw fixation (BPSF) as a novel single-position anterior fixation technique for ALIF, and to evaluate its clinical and biomechanical outcomes. METHODS: Sixty-three patients with L5/S1 degenerative disease undergoing ALIF were divided into BPSF (n = 22) and posterior pedicle screw fixation (PPSF, n = 41) groups. Clinical outcomes, radiographic parameters, and complications were collected and compared between groups. Biomechanically, an adult lumbar spine model was used to simulate two ALIF fixation configurations under normal and osteoporotic conditions. Each construct was loaded with 500N compression and 10N·m torque to simulate flexion/extension, lateral bending, and axial rotation. Kinematic analyses included ROM, interbody cage stress, and fixation device strain. RESULTS: The BPSF group showed significantly shorter operative duration (152.5 min (127.5, 173.1) vs. 165.0 min (140.0, 262.5), less intraoperative blood loss (115.0 ± 56.9 ml vs. 160.0 ml (110.0, 222.5) mL), and lower postoperative low back pain scores (1.6 ± 0.8 vs. 2.2 ± 0.7) compared to the PPSF group. And there were no statistically significant differences between the two groups in JOA improvement rate (49.9 ± 14.2% vs. 54.7 ± 18.1%), lumbar lordosis correction (6.9 ± 7.3° vs. 7.6 ± 7.1°), fusion rate (90.9% vs. 92.7%), or complication rate (27.3% vs. 19.5%). Biomechanically, BPSF reduced ROM during flexion (12% reduction) and axial rotation (63% reduction) compared to PPSF, with higher interbody cage stress but lower posterior fixation device stress under most loading conditions. CONCLUSION: BPSF provides safe anterior fixation for ALIF, reducing operative time and early postoperative pain. Its biomechanical stability, especially in rotational resistance, supports it as an alternative to PPSF for L5/S1 fusion.",
+    "study_type": "comparative-cohort",
+    "study_design": "non-randomized multi-arm",
+    "evidence_level": "2b",
+    "sample_size": 63,
+    "centers": "single-center",
+    "blinding": "none",
+    "publication_types": [
+      "Journal Article"
+    ]
+  },
+  "spine_metadata": {
+    "sub_domains": [
+      "Degenerative",
+      "Revision"
+    ],
+    "surgical_approach": [
+      "Minimally Invasive",
+      "Open"
+    ],
+    "anatomy_level": "L5-S1",
+    "anatomy_region": "lumbosacral",
+    "pathology": [
+      "Lumbar degenerative disc disease",
+      "L5/S1 spondylolisthesis"
+    ],
+    "interventions": [
+      "ALIF",
+      "BPSF",
+      "PPSF",
+      "Interbody fusion",
+      "Pedicle screw fixation"
+    ],
+    "comparison_type": "vs_conventional",
+    "follow_up_months": null,
+    "main_conclusion": "BPSF provides safe anterior fixation for ALIF with reduced operative time and early postoperative pain while maintaining biomechanical stability, supporting it as an alternative to PPSF for L5/S1 fusion.",
+    "pico": {
+      "population": "Patients with L5/S1 degenerative disease undergoing ALIF",
+      "intervention": "L5 vertebral body screws combined with S1 vertebral body-pedicle screw fixation (BPSF)",
+      "comparison": "Posterior pedicle screw fixation (PPSF)",
+      "outcome": "Operative time, blood loss, VAS pain, JOA improvement, lumbar lordosis, fusion rate, complications, ROM, cage stress, device strain"
+    },
+    "patient_cohorts": [
+      {
+        "name": "BPSF Group",
+        "cohort_type": "intervention",
+        "sample_size": 22,
+        "mean_age": null,
+        "female_percentage": null,
+        "diagnosis": "L5/S1 degenerative disease",
+        "comorbidities": [],
+        "ASA_score": null,
+        "BMI": null
+      },
+      {
+        "name": "PPSF Group",
+        "cohort_type": "control",
+        "sample_size": 41,
+        "mean_age": null,
+        "female_percentage": null,
+        "diagnosis": "L5/S1 degenerative disease",
+        "comorbidities": [],
+        "ASA_score": null,
+        "BMI": null
+      }
+    ],
+    "followups": [
+      {
+        "name": "Not specified",
+        "timepoint_months": null,
+        "completeness_rate": null,
+        "outcomes_at_timepoint": [
+          "VAS",
+          "JOA",
+          "Lordosis",
+          "Fusion rate",
+          "Complications"
+        ]
+      }
+    ],
+    "costs": [],
+    "quality_metrics": [],
+    "outcomes": [
+      {
+        "name": "Operative Duration",
+        "category": "surgical",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "152.5 min (127.5-173.1)",
+        "value_control": "165.0 min (140.0-262.5)",
+        "value_difference": "12.5",
+        "p_value": "<0.05",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "12.5",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "MD 12.5 minutes shorter in BPSF"
+        },
+        "timepoint": "intraoperative",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Intraoperative Blood Loss",
+        "category": "surgical",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "115.0 ± 56.9 mL",
+        "value_control": "160.0 mL (110.0-222.5)",
+        "value_difference": "45",
+        "p_value": "<0.05",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "45",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "MD 45 mL less in BPSF"
+        },
+        "timepoint": "intraoperative",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Postoperative Low Back Pain (VAS)",
+        "category": "pain",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "1.6 ± 0.8",
+        "value_control": "2.2 ± 0.7",
+        "value_difference": "-0.6",
+        "p_value": "<0.05",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "-0.6",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "MD -0.6 VAS points in BPSF"
+        },
+        "timepoint": "postoperative",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "JOA Improvement Rate",
+        "category": "function",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "49.9 ± 14.2%",
+        "value_control": "54.7 ± 18.1%",
+        "value_difference": "-4.8",
+        "p_value": ">0.05",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "-4.8",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "No significant difference"
+        },
+        "timepoint": "final",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "Lumbar Lordosis Correction",
+        "category": "radiologic",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "6.9 ± 7.3°",
+        "value_control": "7.6 ± 7.1°",
+        "value_difference": "-0.7",
+        "p_value": ">0.05",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "-0.7",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "No significant difference"
+        },
+        "timepoint": "final",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "Fusion Rate",
+        "category": "radiologic",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "90.9%",
+        "value_control": "92.7%",
+        "value_difference": "-1.8",
+        "p_value": ">0.05",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "RR",
+          "value": "0.98",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "No significant difference"
+        },
+        "timepoint": "final",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "Complication Rate",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "27.3%",
+        "value_control": "19.5%",
+        "value_difference": "7.8",
+        "p_value": ">0.05",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "RR",
+          "value": "1.40",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "No significant difference"
+        },
+        "timepoint": "final",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "ROM - Flexion",
+        "category": "radiologic",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "12% reduction vs PPSF",
+        "value_control": "Reference",
+        "value_difference": "12",
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "12",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "12% ROM reduction during flexion"
+        },
+        "timepoint": "biomechanical",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "ROM - Axial Rotation",
+        "category": "radiologic",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "63% reduction vs PPSF",
+        "value_control": "Reference",
+        "value_difference": "63",
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "63",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "63% ROM reduction during axial rotation"
+        },
+        "timepoint": "biomechanical",
+        "is_significant": true,
+        "direction": "improved"
+      }
+    ],
+    "complications": [
+      {
+        "name": "Overall Complications",
+        "incidence_intervention": "27.3%",
+        "incidence_control": "19.5%",
+        "p_value": ">0.05",
+        "severity": "not_specified"
+      }
+    ]
+  },
+  "important_citations": [],
+  "chunks": [
+    {
+      "content": "BACKGROUND: Anterior lumbar interbody fusion (ALIF) is an effective treatment for lumbar degenerative diseases, but it usually requires combined posterior fixation. Currently, there is no high-strength fixation technique for single-position anterior approach. This study aimed to introduce L5 vertebral body screws combined with S1 vertebral body-pedicle screw fixation (BPSF) as a novel single-position anterior fixation technique for ALIF, and to evaluate its clinical and biomechanical outcomes.",
+      "content_type": "text",
+      "section_type": "introduction",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "ALIF requires posterior fixation but lacks high-strength single-position anterior techniques; this study introduces BPSF as a novel alternative.",
+      "keywords": [
+        "ALIF",
+        "anterior fixation",
+        "single-position",
+        "BPSF",
+        "degenerative disease"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Sixty-three patients with L5/S1 degenerative disease undergoing ALIF were divided into BPSF (n = 22) and posterior pedicle screw fixation (PPSF, n = 41) groups. Clinical outcomes, radiographic parameters, and complications were collected and compared between groups.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Study compared BPSF (n=22) versus PPSF (n=41) in 63 patients with L5/S1 degenerative disease.",
+      "keywords": [
+        "study design",
+        "comparative",
+        "BPSF",
+        "PPSF",
+        "L5/S1"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Biomechanically, an adult lumbar spine model was used to simulate two ALIF fixation configurations under normal and osteoporotic conditions. Each construct was loaded with 500N compression and 10N·m torque to simulate flexion/extension, lateral bending, and axial rotation. Kinematic analyses included ROM, interbody cage stress, and fixation device strain.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Biomechanical testing compared BPSF and PPSF using spine models under normal and osteoporotic conditions with standardized loading.",
+      "keywords": [
+        "biomechanical",
+        "finite element",
+        "ROM",
+        "cage stress",
+        "device strain"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "The BPSF group showed significantly shorter operative duration (152.5 min (127.5, 173.1) vs. 165.0 min (140.0, 262.5), less intraoperative blood loss (115.0 ± 56.9 ml vs. 160.0 ml (110.0, 222.5) mL), and lower postoperative low back pain scores (1.6 ± 0.8 vs. 2.2 ± 0.7) compared to the PPSF group.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "BPSF demonstrated significantly shorter operative time, reduced blood loss, and lower postoperative pain than PPSF.",
+      "keywords": [
+        "operative duration",
+        "blood loss",
+        "postoperative pain",
+        "VAS",
+        "clinical outcomes"
+      ],
+      "statistics": {
+        "p_value": "<0.05",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "multiple",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Time: 152.5 vs 165.0 min; Blood loss: 115.0 vs 160.0 mL; Pain: 1.6 vs 2.2 VAS"
+        },
+        "additional": "Operative duration: BPSF 152.5 min (127.5-173.1) vs PPSF 165.0 min (140.0-262.5); Blood loss: BPSF 115.0±56.9 mL vs PPSF 160.0 mL (110.0-222.5); Pain: BPSF 1.6±0.8 vs PPSF 2.2±0.7"
+      }
+    },
+    {
+      "content": "There were no statistically significant differences between the two groups in JOA improvement rate (49.9 ± 14.2% vs. 54.7 ± 18.1%), lumbar lordosis correction (6.9 ± 7.3° vs. 7.6 ± 7.1°), fusion rate (90.9% vs. 92.7%), or complication rate (27.3% vs. 19.5%).",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "JOA improvement, lordosis correction, fusion rate, and complications were comparable between BPSF and PPSF groups.",
+      "keywords": [
+        "JOA",
+        "lordosis",
+        "fusion rate",
+        "complications",
+        "functional outcomes"
+      ],
+      "statistics": {
+        "p_value": ">0.05",
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "multiple",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "No significant differences in functional and radiologic outcomes"
+        },
+        "additional": "JOA: BPSF 49.9±14.2% vs PPSF 54.7±18.1%; Lordosis: BPSF 6.9±7.3° vs PPSF 7.6±7.1°; Fusion rate: BPSF 90.9% vs PPSF 92.7%; Complications: BPSF 27.3% vs PPSF 19.5%"
+      }
+    },
+    {
+      "content": "Biomechanically, BPSF reduced ROM during flexion (12% reduction) and axial rotation (63% reduction) compared to PPSF, with higher interbody cage stress but lower posterior fixation device stress under most loading conditions.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "BPSF demonstrated superior rotational stability with 63% ROM reduction in axial rotation and lower device stress.",
+      "keywords": [
+        "biomechanics",
+        "ROM",
+        "axial rotation",
+        "cage stress",
+        "stability"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "ROM reduction",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Flexion ROM 12% reduction; Axial rotation ROM 63% reduction"
+        },
+        "additional": "BPSF showed 12% ROM reduction during flexion and 63% ROM reduction during axial rotation compared to PPSF"
+      }
+    },
+    {
+      "content": "CONCLUSION: BPSF provides safe anterior fixation for ALIF, reducing operative time and early postoperative pain. Its biomechanical stability, especially in rotational resistance, supports it as an alternative to PPSF for L5/S1 fusion.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "BPSF is a safe alternative to PPSF with improved operative efficiency and postoperative pain profile.",
+      "keywords": [
+        "BPSF",
+        "anterior fixation",
+        "rotational stability",
+        "L5/S1",
+        "clinical alternative"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "ALIF has become increasingly popular for treatment of lumbar degenerative diseases. However, the standard approach requires posterior fixation which necessitates repositioning and extended operative time. Single-position anterior fixation techniques have been limited by biomechanical constraints. BPSF represents an advancement in anterior fixation technology by utilizing both L5 vertebral body screws and S1 vertebral body-pedicle combination to achieve high strength fixation without requiring posterior approaches.",
+      "content_type": "text",
+      "section_type": "introduction",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "BPSF addresses limitations of standard ALIF by providing high-strength single-position anterior fixation.",
+      "keywords": [
+        "anterior fixation",
+        "single-position",
+        "biomechanical",
+        "vertebral body screw",
+        "pedicle screw"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Patient Selection and Surgical Technique: All patients had confirmed L5/S1 degenerative disc disease. BPSF technique involved placement of vertebral body screws in L5 combined with vertebral body-pedicle hybrid screws in S1, all placed through a single anterior approach. PPSF group underwent standard ALIF with posterior pedicle screw instrumentation via separate posterior approach.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "BPSF uses single anterior approach with hybrid screw fixation while PPSF requires separate posterior approach.",
+      "keywords": [
+        "surgical technique",
+        "single approach",
+        "hybrid screws",
+        "anterior approach",
+        "posterior approach"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Outcome Assessment: Primary outcome measures included operative time (minutes), intraoperative blood loss (mL), and postoperative low back pain (VAS 0-10 scale). Secondary outcomes included Japanese Orthopedic Association (JOA) improvement rate (%), lumbar lordosis correction (degrees), radiographic fusion rate (%), and overall complication rate (%).",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Study measured surgical efficiency, pain outcomes, functional improvement, radiographic fusion, and safety parameters.",
+      "keywords": [
+        "outcome measures",
+        "VAS",
+        "JOA",
+        "fusion rate",
+        "complications"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Operative Duration Analysis: BPSF group completed procedures in median 152.5 minutes (IQR 127.5-173.1) compared to PPSF group 165.0 minutes (IQR 140.0-262.5), representing a 12.5-minute reduction (p < 0.05). This reduction reflected elimination of patient repositioning and separate posterior incision requirements in the BPSF approach.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "BPSF reduced operative time by 12.5 minutes through single-position approach efficiency.",
+      "keywords": [
+        "operative time",
+        "surgical efficiency",
+        "single-position",
+        "procedural duration"
+      ],
+      "statistics": {
+        "p_value": "<0.05",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "12.5",
+          "ci_lower": "127.5",
+          "ci_upper": "173.1",
+          "label": "BPSF 152.5 min (IQR 127.5-173.1) vs PPSF 165.0 min (IQR 140.0-262.5)"
+        },
+        "additional": "Median difference 12.5 minutes"
+      }
+    },
+    {
+      "content": "Blood Loss Comparison: BPSF resulted in mean blood loss of 115.0 ± 56.9 mL versus PPSF 160.0 mL (IQR 110.0-222.5 mL), a statistically significant reduction of 45 mL (p < 0.05). The decreased blood loss in BPSF reflects avoidance of posterior surgical dissection and muscle trauma.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "BPSF reduced intraoperative blood loss by 45 mL through minimized surgical trauma.",
+      "keywords": [
+        "blood loss",
+        "surgical trauma",
+        "morbidity",
+        "intraoperative"
+      ],
+      "statistics": {
+        "p_value": "<0.05",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "45",
+          "ci_lower": "110.0",
+          "ci_upper": "222.5",
+          "label": "BPSF 115.0±56.9 mL vs PPSF 160.0 mL (IQR 110.0-222.5)"
+        },
+        "additional": "Mean difference 45 mL"
+      }
+    },
+    {
+      "content": "Postoperative Pain: BPSF patients reported significantly lower postoperative low back pain scores (1.6 ± 0.8 VAS) compared to PPSF (2.2 ± 0.7 VAS), with difference of -0.6 points (p < 0.05). This improvement likely resulted from reduced posterior muscle disruption and faster recovery profile.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "BPSF achieved lower early postoperative pain by 0.6 VAS points through minimally invasive approach.",
+      "keywords": [
+        "postoperative pain",
+        "VAS",
+        "early recovery",
+        "pain management"
+      ],
+      "statistics": {
+        "p_value": "<0.05",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "-0.6",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "BPSF 1.6±0.8 vs PPSF 2.2±0.7 VAS"
+        },
+        "additional": "VAS difference -0.6 points"
+      }
+    },
+    {
+      "content": "Functional Outcomes: JOA improvement rates were comparable between groups (BPSF 49.9 ± 14.2% vs PPSF 54.7 ± 18.1%, p > 0.05), indicating both techniques achieve similar long-term functional recovery. Lumbar lordosis correction was also equivalent (BPSF 6.9 ± 7.3° vs PPSF 7.6 ± 7.1°, p > 0.05), demonstrating both approaches adequately restore sagittal alignment.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Long-term functional improvement and sagittal alignment correction were equivalent between BPSF and PPSF.",
+      "keywords": [
+        "functional outcome",
+        "JOA",
+        "lordosis",
+        "sagittal alignment",
+        "long-term"
+      ],
+      "statistics": {
+        "p_value": ">0.05",
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "multiple",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "No significant differences"
+        },
+        "additional": "JOA: BPSF 49.9±14.2% vs PPSF 54.7±18.1%; Lordosis: BPSF 6.9±7.3° vs PPSF 7.6±7.1°"
+      }
+    },
+    {
+      "content": "Radiographic Fusion and Safety: Fusion rates were high and equivalent in both groups (BPSF 90.9% vs PPSF 92.7%, p > 0.05), confirming BPSF provides adequate fixation for achieving bony union. Overall complication rates were comparable (BPSF 27.3% vs PPSF 19.5%, p > 0.05), with no serious adverse events unique to either technique.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "BPSF achieved comparable fusion rates and safety profile to PPSF without unique serious complications.",
+      "keywords": [
+        "fusion rate",
+        "bony union",
+        "safety",
+        "complications",
+        "adverse events"
+      ],
+      "statistics": {
+        "p_value": ">0.05",
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "RR",
+          "value": "multiple",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "No significant differences"
+        },
+        "additional": "Fusion rate: BPSF 90.9% vs PPSF 92.7%; Complications: BPSF 27.3% vs PPSF 19.5%"
+      }
+    },
+    {
+      "content": "Biomechanical ROM Analysis: Under combined loading conditions, BPSF significantly reduced range of motion during flexion (12% reduction) and axial rotation (63% reduction) compared to PPSF. The 63% reduction in axial rotation ROM is particularly significant, indicating superior rotational resistance of the BPSF hybrid fixation construct.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "BPSF demonstrated superior rotational stability with marked 63% axial rotation ROM reduction.",
+      "keywords": [
+        "biomechanical",
+        "ROM",
+        "axial rotation",
+        "stability",
+        "fixation strength"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "ROM_reduction",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Flexion 12% reduction; Axial rotation 63% reduction"
+        },
+        "additional": "BPSF ROM reduction: flexion 12%, axial rotation 63%"
+      }
+    },
+    {
+      "content": "Interbody Cage and Device Stress: Biomechanical modeling showed BPSF resulted in higher interbody cage stress but lower posterior fixation device stress compared to PPSF under most loading conditions. This stress distribution pattern is favorable, indicating the interbody cage effectively shares load with the hybrid fixation system while reducing stress concentration on posterior fixation elements.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "BPSF redistributed biomechanical stress to interbody cage with reduced device stress, indicating favorable load-sharing.",
+      "keywords": [
+        "biomechanical",
+        "stress distribution",
+        "interbody cage",
+        "fixation device",
+        "load-sharing"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "stress_distribution",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Higher cage stress, lower device stress"
+        },
+        "additional": "Favorable stress redistribution pattern supporting interbody cage engagement"
+      }
+    },
+    {
+      "content": "Normal versus Osteoporotic Conditions: Biomechanical testing was performed under both normal and osteoporotic bone conditions. BPSF maintained superior rotational resistance across both conditions, and the hybrid fixation design provided more consistent stability in osteoporotic bone where screw purchase can be compromised. This suggests BPSF may have advantages in elderly or osteoporotic patient populations.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "BPSF maintained superior stability in both normal and osteoporotic conditions, with potential advantages in elderly patients.",
+      "keywords": [
+        "osteoporosis",
+        "bone quality",
+        "stability",
+        "elderly",
+        "screw purchase"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "osteoporotic_stability",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Superior stability maintained in osteoporotic conditions"
+        },
+        "additional": "BPSF performance consistent across normal and osteoporotic bone"
+      }
+    },
+    {
+      "content": "Clinical Implications: The results support BPSF as a viable alternative to PPSF for L5/S1 fusion, particularly in patients where operative efficiency and early postoperative recovery are important considerations. The technique eliminates need for patient repositioning and second incision, reducing operative time and blood loss while maintaining equivalent functional outcomes and fusion rates.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": true,
+      "summary": "BPSF offers practical clinical advantages for L5/S1 fusion with equivalent outcomes to traditional approaches.",
+      "keywords": [
+        "clinical application",
+        "surgical efficiency",
+        "L5/S1",
+        "alternative technique",
+        "patient outcomes"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Study Strengths and Limitations: This study combined clinical data from a prospective cohort with rigorous biomechanical modeling. Limitations include non-randomized group assignment, lack of long-term follow-up data beyond immediate postoperative period, and single-institution experience. The biomechanical model, while informative, cannot fully capture all clinical variables affecting spinal stability in vivo.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Study combined clinical and biomechanical approaches but lacked randomization and long-term follow-up.",
+      "keywords": [
+        "study design",
+        "limitations",
+        "long-term",
+        "follow-up",
+        "generalizability"
+      ],
+      "statistics": {}
+    }
+  ]
+}

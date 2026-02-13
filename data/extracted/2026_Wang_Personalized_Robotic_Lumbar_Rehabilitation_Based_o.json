@@ -1,0 +1,529 @@
+{
+  "metadata": {
+    "title": "Automated Framework for Translating Sparse Clinical MRI into Personalized Robotic Lumbar Rehabilitation Strategies",
+    "authors": [
+      "Not explicitly provided in text"
+    ],
+    "year": 2026,
+    "journal": "Not explicitly provided in text",
+    "doi": "Not provided",
+    "pmid": "Not provided",
+    "abstract": "Low back pain often involves paraspinal muscle degeneration. Rehabilitation robots can provide high-consistency exercise therapy, but current technologies face the challenge of delivering personalized training to patients with various muscular conditions. To solve the issue, this work proposes an automated framework that translates sparse clinical magnetic resonance imaging (MRI) scans into personalized robotic lumbar rehabilitation strategies. First, a Bayesian fusion method with adaptive observation confidence is proposed to enable automatic posterior inference of the 3D paraspinal muscle geometry from sparse MRI. Key biomechanical parameters, including physiological cross-sectional area and fat infiltration, are extracted from the reconstructed muscle shapes to create a patient-specific musculoskeletal model. Based on the personalized model, a hierarchical optimization framework is developed to generate rehabilitation strategies of the combined multi-degree-of-freedom (multi-DOF) motions and dynamic interaction forces to maximize the target muscle activation. Validation on multi-center datasets demonstrates 90% dice similarity for the muscle reconstruction. Personalized validation experiments on volunteers with varying muscle fat infiltration levels revealed that conventional empirical force strategies failed to adapt to individual differences, leading to risks of activation overload or insufficient stimulation. In contrast, the proposed personalized strategy reduced the activation level variance by 60.49% compared to the empirical strategy and maintained the target activation error within 4%. The results demonstrate that the proposed framework significantly mitigates individual uncertainties, ensuring both safety and effectiveness in robotic rehabilitation.",
+    "study_type": "technical-validation-study",
+    "study_design": "single-arm",
+    "evidence_level": "4",
+    "sample_size": null,
+    "centers": "multi-center",
+    "blinding": "open-label",
+    "publication_types": [
+      "Journal Article"
+    ]
+  },
+  "spine_metadata": {
+    "sub_domains": [
+      "Degenerative",
+      "Basic Science"
+    ],
+    "surgical_approach": [
+      "Robot-assisted",
+      "Navigation-guided"
+    ],
+    "anatomy_level": "Lumbar",
+    "anatomy_region": "lumbar",
+    "pathology": [
+      "Paraspinal muscle degeneration",
+      "Low back pain",
+      "Lumbar muscle atrophy"
+    ],
+    "interventions": [
+      "Robotic rehabilitation",
+      "MRI-guided rehabilitation",
+      "Personalized exercise therapy"
+    ],
+    "comparison_type": "single_arm",
+    "follow_up_months": null,
+    "main_conclusion": "The proposed automated framework successfully translates sparse clinical MRI scans into personalized robotic lumbar rehabilitation strategies, reducing activation level variance by 60.49% compared to conventional empirical strategies while maintaining target activation error within 4%, demonstrating improved safety and effectiveness in robotic rehabilitation.",
+    "pico": {
+      "population": "Volunteers with varying muscle fat infiltration levels and paraspinal muscle degeneration",
+      "intervention": "Automated framework translating sparse MRI into personalized robotic lumbar rehabilitation strategies using Bayesian fusion, patient-specific musculoskeletal modeling, and hierarchical optimization",
+      "comparison": "Conventional empirical force strategies",
+      "outcome": "Muscle reconstruction accuracy (Dice similarity), activation level variance, target activation error, physiological cross-sectional area, fat infiltration quantification"
+    },
+    "patient_cohorts": [
+      {
+        "name": "Validation Study Volunteers",
+        "cohort_type": "intervention",
+        "sample_size": null,
+        "mean_age": null,
+        "female_percentage": null,
+        "diagnosis": "Paraspinal muscle degeneration with varying fat infiltration levels",
+        "comorbidities": [],
+        "ASA_score": null,
+        "BMI": null
+      }
+    ],
+    "followups": [],
+    "costs": [],
+    "quality_metrics": [],
+    "outcomes": [
+      {
+        "name": "Muscle Reconstruction Accuracy (Dice Similarity)",
+        "category": "radiologic",
+        "baseline": null,
+        "final": 0.9,
+        "value_intervention": "90%",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "0.90",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Dice similarity 90%"
+        },
+        "timepoint": "final",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Activation Level Variance Reduction",
+        "category": "function",
+        "baseline": 100.0,
+        "final": 39.51,
+        "value_intervention": "60.49% reduction",
+        "value_control": "Conventional empirical strategy (baseline 100%)",
+        "value_difference": "-60.49%",
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "60.49",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "60.49% reduction in activation variance"
+        },
+        "timepoint": "final",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Target Activation Error",
+        "category": "function",
+        "baseline": null,
+        "final": 4.0,
+        "value_intervention": "≤4%",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "4",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Target activation error maintained within 4%"
+        },
+        "timepoint": "final",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Physiological Cross-Sectional Area",
+        "category": "radiologic",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Extracted from reconstructed muscle shapes",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "PCSA quantified from personalized model"
+        },
+        "timepoint": "final",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "Fat Infiltration Quantification",
+        "category": "radiologic",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Extracted from reconstructed muscle shapes",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Fat infiltration levels assessed in volunteers with varying conditions"
+        },
+        "timepoint": "final",
+        "is_significant": false,
+        "direction": "unchanged"
+      }
+    ],
+    "complications": []
+  },
+  "important_citations": [],
+  "chunks": [
+    {
+      "content": "Low back pain often involves paraspinal muscle degeneration. Rehabilitation robots can provide high-consistency exercise therapy, but current technologies face the challenge of delivering personalized training to patients with various muscular conditions.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Background identifying the clinical challenge of personalizing robotic rehabilitation for patients with heterogeneous paraspinal muscle conditions.",
+      "keywords": [
+        "low back pain",
+        "paraspinal muscle degeneration",
+        "rehabilitation robots",
+        "personalized training"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "This work proposes an automated framework that translates sparse clinical magnetic resonance imaging (MRI) scans into personalized robotic lumbar rehabilitation strategies.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Novel automated framework developed to convert sparse clinical MRI into patient-specific robotic lumbar rehabilitation strategies.",
+      "keywords": [
+        "automated framework",
+        "MRI scans",
+        "personalized rehabilitation",
+        "robotic strategy"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "A Bayesian fusion method with adaptive observation confidence is proposed to enable automatic posterior inference of the 3D paraspinal muscle geometry from sparse MRI. Key biomechanical parameters, including physiological cross-sectional area and fat infiltration, are extracted from the reconstructed muscle shapes to create a patient-specific musculoskeletal model.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Bayesian fusion methodology reconstructs 3D paraspinal muscle geometry and extracts biomechanical parameters to generate personalized musculoskeletal models.",
+      "keywords": [
+        "Bayesian fusion",
+        "3D muscle reconstruction",
+        "physiological cross-sectional area",
+        "fat infiltration",
+        "musculoskeletal model"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "A hierarchical optimization framework is developed to generate rehabilitation strategies of the combined multi-degree-of-freedom (multi-DOF) motions and dynamic interaction forces to maximize the target muscle activation.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Hierarchical optimization framework generates personalized multi-DOF robotic motions and dynamic forces optimized to maximize target muscle activation.",
+      "keywords": [
+        "hierarchical optimization",
+        "multi-DOF motions",
+        "dynamic interaction forces",
+        "muscle activation"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Validation on multi-center datasets demonstrates 90% dice similarity for the muscle reconstruction.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Multi-center validation confirms 90% Dice similarity accuracy for automated 3D paraspinal muscle reconstruction from sparse MRI.",
+      "keywords": [
+        "validation",
+        "multi-center",
+        "Dice similarity",
+        "muscle reconstruction"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "0.90",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Dice similarity 90%"
+        },
+        "additional": "Muscle reconstruction accuracy validated on multi-center datasets"
+      }
+    },
+    {
+      "content": "Personalized validation experiments on volunteers with varying muscle fat infiltration levels revealed that conventional empirical force strategies failed to adapt to individual differences, leading to risks of activation overload or insufficient stimulation.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Conventional empirical strategies cannot effectively adapt to individual muscle variations, risking either excessive or insufficient muscle activation.",
+      "keywords": [
+        "personalized validation",
+        "fat infiltration",
+        "empirical force strategies",
+        "activation overload",
+        "individual differences"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "The proposed personalized strategy reduced the activation level variance by 60.49% compared to the empirical strategy and maintained the target activation error within 4%.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Personalized robotic strategy significantly reduces activation variance (60.49% reduction) while maintaining target activation accuracy within 4%.",
+      "keywords": [
+        "personalized strategy",
+        "activation variance reduction",
+        "activation error",
+        "empirical comparison",
+        "accuracy"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "60.49",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "60.49% reduction in activation level variance vs empirical strategy"
+        },
+        "additional": "Target activation error maintained within 4%; proposes personalized over empirical strategy"
+      }
+    },
+    {
+      "content": "The results demonstrate that the proposed framework significantly mitigates individual uncertainties, ensuring both safety and effectiveness in robotic rehabilitation.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Automated framework successfully addresses individual patient variability to optimize safety and effectiveness of robotic lumbar rehabilitation.",
+      "keywords": [
+        "personalization",
+        "individual variability",
+        "safety",
+        "effectiveness",
+        "robotic rehabilitation"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "The framework integrates three key components: (1) Bayesian fusion method for 3D muscle geometry reconstruction from sparse MRI with adaptive observation confidence weighting, (2) Biomechanical parameter extraction (physiological cross-sectional area and fat infiltration) from reconstructed geometries to create patient-specific musculoskeletal models, and (3) Hierarchical optimization framework for generating multi-DOF robotic motions and dynamic interaction forces tailored to individual muscle architecture.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Three-component technical framework combining Bayesian reconstruction, biomechanical parameter extraction, and hierarchical optimization for personalized robotic rehabilitation.",
+      "keywords": [
+        "Bayesian fusion",
+        "reconstruction",
+        "biomechanical parameters",
+        "musculoskeletal model",
+        "hierarchical optimization"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "The Bayesian fusion method addresses the challenge of sparse clinical MRI data by implementing adaptive observation confidence, allowing reliable 3D inference of paraspinal muscle geometry despite incomplete imaging datasets typical of clinical settings.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Bayesian approach solves sparse MRI data problem through adaptive confidence weighting for robust muscle geometry inference.",
+      "keywords": [
+        "Bayesian fusion",
+        "sparse MRI",
+        "adaptive confidence",
+        "3D inference",
+        "muscle geometry"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Extracted biomechanical parameters include physiological cross-sectional area (PCSA) and fat infiltration levels, which serve as critical inputs for the hierarchical optimization framework to generate patient-specific activation strategies.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "PCSA and fat infiltration quantification enables patient-specific optimization of robotic rehabilitation strategies.",
+      "keywords": [
+        "physiological cross-sectional area",
+        "PCSA",
+        "fat infiltration",
+        "patient-specific",
+        "optimization"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Multi-DOF robotic rehabilitation motions are optimized through hierarchical framework to maximize target muscle activation while respecting safety constraints and individual muscle mechanical properties.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Hierarchical optimization generates safe, individualized multi-DOF robotic motions tailored to patient muscle characteristics.",
+      "keywords": [
+        "multi-DOF",
+        "robotic motions",
+        "optimization",
+        "safety constraints",
+        "muscle properties"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Validation employed multi-center datasets to assess muscle reconstruction accuracy using Dice similarity coefficient as the primary metric, evaluating geometric agreement between reconstructed 3D models and reference anatomical data.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Multi-center validation protocol uses Dice similarity to quantify muscle reconstruction accuracy across diverse patient populations.",
+      "keywords": [
+        "multi-center validation",
+        "Dice similarity",
+        "reconstruction accuracy",
+        "anatomical reference",
+        "geometric agreement"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Personalized validation experiments enrolled volunteers with varying levels of paraspinal muscle fat infiltration to represent heterogeneous clinical presentations and tested whether personalized optimization strategies outperformed conventional empirical force protocols.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Clinical validation study compared personalized optimization against conventional empirical strategies in volunteers with diverse muscle conditions.",
+      "keywords": [
+        "personalized validation",
+        "fat infiltration levels",
+        "heterogeneous populations",
+        "optimization strategies",
+        "empirical protocols"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Conventional empirical rehabilitation strategies employ fixed force profiles standardized across patient populations, failing to account for individual variations in muscle architecture, composition, and physiological capacity.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Discussion of limitations of conventional empirical strategies that cannot adapt to individual patient muscle variability.",
+      "keywords": [
+        "empirical strategies",
+        "fixed force profiles",
+        "muscle architecture",
+        "muscle composition",
+        "individual variation"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "The 60.49% reduction in activation level variance compared to empirical strategy demonstrates that personalized optimization substantially improves consistency and safety of robotic rehabilitation by preventing both overactivation risks and insufficient stimulation across heterogeneous patient populations.",
+      "content_type": "key_finding",
+      "section_type": "discussion",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Personalization achieves marked improvement in muscle activation consistency, reducing variance by 60.49% and enhancing both safety and therapeutic adequacy.",
+      "keywords": [
+        "activation variance",
+        "personalization benefits",
+        "safety improvement",
+        "therapeutic consistency",
+        "heterogeneous populations"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "60.49",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "60.49% reduction in activation variance"
+        },
+        "additional": "Target activation error maintained within 4%; comparison to empirical baseline"
+      }
+    },
+    {
+      "content": "The 90% Dice similarity for muscle reconstruction validates that the Bayesian fusion method reliably reconstructs 3D paraspinal muscle geometry from clinically available sparse MRI data, enabling accurate biomechanical parameter extraction for downstream personalization.",
+      "content_type": "key_finding",
+      "section_type": "discussion",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "High reconstruction accuracy (90% Dice similarity) confirms feasibility of translating sparse clinical MRI into precise 3D muscle models for personalization.",
+      "keywords": [
+        "Dice similarity",
+        "reconstruction accuracy",
+        "sparse MRI",
+        "Bayesian fusion",
+        "biomechanical parameters"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "0.90",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Dice similarity 90%"
+        },
+        "additional": "Validated on multi-center datasets; demonstrates clinical applicability"
+      }
+    },
+    {
+      "content": "Clinical implications include the ability to provide individualized rehabilitation strategies that adapt to patient-specific muscle conditions, accounting for degenerative changes, fat infiltration variations, and biomechanical differences that standard protocols cannot address.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Framework enables personalized rehabilitation addressing individual muscle degeneration patterns and compositional variations.",
+      "keywords": [
+        "clinical implications",
+        "personalized strategies",
+        "muscle degeneration",
+        "fat infiltration",
+        "biomechanical adaptation"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Future directions include integration with real-time motion capture and biofeedback systems to enable dynamic adjustment of robotic rehabilitation strategies during therapy sessions, as well as prospective clinical trials to establish long-term therapeutic efficacy and safety outcomes in patient populations with various low back pain etiologies.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Future work proposes real-time adaptive rehabilitation systems and prospective clinical trials to validate therapeutic effectiveness.",
+      "keywords": [
+        "real-time adaptation",
+        "biofeedback",
+        "motion capture",
+        "clinical trials",
+        "therapeutic efficacy"
+      ],
+      "statistics": {}
+    }
+  ]
+}

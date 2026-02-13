@@ -2,6 +2,52 @@
 
 ## Version History
 
+### v7.14.31 (2026-02-13): 26개 저널별 참고문헌 스타일 추가
+
+#### Journal-Specific Reference Styles
+
+**배경**: 기존에는 대부분의 저널이 generic `vancouver` 스타일에 매핑되어 있었으나, 실제로는 같은 Vancouver 기반이라도 저널마다 et al. 기준, DOI 포함 여부, 저널명 이탤릭/볼드 등이 다름
+
+**변경 사항**:
+- 26개 저널별 커스텀 `StyleConfig` 생성 (Author Guidelines 기반)
+- 57개 저널명 변형(약어 포함) → 스타일 매핑 추가
+- 저널명 볼드 처리 지원 추가 (JKNS)
+- V7 레거시 코드 정리 (~300+ lines 삭제)
+- MCP 서버 `/tools` 엔드포인트 수정
+- `aiosqlite`, `google-genai` 의존성 추가
+
+**26개 지원 저널**:
+
+| 카테고리 | 저널 |
+|----------|------|
+| Spine 전문 (8) | Spine, Spine J, Eur Spine J, Global Spine J, Asian Spine J, J Neurosurg Spine, Spine Deformity, Neurospine |
+| 정형외과 (8) | JBJS Am, Bone Joint J, CORR, JAAOS, J Orthop Res, Int Orthop, Clin Orthop Surg, J Orthop Surg Res |
+| 신경외과 (6) | J Neurosurg, Neurosurgery, Neurosurg Focus, World Neurosurg, Oper Neurosurg, JKNS |
+| 기타 (4) | Pain, J Pain, Medicine, Sci Rep |
+
+**주요 차이점 예시**:
+
+| 저널 | et al. 기준 | DOI | 저널명 포맷 |
+|------|-----------|-----|------------|
+| Spine (LWW) | 4명→3+et al | X | *이탤릭* |
+| JBJS Am | 전원 표기 | X | 일반 |
+| Pain (IASP) | 전원 표기 | O | Full name |
+| Sci Rep (Nature) | 6명→1+et al | O | *이탤릭*, **볼드** volume |
+| JKNS | 7명→6+et al | X | **볼드** |
+
+**수정 파일**:
+
+| 파일 | 수정 내용 |
+|------|----------|
+| `data/styles/journal_styles.json` | 26개 커스텀 스타일 + 57개 매핑 |
+| `src/builder/reference_formatter.py` | DEFAULT_JOURNAL_MAPPINGS 업데이트, bold 지원 |
+| `src/medical_mcp/medical_kag_server.py` | V7 레거시 코드 정리 |
+| `src/medical_mcp/handlers/pdf_handler.py` | V7 레거시 코드 정리 |
+| `src/medical_mcp/sse_server.py` | /tools 엔드포인트 수정 |
+| `requirements.txt` | google-genai, aiosqlite 추가 |
+
+---
+
 ### v7.14.30 (2026-01-27): 버그 수정 3건
 
 #### 1. PubMed Handler Import 경로 수정

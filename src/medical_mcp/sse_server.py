@@ -340,10 +340,17 @@ def create_app():
 
     async def list_tools(request: Request):
         """List available tools."""
+        from mcp.types import ListToolsRequest
         user_id = get_user_from_request(request)
         mcp_server = get_mcp_server_for_user(user_id)
 
-        tools = await mcp_server.list_tools()
+        handler = mcp_server.request_handlers.get(ListToolsRequest)
+        if handler:
+            result = await handler(ListToolsRequest(method="tools/list"))
+            inner = result.root if hasattr(result, 'root') else result
+            tools = inner.tools if hasattr(inner, 'tools') else []
+        else:
+            tools = []
         return JSONResponse({
             "current_user": user_id,
             "tools": [{"name": t.name, "description": t.description} for t in tools]

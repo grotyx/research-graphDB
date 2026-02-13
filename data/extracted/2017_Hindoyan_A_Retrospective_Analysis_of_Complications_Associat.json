@@ -1,0 +1,930 @@
+{
+  "metadata": {
+    "title": "Recombinant Human Bone Morphogenetic Protein 2 in Anterior Lumbar Interbody Fusion: A Retrospective Analysis of Complication Rates Using the Medicare Database",
+    "authors": [
+      "Kevork Hindoyan",
+      "Justin Tilan",
+      "Jong-Beom Park",
+      "Zorica Buser",
+      "Darrel S. Brodke",
+      "Hans-Joerg Meisel",
+      "S. Tim Yoon",
+      "Jim A. Youssef",
+      "Jeffrey C. Wang"
+    ],
+    "year": 2013,
+    "journal": "Global Spine Journal",
+    "doi": "10.1177/2192568217694010",
+    "pmid": "28507884",
+    "abstract": "Study Design: Retrospective review. Objective: The aim of our study was to quantify the frequency of complications associated with recombinant human bone morphogenetic protein 2 (rhBMP-2) use in anterior lumbar interbody fusion (ALIF). Methods: The orthopedic subset of the Medicare database (PearlDiver) was queried for this retrospective cohort study using International Statistical Classification of Diseases 9 (ICD-9) and Current Procedure Terminology (CPT) codes for ALIF procedures with and without rhBMP-2 between 2005 and 2010. Frequencies of complications and reoperations were then identified within 1 year from the index procedure. Complications included reoperations, pulmonary embolus, deep vein thrombosis, myocardial infarction, nerve-related complications, incision and drainage procedures, wound, sepsis, pneumonia, urinary tract infections, respiratory, heterotopic ossification, retrograde ejaculation, radiculopathy, and other medical complications. Odds ratios (ORs) and 95% confidence intervals (CIs) were used to assess the statistical significance. Results: We identified a total of 41 865 patients who had an ALIF procedure. A total of 14 384 patients received rhBMP-2 while 27 481 did not. Overall, 6016 (41.8%) complications within 1 year from surgery were noted within the group who received rhBMP-2 and 12 950 (47.1%) complications within 1 year from surgery were recorded in those who did not receive rhBMP-2 (OR = 0.81, CI = 0.77-0.84). Overall, exposure to rhBMP-2 was associated with significantly decreased odds of complications with exception to reoperation rates (0.9% rhBMP-2 vs 1.0% no rhBMP-2; OR = 0.88, CI = 0.71-1.09) and radiculopathy (4.4% rhBMP-2 vs 4.3% no rhBMP-2; OR = 1.02, CI = 0.93-1.13). Conclusions: The use of rhBMP-2 in patients undergoing ALIF procedure was associated with a significantly decreased rate of complications. Further studies are needed to elucidate a true incidence of complication.",
+    "study_type": "retrospective-cohort",
+    "study_design": "non-randomized",
+    "evidence_level": "2b",
+    "sample_size": 41865,
+    "centers": "multi-center",
+    "blinding": "open-label",
+    "publication_types": [
+      "Journal Article"
+    ]
+  },
+  "spine_metadata": {
+    "sub_domains": [
+      "Degenerative"
+    ],
+    "surgical_approach": [
+      "Open",
+      "Minimally Invasive"
+    ],
+    "anatomy_level": "L1-S1",
+    "anatomy_region": "lumbar",
+    "pathology": [
+      "Lumbar degenerative disc disease",
+      "Lumbar stenosis",
+      "Lumbar spondylolisthesis"
+    ],
+    "interventions": [
+      "ALIF",
+      "XLIF",
+      "DLIF",
+      "OLIF"
+    ],
+    "comparison_type": "single_arm",
+    "follow_up_months": 12,
+    "main_conclusion": "The use of rhBMP-2 in anterior lumbar interbody fusion procedures was associated with a significantly decreased rate of complications compared to ALIF without rhBMP-2, with complication rates of 41.8% versus 47.1% respectively.",
+    "pico": {
+      "population": "Adult patients (mean age 65-69 years) undergoing anterior lumbar interbody fusion procedures identified from Medicare database, 2005-2010",
+      "intervention": "Anterior lumbar interbody fusion (ALIF) with recombinant human bone morphogenetic protein 2 (rhBMP-2)",
+      "comparison": "Anterior lumbar interbody fusion without rhBMP-2",
+      "outcome": "Complication rates within 1 year including infection, wound complications, thromboembolic events, neurologic complications, reoperations, and other medical complications"
+    },
+    "patient_cohorts": [
+      {
+        "name": "rhBMP-2 Group",
+        "cohort_type": "intervention",
+        "sample_size": 14384,
+        "mean_age": "65-69 (65.7% age ≤69 years)",
+        "female_percentage": 61.5,
+        "diagnosis": "Lumbar degenerative disease requiring interbody fusion",
+        "comorbidities": [
+          "Not specified in database"
+        ],
+        "ASA_score": "Not reported",
+        "BMI": "Not reported"
+      },
+      {
+        "name": "No rhBMP-2 Group",
+        "cohort_type": "control",
+        "sample_size": 27481,
+        "mean_age": "65-69 (62.2% age ≤69 years)",
+        "female_percentage": 60.5,
+        "diagnosis": "Lumbar degenerative disease requiring interbody fusion",
+        "comorbidities": [
+          "Not specified in database"
+        ],
+        "ASA_score": "Not reported",
+        "BMI": "Not reported"
+      }
+    ],
+    "followups": [
+      {
+        "name": "1-year postoperative",
+        "timepoint_months": 12,
+        "completeness_rate": null,
+        "outcomes_at_timepoint": [
+          "Reoperations",
+          "Pulmonary embolism",
+          "Deep vein thrombosis",
+          "Myocardial infarction",
+          "Nerve-related complications",
+          "Incision and drainage procedures",
+          "Wound complications",
+          "Sepsis",
+          "Pneumonia",
+          "Urinary tract infection",
+          "Respiratory complications",
+          "Heterotopic ossification",
+          "Retrograde ejaculation",
+          "Urinary retention",
+          "Radiculopathy"
+        ]
+      }
+    ],
+    "costs": [],
+    "quality_metrics": [],
+    "outcomes": [
+      {
+        "name": "Total Complications",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "41.8%",
+        "value_control": "47.1%",
+        "value_difference": "-5.3",
+        "p_value": "<0.001",
+        "confidence_interval": "95% CI: 0.77-0.84",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "0.81",
+          "ci_lower": "0.77",
+          "ci_upper": "0.84",
+          "label": "OR 0.81 (95% CI: 0.77-0.84)"
+        },
+        "timepoint": "1yr",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Wound Complications",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "10.3%",
+        "value_control": "14.0%",
+        "value_difference": "-3.7",
+        "p_value": "<0.001",
+        "confidence_interval": "95% CI: 0.66-0.75",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "0.71",
+          "ci_lower": "0.66",
+          "ci_upper": "0.75",
+          "label": "OR 0.71 (95% CI: 0.66-0.75)"
+        },
+        "timepoint": "1yr",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Urinary Tract Infection",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "16.7%",
+        "value_control": "19.4%",
+        "value_difference": "-2.7",
+        "p_value": "<0.001",
+        "confidence_interval": "95% CI: 0.79-0.88",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "0.83",
+          "ci_lower": "0.79",
+          "ci_upper": "0.88",
+          "label": "OR 0.83 (95% CI: 0.79-0.88)"
+        },
+        "timepoint": "1yr",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Deep Vein Thrombosis",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "3.9%",
+        "value_control": "5.6%",
+        "value_difference": "-1.7",
+        "p_value": "<0.001",
+        "confidence_interval": "95% CI: 0.61-0.75",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "0.68",
+          "ci_lower": "0.61",
+          "ci_upper": "0.75",
+          "label": "OR 0.68 (95% CI: 0.61-0.75)"
+        },
+        "timepoint": "1yr",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Respiratory Complications",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "9.1%",
+        "value_control": "11.7%",
+        "value_difference": "-2.6",
+        "p_value": "<0.001",
+        "confidence_interval": "95% CI: 0.70-0.81",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "0.75",
+          "ci_lower": "0.70",
+          "ci_upper": "0.81",
+          "label": "OR 0.75 (95% CI: 0.70-0.81)"
+        },
+        "timepoint": "1yr",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Incision and Drainage Procedures",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "6.8%",
+        "value_control": "9.7%",
+        "value_difference": "-2.9",
+        "p_value": "<0.001",
+        "confidence_interval": "95% CI: 0.63-0.74",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "0.68",
+          "ci_lower": "0.63",
+          "ci_upper": "0.74",
+          "label": "OR 0.68 (95% CI: 0.63-0.74)"
+        },
+        "timepoint": "1yr",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Pulmonary Embolism",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "1.7%",
+        "value_control": "2.3%",
+        "value_difference": "-0.6",
+        "p_value": "<0.01",
+        "confidence_interval": "95% CI: 0.66-0.88",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "0.76",
+          "ci_lower": "0.66",
+          "ci_upper": "0.88",
+          "label": "OR 0.76 (95% CI: 0.66-0.88)"
+        },
+        "timepoint": "1yr",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Myocardial Infarction",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "1.3%",
+        "value_control": "1.9%",
+        "value_difference": "-0.6",
+        "p_value": "<0.01",
+        "confidence_interval": "95% CI: 0.59-0.82",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "0.70",
+          "ci_lower": "0.59",
+          "ci_upper": "0.82",
+          "label": "OR 0.70 (95% CI: 0.59-0.82)"
+        },
+        "timepoint": "1yr",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Nerve-Related Complications",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "0.7%",
+        "value_control": "1.2%",
+        "value_difference": "-0.5",
+        "p_value": "<0.001",
+        "confidence_interval": "95% CI: 0.44-0.70",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "0.56",
+          "ci_lower": "0.44",
+          "ci_upper": "0.70",
+          "label": "OR 0.56 (95% CI: 0.44-0.70)"
+        },
+        "timepoint": "1yr",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Sepsis",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "2.4%",
+        "value_control": "4.2%",
+        "value_difference": "-1.8",
+        "p_value": "<0.001",
+        "confidence_interval": "95% CI: 0.50-0.64",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "0.57",
+          "ci_lower": "0.50",
+          "ci_upper": "0.64",
+          "label": "OR 0.57 (95% CI: 0.50-0.64)"
+        },
+        "timepoint": "1yr",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Pneumonia",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "6.0%",
+        "value_control": "7.4%",
+        "value_difference": "-1.4",
+        "p_value": "<0.01",
+        "confidence_interval": "95% CI: 0.73-0.86",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "0.79",
+          "ci_lower": "0.73",
+          "ci_upper": "0.86",
+          "label": "OR 0.79 (95% CI: 0.73-0.86)"
+        },
+        "timepoint": "1yr",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Medical Complications",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "5.1%",
+        "value_control": "6.8%",
+        "value_difference": "-1.7",
+        "p_value": "<0.001",
+        "confidence_interval": "95% CI: 0.67-0.80",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "0.73",
+          "ci_lower": "0.67",
+          "ci_upper": "0.80",
+          "label": "OR 0.73 (95% CI: 0.67-0.80)"
+        },
+        "timepoint": "1yr",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Urinary Retention",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "4.4%",
+        "value_control": "5.1%",
+        "value_difference": "-0.7",
+        "p_value": "<0.01",
+        "confidence_interval": "95% CI: 0.77-0.93",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "0.85",
+          "ci_lower": "0.77",
+          "ci_upper": "0.93",
+          "label": "OR 0.85 (95% CI: 0.77-0.93)"
+        },
+        "timepoint": "1yr",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Reoperations",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "0.9%",
+        "value_control": "1.0%",
+        "value_difference": "-0.1",
+        "p_value": "0.35",
+        "confidence_interval": "95% CI: 0.71-1.09",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "0.88",
+          "ci_lower": "0.71",
+          "ci_upper": "1.09",
+          "label": "OR 0.88 (95% CI: 0.71-1.09)"
+        },
+        "timepoint": "1yr",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "Radiculopathy",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "4.4%",
+        "value_control": "4.3%",
+        "value_difference": "+0.1",
+        "p_value": "0.64",
+        "confidence_interval": "95% CI: 0.93-1.13",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "1.02",
+          "ci_lower": "0.93",
+          "ci_upper": "1.13",
+          "label": "OR 1.02 (95% CI: 0.93-1.13)"
+        },
+        "timepoint": "1yr",
+        "is_significant": false,
+        "direction": "unchanged"
+      }
+    ],
+    "complications": [
+      {
+        "name": "Total Complications",
+        "incidence_intervention": "41.8%",
+        "incidence_control": "47.1%",
+        "p_value": "<0.001",
+        "severity": "mixed"
+      },
+      {
+        "name": "Wound Complications",
+        "incidence_intervention": "10.3%",
+        "incidence_control": "14.0%",
+        "p_value": "<0.001",
+        "severity": "minor"
+      },
+      {
+        "name": "Urinary Tract Infection",
+        "incidence_intervention": "16.7%",
+        "incidence_control": "19.4%",
+        "p_value": "<0.001",
+        "severity": "minor"
+      },
+      {
+        "name": "Respiratory Complications",
+        "incidence_intervention": "9.1%",
+        "incidence_control": "11.7%",
+        "p_value": "<0.001",
+        "severity": "major"
+      },
+      {
+        "name": "Deep Vein Thrombosis",
+        "incidence_intervention": "3.9%",
+        "incidence_control": "5.6%",
+        "p_value": "<0.001",
+        "severity": "major"
+      },
+      {
+        "name": "Incision and Drainage Procedures",
+        "incidence_intervention": "6.8%",
+        "incidence_control": "9.7%",
+        "p_value": "<0.001",
+        "severity": "major"
+      },
+      {
+        "name": "Pulmonary Embolism",
+        "incidence_intervention": "1.7%",
+        "incidence_control": "2.3%",
+        "p_value": "<0.01",
+        "severity": "major"
+      },
+      {
+        "name": "Myocardial Infarction",
+        "incidence_intervention": "1.3%",
+        "incidence_control": "1.9%",
+        "p_value": "<0.01",
+        "severity": "major"
+      },
+      {
+        "name": "Nerve-Related Complications",
+        "incidence_intervention": "0.7%",
+        "incidence_control": "1.2%",
+        "p_value": "<0.001",
+        "severity": "major"
+      },
+      {
+        "name": "Sepsis",
+        "incidence_intervention": "2.4%",
+        "incidence_control": "4.2%",
+        "p_value": "<0.001",
+        "severity": "major"
+      },
+      {
+        "name": "Pneumonia",
+        "incidence_intervention": "6.0%",
+        "incidence_control": "7.4%",
+        "p_value": "<0.01",
+        "severity": "major"
+      },
+      {
+        "name": "Reoperations",
+        "incidence_intervention": "0.9%",
+        "incidence_control": "1.0%",
+        "p_value": "0.35",
+        "severity": "revision_required"
+      },
+      {
+        "name": "Radiculopathy",
+        "incidence_intervention": "4.4%",
+        "incidence_control": "4.3%",
+        "p_value": "0.64",
+        "severity": "minor"
+      },
+      {
+        "name": "Retrograde Ejaculation",
+        "incidence_intervention": "<11",
+        "incidence_control": "<11",
+        "p_value": "Not calculable",
+        "severity": "minor"
+      },
+      {
+        "name": "Heterotopic Ossification",
+        "incidence_intervention": "<11",
+        "incidence_control": "<11",
+        "p_value": "Not calculable",
+        "severity": "minor"
+      }
+    ]
+  },
+  "important_citations": [
+    {
+      "authors": [
+        "Burkus"
+      ],
+      "year": 2002,
+      "context": "supports_result",
+      "section": "introduction",
+      "citation_text": "The impetus of this limited approval was based in part on the study by Burkus et al, who showed similar outcomes at 2 years in the patients who received rhBMP-2 and a tapered titanium fusion cage versus those who received autogenous iliac crest bone graft.",
+      "importance_reason": "Foundational FDA approval study for rhBMP-2 in ALIF; demonstrated equivalence to autogenous bone graft",
+      "outcome_comparison": "fusion rate, clinical outcomes",
+      "direction_match": true
+    },
+    {
+      "authors": [
+        "Carragee"
+      ],
+      "year": null,
+      "context": "contradicts_result",
+      "section": "discussion",
+      "citation_text": "Carragee and coworkers reported several complications associated with the use of rhBMP-2 in ALIF. However, in our retrospective study patients who received rhBMP-2 had a significantly lower incidence of complications compared to patients who underwent ALIF procedures without rhBMP-2.",
+      "importance_reason": "Key citation showing conflicting evidence regarding rhBMP-2 complications; current study contradicts previous findings",
+      "outcome_comparison": "complication rates",
+      "direction_match": false
+    },
+    {
+      "authors": [
+        "Cahill"
+      ],
+      "year": null,
+      "context": "comparison",
+      "section": "discussion",
+      "citation_text": "In contrast, Cahill et al found a 6.97% overall complication rate when rhBMP-2 was used in lumbar fusion, and it was not significantly different from those who did not receive rhBMP-2. Additionally, in their extensive analysis, they showed that the complications were significantly more frequent with increase in age, Charlson comorbidity score, and nondegenerative and nonelective diagnosis and revision fusions.",
+      "importance_reason": "Important comparison study showing lower overall complication rates and identification of patient selection factors",
+      "outcome_comparison": "complication rates, age, comorbidity impact",
+      "direction_match": false
+    },
+    {
+      "authors": [
+        "Fu"
+      ],
+      "year": null,
+      "context": "contradicts_result",
+      "section": "discussion",
+      "citation_text": "On the other hand, Fu et al found that rhBMP-2 was associated with nonsignificantly increased risk of those complications with anterior lumbar interbody fusion. While our results showed a decreased rate of complication with rhBMP-2, the frequency of our total complications was much higher than previously reported.",
+      "importance_reason": "Prior study contradicting current findings regarding retrograde ejaculation and urogenital complications with rhBMP-2",
+      "outcome_comparison": "retrograde ejaculation, urogenital complications",
+      "direction_match": false
+    },
+    {
+      "authors": [
+        "Mindea"
+      ],
+      "year": null,
+      "context": "comparison",
+      "section": "discussion",
+      "citation_text": "Mindea et al evaluated the incidence of postoperative radiculitis after minimally invasive transforaminal lumbar interbody fusion and found that 11% of patients from the rhBMP-2 group developed symptoms of radiculitis on the fused side. In our analysis, we did not find any difference in radiculopathy rates between the 2 groups.",
+      "importance_reason": "Comparison of radiculitis/radiculopathy incidence between different fusion approaches and rhBMP-2 use",
+      "outcome_comparison": "radiculopathy, radiculitis incidence",
+      "direction_match": false
+    }
+  ],
+  "chunks": [
+    {
+      "content": "Study Design: Retrospective review. Objective: The aim of our study was to quantify the frequency of complications associated with recombinant human bone morphogenetic protein 2 (rhBMP-2) use in anterior lumbar interbody fusion (ALIF). Methods: The orthopedic subset of the Medicare database (PearlDiver) was queried for this retrospective cohort study using International Statistical Classification of Diseases 9 (ICD-9) and Current Procedure Terminology (CPT) codes for ALIF procedures with and without rhBMP-2 between 2005 and 2010. Frequencies of complications and reoperations were then identified within 1 year from the index procedure.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Retrospective cohort study comparing complication rates in ALIF procedures with and without rhBMP-2 using Medicare database (2005-2010) with 1-year follow-up.",
+      "keywords": [
+        "rhBMP-2",
+        "ALIF",
+        "complications",
+        "Medicare database",
+        "retrospective cohort"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Complications included reoperations, pulmonary embolus, deep vein thrombosis, myocardial infarction, nerve-related complications, incision and drainage procedures, wound, sepsis, pneumonia, urinary tract infections, respiratory, heterotopic ossification, retrograde ejaculation, radiculopathy, and other medical complications. Odds ratios (ORs) and 95% confidence intervals (CIs) were used to assess the statistical significance.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Study assessed 15 different complication categories and used odds ratios with 95% confidence intervals for statistical analysis.",
+      "keywords": [
+        "complications",
+        "outcomes",
+        "odds ratio",
+        "statistical analysis"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "We identified a total of 41 865 patients who had an ALIF procedure. A total of 14 384 patients received rhBMP-2 while 27 481 did not. Overall, 6016 (41.8%) complications within 1 year from surgery were noted within the group who received rhBMP-2 and 12 950 (47.1%) complications within 1 year from surgery were recorded in those who did not receive rhBMP-2 (OR = 0.81, CI = 0.77-0.84).",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Overall complication rates at 1 year were 41.8% with rhBMP-2 versus 47.1% without rhBMP-2, representing a statistically significant 5.3% absolute reduction.",
+      "keywords": [
+        "complication rates",
+        "1-year outcomes",
+        "rhBMP-2 efficacy",
+        "sample size"
+      ],
+      "statistics": {
+        "p_value": "<0.001",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "0.81",
+          "ci_lower": "0.77",
+          "ci_upper": "0.84",
+          "label": "OR 0.81 (95% CI: 0.77-0.84)"
+        },
+        "additional": "41,865 total patients, 14,384 rhBMP-2 group, 27,481 control group"
+      }
+    },
+    {
+      "content": "Overall, exposure to rhBMP-2 was associated with significantly decreased odds of complications with exception to reoperation rates (0.9% rhBMP-2 vs 1.0% no rhBMP-2; OR = 0.88, CI = 0.71-1.09) and radiculopathy (4.4% rhBMP-2 vs 4.3% no rhBMP-2; OR = 1.02, CI = 0.93-1.13).",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "rhBMP-2 showed significantly reduced complications overall, but no significant difference in reoperation rates or radiculopathy incidence.",
+      "keywords": [
+        "reoperation rate",
+        "radiculopathy",
+        "rhBMP-2 safety",
+        "complication exceptions"
+      ],
+      "statistics": {
+        "p_value": "0.35-0.64",
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "0.88-1.02",
+          "ci_lower": "0.71-0.93",
+          "ci_upper": "1.09-1.13",
+          "label": "OR 0.88 (95% CI: 0.71-1.09) for reoperation; OR 1.02 (95% CI: 0.93-1.13) for radiculopathy"
+        }
+      }
+    },
+    {
+      "content": "rhBMP-2 was approved in 2002 by the Food and Drug Administration (FDA) for single-level anterior lumbar interbody fusions (ALIFs) within a lumbar tapered titanium cage as an iliac crest bone graft substitute. These first reports detailed excellent fusion rates and shorter hospital stays, and as such, rhBMP-2 saw over 4-fold expansion between 2003 and 2007, with 85% of procedures using it in an off-label fashion.",
+      "content_type": "text",
+      "section_type": "introduction",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "FDA approval of rhBMP-2 in 2002 was followed by widespread adoption and expansion, with majority of uses being off-label.",
+      "keywords": [
+        "FDA approval",
+        "rhBMP-2",
+        "off-label use",
+        "clinical adoption"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "With regard to ALIFs, despite a 91% fusion rate at 6-year follow up, rhBMP-2 use has been associated with osteolysis, graft subsidence, retrograde ejaculation, urological complications, and delayed infection. Furthermore, 2 meta-analyses further challenged the benefits of rhBMP-2 and called attention to misrepresentation of previously published studies on positive outcomes of rhBMP-2.",
+      "content_type": "text",
+      "section_type": "introduction",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Despite high fusion rates, rhBMP-2 has been associated with multiple serious complications, and meta-analyses have questioned its benefits.",
+      "keywords": [
+        "fusion rate",
+        "adverse effects",
+        "osteolysis",
+        "retrograde ejaculation",
+        "meta-analysis criticism"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "The PearlDiver Patient Record Database is a national insurance database consisting of Medicare and multiple private insurance agencies. For the purpose of our study, the orthopedic subset of the Medicare database was queried using ICD-9 and/or Current Procedural Terminology (CPT) codes between 2005 and 2010 to identify patients who underwent an ALIF procedure.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Study utilized PearlDiver Medicare database with ICD-9/CPT coding to identify ALIF procedures from 2005-2010.",
+      "keywords": [
+        "PearlDiver database",
+        "Medicare",
+        "ICD-9",
+        "CPT codes",
+        "study population identification"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "After identifying the correct fusion procedure, we identified those patients who had rhBMP-2 (ICD-9 84.52) utilized at the time of surgery, thus creating 2 groups for comparison. The specific complications were then identified within 1 year from surgery. Reoperations were defined as a repeat spinal fusion procedure within 1 year from index surgery.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Study created two comparison groups (with and without rhBMP-2) and defined reoperations as repeat fusion within 1 year.",
+      "keywords": [
+        "study groups",
+        "rhBMP-2 identification",
+        "complication tracking",
+        "reoperation definition"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Table II shows demographics: rhBMP-2 group had 5,299 males (36.9%) and 8,836 females (61.5%), compared to no-rhBMP-2 group with 10,513 males (38.3%) and 16,619 females (60.5%). Both cohorts showed similar patient profiles in terms of gender distribution. For age distribution, 65.7% of patients who underwent ALIF with rhBMP-2 were 69 years of age and younger, compared to 62.2% without rhBMP-2 in the same age group. Total yearly usage of rhBMP-2 increased from 1,619 in 2005 to 3,068 in 2010.",
+      "content_type": "table",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Demographic comparison shows similar gender distribution between groups (approximately 37-38% male, 60-61% female) and age distribution, with progressive increase in rhBMP-2 usage over 2005-2010 study period.",
+      "keywords": [
+        "demographics",
+        "gender distribution",
+        "age stratification",
+        "baseline characteristics"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Table IV presents the comprehensive complication analysis. The rhBMP-2 group had significantly lower rates of wound complications (10.3% vs 14.0%, OR=0.71, 95% CI: 0.66-0.75), urinary tract infections (16.7% vs 19.4%, OR=0.83, 95% CI: 0.79-0.88), respiratory complications (9.1% vs 11.7%, OR=0.75, 95% CI: 0.70-0.81), deep vein thrombosis (3.9% vs 5.6%, OR=0.68, 95% CI: 0.61-0.75), and incision/drainage procedures (6.8% vs 9.7%, OR=0.68, 95% CI: 0.63-0.74). Sepsis (2.4% vs 4.2%, OR=0.57, 95% CI: 0.50-0.64) and nerve-related complications (0.7% vs 1.2%, OR=0.56, 95% CI: 0.44-0.70) were also significantly lower with rhBMP-2. Pulmonary embolism (1.7% vs 2.3%), myocardial infarction (1.3% vs 1.9%), and pneumonia (6.0% vs 7.4%) rates were all significantly lower in the rhBMP-2 group. No significant differences were found for reoperations (0.9% vs 1.0%, OR=0.88, p=0.35) or radiculopathy (4.4% vs 4.3%, OR=1.02, p=0.64).",
+      "content_type": "table",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Comprehensive complication comparison showing rhBMP-2 associated with significantly lower rates of most major and minor complications except reoperation and radiculopathy.",
+      "keywords": [
+        "complications",
+        "odds ratios",
+        "infection rates",
+        "thromboembolic events",
+        "safety profile"
+      ],
+      "statistics": {
+        "p_value": "<0.001 to 0.64",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "0.56-1.02",
+          "ci_lower": "0.44-0.93",
+          "ci_upper": "0.75-1.13",
+          "label": "Multiple ORs as described in content"
+        },
+        "additional": "Total of 13 significant complication reductions, 2 non-significant comparisons"
+      }
+    },
+    {
+      "content": "Our study demonstrated that the use of rhBMP-2 in ALIF procedures was not associated with an increased frequency of complications when compared to ALIF procedures without rhBMP-2. In 2002, rhBMP-2 was approved by the FDA as a substitute for autologous bone in anterior interbody spine fusion. The impetus of this limited approval was based in part on the study by Burkus et al, who showed similar outcomes at 2 years in the patients who received rhBMP-2 and a tapered titanium fusion cage versus those who received autogenous iliac crest bone graft.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Main conclusion that rhBMP-2 did not increase complications, with historical context of FDA approval and foundational comparative study.",
+      "keywords": [
+        "rhBMP-2 safety",
+        "complication analysis",
+        "FDA approval history",
+        "autologous bone comparison"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "However, since 2002, several authors have reported complications with its use as well as concerns with regard to the cost and benefit in spine surgery. Controversy related to the 'off-label' use of rhBMP-2 as well as apprehensions of underreporting caused several to question its necessity in ALIF. Carragee and coworkers reported several complications associated with the use of rhBMP-2 in ALIF. However, in our retrospective study patients who received rhBMP-2 had a significantly lower incidence of complications compared to patients who underwent ALIF procedures without rhBMP-2.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Discussion acknowledging previous concerns about rhBMP-2 complications while noting current study's contradictory findings of lower complication rates.",
+      "keywords": [
+        "off-label controversy",
+        "previous complications",
+        "cost-benefit analysis",
+        "conflicting evidence"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Interestingly, at 1 year postoperatively, we showed with statistical significance that total complications in the group exposed to rhBMP-2 were less frequent than in the no-rhBMP-2 cohort. In contrast, Cahill et al found a 6.97% overall complication rate when rhBMP-2 was used in lumbar fusion, and it was not significantly different from those who did not receive rhBMP-2. Additionally, in their extensive analysis, they showed that the complications were significantly more frequent with increase in age, Charlson comorbidity score, and nondegenerative and nonelective diagnosis and revision fusions. This is an important finding because it highlights the importance of choosing the right patient for the treatment.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Comparison with Cahill study showing different complication rates and identifying patient selection as critical factor for outcome.",
+      "keywords": [
+        "1-year outcomes",
+        "comorbidity impact",
+        "patient selection",
+        "age effects",
+        "study comparison"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "While our results showed a decreased rate of complication with rhBMP-2, the frequency of our total complications was much higher than previously reported. This is likely due to the following: (1) in an attempt to capture as many complications within 1 year, many of the complications identified by ICD-9 were likely not directly related to index surgery and (2) the fact that the authors in previous studies only included complications reported during the postoperative inpatient hospitalization, whereas we attempted to capture complications up to 1 year from the index procedure.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Discussion of methodological considerations explaining higher overall complication rates compared to prior studies due to longer follow-up period and broader complication capture.",
+      "keywords": [
+        "methodology",
+        "complication capture",
+        "ICD-9 limitations",
+        "follow-up period",
+        "study design considerations"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "It is hypothesized that the physical proximity of rhBMP-2 to the neural structures and the potential to induce an inflammatory reaction or ectopic bone formation are the genesis of postoperative nerve-related complications, and thus, rhBMP-2 in ALIF is situated further away from the neural elements possibly explaining why the nerve-related complications are seen at a lesser frequency. Retrograde ejaculation (RE) in association with rhBMP-2 has received particular attention in recent years. In a retrospective analysis, the authors confirmed a higher rate of retrograde ejaculation associated with rhBMP-2. Our query did not yield enough incidences of RE in ALIF procedures to report per PearlDiver policy.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Mechanistic discussion of rhBMP-2 and neural complications, with note on retrograde ejaculation being too rare to analyze in Medicare population.",
+      "keywords": [
+        "mechanism of injury",
+        "neural complications",
+        "retrograde ejaculation",
+        "anatomic proximity",
+        "data limitations"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "There were several limitations to our study. This was a retrospective study of a large database searched by ICD-9 and CPT codes and it is subject to failure in reporting specific complications. The use of the PearlDiver database does not allow for past medical history or clinical and radiographic outcomes to be reviewed. This limitation excluded the ability to perform multivariate analysis to account for any confounding variables between the groups, and as such, there was a high rate of complications noted.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Study limitations include retrospective design, coding-based case identification, lack of clinical detail, and inability to control for confounding variables.",
+      "keywords": [
+        "study limitations",
+        "coding accuracy",
+        "database limitations",
+        "confounding variables",
+        "multivariate analysis"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Furthermore, we were unable to analyze other important factors such as rhBMP-2 dosing and very specific complications, such as subsidence, cage migration, and antibody formation. As an indirect way to measure this, we attempted to examine reoperation rates at 1 year. Additional limitations attributable to the use of a large database were that we did not have the ability to differentiate ALIFs from eXtreme Lateral Interbody Fusion (XLIFs)/Direct Lateral Interbody Fusion (DLIFs)/oblique lumbar interbody fusion (OLIFs) as they all have a common CPT code.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Additional limitations include inability to assess dosing, specific radiologic complications, and inability to differentiate lateral fusion approaches.",
+      "keywords": [
+        "dosing analysis",
+        "subsidence",
+        "cage migration",
+        "surgical approach differentiation",
+        "CPT code limitations"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Despite these limitations, we believe that our study provides additional support to the notion that the rate of complications associated with rhBMP-2 use in ALIF is no different than ALIFs performed without rhBMP-2. Imperative in the future of biologics are further studies focusing on the mechanism of complications, optimal dosing, and long-term outcomes. The use of rhBMP-2 should be weighed thoughtfully and the surgeon should have a detailed discussion with patient with regard to the risks and benefits of its use.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Conclusion supporting safety profile of rhBMP-2 in ALIF and recommending future research on mechanisms, dosing, and long-term outcomes.",
+      "keywords": [
+        "conclusions",
+        "rhBMP-2 safety",
+        "future directions",
+        "patient counseling",
+        "informed consent"
+      ],
+      "statistics": {}
+    }
+  ]
+}

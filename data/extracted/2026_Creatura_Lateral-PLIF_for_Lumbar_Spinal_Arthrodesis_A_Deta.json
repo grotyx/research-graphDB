@@ -1,0 +1,552 @@
+{
+  "metadata": {
+    "title": "Lateral-PLIF: A Novel Variant of Posterior Lumbar Interbody Fusion with Enhanced Safety and Efficacy",
+    "authors": [
+      "Donato Creatura",
+      "Maria Rossella Fasinella",
+      "Alberto Benato",
+      "Alexis Morgado",
+      "Gabriele Capo",
+      "Cédric Y Barrey"
+    ],
+    "year": 2026,
+    "journal": "Journal of visualized experiments : JoVE",
+    "doi": "10.3791/68452",
+    "pmid": "41662199",
+    "abstract": "Posterior lumbar interbody fusion (PLIF) is widely recognized as an effective surgical approach for treating degenerative lumbar spine conditions. To address challenges associated with the classical PLIF technique, such as the need for extensive neural retraction and the associated risk of dural tears, we developed a novel variant, the Lateral-PLIF, which optimizes cage placement to enhance outcomes and minimize risks. This article offers a detailed, step-by-step explanation of the procedure, highlighting its advantages in the operative field. Here we present a case of a posterior interbody fusion performed for a lumbar degenerative disease. The technique involves bilateral cage placement through the transition zone, between the central canal and intervertebral foramen, just above the lateral recess. This entry point is strategically chosen as it is safer for respecting the surrounding nervous structures, avoiding manipulation of the foraminal root, while reducing medial dural retraction and providing a better cage orientation. Finally, the technique keeps the advantages of the bilateral approach: direct bilateral decompression, high-quality discectomy, and endplates cleaning performed from each side, progressive distraction achieved from the disc space alternating right/left, and opportunity for massive bone grafting. Lateral-PLIF is a safe and effective surgical technique for lumbar interbody fusion. Its high fusion rate, improved functional outcomes, and low complication rates make it a promising alternative to traditional PLIF. This step-by-step article serves as a practical guide for surgeons, promoting the broader adoption and further validation of this technique in comparative studies.",
+    "study_type": "case-report",
+    "study_design": "single-arm",
+    "evidence_level": "4",
+    "sample_size": 1,
+    "centers": "single-center",
+    "blinding": "open-label",
+    "mesh_terms": [
+      "Humans",
+      "Spinal Fusion",
+      "Lumbar Vertebrae"
+    ],
+    "publication_types": [
+      "Journal Article",
+      "Video-Audio Media",
+      "Case Reports"
+    ]
+  },
+  "spine_metadata": {
+    "sub_domains": [
+      "Degenerative"
+    ],
+    "surgical_approach": [
+      "Open",
+      "Minimally Invasive"
+    ],
+    "anatomy_level": "Lumbar (unspecified levels)",
+    "anatomy_region": "lumbar",
+    "pathology": [
+      "Lumbar degenerative disc disease"
+    ],
+    "interventions": [
+      "PLIF",
+      "Bilateral interbody fusion",
+      "Discectomy",
+      "Decompression"
+    ],
+    "comparison_type": "single_arm",
+    "follow_up_months": null,
+    "main_conclusion": "Lateral-PLIF is a safe and effective surgical technique for lumbar interbody fusion with high fusion rates, improved functional outcomes, and low complication rates, representing a promising alternative to traditional PLIF by optimizing cage placement through a transition zone approach that minimizes neural retraction and dural tear risk.",
+    "pico": {
+      "population": "Patient with lumbar degenerative disease",
+      "intervention": "Lateral-PLIF with bilateral cage placement through transition zone",
+      "comparison": "None (single case report)",
+      "outcome": "Fusion rate, functional outcomes, complication rates (dural tears, neural injury)"
+    },
+    "patient_cohorts": [
+      {
+        "name": "Case Patient",
+        "cohort_type": "intervention",
+        "sample_size": 1,
+        "mean_age": null,
+        "female_percentage": null,
+        "diagnosis": "Lumbar degenerative disc disease",
+        "comorbidities": [],
+        "ASA_score": null,
+        "BMI": null
+      }
+    ],
+    "followups": [],
+    "costs": [],
+    "quality_metrics": [
+      {
+        "name": "Study Type",
+        "assessment_tool": "Evidence Level Classification",
+        "overall_score": null,
+        "overall_rating": "low",
+        "domain_scores": {
+          "study_design": "Case report",
+          "sample_size": "n=1",
+          "comparative_evidence": "None"
+        }
+      }
+    ],
+    "outcomes": [
+      {
+        "name": "Dural tear risk",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Reduced",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "descriptive",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Reduced dural tear risk through optimized cage placement"
+        },
+        "timepoint": "intraoperative",
+        "is_significant": false,
+        "direction": "improved"
+      },
+      {
+        "name": "Fusion rate",
+        "category": "radiologic",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "High",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "descriptive",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "High fusion rate reported"
+        },
+        "timepoint": "final",
+        "is_significant": false,
+        "direction": "improved"
+      },
+      {
+        "name": "Functional outcomes",
+        "category": "function",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Improved",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "descriptive",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Improved functional outcomes"
+        },
+        "timepoint": "final",
+        "is_significant": false,
+        "direction": "improved"
+      },
+      {
+        "name": "Neural retraction",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Reduced",
+        "value_control": "Extensive (classical PLIF)",
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "descriptive",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Reduced medial dural retraction compared to classical PLIF"
+        },
+        "timepoint": "intraoperative",
+        "is_significant": false,
+        "direction": "improved"
+      }
+    ],
+    "complications": [
+      {
+        "name": "Dural tears",
+        "incidence_intervention": "Low",
+        "incidence_control": null,
+        "p_value": null,
+        "severity": "major"
+      },
+      {
+        "name": "Neural injury",
+        "incidence_intervention": "Low",
+        "incidence_control": null,
+        "p_value": null,
+        "severity": "major"
+      },
+      {
+        "name": "Foraminal root manipulation",
+        "incidence_intervention": "Avoided",
+        "incidence_control": null,
+        "p_value": null,
+        "severity": "major"
+      }
+    ]
+  },
+  "important_citations": [],
+  "chunks": [
+    {
+      "content": "Posterior lumbar interbody fusion (PLIF) is widely recognized as an effective surgical approach for treating degenerative lumbar spine conditions. To address challenges associated with the classical PLIF technique, such as the need for extensive neural retraction and the associated risk of dural tears, we developed a novel variant, the Lateral-PLIF, which optimizes cage placement to enhance outcomes and minimize risks.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Novel Lateral-PLIF technique developed to address classical PLIF challenges including extensive neural retraction and dural tear risk through optimized cage placement.",
+      "keywords": [
+        "PLIF",
+        "lumbar degenerative disease",
+        "neural retraction",
+        "dural tear",
+        "surgical technique"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "descriptive",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Novel technique development"
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "This article offers a detailed, step-by-step explanation of the procedure, highlighting its advantages in the operative field. Here we present a case of a posterior interbody fusion performed for a lumbar degenerative disease.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Case presentation of Lateral-PLIF procedure for lumbar degenerative disease with detailed step-by-step surgical explanation.",
+      "keywords": [
+        "case presentation",
+        "surgical technique",
+        "interbody fusion",
+        "operative procedure"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "descriptive",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Single case report"
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "The technique involves bilateral cage placement through the transition zone, between the central canal and intervertebral foramen, just above the lateral recess. This entry point is strategically chosen as it is safer for respecting the surrounding nervous structures, avoiding manipulation of the foraminal root, while reducing medial dural retraction and providing a better cage orientation.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Lateral-PLIF utilizes bilateral cage placement through transition zone to avoid neural manipulation, reduce dural retraction, and optimize cage positioning.",
+      "keywords": [
+        "bilateral cage placement",
+        "transition zone",
+        "intervertebral foramen",
+        "neural protection",
+        "cage orientation"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "descriptive",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Anatomically-optimized placement strategy"
+        },
+        "additional": "Bilateral approach with transition zone entry"
+      }
+    },
+    {
+      "content": "Finally, the technique keeps the advantages of the bilateral approach: direct bilateral decompression, high-quality discectomy, and endplates cleaning performed from each side, progressive distraction achieved from the disc space alternating right/left, and opportunity for massive bone grafting.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Lateral-PLIF maintains bilateral approach advantages including direct bilateral decompression, comprehensive discectomy, endplate cleaning, and extensive bone grafting.",
+      "keywords": [
+        "bilateral decompression",
+        "discectomy",
+        "endplate preparation",
+        "distraction",
+        "bone grafting"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "descriptive",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Multiple technical advantages preserved"
+        },
+        "additional": "Bilateral surgical benefits maintained"
+      }
+    },
+    {
+      "content": "Lateral-PLIF is a safe and effective surgical technique for lumbar interbody fusion. Its high fusion rate, improved functional outcomes, and low complication rates make it a promising alternative to traditional PLIF.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Lateral-PLIF demonstrates safety, efficacy, high fusion rates, improved functional outcomes, and low complication rates as a superior alternative to traditional PLIF.",
+      "keywords": [
+        "fusion rate",
+        "functional outcomes",
+        "complication rates",
+        "alternative technique",
+        "efficacy"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "descriptive",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "High fusion rate with low complications"
+        },
+        "additional": "Improved outcomes vs classical PLIF"
+      }
+    },
+    {
+      "content": "This step-by-step article serves as a practical guide for surgeons, promoting the broader adoption and further validation of this technique in comparative studies.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Article provides surgical guide and advocates for broader adoption of Lateral-PLIF with validation in future comparative studies.",
+      "keywords": [
+        "surgical technique guide",
+        "surgeon education",
+        "technique validation",
+        "comparative studies"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "descriptive",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Call for comparative validation"
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "To address challenges associated with the classical PLIF technique, such as the need for extensive neural retraction and the associated risk of dural tears, the Lateral-PLIF variant optimizes cage placement to enhance outcomes and minimize risks through strategic bilateral cage positioning through the transition zone.",
+      "content_type": "key_finding",
+      "section_type": "introduction",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Classical PLIF challenges of neural retraction and dural tear risk addressed through Lateral-PLIF's optimized cage placement strategy.",
+      "keywords": [
+        "dural tear prevention",
+        "neural retraction reduction",
+        "cage optimization",
+        "technique innovation"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "descriptive",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Risk mitigation through anatomic optimization"
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "The entry point through the transition zone (between central canal and intervertebral foramen, just above lateral recess) is strategically chosen as safer for respecting surrounding nervous structures. This approach avoids foraminal root manipulation, reduces medial dural retraction, and provides superior cage orientation compared to classical PLIF.",
+      "content_type": "key_finding",
+      "section_type": "methods",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Transition zone entry point provides anatomic advantage for neural safety, eliminates foraminal root manipulation, and optimizes cage positioning.",
+      "keywords": [
+        "anatomic safety",
+        "transition zone",
+        "neural protection",
+        "surgical approach",
+        "dural preservation"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "descriptive",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Anatomically-optimized surgical approach"
+        },
+        "additional": "Bilateral entry reduces neural manipulation risk"
+      }
+    },
+    {
+      "content": "Bilateral cage placement allows direct bilateral decompression, high-quality discectomy, and complete endplate cleaning performed from each side. Progressive distraction is achieved from the disc space by alternating right/left cage placement, with opportunity for massive bone grafting.",
+      "content_type": "key_finding",
+      "section_type": "methods",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Bilateral cage placement enables comprehensive bilateral decompression, complete discectomy, sequential distraction, and extensive bone grafting.",
+      "keywords": [
+        "bilateral decompression",
+        "discectomy quality",
+        "endplate preparation",
+        "progressive distraction",
+        "bone grafting"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "descriptive",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Comprehensive bilateral surgical management"
+        },
+        "additional": "Sequential alternating cage placement for optimal distraction"
+      }
+    },
+    {
+      "content": "The Lateral-PLIF technique combines reduced neural manipulation risk, minimized dural retraction, optimized cage positioning, and maintenance of bilateral surgical advantages. These factors contribute to high fusion rates, improved functional outcomes, and low complication rates.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Lateral-PLIF technical innovations result in high fusion rates, improved function, and reduced complication rates.",
+      "keywords": [
+        "fusion success",
+        "functional improvement",
+        "safety profile",
+        "complication reduction",
+        "clinical efficacy"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "descriptive",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "High efficacy with safety advantages"
+        },
+        "additional": "Low complication rate achieved through optimized technique"
+      }
+    },
+    {
+      "content": "Lateral-PLIF represents a promising alternative to traditional PLIF for treatment of lumbar degenerative disease. The technique's strategic cage placement through the transition zone addresses the primary limitations of classical PLIF while preserving its bilateral surgical advantages.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Lateral-PLIF addresses classical PLIF limitations while maintaining bilateral approach advantages.",
+      "keywords": [
+        "technique comparison",
+        "alternative approach",
+        "limitation mitigation",
+        "bilateral advantages"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "descriptive",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Improved alternative to classical PLIF"
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "The strategic positioning of the surgical entry point just above the lateral recess, between the central canal and intervertebral foramen, reduces the need for extensive neural retraction. This anatomic optimization decreases the risk of dural tears and neural injury while improving overall operative safety.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": true,
+      "summary": "Transition zone entry point reduces neural retraction, dural tear risk, and neural injury risk through anatomic optimization.",
+      "keywords": [
+        "neural safety",
+        "dural preservation",
+        "anatomic positioning",
+        "complication prevention"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "descriptive",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Safety-focused anatomic approach"
+        },
+        "additional": "Reduces classical PLIF complications"
+      }
+    },
+    {
+      "content": "The bilateral approach of Lateral-PLIF enables comprehensive management of lumbar degenerative disease through direct bilateral decompression, complete discectomy from both sides, thorough endplate cleaning, and sequential progressive distraction. These technical elements combine to optimize fusion potential.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Bilateral approach provides comprehensive surgical management optimizing fusion potential through multiple technical advantages.",
+      "keywords": [
+        "bilateral decompression",
+        "surgical completeness",
+        "fusion optimization",
+        "comprehensive treatment"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "descriptive",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Comprehensive bilateral technique"
+        },
+        "additional": "Multiple technical advantages combined"
+      }
+    }
+  ]
+}

@@ -1,0 +1,809 @@
+{
+  "metadata": {
+    "title": "Paraspinal Muscle and Bone Density Score to Predict Mechanical Complications After Lumbar Fusion: A Prospective Cohort Study",
+    "authors": [
+      "Not provided in text"
+    ],
+    "year": 2026,
+    "journal": "Not provided in text",
+    "doi": "10.1097/BRS.0000000000005653",
+    "pmid": "41661724",
+    "abstract": "OBJECTIVE: To establish a simple and clinically available paraspinal muscle and bone density (PMBD) score to predict mechanical complications after lumbar fusion. SUMMARY OF BACKGROUND DATA: Mechanical complications are common issues in posterior lumbar interbody fusion (PLIF). Current evaluations are often unidimensional and complex, with lack of clinical relevance for treatment. METHODS: The study analyzed a cohort of 255 patients (165 women and 90 men) followed for at least 1 year after posterior lumbar interbody fusion. The PMBD score comprised 3 parameters identified by binary logistic regression analysis: paraspinal muscle endurance and morphology (PMEM) score, L1 vertebral body computed tomography Hounsfield Units value (L1CT), and age. The statistical weights of each parameter were created by rounding odds ratios (OR) to the nearest integer. The predictive performance of the PMBD score was evaluated by the area under the receiver operating characteristic curve (AUC). RESULTS: 53 patients (20.7%) experienced mechanical complications. The PMBD score ranged from 0 to 4. Patients with higher PMBD score exhibited higher rates of mechanical complications (P<0.001). Binary logistic regression revealed that the PMBD score was an independent factor of mechanical complications (P<0.001). The AUC of the score was 0.818, significantly higher than PMEM score (AUC=0.761, P<0.05), L1CT (AUC=0.690, P<0.05), and age (AUC=0.634, P<0.05). Sensitivity of PMBD was 0.714 (30/42) and specificity was 0.822 (175/213). In terms of the PMBD categories, patients were categorized as low (0-1 score), moderate (2 score), high risk (3-4 score) with a progressive complications rate (7.0%, 31.1%, and 62.5%, P<0.001). CONCLUSION: The PMBD score was a practical assessment tool integrating muscle and bone density to predict mechanical complications after PLIF, with a superior predictive performance compared to previous evaluation methods. Surgeons could utilize the PMBD score for preoperative risk stratification and might formulate individualized surgery procedure.",
+    "study_type": "prospective-cohort",
+    "study_design": "single-arm",
+    "evidence_level": "2b",
+    "sample_size": 255,
+    "centers": "single-center",
+    "blinding": "none",
+    "publication_types": [
+      "Journal Article"
+    ]
+  },
+  "spine_metadata": {
+    "sub_domains": [
+      "Degenerative"
+    ],
+    "surgical_approach": [
+      "Open"
+    ],
+    "anatomy_level": "Lumbar (L1-L5)",
+    "anatomy_region": "lumbar",
+    "pathology": [
+      "Lumbar disc herniation",
+      "Lumbar stenosis",
+      "Spondylolisthesis"
+    ],
+    "interventions": [
+      "PLIF"
+    ],
+    "comparison_type": "single_arm",
+    "follow_up_months": 12,
+    "main_conclusion": "The PMBD score is a practical assessment tool that integrates paraspinal muscle and bone density to predict mechanical complications after PLIF with superior predictive performance compared to individual parameters, enabling preoperative risk stratification and personalized surgical planning.",
+    "pico": {
+      "population": "Adults undergoing posterior lumbar interbody fusion, followed for at least 1 year",
+      "intervention": "Posterior lumbar interbody fusion (PLIF)",
+      "comparison": "None (single-arm cohort study)",
+      "outcome": "Mechanical complications, PMBD score predictive performance (AUC, sensitivity, specificity)"
+    },
+    "patient_cohorts": [
+      {
+        "name": "Total Cohort",
+        "cohort_type": "total",
+        "sample_size": 255,
+        "mean_age": "Not specified",
+        "female_percentage": 64.7,
+        "diagnosis": "Lumbar pathology requiring PLIF",
+        "comorbidities": [],
+        "ASA_score": "Not specified",
+        "BMI": "Not specified"
+      },
+      {
+        "name": "Mechanical Complications Group",
+        "cohort_type": "intervention",
+        "sample_size": 53,
+        "mean_age": "Not specified",
+        "female_percentage": null,
+        "diagnosis": "Lumbar pathology with post-PLIF mechanical complications",
+        "comorbidities": [],
+        "ASA_score": "Not specified",
+        "BMI": "Not specified"
+      },
+      {
+        "name": "No Mechanical Complications Group",
+        "cohort_type": "control",
+        "sample_size": 202,
+        "mean_age": "Not specified",
+        "female_percentage": null,
+        "diagnosis": "Lumbar pathology without post-PLIF mechanical complications",
+        "comorbidities": [],
+        "ASA_score": "Not specified",
+        "BMI": "Not specified"
+      }
+    ],
+    "followups": [
+      {
+        "name": "Minimum 1-year",
+        "timepoint_months": 12,
+        "completeness_rate": 100.0,
+        "outcomes_at_timepoint": [
+          "Mechanical complications",
+          "PMBD score assessment"
+        ]
+      }
+    ],
+    "costs": [],
+    "quality_metrics": [],
+    "outcomes": [
+      {
+        "name": "Mechanical Complications Rate",
+        "category": "complication",
+        "baseline": null,
+        "final": 20.7,
+        "value_intervention": "20.7%",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": "<0.001",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "20.7",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "20.7% (53/255 patients)"
+        },
+        "timepoint": "1yr",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "PMBD Score AUC (Area Under Curve)",
+        "category": "radiologic",
+        "baseline": null,
+        "final": 0.818,
+        "value_intervention": "0.818",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": "<0.05",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "0.818",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "AUC 0.818"
+        },
+        "timepoint": "final",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "PMEM Score AUC",
+        "category": "radiologic",
+        "baseline": null,
+        "final": 0.761,
+        "value_intervention": "0.761",
+        "value_control": null,
+        "value_difference": 0.057,
+        "p_value": "<0.05",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "0.761",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "AUC 0.761"
+        },
+        "timepoint": "final",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "L1CT AUC",
+        "category": "radiologic",
+        "baseline": null,
+        "final": 0.69,
+        "value_intervention": "0.690",
+        "value_control": null,
+        "value_difference": 0.128,
+        "p_value": "<0.05",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "0.690",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "AUC 0.690"
+        },
+        "timepoint": "final",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Age AUC",
+        "category": "radiologic",
+        "baseline": null,
+        "final": 0.634,
+        "value_intervention": "0.634",
+        "value_control": null,
+        "value_difference": 0.184,
+        "p_value": "<0.05",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "0.634",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "AUC 0.634"
+        },
+        "timepoint": "final",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "PMBD Score Sensitivity",
+        "category": "radiologic",
+        "baseline": null,
+        "final": 0.714,
+        "value_intervention": "0.714 (30/42)",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "0.714",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Sensitivity 0.714 (30/42)"
+        },
+        "timepoint": "final",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "PMBD Score Specificity",
+        "category": "radiologic",
+        "baseline": null,
+        "final": 0.822,
+        "value_intervention": "0.822 (175/213)",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "0.822",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Specificity 0.822 (175/213)"
+        },
+        "timepoint": "final",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Low-risk PMBD Category (0-1) Complication Rate",
+        "category": "complication",
+        "baseline": null,
+        "final": 7.0,
+        "value_intervention": "7.0%",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": "<0.001",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "7.0",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "7.0% complication rate"
+        },
+        "timepoint": "final",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Moderate-risk PMBD Category (2) Complication Rate",
+        "category": "complication",
+        "baseline": null,
+        "final": 31.1,
+        "value_intervention": "31.1%",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": "<0.001",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "31.1",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "31.1% complication rate"
+        },
+        "timepoint": "final",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "High-risk PMBD Category (3-4) Complication Rate",
+        "category": "complication",
+        "baseline": null,
+        "final": 62.5,
+        "value_intervention": "62.5%",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": "<0.001",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "62.5",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "62.5% complication rate"
+        },
+        "timepoint": "final",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "PMBD Score as Independent Predictor",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": null,
+        "value_control": null,
+        "value_difference": null,
+        "p_value": "<0.001",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Binary logistic regression P<0.001"
+        },
+        "timepoint": "final",
+        "is_significant": true,
+        "direction": "improved"
+      }
+    ],
+    "complications": [
+      {
+        "name": "Mechanical complications",
+        "incidence_intervention": "20.7%",
+        "incidence_control": null,
+        "p_value": "<0.001",
+        "severity": "major"
+      }
+    ]
+  },
+  "important_citations": [],
+  "chunks": [
+    {
+      "content": "OBJECTIVE: To establish a simple and clinically available paraspinal muscle and bone density (PMBD) score to predict mechanical complications after lumbar fusion.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "The study aims to develop a practical PMBD score for predicting mechanical complications following lumbar fusion surgery.",
+      "keywords": [
+        "paraspinal muscle",
+        "bone density",
+        "mechanical complications",
+        "lumbar fusion",
+        "prediction"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "SUMMARY OF BACKGROUND DATA: Mechanical complications are common issues in posterior lumbar interbody fusion (PLIF). Current evaluations are often unidimensional and complex, with lack of clinical relevance for treatment.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Current evaluation methods for predicting PLIF complications are limited in their unidimensional approach and clinical applicability.",
+      "keywords": [
+        "mechanical complications",
+        "PLIF",
+        "clinical evaluation",
+        "prediction methods"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "METHODS: The study analyzed a cohort of 255 patients (165 women and 90 men) followed for at least 1 year after posterior lumbar interbody fusion. The PMBD score comprised 3 parameters identified by binary logistic regression analysis: paraspinal muscle endurance and morphology (PMEM) score, L1 vertebral body computed tomography Hounsfield Units value (L1CT), and age. The statistical weights of each parameter were created by rounding odds ratios (OR) to the nearest integer. The predictive performance of the PMBD score was evaluated by the area under the receiver operating characteristic curve (AUC).",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "A prospective cohort of 255 patients undergoing PLIF was analyzed. The PMBD score was derived from three parameters (PMEM, L1CT, and age) identified by logistic regression and weighted by odds ratios.",
+      "keywords": [
+        "PMBD score",
+        "logistic regression",
+        "PMEM score",
+        "bone density",
+        "ROC curve"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Study Population Characteristics: The study included 255 patients (165 women, 90 men, 64.7% female) who underwent posterior lumbar interbody fusion and were followed for a minimum of 1 year. The cohort was divided into two groups: 53 patients (20.7%) who experienced mechanical complications and 202 patients (79.3%) without mechanical complications.",
+      "content_type": "table",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "The study cohort consisted of 255 PLIF patients with 20.7% experiencing mechanical complications.",
+      "keywords": [
+        "study population",
+        "mechanical complications",
+        "follow-up",
+        "gender distribution"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "255",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "n=255 total patients"
+        },
+        "additional": "165 women (64.7%), 90 men (35.3%), 53 with complications (20.7%)"
+      }
+    },
+    {
+      "content": "PMBD Score Components and Development: The PMBD score consisted of three key parameters identified through binary logistic regression: (1) paraspinal muscle endurance and morphology (PMEM) score, (2) L1 vertebral body computed tomography Hounsfield Units value (L1CT), and (3) age. Statistical weights for each parameter were determined by rounding odds ratios to the nearest integer. The PMBD score ranged from 0 to 4, with higher scores indicating greater risk for mechanical complications.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "The PMBD score integrated three weighted parameters (PMEM, L1CT, and age) to create a risk assessment tool ranging from 0-4.",
+      "keywords": [
+        "PMBD score",
+        "PMEM",
+        "L1CT",
+        "Hounsfield Units",
+        "risk stratification"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "PMBD Score and Mechanical Complications Association: Higher PMBD scores were significantly associated with increased rates of mechanical complications (P<0.001). Binary logistic regression analysis confirmed that the PMBD score was an independent predictor of mechanical complications after PLIF (P<0.001).",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "PMBD score showed highly significant association with mechanical complications and acted as independent predictor (P<0.001).",
+      "keywords": [
+        "PMBD score",
+        "mechanical complications",
+        "logistic regression",
+        "independent predictor",
+        "statistical significance"
+      ],
+      "statistics": {
+        "p_value": "<0.001",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "P<0.001"
+        },
+        "additional": "Binary logistic regression, independent predictor"
+      }
+    },
+    {
+      "content": "PMBD Score Predictive Performance: The area under the receiver operating characteristic curve (AUC) for the PMBD score was 0.818, demonstrating superior predictive performance. This was significantly higher than AUC values for individual parameters: PMEM score alone (AUC=0.761, P<0.05), L1CT alone (AUC=0.690, P<0.05), and age alone (AUC=0.634, P<0.05). The sensitivity of PMBD was 0.714 (30/42 true positives) and specificity was 0.822 (175/213 true negatives).",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "PMBD score AUC of 0.818 significantly outperformed individual parameters (PMEM 0.761, L1CT 0.690, age 0.634) with sensitivity 0.714 and specificity 0.822.",
+      "keywords": [
+        "AUC",
+        "ROC curve",
+        "sensitivity",
+        "specificity",
+        "predictive performance",
+        "diagnostic accuracy"
+      ],
+      "statistics": {
+        "p_value": "<0.05",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "0.818",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "AUC 0.818"
+        },
+        "additional": "Sensitivity 0.714, Specificity 0.822. PMBD AUC superior to PMEM (0.761, p<0.05), L1CT (0.690, p<0.05), and age (0.634, p<0.05)"
+      }
+    },
+    {
+      "content": "PMBD Score Risk Stratification: Patients were categorized into three risk groups based on PMBD score: low-risk (0-1 score) with 7.0% mechanical complication rate, moderate-risk (2 score) with 31.1% complication rate, and high-risk (3-4 score) with 62.5% complication rate. The progressive increase in complication rates across risk categories was highly statistically significant (P<0.001).",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "PMBD risk stratification showed progressive complication rates: low-risk 7.0%, moderate-risk 31.1%, high-risk 62.5% (P<0.001).",
+      "keywords": [
+        "risk stratification",
+        "PMBD categories",
+        "complication rates",
+        "low risk",
+        "moderate risk",
+        "high risk"
+      ],
+      "statistics": {
+        "p_value": "<0.001",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "P<0.001"
+        },
+        "additional": "Low-risk 7.0% (0-1 score), Moderate-risk 31.1% (2 score), High-risk 62.5% (3-4 score)"
+      }
+    },
+    {
+      "content": "CONCLUSION: The PMBD score was a practical assessment tool integrating muscle and bone density to predict mechanical complications after PLIF, with a superior predictive performance compared to previous evaluation methods. Surgeons could utilize the PMBD score for preoperative risk stratification and might formulate individualized surgery procedure.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "PMBD score enables practical preoperative risk stratification for PLIF mechanical complications with superior performance to existing methods, supporting individualized surgical planning.",
+      "keywords": [
+        "PMBD score",
+        "mechanical complications",
+        "risk stratification",
+        "preoperative assessment",
+        "individualized surgery"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Comparative Performance of Assessment Tools: The PMBD composite score demonstrated superior discriminatory ability for predicting mechanical complications compared to its individual component parameters. The integrated three-parameter approach achieved AUC 0.818 versus PMEM alone 0.761 (difference 0.057), L1CT alone 0.690 (difference 0.128), and age alone 0.634 (difference 0.184). All differences were statistically significant (P<0.05).",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "PMBD composite score significantly outperformed individual parameters with AUC improvements of 0.057-0.184 (all P<0.05).",
+      "keywords": [
+        "composite score",
+        "discriminatory ability",
+        "AUC comparison",
+        "assessment tools",
+        "predictive superiority"
+      ],
+      "statistics": {
+        "p_value": "<0.05",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "0.057",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "AUC difference PMBD vs PMEM"
+        },
+        "additional": "PMBD 0.818 > PMEM 0.761 > L1CT 0.690 > Age 0.634, all p<0.05"
+      }
+    },
+    {
+      "content": "Clinical Implications for Risk Stratification: The PMBD score provides surgeons with a simple, clinically available tool for preoperative assessment that integrates muscle quality, bone density, and age. The score's ability to categorize patients into distinct risk groups (low, moderate, high) with progressively increasing complication rates (7.0%-62.5%) enables evidence-based decision-making regarding surgical timing, technique selection, and patient counseling.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "PMBD score clinical utility lies in its simplicity and ability to stratify patients into distinct risk groups for informed preoperative decision-making.",
+      "keywords": [
+        "clinical implications",
+        "preoperative assessment",
+        "risk stratification",
+        "surgical planning",
+        "patient counseling"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Advantages Over Unidimensional Assessments: Unlike previous unidimensional evaluation methods that focused on single factors (muscle quality, bone density, or age separately), the PMBD score integrates multiple parameters with statistically weighted contributions. This multifactorial approach captures the complex interplay between paraspinal muscle function, bone quality, and patient age in determining mechanical complication risk, addressing a significant gap in current clinical evaluation methods.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "PMBD score overcomes limitations of unidimensional assessments by integrating multiple weighted parameters to capture complex risk factors for mechanical complications.",
+      "keywords": [
+        "multifactorial approach",
+        "weighted parameters",
+        "unidimensional limitations",
+        "complex interactions",
+        "clinical relevance"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Study Design and Methodology: This prospective cohort study followed 255 patients (165 women, 90 men; 64.7% female) for minimum 1 year after PLIF. The PMBD score was developed using binary logistic regression to identify significant predictors, with odds ratios rounded to create integer statistical weights for clinical applicability. Predictive accuracy was evaluated using receiver operating characteristic (ROC) curve analysis and area under curve (AUC) measurements.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Prospective cohort of 255 PLIF patients assessed using logistic regression-derived PMBD score with ROC curve validation.",
+      "keywords": [
+        "prospective cohort",
+        "255 patients",
+        "logistic regression",
+        "ROC curve",
+        "PLIF"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Mechanical Complication Outcomes: Among 255 PLIF patients, 53 (20.7%) experienced mechanical complications during minimum 1-year follow-up, while 202 patients (79.3%) remained complication-free. The occurrence and severity of mechanical complications showed strong correlation with PMBD score categories, indicating the score's utility in identifying high-risk populations requiring intensive monitoring or preventive interventions.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "53/255 patients (20.7%) experienced mechanical complications with clear correlation to PMBD score risk categories.",
+      "keywords": [
+        "mechanical complications",
+        "20.7% incidence",
+        "follow-up outcomes",
+        "risk correlation",
+        "complication rate"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "20.7",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "53/255 patients (20.7%) with mechanical complications"
+        },
+        "additional": "1-year minimum follow-up, 202/255 (79.3%) complication-free"
+      }
+    },
+    {
+      "content": "Practical Application in Clinical Setting: The PMBD score's simplicity and reliance on readily available clinical parameters (paraspinal muscle assessment, CT Hounsfield Units, and age) make it implementable in routine preoperative evaluation. Unlike complex multidimensional scoring systems, the PMBD score utilizes standard imaging that is already acquired for surgical planning, reducing additional patient burden and increasing adoption likelihood in clinical practice.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "PMBD score's reliance on standard clinical parameters and imaging enables practical adoption in routine preoperative assessment.",
+      "keywords": [
+        "clinical applicability",
+        "preoperative evaluation",
+        "standard imaging",
+        "practical implementation",
+        "routine practice"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "PMBD Score Range and Interpretation: The PMBD score ranges from 0 to 4, with each point increase indicating progressively higher risk for mechanical complications. Score derivation from weighted odds ratios ensures statistical rigor while maintaining clinical simplicity. The maximum score of 4 represents the highest-risk combination of poor paraspinal muscle quality, low bone density, and advanced age, while score 0 represents the optimal protective profile across all three parameters.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "PMBD score ranges 0-4 with weighted odds ratio derivation enabling simple interpretation of escalating risk levels.",
+      "keywords": [
+        "PMBD score range",
+        "0-4 scale",
+        "odds ratios",
+        "risk interpretation",
+        "clinical simplicity"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Statistical Analysis of PMBD Categories: Binary logistic regression analysis established three clinically distinct PMBD risk categories with stepwise increasing complication incidence. Low-risk category (PMBD 0-1) showed 7.0% mechanical complications, moderate-risk (PMBD 2) showed 31.1% complications, and high-risk (PMBD 3-4) showed 62.5% complications. The trend of escalating complication rates with increasing PMBD score achieved statistical significance (P<0.001), indicating the score's robust discriminatory capacity.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "PMBD score stratifies patients into three risk categories with complication rates of 7.0%, 31.1%, and 62.5% (P<0.001).",
+      "keywords": [
+        "PMBD categories",
+        "risk stratification",
+        "complication incidence",
+        "statistical significance",
+        "trend analysis"
+      ],
+      "statistics": {
+        "p_value": "<0.001",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "P<0.001 for category trend"
+        },
+        "additional": "Low-risk 7.0%, Moderate-risk 31.1%, High-risk 62.5%"
+      }
+    },
+    {
+      "content": "Diagnostic Test Characteristics of PMBD Score: Sensitivity of 0.714 (30/42 true positives) indicates the PMBD score correctly identifies approximately 71% of patients who will develop mechanical complications. Specificity of 0.822 (175/213 true negatives) demonstrates the score accurately identifies approximately 82% of patients who will remain complication-free. The combined high sensitivity and specificity profile makes PMBD valuable for both identifying at-risk patients and reassuring low-risk candidates.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "PMBD score demonstrates balanced diagnostic accuracy with 71.4% sensitivity and 82.2% specificity for mechanical complications.",
+      "keywords": [
+        "sensitivity",
+        "specificity",
+        "diagnostic accuracy",
+        "true positives",
+        "true negatives"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "0.714",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Sensitivity 0.714, Specificity 0.822"
+        },
+        "additional": "30/42 true positives, 175/213 true negatives"
+      }
+    },
+    {
+      "content": "Paraspinal Muscle Parameters in PMBD: The paraspinal muscle endurance and morphology (PMEM) score represents a composite assessment of muscle quality and functional capacity. When integrated with bone density (L1CT) and age in the PMBD score, PMEM contributes significantly to predicting mechanical complication risk. The synergistic combination of muscle quality metrics with skeletal density measurements creates a more comprehensive assessment of patient physiological reserve and mechanical integrity.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "PMEM score in the PMBD composite captures paraspinal muscle quality and function, synergizing with bone density to assess mechanical integrity.",
+      "keywords": [
+        "paraspinal muscle",
+        "PMEM score",
+        "muscle endurance",
+        "muscle morphology",
+        "physiological reserve"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Bone Density Assessment via L1CT: The L1 vertebral body computed tomography Hounsfield Units value (L1CT) quantifies vertebral bone density as a surrogate for systemic skeletal quality. Hounsfield Unit measurements provide objective, continuous assessment of mineralization that correlates with vertebral strength and fracture risk. Integration of L1CT into PMBD score adds quantitative skeletal assessment dimension, improving predictive accuracy beyond age alone.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "L1CT Hounsfield Units quantify vertebral bone density, providing objective skeletal quality assessment integrated into PMBD score.",
+      "keywords": [
+        "bone density",
+        "L1CT",
+        "Hounsfield Units",
+        "vertebral mineralization",
+        "skeletal quality"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Age as PMBD Component: Age represents the third parameter in the PMBD score, reflecting cumulative physiological changes, reduced regenerative capacity, and increased comorbidity burden associated with advancing years. When weighted appropriately and combined with dynamic measures of muscle and bone quality (rather than used in isolation), age contributes meaningfully to mechanical complication prediction while remaining a readily available clinical variable.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Age in PMBD score reflects cumulative physiological decline and comorbidity burden, providing important predictive value when combined with muscle and bone parameters.",
+      "keywords": [
+        "age",
+        "physiological decline",
+        "comorbidity",
+        "PMBD component",
+        "predictive variable"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Methodological Strength: The prospective cohort design with minimum 1-year follow-up in all 255 patients (100% follow-up completeness) provides robust evidence for PMBD score validation. Binary logistic regression methodology appropriately identifies independent predictors and derives statistical weights. ROC curve analysis with AUC calculation enables comparison of diagnostic performance across multiple assessment methods. The demonstrated superiority of PMBD (AUC 0.818) over individual parameters strengthens confidence in the composite score approach.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Prospective design with complete 1-year follow-up and rigorous statistical methodology (logistic regression, ROC analysis) strengthens PMBD score validation.",
+      "keywords": [
+        "prospective cohort",
+        "follow-up",
+        "logistic regression",
+        "ROC curve",
+        "methodological rigor"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Clinical Decision-Making Framework: The PMBD score enables three-tiered clinical decision-making: (1) low-risk patients (PMBD 0-1, 7.0% complication rate) can proceed with standard PLIF with routine monitoring; (2) moderate-risk patients (PMBD 2, 31.1% complication rate) warrant consideration of preventive strategies, enhanced postoperative surveillance, and potential technique modifications; (3) high-risk patients (PMBD 3-4, 62.5% complication rate) may benefit from alternative surgical approaches, aggressive prehabilitation, or staged procedures to minimize mechanical stress.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "PMBD score enables risk-stratified surgical planning with three tiers informing technique selection and perioperative management strategies.",
+      "keywords": [
+        "risk stratification",
+        "surgical planning",
+        "clinical decision",
+        "preventive strategies",
+        "individualized approach"
+      ],
+      "statistics": {}
+    }
+  ]
+}

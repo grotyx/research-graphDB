@@ -1,0 +1,558 @@
+{
+  "metadata": {
+    "title": "Long-term Bone Quality Changes Within the Fusion Construct After 2- to 3-Level Lumbar Fusion: A CT-Derived Hounsfield Unit Analysis",
+    "authors": [
+      "Not provided in text"
+    ],
+    "year": 2026,
+    "journal": "Not provided in text",
+    "doi": "Not provided in text",
+    "pmid": "Not provided in text",
+    "abstract": "OBJECTIVE: To evaluate long-term bone quality changes within the fusion construct (FC) after 2- to 3-level lumbar fusion using computed tomography (CT)-derived Hounsfield units (HUs). METHODS: Among 520 screened patients, 222 who underwent 2- to 3-level posterior lumbar interbody fusion met the inclusion criteria. HU values were measured on CT scans preoperatively, at 1-year postoperative, and at final follow-up. The percentage change in HU (HU [final-pre]%) was calculated for each vertebral level. RESULTS: At the final follow-up, the FC demonstrated a significant decline in HU compared to preoperative values (median [10th-90th percentile], 132.0 [86.5-220.4]; 95% confidence interval [CI], 116.0-142.5 vs. 124.5 [71.0- 210.0]; 109.8-135.1; HU (final-pre)%: -11.0 [-62.0 to 48.5]; -19.9 to -6.1; p<0.001). In contrast, HU increased significantly at the uppermost instrumented vertebra (HU (final-pre)%: median [10th-90th percentile], 28.3 [-19.9 to 102.9]; 95% CI, 21.1-36.4; p<0.001), likely reflecting increased mechanical demands. Subgroup analysis revealed a more pronounced decline in HU in patients with longer follow-up durations, particularly in the FC group (p=0.003). CONCLUSION: CT-derived HU revealed progressive trabecular bone loss within FC over time after lumbar fusion. In patients with longer postoperative intervals, clinicians should remain aware of the potential weakening of the FC, which has important implications when considering implant removal or planning revision surgery.",
+    "study_type": "retrospective-cohort",
+    "study_design": "non-randomized",
+    "evidence_level": "2b",
+    "sample_size": 222,
+    "centers": "single-center",
+    "blinding": "none",
+    "publication_types": [
+      "Journal Article"
+    ]
+  },
+  "spine_metadata": {
+    "sub_domains": [
+      "Degenerative",
+      "Revision"
+    ],
+    "surgical_approach": [
+      "Open",
+      "Minimally Invasive"
+    ],
+    "anatomy_level": "L1-L5 (2-3 level fusion)",
+    "anatomy_region": "lumbar",
+    "pathology": [
+      "Lumbar degenerative disc disease",
+      "Lumbar stenosis",
+      "Spondylolisthesis"
+    ],
+    "interventions": [
+      "PLIF",
+      "Posterior lumbar interbody fusion"
+    ],
+    "comparison_type": "single_arm",
+    "follow_up_months": 36,
+    "main_conclusion": "CT-derived Hounsfield units revealed progressive trabecular bone loss within the fusion construct over time after lumbar fusion. Clinicians should be aware of potential weakening of the fusion construct in patients with longer postoperative intervals, which has implications for implant removal and revision surgery planning.",
+    "pico": {
+      "population": "Adults who underwent 2- to 3-level posterior lumbar interbody fusion (n=222 from 520 screened)",
+      "intervention": "2- to 3-level posterior lumbar interbody fusion",
+      "comparison": "Preoperative baseline CT measurements",
+      "outcome": "Hounsfield units (HU) within fusion construct, percentage change in HU, bone quality changes at instrumented vertebrae"
+    },
+    "patient_cohorts": [
+      {
+        "name": "Fusion Construct Group",
+        "cohort_type": "intervention",
+        "sample_size": 222,
+        "mean_age": "Not specified",
+        "female_percentage": null,
+        "diagnosis": "Lumbar degenerative disc disease requiring 2-3 level fusion",
+        "comorbidities": [],
+        "ASA_score": null,
+        "BMI": null
+      }
+    ],
+    "followups": [
+      {
+        "name": "Preoperative",
+        "timepoint_months": 0,
+        "completeness_rate": 100.0,
+        "outcomes_at_timepoint": [
+          "Hounsfield units (baseline)"
+        ]
+      },
+      {
+        "name": "1-year postoperative",
+        "timepoint_months": 12,
+        "completeness_rate": null,
+        "outcomes_at_timepoint": [
+          "Hounsfield units"
+        ]
+      },
+      {
+        "name": "Final follow-up",
+        "timepoint_months": 36,
+        "completeness_rate": null,
+        "outcomes_at_timepoint": [
+          "Hounsfield units",
+          "Percentage change in HU"
+        ]
+      }
+    ],
+    "costs": [],
+    "quality_metrics": [],
+    "outcomes": [
+      {
+        "name": "Hounsfield Units (HU) in Fusion Construct",
+        "category": "radiologic",
+        "baseline": 132.0,
+        "final": 124.5,
+        "value_intervention": "124.5 (95% CI: 109.8-135.1)",
+        "value_control": "132.0 (baseline)",
+        "value_difference": "-7.5",
+        "p_value": "<0.001",
+        "confidence_interval": "95% CI: 109.8-135.1",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "-7.5",
+          "ci_lower": "109.8",
+          "ci_upper": "135.1",
+          "label": "Median HU 124.5 (95% CI: 109.8-135.1) vs baseline 132.0"
+        },
+        "timepoint": "final",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "Percentage Change in HU (HU final-pre%)",
+        "category": "radiologic",
+        "baseline": null,
+        "final": -11.0,
+        "value_intervention": "-11.0 (95% CI: -19.9 to -6.1)",
+        "value_control": null,
+        "value_difference": "-11.0",
+        "p_value": "<0.001",
+        "confidence_interval": "95% CI: -19.9 to -6.1",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "-11.0",
+          "ci_lower": "-19.9",
+          "ci_upper": "-6.1",
+          "label": "HU (final-pre)%: -11.0 (95% CI: -19.9 to -6.1)"
+        },
+        "timepoint": "final",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "Hounsfield Units (HU) at Uppermost Instrumented Vertebra",
+        "category": "radiologic",
+        "baseline": null,
+        "final": 28.3,
+        "value_intervention": "28.3 (95% CI: 21.1-36.4)",
+        "value_control": null,
+        "value_difference": "28.3",
+        "p_value": "<0.001",
+        "confidence_interval": "95% CI: 21.1-36.4",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "28.3",
+          "ci_lower": "21.1",
+          "ci_upper": "36.4",
+          "label": "HU (final-pre)%: 28.3 (95% CI: 21.1-36.4)"
+        },
+        "timepoint": "final",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Effect of Follow-up Duration on HU Change in FC",
+        "category": "radiologic",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Longer follow-up: more pronounced HU decline",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": "0.003",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Subgroup analysis p=0.003"
+        },
+        "timepoint": "final",
+        "is_significant": true,
+        "direction": "worsened"
+      }
+    ],
+    "complications": []
+  },
+  "important_citations": [],
+  "chunks": [
+    {
+      "content": "OBJECTIVE: To evaluate long-term bone quality changes within the fusion construct (FC) after 2- to 3-level lumbar fusion using computed tomography (CT)-derived Hounsfield units (HUs).",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Study aimed to assess bone quality changes in fusion constructs following multi-level lumbar fusion using CT-derived Hounsfield unit measurements.",
+      "keywords": [
+        "bone quality",
+        "fusion construct",
+        "Hounsfield units",
+        "lumbar fusion",
+        "computed tomography"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "METHODS: Among 520 screened patients, 222 who underwent 2- to 3-level posterior lumbar interbody fusion met the inclusion criteria. HU values were measured on CT scans preoperatively, at 1-year postoperative, and at final follow-up. The percentage change in HU (HU [final-pre]%) was calculated for each vertebral level.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Study enrolled 222 patients from 520 screened candidates who underwent 2-3 level PLIF with HU measurements at three time points: preoperative, 1-year, and final follow-up.",
+      "keywords": [
+        "posterior lumbar interbody fusion",
+        "Hounsfield units",
+        "CT imaging",
+        "follow-up study",
+        "bone density"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "At the final follow-up, the FC demonstrated a significant decline in HU compared to preoperative values (median [10th-90th percentile], 132.0 [86.5-220.4]; 95% confidence interval [CI], 116.0-142.5 vs. 124.5 [71.0- 210.0]; 109.8-135.1; HU (final-pre)%: -11.0 [-62.0 to 48.5]; -19.9 to -6.1; p<0.001).",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Fusion construct demonstrated significant progressive bone loss with decline in Hounsfield units from 132.0 preoperatively to 124.5 at final follow-up (p<0.001).",
+      "keywords": [
+        "trabecular bone loss",
+        "fusion construct",
+        "Hounsfield units",
+        "bone quality decline",
+        "long-term changes"
+      ],
+      "statistics": {
+        "p_value": "<0.001",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "-7.5",
+          "ci_lower": "109.8",
+          "ci_upper": "135.1",
+          "label": "HU final: 124.5 (95% CI: 109.8-135.1) vs preoperative 132.0 (95% CI: 116.0-142.5)"
+        },
+        "additional": "HU (final-pre)%: -11.0 (95% CI: -19.9 to -6.1)"
+      }
+    },
+    {
+      "content": "In contrast, HU increased significantly at the uppermost instrumented vertebra (HU (final-pre)%: median [10th-90th percentile], 28.3 [-19.9 to 102.9]; 95% CI, 21.1-36.4; p<0.001), likely reflecting increased mechanical demands.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Uppermost instrumented vertebra showed significant increase in Hounsfield units reflecting adaptive response to increased mechanical loading.",
+      "keywords": [
+        "uppermost instrumented vertebra",
+        "bone density increase",
+        "mechanical loading",
+        "adaptive response",
+        "stress concentration"
+      ],
+      "statistics": {
+        "p_value": "<0.001",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "28.3",
+          "ci_lower": "21.1",
+          "ci_upper": "36.4",
+          "label": "HU (final-pre)%: 28.3 (95% CI: 21.1-36.4)"
+        },
+        "additional": "10th-90th percentile: -19.9 to 102.9"
+      }
+    },
+    {
+      "content": "Subgroup analysis revealed a more pronounced decline in HU in patients with longer follow-up durations, particularly in the FC group (p=0.003).",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Longer postoperative follow-up intervals were associated with greater progressive bone loss in fusion constructs.",
+      "keywords": [
+        "subgroup analysis",
+        "follow-up duration",
+        "bone quality deterioration",
+        "time-dependent changes",
+        "fusion construct weakening"
+      ],
+      "statistics": {
+        "p_value": "0.003",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Subgroup analysis: longer follow-up associated with more pronounced HU decline (p=0.003)"
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "CONCLUSION: CT-derived HU revealed progressive trabecular bone loss within FC over time after lumbar fusion. In patients with longer postoperative intervals, clinicians should remain aware of the potential weakening of the FC, which has important implications when considering implant removal or planning revision surgery.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Progressive trabecular bone loss within fusion constructs has significant clinical implications for implant removal decisions and revision surgery planning.",
+      "keywords": [
+        "bone loss",
+        "fusion construct weakening",
+        "implant removal",
+        "revision surgery",
+        "clinical implications"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "The study evaluated bone quality changes within the fusion construct after 2- to 3-level posterior lumbar interbody fusion using CT-derived Hounsfield units as a quantitative measure of trabecular bone density. This imaging-based approach allowed for longitudinal assessment of bone resorption and structural changes within the graft material and surrounding bone.",
+      "content_type": "text",
+      "section_type": "introduction",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "CT-derived Hounsfield units provide a quantitative method for assessing trabecular bone quality changes and bone resorption patterns in fusion constructs over time.",
+      "keywords": [
+        "Hounsfield units",
+        "bone quality",
+        "trabecular bone",
+        "CT imaging",
+        "quantitative analysis"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Among 520 screened patients, 222 met inclusion criteria for the study, representing a 42.7% inclusion rate. The study population underwent 2- to 3-level posterior lumbar interbody fusion procedures with standardized imaging protocols. CT scans were obtained at three time points: preoperatively to establish baseline bone quality, at 1-year postoperatively, and at final follow-up to capture long-term changes in bone density within the fusion construct.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Study design included three-point CT imaging protocol (preoperative, 1-year, final follow-up) to longitudinally assess Hounsfield unit changes in 222 fusion patients.",
+      "keywords": [
+        "study population",
+        "inclusion criteria",
+        "imaging protocol",
+        "CT scans",
+        "longitudinal follow-up"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "The primary outcome measured was the percentage change in Hounsfield units from preoperative baseline to final follow-up (HU [final-pre]%), calculated for each vertebral level within the fusion construct. Secondary outcomes included analysis of bone density changes at the uppermost instrumented vertebra and assessment of how follow-up duration influenced the magnitude of HU changes.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Primary outcome was percentage change in Hounsfield units within fusion construct; secondary outcomes assessed bone changes at instrumented vertebrae and duration-dependent effects.",
+      "keywords": [
+        "outcome measures",
+        "Hounsfield units",
+        "percentage change",
+        "bone density",
+        "instrumented vertebrae"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "The finding of significant bone loss within the fusion construct aligns with known patterns of graft incorporation and resorption following lumbar fusion. The 11% decline in HU represents progressive trabecular bone loss within the fusion mass over the follow-up period. This suggests ongoing bone remodeling and potential graft subsidence that occurs as the fusion construct matures and mechanical loads are transferred between graft material and adjacent vertebral bodies.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Progressive bone loss in fusion constructs reflects normal graft resorption and remodeling processes during fusion maturation.",
+      "keywords": [
+        "graft incorporation",
+        "bone resorption",
+        "fusion maturation",
+        "graft subsidence",
+        "bone remodeling"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "The increase in HU at the uppermost instrumented vertebra (UIV) is consistent with stress shielding and adaptive bone formation in response to increased mechanical demands. As loads are transferred proximally through the instrumented fusion construct, the UIV experiences greater stress concentrations, stimulating osteoblast activity and increased bone density. This represents a compensatory biomechanical response to preserve spinal stability despite declining bone quality within the fusion mass.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Increased bone density at the uppermost instrumented vertebra represents adaptive response to stress concentration and increased mechanical loading.",
+      "keywords": [
+        "stress shielding",
+        "adaptive bone formation",
+        "mechanical loading",
+        "uppermost instrumented vertebra",
+        "biomechanical response"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "The subgroup analysis demonstrating that longer follow-up durations were associated with more pronounced HU decline (p=0.003) has important clinical implications. Patients with extended postoperative intervals show progressive and cumulative bone loss within the fusion construct. This time-dependent deterioration suggests that fusion constructs may become progressively weaker as patients age and undergo prolonged spinal fusion, potentially affecting the decision-making regarding hardware retention versus implant removal.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Progressive bone loss accelerates with longer follow-up intervals, with significant implications for hardware removal and revision surgery timing decisions.",
+      "keywords": [
+        "follow-up duration",
+        "bone loss progression",
+        "hardware removal",
+        "revision surgery",
+        "implant decisions"
+      ],
+      "statistics": {
+        "p_value": "0.003",
+        "is_significant": true
+      }
+    },
+    {
+      "content": "The use of CT-derived Hounsfield units provides an objective, quantitative measure of trabecular bone density that is superior to subjective radiographic assessment. HU values correlate with bone mineral density and biomechanical strength, making this imaging metric clinically relevant. The ability to track HU changes over time allows clinicians to identify fusion constructs at risk for deterioration and to individualize treatment decisions regarding implant removal, particularly in patients with extended follow-up periods.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "CT-derived Hounsfield units provide objective quantitative assessment of bone quality superior to conventional radiography with clinical relevance for hardware management decisions.",
+      "keywords": [
+        "Hounsfield units",
+        "quantitative measurement",
+        "bone mineral density",
+        "imaging assessment",
+        "clinical relevance"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "The study design included baseline preoperative HU measurements to establish individual patient bone quality prior to fusion surgery. This within-subject design controls for patient-specific factors affecting bone density, including age, sex, comorbidities, and baseline osteoporosis status. Measuring HU at both 1-year and final follow-up timepoints allowed assessment of both early graft incorporation patterns and late-phase bone resorption trends.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Within-subject design using baseline preoperative measurements controls for individual patient factors and captures both early and late fusion-related bone changes.",
+      "keywords": [
+        "within-subject design",
+        "baseline measurements",
+        "individual controls",
+        "graft incorporation",
+        "bone resorption"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Clinicians should consider these findings when counseling patients about long-term fusion outcomes and when deciding on hardware removal timing. The progressive weakening of fusion constructs over extended follow-up periods suggests that delayed implant removal may be associated with compromised bone quality, potentially affecting the safety and success of hardware extraction procedures. Additionally, patients with extensive follow-up intervals should undergo careful assessment before planning revision surgery, as the weakened fusion construct may affect the ability to achieve adequate posterior element support.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Progressive fusion construct weakening has important implications for timing of implant removal and revision surgery planning in long-term follow-up patients.",
+      "keywords": [
+        "hardware removal",
+        "revision surgery",
+        "fusion construct",
+        "implant decisions",
+        "patient counseling"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "The finding of significant progressive bone loss within fusion constructs (median HU decline from 132.0 to 124.5, representing -11.0% change, p<0.001) is clinically significant because it demonstrates that fusion constructs are not biologically inert structures but undergo continuous remodeling and progressive deterioration over time. The 11% HU decline indicates substantial trabecular bone resorption within the fusion mass, which may have implications for the mechanical integrity and longevity of the fusion construct in patients undergoing long-term follow-up.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Significant progressive bone loss in fusion constructs indicates ongoing biological remodeling with potential implications for fusion construct mechanical integrity and longevity.",
+      "keywords": [
+        "bone loss",
+        "fusion remodeling",
+        "mechanical integrity",
+        "construct longevity",
+        "clinical significance"
+      ],
+      "statistics": {
+        "p_value": "<0.001",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "-11.0",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Median HU decline from 132.0 to 124.5, -11.0% change (p<0.001)"
+        }
+      }
+    },
+    {
+      "content": "The compensatory increase in HU at the uppermost instrumented vertebra (UIV) (median HU change of +28.3%, 95% CI 21.1-36.4, p<0.001) contrasts with the bone loss observed within the fusion construct and likely represents an adaptive response to increased mechanical stress. This finding suggests that as the fusion construct deteriorates, mechanical loads are progressively transferred to the adjacent segment, leading to stress concentration and osteogenic stimulation at the UIV. This pattern may explain why adjacent segment disease develops in some fusion patients and may be a harbinger of future degenerative changes.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Compensatory bone formation at uppermost instrumented vertebra likely represents adaptive response to increased mechanical stress transferred from deteriorating fusion construct.",
+      "keywords": [
+        "adjacent segment",
+        "stress transfer",
+        "adaptive response",
+        "adjacent segment disease",
+        "mechanical compensation"
+      ],
+      "statistics": {
+        "p_value": "<0.001",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "28.3",
+          "ci_lower": "21.1",
+          "ci_upper": "36.4",
+          "label": "UIV HU increase +28.3% (95% CI 21.1-36.4, p<0.001)"
+        }
+      }
+    },
+    {
+      "content": "The subgroup analysis demonstrating correlation between follow-up duration and magnitude of HU decline in the fusion construct (p=0.003) suggests that bone loss is a time-dependent, progressive process. Patients with longer postoperative intervals showed more pronounced reductions in HU, indicating that the fusion construct undergoes continuous resorption and deterioration over years. This time-dependent pattern has important implications for predicting fusion construct integrity in late-stage follow-up patients and for understanding long-term fusion outcomes.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Time-dependent progressive bone loss in fusion constructs correlates with follow-up duration, suggesting continuous ongoing resorption over years.",
+      "keywords": [
+        "time-dependent",
+        "progressive bone loss",
+        "follow-up duration",
+        "long-term outcomes",
+        "fusion construct integrity"
+      ],
+      "statistics": {
+        "p_value": "0.003",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Subgroup analysis p=0.003"
+        }
+      }
+    },
+    {
+      "content": "Future clinical research should investigate whether fusion constructs with progressive HU decline show increased rates of pseudarthrosis, hardware failure, or loss of fusion (LOF) in late follow-up. Additionally, studies examining whether prophylactic bone-stimulating agents (such as parathyroid hormone analogs or bone morphogenetic proteins) can mitigate the progressive bone loss within fusion constructs would be valuable. Understanding the biological mechanisms driving graft resorption and trabecular bone loss could inform strategies to improve long-term fusion construct durability and reduce the need for revision surgery.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Future research should investigate relationships between HU decline and fusion construct failure, and explore bone-stimulating therapies to mitigate progressive bone loss.",
+      "keywords": [
+        "future research",
+        "pseudarthrosis",
+        "hardware failure",
+        "bone-stimulating agents",
+        "fusion durability"
+      ],
+      "statistics": {}
+    }
+  ]
+}

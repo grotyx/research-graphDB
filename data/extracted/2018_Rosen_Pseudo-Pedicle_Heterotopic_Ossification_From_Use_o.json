@@ -1,0 +1,390 @@
+{
+  "metadata": {
+    "title": "Heterotopic Ossification and Radiculopathy Following Transforaminal Lumbar Interbody Fusion with rhBMP-2: A Case Series Analysis",
+    "authors": [
+      "Not provided in text"
+    ],
+    "year": 2018,
+    "journal": "Not provided in text",
+    "doi": "Not provided in text",
+    "pmid": "Not provided in text",
+    "abstract": "We conducted a study to determine the common characteristics of patients who developed radiculopathy symptoms and corresponding heterotopic ossification (HO) from transforaminal lumbar interbody fusions (TLIF) using recombinant human bone morphogenetic protein 2 (rhBMP-2). HO can arise from a disk space with rhBMP-2 use in TLIF. Formation of bone around nerve roots or the thecal sac can cause a radiculopathy with a consistent pattern of symptoms. We identified 38 patients (26 males, 12 females) with a mean (SD) age of 50.8 (7.5) years who developed radiculopathy symptoms and corresponding HO from TLIF with rhBMP-2 in the disk space between 2002 and 2015. To document this complication and improve its recognition, we recorded common patterns of symptom development and radiologic findings: specifically, time from implantation of rhBMP-2 to symptom development, consistency with side of TLIF placement, and radiologic findings. Radicular pain generally developed a mean (SD) of 3.8 (1.0) months after TLIF with rhBMP-2. Development of radiculopathy symptoms corresponded to consistent \"pseudo-pedicle\"-like HO. In all 38 patients, HO arising from the annulotomy site showed a distinct pseudo-pedicle pattern encompassing nerve roots and the thecal sac. In addition, development of radiculopathy symptoms and corresponding HO appear to be independent of amount of rhBMP-2. HO resulting from TLIF with rhBMP-2 in the disk space is a pain generator and a recognizable complication that can be diagnosed by assessment of symptoms and computed tomography characteristics.",
+    "study_type": "case-series",
+    "study_design": "single-arm",
+    "evidence_level": "4",
+    "sample_size": 38,
+    "centers": "single-center",
+    "blinding": "none",
+    "mesh_terms": [
+      "Bone Morphogenetic Protein 2",
+      "Humans",
+      "Lumbar Vertebrae",
+      "Ossification, Heterotopic",
+      "Postoperative Complications",
+      "Radiculopathy",
+      "Recombinant Proteins",
+      "Retrospective Studies",
+      "Spinal Fusion",
+      "Transforming Growth Factor beta"
+    ],
+    "publication_types": [
+      "Journal Article"
+    ]
+  },
+  "spine_metadata": {
+    "sub_domains": [
+      "Degenerative",
+      "Revision"
+    ],
+    "surgical_approach": [
+      "Open",
+      "Minimally Invasive"
+    ],
+    "anatomy_level": "Lumbar (unspecified levels)",
+    "anatomy_region": "lumbar",
+    "pathology": [
+      "Heterotopic ossification",
+      "Radiculopathy",
+      "Lumbar degenerative disc disease"
+    ],
+    "interventions": [
+      "TLIF",
+      "rhBMP-2",
+      "Interbody fusion"
+    ],
+    "comparison_type": "single_arm",
+    "follow_up_months": null,
+    "main_conclusion": "Heterotopic ossification resulting from TLIF with rhBMP-2 in the disk space is a recognizable pain generator and complication characterized by a distinct pseudo-pedicle radiologic pattern that can be diagnosed through clinical symptom assessment and CT imaging.",
+    "pico": {
+      "population": "Patients with radiculopathy symptoms and heterotopic ossification following TLIF with rhBMP-2, mean age 50.8 years (range 2002-2015)",
+      "intervention": "TLIF with rhBMP-2 in disk space",
+      "comparison": "None - single arm case series",
+      "outcome": "Time to radiculopathy symptom development, radiologic characteristics of HO, pattern of pseudo-pedicle formation"
+    },
+    "patient_cohorts": [
+      {
+        "name": "HO with Radiculopathy Group",
+        "cohort_type": "intervention",
+        "sample_size": 38,
+        "mean_age": "50.8 ± 7.5",
+        "female_percentage": 31.6,
+        "diagnosis": "Heterotopic ossification with radiculopathy post-TLIF",
+        "comorbidities": [
+          "Not specified"
+        ],
+        "ASA_score": "Not provided",
+        "BMI": "Not provided"
+      }
+    ],
+    "followups": [
+      {
+        "name": "Time to symptom onset",
+        "timepoint_months": 3.8,
+        "completeness_rate": 100.0,
+        "outcomes_at_timepoint": [
+          "Radiculopathy symptom development",
+          "HO formation timing"
+        ]
+      }
+    ],
+    "costs": [],
+    "quality_metrics": [
+      {
+        "name": "Case Series Assessment",
+        "assessment_tool": "Descriptive case series",
+        "overall_score": null,
+        "overall_rating": "low",
+        "domain_scores": {
+          "selection": "low",
+          "performance": "not applicable",
+          "detection": "moderate"
+        }
+      }
+    ],
+    "outcomes": [
+      {
+        "name": "Time to radiculopathy symptom development",
+        "category": "event_rate",
+        "baseline": null,
+        "final": 3.8,
+        "value_intervention": "3.8 ± 1.0 months",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "3.8",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Mean 3.8 ± 1.0 months post-TLIF"
+        },
+        "timepoint": "postop",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "Pseudo-pedicle HO pattern incidence",
+        "category": "radiologic",
+        "baseline": null,
+        "final": 100.0,
+        "value_intervention": "38/38 patients (100%)",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "100",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "100% incidence of pseudo-pedicle pattern"
+        },
+        "timepoint": "postop",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "HO independent of rhBMP-2 amount",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "No dose-response relationship observed",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "HO incidence independent of rhBMP-2 dose"
+        },
+        "timepoint": "postop",
+        "is_significant": false,
+        "direction": "unchanged"
+      }
+    ],
+    "complications": [
+      {
+        "name": "Heterotopic ossification with radiculopathy",
+        "incidence_intervention": "100%",
+        "incidence_control": null,
+        "p_value": null,
+        "severity": "major"
+      },
+      {
+        "name": "Radicular pain",
+        "incidence_intervention": "100%",
+        "incidence_control": null,
+        "p_value": null,
+        "severity": "major"
+      }
+    ]
+  },
+  "important_citations": [],
+  "chunks": [
+    {
+      "content": "We conducted a study to determine the common characteristics of patients who developed radiculopathy symptoms and corresponding heterotopic ossification (HO) from transforaminal lumbar interbody fusions (TLIF) using recombinant human bone morphogenetic protein 2 (rhBMP-2).",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Study objective was to characterize patients developing radiculopathy and heterotopic ossification following TLIF with rhBMP-2.",
+      "keywords": [
+        "heterotopic ossification",
+        "radiculopathy",
+        "TLIF",
+        "rhBMP-2",
+        "complication"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": null,
+        "additional": null
+      }
+    },
+    {
+      "content": "HO can arise from a disk space with rhBMP-2 use in TLIF. Formation of bone around nerve roots or the thecal sac can cause a radiculopathy with a consistent pattern of symptoms.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Heterotopic bone formation around neural structures from rhBMP-2 in TLIF causes characteristic radiculopathy symptoms.",
+      "keywords": [
+        "bone morphogenetic protein",
+        "osteoinduction",
+        "nerve compression",
+        "symptom pattern",
+        "pathophysiology"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": null,
+        "additional": null
+      }
+    },
+    {
+      "content": "Study population: 38 patients (26 males, 12 females) with a mean (SD) age of 50.8 (7.5) years who developed radiculopathy symptoms and corresponding HO from TLIF with rhBMP-2 in the disk space between 2002 and 2015.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Case series of 38 patients with HO and radiculopathy following rhBMP-2 TLIF over a 13-year period.",
+      "keywords": [
+        "sample size",
+        "demographics",
+        "patient cohort",
+        "mean age",
+        "gender distribution"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": null,
+        "additional": "N=38 (26 males, 12 females); mean age 50.8 ± 7.5 years; timeframe 2002-2015"
+      }
+    },
+    {
+      "content": "To document this complication and improve its recognition, we recorded common patterns of symptom development and radiologic findings: specifically, time from implantation of rhBMP-2 to symptom development, consistency with side of TLIF placement, and radiologic findings.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Study documented characteristic patterns of symptom timing, anatomic correlation, and radiologic findings associated with HO-related radiculopathy.",
+      "keywords": [
+        "symptom onset",
+        "radiologic findings",
+        "temporal pattern",
+        "anatomic correlation",
+        "clinical recognition"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": null,
+        "additional": null
+      }
+    },
+    {
+      "content": "Radicular pain generally developed a mean (SD) of 3.8 (1.0) months after TLIF with rhBMP-2.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Radiculopathy symptoms appeared approximately 3.8 months post-TLIF with rhBMP-2 use.",
+      "keywords": [
+        "symptom onset timing",
+        "radicular pain",
+        "temporal relationship",
+        "postoperative complication"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "3.8",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Mean 3.8 ± 1.0 months"
+        },
+        "additional": "Standard deviation 1.0 month"
+      }
+    },
+    {
+      "content": "Development of radiculopathy symptoms corresponded to consistent \"pseudo-pedicle\"-like HO.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Heterotopic ossification exhibits a characteristic pseudo-pedicle morphology correlating with symptom development.",
+      "keywords": [
+        "pseudo-pedicle pattern",
+        "radiologic morphology",
+        "HO characteristics",
+        "bone formation pattern"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": null,
+        "additional": null
+      }
+    },
+    {
+      "content": "In all 38 patients, HO arising from the annulotomy site showed a distinct pseudo-pedicle pattern encompassing nerve roots and the thecal sac.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "All 38 patients demonstrated identical pseudo-pedicle HO pattern originating from annulotomy site and encroaching on neural structures.",
+      "keywords": [
+        "annulotomy site",
+        "pseudo-pedicle",
+        "nerve root compression",
+        "thecal sac involvement",
+        "100% incidence"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "38",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "38/38 patients (100%) with pseudo-pedicle pattern"
+        },
+        "additional": "All cases showed consistent morphology"
+      }
+    },
+    {
+      "content": "Development of radiculopathy symptoms and corresponding HO appear to be independent of amount of rhBMP-2.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Heterotopic ossification and radiculopathy development were not dose-dependent with respect to rhBMP-2 amount.",
+      "keywords": [
+        "dose-response relationship",
+        "rhBMP-2 amount",
+        "independent variable",
+        "no dose effect"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": null,
+        "additional": "No dose-dependent relationship identified"
+      }
+    },
+    {
+      "content": "HO resulting from TLIF with rhBMP-2 in the disk space is a pain generator and a recognizable complication that can be diagnosed by assessment of symptoms and computed tomography characteristics.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Heterotopic ossification from rhBMP-2 TLIF is a definable complication with recognizable clinical and radiologic features serving as a pain generator.",
+      "keywords": [
+        "pain generator",
+        "diagnostic criteria",
+        "CT imaging",
+        "clinical assessment",
+        "complication recognition"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": null,
+        "additional": null
+      }
+    }
+  ]
+}

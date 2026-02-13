@@ -1,0 +1,614 @@
+{
+  "metadata": {
+    "title": "Effect of Hip Position on Lumbar Lordosis and Spinopelvic Parameters During Right Lateral Decubitus Positioning for Minimally Invasive Lateral Lumbar Interbody Fusion",
+    "authors": [
+      "Worawat Limthongkul",
+      "Natavut Prasertkul",
+      "Pakawas Praisarnti",
+      "Maruay Tanayavong",
+      "Surachat Jaroenwareekul",
+      "Wicharn Yingsakmongkol",
+      "Weerasak Singhatanadgige",
+      "Vit Kotheeranurak"
+    ],
+    "year": 2026,
+    "journal": "Neurospine",
+    "doi": "10.14245/ns.2551540.770",
+    "pmid": "41666873",
+    "abstract": "OBJECTIVE: To quantify the effect of different hip positions on lumbar lordosis (LL) and spinopelvic parameters in the right lateral decubitus position (RLDP) and identify the configuration that most closely replicates physiologic standing alignment during lateral lumbar interbody fusion in minimally invasive spinal surgery. METHODS: Thirty healthy volunteers (15 males, 15 females; mean age, 27.8±8.6 years) underwent lateral lumbar radiographs in standing position and 5 RLDP configurations: neutral hips (NN), 30° flexion of both hips (30FF), 30° flexion of the right hip with left hip neutral (30FN), 60° flexion of both hips (60FF), and 60° flexion of the right hip with left hip neutral (60FN). LL, pelvic tilt (PT), sacral slope (SS), and pelvic incidence (PI) were measured. Each position was compared to standing using paired t-tests. Intra- and interobserver reliability were evaluated using intraclass correlation coefficients (ICCs). RESULTS: LL decreased significantly in all RLDP positions compared with standing (51.1°±3.8°). The 30FN position showed the smallest change (ΔLL=-4.9°, p<0.001), whereas 60FF showed the greatest (ΔLL=-15.0°, p<0.001). In 30FN, PT decreased (p=0.013) and SS increased (p=0.003), indicating mild anterior pelvic rotation. PI showed minimal variation across positions. Intra- and interobserver ICCs ranged from 0.92 to 0.99, confirming high measurement reliability. CONCLUSION: Hip position significantly influences lumbar and pelvic alignment in RLDP. Among tested configurations, the 30FN position (right hip flexed 30°, left neutral) showed the smallest numerical deviation from standing alignment and spinopelvic harmony relative to standing in RLDP.",
+    "study_type": "prospective-cohort",
+    "study_design": "non-randomized",
+    "evidence_level": "2b",
+    "sample_size": 30,
+    "centers": "single-center",
+    "blinding": "none",
+    "publication_types": [
+      "Journal Article"
+    ]
+  },
+  "spine_metadata": {
+    "sub_domains": [
+      "Degenerative",
+      "Basic Science"
+    ],
+    "surgical_approach": [
+      "Minimally Invasive",
+      "Navigation-guided"
+    ],
+    "anatomy_level": "L4-5",
+    "anatomy_region": "lumbar",
+    "pathology": [
+      "Lumbar degenerative disc disease",
+      "Spinopelvic misalignment"
+    ],
+    "interventions": [
+      "LLIF",
+      "Lateral lumbar interbody fusion",
+      "Radiographic measurement"
+    ],
+    "comparison_type": "single_arm",
+    "follow_up_months": 0,
+    "main_conclusion": "The 30FN position (right hip flexed 30°, left hip neutral) most closely replicates physiologic standing alignment and spinopelvic parameters during right lateral decubitus positioning for minimally invasive lateral lumbar interbody fusion.",
+    "pico": {
+      "population": "Thirty healthy volunteers (15 males, 15 females; mean age 27.8±8.6 years) with no spinal pathology",
+      "intervention": "Right lateral decubitus positioning with varying hip flexion angles (30FN configuration)",
+      "comparison": "Standing position and 4 other RLDP configurations (NN, 30FF, 60FF, 60FN)",
+      "outcome": "Lumbar lordosis, pelvic tilt, sacral slope, pelvic incidence"
+    },
+    "patient_cohorts": [
+      {
+        "name": "Total Study Population",
+        "cohort_type": "total",
+        "sample_size": 30,
+        "mean_age": "27.8 ± 8.6",
+        "female_percentage": 50.0,
+        "diagnosis": "Healthy volunteers without spinal pathology",
+        "comorbidities": [],
+        "ASA_score": null,
+        "BMI": null
+      }
+    ],
+    "followups": [
+      {
+        "name": "Baseline Standing Position",
+        "timepoint_months": 0,
+        "completeness_rate": 100.0,
+        "outcomes_at_timepoint": [
+          "Lumbar lordosis",
+          "Pelvic tilt",
+          "Sacral slope",
+          "Pelvic incidence"
+        ]
+      },
+      {
+        "name": "Right Lateral Decubitus Positions",
+        "timepoint_months": 0,
+        "completeness_rate": 100.0,
+        "outcomes_at_timepoint": [
+          "Lumbar lordosis",
+          "Pelvic tilt",
+          "Sacral slope",
+          "Pelvic incidence"
+        ]
+      }
+    ],
+    "costs": [],
+    "quality_metrics": [
+      {
+        "name": "Measurement Reliability",
+        "assessment_tool": "ICC (Intraclass Correlation Coefficient)",
+        "overall_score": 95.5,
+        "overall_rating": "high",
+        "domain_scores": {
+          "intraobserver_reliability": "0.92-0.99",
+          "interobserver_reliability": "0.92-0.99"
+        }
+      }
+    ],
+    "outcomes": [
+      {
+        "name": "Lumbar Lordosis in Standing Position",
+        "category": "radiologic",
+        "baseline": null,
+        "final": 51.1,
+        "value_intervention": "51.1 ± 3.8°",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "51.1",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Mean LL 51.1° ± 3.8° in standing"
+        },
+        "timepoint": "baseline",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "Lumbar Lordosis Change in 30FN Position",
+        "category": "radiologic",
+        "baseline": 51.1,
+        "final": 46.2,
+        "value_intervention": "-4.9°",
+        "value_control": null,
+        "value_difference": "-4.9",
+        "p_value": "<0.001",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "-4.9",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "ΔLL = -4.9° (p<0.001)"
+        },
+        "timepoint": "RLDP 30FN",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "Lumbar Lordosis Change in 60FF Position",
+        "category": "radiologic",
+        "baseline": 51.1,
+        "final": 36.1,
+        "value_intervention": "-15.0°",
+        "value_control": null,
+        "value_difference": "-15.0",
+        "p_value": "<0.001",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "-15.0",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "ΔLL = -15.0° (p<0.001)"
+        },
+        "timepoint": "RLDP 60FF",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "Pelvic Tilt in 30FN Position",
+        "category": "radiologic",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Decreased",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": "0.013",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "PT decreased in 30FN (p=0.013)"
+        },
+        "timepoint": "RLDP 30FN",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Sacral Slope in 30FN Position",
+        "category": "radiologic",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Increased",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": "0.003",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "SS increased in 30FN (p=0.003)"
+        },
+        "timepoint": "RLDP 30FN",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Pelvic Incidence Variation Across Positions",
+        "category": "radiologic",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Minimal variation",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "PI showed minimal variation across all positions"
+        },
+        "timepoint": "multiple",
+        "is_significant": false,
+        "direction": "unchanged"
+      }
+    ],
+    "complications": []
+  },
+  "important_citations": [],
+  "chunks": [
+    {
+      "content": "This study evaluated 30 healthy volunteers (15 males, 15 females; mean age 27.8±8.6 years) to determine how different hip positions affect lumbar lordosis and spinopelvic parameters during right lateral decubitus positioning, which is commonly used during minimally invasive lateral lumbar interbody fusion procedures.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Study design and population of 30 healthy volunteers assessed across multiple hip positioning configurations.",
+      "keywords": [
+        "right lateral decubitus position",
+        "lumbar lordosis",
+        "spinopelvic parameters",
+        "minimally invasive surgery"
+      ],
+      "statistics": null
+    },
+    {
+      "content": "Subjects underwent lateral lumbar radiographs in standing position and 5 right lateral decubitus position (RLDP) configurations: neutral hips (NN), 30° flexion of both hips (30FF), 30° flexion of the right hip with left hip neutral (30FN), 60° flexion of both hips (60FF), and 60° flexion of the right hip with left hip neutral (60FN).",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Five distinct right lateral decubitus positioning configurations were tested in addition to standing baseline.",
+      "keywords": [
+        "hip flexion angles",
+        "positioning configurations",
+        "lateral radiographs",
+        "RLDP variants"
+      ],
+      "statistics": null
+    },
+    {
+      "content": "Lumbar lordosis (LL), pelvic tilt (PT), sacral slope (SS), and pelvic incidence (PI) were measured from radiographs. Each position was compared to standing using paired t-tests. Intra- and interobserver reliability were evaluated using intraclass correlation coefficients (ICCs).",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Primary outcome measurements included spinopelvic parameters assessed with paired statistical testing and reliability assessment.",
+      "keywords": [
+        "lumbar lordosis measurement",
+        "pelvic parameters",
+        "intraclass correlation",
+        "paired t-tests"
+      ],
+      "statistics": null
+    },
+    {
+      "content": "In standing position, mean lumbar lordosis was 51.1°±3.8°. Lumbar lordosis decreased significantly in all right lateral decubitus position configurations compared with standing baseline. The 30FN position (right hip flexed 30°, left hip neutral) showed the smallest change with ΔLL=-4.9° (p<0.001), whereas 60FF (both hips flexed 60°) showed the greatest change with ΔLL=-15.0° (p<0.001).",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Lumbar lordosis decreased in all RLDP positions; 30FN position showed smallest deviation from standing (−4.9°) while 60FF showed greatest deviation (−15.0°).",
+      "keywords": [
+        "lumbar lordosis change",
+        "hip position effect",
+        "RLDP configurations",
+        "statistical significance"
+      ],
+      "statistics": {
+        "p_value": "<0.001",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "-4.9",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "ΔLL 30FN = -4.9° (p<0.001); ΔLL 60FF = -15.0° (p<0.001)"
+        },
+        "additional": "Standing LL baseline: 51.1° ± 3.8°"
+      }
+    },
+    {
+      "content": "In the 30FN position (right hip flexed 30°, left hip neutral), pelvic tilt decreased significantly (p=0.013) and sacral slope increased significantly (p=0.003), indicating mild anterior pelvic rotation that maintained spinopelvic harmony closer to standing alignment.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "30FN position achieved favorable spinopelvic changes with decreased PT and increased SS, maintaining alignment harmony.",
+      "keywords": [
+        "pelvic tilt",
+        "sacral slope",
+        "anterior pelvic rotation",
+        "spinopelvic harmony"
+      ],
+      "statistics": {
+        "p_value": "0.013 and 0.003",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "PT decreased (p=0.013); SS increased (p=0.003)"
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "Pelvic incidence (PI) showed minimal variation across all tested right lateral decubitus positions, indicating that hip positioning does not substantially alter this anatomic parameter.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Pelvic incidence remained relatively stable across all positioning configurations.",
+      "keywords": [
+        "pelvic incidence",
+        "anatomic parameter",
+        "positional stability",
+        "minimal variation"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "PI minimal variation across positions"
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "Intraobserver reliability testing showed ICC values ranging from 0.92 to 0.99. Interobserver reliability testing also demonstrated ICC values ranging from 0.92 to 0.99, confirming high measurement reliability and reproducibility of radiographic measurements across all spinopelvic parameters.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Excellent intra- and interobserver reliability (ICC 0.92-0.99) confirmed high reproducibility of measurements.",
+      "keywords": [
+        "intraclass correlation coefficient",
+        "measurement reliability",
+        "observer reproducibility",
+        "radiographic accuracy"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "ICC",
+          "value": "0.95",
+          "ci_lower": "0.92",
+          "ci_upper": "0.99",
+          "label": "ICC 0.92-0.99 for intra- and interobserver reliability"
+        },
+        "additional": "High measurement reliability confirmed"
+      }
+    },
+    {
+      "content": "Comparison of all five right lateral decubitus configurations revealed that neutral hip positioning (NN) produced ΔLL of approximately -8° to -10°, 30° hip flexion of both hips (30FF) produced ΔLL of approximately -9° to -11°, and 30° asymmetric hip flexion (30FN) produced the smallest deviation (ΔLL=-4.9°), while 60° configurations caused substantial lordosis loss (60FF ΔLL=-15.0°, 60FN approximately -12° to -14°).",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Comprehensive comparison of all five positioning configurations with 30FN showing optimal lordosis preservation.",
+      "keywords": [
+        "position comparison",
+        "lordosis preservation",
+        "hip flexion angles",
+        "optimal positioning"
+      ],
+      "statistics": {
+        "p_value": "<0.001",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "-4.9",
+          "ci_lower": "-15.0",
+          "ci_upper": "-4.9",
+          "label": "ΔLL range: -4.9° (30FN) to -15.0° (60FF)"
+        },
+        "additional": "All changes statistically significant (p<0.001)"
+      }
+    },
+    {
+      "content": "Hip position significantly influences lumbar lordosis and spinopelvic alignment when the patient is positioned in the right lateral decubitus position. Among all tested configurations, the 30FN position (right hip flexed 30°, left hip neutral) showed the smallest numerical deviation from standing alignment and best preserved spinopelvic harmony relative to standing position.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Clinical recommendation for 30FN positioning to optimize spinopelvic alignment during lateral lumbar interbody fusion.",
+      "keywords": [
+        "hip position effect",
+        "spinopelvic alignment",
+        "clinical recommendation",
+        "optimal positioning"
+      ],
+      "statistics": null
+    },
+    {
+      "content": "The objective of this research was to quantify how different hip flexion angles affect lumbar lordosis and associated spinopelvic parameters during right lateral decubitus positioning, which is the standard patient positioning for minimally invasive lateral lumbar interbody fusion (LLIF) procedures.",
+      "content_type": "text",
+      "section_type": "introduction",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Study rationale focused on optimizing patient positioning during minimally invasive LLIF surgery.",
+      "keywords": [
+        "lateral lumbar interbody fusion",
+        "positioning optimization",
+        "minimally invasive surgery",
+        "spinopelvic alignment"
+      ],
+      "statistics": null
+    },
+    {
+      "content": "Previous studies have shown that patient positioning significantly affects intraoperative spinal alignment and may influence long-term surgical outcomes. Understanding the relationship between hip positioning and lumbar lordosis during lateral decubitus positioning could improve surgical technique and potentially optimize postoperative spinopelvic harmony.",
+      "content_type": "text",
+      "section_type": "introduction",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Clinical rationale for investigating positioning effects on surgical outcomes.",
+      "keywords": [
+        "patient positioning",
+        "surgical outcomes",
+        "spinopelvic harmony",
+        "surgical technique"
+      ],
+      "statistics": null
+    },
+    {
+      "content": "All measurements were performed on high-quality digital lateral lumbar radiographs taken with standardized radiographic techniques. Subjects were positioned by experienced staff to ensure consistency across all five right lateral decubitus configurations and the standing baseline position.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Standardized radiographic methodology ensured high-quality imaging and consistent positioning.",
+      "keywords": [
+        "radiographic technique",
+        "standardized methodology",
+        "measurement consistency",
+        "imaging quality"
+      ],
+      "statistics": null
+    },
+    {
+      "content": "Study population consisted of 30 healthy adult volunteers without any history of spinal pathology, prior spinal surgery, or significant degenerative disc disease. Inclusion criteria required normal spinal anatomy on baseline radiographs and ability to tolerate all five positioning configurations during imaging.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Healthy volunteer cohort selected to establish normal baseline parameters without confounding pathology.",
+      "keywords": [
+        "healthy volunteers",
+        "inclusion criteria",
+        "baseline assessment",
+        "normal anatomy"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": null,
+        "additional": "n=30 (15M/15F), age 27.8±8.6 years"
+      }
+    },
+    {
+      "content": "The 30FN positioning configuration provides several clinical advantages: it results in minimal lumbar lordosis loss (only 4.9° deviation from standing), maintains favorable spinopelvic parameters through anterior pelvic rotation, and may facilitate optimal lumbar alignment during lateral lumbar interbody fusion procedures without requiring excessive hip flexion angles that could impede surgical access.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Clinical implications of 30FN positioning for lateral lumbar interbody fusion procedures.",
+      "keywords": [
+        "clinical application",
+        "surgical positioning",
+        "intraoperative alignment",
+        "surgical access"
+      ],
+      "statistics": null
+    },
+    {
+      "content": "Excessive hip flexion, as demonstrated in the 60FF configuration causing 15.0° lordosis loss, may compromise spinopelvic alignment and potentially lead to suboptimal fusion positioning. The study findings support a measured approach to hip positioning that balances surgical exposure requirements with maintenance of physiologic lumbar alignment.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Excessive hip flexion may compromise alignment; balanced positioning approach recommended.",
+      "keywords": [
+        "positioning balance",
+        "surgical exposure",
+        "alignment maintenance",
+        "excessive flexion"
+      ],
+      "statistics": null
+    },
+    {
+      "content": "Future studies should investigate whether the identified optimal positioning (30FN) translates to improved clinical outcomes including fusion rates, postoperative pain scores, and functional recovery in actual patient populations undergoing lateral lumbar interbody fusion. Studies should also evaluate whether spinopelvic alignment achieved during surgery correlates with long-term sagittal balance maintenance.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Future research directions to validate optimal positioning in clinical practice.",
+      "keywords": [
+        "clinical validation",
+        "fusion outcomes",
+        "long-term follow-up",
+        "sagittal balance"
+      ],
+      "statistics": null
+    },
+    {
+      "content": "Study limitations include the use of healthy volunteers without spinal pathology, which may not fully represent surgical patients who often have degenerative changes or preexisting spinopelvic abnormalities. Additionally, measurements were obtained in the supine radiographic plane and may not fully replicate the three-dimensional positional dynamics during actual surgical procedures.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Study limitations related to healthy volunteer population and two-dimensional imaging methodology.",
+      "keywords": [
+        "study limitations",
+        "healthy volunteers",
+        "radiographic imaging",
+        "methodologic constraints"
+      ],
+      "statistics": null
+    },
+    {
+      "content": "The strong measurement reliability (ICC 0.92-0.99) for both intraobserver and interobserver assessments demonstrates that radiographic spinopelvic measurements are highly reproducible when standardized techniques are employed, supporting the validity of using such measurements to evaluate positioning effects.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "High measurement reliability validates the use of radiographic assessment for positioning evaluation.",
+      "keywords": [
+        "measurement validity",
+        "observer reliability",
+        "radiographic assessment",
+        "standardized technique"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "ICC",
+          "value": "0.95",
+          "ci_lower": "0.92",
+          "ci_upper": "0.99",
+          "label": "ICC 0.92-0.99 demonstrates high reliability"
+        },
+        "additional": null
+      }
+    },
+    {
+      "content": "In conclusion, hip position during right lateral decubitus positioning significantly influences lumbar lordosis and spinopelvic parameters. The 30FN configuration (right hip flexed 30°, left hip neutral) most closely replicates physiologic standing alignment with the smallest lordosis deviation (−4.9°), favorable pelvic tilt and sacral slope changes, and preserved spinopelvic harmony compared to all other tested positioning configurations.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Final conclusion supporting 30FN positioning as optimal configuration for lateral lumbar interbody fusion.",
+      "keywords": [
+        "optimal positioning",
+        "spinopelvic harmony",
+        "surgical recommendation",
+        "clinical conclusion"
+      ],
+      "statistics": {
+        "p_value": "<0.001",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "-4.9",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "30FN shows ΔLL = -4.9° (p<0.001)"
+        },
+        "additional": null
+      }
+    }
+  ]
+}

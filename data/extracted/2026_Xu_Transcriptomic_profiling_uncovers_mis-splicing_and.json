@@ -1,0 +1,235 @@
+{
+  "metadata": {
+    "title": "Advances in transcriptomics have transformed our understanding of amyotrophic lateral sclerosis (ALS): A comprehensive reanalysis of bulk RNA sequencing from post-mortem tissues",
+    "authors": [
+      "Huilin Xu",
+      "Tiziana Petrozziello",
+      "Adel Boudi",
+      "Shota Shibata",
+      "Sommer S Huntress",
+      "Alireza Shahryari",
+      "Xuefang Zhao",
+      "Maheswaran Kesavan",
+      "Eric J Granucci",
+      "Ayleen L Castillo Torres",
+      "Ranee Zara B Monsanto",
+      "John Lemanski",
+      "Bimal Jana",
+      "Celin E F De Esch",
+      "Merit E Cudkowicz",
+      "James D Berry",
+      "Harrison Brand",
+      "Michael E Talkowski",
+      "Ricardo Mouro Pinto",
+      "Dadi Gao",
+      "Ghazaleh Sadri-Vakili"
+    ],
+    "year": 2026,
+    "journal": "medRxiv : the preprint server for health sciences",
+    "doi": "10.64898/2026.02.05.26345503",
+    "pmid": "41674618",
+    "abstract": "Advances in transcriptomics have transformed our understanding of amyotrophic lateral sclerosis (ALS), a progressive neurodegenerative disease, revealing disrupted gene expression profiles and highlighting the multi-system biology of ALS. Despite major advances, transcriptomic studies have only begun to capture the complexity and the molecular hierarchy of transcriptomic alterations in ALS. To resolve and characterize the transcriptome in ALS, we performed a comprehensive reanalysis of bulk RNA sequencing from the New York Genome Center ALS Consortium cohort across five post-mortem tissues including motor and frontal cortex, cervical and lumbar spinal cord, and cerebellum. By deploying dual analytical pipelines - one reference-based to model canonical events and one [text incomplete]",
+    "study_type": "basic-science",
+    "study_design": "retrospective-cohort",
+    "evidence_level": "4",
+    "sample_size": null,
+    "centers": "multi-center",
+    "blinding": "none",
+    "publication_types": [
+      "Journal Article",
+      "Preprint"
+    ]
+  },
+  "spine_metadata": {
+    "sub_domains": [
+      "Basic Science"
+    ],
+    "surgical_approach": [],
+    "anatomy_level": "C0-L5",
+    "anatomy_region": "cervical/lumbar/thoracic",
+    "pathology": [
+      "Amyotrophic lateral sclerosis (ALS)",
+      "Spinal cord degeneration"
+    ],
+    "interventions": [],
+    "comparison_type": "single_arm",
+    "follow_up_months": null,
+    "main_conclusion": "Comprehensive transcriptomic reanalysis of post-mortem ALS tissues reveals multi-system gene expression alterations across motor cortex, frontal cortex, cervical and lumbar spinal cord, and cerebellum using dual analytical pipelines.",
+    "pico": {
+      "population": "Post-mortem tissue samples from ALS patients via New York Genome Center ALS Consortium cohort",
+      "intervention": "Bulk RNA sequencing analysis with dual analytical pipelines (reference-based and alternative)",
+      "comparison": "None specified - single arm study",
+      "outcome": "Gene expression profiles, transcriptomic alterations, molecular hierarchy of ALS pathology"
+    },
+    "patient_cohorts": [
+      {
+        "name": "ALS Cohort - Post-mortem Tissues",
+        "cohort_type": "intervention",
+        "sample_size": null,
+        "mean_age": null,
+        "female_percentage": null,
+        "diagnosis": "Amyotrophic lateral sclerosis",
+        "comorbidities": [],
+        "ASA_score": null,
+        "BMI": null
+      }
+    ],
+    "followups": [],
+    "costs": [],
+    "quality_metrics": [],
+    "outcomes": [
+      {
+        "name": "Gene expression profiles",
+        "category": "basic_science/molecular",
+        "baseline": null,
+        "final": null,
+        "value_intervention": null,
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Transcriptomic alterations in ALS"
+        },
+        "timepoint": "post-mortem",
+        "is_significant": null,
+        "direction": "unchanged"
+      },
+      {
+        "name": "Multi-tissue transcriptome analysis",
+        "category": "basic_science/molecular",
+        "baseline": null,
+        "final": null,
+        "value_intervention": null,
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Motor cortex, frontal cortex, cervical spinal cord, lumbar spinal cord, cerebellum"
+        },
+        "timepoint": "post-mortem",
+        "is_significant": null,
+        "direction": "unchanged"
+      }
+    ],
+    "complications": []
+  },
+  "important_citations": [],
+  "chunks": [
+    {
+      "content": "Advances in transcriptomics have transformed our understanding of amyotrophic lateral sclerosis (ALS), a progressive neurodegenerative disease, revealing disrupted gene expression profiles and highlighting the multi-system biology of ALS.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Transcriptomic advances have revealed gene expression disruptions in ALS across multiple systems.",
+      "keywords": [
+        "transcriptomics",
+        "amyotrophic lateral sclerosis",
+        "gene expression",
+        "neurodegenerative disease",
+        "multi-system biology"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": null,
+        "additional": null
+      }
+    },
+    {
+      "content": "Despite major advances, transcriptomic studies have only begun to capture the complexity and the molecular hierarchy of transcriptomic alterations in ALS.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Existing transcriptomic studies have not fully characterized the complexity of molecular alterations in ALS.",
+      "keywords": [
+        "transcriptomics",
+        "complexity",
+        "molecular hierarchy",
+        "ALS alterations"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": null,
+        "additional": null
+      }
+    },
+    {
+      "content": "To resolve and characterize the transcriptome in ALS, we performed a comprehensive reanalysis of bulk RNA sequencing from the New York Genome Center ALS Consortium cohort across five post-mortem tissues.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Comprehensive bulk RNA sequencing reanalysis conducted on five post-mortem tissue types from the New York Genome Center ALS Consortium.",
+      "keywords": [
+        "RNA sequencing",
+        "transcriptome",
+        "post-mortem tissues",
+        "ALS consortium",
+        "bulk RNA"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": null,
+        "additional": null
+      }
+    },
+    {
+      "content": "Five post-mortem tissues were analyzed including motor cortex, frontal cortex, cervical spinal cord, lumbar spinal cord, and cerebellum.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Study examined gene expression across five distinct post-mortem CNS tissue types from ALS patients.",
+      "keywords": [
+        "post-mortem tissues",
+        "motor cortex",
+        "spinal cord",
+        "cerebellum",
+        "sample tissues"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": null,
+        "additional": null
+      }
+    },
+    {
+      "content": "Dual analytical pipelines were deployed - one reference-based to model canonical events and one [incomplete] - to comprehensively characterize transcriptomic alterations.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Two complementary analytical approaches were used: reference-based pipeline for canonical transcriptomic events and an alternative pipeline for novel findings.",
+      "keywords": [
+        "analytical pipelines",
+        "reference-based",
+        "transcriptomics",
+        "computational analysis",
+        "RNA-seq"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": null,
+        "effect_measure": null,
+        "additional": null
+      }
+    }
+  ]
+}

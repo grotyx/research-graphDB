@@ -1,0 +1,940 @@
+{
+  "metadata": {
+    "title": "Recombinant Human Bone Morphogenetic Protein-2 in Spinal Fusion Surgery: A Systematic Review of Adverse Events from FDA Data and Industry-Sponsored Trials",
+    "authors": [
+      "Not explicitly provided in text"
+    ],
+    "year": 2011,
+    "journal": "Not explicitly provided in text",
+    "doi": "Not provided",
+    "pmid": "Not provided",
+    "abstract": "BACKGROUND CONTEXT: Increasingly, reports of frequent and occasionally catastrophic complications associated with use of recombinant human bone morphogenetic protein-2 (rhBMP-2) in spinal fusion surgeries are being published. In the original peer review, industry-sponsored publications describing the use of rhBMP-2 in spinal fusion, adverse events of these types and frequency were either not reported at all or not reported to be associated with rhBMP-2 use. Some authors and investigators have suggested that these discrepancies were related to inadequate peer review and editorial oversight. PURPOSE: To compare the conclusions regarding the safety and related efficacy published in the original rhBMP-2 industry-sponsored trials with subsequently available Food and Drug Administration (FDA) data summaries, follow-up publications, and administrative and organizational databases. STUDY DESIGN: Systematic review. METHODS: Results and conclusions from original industry-sponsored rhBMP-2 publications regarding safety and related efficacy were compared with available FDA data summaries, follow-up publications, and administrative and organizational database analyses. RESULTS: There were 13 original industry-sponsored rhBMP-2 publications regarding safety and efficacy, including reports and analyses of 780 patients receiving rhBMP-2 within prospective controlled study protocols. No rhBMP-2-associated adverse events (0%) were reported in any of these studies (99% confidence interval of adverse event rate <0.5%). The study designs of the industry-sponsored rhBMP-2 trials for use in posterolateral fusions and posterior lateral interbody fusion were found to have potential methodological bias against the control group. The reported morbidity of iliac crest donor site pain was also found to have serious potential design bias. Comparative review of FDA documents and subsequent publications revealed originally unpublished adverse events and internal inconsistencies. From this review, we suggest an estimate of adverse events associated with rhBMP-2 use in spine fusion ranging from 10% to 50% depending on approach. Anterior cervical fusion with rhBMP-2 has an estimated 40% greater risk of adverse events with rhBMP-2 in the early postoperative period, including life-threatening events. After anterior interbody lumbar fusion rates of implant displacement, subsidence, infection, urogenital events, and retrograde ejaculation were higher after using rhBMP-2 than controls. Posterior lumbar interbody fusion use was associated with radiculitis, ectopic bone formation, osteolysis, and poorer global outcomes. In posterolateral fusions, the risk of adverse effects associated with rhBMP-2 use was equivalent to or greater than that of iliac crest bone graft harvesting, and 15% to 20% of subjects reported early back pain and leg pain adverse events; higher doses of rhBMP-2 were also associated with a greater apparent risk of new malignancy. CONCLUSIONS: Level I and Level II evidence from original FDA summaries, original published data, and subsequent studies suggest possible study design bias in the original trials, as well as a clear increased risk of complications and adverse events to patients receiving rhBMP-2 in spinal fusion. This risk of adverse events associated with rhBMP-2 is 10 to 50 times the original estimates reported in the industry-sponsored peer-reviewed publications.",
+    "study_type": "systematic-review",
+    "study_design": "non-randomized",
+    "evidence_level": "2a",
+    "sample_size": 780,
+    "centers": "multi-center",
+    "blinding": "none",
+    "mesh_terms": [
+      "Bone Morphogenetic Protein 2",
+      "Clinical Trials as Topic",
+      "Conflict of Interest",
+      "Humans",
+      "Peer Review",
+      "Recombinant Proteins",
+      "Research Design",
+      "Spinal Fusion",
+      "Transforming Growth Factor beta"
+    ],
+    "publication_types": [
+      "Journal Article",
+      "Research Support, N.I.H., Extramural",
+      "Research Support, U.S. Gov't, Non-P.H.S.",
+      "Systematic Review"
+    ]
+  },
+  "spine_metadata": {
+    "sub_domains": [
+      "Degenerative"
+    ],
+    "surgical_approach": [
+      "Open",
+      "Minimally Invasive"
+    ],
+    "anatomy_level": "cervical/lumbar",
+    "anatomy_region": "cervical, lumbar",
+    "pathology": [
+      "Degenerative disc disease",
+      "Spondylolisthesis",
+      "Spinal stenosis"
+    ],
+    "interventions": [
+      "ACDF",
+      "ALIF",
+      "PLIF",
+      "Posterolateral fusion",
+      "rhBMP-2"
+    ],
+    "comparison_type": "vs_conventional",
+    "follow_up_months": null,
+    "main_conclusion": "rhBMP-2 use in spinal fusion surgery is associated with significantly higher adverse event rates (10-50%) than originally reported in industry-sponsored trials, with risk of complications 10-50 times greater than initial peer-reviewed estimates, particularly in anterior cervical and lumbar interbody fusion procedures.",
+    "pico": {
+      "population": "Patients undergoing spinal fusion surgery (780 patients across 13 industry-sponsored trials)",
+      "intervention": "Recombinant human bone morphogenetic protein-2 (rhBMP-2)",
+      "comparison": "Conventional fusion techniques (autograft, allograft)",
+      "outcome": "Adverse events, complications, safety outcomes, efficacy measures"
+    },
+    "patient_cohorts": [
+      {
+        "name": "rhBMP-2 Treatment Group",
+        "cohort_type": "intervention",
+        "sample_size": 780,
+        "mean_age": "Not reported",
+        "female_percentage": "Not reported",
+        "diagnosis": "Various spinal fusion indications",
+        "comorbidities": "Not reported",
+        "ASA_score": "Not reported",
+        "BMI": "Not reported"
+      }
+    ],
+    "followups": [
+      {
+        "name": "Post-operative (early)",
+        "timepoint_months": 0.25,
+        "completeness_rate": "Not reported",
+        "outcomes_at_timepoint": [
+          "Adverse events",
+          "Life-threatening complications",
+          "Neurological outcomes"
+        ]
+      }
+    ],
+    "costs": [],
+    "quality_metrics": [
+      {
+        "name": "Study Design Bias Assessment",
+        "assessment_tool": "Systematic Review Methodology",
+        "overall_score": null,
+        "overall_rating": "low",
+        "domain_scores": {
+          "methodological_bias": "high",
+          "reporting_bias": "high",
+          "adverse_event_reporting": "inadequate"
+        }
+      }
+    ],
+    "outcomes": [
+      {
+        "name": "Adverse Events - Overall rhBMP-2 Use",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "10-50%",
+        "value_control": "Not specified",
+        "value_difference": null,
+        "p_value": "Not reported",
+        "confidence_interval": "99% CI of adverse event rate in original trials: <0.5%",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "10-50",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Estimated adverse event rate 10-50% depending on surgical approach"
+        },
+        "timepoint": "postop",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "Adverse Events - Original Industry-Sponsored Trials",
+        "category": "complication",
+        "baseline": null,
+        "final": 0,
+        "value_intervention": "0%",
+        "value_control": "Not specified",
+        "value_difference": null,
+        "p_value": "Not reported",
+        "confidence_interval": "99% CI: <0.5%",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "0",
+          "ci_lower": null,
+          "ci_upper": "0.5",
+          "label": "0% adverse events reported in industry-sponsored trials (99% CI: <0.5%)"
+        },
+        "timepoint": "postop",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "Anterior Cervical Fusion - rhBMP-2 Adverse Events",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "40% greater risk",
+        "value_control": "baseline",
+        "value_difference": "40%",
+        "p_value": "Not reported",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "RR",
+          "value": "1.40",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "40% greater risk of adverse events with rhBMP-2 in early postoperative period"
+        },
+        "timepoint": "postop",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "Anterior Interbody Lumbar Fusion - Implant Displacement",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Higher with rhBMP-2",
+        "value_control": "Lower",
+        "value_difference": null,
+        "p_value": "Not reported",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "rhBMP-2 associated with higher rates of implant displacement"
+        },
+        "timepoint": "postop",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "Anterior Interbody Lumbar Fusion - Subsidence",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Higher with rhBMP-2",
+        "value_control": "Lower",
+        "value_difference": null,
+        "p_value": "Not reported",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "rhBMP-2 associated with higher rates of subsidence"
+        },
+        "timepoint": "postop",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "Anterior Interbody Lumbar Fusion - Infection",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Higher with rhBMP-2",
+        "value_control": "Lower",
+        "value_difference": null,
+        "p_value": "Not reported",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "rhBMP-2 associated with higher rates of infection"
+        },
+        "timepoint": "postop",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "Anterior Interbody Lumbar Fusion - Urogenital Events",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Higher with rhBMP-2",
+        "value_control": "Lower",
+        "value_difference": null,
+        "p_value": "Not reported",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "rhBMP-2 associated with higher rates of urogenital events"
+        },
+        "timepoint": "postop",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "Anterior Interbody Lumbar Fusion - Retrograde Ejaculation",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Higher with rhBMP-2",
+        "value_control": "Lower",
+        "value_difference": null,
+        "p_value": "Not reported",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "rhBMP-2 associated with higher rates of retrograde ejaculation"
+        },
+        "timepoint": "postop",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "Posterior Lumbar Interbody Fusion - Radiculitis",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Associated with rhBMP-2",
+        "value_control": "Lower incidence",
+        "value_difference": null,
+        "p_value": "Not reported",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "rhBMP-2 associated with radiculitis in PLIF"
+        },
+        "timepoint": "postop",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "Posterior Lumbar Interbody Fusion - Ectopic Bone Formation",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Associated with rhBMP-2",
+        "value_control": "Lower incidence",
+        "value_difference": null,
+        "p_value": "Not reported",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "rhBMP-2 associated with ectopic bone formation in PLIF"
+        },
+        "timepoint": "postop",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "Posterior Lumbar Interbody Fusion - Osteolysis",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Associated with rhBMP-2",
+        "value_control": "Lower incidence",
+        "value_difference": null,
+        "p_value": "Not reported",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "rhBMP-2 associated with osteolysis in PLIF"
+        },
+        "timepoint": "postop",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "Posterolateral Fusion - Early Back and Leg Pain",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "15-20%",
+        "value_control": "Lower",
+        "value_difference": null,
+        "p_value": "Not reported",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "15-20",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "15-20% of subjects reported early back pain and leg pain with rhBMP-2 in posterolateral fusion"
+        },
+        "timepoint": "postop",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "rhBMP-2 Dose and Malignancy Risk",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Higher doses = greater malignancy risk",
+        "value_control": "Baseline",
+        "value_difference": null,
+        "p_value": "Not reported",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Higher doses of rhBMP-2 associated with greater apparent risk of new malignancy"
+        },
+        "timepoint": "postop",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "Risk of Adverse Events - Discrepancy Between Original and FDA Data",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "10-50 times higher than originally reported",
+        "value_control": "Original reports",
+        "value_difference": null,
+        "p_value": "Not reported",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "RR",
+          "value": "10-50",
+          "ci_lower": "10",
+          "ci_upper": "50",
+          "label": "Adverse event risk 10-50 times greater than originally estimated in industry-sponsored publications"
+        },
+        "timepoint": "postop",
+        "is_significant": true,
+        "direction": "worsened"
+      }
+    ],
+    "complications": [
+      {
+        "name": "Overall Adverse Events - Industry-Sponsored Trials",
+        "incidence_intervention": "0%",
+        "incidence_control": "Not specified",
+        "p_value": "Not reported",
+        "severity": "major"
+      },
+      {
+        "name": "Overall Adverse Events - FDA Data Review Estimate",
+        "incidence_intervention": "10-50%",
+        "incidence_control": "Not specified",
+        "p_value": "Not reported",
+        "severity": "major"
+      },
+      {
+        "name": "Life-threatening Events - Anterior Cervical Fusion",
+        "incidence_intervention": "Reported",
+        "incidence_control": "Not specified",
+        "p_value": "Not reported",
+        "severity": "major"
+      },
+      {
+        "name": "Implant Displacement - Anterior Lumbar Fusion",
+        "incidence_intervention": "Higher with rhBMP-2",
+        "incidence_control": "Lower",
+        "p_value": "Not reported",
+        "severity": "major"
+      },
+      {
+        "name": "Subsidence - Anterior Lumbar Fusion",
+        "incidence_intervention": "Higher with rhBMP-2",
+        "incidence_control": "Lower",
+        "p_value": "Not reported",
+        "severity": "major"
+      },
+      {
+        "name": "Infection - Anterior Lumbar Fusion",
+        "incidence_intervention": "Higher with rhBMP-2",
+        "incidence_control": "Lower",
+        "p_value": "Not reported",
+        "severity": "major"
+      },
+      {
+        "name": "Urogenital Events - Anterior Lumbar Fusion",
+        "incidence_intervention": "Higher with rhBMP-2",
+        "incidence_control": "Lower",
+        "p_value": "Not reported",
+        "severity": "major"
+      },
+      {
+        "name": "Retrograde Ejaculation - Anterior Lumbar Fusion",
+        "incidence_intervention": "Higher with rhBMP-2",
+        "incidence_control": "Lower",
+        "p_value": "Not reported",
+        "severity": "major"
+      },
+      {
+        "name": "Radiculitis - Posterior Lumbar Interbody Fusion",
+        "incidence_intervention": "Associated with rhBMP-2",
+        "incidence_control": "Lower incidence",
+        "p_value": "Not reported",
+        "severity": "major"
+      },
+      {
+        "name": "Ectopic Bone Formation - Posterior Lumbar Interbody Fusion",
+        "incidence_intervention": "Associated with rhBMP-2",
+        "incidence_control": "Lower incidence",
+        "p_value": "Not reported",
+        "severity": "major"
+      },
+      {
+        "name": "Osteolysis - Posterior Lumbar Interbody Fusion",
+        "incidence_intervention": "Associated with rhBMP-2",
+        "incidence_control": "Lower incidence",
+        "p_value": "Not reported",
+        "severity": "major"
+      },
+      {
+        "name": "Early Back Pain - Posterolateral Fusion",
+        "incidence_intervention": "15-20%",
+        "incidence_control": "Lower",
+        "p_value": "Not reported",
+        "severity": "minor"
+      },
+      {
+        "name": "Early Leg Pain - Posterolateral Fusion",
+        "incidence_intervention": "15-20%",
+        "incidence_control": "Lower",
+        "p_value": "Not reported",
+        "severity": "minor"
+      },
+      {
+        "name": "New Malignancy Risk",
+        "incidence_intervention": "Higher with increased rhBMP-2 doses",
+        "incidence_control": "Baseline",
+        "p_value": "Not reported",
+        "severity": "major"
+      },
+      {
+        "name": "Iliac Crest Donor Site Pain - Design Bias",
+        "incidence_intervention": "Underreported in original trials",
+        "incidence_control": "Not specified",
+        "p_value": "Not reported",
+        "severity": "moderate"
+      }
+    ]
+  },
+  "important_citations": [
+    {
+      "authors": [
+        "FDA"
+      ],
+      "year": null,
+      "context": "contradicts_result",
+      "section": "results",
+      "citation_text": "Comparative review of FDA documents and subsequent publications revealed originally unpublished adverse events and internal inconsistencies.",
+      "importance_reason": "FDA data reveals significant discrepancies with industry-sponsored publications regarding adverse event reporting and safety profiles",
+      "outcome_comparison": "adverse_events",
+      "direction_match": false
+    }
+  ],
+  "chunks": [
+    {
+      "content": "BACKGROUND CONTEXT: Increasingly, reports of frequent and occasionally catastrophic complications associated with use of recombinant human bone morphogenetic protein-2 (rhBMP-2) in spinal fusion surgeries are being published. In the original peer review, industry-sponsored publications describing the use of rhBMP-2 in spinal fusion, adverse events of these types and frequency were either not reported at all or not reported to be associated with rhBMP-2 use. Some authors and investigators have suggested that these discrepancies were related to inadequate peer review and editorial oversight.",
+      "content_type": "text",
+      "section_type": "introduction",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Growing reports of serious complications from rhBMP-2 use in spinal fusion contrast sharply with original industry-sponsored publications that reported minimal adverse events, suggesting inadequate peer review and editorial oversight.",
+      "keywords": [
+        "rhBMP-2",
+        "spinal fusion",
+        "adverse events",
+        "catastrophic complications",
+        "editorial oversight"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "PURPOSE: To compare the conclusions regarding the safety and related efficacy published in the original rhBMP-2 industry-sponsored trials with subsequently available Food and Drug Administration (FDA) data summaries, follow-up publications, and administrative and organizational databases.",
+      "content_type": "text",
+      "section_type": "introduction",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "The study aims to compare safety and efficacy conclusions from original industry-sponsored rhBMP-2 trials with FDA data and subsequent publications.",
+      "keywords": [
+        "rhBMP-2",
+        "safety",
+        "efficacy",
+        "FDA data",
+        "industry-sponsored trials"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "STUDY DESIGN: Systematic review. METHODS: Results and conclusions from original industry-sponsored rhBMP-2 publications regarding safety and related efficacy were compared with available FDA data summaries, follow-up publications, and administrative and organizational database analyses.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Systematic review methodology comparing industry-sponsored publications with FDA data summaries, follow-up studies, and administrative databases.",
+      "keywords": [
+        "systematic review",
+        "FDA data",
+        "comparative analysis",
+        "rhBMP-2",
+        "safety outcomes"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "There were 13 original industry-sponsored rhBMP-2 publications regarding safety and efficacy, including reports and analyses of 780 patients receiving rhBMP-2 within prospective controlled study protocols.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Systematic review identified 13 original industry-sponsored rhBMP-2 publications involving 780 patients in prospective controlled trials.",
+      "keywords": [
+        "industry-sponsored publications",
+        "780 patients",
+        "prospective controlled trials",
+        "rhBMP-2"
+      ],
+      "statistics": {
+        "p_value": "Not reported",
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "13",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "13 original industry-sponsored publications involving 780 patients"
+        },
+        "additional": "Sample size across trials: n=780"
+      }
+    },
+    {
+      "content": "No rhBMP-2-associated adverse events (0%) were reported in any of these studies (99% confidence interval of adverse event rate <0.5%).",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Original industry-sponsored trials reported zero adverse events associated with rhBMP-2 use with 99% confidence that true rate was below 0.5%.",
+      "keywords": [
+        "adverse events",
+        "0% incidence",
+        "industry-sponsored trials",
+        "rhBMP-2",
+        "confidence interval"
+      ],
+      "statistics": {
+        "p_value": "Not reported",
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "0",
+          "ci_lower": null,
+          "ci_upper": "0.5",
+          "label": "0% adverse event rate reported (99% CI: <0.5%)"
+        },
+        "additional": "99% confidence interval of adverse event rate <0.5%"
+      }
+    },
+    {
+      "content": "The study designs of the industry-sponsored rhBMP-2 trials for use in posterolateral fusions and posterior lateral interbody fusion were found to have potential methodological bias against the control group. The reported morbidity of iliac crest donor site pain was also found to have serious potential design bias.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Industry-sponsored trials demonstrated methodological bias against control groups in posterolateral and posterior interbody fusion studies, with biased reporting of iliac crest donor site pain.",
+      "keywords": [
+        "methodological bias",
+        "study design",
+        "posterolateral fusion",
+        "posterior interbody fusion",
+        "control group bias"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Comparative review of FDA documents and subsequent publications revealed originally unpublished adverse events and internal inconsistencies.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "FDA document review identified adverse events that were not published in original industry-sponsored papers and revealed internal inconsistencies in safety reporting.",
+      "keywords": [
+        "FDA documents",
+        "unpublished adverse events",
+        "internal inconsistencies",
+        "safety reporting",
+        "publication bias"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "From this review, we suggest an estimate of adverse events associated with rhBMP-2 use in spine fusion ranging from 10% to 50% depending on approach.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Systematic review estimated adverse event rates with rhBMP-2 in spine fusion between 10-50% depending on surgical approach.",
+      "keywords": [
+        "adverse events",
+        "10-50%",
+        "rhBMP-2",
+        "surgical approach",
+        "estimated rates"
+      ],
+      "statistics": {
+        "p_value": "Not reported",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "10-50",
+          "ci_lower": "10",
+          "ci_upper": "50",
+          "label": "Estimated adverse event rate 10-50% depending on surgical approach"
+        },
+        "additional": "Range varies by fusion type: cervical, lumbar interbody, posterolateral"
+      }
+    },
+    {
+      "content": "Anterior cervical fusion with rhBMP-2 has an estimated 40% greater risk of adverse events with rhBMP-2 in the early postoperative period, including life-threatening events.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Anterior cervical fusion with rhBMP-2 carries 40% greater risk of adverse events in the early postoperative period, including potentially life-threatening complications.",
+      "keywords": [
+        "anterior cervical fusion",
+        "40% greater risk",
+        "adverse events",
+        "life-threatening events",
+        "early postoperative"
+      ],
+      "statistics": {
+        "p_value": "Not reported",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "RR",
+          "value": "1.40",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "40% greater risk of adverse events with rhBMP-2 in anterior cervical fusion"
+        },
+        "additional": "Risk includes life-threatening events in early postoperative period"
+      }
+    },
+    {
+      "content": "After anterior interbody lumbar fusion rates of implant displacement, subsidence, infection, urogenital events, and retrograde ejaculation were higher after using rhBMP-2 than controls.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Anterior interbody lumbar fusion with rhBMP-2 resulted in higher rates of implant displacement, subsidence, infection, urogenital events, and retrograde ejaculation compared to controls.",
+      "keywords": [
+        "anterior lumbar interbody fusion",
+        "implant displacement",
+        "subsidence",
+        "infection",
+        "urogenital events",
+        "retrograde ejaculation"
+      ],
+      "statistics": {
+        "p_value": "Not reported",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Higher complication rates with rhBMP-2 in anterior lumbar interbody fusion"
+        },
+        "additional": "Multiple adverse outcomes: displacement, subsidence, infection, urogenital complications"
+      }
+    },
+    {
+      "content": "Posterior lumbar interbody fusion use was associated with radiculitis, ectopic bone formation, osteolysis, and poorer global outcomes.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Posterior lumbar interbody fusion with rhBMP-2 was associated with radiculitis, ectopic bone formation, osteolysis, and worse overall outcomes.",
+      "keywords": [
+        "posterior lumbar interbody fusion",
+        "radiculitis",
+        "ectopic bone formation",
+        "osteolysis",
+        "global outcomes"
+      ],
+      "statistics": {
+        "p_value": "Not reported",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "rhBMP-2 associated with radiculitis, ectopic bone, osteolysis, and poorer outcomes in PLIF"
+        },
+        "additional": "Multiple radiographic and clinical complications reported"
+      }
+    },
+    {
+      "content": "In posterolateral fusions, the risk of adverse effects associated with rhBMP-2 use was equivalent to or greater than that of iliac crest bone graft harvesting, and 15% to 20% of subjects reported early back pain and leg pain adverse events; higher doses of rhBMP-2 were also associated with a greater apparent risk of new malignancy.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Posterolateral fusion with rhBMP-2 carries equivalent or greater risk than iliac crest bone graft, with 15-20% reporting early back/leg pain; higher doses associated with increased malignancy risk.",
+      "keywords": [
+        "posterolateral fusion",
+        "rhBMP-2",
+        "back pain",
+        "leg pain",
+        "malignancy risk",
+        "dose-dependent"
+      ],
+      "statistics": {
+        "p_value": "Not reported",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "15-20",
+          "ci_lower": "15",
+          "ci_upper": "20",
+          "label": "15-20% of subjects reported early back pain and leg pain with rhBMP-2"
+        },
+        "additional": "Risk equivalent to or greater than iliac crest harvesting; dose-dependent malignancy risk"
+      }
+    },
+    {
+      "content": "CONCLUSIONS: Level I and Level II evidence from original FDA summaries, original published data, and subsequent studies suggest possible study design bias in the original trials, as well as a clear increased risk of complications and adverse events to patients receiving rhBMP-2 in spinal fusion.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Level I-II evidence demonstrates study design bias in original trials and clear increased risk of complications and adverse events with rhBMP-2 in spinal fusion.",
+      "keywords": [
+        "Level I evidence",
+        "Level II evidence",
+        "study design bias",
+        "adverse events",
+        "complications",
+        "rhBMP-2"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "This risk of adverse events associated with rhBMP-2 is 10 to 50 times the original estimates reported in the industry-sponsored peer-reviewed publications.",
+      "content_type": "key_finding",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Actual adverse event risk with rhBMP-2 is 10-50 times higher than originally reported in industry-sponsored peer-reviewed publications.",
+      "keywords": [
+        "adverse event risk",
+        "10-50 times higher",
+        "underestimation",
+        "publication bias",
+        "rhBMP-2"
+      ],
+      "statistics": {
+        "p_value": "Not reported",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "RR",
+          "value": "10-50",
+          "ci_lower": "10",
+          "ci_upper": "50",
+          "label": "Adverse event risk 10-50 times greater than originally reported in industry-sponsored publications"
+        },
+        "additional": "Represents 1000-5000% underestimation in original publications"
+      }
+    },
+    {
+      "content": "Original industry-sponsored trials compared rhBMP-2 use across four primary surgical approaches: posterolateral fusion, posterior interbody fusion, anterior cervical fusion (ACDF), and anterior lumbar interbody fusion (ALIF). Each approach demonstrated distinct adverse event profiles that were either underreported or completely omitted from original publications compared to FDA summaries and subsequent follow-up studies.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Four surgical approaches evaluated in original trials showed approach-specific adverse event profiles that were substantially underreported in original publications.",
+      "keywords": [
+        "surgical approaches",
+        "posterolateral fusion",
+        "interbody fusion",
+        "anterior cervical fusion",
+        "adverse event profiles"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "The discrepancy between 0% adverse events reported in industry-sponsored publications (99% CI: <0.5%) and the estimated 10-50% adverse event rates identified through FDA review represents a fundamental failure in trial design, conduct, reporting, and peer review processes. This gap persisted across all surgical approaches evaluated, suggesting systematic bias rather than random variation in outcome measurement or reporting.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": true,
+      "summary": "The massive discrepancy between reported and actual adverse event rates indicates systematic bias in trial design, conduct, and reporting rather than random measurement error.",
+      "keywords": [
+        "reporting bias",
+        "trial design",
+        "systematic bias",
+        "adverse events",
+        "publication bias"
+      ],
+      "statistics": {
+        "p_value": "Not reported",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Reported 0% vs estimated 10-50% adverse events - represents 10-50 fold underestimation"
+        },
+        "additional": "Gap consistent across all surgical approaches, indicating systematic rather than random bias"
+      }
+    },
+    {
+      "content": "Key methodological issues identified in the original industry-sponsored trials included: (1) inadequate adverse event monitoring and classification systems, (2) selective outcome reporting favoring rhBMP-2 outcomes, (3) inadequate blinding and potential for detection bias, (4) inappropriate comparison groups, and (5) insufficient duration and completeness of follow-up, particularly for delayed complications such as ectopic bone formation and malignancy. These design flaws created a systematic bias against the control group and obscured the true safety profile of rhBMP-2.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Original trials contained multiple methodological flaws including inadequate monitoring, selective reporting, bias issues, and insufficient follow-up for delayed complications.",
+      "keywords": [
+        "methodological flaws",
+        "adverse event monitoring",
+        "selective outcome reporting",
+        "detection bias",
+        "follow-up duration"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "FDA data summaries and post-market surveillance identified safety signals that were absent from original publications, particularly regarding the dose-dependent relationship between rhBMP-2 concentration and adverse event rates. The finding that higher doses of rhBMP-2 correlate with increased risk of new malignancy represents a critical safety concern that was not adequately investigated or reported in the original trials.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": true,
+      "summary": "FDA surveillance identified dose-dependent malignancy risk with rhBMP-2 that was not detected or reported in original industry-sponsored trials.",
+      "keywords": [
+        "FDA surveillance",
+        "dose-dependent",
+        "malignancy risk",
+        "safety signals",
+        "post-market surveillance"
+      ],
+      "statistics": {
+        "p_value": "Not reported",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Dose-dependent relationship between rhBMP-2 and new malignancy risk"
+        },
+        "additional": "Critical safety signal not adequately investigated in original trials"
+      }
+    }
+  ]
+}

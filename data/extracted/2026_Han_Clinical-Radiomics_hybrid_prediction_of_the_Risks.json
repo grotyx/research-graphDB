@@ -1,0 +1,676 @@
+{
+  "metadata": {
+    "title": "Risk Prediction Model for Pedicle Screw Loosening After Posterior Lumbar Fusion Using Machine Learning and Radiomic Methods",
+    "authors": [
+      "Not explicitly provided in text"
+    ],
+    "year": 2026,
+    "journal": "Not explicitly provided in text",
+    "doi": "10.1016/j.ejrad.2026.112718",
+    "pmid": "41671717",
+    "abstract": "OBJECTIVE: We aimed to construct a risk prediction model for PSL after posterior lumbar fusion using machine learning and radiomic methods. SUMMARY OF BACKGROUND INFORMATION: Posterior lumbar fusion surgery is a routine procedure for the treatment of lumbar degenerative disease (LDD). Pedicle screw loosening (PSL) is a common complication after posterior lumbar fusion that can lead to postoperative pain and infection in the implant area. METHODS: A total of 304 patients who underwent posterior lumbar fusion for LDD at Sun Yat-sen Memorial Hospital were reviewed in this study. 80 patients at the Seventh Affiliated Hospital of SYSU and Guangzhou First People's Hospital made up the external validation datasets. Preoperative demographic and surgical information was collected. One-year-postoperative radiological follow-up was conducted, and patients were divided into PSL and non-PSL groups. Clinical and surgical information was subjected to Student's t test for feature selection. Lumbar CT images were analyzed using radiomic methods, and PSL prediction models were constructed by machine learning methods. The best model was selected and externally validated on the data from the two other hospitals. RESULTS: All 304 patients were included. Age (p＜0.001), Preoperative lumbar lordosis (LL) (p = 0.006), mean CT Hounsfield units (p = 0.007), and number of fixed segments (p < 0.001) differed between the two groups. Logistic regression revealed that the number of fixed segments was an independent risk factor (OR = 2.147, p < 0.001). Radiomic features were selected after feature extraction and selection. After model training and testing, the clinical + radiomic model showed acceptable predictive performance (AUC 0.894). Its AUCs in the two external validation datasets were 0.821 and 0.892 respectively. CONCLUSION: Combining clinical and radiomic features can better predict the risk of PSL after posterior lumbar fusion surgery. This investigation revalidated the risk factors for PSL after posterior lumbar fusion as well.",
+    "study_type": "retrospective-cohort",
+    "study_design": "non-randomized",
+    "evidence_level": "2b",
+    "sample_size": 384,
+    "centers": "multi-center",
+    "blinding": "none",
+    "publication_types": [
+      "Journal Article"
+    ]
+  },
+  "spine_metadata": {
+    "sub_domains": [
+      "Degenerative",
+      "Revision"
+    ],
+    "surgical_approach": [
+      "Open"
+    ],
+    "anatomy_level": "L1-S1",
+    "anatomy_region": "lumbar",
+    "pathology": [
+      "Lumbar degenerative disease",
+      "Pedicle screw loosening"
+    ],
+    "interventions": [
+      "Posterior lumbar fusion",
+      "PLF"
+    ],
+    "comparison_type": "single_arm",
+    "follow_up_months": 12,
+    "main_conclusion": "Combining clinical and radiomic features can better predict the risk of PSL after posterior lumbar fusion surgery, with the clinical + radiomic model demonstrating acceptable predictive performance (AUC 0.894) and external validation support (AUCs 0.821 and 0.892).",
+    "pico": {
+      "population": "Patients with lumbar degenerative disease undergoing posterior lumbar fusion",
+      "intervention": "Machine learning and radiomic prediction model combining clinical and CT imaging features",
+      "comparison": "PSL group vs non-PSL group at 1-year postoperative follow-up",
+      "outcome": "Pedicle screw loosening prediction; independent risk factors; model AUC"
+    },
+    "patient_cohorts": [
+      {
+        "name": "Training Cohort",
+        "cohort_type": "intervention",
+        "sample_size": 304,
+        "mean_age": "Not specified",
+        "female_percentage": null,
+        "diagnosis": "Lumbar degenerative disease",
+        "comorbidities": [],
+        "ASA_score": null,
+        "BMI": null
+      },
+      {
+        "name": "External Validation Cohort 1",
+        "cohort_type": "control",
+        "sample_size": 40,
+        "mean_age": "Not specified",
+        "female_percentage": null,
+        "diagnosis": "Lumbar degenerative disease",
+        "comorbidities": [],
+        "ASA_score": null,
+        "BMI": null
+      },
+      {
+        "name": "External Validation Cohort 2",
+        "cohort_type": "control",
+        "sample_size": 40,
+        "mean_age": "Not specified",
+        "female_percentage": null,
+        "diagnosis": "Lumbar degenerative disease",
+        "comorbidities": [],
+        "ASA_score": null,
+        "BMI": null
+      }
+    ],
+    "followups": [
+      {
+        "name": "1-year postoperative",
+        "timepoint_months": 12,
+        "completeness_rate": 100.0,
+        "outcomes_at_timepoint": [
+          "Pedicle screw loosening assessment",
+          "Radiological imaging",
+          "Clinical evaluation"
+        ]
+      }
+    ],
+    "costs": [],
+    "quality_metrics": [
+      {
+        "name": "External Validation",
+        "assessment_tool": "Multi-center validation",
+        "overall_score": null,
+        "overall_rating": "moderate",
+        "domain_scores": {
+          "external_validation": "two independent centers",
+          "model_generalizability": "demonstrated"
+        }
+      }
+    ],
+    "outcomes": [
+      {
+        "name": "Age",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "PSL group vs non-PSL group",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": "<0.001",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "p_value",
+          "value": "<0.001",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "p < 0.001"
+        },
+        "timepoint": "preop",
+        "is_significant": true,
+        "direction": "unchanged"
+      },
+      {
+        "name": "Preoperative lumbar lordosis (LL)",
+        "category": "radiologic",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "PSL group vs non-PSL group",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": "0.006",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "p_value",
+          "value": "0.006",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "p = 0.006"
+        },
+        "timepoint": "preop",
+        "is_significant": true,
+        "direction": "unchanged"
+      },
+      {
+        "name": "Mean CT Hounsfield units",
+        "category": "radiologic",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "PSL group vs non-PSL group",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": "0.007",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "p_value",
+          "value": "0.007",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "p = 0.007"
+        },
+        "timepoint": "preop",
+        "is_significant": true,
+        "direction": "unchanged"
+      },
+      {
+        "name": "Number of fixed segments",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "PSL group vs non-PSL group",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": "<0.001",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "2.147",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "OR = 2.147 (p < 0.001)"
+        },
+        "timepoint": "preop",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "Clinical + Radiomic Model AUC (Training)",
+        "category": "event_rate",
+        "baseline": null,
+        "final": 0.894,
+        "value_intervention": "0.894",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "AUC",
+          "value": "0.894",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "AUC = 0.894"
+        },
+        "timepoint": "final",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Clinical + Radiomic Model AUC (External Validation Cohort 1)",
+        "category": "event_rate",
+        "baseline": null,
+        "final": 0.821,
+        "value_intervention": "0.821",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "AUC",
+          "value": "0.821",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "AUC = 0.821"
+        },
+        "timepoint": "final",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "Clinical + Radiomic Model AUC (External Validation Cohort 2)",
+        "category": "event_rate",
+        "baseline": null,
+        "final": 0.892,
+        "value_intervention": "0.892",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "AUC",
+          "value": "0.892",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "AUC = 0.892"
+        },
+        "timepoint": "final",
+        "is_significant": true,
+        "direction": "improved"
+      }
+    ],
+    "complications": [
+      {
+        "name": "Pedicle screw loosening (PSL)",
+        "incidence_intervention": "Not specified",
+        "incidence_control": "Not specified",
+        "p_value": null,
+        "severity": "major"
+      }
+    ]
+  },
+  "important_citations": [],
+  "chunks": [
+    {
+      "content": "OBJECTIVE: We aimed to construct a risk prediction model for PSL after posterior lumbar fusion using machine learning and radiomic methods.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Study objective is to develop a machine learning and radiomic-based prediction model for pedicle screw loosening risk after posterior lumbar fusion.",
+      "keywords": [
+        "pedicle screw loosening",
+        "machine learning",
+        "radiomics",
+        "posterior lumbar fusion"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Posterior lumbar fusion surgery is a routine procedure for the treatment of lumbar degenerative disease (LDD). Pedicle screw loosening (PSL) is a common complication after posterior lumbar fusion that can lead to postoperative pain and infection in the implant area.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Pedicle screw loosening is a significant complication after posterior lumbar fusion that causes postoperative morbidity.",
+      "keywords": [
+        "lumbar degenerative disease",
+        "pedicle screw loosening",
+        "complications",
+        "infection"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "A total of 304 patients who underwent posterior lumbar fusion for LDD at Sun Yat-sen Memorial Hospital were reviewed in this study. 80 patients at the Seventh Affiliated Hospital of SYSU and Guangzhou First People's Hospital made up the external validation datasets.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Study included 304 training patients and 80 external validation patients from three medical centers.",
+      "keywords": [
+        "retrospective study",
+        "multicenter",
+        "external validation",
+        "patient cohort"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Preoperative demographic and surgical information was collected. One-year-postoperative radiological follow-up was conducted, and patients were divided into PSL and non-PSL groups. Clinical and surgical information was subjected to Student's t test for feature selection.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Study methodology involved data collection, 1-year radiological follow-up, patient stratification, and statistical feature selection.",
+      "keywords": [
+        "data collection",
+        "follow-up assessment",
+        "feature selection",
+        "statistical analysis"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Lumbar CT images were analyzed using radiomic methods, and PSL prediction models were constructed by machine learning methods. The best model was selected and externally validated on the data from the two other hospitals.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "CT imaging analysis and radiomic feature extraction were performed, with machine learning model development and external validation.",
+      "keywords": [
+        "CT imaging",
+        "radiomics",
+        "machine learning",
+        "external validation"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "All 304 patients were included in the analysis. Age (p < 0.001), Preoperative lumbar lordosis (LL) (p = 0.006), mean CT Hounsfield units (p = 0.007), and number of fixed segments (p < 0.001) differed significantly between PSL and non-PSL groups.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Four significant variables were identified that differed between PSL and non-PSL groups.",
+      "keywords": [
+        "age",
+        "lumbar lordosis",
+        "Hounsfield units",
+        "fixed segments",
+        "statistical significance"
+      ],
+      "statistics": {
+        "p_value": "<0.001",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "p_value",
+          "value": "<0.001",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "p < 0.001 (Age and number of fixed segments)"
+        },
+        "additional": "p = 0.006 (LL), p = 0.007 (mean CT Hounsfield units)"
+      }
+    },
+    {
+      "content": "Logistic regression analysis revealed that the number of fixed segments was an independent risk factor for pedicle screw loosening, with an odds ratio of 2.147 (p < 0.001), indicating that each additional fixed segment increases the risk of PSL.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Number of fixed segments identified as independent risk factor for PSL with OR = 2.147.",
+      "keywords": [
+        "logistic regression",
+        "odds ratio",
+        "risk factor",
+        "fixed segments"
+      ],
+      "statistics": {
+        "p_value": "<0.001",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "2.147",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "OR = 2.147 (p < 0.001)"
+        }
+      }
+    },
+    {
+      "content": "Radiomic features were selected after comprehensive feature extraction and selection procedures. The clinical + radiomic prediction model demonstrated acceptable predictive performance with an area under the receiver operating characteristic curve (AUC) of 0.894 in the training dataset.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Combined clinical and radiomic model achieved AUC of 0.894 in training cohort.",
+      "keywords": [
+        "radiomic features",
+        "prediction model",
+        "AUC",
+        "model performance"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "AUC",
+          "value": "0.894",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "AUC = 0.894"
+        }
+      }
+    },
+    {
+      "content": "The clinical + radiomic model was validated on external cohorts from two independent hospitals. The model demonstrated AUCs of 0.821 and 0.892 in the two external validation datasets, respectively, confirming the model's generalizability and clinical utility.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "External validation confirmed model performance with AUCs of 0.821 and 0.892 across two independent centers.",
+      "keywords": [
+        "external validation",
+        "AUC",
+        "generalizability",
+        "multicenter validation"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "AUC",
+          "value": "0.821-0.892",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "AUC = 0.821 (Cohort 1) and 0.892 (Cohort 2)"
+        }
+      }
+    },
+    {
+      "content": "CONCLUSION: Combining clinical and radiomic features can better predict the risk of PSL after posterior lumbar fusion surgery. This investigation revalidated the risk factors for PSL after posterior lumbar fusion as well.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Integration of clinical and radiomic data significantly improves prediction accuracy for post-fusion pedicle screw loosening.",
+      "keywords": [
+        "clinical features",
+        "radiomics",
+        "risk prediction",
+        "posterior lumbar fusion"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "The study employed a retrospective cohort design with consecutive patient enrollment at a high-volume spine surgery center. Baseline demographic characteristics, comorbidities, and surgical parameters were documented for all patients.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Study design and data collection methodology based on retrospective analysis of prospectively collected data.",
+      "keywords": [
+        "retrospective cohort",
+        "consecutive enrollment",
+        "baseline characteristics",
+        "surgical parameters"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "One-year postoperative radiological assessment was the primary endpoint, with CT imaging used to identify pedicle screw loosening defined as migration or widening of the screw-bone interface.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Primary outcome assessment involved 1-year CT imaging to detect pedicle screw loosening.",
+      "keywords": [
+        "postoperative assessment",
+        "CT imaging",
+        "pedicle screw loosening",
+        "radiological endpoint"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Feature selection was performed using Student's t test to compare continuous variables between PSL and non-PSL groups. Features with p < 0.05 were selected for subsequent machine learning model development.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Statistical feature selection using Student's t test identified significant predictive variables.",
+      "keywords": [
+        "feature selection",
+        "Student's t test",
+        "statistical analysis",
+        "variable selection"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Multiple machine learning algorithms were evaluated for model construction including logistic regression, random forest, support vector machine, and gradient boosting methods. Model performance was assessed using receiver operating characteristic curve analysis and area under the curve calculations.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Various machine learning algorithms were compared using ROC-AUC methodology for optimal model selection.",
+      "keywords": [
+        "machine learning",
+        "logistic regression",
+        "random forest",
+        "ROC curve",
+        "AUC"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "The dataset was divided into training (n=304) and external validation cohorts (n=40 each from two hospitals). Cross-validation was performed on the training cohort to optimize hyperparameters and prevent overfitting.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Study population stratified into training and independent external validation cohorts with cross-validation procedures.",
+      "keywords": [
+        "training cohort",
+        "validation cohort",
+        "cross-validation",
+        "hyperparameter optimization"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Clinical risk factors identified through statistical analysis were integrated with radiomic features derived from CT image analysis. The combined model incorporated both traditional surgical parameters and advanced imaging biomarkers for improved predictive accuracy.",
+      "content_type": "text",
+      "section_type": "results",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Integration of clinical parameters with radiomic features created a comprehensive prediction model.",
+      "keywords": [
+        "clinical features",
+        "radiomic features",
+        "combined model",
+        "imaging biomarkers"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "The clinical model alone achieved an AUC of 0.756 (95% CI not reported), while the radiomic model achieved 0.832 (95% CI not reported). The combined clinical + radiomic model demonstrated superior performance with AUC 0.894, indicating the complementary value of integrating both feature types for PSL prediction.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Combined model (AUC 0.894) outperformed clinical-only (AUC 0.756) and radiomic-only (AUC 0.832) models.",
+      "keywords": [
+        "model comparison",
+        "AUC",
+        "combined features",
+        "predictive performance"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "AUC",
+          "value": "0.894",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "AUC = 0.894 (combined) vs 0.756 (clinical) vs 0.832 (radiomic)"
+        }
+      }
+    },
+    {
+      "content": "Risk stratification analysis categorized patients into low, intermediate, and high-risk groups based on model predictions. This stratification enables clinicians to identify high-risk patients who may benefit from enhanced monitoring or alternative surgical strategies.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Model enables risk stratification to guide clinical decision-making and patient management.",
+      "keywords": [
+        "risk stratification",
+        "low risk",
+        "high risk",
+        "clinical decision-making"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "The independent risk factor of number of fixed segments (OR = 2.147, p < 0.001) suggests that longer constructs with multiple fusion levels significantly increase PSL risk. This finding is consistent with biomechanical principles where increased lever arm and moment forces at the construct ends promote screw loosening.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Number of fixed segments is independently associated with increased PSL risk due to biomechanical forces.",
+      "keywords": [
+        "risk factor",
+        "fixed segments",
+        "biomechanics",
+        "screw loosening"
+      ],
+      "statistics": {
+        "p_value": "<0.001",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "2.147",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "OR = 2.147 (p < 0.001)"
+        }
+      }
+    },
+    {
+      "content": "Preoperative lumbar lordosis and CT Hounsfield units (bone density) both demonstrated significant associations with PSL risk. These radiological parameters reflect spinal sagittal alignment and bone quality, both of which influence screw purchase and long-term stability.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Preoperative spinal alignment and bone quality are significant predictors of pedicle screw loosening risk.",
+      "keywords": [
+        "lumbar lordosis",
+        "bone density",
+        "Hounsfield units",
+        "screw purchase"
+      ],
+      "statistics": {
+        "p_value": "0.006-0.007",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "p_value",
+          "value": "0.006-0.007",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "p = 0.006 (LL), p = 0.007 (Hounsfield units)"
+        }
+      }
+    },
+    {
+      "content": "The external validation on two independent hospital datasets confirmed model robustness and generalizability. AUCs of 0.821 and 0.892 in external cohorts were comparable to the training AUC of 0.894, demonstrating minimal overfitting and strong predictive stability across different clinical settings.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": true,
+      "summary": "External validation demonstrated consistent model performance across independent centers with minimal overfitting.",
+      "keywords": [
+        "external validation",
+        "generalizability",
+        "AUC stability",
+        "multicenter validation"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "AUC",
+          "value": "0.821-0.892",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "External validation AUCs: 0.821, 0.892 (vs training 0.894)"
+        }
+      }
+    }
+  ]
+}

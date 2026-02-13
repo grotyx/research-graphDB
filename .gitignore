@@ -1,64 +1,35 @@
-# Environment and secrets
-.env
-.mcp.json
-.mcp.remote.json
-*.pem
-*.key
-
 # Python
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# Virtual environments
-venv/
-ENV/
-env/
 .venv/
+venv/
+*.egg-info/
+dist/
+build/
+
+# Environment
+.env
 
 # IDE
-.idea/
 .vscode/
+.idea/
 *.swp
 *.swo
+
+# OS
 .DS_Store
+Thumbs.db
 
-# Logs
-logs/
-*.log
-
-# Data (large files, protected)
-data/pdf/
-data/neo4j/
-data/extracted/
+# Data (large files)
 data/chromadb/
-data/vector_db/
-data/embedding_comparison/
-data/paper_graph.db
-data/uploads/
-data/test_deletion/
+data/neo4j/
+*.dump
+logs/
 
-# Cache
-.cache/
+# Test/Cache
 .pytest_cache/
-
-# Temporary files
-*.tmp
-*.temp
+.mypy_cache/
+htmlcov/
+.coverage

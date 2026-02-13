@@ -2,112 +2,60 @@
 
 ## 1. 사전 요구사항
 
+- Python 3.12
 - Docker Desktop
-- Git
 - Node.js (원격 접속 시 필요)
 
 ---
 
-## 2. Docker로 실행 (권장)
+## 2. 로컬 서비스 시작
 
-Neo4j + MCP 서버를 한 번에 실행합니다.
-
-### 2.1 최초 설정
-
+### 2.1 Neo4j 시작
 ```bash
-git clone https://github.com/grotyx/medical_kag.git
-cd medical_kag
-cp .env.example .env
-# .env에 ANTHROPIC_API_KEY, OPENAI_API_KEY 입력
-```
-
-### 2.2 실행
-
-```bash
+cd /Users/sangminpark/Documents/rag_research
 docker-compose up -d
 ```
 
-### 2.3 상태 확인
-
+### 2.2 Neo4j 스키마 초기화 (최초 1회)
 ```bash
-docker-compose ps
-# spine_graphrag_neo4j   Up (healthy)
-# spine_graphrag_mcp     Up
+./.venv/bin/python scripts/init_neo4j.py
 ```
 
-- Neo4j 브라우저: http://localhost:7474 (neo4j / spineGraph2024)
-- MCP 서버: http://localhost:7777/health
-
-### 2.4 Claude Desktop/Code 연결
-
-프로젝트 루트에 `.mcp.json` 생성:
-
-```json
-{
-  "mcpServers": {
-    "medical-kag": {
-      "type": "sse",
-      "url": "http://localhost:7777/sse"
-    }
-  }
-}
-```
-
-### 2.5 코드 수정 후 반영
-
-소스 코드가 바인드 마운트되어 있어 호스트에서 바로 편집 가능합니다.
-Python 코드 수정 후:
-
-```bash
-docker-compose restart mcp
-```
-
-> 상세 내용: [DEPLOYMENT.md](DEPLOYMENT.md) 참조
+### 2.3 Neo4j 상태 확인
+- 브라우저: http://localhost:7474
+- 로그인: neo4j / spineGraph2024
 
 ---
 
-## 3. 로컬 실행 (Docker 없이)
+## 3. MCP 서버 실행
 
-### 3.1 Neo4j 시작
+### 3.1 로컬 MCP (같은 Mac에서 사용)
 
+VSCode/Cursor에서 자동으로 `.mcp.json` 설정을 읽어서 실행됩니다.
+별도 실행 불필요.
+
+### 3.2 원격 SSE 서버 (외부 접속용)
+
+**포그라운드 실행:**
 ```bash
-docker-compose up -d neo4j
-```
-
-### 3.2 Python 환경
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
-
-### 3.3 스키마 초기화 (최초 1회)
-
-```bash
-PYTHONPATH=./src python scripts/init_neo4j.py
-```
-
-### 3.4 MCP 서버 실행
-
-**로컬 stdio 모드** - VSCode/Cursor에서 `.mcp.json` 설정으로 자동 실행. 별도 실행 불필요.
-
-**SSE 모드 (수동 실행):**
-
-```bash
-PYTHONPATH=./src python -m medical_mcp.sse_server --host 0.0.0.0 --port 7777
+cd /Users/sangminpark/Documents/rag_research
+PYTHONPATH=./src ./.venv/bin/python -m medical_mcp.sse_server --host 0.0.0.0 --port 7777
 ```
 
 **백그라운드 실행:**
-
 ```bash
-PYTHONPATH=./src nohup python -m medical_mcp.sse_server --port 7777 > sse_server.log 2>&1 &
+cd /Users/sangminpark/Documents/rag_research
+PYTHONPATH=./src nohup ./.venv/bin/python -m medical_mcp.sse_server --host 0.0.0.0 --port 7777 > sse_server.log 2>&1 &
 ```
 
 **서버 종료:**
-
 ```bash
 pkill -f "medical_mcp.sse_server"
+```
+
+**로그 확인:**
+```bash
+tail -f sse_server.log
 ```
 
 ---

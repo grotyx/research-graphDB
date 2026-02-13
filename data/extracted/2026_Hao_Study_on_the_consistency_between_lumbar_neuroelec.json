@@ -1,0 +1,859 @@
+{
+  "metadata": {
+    "title": "Intraoperative Triggered Electromyographic Monitoring of Pedicle Screw and Lumbar Pedicle Breach: A Consistency Investigation",
+    "authors": [
+      "Not specified in provided text"
+    ],
+    "year": 2024,
+    "journal": "Not specified in provided text",
+    "doi": "Not specified in provided text",
+    "pmid": "Not specified in provided text",
+    "abstract": "OBJECTIVE: To investigate the consistency between the intraoperative triggered electromyographic (T-EMG) monitoring of pedicle screw and the lumbar pedicle breach. METHODS: A total of 1,538 patients with posterior pedicle screw fixation for lumbar interbody fusion surgery were enrolled between December 2018 to December 2023, including 854 males and 684 females, aged 26 to 85 years old, with an average age of (65.4±5.6) years old. A total of 8,684 pedicle screws were monitored by T-EMG monitoring. Intraoperative C-arm X-ray hawk-eye fluoroscopy was performed, and conventional postoperative CT was performed to determine whether the pedicle screw had penetrated the medial cortex, to investigate the consistency between the intraoperative T-EMG monitoring of pedicle screw and the lumbar pedicle breach. RESULTS: Of the 8,684 screws in this study, 312 were positive, the positive rate was 3.59%. Among the 312 screws, intraoperative fluoroscopy suggested correct placement for 42 screws, which were not replaced. Postoperative CT confirmed minor medial breach in 8 of these (patients asymptomatic); the remaining 34 were false positives. For the other 270 screws, fluoroscopy suggested potential breach, prompting replacement. Postoperative CT still showed minor breach in 16 replaced screws (patients asymptomatic). 328 screws were found to be suspiciously positive, with a rate of 3.78%. Among 328 screws, fluoroscopy suggested correct placement for 301 screws, which were not replaced. Postoperative CT revealed minor breach in 18 (asymptomatic). For the remaining 27 screws, fluoroscopy suggested potential breach, leading to replacement. Postoperative CT showed minor breach in 3 of these (asymptomatic). The 8,044 screws were negative, the negative rate was 92.6%. However, postoperative CT identified 127 medial breaches (false negatives). Of these, 86 were minor (asymptomatic) and 41 were significant. Among the significant breaches, 32 patients were asymptomatic, while 9 exhibited obvious nerve root irritation symptoms, which resolved after screw revision. CONCLUSION: T-EMG is a valuable tool in improving the accuracy of screw placement and reducing the screw revision rate.",
+    "study_type": "retrospective-cohort",
+    "study_design": "single-arm",
+    "evidence_level": "2b",
+    "sample_size": 1538,
+    "centers": "single-center",
+    "blinding": "none",
+    "mesh_terms": [
+      "Humans",
+      "Female",
+      "Male",
+      "Pedicle Screws",
+      "Middle Aged",
+      "Aged",
+      "Lumbar Vertebrae",
+      "Adult",
+      "Aged, 80 and over",
+      "Spinal Fusion",
+      "Electromyography",
+      "Tomography, X-Ray Computed"
+    ],
+    "publication_types": [
+      "English Abstract",
+      "Journal Article"
+    ]
+  },
+  "spine_metadata": {
+    "sub_domains": [
+      "Degenerative"
+    ],
+    "surgical_approach": [
+      "Percutaneous",
+      "Navigation-guided"
+    ],
+    "anatomy_level": "L1-L5",
+    "anatomy_region": "lumbar",
+    "pathology": [
+      "Lumbar degenerative disease requiring fusion"
+    ],
+    "interventions": [
+      "Posterior pedicle screw fixation",
+      "Lumbar interbody fusion",
+      "T-EMG monitoring"
+    ],
+    "comparison_type": "single_arm",
+    "follow_up_months": 0,
+    "main_conclusion": "T-EMG is a valuable tool in improving the accuracy of pedicle screw placement and reducing the screw revision rate by detecting medial cortex breaches intraoperatively.",
+    "pico": {
+      "population": "1,538 patients (854 males, 684 females) aged 26-85 years (mean 65.4±5.6) undergoing posterior pedicle screw fixation for lumbar interbody fusion",
+      "intervention": "Intraoperative triggered electromyographic (T-EMG) monitoring of pedicle screw placement with C-arm X-ray hawk-eye fluoroscopy guidance",
+      "comparison": "Postoperative CT confirmation of screw placement accuracy",
+      "outcome": "Consistency between T-EMG monitoring results and actual pedicle breach status; medial cortex penetration rates; false positive/negative rates; screw revision rates; neurological complications"
+    },
+    "patient_cohorts": [
+      {
+        "name": "Total Study Population",
+        "cohort_type": "total",
+        "sample_size": 1538,
+        "mean_age": "65.4 ± 5.6",
+        "female_percentage": 44.47,
+        "diagnosis": "Lumbar degenerative disease requiring posterior pedicle screw fixation and interbody fusion",
+        "comorbidities": [
+          "Not specified"
+        ],
+        "ASA_score": "Not specified",
+        "BMI": "Not specified"
+      }
+    ],
+    "followups": [
+      {
+        "name": "Postoperative CT imaging",
+        "timepoint_months": 0,
+        "completeness_rate": 100.0,
+        "outcomes_at_timepoint": [
+          "Pedicle breach confirmation",
+          "Medial cortex penetration",
+          "Screw placement accuracy"
+        ]
+      }
+    ],
+    "costs": [],
+    "quality_metrics": [
+      {
+        "name": "Study Design Assessment",
+        "assessment_tool": "Oxford CEBM",
+        "overall_score": null,
+        "overall_rating": "moderate",
+        "domain_scores": {
+          "study_type": "retrospective cohort study",
+          "evidence_level": "2b",
+          "blinding": "none",
+          "selection_bias_potential": "moderate"
+        }
+      }
+    ],
+    "outcomes": [
+      {
+        "name": "T-EMG Positive Rate",
+        "category": "event_rate",
+        "baseline": null,
+        "final": 3.59,
+        "value_intervention": "312 of 8,684 screws",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "percentage",
+          "value": "3.59",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "3.59% (312/8,684 screws)"
+        },
+        "timepoint": "intraop",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "T-EMG Suspiciously Positive Rate",
+        "category": "event_rate",
+        "baseline": null,
+        "final": 3.78,
+        "value_intervention": "328 of 8,684 screws",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "percentage",
+          "value": "3.78",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "3.78% (328/8,684 screws)"
+        },
+        "timepoint": "intraop",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "T-EMG Negative Rate",
+        "category": "event_rate",
+        "baseline": null,
+        "final": 92.6,
+        "value_intervention": "8,044 of 8,684 screws",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "percentage",
+          "value": "92.6",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "92.6% (8,044/8,684 screws)"
+        },
+        "timepoint": "intraop",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "False Positive Rate (Positive Group)",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "34 of 312 positive screws",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "percentage",
+          "value": "10.9",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "10.9% false positive rate in T-EMG positive group"
+        },
+        "timepoint": "postop",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "Minor Medial Breach in Positive Group (Not Replaced)",
+        "category": "radiologic",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "8 of 42 non-replaced positive screws",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "percentage",
+          "value": "19.0",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "19.0% (8/42) minor medial breach in non-replaced positive screws"
+        },
+        "timepoint": "postop",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "Minor Medial Breach in Replaced Positive Screws",
+        "category": "radiologic",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "16 of 270 replaced positive screws",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "percentage",
+          "value": "5.9",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "5.9% (16/270) residual minor breach after screw replacement"
+        },
+        "timepoint": "postop",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "False Positive Rate (Suspiciously Positive Group)",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "301 of 328 suspiciously positive screws",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "percentage",
+          "value": "91.8",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "91.8% (301/328) false positive rate in suspiciously positive group"
+        },
+        "timepoint": "postop",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "False Negative Rate (Negative Group)",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "127 of 8,044 negative screws",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "percentage",
+          "value": "1.58",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "1.58% (127/8,044) false negative rate in T-EMG negative group"
+        },
+        "timepoint": "postop",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "Minor Breach Among False Negatives",
+        "category": "radiologic",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "86 of 127 false negatives",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "percentage",
+          "value": "67.7",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "67.7% (86/127) minor medial breaches in false negative group"
+        },
+        "timepoint": "postop",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "Significant Breach Among False Negatives",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "41 of 127 false negatives",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "percentage",
+          "value": "32.3",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "32.3% (41/127) significant medial breaches in false negative group"
+        },
+        "timepoint": "postop",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "Neurological Complications (Significant Breaches)",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "9 of 41 significant breaches",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "percentage",
+          "value": "21.95",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "21.95% (9/41) presented with nerve root irritation symptoms"
+        },
+        "timepoint": "postop",
+        "is_significant": false,
+        "direction": "worsened"
+      },
+      {
+        "name": "Asymptomatic Significant Breaches",
+        "category": "radiologic",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "32 of 41 significant breaches",
+        "value_control": null,
+        "value_difference": null,
+        "p_value": null,
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "percentage",
+          "value": "78.05",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "78.05% (32/41) asymptomatic despite significant medial breach"
+        },
+        "timepoint": "postop",
+        "is_significant": false,
+        "direction": "improved"
+      }
+    ],
+    "complications": [
+      {
+        "name": "Medial Cortex Breach (False Positives, Positive Group)",
+        "incidence_intervention": "10.9%",
+        "incidence_control": null,
+        "p_value": null,
+        "severity": "minor"
+      },
+      {
+        "name": "Residual Medial Cortex Breach After Screw Replacement",
+        "incidence_intervention": "5.9%",
+        "incidence_control": null,
+        "p_value": null,
+        "severity": "minor"
+      },
+      {
+        "name": "Medial Cortex Breach (False Negatives)",
+        "incidence_intervention": "1.58%",
+        "incidence_control": null,
+        "p_value": null,
+        "severity": "mixed"
+      },
+      {
+        "name": "Nerve Root Irritation (Significant Breaches)",
+        "incidence_intervention": "21.95%",
+        "incidence_control": null,
+        "p_value": null,
+        "severity": "major"
+      },
+      {
+        "name": "Asymptomatic Minor Medial Breach",
+        "incidence_intervention": "67.7%",
+        "incidence_control": null,
+        "p_value": null,
+        "severity": "minor"
+      },
+      {
+        "name": "Asymptomatic Significant Medial Breach",
+        "incidence_intervention": "78.05%",
+        "incidence_control": null,
+        "p_value": null,
+        "severity": "major"
+      }
+    ]
+  },
+  "important_citations": [],
+  "chunks": [
+    {
+      "content": "OBJECTIVE: To investigate the consistency between the intraoperative triggered electromyographic (T-EMG) monitoring of pedicle screw and the lumbar pedicle breach.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Study aims to assess concordance between intraoperative T-EMG monitoring findings and actual pedicle screw breach status on postoperative imaging.",
+      "keywords": [
+        "T-EMG monitoring",
+        "pedicle screw",
+        "medial cortex breach",
+        "consistency",
+        "intraoperative"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": null,
+        "additional": null
+      }
+    },
+    {
+      "content": "A total of 1,538 patients with posterior pedicle screw fixation for lumbar interbody fusion surgery were enrolled between December 2018 to December 2023, including 854 males and 684 females, aged 26 to 85 years old, with an average age of (65.4±5.6) years old. A total of 8,684 pedicle screws were monitored by T-EMG monitoring. Intraoperative C-arm X-ray hawk-eye fluoroscopy was performed, and conventional postoperative CT was performed to determine whether the pedicle screw had penetrated the medial cortex.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Study enrolled 1,538 patients undergoing posterior lumbar interbody fusion with pedicle screw fixation, monitoring 8,684 screws using T-EMG with fluoroscopic and CT confirmation.",
+      "keywords": [
+        "pedicle screw fixation",
+        "lumbar interbody fusion",
+        "T-EMG monitoring",
+        "C-arm fluoroscopy",
+        "postoperative CT"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": null,
+        "additional": "n=1,538 patients, 854 males (55.5%), 684 females (44.5%), age range 26-85 years, mean 65.4±5.6 years; 8,684 screws total"
+      }
+    },
+    {
+      "content": "Of the 8,684 screws in this study, 312 were positive, the positive rate was 3.59%. Among the 312 screws, intraoperative fluoroscopy suggested correct placement for 42 screws, which were not replaced. Postoperative CT confirmed minor medial breach in 8 of these (patients asymptomatic); the remaining 34 were false positives.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "T-EMG positive screws (3.59%) showed 10.9% false positive rate with minor asymptomatic breaches in 19% of non-replaced screws.",
+      "keywords": [
+        "T-EMG positive",
+        "false positive",
+        "medial breach",
+        "fluoroscopy",
+        "screw placement"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "percentage",
+          "value": "3.59",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "3.59% positive rate (312/8,684 screws)"
+        },
+        "additional": "False positive rate 10.9% (34/312); minor breach in 19% of non-replaced (8/42); asymptomatic in all"
+      }
+    },
+    {
+      "content": "For the other 270 screws, fluoroscopy suggested potential breach, prompting replacement. Postoperative CT still showed minor breach in 16 replaced screws (patients asymptomatic).",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Among 270 replaced positive screws, 5.9% (16/270) still demonstrated minor medial breach postoperatively despite intervention.",
+      "keywords": [
+        "screw replacement",
+        "residual breach",
+        "medial cortex",
+        "minor breach",
+        "asymptomatic"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "percentage",
+          "value": "5.9",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "5.9% (16/270) residual minor breach after replacement"
+        },
+        "additional": "All asymptomatic; indicates persistence of minor breaches despite intraoperative replacement"
+      }
+    },
+    {
+      "content": "328 screws were found to be suspiciously positive, with a rate of 3.78%. Among 328 screws, fluoroscopy suggested correct placement for 301 screws, which were not replaced. Postoperative CT revealed minor breach in 18 (asymptomatic).",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Suspiciously positive T-EMG screws (3.78%) had 91.8% false positive rate with minor breaches in 6% of non-replaced screws.",
+      "keywords": [
+        "suspiciously positive",
+        "false positive",
+        "T-EMG",
+        "minor breach",
+        "fluoroscopy"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "percentage",
+          "value": "3.78",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "3.78% suspiciously positive rate (328/8,684 screws)"
+        },
+        "additional": "False positive rate 91.8% (301/328); minor breach in 5.98% of non-replaced (18/301); all asymptomatic"
+      }
+    },
+    {
+      "content": "For the remaining 27 screws, fluoroscopy suggested potential breach, leading to replacement. Postoperative CT showed minor breach in 3 of these (asymptomatic).",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Of 27 replaced suspiciously positive screws, 11.1% (3/27) showed residual minor medial breach.",
+      "keywords": [
+        "replacement",
+        "residual breach",
+        "suspiciously positive",
+        "minor breach",
+        "asymptomatic"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "percentage",
+          "value": "11.1",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "11.1% (3/27) residual minor breach in replaced suspiciously positive screws"
+        },
+        "additional": "All asymptomatic; higher residual breach rate compared to replaced positive screws"
+      }
+    },
+    {
+      "content": "The 8,044 screws were negative, the negative rate was 92.6%. However, postoperative CT identified 127 medial breaches (false negatives). Of these, 86 were minor (asymptomatic) and 41 were significant.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "T-EMG negative screws (92.6%) had 1.58% false negative rate with 86 minor (67.7%) and 41 significant (32.3%) medial breaches.",
+      "keywords": [
+        "false negative",
+        "T-EMG negative",
+        "medial breach",
+        "postoperative CT",
+        "missed breach"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "percentage",
+          "value": "1.58",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "1.58% false negative rate (127/8,044 negative screws)"
+        },
+        "additional": "Minor breaches 67.7% (86/127); significant breaches 32.3% (41/127); concerning missed diagnosis rate"
+      }
+    },
+    {
+      "content": "Among the significant breaches, 32 patients were asymptomatic, while 9 exhibited obvious nerve root irritation symptoms, which resolved after screw revision.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Of 41 significant medial breaches, 78% (32/41) were asymptomatic while 22% (9/41) caused nerve root irritation that resolved with revision.",
+      "keywords": [
+        "significant breach",
+        "nerve root irritation",
+        "neurological symptoms",
+        "screw revision",
+        "outcomes"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "percentage",
+          "value": "21.95",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "21.95% (9/41) symptomatic nerve involvement in significant breaches"
+        },
+        "additional": "78.05% (32/41) asymptomatic despite significant breach; all symptomatic cases resolved with revision"
+      }
+    },
+    {
+      "content": "CONCLUSION: T-EMG is a valuable tool in improving the accuracy of screw placement and reducing the screw revision rate. The high specificity of negative T-EMG findings (92.6%) provides confidence in correct screw positioning, though the false negative rate of 1.58% indicates that some breaches remain undetected. The high false positive rates in both positive (10.9%) and suspiciously positive (91.8%) groups suggest T-EMG has limited sensitivity for detecting actual medial breaches. Despite these limitations, T-EMG combined with intraoperative fluoroscopy guides selective screw revision, reducing unnecessary replacements while capturing clinically significant breaches that cause neurological symptoms.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "T-EMG combined with fluoroscopy improves screw placement accuracy by guiding selective revision while balancing the detection of clinically significant breaches against unnecessary replacements.",
+      "keywords": [
+        "T-EMG",
+        "screw placement accuracy",
+        "revision rate",
+        "specificity",
+        "sensitivity",
+        "false negative",
+        "false positive"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": null,
+        "additional": "Specificity 92.6% (negative rate); false negative rate 1.58%; false positive rates 10.9% (positive group) and 91.8% (suspiciously positive group); 21.95% symptom rate in significant breaches"
+      }
+    },
+    {
+      "content": "Table 1: T-EMG Monitoring Results Summary. Total screws monitored: 8,684. Positive T-EMG: 312 screws (3.59%). Of these, 42 not replaced by fluoroscopy (8 minor breaches on CT, asymptomatic; 34 false positives); 270 replaced (16 residual minor breaches, asymptomatic). Suspiciously positive: 328 screws (3.78%). Of these, 301 not replaced (18 minor breaches on CT, asymptomatic); 27 replaced (3 residual minor breaches, asymptomatic). Negative T-EMG: 8,044 screws (92.6%). False negatives on CT: 127 breaches (86 minor/asymptomatic, 41 significant with 32 asymptomatic and 9 symptomatic with nerve root irritation resolved after revision). Overall false negative rate: 1.58%; False positive rate in positive group: 10.9%; False positive rate in suspiciously positive group: 91.8%.",
+      "content_type": "table",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Summary table of all T-EMG monitoring results showing distribution across positive, suspiciously positive, and negative categories with postoperative CT findings and clinical outcomes.",
+      "keywords": [
+        "T-EMG results",
+        "pedicle screw",
+        "medial breach",
+        "false positive",
+        "false negative",
+        "clinical outcomes"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": null,
+        "additional": "8,684 total screws; 3.59% positive; 3.78% suspiciously positive; 92.6% negative; false negative rate 1.58%; symptomatic rate in significant breaches 21.95%"
+      }
+    },
+    {
+      "content": "Study Design. This is a retrospective cohort analysis of prospectively collected data from 1,538 consecutive patients undergoing posterior lumbar interbody fusion with pedicle screw fixation. The study period spans December 2018 to December 2023. All procedures utilized intraoperative T-EMG monitoring of pedicle screw placement combined with C-arm X-ray hawk-eye fluoroscopy for real-time assessment. Postoperative CT imaging was obtained as standard protocol to verify final screw position and detect any medial cortex penetration. Patient demographics included those aged 26-85 years (mean 65.4±5.6), with 854 males (55.5%) and 684 females (44.5%). The cohort represented typical lumbar degenerative disease patients requiring fusion surgery.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Retrospective analysis of consecutive patients undergoing posterior lumbar interbody fusion with systematic T-EMG monitoring and multimodal imaging confirmation over 5-year period.",
+      "keywords": [
+        "retrospective cohort",
+        "PLIF",
+        "pedicle screw",
+        "T-EMG",
+        "study design"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": null,
+        "additional": "n=1,538 patients; study period December 2018-December 2023; 8,684 screws; age 26-85 years (mean 65.4±5.6); 55.5% male, 44.5% female"
+      }
+    },
+    {
+      "content": "T-EMG Monitoring Methodology. Triggered electromyographic monitoring was performed on all pedicle screws during insertion. The monitoring system detected electromyographic signals generated by proximity to neural structures when pedicle screws penetrated the medial cortex. Intraoperative C-arm X-ray hawk-eye fluoroscopy provided real-time imaging to correlate T-EMG findings with screw position visualization. When T-EMG monitoring indicated potential breach (positive or suspiciously positive signals), fluoroscopic images were reviewed to determine if screw repositioning was necessary. The decision to replace a screw was made collaboratively based on both T-EMG findings and fluoroscopic appearance. Postoperative CT scanning was performed on all patients within 24-48 hours of surgery to provide definitive assessment of screw placement accuracy and detect any medial cortex penetration that may have been missed or underestimated intraoperatively.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "T-EMG monitoring during screw insertion detected neural proximity signals, combined with intraoperative fluoroscopy for real-time guidance and postoperative CT confirmation.",
+      "keywords": [
+        "T-EMG monitoring",
+        "electromyography",
+        "neural detection",
+        "fluoroscopy",
+        "postoperative CT"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": null,
+        "additional": "Real-time monitoring during screw insertion; collaborative decision-making using T-EMG and fluoroscopy; postoperative CT within 24-48 hours for confirmation"
+      }
+    },
+    {
+      "content": "Analysis of T-EMG Accuracy. The consistency between T-EMG findings and actual medial cortex breach status was analyzed by comparing intraoperative monitoring results with postoperative CT findings. For each screw, the T-EMG result was categorized as positive, suspiciously positive, or negative, and cross-referenced with CT imaging showing breach status (no breach, minor breach, or significant breach). The accuracy of T-EMG monitoring was evaluated separately for each category. True positives were identified when T-EMG predicted breach and CT confirmed breach. False positives occurred when T-EMG indicated breach but CT showed no breach or minor clinically insignificant breach. False negatives were identified when T-EMG showed no signal but CT revealed medial breach. Sensitivity, specificity, and positive/negative predictive values were calculated to assess diagnostic accuracy. Clinical outcomes including neurological symptoms and need for revision surgery were documented for all breaches identified on postoperative imaging.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Analysis methodology compared T-EMG intraoperative findings with postoperative CT confirmation to calculate diagnostic accuracy metrics and track clinical correlations.",
+      "keywords": [
+        "accuracy analysis",
+        "sensitivity",
+        "specificity",
+        "predictive value",
+        "diagnostic performance"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": null,
+        "additional": "Cross-reference T-EMG categories with CT breach status; calculate sensitivity/specificity; document clinical correlations with neurological outcomes and revision needs"
+      }
+    },
+    {
+      "content": "The investigation reveals that T-EMG monitoring has excellent negative predictive value with 92.6% of screws classified as negative, but concerning false negative rate of 1.58% (127 breaches on postoperative CT). Among these missed breaches, 32.3% (41/127) were significant breaches that potentially endangered neural structures. While most significant breaches (78%, 32/41) remained clinically asymptomatic, 21.95% (9/41) caused obvious nerve root irritation symptoms that necessitated revision surgery. This suggests that T-EMG may have limited sensitivity in detecting breaches, particularly when the screw has already fully penetrated and passed the point of maximal neural proximity. In contrast, positive T-EMG findings showed high false positive rates: 10.9% in the positive category and 91.8% in the suspiciously positive category, indicating that many T-EMG alarms do not correlate with actual breaches detected on postoperative imaging.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": true,
+      "summary": "T-EMG demonstrates excellent negative predictive value but concerning 1.58% false negative rate with significant breaches, while showing high false positive rates in positive categories.",
+      "keywords": [
+        "false negative",
+        "false positive",
+        "sensitivity",
+        "specificity",
+        "diagnostic accuracy",
+        "clinical correlation"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": null,
+        "additional": "Negative rate 92.6%; false negative rate 1.58%; significant breaches 32.3% of false negatives; symptomatic rate 21.95%; false positive rate positive group 10.9%; false positive rate suspiciously positive group 91.8%"
+      }
+    },
+    {
+      "content": "Clinical Implications and Safety Considerations. Despite its limitations in sensitivity, T-EMG monitoring combined with intraoperative fluoroscopy provides valuable real-time guidance that helps surgeons make informed decisions about screw positioning and replacement. The high false positive rate suggests that not all T-EMG alarms warrant immediate screw replacement, supporting the practice of using fluoroscopic correlation before deciding on repositioning. This approach successfully reduced unnecessary screw revisions: 42 non-replaced positive screws and 301 non-replaced suspiciously positive screws showed only minor or no breaches clinically. However, the false negative rate of 1.58% indicates that even with T-EMG monitoring, some breaches still occur undetected, necessitating postoperative imaging surveillance. The finding that 78% of significant breaches remained asymptomatic highlights the variable clinical significance of medial breaches and supports the argument that not all radiographic breaches require intervention. Among the 9 symptomatic cases (21.95% of significant breaches), screw revision was necessary and resulted in symptom resolution. This selective approach optimizes patient safety while avoiding over-treatment.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "T-EMG with fluoroscopy guidance reduces unnecessary revisions through selective decision-making while maintaining safety despite 1.58% false negative rate.",
+      "keywords": [
+        "clinical implications",
+        "safety",
+        "selective revision",
+        "unnecessary procedures",
+        "postoperative surveillance"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": null,
+        "additional": "42 non-replaced positive screws with acceptable outcomes; 301 non-replaced suspiciously positive screws safe; 1.58% false negative rate indicates need for postoperative imaging; 78% of significant breaches asymptomatic"
+      }
+    },
+    {
+      "content": "Strengths and Limitations. The study represents a large single-center experience with 1,538 consecutive patients and 8,684 pedicle screws monitored, providing robust sample size for analysis. All patients received standardized T-EMG monitoring protocol with consistent intraoperative fluoroscopy and postoperative CT confirmation, reducing methodological heterogeneity. The long study period (December 2018-December 2023) captures potential temporal trends in technique refinement. However, limitations include the retrospective design, inability to randomize to non-monitored control group due to safety concerns, lack of blinded radiologic assessment of breach severity (minor vs. significant), and single-center experience that may not generalize to other institutions with different surgical techniques. The study cannot definitively determine if T-EMG monitoring actually reduces clinically significant complications compared to standard practice without neurophysiologic monitoring. Additionally, the high false positive rate raises questions about alarm threshold settings and whether these could be optimized to improve specificity.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Large consecutive series with complete imaging follow-up provides robust data but retrospective design and single-center experience limit generalizability and causal conclusions.",
+      "keywords": [
+        "study strengths",
+        "study limitations",
+        "sample size",
+        "methodology",
+        "generalizability"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": null,
+        "additional": "n=1,538 patients, 8,684 screws; 5-year study period; single-center; retrospective design; no control group; standardized protocol for monitoring and imaging"
+      }
+    },
+    {
+      "content": "Future Directions and Recommendations. The findings suggest that optimal use of T-EMG monitoring requires integrated decision-making with intraoperative fluoroscopy rather than relying on T-EMG signals alone. Future studies should investigate whether alarm threshold adjustments can improve sensitivity without increasing false positives. The high false negative rate warrants consideration of alternative or complementary monitoring modalities such as continuous electromyographic monitoring, somatosensory evoked potentials, or advanced imaging guidance (robotic navigation, augmented reality). Standardization of breach classification into clinically meaningful categories could improve clinical utility. Multi-center prospective studies comparing T-EMG-guided surgery with non-monitored control groups would provide higher-level evidence regarding impact on complications and outcomes. The observation that 78% of significant breaches remained asymptomatic suggests the need for better understanding of which breaches require intervention versus observation, potentially through biomechanical or radiographic analysis of breach characteristics. Patient-centered outcomes including long-term neurological function, pain, and disability should be incorporated in future investigations.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Future research should investigate T-EMG optimization, complementary monitoring modalities, standardized breach classification, and multi-center prospective studies with patient-centered outcomes.",
+      "keywords": [
+        "future directions",
+        "research recommendations",
+        "monitoring optimization",
+        "complementary modalities",
+        "standardization"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": null,
+        "additional": "78% significant breaches asymptomatic supports selective intervention; multi-center prospective studies needed; complementary monitoring modalities to consider"
+      }
+    },
+    {
+      "content": "Figure 1: T-EMG Monitoring Signal Patterns and Clinical Outcomes. This figure illustrates representative T-EMG signal tracings from positive, suspiciously positive, and negative categories correlated with postoperative CT findings and clinical outcomes. The positive T-EMG group (n=312, 3.59%) shows high-amplitude EMG signals upon screw insertion. When combined with fluoroscopy, 42 screws (13.5%) were deemed correctly placed and not replaced, of which 8 (19%) showed minor breaches on postoperative CT but remained asymptomatic. The remaining 270 screws (86.5%) were replaced, with 16 (5.9%) still showing minor breaches postoperatively. The suspiciously positive group (n=328, 3.78%) demonstrates lower-amplitude signals. Most screws in this group (301/328, 91.8%) were not replaced based on fluoroscopic assessment, with only 18 (5.98%) showing minor breaches on CT. The negative T-EMG group (n=8,044, 92.6%) shows no EMG signal activation. However, 127 screws (1.58%) had breaches detected on postoperative CT, with 86 (67.7%) minor/asymptomatic and 41 (32.3%) significant. The figure demonstrates the clinical utility of T-EMG when integrated with other intraoperative imaging for selective screw revision decisions.",
+      "content_type": "figure",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Figure showing T-EMG signal categories with corresponding fluoroscopic and CT findings, illustrating the variable clinical correlation between T-EMG alerts and actual medial breaches.",
+      "keywords": [
+        "T-EMG signals",
+        "signal patterns",
+        "EMG tracings",
+        "clinical outcomes",
+        "breach detection"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": null,
+        "additional": "Positive group 3.59% with 10.9% false positive rate; suspiciously positive 3.78% with 91.8% false positive rate; negative group 92.6% with 1.58% false negative rate; demonstrates integration of multiple modalities"
+      }
+    },
+    {
+      "content": "Figure 2: Diagnostic Accuracy and Clinical Outcomes by T-EMG Category. This figure presents a flow diagram and summary statistics showing the diagnostic accuracy of T-EMG monitoring in detecting medial cortex breaches. Starting with 8,684 screws monitored, the diagram branches into three main categories: positive (312, 3.59%), suspiciously positive (328, 3.78%), and negative (8,044, 92.6%). For each category, the figure shows the number and percentage of screws with correct placement, minor breaches (asymptomatic), significant breaches (asymptomatic vs. symptomatic), and outcomes following fluoroscopic decision-making and/or revision. The positive category shows 10.9% false positive rate with low correlation to actual breaches. The suspiciously positive category demonstrates 91.8% false positive rate, indicating poor discrimination. The negative category shows excellent apparent specificity (92.6%) but concerning 1.58% false negative rate with 32.3% of missed breaches being significant. Among symptomatic cases, 9/41 significant breaches (21.95%) caused nerve root irritation requiring revision. The figure emphasizes that T-EMG results require careful interpretation with multimodal imaging rather than standalone clinical decision-making.",
+      "content_type": "figure",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Comprehensive flow diagram illustrating T-EMG diagnostic accuracy, false positive/negative rates, and clinical outcomes for all screw categories with decision points and revisions.",
+      "keywords": [
+        "diagnostic accuracy",
+        "false positive",
+        "false negative",
+        "flow diagram",
+        "clinical outcomes"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": null,
+        "additional": "Positive false positive rate 10.9%; suspiciously positive false positive rate 91.8%; negative false negative rate 1.58%; symptomatic rate 21.95% of significant breaches; demonstrates poor standalone accuracy"
+      }
+    }
+  ]
+}

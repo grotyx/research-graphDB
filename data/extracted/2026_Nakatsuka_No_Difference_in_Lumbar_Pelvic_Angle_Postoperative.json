@@ -1,0 +1,532 @@
+{
+  "metadata": {
+    "title": "Sagittal Alignment Outcomes After Single-Level L5-S1 Anterior Versus Transforaminal Lumbar Interbody Fusion: A Retrospective Cohort Study",
+    "authors": [
+      "Not provided in text"
+    ],
+    "year": 2024,
+    "journal": "Not explicitly stated in provided text",
+    "doi": "Not provided",
+    "pmid": "Not provided",
+    "abstract": "OBJECTIVE: To quantify changes in lumbar pelvic angle (LPA), pelvic tilt (PT), global lumbar lordosis (L1-S1), regional lumbar lordosis (L4-S1), and segmental lumbar lordosis (L5-S1) among single-level L5-S1 ALIF and TLIF patients. SUMMARY OF BACKGROUND DATA: Restoration of sagittal alignment is a primary goal of lumbar fusion. While ALIF is regarded as superior to TLIF in restoring segmental lordosis, its effect on global and regional alignment remains uncertain, and few studies directly compare their impact on spinopelvic parameters. METHODS: The electronic medical record was queried for patients who underwent single-level L5-S1 ALIF or TLIF with preoperative and one-year postoperative imaging. Sagittal parameters were measured using Surgimap software. Group comparisons were assessed with unpaired t-tests or Wilcoxon signed-rank tests. RESULTS: Radiographic measurements were available for 174 patients (ALIF n=73, TLIF n=101). ALIF patients had significantly greater improvement in L4-S1 (+4.2° vs. -1.1°, P=0.002) and L5-S1 lordosis (+4.6° vs. -4.8°, P<0.001). No significant differences were observed in postoperative changes for L1-S1 lordosis (+2.2° vs. -1.4°, P=0.250), LPA (-1.9° vs. -1.4°, P=0.743), or PT (-0.9° vs. +0.4°, P=0.093). Permutation testing confirmed that the observed difference in LPA improvement between cohorts (-0.51°) was not statistically significant (P=0.673), and post hoc analysis confirmed adequate power to detect a difference of 3.37°. Sensitivity analyses using ANCOVA, adjusting for baseline radiographic values and covariates, were concordant. CONCLUSION: ALIF provided superior regional and segmental lordosis but did not improve global alignment compared with TLIF. This study is the first to quantify the effect of ALIF versus TLIF on LPA, highlighting the limited impact of single-level fusion on global spinopelvic alignment.",
+    "study_type": "retrospective-cohort",
+    "study_design": "non-randomized",
+    "evidence_level": "2b",
+    "sample_size": 174,
+    "centers": "single-center",
+    "blinding": "none",
+    "publication_types": [
+      "Journal Article"
+    ]
+  },
+  "spine_metadata": {
+    "sub_domains": [
+      "Degenerative"
+    ],
+    "surgical_approach": [
+      "Minimally Invasive",
+      "Open"
+    ],
+    "anatomy_level": "L5-S1",
+    "anatomy_region": "lumbosacral",
+    "pathology": [
+      "Lumbar degenerative disc disease",
+      "Lumbar stenosis",
+      "Spondylolisthesis"
+    ],
+    "interventions": [
+      "ALIF",
+      "TLIF"
+    ],
+    "comparison_type": "vs_other_mis",
+    "follow_up_months": 12,
+    "main_conclusion": "ALIF provided superior regional and segmental lordosis restoration at L4-S1 and L5-S1 but did not improve global spinal alignment compared with TLIF. Single-level L5-S1 fusion has limited impact on global spinopelvic alignment parameters regardless of surgical approach.",
+    "pico": {
+      "population": "Adults undergoing single-level L5-S1 fusion between 2012-2024 with preoperative and one-year postoperative imaging",
+      "intervention": "Anterior lumbar interbody fusion (ALIF)",
+      "comparison": "Transforaminal lumbar interbody fusion (TLIF)",
+      "outcome": "Sagittal alignment parameters: lumbar pelvic angle (LPA), pelvic tilt (PT), global lumbar lordosis (L1-S1), regional lumbar lordosis (L4-S1), segmental lumbar lordosis (L5-S1)"
+    },
+    "patient_cohorts": [
+      {
+        "name": "ALIF Group",
+        "cohort_type": "intervention",
+        "sample_size": 73,
+        "mean_age": "Not specified",
+        "female_percentage": "Not specified",
+        "diagnosis": "Lumbar degenerative disc disease requiring single-level L5-S1 fusion",
+        "comorbidities": "Not specified",
+        "ASA_score": "Not specified",
+        "BMI": "Not specified"
+      },
+      {
+        "name": "TLIF Group",
+        "cohort_type": "control",
+        "sample_size": 101,
+        "mean_age": "Not specified",
+        "female_percentage": "Not specified",
+        "diagnosis": "Lumbar degenerative disc disease requiring single-level L5-S1 fusion",
+        "comorbidities": "Not specified",
+        "ASA_score": "Not specified",
+        "BMI": "Not specified"
+      }
+    ],
+    "followups": [
+      {
+        "name": "1-year postoperative",
+        "timepoint_months": 12,
+        "completeness_rate": "Not specified",
+        "outcomes_at_timepoint": [
+          "L1-S1 lordosis",
+          "L4-S1 lordosis",
+          "L5-S1 lordosis",
+          "Lumbar pelvic angle (LPA)",
+          "Pelvic tilt (PT)"
+        ]
+      }
+    ],
+    "costs": [],
+    "quality_metrics": [],
+    "outcomes": [
+      {
+        "name": "L4-S1 Lordosis",
+        "category": "radiologic",
+        "baseline": "Not specified",
+        "final": "Not specified",
+        "value_intervention": "+4.2°",
+        "value_control": "-1.1°",
+        "value_difference": "+5.3°",
+        "p_value": "0.002",
+        "confidence_interval": "Not specified",
+        "effect_size": "Not specified",
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "5.3",
+          "ci_lower": "Not provided",
+          "ci_upper": "Not provided",
+          "label": "MD 5.3° (p=0.002)"
+        },
+        "timepoint": "1yr",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "L5-S1 Lordosis (Segmental)",
+        "category": "radiologic",
+        "baseline": "Not specified",
+        "final": "Not specified",
+        "value_intervention": "+4.6°",
+        "value_control": "-4.8°",
+        "value_difference": "+9.4°",
+        "p_value": "<0.001",
+        "confidence_interval": "Not specified",
+        "effect_size": "Not specified",
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "9.4",
+          "ci_lower": "Not provided",
+          "ci_upper": "Not provided",
+          "label": "MD 9.4° (p<0.001)"
+        },
+        "timepoint": "1yr",
+        "is_significant": true,
+        "direction": "improved"
+      },
+      {
+        "name": "L1-S1 Lordosis (Global)",
+        "category": "radiologic",
+        "baseline": "Not specified",
+        "final": "Not specified",
+        "value_intervention": "+2.2°",
+        "value_control": "-1.4°",
+        "value_difference": "+3.6°",
+        "p_value": "0.250",
+        "confidence_interval": "Not specified",
+        "effect_size": "Not specified",
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "3.6",
+          "ci_lower": "Not provided",
+          "ci_upper": "Not provided",
+          "label": "MD 3.6° (p=0.250)"
+        },
+        "timepoint": "1yr",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "Lumbar Pelvic Angle (LPA)",
+        "category": "radiologic",
+        "baseline": "Not specified",
+        "final": "Not specified",
+        "value_intervention": "-1.9°",
+        "value_control": "-1.4°",
+        "value_difference": "-0.5°",
+        "p_value": "0.743",
+        "confidence_interval": "Not specified",
+        "effect_size": "Not specified",
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "-0.5",
+          "ci_lower": "Not provided",
+          "ci_upper": "Not provided",
+          "label": "MD -0.5° (p=0.743)"
+        },
+        "timepoint": "1yr",
+        "is_significant": false,
+        "direction": "unchanged"
+      },
+      {
+        "name": "Pelvic Tilt (PT)",
+        "category": "radiologic",
+        "baseline": "Not specified",
+        "final": "Not specified",
+        "value_intervention": "-0.9°",
+        "value_control": "+0.4°",
+        "value_difference": "-1.3°",
+        "p_value": "0.093",
+        "confidence_interval": "Not specified",
+        "effect_size": "Not specified",
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "-1.3",
+          "ci_lower": "Not provided",
+          "ci_upper": "Not provided",
+          "label": "MD -1.3° (p=0.093)"
+        },
+        "timepoint": "1yr",
+        "is_significant": false,
+        "direction": "unchanged"
+      }
+    ],
+    "complications": []
+  },
+  "important_citations": [],
+  "chunks": [
+    {
+      "content": "OBJECTIVE: To quantify changes in lumbar pelvic angle (LPA), pelvic tilt (PT), global lumbar lordosis (L1-S1), regional lumbar lordosis (L4-S1), and segmental lumbar lordosis (L5-S1) among single-level L5-S1 ALIF and TLIF patients.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Study objective was to compare sagittal alignment parameters between ALIF and TLIF for single-level L5-S1 fusion.",
+      "keywords": [
+        "sagittal alignment",
+        "ALIF",
+        "TLIF",
+        "lordosis",
+        "spinopelvic parameters"
+      ]
+    },
+    {
+      "content": "SUMMARY OF BACKGROUND DATA: Restoration of sagittal alignment is a primary goal of lumbar fusion. While ALIF is regarded as superior to TLIF in restoring segmental lordosis, its effect on global and regional alignment remains uncertain, and few studies directly compare their impact on spinopelvic parameters.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "ALIF is believed superior for segmental lordosis but evidence comparing global alignment outcomes with TLIF is limited.",
+      "keywords": [
+        "sagittal alignment",
+        "segmental lordosis",
+        "spinopelvic parameters",
+        "fusion approaches"
+      ]
+    },
+    {
+      "content": "METHODS: The electronic medical record was queried for patients who underwent single-level L5-S1 ALIF or TLIF with preoperative and one-year postoperative imaging. Sagittal parameters were measured using Surgimap software. Group comparisons were assessed with unpaired t-tests or Wilcoxon signed-rank tests.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Retrospective study using electronic medical records to compare sagittal alignment in ALIF vs TLIF patients with preop and 1-year postop imaging analysis.",
+      "keywords": [
+        "retrospective cohort",
+        "Surgimap",
+        "radiographic analysis",
+        "statistical testing"
+      ]
+    },
+    {
+      "content": "Study population: Radiographic measurements were available for 174 patients (ALIF n=73, TLIF n=101) who underwent single-level L5-S1 fusion between 2012 and 2024 at a single academic institution with complete preoperative and one-year postoperative imaging available for analysis.",
+      "content_type": "text",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "174 total patients analyzed: 73 ALIF and 101 TLIF cases with complete radiographic data at baseline and 1-year follow-up.",
+      "keywords": [
+        "sample size",
+        "ALIF",
+        "TLIF",
+        "radiographic assessment"
+      ]
+    },
+    {
+      "content": "L4-S1 Regional Lordosis: ALIF patients demonstrated significantly greater improvement in L4-S1 lordosis with a change of +4.2° compared to TLIF patients who showed a change of -1.1°, representing a difference of 5.3° between groups (P=0.002). This finding indicates ALIF's superiority in restoring regional lumbar alignment at the fusion level and adjacent segment.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "ALIF significantly improved L4-S1 lordosis (+4.2° vs -1.1°, p=0.002), demonstrating superior regional alignment restoration.",
+      "keywords": [
+        "L4-S1 lordosis",
+        "ALIF superior",
+        "regional alignment",
+        "statistically significant"
+      ],
+      "statistics": {
+        "p_value": "0.002",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "5.3",
+          "ci_lower": "Not provided",
+          "ci_upper": "Not provided",
+          "label": "MD 5.3° (95% CI not provided), p=0.002"
+        },
+        "additional": "ALIF +4.2° vs TLIF -1.1°"
+      }
+    },
+    {
+      "content": "L5-S1 Segmental Lordosis: ALIF patients achieved significantly greater improvement in segmental L5-S1 lordosis with a change of +4.6° compared to TLIF patients who showed a decline of -4.8°, representing a substantial difference of 9.4° between groups (P<0.001). This is the most pronounced difference between surgical approaches and confirms ALIF's superiority in restoring lordosis at the operative segment.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "ALIF demonstrated significantly superior L5-S1 segmental lordosis improvement (+4.6° vs -4.8°, p<0.001), the largest difference between approaches.",
+      "keywords": [
+        "segmental lordosis",
+        "L5-S1",
+        "ALIF advantage",
+        "highly significant"
+      ],
+      "statistics": {
+        "p_value": "<0.001",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "9.4",
+          "ci_lower": "Not provided",
+          "ci_upper": "Not provided",
+          "label": "MD 9.4° (95% CI not provided), p<0.001"
+        },
+        "additional": "ALIF +4.6° vs TLIF -4.8°"
+      }
+    },
+    {
+      "content": "L1-S1 Global Lordosis: No significant differences were observed in postoperative changes for global L1-S1 lordosis between ALIF (+2.2°) and TLIF (-1.4°) groups, with a difference of 3.6° (P=0.250). This indicates that single-level L5-S1 fusion does not significantly alter global spinal alignment regardless of surgical approach.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "No significant difference in global L1-S1 lordosis changes between ALIF and TLIF (+2.2° vs -1.4°, p=0.250).",
+      "keywords": [
+        "global lordosis",
+        "L1-S1",
+        "no significant difference",
+        "single-level limitation"
+      ],
+      "statistics": {
+        "p_value": "0.250",
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "3.6",
+          "ci_lower": "Not provided",
+          "ci_upper": "Not provided",
+          "label": "MD 3.6° (95% CI not provided), p=0.250"
+        },
+        "additional": "ALIF +2.2° vs TLIF -1.4°"
+      }
+    },
+    {
+      "content": "Lumbar Pelvic Angle: No significant differences were observed in postoperative changes for lumbar pelvic angle (LPA) between ALIF (-1.9°) and TLIF (-1.4°) groups (P=0.743). Permutation testing confirmed that the observed difference in LPA improvement between cohorts (-0.51°) was not statistically significant (P=0.673), with post hoc analysis confirming adequate power to detect a difference of 3.37°.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "LPA showed no significant difference between ALIF and TLIF (-1.9° vs -1.4°, p=0.743); permutation testing confirmed non-significance.",
+      "keywords": [
+        "lumbar pelvic angle",
+        "LPA",
+        "spinopelvic parameters",
+        "permutation testing"
+      ],
+      "statistics": {
+        "p_value": "0.743",
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "-0.5",
+          "ci_lower": "Not provided",
+          "ci_upper": "Not provided",
+          "label": "MD -0.5° (95% CI not provided), p=0.743"
+        },
+        "additional": "Permutation test p=0.673, power adequate to detect 3.37° difference"
+      }
+    },
+    {
+      "content": "Pelvic Tilt: No significant differences were observed in postoperative changes for pelvic tilt (PT) between ALIF (-0.9°) and TLIF (+0.4°) groups (P=0.093). Although the p-value approached but did not reach the threshold for statistical significance, the difference was not clinically meaningful.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "PT changes were not significantly different between ALIF and TLIF (-0.9° vs +0.4°, p=0.093).",
+      "keywords": [
+        "pelvic tilt",
+        "spinopelvic parameters",
+        "not significant"
+      ],
+      "statistics": {
+        "p_value": "0.093",
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "-1.3",
+          "ci_lower": "Not provided",
+          "ci_upper": "Not provided",
+          "label": "MD -1.3° (95% CI not provided), p=0.093"
+        },
+        "additional": "Approached but did not reach statistical significance"
+      }
+    },
+    {
+      "content": "Sensitivity Analyses: Sensitivity analyses using ANCOVA, adjusting for baseline radiographic values and potential covariates, were concordant with primary analysis results. These additional analyses strengthened confidence in the primary findings by controlling for baseline differences and confounding variables that could affect sagittal alignment outcomes.",
+      "content_type": "text",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "ANCOVA sensitivity analyses confirmed primary results when adjusting for baseline values and covariates.",
+      "keywords": [
+        "sensitivity analysis",
+        "ANCOVA",
+        "baseline adjustment",
+        "robustness"
+      ]
+    },
+    {
+      "content": "CONCLUSION: ALIF provided superior regional and segmental lordosis but did not improve global alignment compared with TLIF. This study is the first to quantify the effect of ALIF versus TLIF on LPA, highlighting the limited impact of single-level fusion on global spinopelvic alignment.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "ALIF superior for regional/segmental lordosis but both approaches similarly affect global alignment; single-level fusion has limited global spinopelvic impact.",
+      "keywords": [
+        "ALIF advantage",
+        "segmental lordosis",
+        "global alignment",
+        "single-level limitation",
+        "spinopelvic parameters"
+      ]
+    },
+    {
+      "content": "Clinical Significance: The study demonstrates that restoration of sagittal alignment is a primary goal of lumbar fusion surgery. ALIF shows particular advantage in restoring local and segmental lordosis at the L5-S1 level, with improvements of 4.2-4.6° in regional and segmental parameters. However, these local improvements do not translate to significant changes in global spinal alignment (L1-S1) or spinopelvic parameters (LPA, PT), suggesting that single-level fusion has inherent biomechanical limitations in correcting global sagittal imbalance.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "ALIF excels at local lordosis restoration but single-level fusion cannot correct global sagittal alignment or spinopelvic imbalance.",
+      "keywords": [
+        "sagittal alignment",
+        "clinical significance",
+        "biomechanical limitations",
+        "surgical planning"
+      ]
+    },
+    {
+      "content": "Methodological Strengths: Study conducted at single academic institution with retrospective review of electronic medical records for single-level L5-S1 ALIF and TLIF cases performed between 2012-2024. Radiographic measurements obtained using validated Surgimap software. Statistical analysis included unpaired t-tests, Wilcoxon signed-rank tests, and advanced permutation testing with post hoc power analysis to validate findings. ANCOVA sensitivity analyses controlled for baseline variables and covariates, demonstrating concordant results and strengthening validity of conclusions regarding differential effects of surgical approaches.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Rigorous methodology with validated measurement tools, appropriate statistical testing, power analysis, and sensitivity analyses.",
+      "keywords": [
+        "retrospective design",
+        "validated methods",
+        "statistical rigor",
+        "sensitivity analysis"
+      ]
+    },
+    {
+      "content": "Limitations and Implications: This is first study to directly quantify effect of ALIF versus TLIF on lumbar pelvic angle (LPA). The finding that single-level L5-S1 fusion does not significantly improve global alignment parameters (L1-S1 lordosis, LPA, pelvic tilt) has important implications for surgical planning in patients with global sagittal imbalance or deformity. Patients requiring global alignment correction may need multi-level fusion, osteotomy procedures, or combined approaches rather than single-level ALIF or TLIF. The study provides evidence-based guidance for surgical decision-making when addressing lumbar degenerative disease at L5-S1.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Study provides novel evidence about single-level fusion limitations for global alignment, with important implications for surgical planning in deformity cases.",
+      "keywords": [
+        "global alignment",
+        "single-level limitations",
+        "surgical planning",
+        "deformity management"
+      ]
+    },
+    {
+      "content": "Comparison with Prior Work: Previous literature has suggested ALIF superiority for segmental lordosis restoration, but this is first study providing direct quantitative comparison of both approaches on global and regional alignment parameters. The study fills important knowledge gap by demonstrating that while ALIF achieves significantly greater improvements in L4-S1 regional lordosis (+4.2° vs -1.1°, p=0.002) and L5-S1 segmental lordosis (+4.6° vs -4.8°, p<0.001), these improvements do not translate to clinically meaningful differences in global alignment measures, supporting concept that single-level fusion has inherent structural limitations regardless of approach.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Study confirms ALIF's regional/segmental advantages while clarifying that single-level fusion cannot achieve global alignment correction.",
+      "keywords": [
+        "direct comparison",
+        "ALIF advantage",
+        "global limitations",
+        "knowledge gap"
+      ]
+    },
+    {
+      "content": "Key Finding Summary: Analysis of 174 patients (ALIF n=73, TLIF n=101) undergoing single-level L5-S1 fusion with one-year radiographic follow-up revealed significant differences in local measures (L5-S1 lordosis: +4.6° vs -4.8°, p<0.001; L4-S1 lordosis: +4.2° vs -1.1°, p=0.002) but no significant differences in global parameters (L1-S1: +2.2° vs -1.4°, p=0.250; LPA: -1.9° vs -1.4°, p=0.743; PT: -0.9° vs +0.4°, p=0.093). Permutation and ANCOVA analyses confirmed robustness of findings.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "ALIF superior for segmental/regional lordosis but both approaches similarly affect global alignment parameters at 1-year follow-up.",
+      "keywords": [
+        "key findings",
+        "ALIF advantage",
+        "global limitations",
+        "1-year outcomes"
+      ],
+      "statistics": {
+        "p_value": "0.002 to 0.743 (range)",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "MD",
+          "value": "4.6 to 9.4",
+          "ci_lower": "Not provided",
+          "ci_upper": "Not provided",
+          "label": "Multiple measures with p<0.001 to p=0.743"
+        },
+        "additional": "L5-S1 p<0.001, L4-S1 p=0.002, L1-S1 p=0.250"
+      }
+    },
+    {
+      "content": "Study Design and Population: This retrospective cohort study analyzed data from a single academic institution between 2012-2024. Inclusion criteria: patients undergoing single-level L5-S1 ALIF or TLIF with complete preoperative and one-year postoperative radiographic imaging available. Electronic medical record query identified 174 eligible patients: 73 ALIF and 101 TLIF. Sagittal alignment parameters measured using Surgimap software including lumbar pelvic angle (LPA), pelvic tilt (PT), global L1-S1 lordosis, regional L4-S1 lordosis, and segmental L5-S1 lordosis.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Single-center retrospective study of 174 patients (73 ALIF, 101 TLIF) with radiographic measurements at baseline and 1-year follow-up.",
+      "keywords": [
+        "retrospective cohort",
+        "single-center",
+        "radiographic analysis",
+        "sagittal parameters"
+      ]
+    },
+    {
+      "content": "Statistical Methods: Group comparisons of preoperative to postoperative changes assessed using unpaired t-tests for normally distributed data and Wilcoxon signed-rank tests for non-normally distributed data. Permutation testing performed to validate that difference in LPA improvement between ALIF (-1.9°) and TLIF (-1.4°) groups was not statistically significant (p=0.673). Post hoc power analysis confirmed study had adequate statistical power to detect a clinically meaningful difference of 3.37° in LPA. Sensitivity analyses using ANCOVA adjusted for baseline radiographic values and potential covariates; results were concordant with primary analysis.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Comprehensive statistical approach including parametric/non-parametric tests, permutation testing, power analysis, and ANCOVA sensitivity analyses.",
+      "keywords": [
+        "statistical methods",
+        "permutation testing",
+        "power analysis",
+        "ANCOVA"
+      ]
+    }
+  ]
+}

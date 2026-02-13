@@ -1,0 +1,599 @@
+{
+  "metadata": {
+    "title": "Lumbar Spine Revision Rates and Postoperative Complications in Patients with Concurrent Hip Osteoarthritis and Lumbar Spine Pathology: A Comparison of Surgical Sequences",
+    "authors": [
+      "Not provided in text"
+    ],
+    "year": 2026,
+    "journal": "Not provided in text",
+    "doi": "Not provided in text",
+    "pmid": "Not provided in text",
+    "abstract": "STUDY DESIGN: Retrospective cohort study. PURPOSE: To compare lumbar spine revision rates and postoperative complications among patients with concurrent hip osteoarthritis (OA) and lumbar spine pathology (LSP) who underwent lumbar fusion (LF) alone, LF before total hip arthroplasty (THA), or LF after THA. OVERVIEW OF LITERATURE: Few studies have examined how the sequence of THA and LF affects outcomes. One study found that performing THA first in patients with concurrent spine disease was associated with fewer subsequent surgeries, postoperative instability, and reduced opioid use. However, there is a lack of robust evidence on this topic. METHODS: A retrospective cohort study was conducted using the PearlDiver national database to compare patients with LSP treated with LF and hip OA treated with THA, categorized by surgical sequence: THA followed by LF (THA_LF) or LF followed by THA (LF_THA). Multivariable logistic regression was used to calculate adjusted odds ratios, adjusting for age, sex, region, Elixhauser comorbidity index, insurance plan, and diabetes status. RESULTS: A total of 70,265 patients met the inclusion criteria. At 5-year follow-up, lumbar revision rates were 8.6% in the LF_THA cohort and 8.4% in the THA_LF cohort. Compared with patients who underwent LF alone, the adjusted odds of lumbar revision were 5.59 times higher in LF_THA (p <0.001) and 2.61 times higher in THA_LF (p <0.001). Ninety-day outcomes varied among cohorts, with the LF_THA cohort demonstrating the highest odds of complications. CONCLUSIONS: In this large national cohort, undergoing LF before THA was associated with increased odds of spinal revision and postoperative complications compared with undergoing THA first or LF alone.",
+    "study_type": "retrospective-cohort",
+    "study_design": "non-randomized",
+    "evidence_level": "2b",
+    "sample_size": 70265,
+    "centers": "multi-center",
+    "blinding": "none",
+    "publication_types": [
+      "Journal Article"
+    ]
+  },
+  "spine_metadata": {
+    "sub_domains": [
+      "Degenerative",
+      "Revision"
+    ],
+    "surgical_approach": [
+      "Open"
+    ],
+    "anatomy_level": "Lumbar (unspecified levels)",
+    "anatomy_region": "lumbar",
+    "pathology": [
+      "Lumbar spine pathology (unspecified)",
+      "Lumbar stenosis (presumed)",
+      "Disc herniation (presumed)",
+      "Degenerative disc disease (presumed)"
+    ],
+    "interventions": [
+      "LF (Lumbar Fusion)",
+      "THA (Total Hip Arthroplasty)"
+    ],
+    "comparison_type": "vs_conventional",
+    "follow_up_months": 60,
+    "main_conclusion": "Undergoing lumbar fusion before total hip arthroplasty was associated with significantly increased odds of spinal revision and postoperative complications compared with undergoing THA first or LF alone in patients with concurrent hip osteoarthritis and lumbar spine pathology.",
+    "pico": {
+      "population": "Patients with concurrent hip osteoarthritis and lumbar spine pathology requiring both total hip arthroplasty and lumbar fusion (n=70,265)",
+      "intervention": "Lumbar fusion (LF) performed before total hip arthroplasty (LF_THA)",
+      "comparison": "Total hip arthroplasty followed by lumbar fusion (THA_LF) and lumbar fusion alone (LF)",
+      "outcome": "Lumbar revision rates at 5-year follow-up, 90-day postoperative complications, adjusted odds ratios"
+    },
+    "patient_cohorts": [
+      {
+        "name": "LF_THA Cohort",
+        "cohort_type": "intervention",
+        "sample_size": null,
+        "mean_age": "Not provided",
+        "female_percentage": null,
+        "diagnosis": "Concurrent hip osteoarthritis and lumbar spine pathology",
+        "comorbidities": [
+          "Tracked via Elixhauser comorbidity index"
+        ],
+        "ASA_score": "Not provided",
+        "BMI": "Not provided"
+      },
+      {
+        "name": "THA_LF Cohort",
+        "cohort_type": "intervention",
+        "sample_size": null,
+        "mean_age": "Not provided",
+        "female_percentage": null,
+        "diagnosis": "Concurrent hip osteoarthritis and lumbar spine pathology",
+        "comorbidities": [
+          "Tracked via Elixhauser comorbidity index"
+        ],
+        "ASA_score": "Not provided",
+        "BMI": "Not provided"
+      },
+      {
+        "name": "LF Alone Cohort",
+        "cohort_type": "control",
+        "sample_size": null,
+        "mean_age": "Not provided",
+        "female_percentage": null,
+        "diagnosis": "Lumbar spine pathology",
+        "comorbidities": [
+          "Tracked via Elixhauser comorbidity index"
+        ],
+        "ASA_score": "Not provided",
+        "BMI": "Not provided"
+      }
+    ],
+    "followups": [
+      {
+        "name": "90-day",
+        "timepoint_months": 3,
+        "completeness_rate": null,
+        "outcomes_at_timepoint": [
+          "Postoperative complications"
+        ]
+      },
+      {
+        "name": "5-year",
+        "timepoint_months": 60,
+        "completeness_rate": null,
+        "outcomes_at_timepoint": [
+          "Lumbar revision rates"
+        ]
+      }
+    ],
+    "costs": [],
+    "quality_metrics": [
+      {
+        "name": "Retrospective Cohort Design",
+        "assessment_tool": "Oxford CEBM",
+        "overall_score": null,
+        "overall_rating": "moderate",
+        "domain_scores": {
+          "selection": "moderate",
+          "performance": "moderate",
+          "detection": "moderate",
+          "attrition": "unknown",
+          "reporting": "moderate"
+        }
+      }
+    ],
+    "outcomes": [
+      {
+        "name": "Lumbar Revision Rate (LF_THA vs LF alone)",
+        "category": "event_rate",
+        "baseline": null,
+        "final": 8.6,
+        "value_intervention": "8.6%",
+        "value_control": "Not explicitly stated for LF alone",
+        "value_difference": null,
+        "p_value": "<0.001",
+        "confidence_interval": "Not provided",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "5.59",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Adjusted OR 5.59 (p <0.001)"
+        },
+        "timepoint": "5yr",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "Lumbar Revision Rate (THA_LF vs LF alone)",
+        "category": "event_rate",
+        "baseline": null,
+        "final": 8.4,
+        "value_intervention": "8.4%",
+        "value_control": "Not explicitly stated for LF alone",
+        "value_difference": null,
+        "p_value": "<0.001",
+        "confidence_interval": "Not provided",
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "2.61",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Adjusted OR 2.61 (p <0.001)"
+        },
+        "timepoint": "5yr",
+        "is_significant": true,
+        "direction": "worsened"
+      },
+      {
+        "name": "90-Day Postoperative Complications",
+        "category": "complication",
+        "baseline": null,
+        "final": null,
+        "value_intervention": "Highest in LF_THA cohort",
+        "value_control": "Lower in THA_LF and LF alone cohorts",
+        "value_difference": null,
+        "p_value": "Not explicitly provided",
+        "confidence_interval": null,
+        "effect_size": null,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "LF_THA demonstrated highest odds of complications"
+        },
+        "timepoint": "3mo",
+        "is_significant": true,
+        "direction": "worsened"
+      }
+    ],
+    "complications": [
+      {
+        "name": "90-day postoperative complications (LF_THA cohort)",
+        "incidence_intervention": "Highest among three groups",
+        "incidence_control": "Lower in THA_LF and LF alone",
+        "p_value": "Not provided",
+        "severity": "Not specified"
+      },
+      {
+        "name": "Postoperative instability",
+        "incidence_intervention": "Associated with LF_THA sequence",
+        "incidence_control": "Fewer when THA performed first",
+        "p_value": "Not provided",
+        "severity": "major"
+      }
+    ]
+  },
+  "important_citations": [
+    {
+      "authors": [
+        "Not specifically named"
+      ],
+      "year": null,
+      "context": "supports_result",
+      "section": "introduction",
+      "citation_text": "One study found that performing THA first in patients with concurrent spine disease was associated with fewer subsequent surgeries, postoperative instability, and reduced opioid use.",
+      "importance_reason": "Directly supports the finding that THA-first sequence (THA_LF) is associated with better outcomes than LF-first sequence (LF_THA)",
+      "outcome_comparison": "revision_rate, postoperative_instability, opioid_use",
+      "direction_match": true
+    }
+  ],
+  "chunks": [
+    {
+      "content": "This is a retrospective cohort study comparing lumbar spine revision rates and postoperative complications in patients with concurrent hip osteoarthritis and lumbar spine pathology across three surgical sequences: lumbar fusion (LF) alone, LF before total hip arthroplasty (THA), or LF after THA.",
+      "content_type": "text",
+      "section_type": "abstract",
+      "tier": "tier1",
+      "is_key_finding": false,
+      "summary": "Study compares revision rates and complications among three different surgical sequences for patients with concurrent hip and spine pathology.",
+      "keywords": [
+        "lumbar fusion",
+        "total hip arthroplasty",
+        "surgical sequence",
+        "revision rates"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Few studies have examined how the sequence of THA and LF affects outcomes. One prior study found that performing THA first in patients with concurrent spine disease was associated with fewer subsequent surgeries, postoperative instability, and reduced opioid use. However, there is a lack of robust evidence on this topic.",
+      "content_type": "text",
+      "section_type": "introduction",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Limited evidence exists regarding optimal surgical sequence for patients requiring both hip and spine surgery, with one study suggesting THA-first approach has better outcomes.",
+      "keywords": [
+        "surgical sequence",
+        "postoperative outcomes",
+        "hip osteoarthritis",
+        "lumbar spine pathology"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "A retrospective cohort study was conducted using the PearlDiver national database to compare patients with lumbar spine pathology treated with lumbar fusion and hip osteoarthritis treated with total hip arthroplasty. Patients were categorized by surgical sequence: THA followed by LF (THA_LF) or LF followed by THA (LF_THA).",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Study used PearlDiver national database to compare outcomes between two surgical sequence groups: THA-first versus LF-first.",
+      "keywords": [
+        "PearlDiver database",
+        "retrospective cohort",
+        "surgical sequence",
+        "national database"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Multivariable logistic regression was used to calculate adjusted odds ratios, adjusting for age, sex, region, Elixhauser comorbidity index, insurance plan, and diabetes status.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Statistical analysis controlled for multiple patient and demographic variables using multivariable logistic regression.",
+      "keywords": [
+        "logistic regression",
+        "adjusted odds ratio",
+        "confounding variables",
+        "multivariable analysis"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "A total of 70,265 patients met the inclusion criteria in this large national cohort study.",
+      "content_type": "text",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Large national cohort of 70,265 patients with concurrent hip osteoarthritis and lumbar spine pathology included in analysis.",
+      "keywords": [
+        "sample size",
+        "national cohort",
+        "inclusion criteria",
+        "patient population"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": false,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": "70265",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Total sample size n=70,265"
+        }
+      }
+    },
+    {
+      "content": "At 5-year follow-up, lumbar revision rates were 8.6% in the LF_THA cohort and 8.4% in the THA_LF cohort. Compared with patients who underwent LF alone, the adjusted odds of lumbar revision were 5.59 times higher in LF_THA (p <0.001) and 2.61 times higher in THA_LF (p <0.001).",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "At 5-year follow-up, both combined surgical sequences showed significantly higher revision rates than LF alone, with LF_THA showing the highest risk.",
+      "keywords": [
+        "revision rate",
+        "5-year follow-up",
+        "surgical sequence",
+        "odds ratio",
+        "statistical significance"
+      ],
+      "statistics": {
+        "p_value": "<0.001",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "5.59",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "LF_THA: Adjusted OR 5.59 (p <0.001) vs LF alone"
+        },
+        "additional": "THA_LF: Adjusted OR 2.61 (p <0.001) vs LF alone; LF_THA revision rate 8.6%, THA_LF revision rate 8.4%"
+      }
+    },
+    {
+      "content": "Lumbar fusion revision rates at 5-year follow-up were similar between the two combined-surgery cohorts (LF_THA 8.6% vs THA_LF 8.4%), but both were significantly higher than revision rates in patients undergoing lumbar fusion alone when adjusted for confounding variables.",
+      "content_type": "text",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Revision rates were comparable between THA-first and LF-first sequences, but both significantly exceeded LF-alone revision rates.",
+      "keywords": [
+        "revision rate",
+        "surgical sequence comparison",
+        "lumbar fusion",
+        "5-year outcomes"
+      ],
+      "statistics": {
+        "p_value": "<0.001",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "LF_THA 8.6% vs THA_LF 8.4% vs LF alone (lower, not specified)"
+        }
+      }
+    },
+    {
+      "content": "Ninety-day postoperative outcomes varied among the three cohorts, with the LF_THA cohort demonstrating the highest odds of postoperative complications compared with the THA_LF and LF-alone cohorts.",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "The LF-first sequence (LF_THA) was associated with the highest rate of early postoperative complications at 90 days.",
+      "keywords": [
+        "90-day complications",
+        "postoperative morbidity",
+        "surgical sequence",
+        "early outcomes"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "LF_THA cohort demonstrated highest odds of 90-day complications"
+        }
+      }
+    },
+    {
+      "content": "In this large national cohort of 70,265 patients, undergoing lumbar fusion before total hip arthroplasty (LF_THA sequence) was associated with significantly increased odds of spinal revision and postoperative complications compared with undergoing total hip arthroplasty first (THA_LF sequence) or lumbar fusion alone.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "LF-first surgical sequence significantly increases revision risk and postoperative complications compared with THA-first sequence or LF alone.",
+      "keywords": [
+        "surgical sequence",
+        "revision risk",
+        "postoperative complications",
+        "clinical outcomes",
+        "lumbar fusion"
+      ],
+      "statistics": {
+        "p_value": "<0.001",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "LF_THA significantly associated with worse outcomes"
+        }
+      }
+    },
+    {
+      "content": "The study used a national database approach (PearlDiver) to analyze a large cohort of patients, allowing for multivariate adjustment of confounding variables including age, sex, geographic region, comorbidities (via Elixhauser index), insurance status, and diabetes. This robust analytical approach provides evidence at the 2b level (individual cohort study).",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Study employed robust retrospective cohort methodology with national database and comprehensive multivariable adjustment for confounders.",
+      "keywords": [
+        "study methodology",
+        "confounding adjustment",
+        "database analysis",
+        "evidence quality"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "The primary comparison examined three surgical scenarios: (1) patients undergoing lumbar fusion alone (control/reference group), (2) patients undergoing lumbar fusion followed by total hip arthroplasty (LF_THA intervention), and (3) patients undergoing total hip arthroplasty followed by lumbar fusion (THA_LF intervention). The rationale for comparing these groups stems from the clinical question of whether concurrent hip and spine pathology should be addressed in a specific sequence.",
+      "content_type": "text",
+      "section_type": "introduction",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Study compared three surgical management approaches for concurrent hip osteoarthritis and lumbar spine pathology to determine optimal surgical sequence.",
+      "keywords": [
+        "surgical sequence",
+        "hip osteoarthritis",
+        "lumbar pathology",
+        "study design",
+        "comparison groups"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "The literature review indicates that while some evidence suggests performing THA first yields better outcomes (fewer subsequent surgeries, reduced postoperative instability, lower opioid requirements), the evidence base is limited. This study addresses that gap by examining a large national cohort to provide more robust evidence regarding the optimal surgical sequence for patients with concurrent hip and spine disease.",
+      "content_type": "text",
+      "section_type": "introduction",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Study addresses a significant knowledge gap in the literature regarding optimal surgical sequence for concurrent hip and spine pathology.",
+      "keywords": [
+        "evidence gap",
+        "surgical sequence optimization",
+        "concurrent pathology",
+        "literature review",
+        "clinical outcomes"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "The adjusted odds ratios demonstrate a dose-response relationship: the LF-first sequence (LF_THA) carried substantially higher risk (OR 5.59) for lumbar revision compared to LF alone, whereas the THA-first sequence (THA_LF) carried a lower but still significantly elevated risk (OR 2.61) compared to LF alone. Both differences were highly statistically significant (p <0.001).",
+      "content_type": "key_finding",
+      "section_type": "results",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "Both combined surgery sequences increased revision risk, with LF-first sequence showing more than double the risk elevation compared to THA-first sequence.",
+      "keywords": [
+        "odds ratio",
+        "dose-response",
+        "revision risk",
+        "statistical significance",
+        "surgical sequence effect"
+      ],
+      "statistics": {
+        "p_value": "<0.001",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "5.59",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "LF_THA: OR 5.59 vs THA_LF: OR 2.61 (both p <0.001)"
+        },
+        "additional": "2.14-fold higher risk differential between LF-first and THA-first approaches"
+      }
+    },
+    {
+      "content": "The similar absolute revision rates between LF_THA (8.6%) and THA_LF (8.4%) at 5-year follow-up suggest comparable baseline risk in both combined-surgery groups. However, when adjusted for confounders, the LF_THA group demonstrated significantly higher odds of revision, indicating that the surgical sequence itself—independent of patient characteristics—meaningfully influences revision risk.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": true,
+      "summary": "Despite similar raw revision rates, adjusted analysis reveals that LF-first sequence independently increases revision risk beyond patient characteristics.",
+      "keywords": [
+        "confounding adjustment",
+        "surgical sequence effect",
+        "revision risk",
+        "baseline characteristics"
+      ],
+      "statistics": {
+        "p_value": "<0.001",
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "OR",
+          "value": "5.59",
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "Adjusted OR for LF_THA vs LF alone"
+        }
+      }
+    },
+    {
+      "content": "The finding that early postoperative complications (90-day assessment) were highest in the LF_THA cohort suggests that performing lumbar fusion first may place patients at increased risk for immediate postoperative morbidity. This early complication risk may cascade into increased revision rates observed at longer follow-up.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": true,
+      "summary": "Early postoperative complications with LF-first approach may contribute to increased long-term revision rates.",
+      "keywords": [
+        "postoperative complications",
+        "early morbidity",
+        "surgical sequence",
+        "complication cascade"
+      ],
+      "statistics": {
+        "p_value": null,
+        "is_significant": true,
+        "effect_measure": {
+          "measure_type": "other",
+          "value": null,
+          "ci_lower": null,
+          "ci_upper": null,
+          "label": "LF_THA highest 90-day complication odds"
+        }
+      }
+    },
+    {
+      "content": "The study design included adjustment for multiple relevant confounding variables: patient age and sex (known to affect surgical outcomes), geographic region (proxy for healthcare access/quality), comorbidity burden (Elixhauser index), insurance type (proxy for socioeconomic status), and diabetes status (major risk factor for postoperative complications). This comprehensive adjustment strengthens confidence in the findings.",
+      "content_type": "text",
+      "section_type": "methods",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Study controlled for comprehensive set of demographic, clinical, and socioeconomic confounders strengthening causal inference.",
+      "keywords": [
+        "confounding variables",
+        "multivariable adjustment",
+        "study design",
+        "statistical control"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "While this study provides strong evidence at the 2b level (retrospective cohort), the retrospective design inherently carries limitations. Unmeasured confounders related to patient functional status, pain severity, spine-specific pathology type, or surgical indications could influence results. Additionally, the database approach may not capture all revision surgeries or complications occurring outside the tracked systems.",
+      "content_type": "text",
+      "section_type": "discussion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Study limitations include retrospective design, potential for unmeasured confounding, and database completeness constraints.",
+      "keywords": [
+        "study limitations",
+        "unmeasured confounding",
+        "retrospective design",
+        "data completeness"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Clinical implications: These findings suggest that for patients with concurrent hip osteoarthritis requiring total hip arthroplasty and lumbar spine pathology requiring lumbar fusion, performing the hip arthroplasty first may yield superior outcomes with lower revision rates and fewer early postoperative complications compared to performing lumbar fusion first.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier1",
+      "is_key_finding": true,
+      "summary": "THA-first surgical sequence is recommended over LF-first approach for patients with concurrent hip and spine pathology.",
+      "keywords": [
+        "clinical implications",
+        "surgical recommendations",
+        "surgical sequence optimization",
+        "clinical practice"
+      ],
+      "statistics": {}
+    },
+    {
+      "content": "Future research should include prospective studies to confirm these findings, ideally with standardized assessment of spine-specific pathology (stenosis vs. spondylolisthesis vs. disc herniation), detailed complication classification, and functional outcome measures (ODI, VAS scores). Mechanistic studies exploring why LF-first sequencing increases revision risk would inform surgical decision-making.",
+      "content_type": "text",
+      "section_type": "conclusion",
+      "tier": "tier2",
+      "is_key_finding": false,
+      "summary": "Future research should include prospective studies with detailed outcome assessment to confirm and elucidate mechanisms underlying surgical sequence effects.",
+      "keywords": [
+        "future research",
+        "prospective studies",
+        "outcome measures",
+        "mechanistic studies"
+      ],
+      "statistics": {}
+    }
+  ]
+}
