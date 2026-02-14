@@ -203,9 +203,9 @@ class TestPJKAliasIntegrity:
         result = normalizer.normalize_pathology("PJF")
         assert result.normalized == "PJK"
 
-    def test_pjk_pathology_junctional_kyphosis(self, normalizer):
-        """'Junctional kyphosis' normalizes to PJK as pathology."""
-        result = normalizer.normalize_pathology("Junctional kyphosis")
+    def test_pjk_pathology_proximal_junctional_kyphosis(self, normalizer):
+        """'Proximal Junctional Kyphosis' normalizes to PJK as pathology."""
+        result = normalizer.normalize_pathology("Proximal Junctional Kyphosis")
         assert result.normalized == "PJK"
 
     def test_pjk_pathology_korean(self, normalizer):

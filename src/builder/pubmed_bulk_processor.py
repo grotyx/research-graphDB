@@ -22,6 +22,8 @@ Usage:
     upgrade_result = await processor.upgrade_with_pdf(paper_id="pubmed_12345678", pdf_path="paper.pdf")
 """
 
+from __future__ import annotations
+
 import asyncio
 import hashlib
 import json
@@ -61,6 +63,8 @@ except ImportError:
         DOI_FETCHER_AVAILABLE = False
         DOIFulltextFetcher = None
         DOIFullText = None
+        UnifiedPDFProcessor = None
+        EntityNormalizer = None
 
 if TYPE_CHECKING:
     from src.graph.neo4j_client import Neo4jClient
