@@ -1,4 +1,4 @@
-"""Medical KAG MCP Server - SSE Transport with Multi-User Support (v1.16.0).
+"""Medical KAG MCP Server - SSE Transport with Multi-User Support.
 
 외부에서 HTTP로 접속할 수 있는 SSE 기반 MCP 서버.
 사용자별 데이터 분리를 지원하며, 연결 안정성이 개선되었습니다.
@@ -67,6 +67,16 @@ from contextlib import asynccontextmanager
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from medical_mcp.medical_kag_server import MedicalKAGServer, create_mcp_server
+
+# Read version from src/__init__.py
+_pkg_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+try:
+    with open(os.path.join(_pkg_root, "__init__.py")) as _f:
+        __version__ = next(
+            line.split('"')[1] for line in _f if line.startswith("__version__")
+        )
+except (FileNotFoundError, StopIteration):
+    __version__ = "unknown"
 
 try:
     from mcp.server.sse import SseServerTransport
@@ -325,7 +335,7 @@ def create_app():
         return JSONResponse({
             "status": "healthy",
             "server": "medical-kag",
-            "version": "1.16.0",
+            "version": __version__,
             "current_user": user_id,
             "user_info": REGISTERED_USERS.get(user_id, {}),
             "neo4j_available": kag_server.neo4j_client is not None,
