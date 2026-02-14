@@ -1697,8 +1697,17 @@ class EntityNormalizer:
         "L4-5": ["L4-L5", "L4/5", "L4/L5", "L4-L5 disc"],
         "L5-S1": ["L5/S1", "L5-S1 disc", "Lumbosacral disc"],
         "L3-4": ["L3-L4", "L3/4", "L3/L4", "L3-L4 disc"],
+        "L2-3": ["L2-L3", "L2/3", "L2/L3", "L2-L3 disc"],
+        "L1-2": ["L1-L2", "L1/2", "L1/L2", "L1-L2 disc"],
+        "C3-4": ["C3-C4", "C3/4", "C3/C4", "C3-C4 disc"],
+        "C4-5": ["C4-C5", "C4/5", "C4/C5", "C4-C5 disc"],
         "C5-6": ["C5-C6", "C5/6", "C5/C6", "C5-C6 disc"],
         "C6-7": ["C6-C7", "C6/7", "C6/C7", "C6-C7 disc"],
+        "C7-T1": ["C7-T1 disc", "cervicothoracic disc"],
+        "T11-12": ["T11-T12", "T11/12", "T11/T12"],
+        "T12-L1": ["T12-L1 disc", "thoracolumbar disc"],
+        # Non-specific anatomy (인식하되 quality_flag 설정 대상)
+        "Multi-level": ["Multiple levels", "Multilevel", "Multisegmental", "multi-level"],
     }
 
     # 한국어 조사 (Korean particles) - 정규화 시 제거할 조사들

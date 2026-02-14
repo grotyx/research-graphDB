@@ -2,6 +2,27 @@
 
 ## Version History
 
+### v7.16.3 (2026-02-14): SNOMED/TREATS/Anatomy 통합 보강 스크립트
+
+파편화된 SNOMED 업데이트 스크립트들을 통합하고, TREATS 관계 백필과 Anatomy 데이터 정리 기능을 추가.
+
+#### 통합 변경
+
+| # | 변경 | 파일 |
+|---|------|------|
+| 1 | **snomed_enricher.py 신규**: 4개 엔티티 SNOMED 업데이트, TREATS 백필, Anatomy 정리, 커버리지 리포트 코어 모듈 | `src/graph/snomed_enricher.py` |
+| 2 | **enrich_graph_snomed.py 신규**: 통합 CLI (all/snomed/treats/anatomy-cleanup/report 서브커맨드) | `scripts/enrich_graph_snomed.py` |
+| 3 | **schema.py SNOMED 동적 생성**: 하드코딩 ~220줄 제거 → `spine_snomed_mappings.py`에서 304개 매핑 자동 생성 | `src/graph/types/schema.py` |
+| 4 | **enhance_taxonomy_snomed.py 정리**: `ADDITIONAL_SNOMED_MAPPINGS` 하드코딩 ~180줄 제거, `snomed_enricher`에 위임 | `scripts/enhance_taxonomy_snomed.py` |
+| 5 | **Anatomy 별칭 확장**: L2-3, L1-2, C3-4, C4-5, C7-T1, T11-12, T12-L1, Multi-level 등 9개 추가 | `src/graph/entity_normalizer.py` |
+
+#### 핵심 기능
+
+- **SNOMED 4개 타입 통합**: Intervention/Pathology/Outcome/Anatomy 모두 EntityNormalizer 기반 자동 매핑
+- **TREATS 백필**: Paper→INVESTIGATES→Intervention + Paper→STUDIES→Pathology 패턴으로 추론, 리뷰논문 필터 (4+ I AND 4+ P 제외)
+- **Anatomy 다분절 분리**: "L2-4" → ["L2-3", "L3-4"], "C3-C6" → ["C3-4", "C4-5", "C5-6"], 교차영역 "T10-L2" → ["T10-11", "T11-12", "T12-L1", "L1-2"]
+- **Single Source of Truth**: `spine_snomed_mappings.py` 하나로 모든 SNOMED 매핑 관리, schema.py·enhance_taxonomy_snomed.py 하드코딩 제거
+
 ### v7.16.0 (2026-02-14): PubMed + DOI Fallback 통합 — 항상 보강, 항상 저장
 
 PDF 처리 및 중요 인용 논문 처리 시 PubMed → DOI(Crossref/Unpaywall) → 기본정보 3단계 fallback 체인 도입.

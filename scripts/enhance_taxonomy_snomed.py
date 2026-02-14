@@ -180,188 +180,9 @@ NEW_CATEGORIES = {
 
 
 # =============================================================================
-# SNOMED-CT 추가 매핑
+# SNOMED-CT 매핑 — spine_snomed_mappings.py (Single Source of Truth) 사용
+# v7.16.3: 하드코딩 ADDITIONAL_SNOMED_MAPPINGS 제거, snomed_enricher로 위임
 # =============================================================================
-
-ADDITIONAL_SNOMED_MAPPINGS = {
-    # === Interventions ===
-    "ULBD (unilateral laminotomy, bilateral decompression)": {
-        "snomed_code": "900000000000120",
-        "snomed_term": "Unilateral laminotomy with bilateral decompression",
-        "is_extension": True,
-    },
-    "LAMP": {
-        "snomed_code": "64637005",
-        "snomed_term": "Laminoplasty",
-        "is_extension": False,
-    },
-    "PTED": {
-        "snomed_code": "900000000000107",  # PELD와 동일
-        "snomed_term": "Percutaneous transforaminal endoscopic discectomy",
-        "is_extension": True,
-    },
-    "RFA": {
-        "snomed_code": "442278005",
-        "snomed_term": "Radiofrequency ablation",
-        "is_extension": False,
-    },
-    "PPS": {
-        "snomed_code": "900000000000121",
-        "snomed_term": "Percutaneous pedicle screw fixation",
-        "is_extension": True,
-    },
-    "Hardware Removal": {
-        "snomed_code": "49795001",
-        "snomed_term": "Removal of internal fixation device",
-        "is_extension": False,
-    },
-    "Denosumab": {
-        "snomed_code": "108890003",
-        "snomed_term": "Denosumab therapy",
-        "is_extension": False,
-    },
-    "Zoledronate": {
-        "snomed_code": "395928001",
-        "snomed_term": "Zoledronic acid therapy",
-        "is_extension": False,
-    },
-
-    # === Pathologies ===
-    "Adjacent Segment Disease": {
-        "snomed_code": "900000000000201",
-        "snomed_term": "Adjacent segment disease",
-        "is_extension": True,
-    },
-    "Proximal Junctional Kyphosis": {
-        "snomed_code": "900000000000202",
-        "snomed_term": "Proximal junctional kyphosis",
-        "is_extension": True,
-    },
-    "Spinal Metastasis": {
-        "snomed_code": "94222008",
-        "snomed_term": "Secondary malignant neoplasm of spine",
-        "is_extension": False,
-    },
-    "Vertebral Fracture": {
-        "snomed_code": "20946005",
-        "snomed_term": "Fracture of vertebral column",
-        "is_extension": False,
-    },
-    "Osteoporotic Fracture": {
-        "snomed_code": "443165006",
-        "snomed_term": "Pathological fracture due to osteoporosis",
-        "is_extension": False,
-    },
-    "Pyogenic Spondylitis": {
-        "snomed_code": "6979003",
-        "snomed_term": "Pyogenic infection of spine",
-        "is_extension": False,
-    },
-    "Tuberculous Spondylitis": {
-        "snomed_code": "186199009",
-        "snomed_term": "Tuberculosis of spine",
-        "is_extension": False,
-    },
-
-    # === Outcomes ===
-    "ODI": {
-        "snomed_code": "443924002",
-        "snomed_term": "Oswestry Disability Index",
-        "is_extension": False,
-    },
-    "VAS": {
-        "snomed_code": "273903006",
-        "snomed_term": "Visual analog pain scale",
-        "is_extension": False,
-    },
-    "NDI": {
-        "snomed_code": "900000000000301",
-        "snomed_term": "Neck Disability Index",
-        "is_extension": True,
-    },
-    "SF-36": {
-        "snomed_code": "445536008",
-        "snomed_term": "Short Form 36 Health Survey",
-        "is_extension": False,
-    },
-    "EQ-5D": {
-        "snomed_code": "736535009",
-        "snomed_term": "EuroQol five dimension scale",
-        "is_extension": False,
-    },
-    "JOA Score": {
-        "snomed_code": "900000000000302",
-        "snomed_term": "Japanese Orthopaedic Association score",
-        "is_extension": True,
-    },
-    "Fusion Rate": {
-        "snomed_code": "900000000000303",
-        "snomed_term": "Spinal fusion success rate",
-        "is_extension": True,
-    },
-    "Reoperation Rate": {
-        "snomed_code": "900000000000304",
-        "snomed_term": "Rate of reoperation",
-        "is_extension": True,
-    },
-    "Blood Loss": {
-        "snomed_code": "74964007",
-        "snomed_term": "Blood loss",
-        "is_extension": False,
-    },
-    "Operation Time": {
-        "snomed_code": "118561001",
-        "snomed_term": "Duration of surgical procedure",
-        "is_extension": False,
-    },
-    "Length of Stay": {
-        "snomed_code": "183797002",
-        "snomed_term": "Hospital length of stay",
-        "is_extension": False,
-    },
-    "Complication Rate": {
-        "snomed_code": "116223007",
-        "snomed_term": "Complication rate",
-        "is_extension": False,
-    },
-
-    # === Anatomy ===
-    "Cervical Spine": {
-        "snomed_code": "122494005",
-        "snomed_term": "Cervical spine structure",
-        "is_extension": False,
-    },
-    "Thoracic Spine": {
-        "snomed_code": "122495006",
-        "snomed_term": "Thoracic spine structure",
-        "is_extension": False,
-    },
-    "Lumbar Spine": {
-        "snomed_code": "122496007",
-        "snomed_term": "Lumbar spine structure",
-        "is_extension": False,
-    },
-    "Sacral Spine": {
-        "snomed_code": "54735007",
-        "snomed_term": "Sacral vertebral column",
-        "is_extension": False,
-    },
-    "Lumbosacral Junction": {
-        "snomed_code": "49668003",
-        "snomed_term": "Lumbosacral junction structure",
-        "is_extension": False,
-    },
-    "Cervicothoracic Junction": {
-        "snomed_code": "280035006",
-        "snomed_term": "Cervicothoracic junction structure",
-        "is_extension": False,
-    },
-    "Thoracolumbar Junction": {
-        "snomed_code": "280036007",
-        "snomed_term": "Thoracolumbar junction structure",
-        "is_extension": False,
-    },
-}
 
 
 async def enhance_taxonomy(client: Neo4jClient) -> dict:
@@ -428,61 +249,30 @@ async def enhance_taxonomy(client: Neo4jClient) -> dict:
 
 
 async def enhance_snomed(client: Neo4jClient) -> dict:
-    """SNOMED-CT 매핑 강화."""
-    stats = {"intervention": 0, "pathology": 0, "outcome": 0, "anatomy": 0, "failed": 0}
+    """SNOMED-CT 매핑 강화.
+
+    v7.16.3: spine_snomed_mappings.py (SSoT) 기반 snomed_enricher로 위임.
+    """
+    from graph.snomed_enricher import update_snomed_for_entity_type
+    from graph.entity_normalizer import EntityNormalizer
 
     logger.info("\n" + "=" * 60)
-    logger.info("2. SNOMED-CT 매핑 강화")
+    logger.info("2. SNOMED-CT 매핑 강화 (snomed_enricher 위임)")
     logger.info("=" * 60)
 
-    for entity_name, mapping in ADDITIONAL_SNOMED_MAPPINGS.items():
-        try:
-            # 어떤 라벨인지 확인
-            check_query = """
-            MATCH (n)
-            WHERE n.name = $name AND (n:Intervention OR n:Pathology OR n:Outcome OR n:Anatomy)
-            RETURN labels(n)[0] as label
-            """
-            result = await client.run_query(check_query, {"name": entity_name})
+    normalizer = EntityNormalizer()
+    stats = {}
 
-            if not result:
-                continue  # 노드가 없으면 스킵
-
-            label = result[0]["label"]
-
-            # SNOMED 매핑 적용
-            update_query = f"""
-            MATCH (n:{label} {{name: $name}})
-            SET n.snomed_code = $code,
-                n.snomed_term = $term,
-                n.snomed_is_extension = $is_extension,
-                n.snomed_updated_at = datetime()
-            RETURN n.name as name
-            """
-
-            await client.run_write_query(
-                update_query,
-                {
-                    "name": entity_name,
-                    "code": mapping["snomed_code"],
-                    "term": mapping["snomed_term"],
-                    "is_extension": mapping.get("is_extension", False)
-                }
-            )
-
-            stats[label.lower()] = stats.get(label.lower(), 0) + 1
-            logger.info(f"   ✓ [{label}] {entity_name}: {mapping['snomed_code']}")
-
-        except Exception as e:
-            stats["failed"] += 1
-            logger.warning(f"   ✗ {entity_name} 실패: {e}")
-
-    logger.info(f"\n   📊 결과:")
-    logger.info(f"      Intervention: {stats['intervention']}개")
-    logger.info(f"      Pathology: {stats['pathology']}개")
-    logger.info(f"      Outcome: {stats['outcome']}개")
-    logger.info(f"      Anatomy: {stats['anatomy']}개")
-    logger.info(f"      실패: {stats['failed']}개")
+    for entity_type in ["intervention", "pathology", "outcome", "anatomy"]:
+        result = await update_snomed_for_entity_type(
+            client, entity_type, normalizer, dry_run=False
+        )
+        stats[entity_type] = result.newly_mapped
+        logger.info(
+            f"   {entity_type}: 전체 {result.total_nodes}, "
+            f"기존 {result.already_mapped}, 신규 {result.newly_mapped}, "
+            f"미매핑 {result.no_mapping_found}"
+        )
 
     return stats
 

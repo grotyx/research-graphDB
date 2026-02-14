@@ -1,6 +1,6 @@
 # Schema, Taxonomy, SNOMED-CT 업데이트 가이드
 
-> **버전**: v7.16.0 | **최종 수정**: 2026-02-14
+> **버전**: v7.16.3 | **최종 수정**: 2026-02-14
 
 이 문서는 Spine GraphRAG 시스템의 스키마, Taxonomy, SNOMED-CT 코드를 업데이트하는 전체 과정을 설명합니다.
 
@@ -213,6 +213,38 @@ launchctl unload ~/Library/LaunchAgents/com.spine-graphrag.schema-update.plist
 
 ## 4. 스크립트 옵션
 
+### enrich_graph_snomed.py (v7.16.3 통합 스크립트, 권장)
+
+SNOMED 코드 적용, TREATS 관계 백필, Anatomy 정리를 하나의 통합 CLI로 실행합니다.
+
+```bash
+# 전체 파이프라인 (dry-run)
+PYTHONPATH=./src python3 scripts/enrich_graph_snomed.py --dry-run
+
+# 전체 파이프라인 (실행)
+PYTHONPATH=./src python3 scripts/enrich_graph_snomed.py --force
+
+# 개별 단계
+PYTHONPATH=./src python3 scripts/enrich_graph_snomed.py snomed --dry-run
+PYTHONPATH=./src python3 scripts/enrich_graph_snomed.py treats --dry-run
+PYTHONPATH=./src python3 scripts/enrich_graph_snomed.py anatomy-cleanup --dry-run
+PYTHONPATH=./src python3 scripts/enrich_graph_snomed.py report
+```
+
+| 명령 | 설명 |
+|-----|------|
+| `all` (기본) | anatomy-cleanup → snomed → treats → report 전체 실행 |
+| `snomed` | 4개 엔티티 타입에 SNOMED 코드 적용 |
+| `treats` | TREATS 관계 백필 (리뷰논문 필터 포함) |
+| `anatomy-cleanup` | 다분절 범위 분리, 비특이적 용어 플래그 |
+| `report` | 커버리지 리포트 출력 |
+
+| 옵션 | 설명 |
+|-----|------|
+| `--dry-run` | 변경 없이 미리보기 |
+| `--force`, `-f` | 확인 없이 실행 |
+| `--quiet`, `-q` | 최소 출력 |
+
 ### update_schema_taxonomy.py
 
 | 옵션 | 설명 |
@@ -292,19 +324,12 @@ MERGE (new_surgery:Intervention {
 MERGE (new_surgery)-[:IS_A {level: 2}]->(parent_node)
 ```
 
-### 5.4 SNOMED Enrichment 추가 (schema.py)
+### 5.4 SNOMED Enrichment (자동)
 
-```python
-# src/graph/types/schema.py - get_enrich_snomed_cypher()
+v7.16.3부터 `schema.py:get_enrich_snomed_cypher()`는 `spine_snomed_mappings.py`의 304개 매핑으로부터 **자동 생성**됩니다.
+`spine_snomed_mappings.py`에 매핑을 추가하면 `init_neo4j.py` 실행 시 자동으로 Cypher가 생성됩니다.
 
-queries.append("""
-MATCH (i:Intervention {name: 'New Surgery'})
-SET i.snomed_code = '900000000000XXX',
-    i.snomed_term = 'New Surgery',
-    i.is_extension = true
-RETURN 'New Surgery SNOMED applied'
-""")
-```
+> **참고**: 수동으로 `schema.py`에 SNOMED 쿼리를 추가할 필요가 없습니다.
 
 ### 5.5 업데이트 스크립트에 추가 (update_schema_taxonomy.py)
 
@@ -372,6 +397,7 @@ cat .env | grep NEO4J
 
 | 날짜 | 버전 | 변경 내용 |
 |-----|------|----------|
+| 2026-02-14 | v7.16.3 | 통합 스크립트 enrich_graph_snomed.py, schema.py SNOMED 동적 생성, TREATS 백필, Anatomy 정리 |
 | 2025-12-26 | v7.14.2 | Facetectomy, BELIF, Stereotactic Navigation 추가 |
 | 2025-12-25 | v7.14.1 | 별칭 대폭 확장 (150+ 신규) |
 | 2025-12-25 | v7.14 | BED→UBE, BE-TLIF→BELIF 통합 |
