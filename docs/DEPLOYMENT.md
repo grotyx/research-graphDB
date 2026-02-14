@@ -279,7 +279,7 @@ docker-compose stop neo4j
 docker run --rm \
   -v rag_research_neo4j_data:/data \
   -v $(pwd):/backup \
-  neo4j:5.15.0 \
+  neo4j:5.26-community \
   neo4j-admin database dump neo4j --to-path=/backup/
 
 # 백업 파일 전송
@@ -293,7 +293,7 @@ docker-compose stop neo4j
 docker run --rm \
   -v rag_research_neo4j_data:/data \
   -v $(pwd):/backup \
-  neo4j:5.15.0 \
+  neo4j:5.26-community \
   neo4j-admin database load neo4j --from-path=/backup/neo4j.dump --overwrite-destination
 
 # Neo4j 시작

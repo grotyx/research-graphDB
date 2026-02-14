@@ -212,7 +212,8 @@ Level 0 (Root)
 FUSION SURGERY
 ├── Interbody Fusion
 │   ├── TLIF (Transforaminal Lumbar Interbody Fusion)
-│   │   └── MIS-TLIF (Minimally Invasive TLIF)
+│   │   ├── MIS-TLIF (Minimally Invasive TLIF)
+│   │   └── BELIF (Biportal Endoscopic Lumbar Interbody Fusion)
 │   ├── PLIF (Posterior Lumbar Interbody Fusion)
 │   ├── ALIF (Anterior Lumbar Interbody Fusion)
 │   ├── OLIF (Oblique Lumbar Interbody Fusion)
@@ -243,7 +244,8 @@ DECOMPRESSION SURGERY
     ├── Laminotomy
     ├── Foraminotomy
     ├── UBD (Unilateral Bilateral Decompression)
-    └── Over-the-top Decompression
+    ├── Over-the-top Decompression
+    └── Facetectomy
 
 MOTION PRESERVATION
 ├── ADR (Artificial Disc Replacement)
@@ -261,7 +263,8 @@ OSTEOTOMY
 
 FIXATION
 ├── Pedicle Screw Fixation
-└── Lateral Mass Screw Fixation
+├── Lateral Mass Screw Fixation
+└── Stereotactic Navigation
 
 VERTEBRAL AUGMENTATION
 ├── PVP (Percutaneous Vertebroplasty)

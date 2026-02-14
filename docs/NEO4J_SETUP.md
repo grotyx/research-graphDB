@@ -15,12 +15,12 @@ Complete setup guide for Neo4j graph database infrastructure. Since v7.14+, Neo4
 ### 1. Start Neo4j Container
 
 ```bash
-cd /Users/sangminpark/Desktop/rag_research
+cd /Users/sangminpark/Documents/rag_research
 docker-compose up -d
 ```
 
 This starts:
-- Neo4j 5.15 Community Edition
+- Neo4j 5.26 Community Edition
 - HTTP interface on port 7474 (browser UI)
 - Bolt protocol on port 7687 (database connection)
 - APOC plugin pre-configured
@@ -100,10 +100,10 @@ NEO4J_DATABASE=neo4j
 
 ### Docker Compose Configuration
 
-File: `/Users/sangminpark/Desktop/rag_research/docker-compose.yml`
+File: `/Users/sangminpark/Documents/rag_research/docker-compose.yml`
 
 Key settings:
-- **Image**: neo4j:5.15-community
+- **Image**: neo4j:5.26-community
 - **Ports**: 7474 (HTTP), 7687 (Bolt)
 - **APOC**: Enabled with full permissions
 - **Memory**:
