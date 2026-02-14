@@ -15,10 +15,12 @@ Usage:
     metadata = await enricher.auto_enrich(title="...", doi="...")
 """
 
+from __future__ import annotations
+
 import re
 import asyncio
 from dataclasses import dataclass, field
-from typing import Optional, List, Callable, Any, TypeVar
+from typing import Optional, List, Callable, Any, TypeVar, TYPE_CHECKING
 from datetime import datetime
 import logging
 
@@ -28,6 +30,9 @@ try:
 except ImportError:
     from src.external.pubmed_client import PubMedClient, PaperMetadata, PubMedError, APIError
     from src.builder.evidence_classifier import EvidenceLevelClassifier, get_evidence_level_from_publication_type
+
+if TYPE_CHECKING:
+    from builder.doi_fulltext_fetcher import DOIMetadata
 
 logger = logging.getLogger(__name__)
 
@@ -118,7 +123,7 @@ class BibliographicMetadata:
         }
 
     @classmethod
-    def from_pubmed(cls, paper: PaperMetadata, confidence: float = 1.0) -> "BibliographicMetadata":
+    def from_pubmed(cls, paper: PaperMetadata, confidence: float = 1.0) -> BibliographicMetadata:
         """PaperMetadata에서 BibliographicMetadata 생성."""
         return cls(
             pmid=paper.pmid,
@@ -132,6 +137,40 @@ class BibliographicMetadata:
             publication_types=paper.publication_types or [],
             enriched_at=datetime.now(),
             source="pubmed",
+            confidence=confidence,
+        )
+
+    @classmethod
+    def from_doi_metadata(cls, doi_meta: DOIMetadata, confidence: float = 0.8) -> BibliographicMetadata:
+        """DOIMetadata에서 BibliographicMetadata 생성.
+
+        Crossref/Unpaywall 기반 메타데이터를 BibliographicMetadata 형식으로 변환합니다.
+        PubMed 데이터에 비해 mesh_terms, publication_types 등이 부재합니다.
+
+        Args:
+            doi_meta: DOIFulltextFetcher에서 가져온 DOIMetadata
+            confidence: 매칭 신뢰도 (기본 0.8, PubMed 1.0보다 낮음)
+
+        Returns:
+            BibliographicMetadata
+        """
+        return cls(
+            pmid=doi_meta.pmid,
+            doi=doi_meta.doi,
+            title=doi_meta.title,
+            authors=doi_meta.authors,
+            journal=doi_meta.journal,
+            year=doi_meta.year or 0,
+            volume=doi_meta.volume or None,
+            issue=doi_meta.issue or None,
+            pages=doi_meta.pages or None,
+            abstract=doi_meta.abstract,
+            mesh_terms=[],
+            keywords=doi_meta.subjects if doi_meta.subjects else [],
+            publication_types=[],
+            citation_count=doi_meta.cited_by_count if doi_meta.cited_by_count else None,
+            enriched_at=datetime.now(),
+            source="crossref",
             confidence=confidence,
         )
 

@@ -460,6 +460,15 @@ class MedicalKAGServer:
             except Exception as e:
                 logger.warning(f"PubMed Enricher initialization failed: {e}")
 
+        # DOI Fulltext Fetcher (v7.16: enrichment fallback)
+        self.doi_fetcher = None
+        if DOI_FETCHER_AVAILABLE:
+            try:
+                self.doi_fetcher = DOIFulltextFetcher()
+                logger.info("DOI Fulltext Fetcher initialized for enrichment fallback")
+            except Exception as e:
+                logger.warning(f"DOI Fulltext Fetcher initialization failed: {e}")
+
         # Ontology modules (SNOMED-CT integration)
         self.concept_hierarchy = None
         self.snomed_linker = None
@@ -560,7 +569,8 @@ class MedicalKAGServer:
                         relationship_builder=self.relationship_builder,  # v7.6: 인용 논문 관계 구축용
                         min_confidence=0.7,
                         max_citations=15,
-                        analyze_cited_abstracts=True  # v7.6: 인용 논문 abstract LLM 분석
+                        analyze_cited_abstracts=True,  # v7.6: 인용 논문 abstract LLM 분석
+                        doi_fetcher=self.doi_fetcher,  # v7.16: DOI fallback
                     )
                     logger.info(f"Important Citation Processor initialized (v7.6) with {llm_provider} + LLM analysis")
                 else:
@@ -947,6 +957,25 @@ class MedicalKAGServer:
 
             except Exception as e:
                 logger.warning(f"PubMed enrichment failed: {e}")
+
+        # v7.16: DOI Fallback - PubMed 실패 시 Crossref/Unpaywall로 서지 정보 조회
+        if not pubmed_enriched and self.doi_fetcher and getattr(extracted_meta, 'doi', None):
+            try:
+                logger.info(f"PubMed enrichment failed, trying DOI fallback: {extracted_meta.doi}")
+                doi_metadata = await self.doi_fetcher.get_metadata_only(extracted_meta.doi)
+
+                if doi_metadata:
+                    from builder.pubmed_enricher import BibliographicMetadata as BibMeta
+                    pubmed_metadata = BibMeta.from_doi_metadata(doi_metadata, confidence=0.8)
+                    pubmed_enriched = True
+                    logger.info(
+                        f"DOI fallback enrichment successful: DOI={extracted_meta.doi}, "
+                        f"title={doi_metadata.title[:50]}..."
+                    )
+                else:
+                    logger.debug(f"DOI fallback returned no results for: {extracted_meta.doi}")
+            except Exception as e:
+                logger.warning(f"DOI fallback enrichment failed: {e}")
 
         # 3. 문서 ID 생성
         pdf_metadata = {
@@ -1795,6 +1824,21 @@ class MedicalKAGServer:
                     )
                 except Exception as web_e:
                     logger.warning(f"[analyze_text] Web search fallback also failed: {web_e}")
+
+        # v7.16: DOI Fallback for analyze_text
+        if not pubmed_enriched and self.doi_fetcher:
+            doi_value = metadata.get("doi") if metadata else getattr(extracted_meta, 'doi', None)
+            if doi_value:
+                try:
+                    logger.info(f"[analyze_text] PubMed failed, trying DOI fallback: {doi_value}")
+                    doi_metadata = await self.doi_fetcher.get_metadata_only(doi_value)
+                    if doi_metadata:
+                        from builder.pubmed_enricher import BibliographicMetadata as BibMeta
+                        pubmed_metadata = BibMeta.from_doi_metadata(doi_metadata, confidence=0.8)
+                        pubmed_enriched = True
+                        logger.info(f"[analyze_text] DOI fallback successful: DOI={doi_value}")
+                except Exception as e:
+                    logger.warning(f"[analyze_text] DOI fallback failed: {e}")
 
         # 6. 메타데이터 병합
         metadata = metadata or {}

@@ -495,6 +495,83 @@ class DOIFulltextFetcher:
 
         return metadata
 
+    async def search_by_bibliographic(
+        self,
+        title: str = "",
+        authors: Optional[list[str]] = None,
+        year: Optional[int] = None,
+        max_results: int = 3,
+    ) -> Optional[DOIMetadata]:
+        """Crossref 서지 검색 (title + author + year).
+
+        DOI 없이 제목/저자 정보만으로 Crossref에서 논문을 검색합니다.
+        query.bibliographic 파라미터로 통합 관련성 검색을 수행합니다.
+
+        Args:
+            title: 논문 제목 또는 키워드
+            authors: 저자 목록 (첫 번째 저자가 검색에 사용됨)
+            year: 출판 연도 (필터링용)
+            max_results: 평가할 최대 결과 수
+
+        Returns:
+            가장 관련성 높은 DOIMetadata 또는 None
+        """
+        if not title and not authors:
+            return None
+
+        try:
+            client = await self._get_client()
+
+            query_parts = []
+            if title:
+                query_parts.append(title)
+            if authors:
+                query_parts.append(authors[0])
+
+            query_str = " ".join(query_parts)
+
+            params = {
+                "query.bibliographic": query_str,
+                "rows": max_results,
+                "mailto": self.email,
+            }
+
+            if year:
+                params["filter"] = f"from-pub-date:{year},until-pub-date:{year}"
+
+            url = "https://api.crossref.org/works"
+            logger.debug(f"Crossref bibliographic search: {query_str[:80]}")
+
+            response = await client.get(url, params=params)
+
+            if response.status_code != 200:
+                logger.warning(f"Crossref search API error: {response.status_code}")
+                return None
+
+            data = response.json()
+            items = data.get("message", {}).get("items", [])
+
+            if not items:
+                logger.debug(f"No Crossref results for: {query_str[:50]}")
+                return None
+
+            best = items[0]
+            doi = best.get("DOI", "")
+
+            if not doi:
+                return None
+
+            metadata = await self.fetch_crossref(doi)
+
+            if metadata:
+                logger.info(f"Crossref bibliographic search found: {metadata.title[:50]}... (DOI: {doi})")
+
+            return metadata
+
+        except Exception as e:
+            logger.warning(f"Crossref bibliographic search failed: {e}")
+            return None
+
 
 # 편의 함수
 async def fetch_by_doi(doi: str, email: str = "spine.graphrag@research.com") -> DOIFullText:

@@ -2,6 +2,33 @@
 
 ## Version History
 
+### v7.16.0 (2026-02-14): PubMed + DOI Fallback 통합 — 항상 보강, 항상 저장
+
+PDF 처리 및 중요 인용 논문 처리 시 PubMed → DOI(Crossref/Unpaywall) → 기본정보 3단계 fallback 체인 도입.
+
+#### 신규 기능
+
+| # | 기능 | 파일 |
+|---|------|------|
+| 1 | **Crossref 서지 검색**: `search_by_bibliographic()` — DOI 없이 제목+저자로 Crossref 검색 | `doi_fulltext_fetcher.py` |
+| 2 | **DOIMetadata→BibliographicMetadata 변환**: `from_doi_metadata()` 클래스 메서드 | `pubmed_enricher.py` |
+| 3 | **인용 DOI Fallback 체인**: PubMed 실패 → DOI 추출/lookup → Crossref 서지 검색 → basic 노드 | `important_citation_processor.py` |
+| 4 | **PDF 처리 DOI Fallback**: PubMed enrichment 실패 시 Crossref/Unpaywall으로 자동 보강 | `medical_kag_server.py` |
+| 5 | **기본 인용 노드**: 모든 enrichment 실패 시에도 저자+연도로 Paper 노드 + CITES 관계 생성 | `important_citation_processor.py` |
+
+#### 변경 사항
+
+- `DOIFulltextFetcher`: `search_by_bibliographic(title, authors, year)` 메서드 추가
+- `BibliographicMetadata`: `from_doi_metadata()` 클래스 메서드 추가 (`source="crossref"`, `confidence=0.8`)
+- `ImportantCitationProcessor.__init__`: `doi_fetcher` 파라미터 추가
+- `ImportantCitationProcessor._process_single_citation`: 4단계 fallback (PubMed → DOI → Crossref → Basic)
+- `CitationProcessingResult`: `doi_fallback_successes`, `basic_citations_created` 필드 추가
+- `MedicalKAGServer._init_components`: `self.doi_fetcher` 초기화
+- `MedicalKAGServer._process_with_vision`: PubMed 실패 후 DOI fallback 추가
+- `MedicalKAGServer.analyze_text`: PubMed 실패 후 DOI fallback 추가
+
+---
+
 ### v7.15.1 (2026-02-14): 런타임 안정성 및 테스트 커버리지 강화
 
 v7.15.0 QC에서 식별된 잔여 저우선도 항목 수정 및 신규 테스트 추가.

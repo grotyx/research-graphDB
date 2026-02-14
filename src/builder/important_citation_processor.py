@@ -86,6 +86,8 @@ class CitationProcessingResult:
     papers_created: int = 0
     relationships_created: int = 0
     pubmed_search_failures: int = 0
+    doi_fallback_successes: int = 0  # v7.16: DOI fallback 성공 수
+    basic_citations_created: int = 0  # v7.16: basic info만으로 생성된 수
     processed_citations: list[dict] = field(default_factory=list)
     citations_data: list[dict] = field(default_factory=list)  # v7.6: JSON 저장용 상세 데이터
     errors: list[str] = field(default_factory=list)
@@ -159,6 +161,7 @@ class ImportantCitationProcessor:
         min_confidence: float = 0.7,
         max_citations: int = 20,
         analyze_cited_abstracts: bool = True,
+        doi_fetcher=None,
         # 레거시 호환성
         gemini_api_key: Optional[str] = None
     ):
@@ -174,6 +177,7 @@ class ImportantCitationProcessor:
             min_confidence: 최소 매칭 신뢰도 (0.0-1.0)
             max_citations: 최대 처리할 인용 수
             analyze_cited_abstracts: 인용된 논문 abstract LLM 분석 여부 (v7.6)
+            doi_fetcher: DOIFulltextFetcher 인스턴스 (v7.16 DOI fallback용)
             gemini_api_key: (레거시) Gemini API 키 - 사용 권장하지 않음
         """
         # 레거시 호환성: gemini_api_key가 전달된 경우
@@ -194,6 +198,9 @@ class ImportantCitationProcessor:
 
         # v7.6: EntityExtractor for cited paper abstract analysis
         self.entity_extractor = EntityExtractor() if analyze_cited_abstracts else None
+
+        # v7.16: DOI/Crossref fallback for citations when PubMed fails
+        self.doi_fetcher = doi_fetcher
 
     async def process_paper_citations(
         self,
@@ -256,6 +263,11 @@ class ImportantCitationProcessor:
                 )
 
                 if processed.pubmed_metadata:
+                    source = processed.pubmed_metadata.source
+                    if source == "crossref":
+                        result.doi_fallback_successes += 1
+                    elif source == "citation_basic":
+                        result.basic_citations_created += 1
                     if processed.cited_paper_id:
                         result.papers_created += 1
                     if processed.relationship_created:
@@ -268,6 +280,7 @@ class ImportantCitationProcessor:
                     "raw_citation": citation.raw_citation,
                     "context": citation.context,
                     "pubmed_found": processed.pubmed_metadata is not None,
+                    "enrichment_source": processed.pubmed_metadata.source if processed.pubmed_metadata else "none",
                     "cited_paper_id": processed.cited_paper_id,
                     "confidence": processed.pubmed_metadata.confidence if processed.pubmed_metadata else 0
                 })
@@ -394,12 +407,63 @@ class ImportantCitationProcessor:
 
         return ' '.join(result_keywords)
 
+    @staticmethod
+    def _extract_doi_from_text(text: str) -> Optional[str]:
+        """citation_text에서 DOI 추출.
+
+        Args:
+            text: 인용 문장 텍스트
+
+        Returns:
+            추출된 DOI 문자열 또는 None
+        """
+        if not text:
+            return None
+        doi_match = re.search(r'10\.\d{4,9}/[^\s,;)\]]+', text)
+        if doi_match:
+            return doi_match.group().rstrip('.')
+        return None
+
+    @staticmethod
+    def _create_basic_metadata(citation: ExtractedCitation) -> Optional[BibliographicMetadata]:
+        """모든 enrichment 실패 시 기본 메타데이터 생성.
+
+        저자, 연도, citation_text만으로 최소한의 BibliographicMetadata를 생성합니다.
+        Paper 노드를 생성하여 CITES 관계를 유지하기 위한 목적입니다.
+
+        Args:
+            citation: 추출된 인용 정보
+
+        Returns:
+            BibliographicMetadata (minimal) 또는 None (정보 부족 시)
+        """
+        if not citation.authors and not citation.raw_citation:
+            return None
+
+        if citation.authors:
+            if len(citation.authors) > 1:
+                title_placeholder = f"{citation.authors[0]} et al. ({citation.year or 'n.d.'})"
+            else:
+                title_placeholder = f"{citation.authors[0]} ({citation.year or 'n.d.'})"
+        else:
+            title_placeholder = citation.raw_citation[:100] if citation.raw_citation else "Unknown"
+
+        return BibliographicMetadata(
+            title=title_placeholder,
+            authors=citation.authors or [],
+            year=citation.year or 0,
+            abstract="",
+            source="citation_basic",
+            confidence=0.3,
+            enriched_at=datetime.now(),
+        )
+
     async def _process_single_citation(
         self,
         citation: ExtractedCitation,
         citing_paper_id: str
     ) -> ProcessedCitation:
-        """단일 인용 처리.
+        """단일 인용 처리 (PubMed → DOI → Crossref → Basic fallback).
 
         Args:
             citation: 추출된 인용 정보
@@ -429,34 +493,86 @@ class ImportantCitationProcessor:
                 if title_keywords:
                     logger.debug(f"Extracted keywords from citation_text: '{title_keywords}'")
 
-            # PubMed 검색 (키워드 포함)
-            pubmed_result = await self.enricher.search_and_enrich_citation(
+            # === Step 1: PubMed 검색 ===
+            enrichment_result = await self.enricher.search_and_enrich_citation(
                 authors=citation.authors,
                 year=citation.year if citation.year else None,
                 title=title_keywords if title_keywords else None,
                 min_confidence=self.min_confidence
             )
 
-            if not pubmed_result:
-                logger.debug(f"PubMed search failed for: {citation.raw_citation}")
-                return processed
+            if enrichment_result:
+                logger.info(f"PubMed found citation: {enrichment_result.title[:50]}...")
 
-            processed.pubmed_metadata = pubmed_result
+            # === Step 2: DOI Fallback (PubMed 실패 시) ===
+            if not enrichment_result and self.doi_fetcher:
+                doi_metadata = None
 
-            # Neo4j에 Paper 노드 생성
-            if self.neo4j_client:
-                cited_paper_id = await self._create_cited_paper_node(pubmed_result)
-                processed.cited_paper_id = cited_paper_id
+                # 2a. citation_text에서 DOI 추출 시도
+                extracted_doi = self._extract_doi_from_text(citation.citation_text)
+                if not extracted_doi:
+                    extracted_doi = self._extract_doi_from_text(citation.raw_citation)
 
-                if cited_paper_id:
-                    # CITES 관계 생성
-                    rel_created = await self._create_cites_relationship(
-                        citing_paper_id=citing_paper_id,
-                        cited_paper_id=cited_paper_id,
-                        citation=citation,
-                        confidence=pubmed_result.confidence
+                if extracted_doi:
+                    try:
+                        logger.info(f"Trying DOI fallback: {extracted_doi}")
+                        doi_metadata = await self.doi_fetcher.get_metadata_only(extracted_doi)
+                    except Exception as e:
+                        logger.warning(f"DOI lookup failed for {extracted_doi}: {e}")
+
+                # 2b. DOI 없으면 Crossref 서지 검색
+                if not doi_metadata and hasattr(self.doi_fetcher, 'search_by_bibliographic'):
+                    try:
+                        search_title = title_keywords or ""
+                        search_authors = citation.authors or []
+                        if search_title or search_authors:
+                            logger.info(
+                                f"Trying Crossref bibliographic search: "
+                                f"authors={search_authors[:2]}, year={citation.year}"
+                            )
+                            doi_metadata = await self.doi_fetcher.search_by_bibliographic(
+                                title=search_title,
+                                authors=search_authors,
+                                year=citation.year if citation.year else None,
+                            )
+                    except Exception as e:
+                        logger.warning(f"Crossref bibliographic search failed: {e}")
+
+                # 2c. DOI 결과를 BibliographicMetadata로 변환
+                if doi_metadata:
+                    enrichment_result = BibliographicMetadata.from_doi_metadata(
+                        doi_metadata, confidence=0.75
                     )
-                    processed.relationship_created = rel_created
+                    logger.info(
+                        f"DOI/Crossref fallback found: {doi_metadata.title[:50]}... "
+                        f"(DOI: {doi_metadata.doi})"
+                    )
+
+            # === Step 3: 모든 enrichment 실패 → basic metadata ===
+            if not enrichment_result:
+                enrichment_result = self._create_basic_metadata(citation)
+                if enrichment_result:
+                    logger.info(
+                        f"Creating basic citation node: "
+                        f"{enrichment_result.title[:50]}..."
+                    )
+
+            # === Step 4: Neo4j에 Paper 노드 + CITES 관계 생성 ===
+            if enrichment_result:
+                processed.pubmed_metadata = enrichment_result
+
+                if self.neo4j_client:
+                    cited_paper_id = await self._create_cited_paper_node(enrichment_result)
+                    processed.cited_paper_id = cited_paper_id
+
+                    if cited_paper_id:
+                        rel_created = await self._create_cites_relationship(
+                            citing_paper_id=citing_paper_id,
+                            cited_paper_id=cited_paper_id,
+                            citation=citation,
+                            confidence=enrichment_result.confidence
+                        )
+                        processed.relationship_created = rel_created
 
         except Exception as e:
             logger.warning(f"Error processing citation '{citation.raw_citation}': {e}")
@@ -869,6 +985,11 @@ class ImportantCitationProcessor:
                 )
 
                 if processed.pubmed_metadata:
+                    source = processed.pubmed_metadata.source
+                    if source == "crossref":
+                        result.doi_fallback_successes += 1
+                    elif source == "citation_basic":
+                        result.basic_citations_created += 1
                     if processed.cited_paper_id:
                         result.papers_created += 1
                     if processed.relationship_created:
@@ -880,6 +1001,7 @@ class ImportantCitationProcessor:
                     "raw": raw_citation,
                     "context": citation.context,
                     "found_in_pubmed": processed.pubmed_metadata is not None,
+                    "enrichment_source": processed.pubmed_metadata.source if processed.pubmed_metadata else "none",
                     "paper_created": processed.cited_paper_id is not None,
                     "relationship_created": processed.relationship_created
                 })
@@ -895,6 +1017,7 @@ class ImportantCitationProcessor:
                     "outcome_comparison": citation.outcome_comparison,
                     "direction_match": citation.direction_match,
                     "pubmed_found": processed.pubmed_metadata is not None,
+                    "enrichment_source": processed.pubmed_metadata.source if processed.pubmed_metadata else "none",
                 }
 
                 # PubMed에서 찾은 경우 상세 정보 추가
