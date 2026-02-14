@@ -146,6 +146,52 @@ NEO4J_BOLT_THREAD_POOL_SIZE=40  # Bolt 스레드 풀 (재시작 필요)
 PUBMED_MAX_CONCURRENT=5  # 최대 동시 처리 수 (1-10)
 ```
 
+## Git Workflow
+
+### 커밋 규칙
+
+```bash
+# 커밋 메시지 형식
+vX.Y.Z: 변경 요약 (기능 추가/수정 시)
+Fix: 버그 수정 설명
+Clean up / Update: 문서/리팩토링
+
+# 예시
+v7.16.0: PubMed + DOI fallback integration
+Fix test failures: pubmed_bulk_processor import chain
+Clean up redundant/outdated docs, update CLAUDE.md references
+```
+
+### 버전 변경 시 필수 업데이트 파일
+
+버전을 올릴 때 아래 파일을 **모두** 동기화:
+
+| 파일 | 위치 |
+|------|------|
+| `src/__init__.py` | `__version__ = "X.Y.Z"` |
+| `pyproject.toml` | `version = "X.Y.Z"` |
+| `CLAUDE.md` | `**Version**: X.Y.Z` |
+| `.env.example` | `# Version: X.Y.Z` |
+| `docs/CHANGELOG.md` | 최상단에 새 버전 항목 추가 |
+
+### 커밋 전 체크
+
+```bash
+# 테스트 실행
+PYTHONPATH=./src ./.venv/bin/python -m pytest tests/ --tb=short
+
+# 커밋 & 푸시
+git add <files>
+git commit -m "메시지"
+git push origin main
+```
+
+### 주의사항
+
+- `main` 브랜치에 직접 푸시 (단독 개발)
+- `.env`, `data/`, `.venv/` 는 절대 커밋하지 않음 (`.gitignore`에 포함)
+- 버전 변경 시 [QC 체크리스트](docs/QC_CHECKLIST.md) 실행 권장
+
 ## Protected Data Folders
 
 | 폴더 | 설명 |
