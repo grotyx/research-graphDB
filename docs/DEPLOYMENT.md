@@ -11,14 +11,15 @@
 | **SNOMED Mappings** | 139개 (I:45, P:28, O:45, A:21) + 패턴 매핑 60.6% 커버리지 |
 | **Storage** | Neo4j (Graph + Vector 통합, ChromaDB 완전 제거) |
 
-### v7.14 주요 기능
+### v7.16 주요 기능
 
+- **PubMed + DOI 3단계 Fallback**: PubMed → Crossref/DOI → Basic 순서로 항상 서지 보강
+- **Crossref 서지 검색**: DOI 없이 제목+저자로 논문 검색
+- **인용 논문 항상 저장**: 모든 enrichment 실패 시에도 Paper 노드 생성
 - **SNOMED-CT 패턴 매핑**: 패턴 기반 자동 매칭으로 60.6% 커버리지 달성
-- **ChromaDB 완전 제거**: Neo4j Vector Index (HNSW)로 완전 전환
-- **Taxonomy 강화**: 기초 수술법 체계적 IS_A 관계 확립
+- **Neo4j Vector Index**: HNSW 3072d 통합 그래프+벡터 검색
 - **Academic Writing Guide**: 9개 EQUATOR 체크리스트 지원
 - **DOI Fulltext Fetcher**: Crossref + Unpaywall API로 전문 자동 조회
-- **PubMed Fallback 통합**: PMC → DOI/Unpaywall → Abstract 순서로 자동 조회
 
 ## 필수 요구사항
 
@@ -39,7 +40,7 @@ rag_research/
 │   ├── ontology/              # SNOMED-CT 매핑 (125개)
 │   │   ├── spine_snomed_mappings.py  # 전체 매핑 정의
 │   │   └── entity_normalizer.py      # 정규화 엔진
-│   ├── medical_mcp/           # MCP 서버 (8개 통합 도구)
+│   ├── medical_mcp/           # MCP 서버 (10개 통합 도구)
 │   ├── solver/                # 검색/추론 모듈
 │   ├── llm/                   # Claude/Gemini 클라이언트
 │   └── storage/               # 저장소 추상화
@@ -84,12 +85,12 @@ rsync -avz --progress \
 cd /path/to
 tar --exclude='.venv' --exclude='__pycache__' --exclude='.git' \
     --exclude='logs' --exclude='data/chromadb' \
-    -czvf rag_research_v7.13.tar.gz rag_research/
+    -czvf rag_research_v7.16.tar.gz rag_research/
 
-scp rag_research_v7.13.tar.gz user@newserver:~/
+scp rag_research_v7.16.tar.gz user@newserver:~/
 
 # 새 서버에서 압축 해제
-ssh user@newserver "cd ~ && tar -xzvf rag_research_v7.13.tar.gz"
+ssh user@newserver "cd ~ && tar -xzvf rag_research_v7.16.tar.gz"
 ```
 
 ### Step 2: Python 환경 설정
@@ -154,7 +155,7 @@ docker-compose logs -f neo4j
 | 항목 | 값 |
 |------|-----|
 | Username | `neo4j` |
-| Password | `spine_graph_2024` |
+| Password | `spineGraph2024` |
 
 ### Step 5: 스키마 초기화
 
@@ -204,7 +205,7 @@ streamlit run web/app.py --server.address 0.0.0.0
 # 저장: verify_deployment.sh
 # 실행: bash verify_deployment.sh
 
-echo "=== Spine GraphRAG v7.13 Deployment Verification ==="
+echo "=== Spine GraphRAG v7.16.0 Deployment Verification ==="
 
 # 1. Python 환경
 echo -e "\n[1/5] Python Environment"
@@ -215,7 +216,7 @@ pip show anthropic neo4j streamlit | grep -E "^(Name|Version)"
 echo -e "\n[2/5] Neo4j Connection"
 python -c "
 from neo4j import GraphDatabase
-driver = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', 'spine_graph_2024'))
+driver = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', 'spineGraph2024'))
 with driver.session() as s:
     r = s.run('RETURN 1')
     print('✅ Neo4j OK')
@@ -234,14 +235,14 @@ print(f'Anatomy: {len(SPINE_ANATOMY_SNOMED)}')
 total = len(SPINE_INTERVENTION_SNOMED) + len(SPINE_PATHOLOGY_SNOMED) + len(SPINE_OUTCOME_SNOMED) + len(SPINE_ANATOMY_SNOMED)
 print(f'Total: {total}')
 
-# v7.13 entries
+# v7.16 entries
 dm = SPINE_PATHOLOGY_SNOMED.get('Diabetes Mellitus')
 ssi_s = SPINE_OUTCOME_SNOMED.get('Superficial Surgical Site Infection')
 ssi_d = SPINE_OUTCOME_SNOMED.get('Deep Surgical Site Infection')
 if dm and ssi_s and ssi_d:
-    print('✅ v7.13 entries OK')
+    print('✅ v7.16 entries OK')
 else:
-    print('❌ v7.13 entries MISSING')
+    print('❌ v7.16 entries MISSING')
 "
 
 # 4. LLM 연결

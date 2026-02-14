@@ -1,6 +1,6 @@
 # Medical KAG System Dependencies
-# Version: 7.13 (Spine GraphRAG - Single Store: Neo4j + DOI Fulltext)
-# Last Updated: 2025-12-25
+# Version: 7.16.0 (Spine GraphRAG - Single Store: Neo4j + DOI Fulltext + PubMed/DOI Fallback)
+# Last Updated: 2026-02-14
 
 # ============================================
 # LLM Integration
@@ -30,6 +30,7 @@ beautifulsoup4>=4.12.0
 lxml>=4.9.0
 aiohttp>=3.9.0
 aiosqlite>=0.19.0
+httpx>=0.24.0                        # Async HTTP (DOI/Crossref API, v7.16)
 
 # ============================================
 # Embedding & ML
@@ -51,6 +52,7 @@ pyyaml>=6.0.0
 python-dateutil>=2.8.0
 jsonschema>=4.0.0
 rapidfuzz>=3.0.0                  # Fuzzy string matching for entity normalization
+structlog>=23.0.0                 # Structured logging
 
 # ============================================
 # Testing
