@@ -1,6 +1,6 @@
 # Spine GraphRAG 용어체계 및 온톨로지 가이드
 
-> **Version**: 7.16.1
+> **Version**: 7.16.0
 > **Last Updated**: 2026-02-14
 > **Maintainer**: Spine GraphRAG Development Team
 
@@ -523,7 +523,38 @@ OUTCOME_ALIASES = {
     "ODI": ["Oswestry Disability Index", ...],
     # ... 30+ 결과변수
 }
+
+# v7.16.0: 해부학 위치 별칭 (신규)
+ANATOMY_ALIASES = {
+    "Cervical": ["C-spine", "cervical spine", "경추"],
+    "Lumbar": ["L-spine", "lumbar spine", "요추"],
+    "C5-6": ["C5-C6", "C5/6", "C5/C6", "C5-C6 disc"],
+    "L4-5": ["L4-L5", "L4/5", "L4/L5", "L4-L5 disc"],
+    # ... 33개 매핑 (영역, 척추 레벨, 디스크 레벨, 한국어)
+}
 ```
+
+### 5.6 normalize_anatomy() (v7.16.0)
+
+해부학 위치를 정규화하고 SNOMED 코드를 자동 첨부합니다.
+
+```python
+# 해부학 위치 정규화
+result = normalizer.normalize_anatomy("L-spine")
+# → NormalizationResult(normalized="Lumbar", snomed_code="122496007")
+
+result = normalizer.normalize_anatomy("C5-C6")
+# → NormalizationResult(normalized="C5-6", snomed_code="900000000000405")
+
+result = normalizer.normalize_anatomy("요추")
+# → NormalizationResult(normalized="Lumbar", snomed_code="122496007")
+```
+
+**지원 카테고리:**
+- **영역**: Cervical, Thoracic, Lumbar, Sacral, Lumbosacral, Cervicothoracic, Thoracolumbar
+- **척추 레벨**: C1-C7, T1, T10-T12, L1-L5, S1-S2
+- **디스크 레벨**: L4-5, L5-S1, L3-4, C5-6, C6-7
+- **한국어**: 경추, 흉추, 요추, 천추
 
 ---
 

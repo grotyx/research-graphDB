@@ -6,6 +6,19 @@
 
 PDF 처리 및 중요 인용 논문 처리 시 PubMed → DOI(Crossref/Unpaywall) → 기본정보 3단계 fallback 체인 도입.
 
+#### 온톨로지 업데이트 (2026-02-14)
+
+| # | 변경 | 파일 |
+|---|------|------|
+| 1 | **TREATS 관계 구현**: Intervention → Pathology 치료 관계 생성 (Cypher 템플릿 + neo4j_client + relationship_builder 통합) | `schema.py`, `neo4j_client.py`, `relationship_builder.py` |
+| 2 | **ANATOMY_ALIASES 신규**: 33개 해부학 위치 별칭 매핑 + `normalize_anatomy()` 메서드 (SNOMED enrichment 포함) | `entity_normalizer.py` |
+| 3 | **Schema 노드 alias 추가**: 26개 Intervention 노드에 정규화 별칭 추가 (Bracing, Radiotherapy, Spinopelvic fusion 등) | `entity_normalizer.py` |
+| 4 | **SNOMED 매핑 7건 추가**: Intervention 4건 (COWO, Open Decompression, Over-the-top, UBD) + Anatomy 3건 (S2, T10, T11) | `spine_snomed_mappings.py` |
+| 5 | **LOCATED_AT, MEASURED_BY**: 미구현 관계 → GRAPH_SCHEMA.md에 "Planned" 표기 | `GRAPH_SCHEMA.md` |
+
+- SNOMED 통계: 140 → **147개** (I:50, P:33, O:34, A:30)
+- 문서 동기화: GRAPH_SCHEMA, TERMINOLOGY_ONTOLOGY, DEPLOYMENT, CLAUDE.md
+
 #### 신규 기능
 
 | # | 기능 | 파일 |

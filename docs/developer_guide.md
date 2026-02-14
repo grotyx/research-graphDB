@@ -301,6 +301,17 @@ assert result.normalized == "XLIF"
 text = "Comparison of XLIF and TLIF for adult spinal deformity"
 interventions = normalizer.extract_and_normalize_interventions(text)
 assert any(i.normalized == "XLIF" for i in interventions)
+
+# Test anatomy normalization (v7.16.0)
+result = normalizer.normalize_anatomy("L-spine")
+assert result.normalized == "Lumbar"
+assert result.snomed_code == "122496007"
+
+result = normalizer.normalize_anatomy("C5-C6")
+assert result.normalized == "C5-6"
+
+result = normalizer.normalize_anatomy("요추")
+assert result.normalized == "Lumbar"
 ```
 
 ### 4. Verify Hierarchy

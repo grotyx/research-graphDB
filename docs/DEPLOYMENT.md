@@ -37,7 +37,7 @@ rag_research/
 ├── src/                        # 소스 코드 ⭐필수
 │   ├── builder/               # PDF/텍스트 처리, 인용 분석
 │   ├── graph/                 # Neo4j 클라이언트, 관계 빌더
-│   ├── ontology/              # SNOMED-CT 매핑 (140개)
+│   ├── ontology/              # SNOMED-CT 매핑 (147개)
 │   │   ├── spine_snomed_mappings.py  # 전체 매핑 정의
 │   │   └── entity_normalizer.py      # 정규화 엔진
 │   ├── medical_mcp/           # MCP 서버 (10개 통합 도구)
