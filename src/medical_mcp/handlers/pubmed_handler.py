@@ -6,7 +6,7 @@ This module handles all PubMed-related operations including:
 - Citation import
 - Paper upgrade with PDF
 - Statistics and monitoring
-- Auto-classification of imported papers (v7.14.18)
+- Auto-classification of imported papers (v1.14.18)
 """
 
 import logging
@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 
 logger = logging.getLogger(__name__)
 
-# Sub-domain classification keywords (v7.14.18)
+# Sub-domain classification keywords (v1.14.18)
 SUB_DOMAIN_KEYWORDS = {
     "Degenerative": [
         "disc herniation", "stenosis", "spondylolisthesis", "degenerative",
@@ -101,7 +101,7 @@ class PubMedHandler:
         self.relationship_builder = server.relationship_builder
 
     def _classify_sub_domain(self, title: str, abstract: str) -> Optional[str]:
-        """제목과 초록으로 sub_domain 분류 (v7.14.18)."""
+        """제목과 초록으로 sub_domain 분류 (v1.14.18)."""
         text = f"{title} {abstract}".lower()
         scores = {}
         for domain, keywords in SUB_DOMAIN_KEYWORDS.items():
@@ -111,7 +111,7 @@ class PubMedHandler:
         return max(scores, key=scores.get) if scores else None
 
     def _classify_study_design(self, title: str, abstract: str) -> Optional[str]:
-        """제목과 초록으로 study_design 분류 (v7.14.18)."""
+        """제목과 초록으로 study_design 분류 (v1.14.18)."""
         text = f"{title} {abstract}".lower()
         for design, keywords in STUDY_DESIGN_KEYWORDS.items():
             for kw in keywords:
@@ -124,7 +124,7 @@ class PubMedHandler:
         neo4j_client,
         paper_ids: List[str]
     ) -> int:
-        """임포트된 논문들 자동 분류 (v7.14.18).
+        """임포트된 논문들 자동 분류 (v1.14.18).
 
         Args:
             neo4j_client: Neo4j 클라이언트
@@ -320,7 +320,7 @@ class PubMedHandler:
                     ],
                 }
 
-                # Import if requested (v7.5: 멀티유저, v7.14.23: 병렬 처리)
+                # Import if requested (v7.5: 멀티유저, v1.14.23: 병렬 처리)
                 if import_results and papers:
                     import_summary = await processor.import_papers(
                         papers,
@@ -551,7 +551,7 @@ class PubMedHandler:
                         "error": "Could not fetch paper details from PubMed",
                     }
 
-                # Import the fetched papers (v7.5: 멀티유저, v7.14.23: 병렬 처리)
+                # Import the fetched papers (v7.5: 멀티유저, v1.14.23: 병렬 처리)
                 # max_concurrent: None이면 환경변수에서 읽음, 아니면 1-10 범위로 제한
                 if max_concurrent is None:
                     safe_concurrent = get_max_concurrent()
@@ -566,7 +566,7 @@ class PubMedHandler:
                     max_concurrent=safe_concurrent,
                 )
 
-                # v7.14.18: Auto-classify imported papers
+                # v1.14.18: Auto-classify imported papers
                 imported_paper_ids = [f"pubmed_{pmid}" for pmid in pmids]
                 classified_count = await self._auto_classify_papers(
                     fresh_neo4j, imported_paper_ids
@@ -627,7 +627,7 @@ class PubMedHandler:
         year_from: Optional[int] = None,
         year_to: Optional[int] = None,
     ) -> dict:
-        """하이브리드 검색: 로컬 DB 우선 + PubMed 보완 (v7.14.24).
+        """하이브리드 검색: 로컬 DB 우선 + PubMed 보완 (v1.14.24).
 
         1. 먼저 Neo4j에서 로컬 검색 (이미 분석된 논문 활용)
         2. 로컬 결과가 min_local_results 미만이면 PubMed에서 보완 검색

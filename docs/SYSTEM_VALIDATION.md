@@ -2,7 +2,7 @@
 
 > 시스템 전체 상태를 빠르게 점검하기 위한 프롬프트 모음
 
-**Version**: 7.16.0 | **Last Updated**: 2026-02-14
+**Version**: 1.16.0 | **Last Updated**: 2026-02-14
 
 ---
 
@@ -191,7 +191,7 @@ conflict 도구로 다음 검사 실행:
 # deprecated 테스트 제외하고 실행
 PYTHONPATH=./src python3 -m pytest tests/ -v --ignore=tests/archive --ignore=tests/integration
 
-# 예상 결과 (v7.14.20 기준)
+# 예상 결과 (v1.14.20 기준)
 # 1228+ passed, ~50 failed (외부 API/환경 의존), 4 errors
 ```
 

@@ -1,10 +1,10 @@
-# Spine GraphRAG v7.16.0 - User Guide
+# Spine GraphRAG v1.16.0 - User Guide
 
 ## Overview
 
 Spine GraphRAG is an advanced knowledge augmented generation system for spine surgery research. It uses Neo4j as a unified graph and vector database (HNSW 3072d) with LLM-based reasoning (Claude Haiku 4.5) to provide evidence-based answers to medical questions.
 
-**Version**: 7.16.0
+**Version**: 1.16.0
 **Last Updated**: 2026-02-14
 
 ### Key Features (v7.16)
@@ -475,7 +475,7 @@ PubMed에서 논문을 검색하고 가져옵니다. v7.16에서 DOI/Crossref fa
 
 ## Reference & Writing Tools
 
-### 참고문헌 포맷팅 (v7.14.20+, v7.16 강화)
+### 참고문헌 포맷팅 (v1.14.20+, v7.16 강화)
 
 7개 저널 스타일로 참고문헌을 자동 포맷팅합니다.
 
@@ -503,7 +503,7 @@ Claude, paper_id로 format 실행하고 JBJS 스타일로 변환해줘
 Claude, reference 도구로 format_multiple 실행하고 output_format을 bibtex로 해줘
 ```
 
-### 학술 논문 작성 가이드 (v7.14.20+, v7.16 유지)
+### 학술 논문 작성 가이드 (v1.14.20+, v7.16 유지)
 
 9개 EQUATOR 체크리스트와 섹션별 작성 가이드를 제공합니다.
 
@@ -533,7 +533,7 @@ Claude, 리뷰어 코멘트에 대한 응답 템플릿 만들어줘
 Claude, writing_guide로 section_guide 실행해서 discussion 섹션 작성법 알려줘
 ```
 
-### PubMed 연동 (v7.14.23+, v7.16 DOI Fallback 추가)
+### PubMed 연동 (v1.14.23+, v7.16 DOI Fallback 추가)
 
 **자동 보완 검색** (hybrid_search):
 로컬 DB 결과가 부족할 때 PubMed를 자동으로 검색하고 임포트합니다.

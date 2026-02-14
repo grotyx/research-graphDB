@@ -3,8 +3,8 @@
 Provides search and QA functionality using MedicalKAGServer directly.
 Replaces LangChain-based SpineGraphChain with native server calls.
 
-v7.14.4: Rewrote to use MedicalKAGServer handlers directly.
-v7.14.5: Added direct Neo4j vector search with OpenAI embeddings.
+v1.14.4: Rewrote to use MedicalKAGServer handlers directly.
+v1.14.5: Added direct Neo4j vector search with OpenAI embeddings.
 """
 
 import os

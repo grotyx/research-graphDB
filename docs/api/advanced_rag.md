@@ -1,6 +1,6 @@
 # Advanced RAG Modules - API Documentation
 
-> **Version**: 7.14.15
+> **Version**: 1.14.15
 > **Last Updated**: 2026-01-13
 > **Status**: Production Ready
 
@@ -8,7 +8,7 @@
 
 ## Overview
 
-Spine GraphRAG v7.14.15는 여러 최신 RAG(Retrieval-Augmented Generation) 기법을 구현합니다:
+Spine GraphRAG v1.14.15는 여러 최신 RAG(Retrieval-Augmented Generation) 기법을 구현합니다:
 
 | Module | File | Lines | Tests | 특징 | Status |
 |--------|------|-------|-------|------|--------|

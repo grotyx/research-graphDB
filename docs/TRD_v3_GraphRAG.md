@@ -1,6 +1,6 @@
 # Technical Requirements Document v3 - Spine GraphRAG
 
-> **버전**: 7.14.19 (문서 버전 동기화)
+> **버전**: 1.14.19 (문서 버전 동기화)
 > **이전 버전**: [TRD_v2_LLM.md](TRD_v2_LLM.md)
 > **최종 수정**: 2026-01-20
 > **대상 도메인**: General Spine Surgery (Degenerative, Deformity, Trauma, Tumor)
@@ -161,7 +161,7 @@ src/
     └── handlers/                     # ★ v7.14: 11개 도메인별 핸들러 + utils
         ├── pdf_handler.py            # PDF/텍스트 분석, 저장
         ├── graph_handler.py          # 수술법 계층, 논문 관계
-        ├── search_handler.py         # 하이브리드 검색 (v7.14.18: intervention 검색 강화)
+        ├── search_handler.py         # 하이브리드 검색 (v1.14.18: intervention 검색 강화)
         ├── reasoning_handler.py      # 추론, 상충 탐지
         ├── clinical_data_handler.py  # 환자 코호트, 비용 분석
         ├── document_handler.py       # 문서 CRUD, 내보내기
@@ -398,7 +398,7 @@ PDF 입력
                                  └─────────────────────────────────────┘
 ```
 
-### 4.1.1 서지 보강 파이프라인 (v7.16.0 — PubMed + DOI Fallback)
+### 4.1.1 서지 보강 파이프라인 (v1.16.0 — PubMed + DOI Fallback)
 
 논문 처리 시 서지 정보를 항상 3단계 fallback 체인으로 보강합니다.
 
@@ -1673,7 +1673,7 @@ python-louvain>=0.16      # 커뮤니티 탐지 (선택적)
 
 ---
 
-## 12. 보안 설계 (v7.15.0)
+## 12. 보안 설계 (v1.15.0)
 
 ### 12.1 Cypher Injection 방지
 

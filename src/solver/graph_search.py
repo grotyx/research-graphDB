@@ -6,7 +6,7 @@ Neo4j 기반 그래프 검색.
 - 질환별 수술법 검색
 - 상충 결과 탐지
 
-v7.14.11: Entity Normalization 적용
+v1.14.11: Entity Normalization 적용
 - 검색 쿼리 정규화로 동의어 매칭 지원
 - IS_A hierarchy를 통한 하위 intervention 포함
 """
@@ -76,7 +76,7 @@ class GraphSearch:
             await self.neo4j_client.close()
 
     def _normalize_intervention(self, name: str) -> str:
-        """Intervention 이름 정규화 (v7.14.11).
+        """Intervention 이름 정규화 (v1.14.11).
 
         Args:
             name: 원본 intervention 이름
@@ -102,7 +102,7 @@ class GraphSearch:
         return name
 
     def _normalize_outcome(self, name: str) -> str:
-        """Outcome 이름 정규화 (v7.14.11).
+        """Outcome 이름 정규화 (v1.14.11).
 
         Args:
             name: 원본 outcome 이름
@@ -135,7 +135,7 @@ class GraphSearch:
     ) -> GraphSearchResult:
         """특정 결과변수에 효과적인 수술법 검색.
 
-        v7.14.11: Entity Normalization 및 Fuzzy 매칭 지원
+        v1.14.11: Entity Normalization 및 Fuzzy 매칭 지원
         - Outcome 이름 정규화
         - Fuzzy 검색으로 유사한 outcome도 포함
 

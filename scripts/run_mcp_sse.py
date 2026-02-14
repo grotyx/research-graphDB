@@ -34,7 +34,7 @@ Multi-User Support:
     2. HTTP header: X-User-ID: kim
     3. Default: system (all document access)
 
-Version: 7.14.28 (Unified SSE Server)
+Version: 1.14.28 (Unified SSE Server)
 """
 
 import os

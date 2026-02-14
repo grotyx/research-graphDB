@@ -723,7 +723,7 @@ class ImportantCitationProcessor:
                 }
             )
 
-            # v7.14.12: Abstract 임베딩 자동 생성
+            # v1.14.12: Abstract 임베딩 자동 생성
             if metadata.abstract and len(metadata.abstract.strip()) > 0:
                 await self._generate_abstract_embedding(paper_id, metadata.abstract)
 
@@ -741,7 +741,7 @@ class ImportantCitationProcessor:
     ) -> bool:
         """Paper의 abstract 임베딩 생성 및 저장.
 
-        v7.14.12: cited paper에도 abstract 임베딩 자동 생성
+        v1.14.12: cited paper에도 abstract 임베딩 자동 생성
 
         Args:
             paper_id: Paper ID

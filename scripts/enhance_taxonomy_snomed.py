@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Taxonomy 및 SNOMED-CT 매핑 강화 스크립트.
 
-v7.14.13: Orphan Intervention 노드를 적절한 parent에 연결하고 SNOMED 매핑 확장.
+v1.14.13: Orphan Intervention 노드를 적절한 parent에 연결하고 SNOMED 매핑 확장.
 """
 
 import asyncio
@@ -185,7 +185,7 @@ NEW_CATEGORIES = {
 
 # =============================================================================
 # SNOMED-CT 매핑 — spine_snomed_mappings.py (Single Source of Truth) 사용
-# v7.16.3: 하드코딩 ADDITIONAL_SNOMED_MAPPINGS 제거, snomed_enricher로 위임
+# v1.16.3: 하드코딩 ADDITIONAL_SNOMED_MAPPINGS 제거, snomed_enricher로 위임
 # =============================================================================
 
 
@@ -255,7 +255,7 @@ async def enhance_taxonomy(client: Neo4jClient) -> dict:
 async def enhance_snomed(client: Neo4jClient) -> dict:
     """SNOMED-CT 매핑 강화.
 
-    v7.16.3: spine_snomed_mappings.py (SSoT) 기반 snomed_enricher로 위임.
+    v1.16.3: spine_snomed_mappings.py (SSoT) 기반 snomed_enricher로 위임.
     """
     from graph.snomed_enricher import update_snomed_for_entity_type
     from graph.entity_normalizer import EntityNormalizer

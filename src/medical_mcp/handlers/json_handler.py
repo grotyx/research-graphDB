@@ -83,7 +83,7 @@ class JSONHandler:
                 "error": "JSON에 'metadata'와 'chunks' 필드가 필요합니다."
             }
 
-        # v7.14.27: None 값 처리
+        # v1.14.27: None 값 처리
         meta_dict = extracted_data.get("metadata") or {}
         spine_dict = extracted_data.get("spine_metadata") or {}
         chunks_list = extracted_data.get("chunks") or []
@@ -186,7 +186,7 @@ class JSONHandler:
         neo4j_result = {"nodes_created": 0, "relationships_created": 0}
         if self.neo4j_client and self.relationship_builder:
             try:
-                # v7.14.10: dict를 SpineMetadata 객체로 변환
+                # v1.14.10: dict를 SpineMetadata 객체로 변환
                 # server의 헬퍼 함수 사용 또는 직접 변환
                 from graph.relationship_builder import SpineMetadata
 

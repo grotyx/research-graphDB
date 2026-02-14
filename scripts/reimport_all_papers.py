@@ -2,7 +2,7 @@
 """
 Reimport all extracted JSON papers to Neo4j with fixed SpineMetadata mapping.
 
-v7.14.10: Fixes field mapping issues:
+v1.14.10: Fixes field mapping issues:
 - pathology -> pathologies
 - anatomy_level + anatomy_region -> anatomy_levels
 - ExtractedOutcome objects -> dict

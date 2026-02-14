@@ -358,7 +358,7 @@ def generate(self, query: str, entities: dict) -> tuple[str, dict]:
 
     Returns:
         Tuple of (cypher_query, params) — Cypher injection 방지를 위해
-        엔티티 값은 $param으로 파라미터화됨 (v7.15.0)
+        엔티티 값은 $param으로 파라미터화됨 (v1.15.0)
     """
 ```
 
@@ -408,7 +408,7 @@ entities = generator.extract_entities(query)
 #     "intent": "evidence_search"
 # }
 
-# Generate parameterized Cypher (v7.15.0: returns tuple)
+# Generate parameterized Cypher (v1.15.0: returns tuple)
 cypher, params = generator.generate(query, entities)
 # cypher: """
 # MATCH (i:Intervention {name: $intervention})-[a:AFFECTS]->(o:Outcome {name: $outcome})

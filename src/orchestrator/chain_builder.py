@@ -61,7 +61,7 @@ class LLMProvider(Enum):
 from ..graph.neo4j_client import Neo4jClient
 from ..storage import SearchResult as VectorSearchResult
 
-# TieredVectorDB is deprecated (v7.14.12), Neo4j Vector Index is used instead
+# TieredVectorDB is deprecated (v1.14.12), Neo4j Vector Index is used instead
 # Attempt import for backward compatibility; gracefully degrade if missing
 try:
     from ..storage.vector_db import TieredVectorDB
@@ -288,7 +288,7 @@ class SpineGraphChain:
 
         Args:
             neo4j_client: Neo4j 클라이언트
-            vector_db: Vector DB 인스턴스 (Optional, deprecated since v7.14.12.
+            vector_db: Vector DB 인스턴스 (Optional, deprecated since v1.14.12.
                        Neo4j Vector Index is used instead when None.)
             config: 체인 설정 (None이면 기본값 사용)
             api_key: LLM API 키 (None이면 환경변수에서 로드)
@@ -738,7 +738,7 @@ async def create_chain(
     neo4j_client = Neo4jClient(config=neo4j_config)
     await neo4j_client.connect()
 
-    # Vector DB (deprecated: ChromaDB removed in v7.14.12, Neo4j Vector Index used instead)
+    # Vector DB (deprecated: ChromaDB removed in v1.14.12, Neo4j Vector Index used instead)
     vector_db = None
     if TieredVectorDB is not None:
         try:

@@ -557,7 +557,7 @@ class RAPTORTree:
             Embedding vector
         """
         if self.embedding_generator is None:
-            # v7.14.26: OpenAI 임베딩 사용 (3072d - Neo4j 인덱스와 일치)
+            # v1.14.26: OpenAI 임베딩 사용 (3072d - Neo4j 인덱스와 일치)
             try:
                 from ..core.embedding import OpenAIEmbeddingGenerator
                 self.embedding_generator = OpenAIEmbeddingGenerator()
@@ -628,7 +628,7 @@ class RAPTORRetriever:
             List of (node, score) tuples, sorted by relevance
         """
         # Get query embedding
-        # v7.14.26: OpenAI 임베딩 사용 (3072d - Neo4j 인덱스와 일치)
+        # v1.14.26: OpenAI 임베딩 사용 (3072d - Neo4j 인덱스와 일치)
         if self.embedding_generator is None:
             try:
                 from ..core.embedding import OpenAIEmbeddingGenerator

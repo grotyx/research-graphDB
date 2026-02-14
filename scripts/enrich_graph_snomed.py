@@ -18,7 +18,7 @@ Usage:
     PYTHONPATH=./src python3 scripts/enrich_graph_snomed.py anatomy-cleanup --dry-run
     PYTHONPATH=./src python3 scripts/enrich_graph_snomed.py report
 
-v7.16.3: update_snomed_codes.py + enhance_taxonomy_snomed.py 통합 대체.
+v1.16.3: update_snomed_codes.py + enhance_taxonomy_snomed.py 통합 대체.
 """
 
 import asyncio

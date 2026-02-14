@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Schema, Taxonomy, SNOMED-CT 통합 업데이트 스크립트.
 
-v7.14.2에서 추가된 신규 수술법, 별칭, SNOMED 코드를 Neo4j에 적용합니다.
+v1.14.2에서 추가된 신규 수술법, 별칭, SNOMED 코드를 Neo4j에 적용합니다.
 주기적으로 실행하여 코드 변경사항을 데이터베이스에 반영합니다.
 
 Usage:
@@ -48,7 +48,7 @@ def setup_logging(quiet: bool = False) -> logging.Logger:
     return logging.getLogger(__name__)
 
 
-# v7.14.2 신규 Taxonomy 노드 정의
+# v1.14.2 신규 Taxonomy 노드 정의
 V7_14_2_TAXONOMY_UPDATES = [
     {
         "name": "Facetectomy",
@@ -168,7 +168,7 @@ async def get_current_state(logger: logging.Logger) -> dict:
         for record in result:
             state["nodes"][record["label"]] = record["count"]
 
-        # v7.14.2 Taxonomy 노드 확인
+        # v1.14.2 Taxonomy 노드 확인
         result = session.run("""
             MATCH (i:Intervention)
             WHERE i.name IN ["BELIF", "Facetectomy", "Stereotactic Navigation"]
@@ -196,7 +196,7 @@ async def get_current_state(logger: logging.Logger) -> dict:
 
 
 async def apply_taxonomy_updates(logger: logging.Logger, dry_run: bool = False) -> dict:
-    """v7.14.2 Taxonomy 업데이트 적용."""
+    """v1.14.2 Taxonomy 업데이트 적용."""
     from neo4j import GraphDatabase
     import os
 
@@ -352,7 +352,7 @@ async def main(args: argparse.Namespace) -> int:
     before_state = await get_current_state(logger)
     logger.info(f"  - Intervention 노드: {before_state['nodes'].get('Intervention', 0)}개")
     logger.info(f"  - IS_A 관계: {before_state['is_a_relationships']}개")
-    logger.info(f"  - v7.14.2 노드: {len(before_state['taxonomy_nodes'])}개 존재")
+    logger.info(f"  - v1.14.2 노드: {len(before_state['taxonomy_nodes'])}개 존재")
 
     # 3. 사용자 확인 (--force가 아닌 경우)
     if not args.force and not args.dry_run:
@@ -369,8 +369,8 @@ async def main(args: argparse.Namespace) -> int:
             logger.error("스키마 초기화 실패")
             return 1
 
-    # 5. v7.14.2 Taxonomy 업데이트
-    logger.info("\n[4/5] v7.14.2 Taxonomy 업데이트 적용...")
+    # 5. v1.14.2 Taxonomy 업데이트
+    logger.info("\n[4/5] v1.14.2 Taxonomy 업데이트 적용...")
     update_results = await apply_taxonomy_updates(logger, args.dry_run)
     logger.info(f"  - 적용: {len(update_results['applied'])}개")
     logger.info(f"  - 스킵: {len(update_results['skipped'])}개")

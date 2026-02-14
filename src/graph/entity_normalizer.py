@@ -127,7 +127,7 @@ class EntityNormalizer:
             # v7.14: BED는 UBE와 동일한 수술법
             "BED", "Biportal Endoscopic Discectomy",
             "Biportal endoscopic discectomy", "Biportal Discectomy",
-            # v7.14.1: UBED, BE 변형 추가
+            # v1.14.1: UBED, BE 변형 추가
             "UBED", "Unilateral Biportal Endoscopic Decompression",
             "BE", "Biportal Endoscopic Surgery",
         ],
@@ -139,7 +139,7 @@ class EntityNormalizer:
             "BE-TLIF", "Biportal Endoscopic TLIF",
             "Biportal endoscopic transforaminal lumbar interbody fusion",
             "BE-transforaminal lumbar interbody fusion",
-            # v7.14.1: Endo-TLIF, UBE-TLIF 변형 추가
+            # v1.14.1: Endo-TLIF, UBE-TLIF 변형 추가
             "Endo-TLIF", "UBE-TLIF", "Endoscopic TLIF",
         ],
         "FELD": [
@@ -162,16 +162,16 @@ class EntityNormalizer:
         "MED": [
             "Microendoscopic Discectomy", "Microendoscopic Decompression",
             "미세 내시경", "MED technique",
-            # v7.14.1: 소문자/변형 추가
+            # v1.14.1: 소문자/변형 추가
             "microendoscopic discectomy", "Micro-endoscopic discectomy",
         ],
         "Microdecompression": [
             "Microscopic Decompression", "Micro Decompression",
-            # v7.14.1: 소문자/변형 추가
+            # v1.14.1: 소문자/변형 추가
             "microdecompression", "microscopic decompression",
             "Microscopic lumbar decompression",
         ],
-        # v7.14.1: Endoscopic Decompression 신규 추가
+        # v1.14.1: Endoscopic Decompression 신규 추가
         "Endoscopic Decompression": [
             "endoscopic decompression", "Endoscopic lumbar decompression",
             "endoscopic lumbar decompression", "Endoscopic spinal decompression",
@@ -183,28 +183,28 @@ class EntityNormalizer:
             "Transforaminal Lumbar Interbody Fusion",
             "Transforaminal Interbody Fusion", "TLIF surgery",
             "경추간공 유합술",
-            # v7.14.1: 소문자/변형 추가
+            # v1.14.1: 소문자/변형 추가
             "transforaminal lumbar interbody fusion", "Transforaminal fusion",
             "transforaminal fusion",
         ],
         "MIS-TLIF": [
             "Minimally Invasive TLIF", "MIS TLIF",
             "Minimally Invasive Transforaminal Lumbar Interbody Fusion",
-            # v7.14.1: 소문자/변형 추가
+            # v1.14.1: 소문자/변형 추가
             "minimally invasive TLIF", "MI-TLIF", "Mini-TLIF",
         ],
         "PLIF": [
             "Posterior Lumbar Interbody Fusion",
             "Posterior Interbody Fusion",
             "후방 유합술",
-            # v7.14.1: 소문자/변형 추가
+            # v1.14.1: 소문자/변형 추가
             "posterior lumbar interbody fusion", "posterior interbody fusion",
         ],
         "ALIF": [
             "Anterior Lumbar Interbody Fusion",
             "Anterior Interbody Fusion",
             "전방 유합술",
-            # v7.14.1: 소문자/변형 추가
+            # v1.14.1: 소문자/변형 추가
             "anterior lumbar interbody fusion", "Anterior fusion",
             "anterior fusion", "Anterior approach fusion",
         ],
@@ -213,7 +213,7 @@ class EntityNormalizer:
             "Oblique Interbody Fusion", "ATP approach",
             "OLIF51", "OLIF25",
             "측방 유합술",
-            # v7.14.1: 소문자/변형 추가
+            # v1.14.1: 소문자/변형 추가
             "oblique lumbar interbody fusion", "Oblique fusion",
             "oblique fusion", "Prepsoas approach",
         ],
@@ -223,7 +223,7 @@ class EntityNormalizer:
             "Extreme Lateral Interbody Fusion",
             "Direct Lateral Interbody Fusion",
             "외측 유합술",
-            # v7.14.1: 소문자/변형 추가
+            # v1.14.1: 소문자/변형 추가
             "lateral lumbar interbody fusion", "Lateral fusion",
             "lateral fusion", "Transpsoas approach",
         ],
@@ -231,7 +231,7 @@ class EntityNormalizer:
             "Anterior Cervical Discectomy and Fusion",
             "Anterior Cervical Fusion",
             "전방 경추 유합술",
-            # v7.14.1: 소문자/변형 추가
+            # v1.14.1: 소문자/변형 추가
             "anterior cervical discectomy and fusion",
             "Anterior cervical fusion", "anterior cervical fusion",
         ],
@@ -243,7 +243,7 @@ class EntityNormalizer:
         # Fusion techniques - Posterolateral
         "Posterolateral Fusion": [
             "PLF", "Posterolateral Spinal Fusion",
-            # v7.14.1: Generic fusion 변형 추가
+            # v1.14.1: Generic fusion 변형 추가
             "Posterior fusion", "posterior fusion", "PSF",
             "Posterior spinal fusion", "posterior spinal fusion",
             "Posterior lumbar fusion", "posterior lumbar fusion",
@@ -265,16 +265,16 @@ class EntityNormalizer:
         # General Fusion
         "Fusion Surgery": [
             "Spinal Fusion", "척추 유합술", "유합 수술", "유합술",
-            # v7.14.1: Generic fusion 변형 추가
+            # v1.14.1: Generic fusion 변형 추가
             "spinal fusion", "Lumbar fusion", "lumbar fusion",
             "Cervical fusion", "cervical fusion",
             "Thoracolumbar fusion", "Long segment fusion",
-            # v7.14.11: 일반 용어 추가
+            # v1.14.11: 일반 용어 추가
             "spine surgery", "back surgery", "척추 수술",
         ],
         "Interbody Fusion": [
             "Interbody Spinal Fusion",
-            # v7.14.1: 소문자 및 변형 추가
+            # v1.14.1: 소문자 및 변형 추가
             "interbody fusion", "Interbody cage fusion",
             "interbody cage fusion", "Cage fusion",
         ],
@@ -283,18 +283,18 @@ class EntityNormalizer:
         "SPO": [
             "Smith-Petersen Osteotomy", "Ponte Osteotomy",
             "Smith Petersen Osteotomy",
-            # v7.14.1: 소문자/변형 추가
+            # v1.14.1: 소문자/변형 추가
             "SPO osteotomy", "Ponte", "ponte osteotomy",
         ],
         "PSO": [
             "Pedicle Subtraction Osteotomy",
-            # v7.14.1: 소문자/변형 추가
+            # v1.14.1: 소문자/변형 추가
             "PSO osteotomy", "pedicle subtraction osteotomy",
             "Pedicle subtraction", "3-column osteotomy",
         ],
         "VCR": [
             "Vertebral Column Resection",
-            # v7.14.1: 소문자/변형 추가
+            # v1.14.1: 소문자/변형 추가
             "VCR osteotomy", "vertebral column resection",
             "PVCR", "Posterior VCR",
         ],
@@ -302,7 +302,7 @@ class EntityNormalizer:
             "Three-Column Osteotomy", "3-Column Osteotomy",
             "Three Column Osteotomy"
         ],
-        # v7.14.1: Generic Osteotomy 추가
+        # v1.14.1: Generic Osteotomy 추가
         "Osteotomy": [
             "osteotomy", "Spinal osteotomy", "spinal osteotomy",
             "Corrective osteotomy", "corrective osteotomy",
@@ -319,17 +319,17 @@ class EntityNormalizer:
         "Laminotomy": [
             "Hemilaminotomy", "Bilateral Laminotomy",
             "편측 후궁 절제술",
-            # v7.14.1: 소문자 변형 추가
+            # v1.14.1: 소문자 변형 추가
             "laminotomy", "hemilaminotomy", "bilateral laminotomy",
         ],
         "Foraminotomy": [
             "Foraminal Decompression",
             "추간공 확장술",
-            # v7.14.1: 소문자 변형 추가
+            # v1.14.1: 소문자 변형 추가
             "foraminotomy", "foraminal decompression",
             "Lumbar foraminotomy", "Cervical foraminotomy",
         ],
-        # v7.14.1: Facetectomy 신규 추가
+        # v1.14.1: Facetectomy 신규 추가
         "Facetectomy": [
             "facetectomy", "Partial facetectomy", "partial facetectomy",
             "Medial facetectomy", "Total facetectomy", "Facet resection",
@@ -347,7 +347,7 @@ class EntityNormalizer:
             "decompression", "neural decompression", "Neural decompression",
             "Spinal decompression", "spinal decompression",
             "Lumbar decompression", "Cervical decompression",
-            # v7.14.11: 협착증 수술 용어 추가
+            # v1.14.11: 협착증 수술 용어 추가
             "stenosis surgery", "spinal stenosis surgery",
             "협착증 수술", "척추관 협착증 수술",
         ],
@@ -393,11 +393,11 @@ class EntityNormalizer:
         "Discectomy": [
             "Total discectomy", "Partial discectomy", "Microdiscectomy",
             "Microscopic discectomy",
-            # v7.14.1: 소문자/변형 추가
+            # v1.14.1: 소문자/변형 추가
             "discectomy", "microdiscectomy", "MD",
             "Lumbar discectomy", "lumbar discectomy",
             "Endoscopic discectomy", "endoscopic discectomy",
-            # v7.14.11: 일반 용어 추가
+            # v1.14.11: 일반 용어 추가
             "disk surgery", "disc surgery", "디스크 수술",
             "disc herniation surgery", "disk herniation surgery",
             "herniated disc surgery", "herniated disk surgery",
@@ -495,7 +495,7 @@ class EntityNormalizer:
         "CCF": [
             "Cervical Corpectomy and Fusion", "Anterior cervical corpectomy",
             "Cervical corpectomy fusion",
-            # v7.14.3: ACCF 별칭 추가
+            # v1.14.3: ACCF 별칭 추가
             "ACCF", "Anterior Cervical Corpectomy and Fusion",
             "Anterior cervical corpectomy and fusion",
         ],
@@ -585,7 +585,7 @@ class EntityNormalizer:
         "Percutaneous Pedicle Screw": [
             "Percutaneous fixation", "Percutaneous instrumentation",
             "Minimally invasive fixation", "경피적 척추경 나사",
-            # v7.14.1: 변형 추가
+            # v1.14.1: 변형 추가
             "Percutaneous pedicle screw fixation",
             "percutaneous pedicle screw fixation",
             "Percutaneous screw", "PPS fixation",
@@ -630,7 +630,7 @@ class EntityNormalizer:
         ],
 
         # ========================================
-        # v7.16.1: Schema 노드 alias 추가 (26개)
+        # v1.16.1: Schema 노드 alias 추가 (26개)
         # ========================================
         # Radiotherapy variants
         "Radiotherapy": [
@@ -859,17 +859,17 @@ class EntityNormalizer:
         "I&D": "Infection Surgery",
         "Antibiotic Spacer": "Infection Surgery",
         "Staged Reconstruction": "Infection Surgery",
-        # v7.14.1: 신규 추가
+        # v1.14.1: 신규 추가
         "Endoscopic Decompression": "Endoscopic Surgery",
         "Facetectomy": "Decompression Surgery",
         "Osteotomy": "Osteotomy",
-        # v7.16.2: Category aliases
+        # v1.16.2: Category aliases
         "Open Decompression": "Decompression Surgery",
         "Endoscopic Surgery": "Endoscopic Surgery",
         "Microscopic Surgery": "Decompression Surgery",
         "Fixation": "Fixation",
         "Motion Preservation": "Motion Preservation",
-        # v7.16.4: 누락 카테고리 24건 추가
+        # v1.16.4: 누락 카테고리 24건 추가
         "Anterior fusion": "Interbody Fusion",
         "Lumbar Fusion": "Fusion Surgery",
         "PTF": "Posterolateral Fusion",
@@ -902,25 +902,25 @@ class EntityNormalizer:
         "VAS": [
             "Visual Analog Scale", "Visual Analogue Scale",
             "Pain Score", "VAS score",
-            # v7.14.1: 전체형식 및 소문자 변형
+            # v1.14.1: 전체형식 및 소문자 변형
             "Visual Analog Scale (VAS)", "Visual analog scale",
             "visual analog scale", "VAS pain", "Pain VAS",
-            # v7.14.11: 일반 통증 용어 추가
+            # v1.14.11: 일반 통증 용어 추가
             "pain level", "pain intensity", "pain severity",
         ],
         "VAS Back": [
             "VAS-back", "VAS back pain", "Back VAS",
-            # v7.14.1: 변형 추가
+            # v1.14.1: 변형 추가
             "VAS Back Pain", "VAS-Back", "Back pain VAS",
             "VAS (back)", "VAS-BP", "Low back pain VAS",
         ],
         "VAS Leg": [
             "VAS-leg", "VAS leg pain", "Leg VAS", "VAS radicular",
-            # v7.14.1: 변형 추가
+            # v1.14.1: 변형 추가
             "VAS Leg Pain", "VAS-Leg", "Leg pain VAS",
             "VAS (leg)", "VAS-LP", "Radicular pain VAS",
         ],
-        # v7.14.11: Neck/Arm pain 추가
+        # v1.14.11: Neck/Arm pain 추가
         "VAS Neck": [
             "VAS-neck", "VAS neck pain", "Neck VAS",
             "VAS Neck Pain", "VAS-Neck", "Neck pain VAS",
@@ -940,36 +940,36 @@ class EntityNormalizer:
         "ODI": [
             "Oswestry Disability Index", "Oswestry Score",
             "ODI score", "Oswestry",
-            # v7.14.1: 전체형식 및 변형
+            # v1.14.1: 전체형식 및 변형
             "Oswestry Disability Index (ODI)", "ODI (Oswestry Disability Index)",
             "oswestry disability index", "Oswestry disability index",
             "Oswestry Low Back Pain Disability Questionnaire",
         ],
         "NDI": [
             "Neck Disability Index", "NDI score",
-            # v7.14.1: 전체형식 및 변형
+            # v1.14.1: 전체형식 및 변형
             "Neck Disability Index (NDI)", "NDI (Neck Disability Index)",
             "neck disability index", "Neck disability index",
-            # v7.14.11: disability score 변형
+            # v1.14.11: disability score 변형
             "disability score", "disability index",
         ],
         "JOA": [
             "Japanese Orthopaedic Association",
             "JOA Score", "JOA score",
-            # v7.14.1: 변형 추가
+            # v1.14.1: 변형 추가
             "JOA (Japanese Orthopaedic Association)",
             "Japanese Orthopaedic Association score",
         ],
         "mJOA": [
             "Modified JOA", "modified Japanese Orthopaedic Association",
             "mJOA score",
-            # v7.14.1: 변형 추가
+            # v1.14.1: 변형 추가
             "Modified Japanese Orthopaedic Association",
             "mJOA (Modified Japanese Orthopaedic Association)",
         ],
         "EQ-5D": [
             "EuroQol 5D", "EQ5D", "EQ-5D-5L", "EuroQol-5D",
-            # v7.14.11: QOL 변형 추가
+            # v1.14.11: QOL 변형 추가
             "QOL", "quality of life score",
             # 정규화된 이름의 대소문자 변형
             "eq-5d", "Eq-5d", "eq5d",
@@ -979,7 +979,7 @@ class EntityNormalizer:
             # 정규화된 이름의 대소문자 변형
             "sf-36", "Sf-36", "sf36",
         ],
-        # v7.14.11: SF-12를 별도 항목으로 분리
+        # v1.14.11: SF-12를 별도 항목으로 분리
         # v7.15: merged duplicate entries
         "SF-12": [
             "Short Form 12", "SF12", "SF-12 score", "SF 12",
@@ -993,11 +993,11 @@ class EntityNormalizer:
         "Fusion Rate": [
             "Fusion rate", "Solid fusion rate", "Bony fusion",
             "Fusion success",
-            # v7.14.11: 추가 변형
+            # v1.14.11: 추가 변형
             "bone fusion", "solid fusion", "fusion outcome",
             "radiographic fusion", "CT fusion",
         ],
-        # v7.14.11: Pseudarthrosis 추가
+        # v1.14.11: Pseudarthrosis 추가
         "Pseudarthrosis": [
             "pseudarthrosis", "Pseudoarthrosis", "nonunion",
             "non-union", "Nonunion", "fusion failure",
@@ -1030,7 +1030,7 @@ class EntityNormalizer:
         "Complication Rate": [
             "Complication rate", "Adverse events", "Complications",
             "Overall complications",
-            # v7.14.1: 변형 추가
+            # v1.14.1: 변형 추가
             "Postoperative complications", "postoperative complications",
             "Postoperative Complications", "complication rate",
             "Total complications", "Surgical complications",
@@ -1058,7 +1058,7 @@ class EntityNormalizer:
             "Proximal Junctional Kyphosis",
             "PJK incidence", "PJK rate", "Proximal junctional failure"
         ],
-        # v7.14.3: Epidural Hematoma, C5 Palsy 추가
+        # v1.14.3: Epidural Hematoma, C5 Palsy 추가
         "Epidural Hematoma": [
             "Epidural hematoma", "Postoperative epidural hematoma",
             "postoperative epidural hematoma", "Spinal epidural hematoma",
@@ -1080,7 +1080,7 @@ class EntityNormalizer:
         "Operation Time": [
             "Operative time", "Surgery time", "Surgical duration",
             "OR time", "수술 시간",
-            # v7.14.1: 소문자/변형 추가
+            # v1.14.1: 소문자/변형 추가
             "operative time", "Operative Time", "Operating time",
             "Total operative time", "total operative time",
             "Surgical time", "surgical time",
@@ -1088,7 +1088,7 @@ class EntityNormalizer:
         "Blood Loss": [
             "EBL", "Estimated blood loss", "Intraoperative blood loss",
             "출혈량",
-            # v7.14.1: 변형 추가
+            # v1.14.1: 변형 추가
             "Intraoperative Blood Loss", "intraoperative blood loss",
             "Total Blood Loss", "total blood loss",
             "estimated blood loss", "Blood loss",
@@ -1096,7 +1096,7 @@ class EntityNormalizer:
         "Hospital Stay": [
             "Length of stay", "LOS", "Hospital length of stay",
             "Hospitalization", "재원 기간",
-            # v7.14.1: 변형 추가
+            # v1.14.1: 변형 추가
             "Length of Stay", "length of stay",
             "Hospital LOS", "hospital stay",
             "Postoperative hospital stay",
@@ -1125,7 +1125,7 @@ class EntityNormalizer:
         ],
         "Patient Satisfaction": [
             "Satisfaction rate", "Patient satisfaction score",
-            # v7.14.11: clinical/functional outcome 매핑
+            # v1.14.11: clinical/functional outcome 매핑
             "clinical outcome", "Clinical outcome", "surgical outcome",
             "functional outcome", "functional status", "Functional outcome",
             "Satisfaction", "환자 만족도"
@@ -1216,7 +1216,7 @@ class EntityNormalizer:
             "Tomita surgical classification"
         ],
 
-        # v7.16.2: SNOMED-mapped outcomes without aliases
+        # v1.16.2: SNOMED-mapped outcomes without aliases
         "Deep Surgical Site Infection": [
             "Deep SSI", "deep SSI", "Deep infection",
             "Deep wound infection", "deep wound infection", "심부 감염",
@@ -1259,7 +1259,7 @@ class EntityNormalizer:
             "Lumbar Spinal Stenosis", "LSS", "Spinal Stenosis",
             "Central Stenosis",
             "요추 협착증", "척추관 협착증", "척추 협착증",
-            # v7.14.1: 소문자 변형 추가
+            # v1.14.1: 소문자 변형 추가
             "lumbar spinal stenosis", "lumbar stenosis",
             "spinal stenosis", "central stenosis",
             "Lumbar stenosis with instability",
@@ -1267,7 +1267,7 @@ class EntityNormalizer:
         "Cervical Stenosis": [
             "Cervical Spinal Stenosis", "CSS",
             "경추 협착증",
-            # v7.14.1: 소문자/동의어 추가
+            # v1.14.1: 소문자/동의어 추가
             "cervical spinal stenosis", "cervical stenosis",
             "Cervical spondylosis", "cervical spondylosis",
             "Cervical spondylotic myelopathy", "CSM",
@@ -1275,7 +1275,7 @@ class EntityNormalizer:
         "Foraminal Stenosis": [
             "Lateral Stenosis", "Foraminal narrowing",
             "추간공 협착증",
-            # v7.14.1: 소문자 변형 추가
+            # v1.14.1: 소문자 변형 추가
             "foraminal stenosis", "lateral stenosis",
             "Lateral recess stenosis", "lateral recess stenosis",
         ],
@@ -1283,7 +1283,7 @@ class EntityNormalizer:
             "LDH", "HNP", "Herniated Nucleus Pulposus",
             "Disc Herniation", "Disc Prolapse", "HIVD",
             "추간판 탈출증", "디스크 탈출증", "허리 디스크",
-            # v7.14.1: 소문자/변형 추가
+            # v1.14.1: 소문자/변형 추가
             "lumbar disc herniation", "disc herniation",
             "Intervertebral disc herniation", "intervertebral disc herniation",
             "Recurrent lumbar disc herniation", "recurrent disc herniation",
@@ -1292,13 +1292,13 @@ class EntityNormalizer:
         "Cervical Disc Herniation": [
             "CDH", "Cervical HNP", "Cervical disc prolapse",
             "경추 디스크",
-            # v7.14.1: 소문자 변형 추가
+            # v1.14.1: 소문자 변형 추가
             "cervical disc herniation", "cervical HNP",
         ],
         "DDD": [
             "Degenerative Disc Disease", "Disc Degeneration",
             "퇴행성 디스크",
-            # v7.14.1: 소문자/변형 추가
+            # v1.14.1: 소문자/변형 추가
             "degenerative disc disease", "Degenerative disc disease",
             "Lumbar degenerative disc disease", "lumbar degenerative disc disease",
             "Intervertebral disc degeneration", "intervertebral disc degeneration",
@@ -1308,11 +1308,11 @@ class EntityNormalizer:
         "Facet Arthropathy": [
             "Facet Joint Arthritis", "Facet Arthritis",
             "Facet joint disease",
-            # v7.14.1: 소문자 변형 추가
+            # v1.14.1: 소문자 변형 추가
             "facet arthropathy", "facet joint arthritis",
             "Facet hypertrophy", "facet hypertrophy",
         ],
-        # v7.14.1: Cervical Myelopathy 신규 추가
+        # v1.14.1: Cervical Myelopathy 신규 추가
         # v7.15: merged duplicate entries
         "Cervical Myelopathy": [
             "Degenerative cervical myelopathy", "degenerative cervical myelopathy",
@@ -1321,17 +1321,17 @@ class EntityNormalizer:
             "CSM", "Cervical Spondylotic Myelopathy",
             "Cervical cord compression", "경추 척수병증",
         ],
-        # v7.14.1: Cervical Radiculopathy 신규 추가
+        # v1.14.1: Cervical Radiculopathy 신규 추가
         "Cervical Radiculopathy": [
             "cervical radiculopathy", "Cervical radicular pain",
             "Cervical nerve root compression",
         ],
-        # v7.14.1: Lumbar Radiculopathy 신규 추가
+        # v1.14.1: Lumbar Radiculopathy 신규 추가
         "Lumbar Radiculopathy": [
             "lumbar radiculopathy", "Sciatica", "sciatica",
             "Lumbar radicular pain", "Radicular pain",
         ],
-        # v7.14.1: Segmental Instability 신규 추가
+        # v1.14.1: Segmental Instability 신규 추가
         "Segmental Instability": [
             "segmental instability", "Lumbar instability",
             "lumbar instability", "Spinal instability",
@@ -1341,7 +1341,7 @@ class EntityNormalizer:
             "Degenerative Spondylolisthesis", "Isthmic Spondylolisthesis",
             "Anterolisthesis", "Slip",
             "척추 전방 전위증", "척추 전위증",
-            # v7.14.1: 소문자/변형 추가
+            # v1.14.1: 소문자/변형 추가
             "spondylolisthesis", "degenerative spondylolisthesis",
             "Degenerative lumbar spondylolisthesis",
             "Lumbar spondylolisthesis", "lumbar spondylolisthesis",
@@ -1350,7 +1350,7 @@ class EntityNormalizer:
             "De Novo Scoliosis", "Adult Degenerative Scoliosis",
             "Degenerative Lumbar Scoliosis",
             "퇴행성 척추 측만증",
-            # v7.14.1: 소문자 변형 추가
+            # v1.14.1: 소문자 변형 추가
             "degenerative scoliosis", "de novo scoliosis",
             "adult degenerative scoliosis",
         ],
@@ -1359,42 +1359,42 @@ class EntityNormalizer:
         "AIS": [
             "Adolescent Idiopathic Scoliosis", "Idiopathic Scoliosis",
             "청소년 특발성 측만증",
-            # v7.14.1: 소문자 변형 추가
+            # v1.14.1: 소문자 변형 추가
             "adolescent idiopathic scoliosis", "idiopathic scoliosis",
         ],
         "Adult Scoliosis": [
             "Adult Idiopathic Scoliosis", "성인 측만증",
-            # v7.14.1: 소문자 변형 추가
+            # v1.14.1: 소문자 변형 추가
             "adult scoliosis", "adult idiopathic scoliosis",
         ],
         "ASD": [
             "Adult Spinal Deformity",
             "성인 척추 변형",
-            # v7.14.1: 전체형식/소문자 변형 추가
+            # v1.14.1: 전체형식/소문자 변형 추가
             "Adult spinal deformity (ASD)", "adult spinal deformity",
             "ASD (Adult Spinal Deformity)",
         ],
         "Flat Back": [
             "Flat Back Syndrome", "Flatback",
             "Loss of lumbar lordosis",
-            # v7.14.1: 소문자 변형 추가
+            # v1.14.1: 소문자 변형 추가
             "flat back syndrome", "flatback syndrome",
         ],
         "Kyphosis": [
             "Thoracic Kyphosis", "Scheuermann Kyphosis",
             "Posttraumatic Kyphosis",
             "척추 후만증", "후만 변형",
-            # v7.14.1: 소문자 변형 추가
+            # v1.14.1: 소문자 변형 추가
             "kyphosis", "thoracic kyphosis", "scheuermann kyphosis",
         ],
         "Sagittal Imbalance": [
             "Sagittal malalignment", "Sagittal plane imbalance",
             "시상면 불균형",
-            # v7.14.1: 소문자 변형 추가
+            # v1.14.1: 소문자 변형 추가
             "sagittal imbalance", "sagittal malalignment",
             "Global sagittal imbalance", "global sagittal imbalance",
         ],
-        # v7.14.1: PJK 신규 추가
+        # v1.14.1: PJK 신규 추가
         # v7.15: merged duplicate entries
         "PJK": [
             "Proximal Junctional Kyphosis", "proximal junctional kyphosis",
@@ -1402,13 +1402,13 @@ class EntityNormalizer:
             "Junctional kyphosis", "junctional kyphosis",
             "근위부 접합부 후만",
         ],
-        # v7.14.1: DJK 신규 추가
+        # v1.14.1: DJK 신규 추가
         # v7.15: merged duplicate entries
         "DJK": [
             "Distal Junctional Kyphosis", "distal junctional kyphosis",
             "Distal junctional failure",
         ],
-        # v7.14.1: Adjacent Segment Disease 신규 추가
+        # v1.14.1: Adjacent Segment Disease 신규 추가
         # v7.15: merged duplicate entries
         "Adjacent Segment Disease": [
             "adjacent segment disease", "ASD (Adjacent Segment)",
@@ -1439,14 +1439,14 @@ class EntityNormalizer:
         "Primary Tumor": [
             "Primary Spinal Tumor", "Spinal neoplasm",
             "원발성 척추 종양",
-            # v7.14.1: 소문자 변형 추가
+            # v1.14.1: 소문자 변형 추가
             "primary spinal tumor", "spinal neoplasm",
         ],
         "Spinal Metastasis": [
             "Spine Metastasis", "Vertebral Metastasis",
             "Metastatic Spine Tumor",
             "척추 전이암", "척추 전이",
-            # v7.14.1: 소문자/변형 추가
+            # v1.14.1: 소문자/변형 추가
             "spinal metastasis", "spine metastasis",
             "Metastatic spinal disease", "metastatic spinal disease",
             "Metastatic spinal tumors", "metastatic spinal tumors",
@@ -1674,7 +1674,7 @@ class EntityNormalizer:
             "Split cord malformation", "이중 척수"
         ],
 
-        # v7.16.2: SNOMED-mapped pathologies without aliases
+        # v1.16.2: SNOMED-mapped pathologies without aliases
         "Cauda Equina Syndrome": [
             "CES", "Cauda equina", "cauda equina syndrome",
             "cauda equina", "마미 증후군", "마미총 증후군",
@@ -1686,7 +1686,7 @@ class EntityNormalizer:
         ],
     }
 
-    # v7.16.1: 해부학 위치 별칭 (Anatomy Aliases)
+    # v1.16.1: 해부학 위치 별칭 (Anatomy Aliases)
     ANATOMY_ALIASES: dict[str, list[str]] = {
         # Regions
         "Cervical": ["C-spine", "cervical spine", "Cervical spine", "경추"],
@@ -2006,7 +2006,7 @@ class EntityNormalizer:
     def normalize_anatomy(self, text: str) -> NormalizationResult:
         """해부학 위치 정규화 (SNOMED 코드 포함).
 
-        v7.16.1: ANATOMY_ALIASES 기반 정규화 추가.
+        v1.16.1: ANATOMY_ALIASES 기반 정규화 추가.
 
         Args:
             text: 입력 텍스트 (예: "L-spine", "C5-C6", "요추")

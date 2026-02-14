@@ -191,7 +191,7 @@ class ReferenceHandler:
                 for pid in paper_ids:
                     paper_data = await self._load_paper_by_id(pid)
                     if paper_data:
-                        # v7.14.27: None 값 처리
+                        # v1.14.27: None 값 처리
                         metadata = paper_data.get("metadata") or {}
                         papers.append(PaperReference.from_metadata(metadata, pid))
 

@@ -1,8 +1,8 @@
 """Tiered Hybrid Search module for hierarchical document retrieval.
 
 v5.3: Neo4j Vector Index 통합 지원
-v7.14.12: ChromaDB 제거 - Neo4j Vector Index가 유일한 벡터 저장소
-v7.14.17: Neo4j hybrid_search 통합 - 그래프 필터링 + 벡터 검색 단일 쿼리
+v1.14.12: ChromaDB 제거 - Neo4j Vector Index가 유일한 벡터 저장소
+v1.14.17: Neo4j hybrid_search 통합 - 그래프 필터링 + 벡터 검색 단일 쿼리
 """
 
 import logging
@@ -64,7 +64,7 @@ class SearchSource(Enum):
 
 
 class SearchBackend(Enum):
-    """벡터 검색 백엔드 (v7.14.12: Neo4j only)."""
+    """벡터 검색 백엔드 (v1.14.12: Neo4j only)."""
     NEO4J = "neo4j"          # Neo4j Vector Index (유일한 백엔드)
 
 
@@ -131,7 +131,7 @@ class SearchOutput:
     expanded_query: Optional[str] = None
     search_strategy_used: SearchTier = SearchTier.TIER1_THEN_TIER2
 
-    # v7.14.12: 백엔드 정보 (Neo4j only)
+    # v1.14.12: 백엔드 정보 (Neo4j only)
     vector_backend: SearchBackend = SearchBackend.NEO4J
 
 
@@ -203,14 +203,14 @@ class TieredHybridSearch:
                 - graph_weight: 그래프 검색 가중치 (기본값: 0.3)
                 - tier1_min_results: Tier1 최소 결과 수 (기본값: 3)
             use_neo4j_vector: Neo4j Vector Index 사용 여부 (v5.3)
-            use_neo4j_hybrid: Neo4j hybrid_search (그래프+벡터 통합) 사용 여부 (v7.14.17)
+            use_neo4j_hybrid: Neo4j hybrid_search (그래프+벡터 통합) 사용 여부 (v1.14.17)
         """
         self.vector_db: Optional[VectorDBProtocol] = vector_db
         self.graph_db: Optional[GraphDBProtocol] = graph_db
         self.neo4j_client: Optional["Neo4jClient"] = neo4j_client
         self.config: dict[str, Any] = config or {}
         self.use_neo4j_vector: bool = use_neo4j_vector and NEO4J_AVAILABLE
-        # v7.14.17: Neo4j hybrid_search 사용 (그래프 필터링 + 벡터 검색 통합)
+        # v1.14.17: Neo4j hybrid_search 사용 (그래프 필터링 + 벡터 검색 통합)
         self.use_neo4j_hybrid: bool = self.config.get("use_neo4j_hybrid", True) and NEO4J_AVAILABLE
 
         self.rrf_k: int = self.config.get("rrf_k", 60)
@@ -315,7 +315,7 @@ class TieredHybridSearch:
             vector_results=vector_count,
             graph_results=graph_count,
             search_strategy_used=input_data.tier_strategy,
-            vector_backend=SearchBackend.NEO4J  # v7.14.12: ChromaDB 제거
+            vector_backend=SearchBackend.NEO4J  # v1.14.12: ChromaDB 제거
         )
 
     def _search_tier(
@@ -336,7 +336,7 @@ class TieredHybridSearch:
         """
         results: list[SearchResult] = []
 
-        # v7.14.17: Neo4j Hybrid Search 우선 사용 (그래프 필터 + 벡터 검색 통합)
+        # v1.14.17: Neo4j Hybrid Search 우선 사용 (그래프 필터 + 벡터 검색 통합)
         if self.use_neo4j_hybrid and self.neo4j_client:
             hybrid_results = self._neo4j_hybrid_search(input_data, tier, top_k)
             if hybrid_results:
@@ -459,9 +459,9 @@ class TieredHybridSearch:
             return []
 
         # 쿼리 임베딩 생성
-        # v7.14.16: Neo4j Vector Index는 3072차원 OpenAI text-embedding-3-large 사용
+        # v1.14.16: Neo4j Vector Index는 3072차원 OpenAI text-embedding-3-large 사용
         # (기존 MedTE 768차원에서 변경됨 - 저장된 임베딩과 일치시키기 위해)
-        # v7.14.26: OpenAI 임베딩 필수 (Neo4j 인덱스가 3072d이므로 MedTE 768d는 사용 불가)
+        # v1.14.26: OpenAI 임베딩 필수 (Neo4j 인덱스가 3072d이므로 MedTE 768d는 사용 불가)
         try:
             import openai
             import os
@@ -564,7 +564,7 @@ class TieredHybridSearch:
         tier: int,
         top_k: int
     ) -> list[SearchResult]:
-        """Neo4j 통합 하이브리드 검색 (v7.14.17).
+        """Neo4j 통합 하이브리드 검색 (v1.14.17).
 
         Neo4j의 hybrid_search() 메서드를 사용하여
         그래프 필터링 + 벡터 검색을 단일 Cypher 쿼리로 수행.
@@ -952,7 +952,7 @@ class MockVectorDB:
         return filtered[:top_k]
 
     def get_embedding(self, text: str) -> list[float]:
-        """Mock 임베딩 (v7.14.26: 3072d로 변경 - Neo4j 인덱스와 일치)."""
+        """Mock 임베딩 (v1.14.26: 3072d로 변경 - Neo4j 인덱스와 일치)."""
         return [0.1] * 3072  # 가상의 3072차원 임베딩 (OpenAI text-embedding-3-large)
 
 

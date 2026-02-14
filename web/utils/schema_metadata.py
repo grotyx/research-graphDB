@@ -3,7 +3,7 @@
 Defines node types, relationship types, categories, colors, and descriptions
 for the schema overview visualization.
 
-Version: v7.14.25
+Version: v1.14.25
 """
 
 from dataclasses import dataclass

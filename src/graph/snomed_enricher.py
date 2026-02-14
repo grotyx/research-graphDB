@@ -3,7 +3,7 @@
 Neo4j 그래프의 SNOMED 코드 적용, TREATS 관계 백필, Anatomy 정리를 위한
 단일 소스 오브 트루스(spine_snomed_mappings.py) 기반 동적 처리.
 
-v7.16.3: update_snomed_codes.py + enhance_taxonomy_snomed.py 통합 대체.
+v1.16.3: update_snomed_codes.py + enhance_taxonomy_snomed.py 통합 대체.
 """
 
 import logging

@@ -5,7 +5,7 @@
 Spine GraphRAG는 Neo4j 그래프 데이터베이스를 사용한 단일 저장소 시스템입니다.
 척추 수술 분야의 의학 논문을 처리하여 구조화된 지식 그래프를 구축하고, 근거 기반 검색을 지원합니다.
 
-**Version**: 7.16.4 | **Status**: Production Ready
+**Version**: 1.16.4 | **Status**: Production Ready
 **Docs**: [PRD](docs/PRD.md) | [TRD](docs/TRD_v3_GraphRAG.md) | [Changelog](docs/CHANGELOG.md)
 
 ### Architecture (Single-Store: Neo4j Only)
@@ -142,7 +142,7 @@ NEO4J_PASSWORD=spineGraph2024
 NEO4J_DATABASE=neo4j
 NEO4J_BOLT_THREAD_POOL_SIZE=40  # Bolt 스레드 풀 (재시작 필요)
 
-# PubMed Import (v7.14.23)
+# PubMed Import (v1.14.23)
 PUBMED_MAX_CONCURRENT=5  # 최대 동시 처리 수 (1-10)
 ```
 
@@ -157,7 +157,7 @@ Fix: 버그 수정 설명
 Clean up / Update: 문서/리팩토링
 
 # 예시
-v7.16.0: PubMed + DOI fallback integration
+v1.16.0: PubMed + DOI fallback integration
 Fix test failures: pubmed_bulk_processor import chain
 Clean up redundant/outdated docs, update CLAUDE.md references
 ```

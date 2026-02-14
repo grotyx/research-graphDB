@@ -1,4 +1,4 @@
-"""Medical KAG MCP Server - SSE Transport with Multi-User Support (v7.16.0).
+"""Medical KAG MCP Server - SSE Transport with Multi-User Support (v1.16.0).
 
 외부에서 HTTP로 접속할 수 있는 SSE 기반 MCP 서버.
 사용자별 데이터 분리를 지원하며, 연결 안정성이 개선되었습니다.
@@ -36,18 +36,18 @@ Endpoints:
     POST /reset       - Reset server cache (reconnection support)
     POST /restart     - Restart Neo4j connection
 
-v7.16.0 (2026-01-26):
+v1.16.0 (2026-01-26):
     - SSE 서버 통합: run_mcp_sse.py → sse_server.py 래퍼로 변환
     - scripts/run_mcp_sse.py는 이 파일의 wrapper로 동작
     - 코드 중복 제거 및 유지보수성 향상
 
-v7.14.2 개선사항:
+v1.14.2 개선사항:
     - /reset 엔드포인트 추가 (서버 캐시 초기화, 재연결 지원)
     - /restart 엔드포인트 추가 (Neo4j 연결 재설정)
     - 연결 실패 시 자동 복구 로직 강화
     - 초기화 미완료 요청 처리 개선
 
-v7.13.1 개선사항:
+v1.13.1 개선사항:
     - Heartbeat 추가 (30초 간격)
     - 연결 상태 모니터링
     - 타임아웃 설정 개선
@@ -325,7 +325,7 @@ def create_app():
         return JSONResponse({
             "status": "healthy",
             "server": "medical-kag",
-            "version": "7.16.0",
+            "version": "1.16.0",
             "current_user": user_id,
             "user_info": REGISTERED_USERS.get(user_id, {}),
             "neo4j_available": kag_server.neo4j_client is not None,
@@ -575,7 +575,7 @@ async def main():
     CONNECTION_TIMEOUT = args.timeout
 
     logger.info("=" * 60)
-    logger.info("Medical KAG MCP Server (Multi-User SSE) v7.16.0")
+    logger.info("Medical KAG MCP Server (Multi-User SSE) v1.16.0")
     logger.info("=" * 60)
     logger.info(f"Server URL: http://{args.host}:{args.port}")
     logger.info(f"SSE endpoint: http://{args.host}:{args.port}/sse?user=<user_id>")

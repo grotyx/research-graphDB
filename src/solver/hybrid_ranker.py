@@ -14,7 +14,7 @@ v7.0: Evidence-based Ranking (SIMPLIFIED)
 - Formula: 60% semantic + 40% authority (evidence + design + recency + citations)
 - Non-research document support
 
-v7.14.12: ChromaDB 제거
+v1.14.12: ChromaDB 제거
 - Neo4j Vector Index가 유일한 벡터 저장소
 """
 
@@ -25,7 +25,7 @@ from datetime import datetime
 
 from .graph_result import GraphEvidence, GraphSearchResult, PaperNode
 
-# Vector DB (DEPRECATED - ChromaDB removed in v7.14.12)
+# Vector DB (DEPRECATED - ChromaDB removed in v1.14.12)
 # Neo4j Vector Index is now the only vector store
 VectorSearchResult = None  # type: ignore
 TieredVectorDB = None  # type: ignore

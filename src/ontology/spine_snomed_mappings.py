@@ -133,15 +133,15 @@ SYNONYM_GROUPS: list[set[str]] = [
     {"Laminectomy", "laminectomy", "Decompressive Laminectomy", "decompressive laminectomy",
      "Open Laminectomy", "Open laminectomy"},
 
-    # v7.14.1: Fusion 일반 계열 추가
+    # v1.14.1: Fusion 일반 계열 추가
     {"Posterior fusion", "posterior fusion", "PSF", "Posterior spinal fusion",
      "posterior spinal fusion", "Posterolateral Fusion", "PLF"},
 
-    # v7.14.1: TLIF 계열 추가
+    # v1.14.1: TLIF 계열 추가
     {"TLIF", "Transforaminal Lumbar Interbody Fusion", "transforaminal lumbar interbody fusion",
      "Transforaminal fusion", "transforaminal fusion"},
 
-    # v7.14.1: Radiculopathy 계열 추가
+    # v1.14.1: Radiculopathy 계열 추가
     {"Sciatica", "sciatica", "Lumbar Radiculopathy", "lumbar radiculopathy",
      "Radicular pain", "Radicular leg pain"},
 
@@ -606,7 +606,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         notes="Includes O-arm, CT-based, and other navigation systems",
     ),
 
-    # v7.14.2 추가: Facetectomy
+    # v1.14.2 추가: Facetectomy
     "Facetectomy": SNOMEDMapping(
         code="900000000000121",
         term="Facetectomy",
@@ -620,7 +620,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         notes="Resection of the facet joint for decompression or access",
     ),
 
-    # v7.16.1 추가: 누락된 Intervention SNOMED 매핑
+    # v1.16.1 추가: 누락된 Intervention SNOMED 매핑
     "COWO": SNOMEDMapping(
         code="900000000000122",
         term="Three-column osteotomy",
@@ -1609,13 +1609,13 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="230529002",
         term="Cervical myelopathy",
         semantic_type=SNOMEDSemanticType.DISORDER,
-        # v7.14.1: 동의어 확장
+        # v1.14.1: 동의어 확장
         synonyms=["DCM", "Degenerative cervical myelopathy",
                   "Cervical spondylotic myelopathy", "CSM",
                   "cervical myelopathy", "degenerative cervical myelopathy"],
     ),
 
-    # v7.14.1: Cervical Radiculopathy 추가
+    # v1.14.1: Cervical Radiculopathy 추가
     "Cervical Radiculopathy": SNOMEDMapping(
         code="267073000",
         term="Cervical radiculopathy",
@@ -1625,7 +1625,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         korean_term="경추 신경근병증",
     ),
 
-    # v7.14.1: Lumbar Radiculopathy 추가
+    # v1.14.1: Lumbar Radiculopathy 추가
     "Lumbar Radiculopathy": SNOMEDMapping(
         code="128196005",
         term="Lumbar radiculopathy",
@@ -1635,7 +1635,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         korean_term="요추 신경근병증",
     ),
 
-    # v7.14.1: Segmental Instability 추가
+    # v1.14.1: Segmental Instability 추가
     "Segmental Instability": SNOMEDMapping(
         code="900000000000206",
         term="Segmental spinal instability",
@@ -1647,7 +1647,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         notes="Dynamic instability at a spinal segment, often associated with spondylolisthesis",
     ),
 
-    # v7.14.1: Distal Junctional Kyphosis (DJK) 추가
+    # v1.14.1: Distal Junctional Kyphosis (DJK) 추가
     "DJK": SNOMEDMapping(
         code="900000000000207",
         term="Distal junctional kyphosis",
@@ -1660,7 +1660,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         notes="Kyphotic deformity at or below LIV following spinal fusion",
     ),
 
-    # v7.16.4: PJK를 Pathology에도 추가 (Outcome에는 이미 존재)
+    # v1.16.4: PJK를 Pathology에도 추가 (Outcome에는 이미 존재)
     "Proximal Junctional Kyphosis": SNOMEDMapping(
         code="900000000000233",
         term="Proximal junctional kyphosis",
@@ -1672,7 +1672,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         notes="Pathology entry. >10° increase in kyphosis at UIV. Also in OUTCOME_SNOMED as measurable outcome.",
     ),
 
-    # v7.14.1: Adjacent Segment Disease 추가
+    # v1.14.1: Adjacent Segment Disease 추가
     "Adjacent Segment Disease": SNOMEDMapping(
         code="900000000000208",
         term="Adjacent segment disease",
@@ -2418,7 +2418,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         synonyms=["Revision rate", "Secondary surgery rate", "Reintervention rate"],
         korean_term="재수술률",
     ),
-    # v7.14.14 수정: Adjacent Segment Disease는 SPINE_PATHOLOGY_SNOMED에서 정의됨 (900000000000208)
+    # v1.14.14 수정: Adjacent Segment Disease는 SPINE_PATHOLOGY_SNOMED에서 정의됨 (900000000000208)
     # Outcome에서는 "ASD Reoperation Rate"로 재정의
     "ASD Reoperation Rate": SNOMEDMapping(
         code="900000000000204",
@@ -2478,7 +2478,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         notes="Total drainage volume from surgical wound, indicator of bleeding/tissue trauma",
     ),
 
-    # v7.14.14 수정: Wound Dehiscence - 공식 SNOMED 코드 225553008 사용
+    # v1.14.14 수정: Wound Dehiscence - 공식 SNOMED 코드 225553008 사용
     # 이전 extension code 900000000000503은 225553008로 대체됨
     "Wound Dehiscence": SNOMEDMapping(
         code="225553008",
@@ -2516,7 +2516,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         notes="Collection of blood in the epidural space after spine surgery, may require emergency decompression",
     ),
 
-    # v7.14.3 추가: C5 Palsy (C5 마비)
+    # v1.14.3 추가: C5 Palsy (C5 마비)
     "C5 Palsy": SNOMEDMapping(
         code="900000000000506",
         term="Postoperative C5 nerve palsy",
@@ -2529,7 +2529,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         notes="Weakness in deltoid and biceps after cervical spine surgery, typically recovers within 6-12 months",
     ),
 
-    # v7.14.14 수정: Wound Dehiscence 중복 제거됨 - SPINE_OUTCOME_SNOMED에서 정의됨 (225553008)
+    # v1.14.14 수정: Wound Dehiscence 중복 제거됨 - SPINE_OUTCOME_SNOMED에서 정의됨 (225553008)
 
 
     # ========================================
@@ -2975,7 +2975,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
     "L4": SNOMEDMapping(code="181842000", term="Fourth lumbar vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE),
     "L5": SNOMEDMapping(code="181843005", term="Fifth lumbar vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE),
     "S1": SNOMEDMapping(code="181844004", term="First sacral vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE),
-    # v7.16.1: 누락된 vertebral levels 추가
+    # v1.16.1: 누락된 vertebral levels 추가
     "S2": SNOMEDMapping(code="181845003", term="Second sacral vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE),
     "T10": SNOMEDMapping(code="181836002", term="Tenth thoracic vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE),
     "T11": SNOMEDMapping(code="181837006", term="Eleventh thoracic vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE),
@@ -3025,7 +3025,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         korean_term="C6-7 추간판",
         notes="Second most common level for cervical disc herniation",
     ),
-    # v7.16.4: 추가 분절 레벨 (parse_segment_range 분리 결과 매핑)
+    # v1.16.4: 추가 분절 레벨 (parse_segment_range 분리 결과 매핑)
     "C3-4": SNOMEDMapping(
         code="900000000000407",
         term="C3-C4 intervertebral disc",

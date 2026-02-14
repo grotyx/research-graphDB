@@ -16,7 +16,7 @@ from typing import Any, Optional
 from contextlib import asynccontextmanager
 from pathlib import Path
 
-# Load .env file automatically (v7.14.30)
+# Load .env file automatically (v1.14.30)
 try:
     from dotenv import load_dotenv
     # Find .env from project root
@@ -1059,7 +1059,7 @@ class Neo4jClient:
     ) -> dict:
         """수술법 → 질환 치료 관계 생성 (Intervention → Pathology).
 
-        v7.16.1: TREATS 관계 구현.
+        v1.16.1: TREATS 관계 구현.
 
         Args:
             intervention_name: 수술법 이름

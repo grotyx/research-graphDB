@@ -157,7 +157,7 @@ class GraphHandler:
         """주장을 뒷받침하는 논문 체인 찾기 (Neo4j 기반).
 
         claim에서 키워드를 추출하고 관련 논문과 AFFECTS 관계를 검색.
-        v7.14.20: 벡터 유사도 검색 fallback 추가
+        v1.14.20: 벡터 유사도 검색 fallback 추가
 
         Args:
             claim: 검증할 주장

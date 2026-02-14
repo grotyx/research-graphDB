@@ -248,7 +248,7 @@ class PubMedBulkProcessor:
                 self.embedding_generator = OpenAIEmbeddingGenerator()
                 logger.info(f"OpenAI Embedding initialized: {self.EMBEDDING_MODEL} ({self.EMBEDDING_DIM}d)")
             except Exception as e:
-                # v7.14.26: MedTE 폴백 제거 (768d는 3072d 인덱스와 호환 불가)
+                # v1.14.26: MedTE 폴백 제거 (768d는 3072d 인덱스와 호환 불가)
                 logger.error(f"OpenAI embedding initialization failed: {e}")
                 logger.error("OPENAI_API_KEY must be set - MedTE fallback removed (dimension mismatch)")
                 raise RuntimeError(f"OpenAI embedding required (3072d index): {e}")
@@ -431,7 +431,7 @@ class PubMedBulkProcessor:
     ) -> BulkImportSummary:
         """PubMed 논문들을 Neo4j에 임포트. (v5.3: Neo4j Vector Index 사용)
 
-        v7.14.24: LLM 처리 전에 배치 중복 체크를 수행하여 효율성 향상
+        v1.14.24: LLM 처리 전에 배치 중복 체크를 수행하여 효율성 향상
 
         Args:
             papers: 임포트할 논문 목록
@@ -459,7 +459,7 @@ class PubMedBulkProcessor:
 
         summary = BulkImportSummary(total_papers=len(papers))
 
-        # v7.14.24: LLM 처리 전에 배치 중복 체크 (DB 쿼리 1회로 모든 중복 확인)
+        # v1.14.24: LLM 처리 전에 배치 중복 체크 (DB 쿼리 1회로 모든 중복 확인)
         papers_to_import = papers
         if skip_existing:
             pmids = [p.pmid for p in papers if p.pmid]
@@ -493,7 +493,7 @@ class PubMedBulkProcessor:
             logger.info("All papers already exist, nothing to import")
             return summary
 
-        # v7.14.24: 배치 중복 체크 후에는 skip_existing=False (이미 걸러냄)
+        # v1.14.24: 배치 중복 체크 후에는 skip_existing=False (이미 걸러냄)
         effective_skip_existing = False if skip_existing else skip_existing
 
         if max_concurrent <= 1:
@@ -772,7 +772,7 @@ class PubMedBulkProcessor:
 
         logger.info(f"LLM processing successful (input={result.input_tokens}, output={result.output_tokens})")
 
-        # 추출된 데이터에서 메타데이터와 청크 파싱 (v7.14.27: None 값 처리)
+        # 추출된 데이터에서 메타데이터와 청크 파싱 (v1.14.27: None 값 처리)
         metadata_dict = extracted_data.get("metadata") or {}
         spine_meta = extracted_data.get("spine_metadata") or {}
         chunks_data = extracted_data.get("chunks") or []
@@ -923,7 +923,7 @@ class PubMedBulkProcessor:
 
         logger.info(f"Abstract LLM processing successful (input={result.input_tokens}, output={result.output_tokens})")
 
-        # 추출된 데이터에서 메타데이터와 청크 파싱 (v7.14.27: None 값 처리)
+        # 추출된 데이터에서 메타데이터와 청크 파싱 (v1.14.27: None 값 처리)
         metadata_dict = extracted_data.get("metadata") or {}
         spine_meta = extracted_data.get("spine_metadata") or {}
         chunks_data = extracted_data.get("chunks") or []
@@ -1064,7 +1064,7 @@ class PubMedBulkProcessor:
 
             chunk_id = f"{paper_id}_{section_type}_{idx}"
 
-            # 통계 정보 추출 (v7.14.27: None 값 처리)
+            # 통계 정보 추출 (v1.14.27: None 값 처리)
             stats = chunk_dict.get("statistics") or {}
 
             text_chunks.append(TextChunk(
@@ -1428,7 +1428,7 @@ class PubMedBulkProcessor:
             })
             logger.debug(f"Created/updated Paper node: {paper_id}")
 
-            # Abstract 임베딩 자동 생성 (v7.14.12)
+            # Abstract 임베딩 자동 생성 (v1.14.12)
             if metadata.abstract and len(metadata.abstract.strip()) > 0:
                 await self._generate_abstract_embedding(paper_id, metadata.abstract)
 
@@ -1940,7 +1940,7 @@ class PubMedBulkProcessor:
         return None
 
     async def _check_existing_papers_batch(self, pmids: list[str]) -> dict[str, str]:
-        """여러 PMID의 중복 여부를 한 번에 확인 (v7.14.24).
+        """여러 PMID의 중복 여부를 한 번에 확인 (v1.14.24).
 
         LLM 처리 전에 일괄적으로 중복 체크하여 불필요한 API 호출을 방지합니다.
 

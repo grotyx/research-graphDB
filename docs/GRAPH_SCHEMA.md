@@ -51,7 +51,7 @@
 | LOCATED_AT | Pathology → Anatomy | | 질환의 해부학적 위치 *(Planned)* |
 | INVESTIGATES | Paper → Intervention | is_comparison | 논문이 조사하는 수술법 |
 | AFFECTS | Intervention → Outcome | value, p_value, effect_size, is_significant | 수술법의 결과 영향 |
-| TREATS | Intervention → Pathology | indication, source_paper_id | 수술법이 치료하는 질환 (v7.16.1 구현) |
+| TREATS | Intervention → Pathology | indication, source_paper_id | 수술법이 치료하는 질환 (v1.16.1 구현) |
 | IS_A | Intervention → Intervention | | Taxonomy 계층 관계 |
 | HAS_CHUNK | Paper → Chunk | | 논문의 텍스트 청크 |
 
@@ -97,17 +97,17 @@ Spine Surgery
 ├── Fusion Surgery
 │   ├── Interbody Fusion
 │   │   ├── TLIF, PLIF, ALIF, OLIF, LLIF/XLIF
-│   │   └── BELIF (BE-TLIF) ← v7.14.2 추가
+│   │   └── BELIF (BE-TLIF) ← v1.14.2 추가
 │   └── Posterolateral Fusion
 ├── Decompression Surgery
 │   ├── Open Decompression
 │   │   ├── Laminectomy, Laminotomy, Foraminotomy
-│   │   └── Facetectomy ← v7.14.2 추가
+│   │   └── Facetectomy ← v1.14.2 추가
 │   └── Endoscopic Surgery
 │       └── UBE (Biportal), FELD, PELD, MED
 ├── Fixation
 │   ├── Pedicle Screw, Lateral Mass Screw
-│   └── Stereotactic Navigation ← v7.14.2 추가
+│   └── Stereotactic Navigation ← v1.14.2 추가
 ├── Motion Preservation
 │   └── ADR, Dynamic Stabilization
 └── Osteotomy
@@ -149,7 +149,7 @@ final_score = 0.6 * graph_score + 0.4 * vector_score
 - **Algorithm**: HNSW (M=16, efConstruction=200)
 - **Similarity**: Cosine
 
-## SNOMED-CT Terminology Integration (v7.14.2)
+## SNOMED-CT Terminology Integration (v1.14.2)
 
 모든 엔티티 노드 (Intervention, Pathology, Outcome, Anatomy)에 SNOMED-CT 코드가 자동으로 부여됩니다.
 
@@ -167,20 +167,20 @@ final_score = 0.6 * graph_score + 0.4 * vector_score
 
 #### Interventions
 
-- Fusion Surgery: TLIF, PLIF, ALIF, OLIF, LLIF/XLIF, BELIF (v7.14.2)
-- Decompression: Laminectomy, Discectomy, Foraminotomy, Facetectomy (v7.14.2)
+- Fusion Surgery: TLIF, PLIF, ALIF, OLIF, LLIF/XLIF, BELIF (v1.14.2)
+- Decompression: Laminectomy, Discectomy, Foraminotomy, Facetectomy (v1.14.2)
 - Endoscopic: UBE/BESS, FELD, PELD, MED
-- Navigation: Stereotactic Navigation (v7.14.2)
+- Navigation: Stereotactic Navigation (v1.14.2)
 - Osteotomy: SPO, PSO, VCR
 
 #### Pathologies
 
 - Degenerative: Stenosis, Disc Herniation, DDD, Spondylolisthesis
-- Deformity: Scoliosis, Kyphosis, PJK, DJK (v7.14.1)
+- Deformity: Scoliosis, Kyphosis, PJK, DJK (v1.14.1)
 - Trauma: Fracture, Dislocation
 - Tumor: Metastatic, Primary spinal tumor
-- Neurological: Cervical Myelopathy, Radiculopathy (v7.14.1)
-- Instability: Segmental Instability, Adjacent Segment Disease (v7.14.1)
+- Neurological: Cervical Myelopathy, Radiculopathy (v1.14.1)
+- Instability: Segmental Instability, Adjacent Segment Disease (v1.14.1)
 - Comorbidities: Diabetes Mellitus
 
 #### Outcomes
@@ -208,7 +208,7 @@ UBE (Unilateral Biportal Endoscopy): 900000000000105
 OLIF (Oblique Lumbar Interbody Fusion): 900000000000101
 BELIF (Biportal Endoscopic LIF): 900000000000119
 Stereotactic Navigation: 900000000000120
-Facetectomy: 900000000000121 (v7.14.2)
+Facetectomy: 900000000000121 (v1.14.2)
 
 # Pathologies (900000000002xx)
 Adjacent Segment Disease: 900000000000208

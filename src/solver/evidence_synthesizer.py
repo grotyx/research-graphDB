@@ -7,7 +7,7 @@
 - 이질성(heterogeneity) 분석
 - 자연어 요약 생성
 
-v7.14.11: 검색 시 Entity Normalization 및 IS_A hierarchy 지원
+v1.14.11: 검색 시 Entity Normalization 및 IS_A hierarchy 지원
 - 입력 용어를 정규화하여 정확한 매칭
 - IS_A 관계를 통해 하위 intervention도 포함
 
@@ -287,7 +287,7 @@ class EvidenceSynthesizer:
     async def _gather_evidence(self, intervention: str, outcome: str) -> list[EvidenceItem]:
         """Neo4j에서 근거 수집.
 
-        v7.14.11: Entity Normalization 및 IS_A hierarchy 지원
+        v1.14.11: Entity Normalization 및 IS_A hierarchy 지원
         - 입력 용어를 정규화하여 DB의 정규화된 이름과 매칭
         - IS_A 관계를 통해 하위 intervention도 검색에 포함
         - Outcome도 정규화하여 매칭
@@ -418,7 +418,7 @@ class EvidenceSynthesizer:
         evidence_items = []
         for record in records:
             # Parse value (문자열 → 숫자 변환)
-            # v7.14.11: value가 없어도 direction/is_significant 정보로 근거 수집
+            # v1.14.11: value가 없어도 direction/is_significant 정보로 근거 수집
             value = 0.0
             value_control = None
 

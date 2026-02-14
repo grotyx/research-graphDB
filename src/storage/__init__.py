@@ -8,7 +8,7 @@ v5.3부터 Neo4j Vector Index가 유일한 벡터 저장소입니다.
 마이그레이션 가이드:
     대신 src/graph/neo4j_client.py를 사용하세요.
 
-v7.14.12: ChromaDB 완전 제거
+v1.14.12: ChromaDB 완전 제거
     TextChunk, SearchFilters는 하위 호환성을 위해 유지.
 """
 
@@ -41,7 +41,7 @@ class SourceType(Enum):
 
 @dataclass
 class TextChunk:
-    """텍스트 청크 (v7.14.12: 하위 호환성 유지).
+    """텍스트 청크 (v1.14.12: 하위 호환성 유지).
 
     Note: 이 클래스는 레거시 코드 호환성을 위해 유지됩니다.
     새 코드에서는 Neo4j의 Chunk 노드를 직접 사용하세요.
@@ -80,7 +80,7 @@ class TextChunk:
 
 @dataclass
 class SearchFilters:
-    """검색 필터 (v7.14.12: 하위 호환성 유지)."""
+    """검색 필터 (v1.14.12: 하위 호환성 유지)."""
     source_types: Optional[list[str]] = None
     evidence_levels: Optional[list[str]] = None
     min_year: Optional[int] = None
@@ -91,7 +91,7 @@ class SearchFilters:
 
 @dataclass
 class SearchResult:
-    """검색 결과 (v7.14.12: 하위 호환성 유지)."""
+    """검색 결과 (v1.14.12: 하위 호환성 유지)."""
     chunk_id: str
     content: str
     document_id: str

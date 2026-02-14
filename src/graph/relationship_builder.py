@@ -709,7 +709,7 @@ class RelationshipBuilder:
             authors=metadata.authors,
             year=metadata.year,
             journal=metadata.journal,
-            doi=sanitize_doi(metadata.doi),  # v7.14.23: DOI placeholder 필터링
+            doi=sanitize_doi(metadata.doi),  # v1.14.23: DOI placeholder 필터링
             pmid=getattr(metadata, 'pmid', '') or "",
             # v3.2: 다중 분류 지원
             sub_domain=sub_domain or (sub_domains[0] if sub_domains else ""),
@@ -914,7 +914,7 @@ class RelationshipBuilder:
         """Intervention → Pathology (TREATS) 관계 생성.
 
         논문에서 추출된 수술법-질환 쌍에 대해 TREATS 관계를 생성.
-        v7.16.1: TREATS 관계 구현.
+        v1.16.1: TREATS 관계 구현.
 
         Args:
             paper_id: 출처 논문 ID
@@ -1215,7 +1215,7 @@ class RelationshipBuilder:
         # 2. 청크의 statistics에서 추가 추출 (results 섹션 우선)
         for chunk in chunks:
             # Support both ExtractedChunk objects and dict (from LLM text processing)
-            # v7.14.27: None 값 처리
+            # v1.14.27: None 값 처리
             if isinstance(chunk, dict):
                 section_type = chunk.get("section_type") or ""
                 statistics = chunk.get("statistics") or {}

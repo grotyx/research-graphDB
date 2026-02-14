@@ -1,6 +1,6 @@
 [project]
 name = "spine-graphrag"
-version = "7.16.4"
+version = "1.16.4"
 description = "Spine GraphRAG - Neo4j based medical literature knowledge graph system"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -11,7 +11,7 @@ dependencies = [
     "lxml>=4.9.0",
     "sentence-transformers>=2.2.0",
     "torch>=2.0.0",
-    # chromadb removed in v7.14.12 - Neo4j Vector Index only
+    # chromadb removed in v1.14.12 - Neo4j Vector Index only
     "mcp>=1.0.0",
     "pyyaml>=6.0.0",
     "python-dateutil>=2.8.0",

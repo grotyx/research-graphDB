@@ -1,6 +1,6 @@
 # Schema, Taxonomy, SNOMED-CT 업데이트 가이드
 
-> **버전**: v7.16.3 | **최종 수정**: 2026-02-14
+> **버전**: v1.16.3 | **최종 수정**: 2026-02-14
 
 이 문서는 Spine GraphRAG 시스템의 스키마, Taxonomy, SNOMED-CT 코드를 업데이트하는 전체 과정을 설명합니다.
 
@@ -38,7 +38,7 @@
 └─────────────────────────────────────────────────────────────┘
                             ↓
 ┌─────────────────────────────────────────────────────────────┐
-│  3. 통합 보강 스크립트 실행 (v7.16.3 권장)                    │
+│  3. 통합 보강 스크립트 실행 (v1.16.3 권장)                    │
 │     python scripts/enrich_graph_snomed.py --force            │
 │     ├── Anatomy 정리 (다분절 범위 분리, 비특이적 플래그)      │
 │     ├── SNOMED 코드 적용 (4개 엔티티 타입)                    │
@@ -95,7 +95,7 @@ PYTHONPATH=./src python3 scripts/init_neo4j.py
 ✅ SNOMED codes enriched
 ```
 
-### Step 3: SNOMED/TREATS/Anatomy 통합 보강 (v7.16.3 권장)
+### Step 3: SNOMED/TREATS/Anatomy 통합 보강 (v1.16.3 권장)
 
 ```bash
 # 먼저 dry-run으로 미리보기
@@ -224,7 +224,7 @@ launchctl unload ~/Library/LaunchAgents/com.spine-graphrag.snomed-enrich.plist
 
 ## 4. 스크립트 옵션
 
-### enrich_graph_snomed.py (v7.16.3 통합 스크립트, 권장)
+### enrich_graph_snomed.py (v1.16.3 통합 스크립트, 권장)
 
 SNOMED 코드 적용, TREATS 관계 백필, Anatomy 정리를 하나의 통합 CLI로 실행합니다.
 
@@ -337,7 +337,7 @@ MERGE (new_surgery)-[:IS_A {level: 2}]->(parent_node)
 
 ### 5.4 SNOMED Enrichment (자동)
 
-v7.16.3부터 `schema.py:get_enrich_snomed_cypher()`는 `spine_snomed_mappings.py`의 304개 매핑으로부터 **자동 생성**됩니다.
+v1.16.3부터 `schema.py:get_enrich_snomed_cypher()`는 `spine_snomed_mappings.py`의 304개 매핑으로부터 **자동 생성**됩니다.
 `spine_snomed_mappings.py`에 매핑을 추가하면 `init_neo4j.py` 실행 시 자동으로 Cypher가 생성됩니다.
 
 > **참고**: 수동으로 `schema.py`에 SNOMED 쿼리를 추가할 필요가 없습니다.
@@ -408,9 +408,9 @@ cat .env | grep NEO4J
 
 | 날짜 | 버전 | 변경 내용 |
 |-----|------|----------|
-| 2026-02-14 | v7.16.3 | 통합 스크립트 enrich_graph_snomed.py, schema.py SNOMED 동적 생성, TREATS 백필, Anatomy 정리 |
-| 2025-12-26 | v7.14.2 | Facetectomy, BELIF, Stereotactic Navigation 추가 |
-| 2025-12-25 | v7.14.1 | 별칭 대폭 확장 (150+ 신규) |
+| 2026-02-14 | v1.16.3 | 통합 스크립트 enrich_graph_snomed.py, schema.py SNOMED 동적 생성, TREATS 백필, Anatomy 정리 |
+| 2025-12-26 | v1.14.2 | Facetectomy, BELIF, Stereotactic Navigation 추가 |
+| 2025-12-25 | v1.14.1 | 별칭 대폭 확장 (150+ 신규) |
 | 2025-12-25 | v7.14 | BED→UBE, BE-TLIF→BELIF 통합 |
 
 ---

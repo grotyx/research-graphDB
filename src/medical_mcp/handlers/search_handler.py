@@ -141,7 +141,7 @@ class SearchHandler:
                         source_type=source_type_enum,
                         evidence_level=evidence_level_enum,
                         publication_year=getattr(chunk, 'publication_year', 0),
-                        title=getattr(chunk, 'title', None)  # v7.14.30: title 필드 추가
+                        title=getattr(chunk, 'title', None)  # v1.14.30: title 필드 추가
                     )
                     converted_results.append(converted)
 
@@ -191,7 +191,7 @@ class SearchHandler:
                 except Exception as e:
                     logger.warning(f"Conflict detection skipped: {e}")
 
-            # 6. 결과 포맷 (v7.14.20: title, year 필드 추가)
+            # 6. 결과 포맷 (v1.14.20: title, year 필드 추가)
             formatted_results = []
             for r in results[:top_k]:
                 # RankedResult인 경우
@@ -314,7 +314,7 @@ class SearchHandler:
                         limit=limit
                     )
                 elif interventions and not outcomes:
-                    # v7.14.18: Intervention만 있는 경우 → cypher_generator가 생성한 쿼리 사용
+                    # v1.14.18: Intervention만 있는 경우 → cypher_generator가 생성한 쿼리 사용
                     # IS_A 계층을 통해 하위 수술법도 포함하여 관련 논문 검색
                     results = await self.neo4j_client.run_query(cypher, cypher_params)
                     result = {
@@ -365,7 +365,7 @@ class SearchHandler:
                     }
 
             else:
-                # Default: execute generated Cypher with search_term parameter (v7.14.18)
+                # Default: execute generated Cypher with search_term parameter (v1.14.18)
                 # 검색어를 파라미터로 전달하여 제목/초록 검색 지원
                 results = await self.neo4j_client.run_query(
                     cypher,
@@ -401,7 +401,7 @@ class SearchHandler:
     ) -> dict:
         """통합 검색 파이프라인 - Neo4j 하이브리드 검색 사용.
 
-        v7.14.18+: ChromaDB 제거로 인해 Neo4j 내장 벡터 인덱스를 사용하는
+        v1.14.18+: ChromaDB 제거로 인해 Neo4j 내장 벡터 인덱스를 사용하는
         hybrid_search로 대체됩니다. 근거 종합 및 충돌 탐지를 포함합니다.
 
         Args:
@@ -424,7 +424,7 @@ class SearchHandler:
             if not self.neo4j_client._driver:
                 await self.neo4j_client.connect()
 
-            # v7.14.19: Use Neo4j's built-in hybrid search instead of UnifiedSearchPipeline
+            # v1.14.19: Use Neo4j's built-in hybrid search instead of UnifiedSearchPipeline
             # Since ChromaDB was removed, we use Neo4j's vector index directly
             import time
             start_time = time.time()
@@ -563,7 +563,7 @@ class SearchHandler:
             if not self.neo4j_client._driver:
                 await self.neo4j_client.connect()
 
-            # v7.14.12: Entity Normalization 적용
+            # v1.14.12: Entity Normalization 적용
             normalized_intervention = intervention
             normalized_outcome = outcome
             try:
@@ -582,7 +582,7 @@ class SearchHandler:
             except Exception as e:
                 logger.warning(f"Entity normalization failed: {e}")
 
-            # v7.14.12: 정규화된 이름으로 직접 Cypher 쿼리
+            # v1.14.12: 정규화된 이름으로 직접 Cypher 쿼리
             # "Endoscopic" 키워드 검색 시 모든 내시경 수술 포함
             is_endoscopic_search = 'endoscopic' in intervention.lower()
 

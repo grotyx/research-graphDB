@@ -538,19 +538,19 @@ class SpineGraphSchema:
         MERGE (pkp)-[:IS_A {level: 1}]->(vert_aug)
 
         // ============================================================================
-        // FACETECTOMY (v7.14.2 추가)
+        // FACETECTOMY (v1.14.2 추가)
         // ============================================================================
         MERGE (facetectomy:Intervention {name: 'Facetectomy', category: 'decompression', full_name: 'Facet Joint Resection', aliases: ['Partial Facetectomy', 'Medial Facetectomy', 'Total Facetectomy']})
         MERGE (facetectomy)-[:IS_A {level: 2}]->(open_decomp)
 
         // ============================================================================
-        // BELIF (v7.14.2 추가 - Biportal Endoscopic Lumbar Interbody Fusion)
+        // BELIF (v1.14.2 추가 - Biportal Endoscopic Lumbar Interbody Fusion)
         // ============================================================================
         MERGE (belif:Intervention {name: 'BELIF', full_name: 'Biportal Endoscopic Lumbar Interbody Fusion', category: 'fusion', approach: 'posterior', is_minimally_invasive: true, aliases: ['BE-TLIF', 'BETLIF', 'BE-LIF', 'BELF']})
         MERGE (belif)-[:IS_A {level: 3}]->(tlif)
 
         // ============================================================================
-        // STEREOTACTIC NAVIGATION (v7.14.2 추가)
+        // STEREOTACTIC NAVIGATION (v1.14.2 추가)
         // ============================================================================
         MERGE (nav:Intervention {name: 'Stereotactic Navigation', category: 'navigation', full_name: 'Stereotactic Navigation-Guided Surgery', aliases: ['Navigation', 'O-arm Navigation', 'CT Navigation', 'CASS']})
         MERGE (nav)-[:IS_A {level: 1}]->(fixation)
@@ -700,7 +700,7 @@ class SpineGraphSchema:
         """SNOMED 코드로 기존 노드를 보강하는 Cypher 쿼리 목록.
 
         spine_snomed_mappings.py의 304개 매핑으로부터 동적 생성합니다.
-        v7.16.3: 하드코딩 제거, snomed_enricher.py 기반 동적 생성.
+        v1.16.3: 하드코딩 제거, snomed_enricher.py 기반 동적 생성.
 
         Returns:
             SNOMED 보강 쿼리 목록
@@ -712,7 +712,7 @@ class SpineGraphSchema:
     def get_fix_orphan_interventions_cypher(cls) -> list[str]:
         """고아 Intervention 노드에 IS_A 관계를 추가하는 Cypher 쿼리 목록.
 
-        v7.14.6: 기존 데이터에서 추출된 Intervention 노드 중
+        v1.14.6: 기존 데이터에서 추출된 Intervention 노드 중
         IS_A 관계가 없는 노드들을 적절한 상위 카테고리에 연결합니다.
 
         Returns:
@@ -1032,7 +1032,7 @@ class SpineGraphSchema:
     def get_fix_orphan_pathologies_cypher(cls) -> list[str]:
         """고아 Pathology 노드에 카테고리를 할당하는 Cypher 쿼리 목록.
 
-        v7.14.6: 기존 데이터에서 추출된 Pathology 노드 중
+        v1.14.6: 기존 데이터에서 추출된 Pathology 노드 중
         category가 없는 노드들을 적절한 카테고리로 분류합니다.
 
         Returns:
@@ -1270,7 +1270,7 @@ class SpineGraphSchema:
     def get_fix_orphan_outcomes_cypher(cls) -> list[str]:
         """고아 Outcome 노드에 type을 할당하는 Cypher 쿼리 목록.
 
-        v7.14.6: 기존 데이터에서 추출된 Outcome 노드 중
+        v1.14.6: 기존 데이터에서 추출된 Outcome 노드 중
         type이 없는 노드들을 적절한 타입으로 분류합니다.
 
         Returns:
@@ -1594,7 +1594,7 @@ class CypherTemplates:
     RETURN p, r, i
     """
 
-    # 수술법 → 질환 치료 관계 (v7.16.1: TREATS 구현)
+    # 수술법 → 질환 치료 관계 (v1.16.1: TREATS 구현)
     CREATE_TREATS_RELATION = """
     MATCH (i:Intervention {name: $intervention_name})
     MERGE (path:Pathology {name: $pathology_name})

@@ -6,7 +6,7 @@ LangChain 기반 쿼리 오케스트레이션 및 응답 생성 모듈.
 
 이 모듈은 LangChain을 활용하여 Neo4j Graph + Vector 하이브리드 검색과 Gemini LLM 기반 응답 생성을 통합합니다.
 
-> **Note**: v7.14.12부터 ChromaDB가 제거되고 Neo4j Vector Index가 유일한 벡터 저장소입니다.
+> **Note**: v1.14.12부터 ChromaDB가 제거되고 Neo4j Vector Index가 유일한 벡터 저장소입니다.
 
 ```
 User Query

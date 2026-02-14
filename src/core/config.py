@@ -73,7 +73,7 @@ class Neo4jConfig:
 class ChromaDBConfig:
     """ChromaDB vector database configuration.
 
-    DEPRECATED (v7.14.12): ChromaDB 제거됨. Neo4j Vector Index 사용.
+    DEPRECATED (v1.14.12): ChromaDB 제거됨. Neo4j Vector Index 사용.
     하위 호환성을 위해 유지됨.
     """
 

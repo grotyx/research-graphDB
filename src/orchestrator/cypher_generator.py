@@ -305,7 +305,7 @@ class CypherGenerator:
             """, {"outcome": outcomes[0]})
 
         elif interventions and not outcomes:
-            # v7.14.18: Intervention만 있는 경우 → 해당 수술법 관련 논문 검색
+            # v1.14.18: Intervention만 있는 경우 → 해당 수술법 관련 논문 검색
             # IS_A 계층을 통해 하위 수술법도 포함
             return ("""
             MATCH (target:Intervention {name: $intervention})
@@ -324,7 +324,7 @@ class CypherGenerator:
             """, {"intervention": interventions[0]})
 
         else:
-            # 기본: 검색어 기반 제목/초록 검색 (v7.14.18)
+            # 기본: 검색어 기반 제목/초록 검색 (v1.14.18)
             return ("""
             MATCH (p:Paper)
             WHERE toLower(p.title) CONTAINS toLower($search_term)

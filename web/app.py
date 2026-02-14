@@ -641,7 +641,7 @@ def main():
     # Footer
     st.markdown("""
     <div class="footer">
-        Spine GraphRAG v7.15.0 | Neo4j Unified | Claude Haiku 4.5 | Single-Store Architecture
+        Spine GraphRAG v1.15.0 | Neo4j Unified | Claude Haiku 4.5 | Single-Store Architecture
     </div>
     """, unsafe_allow_html=True)
 

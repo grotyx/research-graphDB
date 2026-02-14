@@ -65,7 +65,7 @@ class ProcessedFile:
         title = None
         chunks_count = 0
         if self.result and self.result.extracted_data:
-            # v7.14.27: None 값 처리
+            # v1.14.27: None 값 처리
             metadata = self.result.extracted_data.get("metadata") or {}
             title = metadata.get("title")
             chunks = self.result.extracted_data.get("chunks") or []
@@ -527,7 +527,7 @@ class BatchProcessor:
                 processing_time = time.time() - start_time
 
                 if result.success:
-                    # Extract title from result (v7.14.27: None 값 처리)
+                    # Extract title from result (v1.14.27: None 값 처리)
                     title = "Unknown"
                     if result.extracted_data:
                         metadata = result.extracted_data.get("metadata") or {}

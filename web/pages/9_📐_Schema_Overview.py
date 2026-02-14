@@ -3,7 +3,7 @@
 Interactive visualization of the Spine GraphRAG knowledge graph schema.
 Shows all node types, relationship types, counts, and structure.
 
-Version: v7.14.25
+Version: v1.14.25
 """
 
 import sys

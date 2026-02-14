@@ -53,7 +53,7 @@ class ErrorCode(Enum):
     NEO4J_NODE_NOT_FOUND = "NEO4J_NODE_NOT_FOUND"
     NEO4J_SCHEMA_ERROR = "NEO4J_SCHEMA_ERROR"
 
-    # ChromaDB errors (DEPRECATED - v7.14.12: Neo4j Vector Index가 유일한 벡터 저장소)
+    # ChromaDB errors (DEPRECATED - v1.14.12: Neo4j Vector Index가 유일한 벡터 저장소)
     CHROMA_CONNECTION = "CHROMA_CONNECTION"
     CHROMA_COLLECTION_NOT_FOUND = "CHROMA_COLLECTION_NOT_FOUND"
     CHROMA_INSERT_FAILED = "CHROMA_INSERT_FAILED"
@@ -248,7 +248,7 @@ class Neo4jError(MedicalRAGError):
 class ChromaDBError(MedicalRAGError):
     """ChromaDB vector database errors.
 
-    DEPRECATED (v7.14.12): ChromaDB 제거됨. Neo4j Vector Index 사용.
+    DEPRECATED (v1.14.12): ChromaDB 제거됨. Neo4j Vector Index 사용.
     하위 호환성을 위해 유지됨.
     """
     def __init__(

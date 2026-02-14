@@ -1,6 +1,6 @@
 # Spine GraphRAG 용어체계 및 온톨로지 가이드
 
-> **Version**: 7.16.0
+> **Version**: 1.16.0
 > **Last Updated**: 2026-02-14
 > **Maintainer**: Spine GraphRAG Development Team
 
@@ -524,7 +524,7 @@ OUTCOME_ALIASES = {
     # ... 30+ 결과변수
 }
 
-# v7.16.0: 해부학 위치 별칭 (신규)
+# v1.16.0: 해부학 위치 별칭 (신규)
 ANATOMY_ALIASES = {
     "Cervical": ["C-spine", "cervical spine", "경추"],
     "Lumbar": ["L-spine", "lumbar spine", "요추"],
@@ -534,7 +534,7 @@ ANATOMY_ALIASES = {
 }
 ```
 
-### 5.6 normalize_anatomy() (v7.16.0)
+### 5.6 normalize_anatomy() (v1.16.0)
 
 해부학 위치를 정규화하고 SNOMED 코드를 자동 첨부합니다.
 
@@ -623,7 +623,7 @@ RELATED_TERMS = {
 
 ## 7. 통계 및 커버리지
 
-### 7.1 전체 매핑 통계 (v7.16.2)
+### 7.1 전체 매핑 통계 (v1.16.2)
 
 | 카테고리 | 전체 | 공식 SNOMED | 확장 코드 | 커버리지 |
 |----------|------|-------------|-----------|----------|
@@ -633,11 +633,11 @@ RELATED_TERMS = {
 | Anatomy | 30 | 24 | 6 | 80.0% |
 | **Total** | **304** | **142** | **162** | **46.7%** |
 
-> **v7.14.15 변경사항**: SNOMED 중복 제거 및 정리, 공식 코드 전환 (Wound Dehiscence → 225553008)
+> **v1.14.15 변경사항**: SNOMED 중복 제거 및 정리, 공식 코드 전환 (Wound Dehiscence → 225553008)
 >
-> **v7.15.0 변경사항**: `entity_normalizer.py` OUTCOME_ALIASES/PATHOLOGY_ALIASES 딕셔너리 중복 키 5건 merge — SF-12(5개 alias 복원), Cervical Myelopathy(4개), PJK(1개), DJK, Adjacent Segment Disease(2개). Python dict 중복 키는 마지막 값만 유지되므로 이전 alias가 손실되고 있었음.
+> **v1.15.0 변경사항**: `entity_normalizer.py` OUTCOME_ALIASES/PATHOLOGY_ALIASES 딕셔너리 중복 키 5건 merge — SF-12(5개 alias 복원), Cervical Myelopathy(4개), PJK(1개), DJK, Adjacent Segment Disease(2개). Python dict 중복 키는 마지막 값만 유지되므로 이전 alias가 손실되고 있었음.
 >
-> **v7.16.1 변경사항**:
+> **v1.16.1 변경사항**:
 > - Intervention SNOMED 4건 추가 (COWO, Open Decompression, Over-the-top Decompression, UBD)
 > - Anatomy SNOMED 3건 추가 (S2, T10, T11) — 공식 SNOMED 코드
 > - TREATS 관계 생성 코드 구현 (Intervention → Pathology)
@@ -645,7 +645,7 @@ RELATED_TERMS = {
 > - Schema 노드 26개에 대한 INTERVENTION_ALIASES 추가
 > - normalize_anatomy() 메서드 추가
 >
-> **v7.16.2 변경사항**:
+> **v1.16.2 변경사항**:
 > - SNOMED 매핑 대폭 확장: 147 → 304개 (I:+72, P:+51, O:+34)
 > - entity_normalizer.py 16개 alias 갭 수정 (CES, DM, SSI 등)
 > - 공식 SNOMED 코드 49건 추가 (Laminoplasty, OPLL, ESI, Schwannoma 등)
@@ -665,8 +665,8 @@ RELATED_TERMS = {
 - Lateral Mass Screw
 - Motion Preservation, Dynamic Stabilization, Interspinous Device
 - BELIF, Stereotactic Navigation
-- Facetectomy (v7.14.2)
-- COWO, Open Decompression, Over-the-top Decompression, UBD (v7.16.1)
+- Facetectomy (v1.14.2)
+- COWO, Open Decompression, Over-the-top Decompression, UBD (v1.16.1)
 
 #### Pathologies (6개)
 - Adult Spinal Deformity
@@ -687,7 +687,7 @@ RELATED_TERMS = {
 - PJK (Proximal Junctional Kyphosis)
 - Serum CPK, Scar Quality, Postoperative Drainage
 - Recurrent Disc Herniation, Epidural Hematoma
-- C5 Palsy (v7.14.3)
+- C5 Palsy (v1.14.3)
 
 ### 7.3 통계 조회 API
 
@@ -813,7 +813,7 @@ SNOMED-CT에 새 코드가 등록되면:
 
 | 버전 | 날짜 | 변경 내용 |
 |------|------|----------|
-| 7.14.1 | 2025-01-01 | 최초 문서 작성, 전체 시스템 분석 |
+| 1.14.1 | 2025-01-01 | 최초 문서 작성, 전체 시스템 분석 |
 | 7.14 | 2024-12 | BELIF, BED, Stereotactic Navigation 추가 |
 | 7.11 | 2024-11 | SSI 분류 (Superficial/Deep) 추가 |
 | 4.3 | 2024-09 | SNOMED Extension Code 시스템 도입 |

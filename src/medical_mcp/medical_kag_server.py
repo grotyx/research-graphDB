@@ -52,7 +52,7 @@ from solver.reasoner import Reasoner, ReasonerInput
 from solver.response_generator import ResponseGenerator, GeneratorInput, ResponseFormat
 from solver.conflict_detector import ConflictDetector, ConflictInput
 
-# v7.14.12: ChromaDB 완전 제거 - Neo4j Vector Index만 사용
+# v1.14.12: ChromaDB 완전 제거 - Neo4j Vector Index만 사용
 # TextChunk는 하위 호환성을 위해 storage/__init__.py에서 유지
 from storage import TextChunk, SearchFilters
 
@@ -526,7 +526,7 @@ class MedicalKAGServer:
             except Exception as e:
                 logger.warning(f"Neo4j Graph initialization failed: {e}")
 
-        # v7.14.17: TieredHybridSearch 초기화 (Neo4j Hybrid Search 통합)
+        # v1.14.17: TieredHybridSearch 초기화 (Neo4j Hybrid Search 통합)
         if self.neo4j_client:
             # Neo4j 전용 모드: Neo4j Vector Index + Graph 필터 통합
             self.search_engine = TieredHybridSearch(
@@ -534,12 +534,12 @@ class MedicalKAGServer:
                 neo4j_client=self.neo4j_client,
                 use_neo4j_vector=True,
                 config={
-                    "use_neo4j_hybrid": True,  # v7.14.17: 그래프+벡터 통합 검색
+                    "use_neo4j_hybrid": True,  # v1.14.17: 그래프+벡터 통합 검색
                     "vector_weight": 0.4,
                     "graph_weight": 0.6,
                 }
             )
-            logger.info("TieredHybridSearch initialized with Neo4j Hybrid Search (v7.14.17)")
+            logger.info("TieredHybridSearch initialized with Neo4j Hybrid Search (v1.14.17)")
         else:
             # Neo4j 없으면 검색 불가
             self.search_engine = None
@@ -581,7 +581,7 @@ class MedicalKAGServer:
                 logger.warning(f"Important Citation Processor initialization failed: {e}")
 
     def _convert_to_graph_spine_metadata(self, spine_meta) -> "GraphSpineMetadata":
-        """Convert spine metadata to GraphSpineMetadata (v7.14.9).
+        """Convert spine metadata to GraphSpineMetadata (v1.14.9).
 
         Handles field name differences between unified_pdf_processor and relationship_builder:
         - pathology (list) -> pathologies
@@ -793,7 +793,7 @@ class MedicalKAGServer:
         if hasattr(result, 'extracted_data') and result.extracted_data:
             # UnifiedPDFProcessor 결과 변환
             extracted_data = result.extracted_data
-            # v7.14.27: None 값 처리
+            # v1.14.27: None 값 처리
             meta_dict = extracted_data.get("metadata") or {}
             spine_dict = extracted_data.get("spine_metadata") or {}
             chunks_list = extracted_data.get("chunks") or []
@@ -1203,7 +1203,7 @@ class MedicalKAGServer:
                     if not sub_domains and sub_domain:
                         sub_domains = [sub_domain]
 
-                    # v7.14.9: v7.2 Extended entities 포함
+                    # v1.14.9: v7.2 Extended entities 포함
                     graph_spine_meta = GraphSpineMetadata(
                         sub_domains=sub_domains,
                         sub_domain=sub_domain or (sub_domains[0] if sub_domains else ''),
@@ -1885,7 +1885,7 @@ class MedicalKAGServer:
         neo4j_result = None
         if self.neo4j_client and self.relationship_builder:
             try:
-                # v7.14.9: 헬퍼 함수 사용하여 필드 매핑 처리
+                # v1.14.9: 헬퍼 함수 사용하여 필드 매핑 처리
                 graph_spine_meta = self._convert_to_graph_spine_metadata(spine_meta)
 
                 # ExtractedMetadata 호환 객체 생성
@@ -1946,7 +1946,7 @@ class MedicalKAGServer:
                 chunk_texts = [c.content for c in chunks_data if hasattr(c, 'content')]
 
                 if chunk_texts:
-                    # v7.14.3: 기존 Chunk 삭제 (중복 방지)
+                    # v1.14.3: 기존 Chunk 삭제 (중복 방지)
                     await self._delete_existing_chunks(paper_id)
 
                     # 임베딩 생성
@@ -2508,7 +2508,7 @@ class MedicalKAGServer:
                 chunk_texts = [c.get("content", "") for c in chunks if c.get("content")]
 
                 if chunk_texts:
-                    # v7.14.3: 기존 Chunk 삭제 (중복 방지)
+                    # v1.14.3: 기존 Chunk 삭제 (중복 방지)
                     await self._delete_existing_chunks(paper_id)
 
                     # 임베딩 생성
@@ -2947,7 +2947,7 @@ class MedicalKAGServer:
         prefer_original: bool = True,
         min_evidence_level: Optional[str] = None
     ) -> dict:
-        """검색 수행 (v7.14.18: SearchHandler로 위임).
+        """검색 수행 (v1.14.18: SearchHandler로 위임).
 
         Args:
             query: 검색 쿼리
@@ -2975,7 +2975,7 @@ class MedicalKAGServer:
         max_hops: int = 3,
         include_conflicts: bool = True
     ) -> dict:
-        """추론 기반 답변 생성 (v7.14.18: ReasoningHandler로 위임).
+        """추론 기반 답변 생성 (v1.14.18: ReasoningHandler로 위임).
 
         Args:
             question: 질문
@@ -3033,7 +3033,7 @@ class MedicalKAGServer:
                 "error": "JSON에 'metadata'와 'chunks' 필드가 필요합니다."
             }
 
-        # v7.14.27: None 값 처리
+        # v1.14.27: None 값 처리
         meta_dict = extracted_data.get("metadata") or {}
         spine_dict = extracted_data.get("spine_metadata") or {}
         chunks_list = extracted_data.get("chunks") or []
@@ -3172,7 +3172,7 @@ class MedicalKAGServer:
         }
 
     async def export_document(self, document_id: str) -> dict:
-        """저장된 문서를 JSON으로 내보냅니다 (v7.14.18: DocumentHandler로 위임).
+        """저장된 문서를 JSON으로 내보냅니다 (v1.14.18: DocumentHandler로 위임).
 
         Args:
             document_id: 내보낼 문서 ID
@@ -3368,13 +3368,13 @@ Return ONLY valid JSON, no additional text.'''
             return {"success": False, "error": str(e)}
 
     async def list_documents(self) -> dict:
-        """저장된 문서 목록 (v7.14.18: DocumentHandler로 위임)."""
+        """저장된 문서 목록 (v1.14.18: DocumentHandler로 위임)."""
         if self.document_handler:
             return await self.document_handler.list_documents()
         return {"success": False, "error": "DocumentHandler not initialized"}
 
     async def get_stats(self) -> dict:
-        """시스템 통계 조회 (v7.14.18: DocumentHandler로 위임)."""
+        """시스템 통계 조회 (v1.14.18: DocumentHandler로 위임)."""
         if self.document_handler:
             return await self.document_handler.get_stats()
         return {
@@ -3388,7 +3388,7 @@ Return ONLY valid JSON, no additional text.'''
         }
 
     async def delete_document(self, document_id: str) -> dict:
-        """문서 삭제 (v7.14.18: DocumentHandler로 위임).
+        """문서 삭제 (v1.14.18: DocumentHandler로 위임).
 
         Args:
             document_id: 삭제할 문서 ID
@@ -3401,7 +3401,7 @@ Return ONLY valid JSON, no additional text.'''
         return {"success": False, "error": "DocumentHandler not initialized"}
 
     async def reset_database(self, include_taxonomy: bool = False) -> dict:
-        """전체 데이터베이스 리셋 (v7.14.18: DocumentHandler로 위임).
+        """전체 데이터베이스 리셋 (v1.14.18: DocumentHandler로 위임).
 
         Args:
             include_taxonomy: Taxonomy도 삭제할지 여부 (기본값: False)
@@ -3886,7 +3886,7 @@ Return ONLY valid JSON, no additional text.'''
                     continue
                 seen_docs.add(doc_id)
 
-                # 메타데이터에서 저자/연도 추출 (v7.14.27: None 값 처리)
+                # 메타데이터에서 저자/연도 추출 (v1.14.27: None 값 처리)
                 metadata = result.get("metadata") or {}
                 authors = metadata.get("authors") or ["Unknown"]
                 year = metadata.get("year", "n.d.")
@@ -4164,7 +4164,7 @@ Return ONLY valid JSON, no additional text.'''
         year_from: Optional[int] = None,
         year_to: Optional[int] = None,
     ) -> dict:
-        """하이브리드 검색: 로컬 DB 우선 + PubMed 보완 (v7.14.24).
+        """하이브리드 검색: 로컬 DB 우선 + PubMed 보완 (v1.14.24).
 
         1. 먼저 Neo4j에서 로컬 검색 (이미 분석된 논문 활용)
         2. 로컬 결과가 min_local_results 미만이면 PubMed에서 보완 검색
@@ -4400,7 +4400,7 @@ Return ONLY valid JSON, no additional text.'''
                         "error": "Could not fetch paper details from PubMed",
                     }
 
-                # Import the fetched papers (v7.5: 멀티유저, v7.14.23: 병렬 처리)
+                # Import the fetched papers (v7.5: 멀티유저, v1.14.23: 병렬 처리)
                 # max_concurrent: None이면 환경변수에서 읽음
                 if max_concurrent is None:
                     env_concurrent = int(os.environ.get("PUBMED_MAX_CONCURRENT", "5"))
@@ -4460,7 +4460,7 @@ Return ONLY valid JSON, no additional text.'''
             return {"success": False, "error": str(e)}
 
     # ========================================================================
-    # DOI Fulltext Methods (v7.12.2)
+    # DOI Fulltext Methods (v1.12.2)
     # ========================================================================
 
     async def fetch_by_doi(
@@ -4693,7 +4693,7 @@ Return ONLY valid JSON, no additional text.'''
             """
             await self.neo4j_client.run_query(query, paper_data)
 
-            # v7.14.12: Abstract 임베딩 자동 생성
+            # v1.14.12: Abstract 임베딩 자동 생성
             if meta.abstract and len(meta.abstract.strip()) > 0:
                 await self._generate_abstract_embedding(paper_id, meta.abstract)
 
@@ -4709,7 +4709,7 @@ Return ONLY valid JSON, no additional text.'''
             return {"success": False, "error": str(e)}
 
     # =========================================================================
-    # v7.14.12: Abstract 임베딩 생성 헬퍼 메서드
+    # v1.14.12: Abstract 임베딩 생성 헬퍼 메서드
     # =========================================================================
 
     async def _generate_abstract_embedding(
@@ -4761,7 +4761,7 @@ Return ONLY valid JSON, no additional text.'''
             return False
 
     # =========================================================================
-    # v7.14.3: 중복 Paper 체크 헬퍼 메서드
+    # v1.14.3: 중복 Paper 체크 헬퍼 메서드
     # =========================================================================
 
     async def _check_existing_paper_by_pmid(self, pmid: str) -> Optional[str]:
@@ -4880,7 +4880,7 @@ Return ONLY valid JSON, no additional text.'''
             result = await self.neo4j_client.run_query(cypher, {"paper_id": paper_id})
             deleted = result[0].get("deleted_count", 0) if result else 0
             if deleted > 0:
-                logger.info(f"[v7.14.3] Deleted {deleted} existing chunks for {paper_id}")
+                logger.info(f"[v1.14.3] Deleted {deleted} existing chunks for {paper_id}")
             return deleted
         except Exception as e:
             logger.warning(f"Error deleting existing chunks: {e}")
@@ -4993,7 +4993,7 @@ Return ONLY valid JSON, no additional text.'''
         search_type: str = "evidence",
         limit: int = 20
     ) -> dict:
-        """Neo4j 그래프 기반 검색 (v7.14.18: SearchHandler로 위임).
+        """Neo4j 그래프 기반 검색 (v1.14.18: SearchHandler로 위임).
 
         Args:
             query: 자연어 검색 쿼리
@@ -5552,7 +5552,7 @@ Return ONLY valid JSON, no additional text.'''
         include_synthesis: bool = True,
         detect_conflicts: bool = True
     ) -> dict:
-        """통합 검색 파이프라인 (v7.14.18: SearchHandler로 위임).
+        """통합 검색 파이프라인 (v1.14.18: SearchHandler로 위임).
 
         Args:
             query: 검색 쿼리
@@ -6138,7 +6138,7 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
                     "required": ["action"]
                 }
             ),
-            # 2. Search & Reasoning Tool (v7.14.25: 자동 하이브리드 검색)
+            # 2. Search & Reasoning Tool (v1.14.25: 자동 하이브리드 검색)
             Tool(
                 name="search",
                 description="검색 및 추론: 벡터 검색(+PubMed 자동 보완), 그래프 검색, 적응형 검색, 근거 검색, 추론. action으로 검색 유형 선택.",
@@ -6165,15 +6165,15 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
                         "include_synthesis": {"type": "boolean", "default": True},
                         "detect_conflicts": {"type": "boolean", "default": True},
                         "limit": {"type": "integer", "default": 20},
-                        "enable_pubmed_fallback": {"type": "boolean", "default": True, "description": "v7.14.25: 로컬 결과 부족 시 PubMed 자동 보완 (기본 True)"},
-                        "min_local_results": {"type": "integer", "default": 5, "description": "v7.14.25: 이 수 미만이면 PubMed 보완 (기본 5)"},
-                        "pubmed_max_results": {"type": "integer", "default": 20, "description": "v7.14.25: PubMed 검색 최대 결과 (기본 20)"},
-                        "auto_import": {"type": "boolean", "default": True, "description": "v7.14.25: 새 논문 자동 임포트 (기본 True)"}
+                        "enable_pubmed_fallback": {"type": "boolean", "default": True, "description": "v1.14.25: 로컬 결과 부족 시 PubMed 자동 보완 (기본 True)"},
+                        "min_local_results": {"type": "integer", "default": 5, "description": "v1.14.25: 이 수 미만이면 PubMed 보완 (기본 5)"},
+                        "pubmed_max_results": {"type": "integer", "default": 20, "description": "v1.14.25: PubMed 검색 최대 결과 (기본 20)"},
+                        "auto_import": {"type": "boolean", "default": True, "description": "v1.14.25: 새 논문 자동 임포트 (기본 True)"}
                     },
                     "required": ["action"]
                 }
             ),
-            # 3. PubMed Tool (DOI 기능 포함, v7.12.2)
+            # 3. PubMed Tool (DOI 기능 포함, v1.12.2)
             Tool(
                 name="pubmed",
                 description="PubMed/DOI 연동: 검색, 대량 검색, 인용 임포트, PMID 임포트, DOI 조회/임포트, PDF 업그레이드, 통계. action으로 기능 선택.",
@@ -6503,10 +6503,10 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
                 else:
                     result = {"success": False, "error": f"Unknown document action: {action}"}
 
-            # 2. Search Tool (v7.14.25: 자동 하이브리드 검색)
+            # 2. Search Tool (v1.14.25: 자동 하이브리드 검색)
             elif name == "search":
                 if action == "search":
-                    # v7.14.25: enable_pubmed_fallback=True 시 자동으로 하이브리드 검색
+                    # v1.14.25: enable_pubmed_fallback=True 시 자동으로 하이브리드 검색
                     enable_pubmed_fallback = arguments.get("enable_pubmed_fallback", True)
                     if enable_pubmed_fallback and kag_server.pubmed_handler:
                         result = await kag_server.pubmed_handler.hybrid_search(
@@ -6571,7 +6571,7 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
                         arguments.get("publication_types")
                     )
                 elif action == "hybrid_search":
-                    # v7.14.24: 로컬 우선 + PubMed 보완 검색
+                    # v1.14.24: 로컬 우선 + PubMed 보완 검색
                     result = await kag_server.hybrid_search(
                         query=arguments.get("query", ""),
                         local_top_k=arguments.get("local_top_k", 10),
@@ -6602,7 +6602,7 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
                     )
                 elif action == "get_stats":
                     result = await kag_server.get_pubmed_import_stats()
-                # DOI actions (v7.12.2)
+                # DOI actions (v1.12.2)
                 elif action == "fetch_by_doi":
                     result = await kag_server.fetch_by_doi(
                         arguments.get("doi", ""),

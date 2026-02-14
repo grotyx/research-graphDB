@@ -1,5 +1,5 @@
 # Medical KAG System Dependencies
-# Version: 7.16.0 (Spine GraphRAG - Single Store: Neo4j + DOI Fulltext + PubMed/DOI Fallback)
+# Version: 1.16.0 (Spine GraphRAG - Single Store: Neo4j + DOI Fulltext + PubMed/DOI Fallback)
 # Last Updated: 2026-02-14
 
 # ============================================

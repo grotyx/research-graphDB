@@ -749,7 +749,7 @@ Return ONLY valid JSON, no additional text.'''
                 chunk_texts = [c.get("content", "") for c in chunks if c.get("content")]
 
                 if chunk_texts:
-                    # v7.14.3: 기존 Chunk 삭제 (중복 방지)
+                    # v1.14.3: 기존 Chunk 삭제 (중복 방지)
                     await self.server._delete_existing_chunks(paper_id)
 
                     # 임베딩 생성

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Update SNOMED codes for existing Intervention nodes in Neo4j.
 
-DEPRECATED (v7.16.4): 이 스크립트는 enrich_graph_snomed.py로 대체되었습니다.
+DEPRECATED (v1.16.4): 이 스크립트는 enrich_graph_snomed.py로 대체되었습니다.
 enrich_graph_snomed.py는 Intervention뿐만 아니라 Pathology, Outcome, Anatomy도 지원합니다.
 
 Usage (권장):

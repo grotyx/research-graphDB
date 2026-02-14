@@ -84,7 +84,7 @@ class CitationHandler:
                     continue
                 seen_docs.add(doc_id)
 
-                # 메타데이터에서 저자/연도 추출 (v7.14.27: None 값 처리)
+                # 메타데이터에서 저자/연도 추출 (v1.14.27: None 값 처리)
                 metadata = result.get("metadata") or {}
                 authors = metadata.get("authors") or ["Unknown"]
                 year = metadata.get("year", "n.d.")

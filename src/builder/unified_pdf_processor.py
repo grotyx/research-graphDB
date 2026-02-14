@@ -1318,7 +1318,7 @@ class UnifiedPDFProcessor:
         # Provider에 따라 처리
         if self.provider == LLMProvider.CLAUDE:
             # 1차 시도: 기본 모델 (Haiku)
-            # v7.14.27: asyncio.to_thread()로 병렬 처리 지원
+            # v1.14.27: asyncio.to_thread()로 병렬 처리 지원
             result = await asyncio.to_thread(
                 self._backend.process_pdf, path, EXTRACTION_PROMPT
             )
@@ -1335,7 +1335,7 @@ class UnifiedPDFProcessor:
                 )
 
                 # 2차 시도: 폴백 모델 (Sonnet)
-                # v7.14.27: asyncio.to_thread()로 병렬 처리 지원
+                # v1.14.27: asyncio.to_thread()로 병렬 처리 지원
                 result = await asyncio.to_thread(
                     self._backend.process_pdf,
                     path,
@@ -1426,7 +1426,7 @@ class UnifiedPDFProcessor:
         # Provider에 따라 처리
         if self.provider == LLMProvider.CLAUDE:
             # 1차 시도: 기본 모델 (Haiku)
-            # v7.14.27: asyncio.to_thread()로 병렬 처리 지원
+            # v1.14.27: asyncio.to_thread()로 병렬 처리 지원
             result = await asyncio.to_thread(
                 self._backend.process_text, text, text_prompt
             )
@@ -1442,7 +1442,7 @@ class UnifiedPDFProcessor:
                 )
 
                 # 2차 시도: 폴백 모델 (Sonnet)
-                # v7.14.27: asyncio.to_thread()로 병렬 처리 지원
+                # v1.14.27: asyncio.to_thread()로 병렬 처리 지원
                 result = await asyncio.to_thread(
                     self._backend.process_text,
                     text,
@@ -1531,7 +1531,7 @@ class UnifiedPDFProcessor:
         Returns:
             VisionProcessorResult 인스턴스
         """
-        # 1. Metadata 파싱 (v7.14.27: None 값 처리)
+        # 1. Metadata 파싱 (v1.14.27: None 값 처리)
         meta_dict = data.get("metadata") or {}
         spine_dict = meta_dict.get("spine_metadata") or data.get("spine_metadata") or {}
 

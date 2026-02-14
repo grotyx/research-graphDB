@@ -566,7 +566,7 @@ def get_extended_graph_stats(neo4j_client: SyncNeo4jClient) -> dict:
 
 
 # ========================================================================
-# v7.14.25 Schema Overview Query Functions
+# v1.14.25 Schema Overview Query Functions
 # ========================================================================
 
 def get_schema_node_counts(neo4j_client: SyncNeo4jClient) -> dict[str, int]:

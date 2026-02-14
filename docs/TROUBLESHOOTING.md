@@ -50,13 +50,13 @@ open http://localhost:7474
 ### 7. TypeError: '<' not supported between 'NoneType' and 'float'
 
 - p_value가 None 또는 문자열 (`"<0.001"`)일 때 발생
-- v7.14.15에서 수정됨: p_value 안전 파싱 적용
+- v1.14.15에서 수정됨: p_value 안전 파싱 적용
 - MCP 서버 재시작 필요
 
 ### 8. VectorDB is required for adaptive_search
 
 - ChromaDB가 제거된 환경에서 발생
-- v7.14.15에서 수정됨: graph_search로 자동 fallback
+- v1.14.15에서 수정됨: graph_search로 자동 fallback
 - MCP 서버 재시작 필요
 
 ### 9. Evidence Search 결과 없음
@@ -65,7 +65,7 @@ open http://localhost:7474
 - 재색인 실행: `python scripts/reindex_relationships.py --force`
 - Taxonomy 기반 검색 확인 (TLIF → MIS-TLIF, BELIF 포함)
 
-### 10. Vector Dimension Mismatch (v7.14.26)
+### 10. Vector Dimension Mismatch (v1.14.26)
 
 **오류 메시지:**
 
@@ -79,9 +79,9 @@ Index query vector has 768 dimensions, but indexed vectors have 3072
 
 1. `OPENAI_API_KEY` 환경변수 설정 확인
 2. MCP 서버 재시작
-3. v7.14.26 이상 버전 사용 (MedTE 768d 폴백 제거됨)
+3. v1.14.26 이상 버전 사용 (MedTE 768d 폴백 제거됨)
 
-### 11. OPENAI_API_KEY not set (v7.14.26)
+### 11. OPENAI_API_KEY not set (v1.14.26)
 
 **오류 메시지:**
 
@@ -90,7 +90,7 @@ OPENAI_API_KEY not set - required for vector search (3072d index)
 OpenAI embedding required (3072d index)
 ```
 
-**원인:** 벡터 검색/임포트에 OpenAI 임베딩 필수 (v7.14.26+)
+**원인:** 벡터 검색/임포트에 OpenAI 임베딩 필수 (v1.14.26+)
 
 **해결:**
 
