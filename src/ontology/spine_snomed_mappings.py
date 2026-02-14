@@ -619,6 +619,50 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         korean_term="후관절 절제술",
         notes="Resection of the facet joint for decompression or access",
     ),
+
+    # v7.16.1 추가: 누락된 Intervention SNOMED 매핑
+    "COWO": SNOMEDMapping(
+        code="900000000000122",
+        term="Three-column osteotomy",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="179097009",  # Osteotomy
+        is_extension=True,
+        synonyms=["Three-column osteotomy", "3-column osteotomy", "3CO"],
+        abbreviations=["COWO", "3CO"],
+        korean_term="3주 절골술",
+        notes="Includes PSO and VCR; used for severe fixed deformity correction",
+    ),
+    "Open Decompression": SNOMEDMapping(
+        code="900000000000123",
+        term="Open neural decompression of spine",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="5765005",  # Decompression of spinal cord
+        is_extension=True,
+        synonyms=["Open decompression", "Open spinal decompression",
+                  "Open neural decompression"],
+        korean_term="개방 감압술",
+    ),
+    "Over-the-top Decompression": SNOMEDMapping(
+        code="900000000000124",
+        term="Over-the-top decompression technique",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="5765005",
+        is_extension=True,
+        synonyms=["Over the top decompression", "OTT decompression"],
+        korean_term="오버더탑 감압술",
+        notes="Contralateral decompression via ipsilateral approach",
+    ),
+    "UBD": SNOMEDMapping(
+        code="900000000000125",
+        term="Unilateral laminotomy for bilateral decompression",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="5765005",
+        is_extension=True,
+        synonyms=["Unilateral bilateral decompression", "ULBD",
+                  "Unilateral approach bilateral decompression"],
+        abbreviations=["UBD", "ULBD"],
+        korean_term="일측 접근 양측 감압술",
+    ),
 }
 
 
@@ -1272,6 +1316,10 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
     "L4": SNOMEDMapping(code="181842000", term="Fourth lumbar vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE),
     "L5": SNOMEDMapping(code="181843005", term="Fifth lumbar vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE),
     "S1": SNOMEDMapping(code="181844004", term="First sacral vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE),
+    # v7.16.1: 누락된 vertebral levels 추가
+    "S2": SNOMEDMapping(code="181845003", term="Second sacral vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE),
+    "T10": SNOMEDMapping(code="181836002", term="Tenth thoracic vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE),
+    "T11": SNOMEDMapping(code="181837006", term="Eleventh thoracic vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE),
 
     # === SEGMENT LEVELS (Intervertebral Disc) ===
     "L4-5": SNOMEDMapping(

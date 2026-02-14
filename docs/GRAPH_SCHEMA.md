@@ -48,10 +48,10 @@
 |--------------|-------------|----------------|-------------|
 | STUDIES | Paper → Pathology | is_primary | 논문이 연구하는 질환 |
 | INVOLVES | Paper → Anatomy | | 논문이 다루는 해부학적 위치 |
-| LOCATED_AT | Pathology → Anatomy | | 질환의 해부학적 위치 |
+| LOCATED_AT | Pathology → Anatomy | | 질환의 해부학적 위치 *(Planned)* |
 | INVESTIGATES | Paper → Intervention | is_comparison | 논문이 조사하는 수술법 |
 | AFFECTS | Intervention → Outcome | value, p_value, effect_size, is_significant | 수술법의 결과 영향 |
-| TREATS | Intervention → Pathology | | 수술법이 치료하는 질환 |
+| TREATS | Intervention → Pathology | indication, source_paper_id | 수술법이 치료하는 질환 (v7.16.1 구현) |
 | IS_A | Intervention → Intervention | | Taxonomy 계층 관계 |
 | HAS_CHUNK | Paper → Chunk | | 논문의 텍스트 청크 |
 
@@ -76,7 +76,7 @@
 | USES_FEATURE | PredictionModel → RiskFactor | | 예측 모델이 사용하는 변수 |
 | CORRELATES | RadioParameter → OutcomeMeasure | | 영상 파라미터와 결과의 상관관계 |
 | USES_DEVICE | Intervention → Implant | | 수술에 사용되는 임플란트 |
-| MEASURED_BY | Outcome → OutcomeMeasure | | 결과 측정 도구 |
+| MEASURED_BY | Outcome → OutcomeMeasure | | 결과 측정 도구 *(Planned)* |
 
 ### v7.2 Extended Relationships
 
@@ -157,11 +157,11 @@ final_score = 0.6 * graph_score + 0.4 * vector_score
 
 | Category | Total | Official SNOMED | Extension Codes |
 |----------|-------|-----------------|-----------------|
-| Intervention | 46 | 25 | 21 |
-| Pathology | 33 | 25 | 8 |
-| Outcome | 34 | 21 | 13 |
-| Anatomy | 27 | 21 | 6 |
-| **Total** | **140** | **88** | **52** |
+| Intervention | 50 | 25 | 25 |
+| Pathology | 33 | 27 | 6 |
+| Outcome | 34 | 15 | 19 |
+| Anatomy | 30 | 24 | 6 |
+| **Total** | **147** | **91** | **56** |
 
 ### 주요 매핑 카테고리
 

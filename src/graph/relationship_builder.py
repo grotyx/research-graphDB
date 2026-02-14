@@ -531,6 +531,14 @@ class RelationshipBuilder:
             else:
                 result.warnings.append("No interventions found")
 
+            # 4.5. Intervention → Pathology (TREATS) 관계
+            if spine_metadata.interventions and spine_metadata.pathologies:
+                treats_count = await self.create_treats_relations(
+                    paper_id, spine_metadata.interventions, spine_metadata.pathologies
+                )
+                result.relationships_created += treats_count
+                logger.info(f"Created {treats_count} TREATS relations")
+
             # 5. Intervention → Outcome (AFFECTS) 관계 (통계 포함)
             outcomes = self._extract_outcomes_from_chunks(chunks, spine_metadata)
             if outcomes:
@@ -894,6 +902,65 @@ class RelationshipBuilder:
                 count += 1
             except Exception as e:
                 logger.warning(f"Failed to create INVESTIGATES relation for {intervention_name}: {e}")
+
+        return count
+
+    async def create_treats_relations(
+        self,
+        paper_id: str,
+        interventions: list[str],
+        pathologies: list[str]
+    ) -> int:
+        """Intervention → Pathology (TREATS) 관계 생성.
+
+        논문에서 추출된 수술법-질환 쌍에 대해 TREATS 관계를 생성.
+        v7.16.1: TREATS 관계 구현.
+
+        Args:
+            paper_id: 출처 논문 ID
+            interventions: 수술법 목록
+            pathologies: 질환 목록
+
+        Returns:
+            생성된 관계 수
+        """
+        count = 0
+
+        # 리스트 평탄화
+        flat_interventions = []
+        for item in interventions:
+            if isinstance(item, list):
+                flat_interventions.extend([str(i) for i in item if i])
+            elif item:
+                flat_interventions.append(str(item))
+
+        flat_pathologies = []
+        for item in pathologies:
+            if isinstance(item, list):
+                flat_pathologies.extend([str(p) for p in item if p])
+            elif item:
+                flat_pathologies.append(str(item))
+
+        for intervention in flat_interventions:
+            norm_intervention = self.normalizer.normalize_intervention(intervention)
+            intervention_name = norm_intervention.normalized
+
+            for pathology in flat_pathologies:
+                norm_pathology = self.normalizer.normalize_pathology(pathology)
+                pathology_name = norm_pathology.normalized
+
+                try:
+                    await self.client.create_treats_relation(
+                        intervention_name=intervention_name,
+                        pathology_name=pathology_name,
+                        source_paper_id=paper_id,
+                    )
+                    count += 1
+                except Exception as e:
+                    logger.warning(
+                        f"Failed to create TREATS relation "
+                        f"{intervention_name} -> {pathology_name}: {e}"
+                    )
 
         return count
 

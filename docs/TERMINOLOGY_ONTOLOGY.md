@@ -1,6 +1,6 @@
 # Spine GraphRAG 용어체계 및 온톨로지 가이드
 
-> **Version**: 7.16.0
+> **Version**: 7.16.1
 > **Last Updated**: 2026-02-14
 > **Maintainer**: Spine GraphRAG Development Team
 
@@ -592,23 +592,31 @@ RELATED_TERMS = {
 
 ## 7. 통계 및 커버리지
 
-### 7.1 전체 매핑 통계 (v7.14.15)
+### 7.1 전체 매핑 통계 (v7.16.1)
 
 | 카테고리 | 전체 | 공식 SNOMED | 확장 코드 | 커버리지 |
 |----------|------|-------------|-----------|----------|
-| Interventions | 46 | 25 | 21 | 54.3% |
+| Interventions | 50 | 25 | 25 | 50.0% |
 | Pathologies | 33 | 27 | 6 | 81.8% |
 | Outcomes | 34 | 15 | 19 | 44.1% |
-| Anatomy | 27 | 21 | 6 | 77.8% |
-| **Total** | **140** | **88** | **52** | **62.9%** |
+| Anatomy | 30 | 24 | 6 | 80.0% |
+| **Total** | **147** | **91** | **56** | **61.9%** |
 
 > **v7.14.15 변경사항**: SNOMED 중복 제거 및 정리, 공식 코드 전환 (Wound Dehiscence → 225553008)
 >
 > **v7.15.0 변경사항**: `entity_normalizer.py` OUTCOME_ALIASES/PATHOLOGY_ALIASES 딕셔너리 중복 키 5건 merge — SF-12(5개 alias 복원), Cervical Myelopathy(4개), PJK(1개), DJK, Adjacent Segment Disease(2개). Python dict 중복 키는 마지막 값만 유지되므로 이전 alias가 손실되고 있었음.
+>
+> **v7.16.1 변경사항**:
+> - Intervention SNOMED 4건 추가 (COWO, Open Decompression, Over-the-top Decompression, UBD)
+> - Anatomy SNOMED 3건 추가 (S2, T10, T11) — 공식 SNOMED 코드
+> - TREATS 관계 생성 코드 구현 (Intervention → Pathology)
+> - ANATOMY_ALIASES 딕셔너리 신규 추가 (33개 매핑)
+> - Schema 노드 26개에 대한 INTERVENTION_ALIASES 추가
+> - normalize_anatomy() 메서드 추가
 
 ### 7.2 확장 코드 필요 항목
 
-#### Interventions (21개)
+#### Interventions (25개)
 - UBE/BESS (Biportal Endoscopy)
 - OLIF (Oblique LIF)
 - MIS-TLIF (Minimally Invasive TLIF)
@@ -621,6 +629,7 @@ RELATED_TERMS = {
 - Motion Preservation, Dynamic Stabilization, Interspinous Device
 - BELIF, Stereotactic Navigation
 - Facetectomy (v7.14.2)
+- COWO, Open Decompression, Over-the-top Decompression, UBD (v7.16.1)
 
 #### Pathologies (6개)
 - Adult Spinal Deformity
@@ -650,14 +659,14 @@ from src.ontology.spine_snomed_mappings import get_mapping_statistics, get_cover
 
 stats = get_mapping_statistics()
 # → {
-#     "total_mappings": 141,
-#     "interventions": 46,
+#     "total_mappings": 147,
+#     "interventions": 50,
 #     "pathologies": 33,
 #     "outcomes": 34,
-#     "anatomy": 27,
-#     "official_snomed_codes": 88,
-#     "extension_codes_needed": 53,
-#     "coverage_percent": 62.4
+#     "anatomy": 30,
+#     "official_snomed_codes": 91,
+#     "extension_codes_needed": 56,
+#     "coverage_percent": 61.9
 # }
 
 report = get_coverage_report()
@@ -674,7 +683,7 @@ report = get_coverage_report()
 
 ```python
 SPINE_INTERVENTION_SNOMED["New Technique"] = SNOMEDMapping(
-    code="900000000000121",  # 다음 확장 코드
+    code="900000000000126",  # 다음 확장 코드
     term="New surgical technique description",
     semantic_type=SNOMEDSemanticType.PROCEDURE,
     parent_code="386638009",  # 상위 개념 코드

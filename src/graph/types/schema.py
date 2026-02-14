@@ -1807,6 +1807,18 @@ class CypherTemplates:
     RETURN p, r, i
     """
 
+    # 수술법 → 질환 치료 관계 (v7.16.1: TREATS 구현)
+    CREATE_TREATS_RELATION = """
+    MATCH (i:Intervention {name: $intervention_name})
+    MERGE (path:Pathology {name: $pathology_name})
+    MERGE (i)-[r:TREATS]->(path)
+    SET r.indication = COALESCE($indication, r.indication, ''),
+        r.contraindication = COALESCE($contraindication, r.contraindication, ''),
+        r.indication_level = COALESCE($indication_level, r.indication_level, ''),
+        r.source_paper_id = $source_paper_id
+    RETURN i, r, path
+    """
+
     # 수술법 → 결과 관계 (통계 포함, v7.9: SNOMED 지원)
     CREATE_AFFECTS_RELATION = """
     MATCH (i:Intervention {name: $intervention_name})

@@ -53,6 +53,7 @@ try:
         get_snomed_for_intervention,
         get_snomed_for_pathology,
         get_snomed_for_outcome,
+        get_snomed_for_anatomy,
         SNOMEDMapping,
     )
     SNOMED_AVAILABLE = True
@@ -63,6 +64,7 @@ except ImportError:
             get_snomed_for_intervention,
             get_snomed_for_pathology,
             get_snomed_for_outcome,
+            get_snomed_for_anatomy,
             SNOMEDMapping,
         )
         SNOMED_AVAILABLE = True
@@ -71,6 +73,7 @@ except ImportError:
         get_snomed_for_intervention = None
         get_snomed_for_pathology = None
         get_snomed_for_outcome = None
+        get_snomed_for_anatomy = None
         SNOMEDMapping = None
 
 logger = logging.getLogger(__name__)
@@ -624,6 +627,102 @@ class EntityNormalizer:
         "Staged Reconstruction": [
             "Two-stage reconstruction", "Staged fusion",
             "Delayed reconstruction"
+        ],
+
+        # ========================================
+        # v7.16.1: Schema 노드 alias 추가 (26개)
+        # ========================================
+        # Radiotherapy variants
+        "Radiotherapy": [
+            "Radiation therapy", "Radiation treatment", "RT",
+            "Spine radiation", "방사선 치료",
+        ],
+        "SABR": [
+            "Stereotactic Ablative Body Radiotherapy",
+            "Stereotactic ablative radiotherapy",
+        ],
+        "SBRT": [
+            "Stereotactic Body Radiation Therapy",
+            "Stereotactic body radiotherapy",
+        ],
+        "Spine Radiation Therapy": [
+            "Spinal radiation", "Spinal irradiation",
+        ],
+        # Conservative
+        "Bracing": [
+            "Brace", "Spinal brace", "Orthosis", "TLSO",
+            "Thoracolumbosacral orthosis", "보조기",
+        ],
+        "Physical therapy": [
+            "Physical Therapy", "PT", "Physiotherapy",
+            "물리치료", "재활치료", "Rehabilitation",
+        ],
+        "Antibiotic therapy": [
+            "Antibiotic treatment", "IV antibiotics",
+            "Antimicrobial therapy", "항생제 치료",
+        ],
+        # Specialized fusion
+        "Anterior fusion": [
+            "Anterior spinal fusion", "ASF",
+        ],
+        "Lumbar Fusion": [
+            "Lumbar spinal fusion", "요추 유합술",
+        ],
+        "PTF": [
+            "Posterior Thoracic Fusion",
+            "Posterior thoracic spinal fusion",
+        ],
+        "Spinopelvic fusion": [
+            "Spinopelvic fixation", "Lumbopelvic fixation",
+            "Iliac fixation", "골반 고정술",
+        ],
+        "Craniocervical Junction Surgery": [
+            "Craniocervical surgery", "CVJ surgery",
+            "Craniovertebral junction surgery",
+        ],
+        "Craniocervical stabilization": [
+            "Craniocervical fixation", "CVJ stabilization",
+        ],
+        # Fixation variants
+        "Posterior C1-C2 screw fixation": [
+            "C1-C2 screw fixation", "Harms technique",
+            "C1 lateral mass C2 pedicle screw",
+        ],
+        "S2AI screw fixation": [
+            "S2AI", "S2-alar-iliac screw", "S2 alar iliac",
+            "S2AI screw",
+        ],
+        "Iliac screw fixation": [
+            "Iliac screw", "Iliac bolt", "Iliac fixation",
+        ],
+        # Minimally invasive
+        "BE-ULBD": [
+            "Biportal Endoscopic ULBD",
+            "Biportal endoscopic unilateral laminotomy bilateral decompression",
+        ],
+        # Other procedures
+        "Intradiscal injection": [
+            "Intradiscal steroid injection", "Disc injection",
+            "추간판 내 주사",
+        ],
+        "Neuromodulation": [
+            "Spinal cord neuromodulation", "신경조절술",
+        ],
+        "Spinal Injection Therapy": [
+            "Spinal injection", "척추 주사 치료",
+        ],
+        "Spinal Tumor Surgery": [
+            "Spine tumor surgery", "Spinal tumor resection",
+            "척추 종양 수술",
+        ],
+        "Transnasal odontoidectomy": [
+            "Transnasal odontoid resection", "Endoscopic odontoidectomy",
+        ],
+        "Transoral Approach": [
+            "Transoral surgery", "Transoral decompression",
+        ],
+        "Transoral odontoidectomy": [
+            "Transoral odontoid resection",
         ],
     }
 
@@ -1490,6 +1589,46 @@ class EntityNormalizer:
         ],
     }
 
+    # v7.16.1: 해부학 위치 별칭 (Anatomy Aliases)
+    ANATOMY_ALIASES: dict[str, list[str]] = {
+        # Regions
+        "Cervical": ["C-spine", "cervical spine", "Cervical spine", "경추"],
+        "Thoracic": ["T-spine", "thoracic spine", "Thoracic spine", "흉추"],
+        "Lumbar": ["L-spine", "lumbar spine", "Lumbar spine", "요추"],
+        "Sacral": ["sacral spine", "Sacral spine", "sacrum", "Sacrum", "천추"],
+        "Lumbosacral": ["lumbosacral spine", "LS spine", "L-S spine", "요천추"],
+        "Cervicothoracic": ["cervicothoracic junction", "CT junction", "CTJ", "경흉추"],
+        "Thoracolumbar": ["thoracolumbar junction", "TL junction", "TLJ", "흉요추"],
+        # Cervical levels
+        "C1": ["Atlas", "atlas", "C1 vertebra", "first cervical vertebra"],
+        "C2": ["Axis", "axis", "C2 vertebra", "second cervical vertebra"],
+        "C3": ["C3 vertebra", "third cervical vertebra"],
+        "C4": ["C4 vertebra", "fourth cervical vertebra"],
+        "C5": ["C5 vertebra", "fifth cervical vertebra"],
+        "C6": ["C6 vertebra", "sixth cervical vertebra"],
+        "C7": ["C7 vertebra", "seventh cervical vertebra"],
+        # Thoracic levels
+        "T1": ["T1 vertebra", "first thoracic vertebra"],
+        "T10": ["T10 vertebra", "tenth thoracic vertebra"],
+        "T11": ["T11 vertebra", "eleventh thoracic vertebra"],
+        "T12": ["T12 vertebra", "twelfth thoracic vertebra"],
+        # Lumbar levels
+        "L1": ["L1 vertebra", "first lumbar vertebra"],
+        "L2": ["L2 vertebra", "second lumbar vertebra"],
+        "L3": ["L3 vertebra", "third lumbar vertebra"],
+        "L4": ["L4 vertebra", "fourth lumbar vertebra"],
+        "L5": ["L5 vertebra", "fifth lumbar vertebra"],
+        # Sacral levels
+        "S1": ["S1 vertebra", "first sacral vertebra"],
+        "S2": ["S2 vertebra", "second sacral vertebra"],
+        # Segment levels (intervertebral disc)
+        "L4-5": ["L4-L5", "L4/5", "L4/L5", "L4-L5 disc"],
+        "L5-S1": ["L5/S1", "L5-S1 disc", "Lumbosacral disc"],
+        "L3-4": ["L3-L4", "L3/4", "L3/L4", "L3-L4 disc"],
+        "C5-6": ["C5-C6", "C5/6", "C5/C6", "C5-C6 disc"],
+        "C6-7": ["C6-C7", "C6/7", "C6/C7", "C6-C7 disc"],
+    }
+
     # 한국어 조사 (Korean particles) - 정규화 시 제거할 조사들
     KOREAN_PARTICLES = {
         "가", "이", "를", "을", "에", "의", "와", "과", "으로", "로",
@@ -1512,6 +1651,7 @@ class EntityNormalizer:
         self._intervention_reverse = self._build_reverse_map(self.INTERVENTION_ALIASES)
         self._outcome_reverse = self._build_reverse_map(self.OUTCOME_ALIASES)
         self._pathology_reverse = self._build_reverse_map(self.PATHOLOGY_ALIASES)
+        self._anatomy_reverse = self._build_reverse_map(self.ANATOMY_ALIASES)
 
         # 한국어 감지 패턴
         self._korean_pattern = re.compile(r'[\uac00-\ud7af]+')  # 한글 유니코드 범위
@@ -1756,6 +1896,30 @@ class EntityNormalizer:
             self.PATHOLOGY_ALIASES
         )
         return self._enrich_with_snomed(result, "pathology")
+
+    def normalize_anatomy(self, text: str) -> NormalizationResult:
+        """해부학 위치 정규화 (SNOMED 코드 포함).
+
+        v7.16.1: ANATOMY_ALIASES 기반 정규화 추가.
+
+        Args:
+            text: 입력 텍스트 (예: "L-spine", "C5-C6", "요추")
+
+        Returns:
+            NormalizationResult (snomed_code, snomed_term 포함)
+        """
+        # 한국어 해부학 용어 변환 (우선)
+        stripped = text.strip()
+        if stripped in self.ANATOMY_KOREAN:
+            stripped = self.ANATOMY_KOREAN[stripped]
+
+        result = self._normalize(
+            stripped,
+            self._anatomy_reverse,
+            "anatomy",
+            self.ANATOMY_ALIASES
+        )
+        return self._enrich_with_snomed(result, "anatomy")
 
     def _normalize(
         self,
@@ -2060,7 +2224,7 @@ class EntityNormalizer:
 
         Args:
             result: 정규화 결과
-            entity_type: 엔티티 유형 ("intervention", "pathology", "outcome")
+            entity_type: 엔티티 유형 ("intervention", "pathology", "outcome", "anatomy")
 
         Returns:
             SNOMED 코드가 추가된 결과
@@ -2078,6 +2242,8 @@ class EntityNormalizer:
             mapping = get_snomed_for_pathology(result.normalized)
         elif entity_type == "outcome" and get_snomed_for_outcome:
             mapping = get_snomed_for_outcome(result.normalized)
+        elif entity_type == "anatomy" and get_snomed_for_anatomy:
+            mapping = get_snomed_for_anatomy(result.normalized)
 
         if mapping:
             result.snomed_code = mapping.code

@@ -8,7 +8,7 @@
 |------|-----|
 | **Version** | 7.16.0 |
 | **Date** | 2026-02-14 |
-| **SNOMED Mappings** | 140개 (I:46, P:33, O:34, A:27) + 패턴 매핑 62.9% 커버리지 |
+| **SNOMED Mappings** | 147개 (I:50, P:33, O:34, A:30) + 패턴 매핑 61.9% 커버리지 |
 | **Storage** | Neo4j (Graph + Vector 통합, ChromaDB 완전 제거) |
 
 ### v7.16 주요 기능

@@ -1048,6 +1048,42 @@ class Neo4jClient:
             }
         )
 
+    async def create_treats_relation(
+        self,
+        intervention_name: str,
+        pathology_name: str,
+        source_paper_id: str = "",
+        indication: str = "",
+        contraindication: str = "",
+        indication_level: str = "",
+    ) -> dict:
+        """수술법 → 질환 치료 관계 생성 (Intervention → Pathology).
+
+        v7.16.1: TREATS 관계 구현.
+
+        Args:
+            intervention_name: 수술법 이름
+            pathology_name: 질환 이름
+            source_paper_id: 출처 논문 ID
+            indication: 적응증
+            contraindication: 금기사항
+            indication_level: 적응 수준 (strong/moderate/weak)
+
+        Returns:
+            생성된 관계 정보
+        """
+        return await self.run_write_query(
+            CypherTemplates.CREATE_TREATS_RELATION,
+            {
+                "intervention_name": intervention_name,
+                "pathology_name": pathology_name,
+                "source_paper_id": source_paper_id,
+                "indication": indication[:500] if indication else "",
+                "contraindication": contraindication[:500] if contraindication else "",
+                "indication_level": indication_level,
+            }
+        )
+
     async def create_involves_relation(
         self,
         paper_id: str,
