@@ -218,6 +218,7 @@ rag_research/
 | [developer_guide.md](docs/developer_guide.md) | 개발자 (개발 가이드) |
 
 ### 추가 참고
+- [QC_CHECKLIST.md](docs/QC_CHECKLIST.md) - **QC 체크리스트 (버전/문서/코드 일관성 검증)**
 - [DEPLOYMENT.md](docs/DEPLOYMENT.md) - 배포 가이드
 - [HOW_TO_RUN_kr.md](docs/HOW_TO_RUN_kr.md) - 실행 가이드 (한국어)
 - [SCHEMA_UPDATE_GUIDE.md](docs/SCHEMA_UPDATE_GUIDE.md) - 스키마/Taxonomy 업데이트 절차
