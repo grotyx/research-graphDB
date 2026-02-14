@@ -218,10 +218,11 @@ rag_research/
 | [developer_guide.md](docs/developer_guide.md) | 개발자 (개발 가이드) |
 
 ### 추가 참고
-- [QUICK_REFERENCE.md](docs/QUICK_REFERENCE.md) - 핵심 명령어 카드
 - [DEPLOYMENT.md](docs/DEPLOYMENT.md) - 배포 가이드
-- `docs/specs/` - 기술 상세 명세 (10개)
-- `docs/api/` - API 레퍼런스 (3개)
+- [HOW_TO_RUN_kr.md](docs/HOW_TO_RUN_kr.md) - 실행 가이드 (한국어)
+- [SCHEMA_UPDATE_GUIDE.md](docs/SCHEMA_UPDATE_GUIDE.md) - 스키마/Taxonomy 업데이트 절차
+- `docs/specs/` - 기술 상세 명세
+- `docs/api/` - API 레퍼런스
 
 ## Dependencies
 
