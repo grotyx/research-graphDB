@@ -231,7 +231,7 @@ rag_research/
 | `relationship_builder.py` | Paper → Graph 구축 |
 | `entity_normalizer.py` | 용어 정규화 (UBE↔BESS), SNOMED 자동 링크 |
 | `taxonomy_manager.py` | Intervention IS_A 계층 관리 |
-| `spine_snomed_mappings.py` | SNOMED-CT 매핑 (312개: I:122, P:85, O:68, A:37) — Single Source of Truth |
+| `spine_snomed_mappings.py` | SNOMED-CT 매핑 (315개: I:123, P:85, O:70, A:37) — Single Source of Truth |
 | `snomed_enricher.py` | SNOMED 업데이트, TREATS 백필, Anatomy 정리 통합 모듈 |
 | `schema.py` | Neo4j 스키마, 인덱스, Cypher 템플릿 |
 | `medical_kag_server.py` | MCP 서버 (10개 통합 도구) |

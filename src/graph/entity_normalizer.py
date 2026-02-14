@@ -447,6 +447,11 @@ class EntityNormalizer:
             "Bone scintigraphy (Tc-99m MDP)", "Bone scan",
             "Tc-99m bone scan", "Skeletal scintigraphy"
         ],
+        "X-ray": [
+            "Radiography", "radiography", "X-ray imaging",
+            "Plain radiograph", "Plain radiography", "Spine X-ray",
+            "Plain film", "Conventional radiograph"
+        ],
 
         # Other Surgical
         "Drainage": [
@@ -2377,6 +2382,8 @@ class EntityNormalizer:
             mapping = get_snomed_for_pathology(canonical_name)
         elif entity_type == "outcome" and get_snomed_for_outcome:
             mapping = get_snomed_for_outcome(canonical_name)
+        elif entity_type == "anatomy" and get_snomed_for_anatomy:
+            mapping = get_snomed_for_anatomy(canonical_name)
 
         return mapping.code if mapping else None
 
@@ -2399,6 +2406,8 @@ class EntityNormalizer:
             return get_snomed_for_pathology(canonical_name)
         elif entity_type == "outcome" and get_snomed_for_outcome:
             return get_snomed_for_outcome(canonical_name)
+        elif entity_type == "anatomy" and get_snomed_for_anatomy:
+            return get_snomed_for_anatomy(canonical_name)
 
         return None
 

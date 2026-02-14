@@ -51,7 +51,7 @@
 | LOCATED_AT | Pathology → Anatomy | | 질환의 해부학적 위치 *(Planned)* |
 | INVESTIGATES | Paper → Intervention | is_comparison | 논문이 조사하는 수술법 |
 | AFFECTS | Intervention → Outcome | value, p_value, effect_size, is_significant | 수술법의 결과 영향 |
-| TREATS | Intervention → Pathology | indication, source_paper_id | 수술법이 치료하는 질환 (v1.16.1 구현) |
+| TREATS | Intervention → Pathology | indication, source_paper_ids, paper_count | 수술법이 치료하는 질환 (v1.16.1 구현, v1.16.4 속성 통일) |
 | IS_A | Intervention → Intervention | | Taxonomy 계층 관계 |
 | HAS_CHUNK | Paper → Chunk | | 논문의 텍스트 청크 |
 

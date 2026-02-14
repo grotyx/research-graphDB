@@ -337,7 +337,7 @@ MERGE (new_surgery)-[:IS_A {level: 2}]->(parent_node)
 
 ### 5.4 SNOMED Enrichment (자동)
 
-v1.16.3부터 `schema.py:get_enrich_snomed_cypher()`는 `spine_snomed_mappings.py`의 304개 매핑으로부터 **자동 생성**됩니다.
+v1.16.3부터 `schema.py:get_enrich_snomed_cypher()`는 `spine_snomed_mappings.py`의 315개 매핑으로부터 **자동 생성**됩니다.
 `spine_snomed_mappings.py`에 매핑을 추가하면 `init_neo4j.py` 실행 시 자동으로 Cypher가 생성됩니다.
 
 > **참고**: 수동으로 `schema.py`에 SNOMED 쿼리를 추가할 필요가 없습니다.

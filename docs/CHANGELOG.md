@@ -4,7 +4,7 @@
 
 ### v1.16.4 (2026-02-14): SNOMED 보강 버그픽스 및 커버리지 확장
 
-v1.16.3에서 발견된 Critical/High 이슈 수정 + 누락 커버리지 전면 보완. SNOMED 312개(I:122, P:85, O:68, A:37).
+v1.16.3에서 발견된 Critical/High 이슈 수정 + 누락 커버리지 전면 보완. SNOMED 315개(I:123, P:85, O:70, A:37).
 
 #### 버그 수정
 
@@ -27,8 +27,16 @@ v1.16.3에서 발견된 Critical/High 이슈 수정 + 누락 커버리지 전면
 | 3 | Neuromuscular Scoliosis 코드 분리 (Adult Scoliosis와 중복 해소, 확장코드 할당) | `spine_snomed_mappings.py` |
 | 4 | Intervention **카테고리 24건** 추가 (누락 0건 달성) | `entity_normalizer.py` |
 | 5 | `update_snomed_codes.py` deprecated 표시 → `enrich_graph_snomed.py`로 대체 | `update_snomed_codes.py` |
+| 6 | X-ray SNOMED 매핑 추가 (363680008) + INTERVENTION_ALIASES 추가 | `spine_snomed_mappings.py`, `entity_normalizer.py` |
+| 7 | `get_snomed_code()` / `get_snomed_mapping()`에 anatomy 타입 지원 추가 | `entity_normalizer.py` |
+| 8 | `backfill_treats_relations` review_ids 안전한 `.get()` 접근, cleanup null 체크 | `snomed_enricher.py` |
+| 9 | `enhance_taxonomy_snomed.py` load_dotenv 경로 명시, `init_neo4j.py` import 통일 | scripts |
+| 10 | Vertebrectomy 중복 코드 해소 (112730002 → 확장코드 179 분리) | `spine_snomed_mappings.py` |
+| 11 | TREATS 속성 `source_paper_id` → `source_paper_ids` (리스트) 통일 | `schema.py`, `snomed_enricher.py` |
+| 12 | 확장코드 갭 502-503 채움 (DVT, Screw Malposition 추가) | `spine_snomed_mappings.py` |
+| 13 | 확장코드 66개에 abbreviations 추가 (I:31, P:20, O:15) | `spine_snomed_mappings.py` |
 
-- SNOMED 통계: 304 → **312개** (I:122, P:85, O:68, A:37) — 공식 141개 + 확장 171개
+- SNOMED 통계: 304 → **315개** (I:123, P:85, O:70, A:37) — 공식 142개 + 확장 173개
 
 ### v1.16.3 (2026-02-14): SNOMED/TREATS/Anatomy 통합 보강 스크립트
 

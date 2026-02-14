@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 
 # Add src/ to path for consistent imports
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
-load_dotenv()
+load_dotenv(Path(__file__).parent.parent / ".env", override=True)
 
 from graph.neo4j_client import Neo4jClient
 

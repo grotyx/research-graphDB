@@ -6,12 +6,12 @@
 
 | 항목 | 값 |
 |------|-----|
-| **Version** | 1.16.0 |
+| **Version** | 1.16.4 |
 | **Date** | 2026-02-14 |
-| **SNOMED Mappings** | 304개 (I:122, P:84, O:68, A:30) + 패턴 매핑 |
+| **SNOMED Mappings** | 315개 (I:123, P:85, O:70, A:37) + 패턴 매핑 |
 | **Storage** | Neo4j (Graph + Vector 통합, ChromaDB 완전 제거) |
 
-### v7.16 주요 기능
+### v1.16 주요 기능
 
 - **PubMed + DOI 3단계 Fallback**: PubMed → Crossref/DOI → Basic 순서로 항상 서지 보강
 - **Crossref 서지 검색**: DOI 없이 제목+저자로 논문 검색
@@ -37,7 +37,7 @@ rag_research/
 ├── src/                        # 소스 코드 ⭐필수
 │   ├── builder/               # PDF/텍스트 처리, 인용 분석
 │   ├── graph/                 # Neo4j 클라이언트, 관계 빌더
-│   ├── ontology/              # SNOMED-CT 매핑 (304개)
+│   ├── ontology/              # SNOMED-CT 매핑 (315개)
 │   │   ├── spine_snomed_mappings.py  # 전체 매핑 정의
 │   │   └── entity_normalizer.py      # 정규화 엔진
 │   ├── medical_mcp/           # MCP 서버 (10개 통합 도구)

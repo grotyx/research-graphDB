@@ -261,7 +261,7 @@ async def backfill_treats_relations(
     RETURN collect(p.paper_id) as review_ids
     """
     review_res = await client.run_query(review_query)
-    review_ids = review_res[0]["review_ids"] if review_res and review_res[0]["review_ids"] else []
+    review_ids = review_res[0].get("review_ids", []) if review_res else []
     result.excluded_review_papers = len(review_ids)
 
     if dry_run:
@@ -288,8 +288,7 @@ async def backfill_treats_relations(
             result.top_pairs.append((p["intervention"], p["pathology"], p["evidence"]))
     else:
         # 실제 MERGE — run_query 사용 (RETURN 결과 필요, run_write_query는 counter dict 반환)
-        # NOTE: relationship_builder.py는 source_paper_id (단수 string)를 사용하고,
-        # backfill은 source_paper_ids (리스트)를 사용. 두 속성이 공존 가능.
+        # NOTE: source_paper_ids (리스트)로 통일. relationship_builder.py도 동일 속성 사용.
         merge_query = """
         MATCH (p:Paper)-[:INVESTIGATES]->(i:Intervention)
         WHERE NOT p.paper_id IN $review_ids
@@ -520,7 +519,7 @@ async def cleanup_anatomy_nodes(
             result.already_clean += 1
         else:
             norm = normalizer.normalize_anatomy(name)
-            if norm.snomed_code:
+            if norm and norm.snomed_code:
                 if not dry_run:
                     await client.run_write_query(
                         """

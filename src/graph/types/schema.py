@@ -699,7 +699,7 @@ class SpineGraphSchema:
     def get_enrich_snomed_cypher(cls) -> list[str]:
         """SNOMED 코드로 기존 노드를 보강하는 Cypher 쿼리 목록.
 
-        spine_snomed_mappings.py의 304개 매핑으로부터 동적 생성합니다.
+        spine_snomed_mappings.py의 315개 매핑으로부터 동적 생성합니다.
         v1.16.3: 하드코딩 제거, snomed_enricher.py 기반 동적 생성.
 
         Returns:
@@ -1602,7 +1602,7 @@ class CypherTemplates:
     SET r.indication = COALESCE($indication, r.indication, ''),
         r.contraindication = COALESCE($contraindication, r.contraindication, ''),
         r.indication_level = COALESCE($indication_level, r.indication_level, ''),
-        r.source_paper_id = $source_paper_id
+        r.source_paper_ids = COALESCE(r.source_paper_ids, []) + CASE WHEN NOT $source_paper_id IN COALESCE(r.source_paper_ids, []) THEN [$source_paper_id] ELSE [] END
     RETURN i, r, path
     """
 

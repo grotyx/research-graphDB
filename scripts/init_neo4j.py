@@ -16,8 +16,6 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 # Add project root and src/ to path
-# project_root: for `from src.graph.*` imports
-# src/: for modules that use `from graph.*`, `from ontology.*` (e.g., snomed_enricher.py)
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 sys.path.insert(0, str(project_root / "src"))
@@ -26,8 +24,8 @@ sys.path.insert(0, str(project_root / "src"))
 env_file = project_root / '.env'
 load_dotenv(env_file, override=True)
 
-from src.graph.neo4j_client import Neo4jClient, Neo4jConfig
-from src.graph.spine_schema import SpineGraphSchema
+from graph.neo4j_client import Neo4jClient, Neo4jConfig
+from graph.spine_schema import SpineGraphSchema
 
 logging.basicConfig(
     level=logging.INFO,

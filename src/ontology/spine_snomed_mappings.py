@@ -549,6 +549,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         semantic_type=SNOMEDSemanticType.PROCEDURE,
         is_extension=True,
         synonyms=["Non-fusion surgery", "Dynamic surgery"],
+        abbreviations=["MP"],
         korean_term="운동 보존 수술",
     ),
     "ADR": SNOMEDMapping(
@@ -640,6 +641,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Open decompression", "Open spinal decompression",
                   "Open neural decompression"],
+        abbreviations=["OD"],
         korean_term="개방 감압술",
     ),
     "Over-the-top Decompression": SNOMEDMapping(
@@ -649,6 +651,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         parent_code="5765005",
         is_extension=True,
         synonyms=["Over the top decompression", "OTT decompression"],
+        abbreviations=["OTD"],
         korean_term="오버더탑 감압술",
         notes="Contralateral decompression via ipsilateral approach",
     ),
@@ -734,6 +737,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Sacral augmentation", "Sacral vertebroplasty",
                   "Percutaneous sacroplasty"],
+        abbreviations=["SP"],
         korean_term="천골 성형술",
     ),
 
@@ -765,6 +769,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         parent_code="122465003",  # Fusion of spine
         is_extension=True,
         synonyms=["Lumbar spinal fusion", "Lumbar arthrodesis"],
+        abbreviations=["LF"],
         korean_term="요추 유합술",
     ),
     "PTF": SNOMEDMapping(
@@ -784,6 +789,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         parent_code="122465003",  # Fusion of spine
         is_extension=True,
         synonyms=["Spinopelvic fixation", "Lumbopelvic fixation", "Iliac fixation"],
+        abbreviations=["SPF"],
         korean_term="척추-골반 유합술",
     ),
     "CCF": SNOMEDMapping(
@@ -806,6 +812,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Conservative treatment", "Non-surgical treatment",
                   "Non-operative treatment", "Non-operative management"],
+        abbreviations=["CM", "CTx"],
         korean_term="보존적 치료",
         notes="Non-surgical management; no specific SNOMED procedure code",
     ),
@@ -817,6 +824,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Bisphosphonate treatment", "Bisphosphonate therapy",
                   "Alendronate", "Zoledronic acid"],
+        abbreviations=["BP"],
         korean_term="비스포스포네이트 치료",
     ),
     "Teriparatide": SNOMEDMapping(
@@ -827,6 +835,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Teriparatide treatment", "PTH therapy", "Forteo",
                   "Parathyroid hormone therapy"],
+        abbreviations=["TPTD"],
         korean_term="테리파라타이드 치료",
     ),
     "Denosumab": SNOMEDMapping(
@@ -836,6 +845,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         parent_code="900000000000136",  # Conservative management
         is_extension=True,
         synonyms=["Denosumab treatment", "Prolia", "RANKL inhibitor therapy"],
+        abbreviations=["Dmab"],
         korean_term="데노수맙 치료",
     ),
     "SERM": SNOMEDMapping(
@@ -879,6 +889,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Antibiotic treatment", "IV antibiotics",
                   "Antimicrobial therapy", "Parenteral antibiotic therapy"],
+        abbreviations=["ABx"],
         korean_term="항생제 치료",
     ),
 
@@ -910,6 +921,15 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
                   "Radionuclide bone scan"],
         korean_term="뼈 신티그래피",
     ),
+    "X-ray": SNOMEDMapping(
+        code="363680008",
+        term="Radiographic imaging procedure",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        synonyms=["Radiography", "Plain radiograph", "Plain radiography",
+                  "Spine X-ray", "Plain film", "Conventional radiograph"],
+        abbreviations=["XR"],
+        korean_term="엑스레이 촬영",
+    ),
 
     # --- OTHER SURGICAL ---
     "Drainage": SNOMEDMapping(
@@ -938,6 +958,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         synonyms=["Large PEEK cage insertion", "PEEK cage insertion",
                   "3D-printed titanium cage", "Titanium cage insertion",
                   "Interbody cage placement"],
+        abbreviations=["CI"],
         korean_term="케이지 삽입술",
     ),
 
@@ -950,6 +971,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Robotic surgery", "Robotic-assisted", "Robot-assisted spine surgery",
                   "ROSA robot", "Mazor robot", "ExcelsiusGPS"],
+        abbreviations=["RAS"],
         korean_term="로봇 보조 척추 수술",
     ),
     "Navigation-Guided Surgery": SNOMEDMapping(
@@ -1009,6 +1031,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Revision fusion", "Revision spine surgery", "Redo surgery",
                   "Re-operation", "Revision spinal surgery"],
+        abbreviations=["Rev"],
         korean_term="재수술",
     ),
     "Pseudarthrosis Repair": SNOMEDMapping(
@@ -1019,6 +1042,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Nonunion repair", "Pseudarthrosis revision",
                   "Failed fusion revision", "Pseudoarthrosis repair"],
+        abbreviations=["PAR"],
         korean_term="가관절 수복술",
     ),
     "Hardware Removal": SNOMEDMapping(
@@ -1029,6 +1053,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Implant removal", "Screw removal", "Rod removal",
                   "Instrumentation removal", "Spinal hardware removal"],
+        abbreviations=["HWR"],
         korean_term="내고정물 제거술",
     ),
     "Adjacent Segment Surgery": SNOMEDMapping(
@@ -1039,6 +1064,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Adjacent segment fusion", "Adjacent level surgery",
                   "Proximal junction surgery", "Distal junction surgery"],
+        abbreviations=["ASS"],
         korean_term="인접 분절 수술",
     ),
 
@@ -1055,14 +1081,16 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         korean_term="일괄 절제술",
     ),
     "Vertebrectomy": SNOMEDMapping(
-        code="112730002",
+        code="900000000000179",
         term="Vertebrectomy",
         semantic_type=SNOMEDSemanticType.PROCEDURE,
-        parent_code="5765005",  # Decompression of spinal cord
+        parent_code="112730002",  # Corpectomy of vertebral body (parent)
+        is_extension=True,
         synonyms=["Total vertebrectomy", "Partial vertebrectomy",
                   "Spondylectomy"],
+        abbreviations=["VBT"],
         korean_term="척추체 절제술",
-        notes="Same SNOMED family as corpectomy (112730002)",
+        notes="Extension: corpectomy(112730002)와 유사하나 전체/부분 절제 구분",
     ),
     "Tumor Debulking": SNOMEDMapping(
         code="900000000000153",
@@ -1072,6 +1100,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Intralesional resection", "Subtotal resection",
                   "Tumor decompression", "Intralesional excision"],
+        abbreviations=["TDB"],
         korean_term="종양 감축술",
     ),
     "Separation Surgery": SNOMEDMapping(
@@ -1082,6 +1111,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Tumor separation surgery", "Circumferential decompression",
                   "Epidural tumor separation"],
+        abbreviations=["SS"],
         korean_term="종양 분리 수술",
         notes="Separating tumor from spinal cord, often followed by SBRT",
     ),
@@ -1093,6 +1123,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Spine tumor surgery", "Spinal tumor resection",
                   "Tumor excision of spine"],
+        abbreviations=["STS"],
         korean_term="척추 종양 수술",
     ),
 
@@ -1180,6 +1211,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Intradiscal steroid injection", "Disc injection",
                   "Intradiscal therapy"],
+        abbreviations=["IDI"],
         korean_term="추간판 내 주사",
     ),
     "Spinal Injection Therapy": SNOMEDMapping(
@@ -1188,6 +1220,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         semantic_type=SNOMEDSemanticType.PROCEDURE,
         is_extension=True,
         synonyms=["Spinal injection", "Interventional spine procedure"],
+        abbreviations=["SIT"],
         korean_term="척추 주사 치료",
     ),
     "Neuromodulation": SNOMEDMapping(
@@ -1198,6 +1231,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Spinal cord neuromodulation", "Neuromodulation therapy",
                   "Electrical neuromodulation"],
+        abbreviations=["NM", "SCS"],
         korean_term="신경조절술",
     ),
 
@@ -1244,6 +1278,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Anterior spinal release", "Anterior discectomy",
                   "Anterior release for deformity correction"],
+        abbreviations=["AR"],
         korean_term="전방 유리술",
     ),
     "MAGEC Rod": SNOMEDMapping(
@@ -1338,6 +1373,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Spinal radiation", "Spinal irradiation",
                   "Spine radiation treatment"],
+        abbreviations=["SRT", "SBRT", "SRS"],
         korean_term="척추 방사선 치료",
     ),
 
@@ -1361,6 +1397,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Craniocervical fixation", "CVJ stabilization",
                   "Occipitocervical stabilization"],
+        abbreviations=["CCS", "OCF"],
         korean_term="두개경추 안정화술",
     ),
 
@@ -1373,6 +1410,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["C1-C2 screw fixation", "Harms technique",
                   "C1 lateral mass C2 pedicle screw", "Goel-Harms technique"],
+        abbreviations=["C1-C2 fixation"],
         korean_term="후방 C1-C2 나사못 고정술",
     ),
     "S2AI screw fixation": SNOMEDMapping(
@@ -1394,6 +1432,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Iliac screw", "Iliac bolt", "Iliac fixation",
                   "Iliac bolt fixation"],
+        abbreviations=["ISF", "S2AI"],
         korean_term="장골 나사못 고정술",
     ),
 
@@ -1406,6 +1445,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Transnasal odontoid resection", "Endoscopic odontoidectomy",
                   "Endoscopic transnasal odontoidectomy"],
+        abbreviations=["TNO"],
         korean_term="경비 치돌기 절제술",
     ),
     "Transoral Approach": SNOMEDMapping(
@@ -1416,6 +1456,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Transoral surgery", "Transoral decompression",
                   "Transoral approach to craniocervical junction"],
+        abbreviations=["TOA"],
         korean_term="경구 접근법",
     ),
     "Transoral odontoidectomy": SNOMEDMapping(
@@ -1425,6 +1466,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         parent_code="900000000000177",  # Transoral approach
         is_extension=True,
         synonyms=["Transoral odontoid resection", "Transoral dens resection"],
+        abbreviations=["TOO"],
         korean_term="경구 치돌기 절제술",
     ),
 }
@@ -1581,6 +1623,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
         synonyms=["Intradural extramedullary tumor", "Intradural intramedullary tumor", "IDEM", "IDIM"],
+        abbreviations=["IDT", "IDEM"],
         korean_term="경막내 척추 종양",
         notes="Includes schwannoma, meningioma, ependymoma",
     ),
@@ -1643,6 +1686,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Lumbar instability", "Spinal instability", "Mechanical instability",
                   "segmental instability", "lumbar instability"],
+        abbreviations=["SI"],
         korean_term="분절 불안정성",
         notes="Dynamic instability at a spinal segment, often associated with spondylolisthesis",
     ),
@@ -1716,6 +1760,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         parent_code="4556007",  # Spondylodiscitis
         synonyms=["Pyogenic infection", "Bacterial spondylodiscitis",
                   "Pyogenic vertebral osteomyelitis"],
+        abbreviations=["PSD"],
         korean_term="화농성 척추염",
         notes="Bacterial spinal infection, most common form of spondylodiscitis",
     ),
@@ -1738,6 +1783,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         parent_code="4556007",  # Spondylodiscitis
         synonyms=["Surgical site infection", "SSI", "Wound infection",
                   "Postoperative wound infection"],
+        abbreviations=["POI", "SSI"],
         korean_term="수술 후 감염",
         notes="Infection following spine surgery, includes superficial and deep SSI",
     ),
@@ -1780,6 +1826,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Os odontoideum anomaly", "Odontoid ossicle",
                   "Separated odontoid process"],
+        abbreviations=["OO"],
         korean_term="치돌기 이상",
         notes="Anomalous bone replacing the odontoid process, may cause atlantoaxial instability",
     ),
@@ -1819,6 +1866,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Kissing spine syndrome", "Interspinous bursitis",
                   "Kissing spines"],
+        abbreviations=["KD"],
         korean_term="바스트루프병",
         notes="Contact and friction between adjacent spinous processes",
     ),
@@ -1829,6 +1877,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Lumbosacral transitional vertebra", "LSTV",
                   "Sacralization", "Lumbarization"],
+        abbreviations=["BS", "LSTV"],
         korean_term="베르톨로티 증후군",
         notes="Low back pain associated with lumbosacral transitional vertebra",
     ),
@@ -1839,6 +1888,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Facet cyst", "Juxta-articular cyst",
                   "Juxtafacet cyst", "Ganglion cyst of spine"],
+        abbreviations=["SC"],
         korean_term="활막낭종",
         notes="Cyst arising from facet joint, often causes radiculopathy or stenosis",
     ),
@@ -1849,6 +1899,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Perineural cyst", "Sacral nerve root cyst",
                   "Sacral perineural cyst"],
+        abbreviations=["TC", "PNC"],
         korean_term="타를로프 낭종",
         notes="Fluid-filled cyst on sacral nerve roots, usually incidental finding",
     ),
@@ -1859,6 +1910,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Modic type 1", "Modic type 2", "Modic type 3",
                   "Endplate changes", "Vertebral endplate signal changes"],
+        abbreviations=["MC"],
         korean_term="모딕 변화",
         notes="MRI signal changes in vertebral endplates: Type 1 (edema), Type 2 (fatty), Type 3 (sclerosis)",
     ),
@@ -2011,6 +2063,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Reiter syndrome", "Reiter's syndrome",
                   "Post-infectious arthritis"],
+        abbreviations=["ReA"],
         korean_term="반응성 관절염",
         notes="Spondyloarthritis triggered by infection, formerly Reiter syndrome",
     ),
@@ -2021,6 +2074,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["IBD-associated spondylitis", "Crohn's spine",
                   "IBD-related arthritis", "Inflammatory bowel disease arthritis"],
+        abbreviations=["EA"],
         korean_term="장병성 관절염",
         notes="Spondyloarthritis associated with inflammatory bowel disease (Crohn's, UC)",
     ),
@@ -2054,6 +2108,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["NM scoliosis", "Muscular dystrophy scoliosis",
                   "Cerebral palsy scoliosis", "Paralytic scoliosis"],
+        abbreviations=["NMS"],
         korean_term="신경근육성 측만증",
         notes="Extension code. ICD-10: M41.4. Previously shared 111266001 with Adult Scoliosis",
     ),
@@ -2075,6 +2130,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         parent_code="414564002",  # Kyphosis
         synonyms=["Thoracolumbar kyphosis", "TL kyphosis",
                   "Thoracolumbar junctional kyphosis"],
+        abbreviations=["JK"],
         korean_term="경계부 후만증",
         notes="Kyphotic deformity at thoracolumbar junction",
     ),
@@ -2086,6 +2142,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         parent_code="414564002",  # Kyphosis
         synonyms=["Post-surgical kyphosis", "Iatrogenic kyphosis",
                   "Post-decompression kyphosis"],
+        abbreviations=["PLK"],
         korean_term="수술후 후만",
         notes="Kyphotic deformity developing after laminectomy, especially in cervical spine",
     ),
@@ -2119,6 +2176,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["C1 burst fracture", "Atlas fracture",
                   "C1 ring fracture", "Atlas burst fracture"],
+        abbreviations=["C1 Fx"],
         korean_term="제퍼슨 골절",
         notes="Burst fracture of the atlas (C1) with lateral mass displacement",
     ),
@@ -2137,6 +2195,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Sacral insufficiency fracture", "Denis zone fracture",
                   "Sacral stress fracture", "Sacral fragility fracture"],
+        abbreviations=["SF"],
         korean_term="천추 골절",
         notes="Includes insufficiency and traumatic fractures; Denis classification zones I-III",
     ),
@@ -2148,6 +2207,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         synonyms=["TL fracture", "Thoracolumbar burst",
                   "Thoracolumbar spine fracture",
                   "Thoracolumbar junction fracture"],
+        abbreviations=["TLF", "TL Fx"],
         korean_term="흉요추 골절",
         notes="Fracture at T10-L2 thoracolumbar junction, most common spinal fracture location",
     ),
@@ -2179,6 +2239,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         parent_code="76107001",  # Prolapsed lumbar intervertebral disc
         synonyms=["Adolescent disc herniation", "Juvenile disc herniation",
                   "Childhood disc herniation"],
+        abbreviations=["PDH"],
         korean_term="소아 디스크",
         notes="Disc herniation in patients under 18, different pathophysiology from adult",
     ),
@@ -2190,6 +2251,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         parent_code="414564002",  # Kyphosis
         synonyms=["Type I/II congenital kyphosis", "Congenital kyphotic deformity",
                   "Failure of formation kyphosis", "Failure of segmentation kyphosis"],
+        abbreviations=["CK"],
         korean_term="선천성 후만",
         notes="Type I (failure of formation) and Type II (failure of segmentation)",
     ),
@@ -2312,6 +2374,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
         synonyms=["Union rate", "Solid fusion rate", "Arthrodesis rate"],
+        abbreviations=["FR"],
         korean_term="골유합률",
         notes="Typically assessed by CT or dynamic X-ray",
     ),
@@ -2321,6 +2384,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         semantic_type=SNOMEDSemanticType.FINDING,
         is_extension=True,
         synonyms=["Cage settling", "Interbody subsidence", "Cage sinking"],
+        abbreviations=["CS"],
         korean_term="케이지 침강",
         notes=">2mm settling is typically considered significant",
     ),
@@ -2416,6 +2480,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
         synonyms=["Revision rate", "Secondary surgery rate", "Reintervention rate"],
+        abbreviations=["RR", "ReOp"],
         korean_term="재수술률",
     ),
     # v1.14.14 수정: Adjacent Segment Disease는 SPINE_PATHOLOGY_SNOMED에서 정의됨 (900000000000208)
@@ -2478,8 +2543,35 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         notes="Total drainage volume from surgical wound, indicator of bleeding/tissue trauma",
     ),
 
+    # v1.16.4: DVT (심부정맥혈전증) - 척추 수술 주요 합병증
+    "DVT": SNOMEDMapping(
+        code="900000000000502",
+        term="Deep vein thrombosis after spinal surgery",
+        semantic_type=SNOMEDSemanticType.FINDING,
+        is_extension=True,
+        synonyms=["Deep vein thrombosis", "Venous thromboembolism",
+                  "Postoperative DVT", "Thromboembolism"],
+        abbreviations=["DVT", "VTE"],
+        korean_term="심부정맥혈전증",
+        notes="Common complication after prolonged spine surgery; risk increases with prone position",
+    ),
+
+    # v1.16.4: Screw Malposition (나사못 위치불량) - 기존 503은 225553008로 대체되어 재할당
+    "Screw Malposition": SNOMEDMapping(
+        code="900000000000503",
+        term="Pedicle screw malposition",
+        semantic_type=SNOMEDSemanticType.FINDING,
+        is_extension=True,
+        synonyms=["Screw misplacement", "Pedicle screw breach",
+                  "Screw malpositioning", "Cortical breach",
+                  "Screw perforation"],
+        abbreviations=["PSM", "PSB"],
+        korean_term="나사못 위치불량",
+        notes="Pedicle screw placed outside the pedicle cortex; graded by breach severity",
+    ),
+
     # v1.14.14 수정: Wound Dehiscence - 공식 SNOMED 코드 225553008 사용
-    # 이전 extension code 900000000000503은 225553008로 대체됨
+    # 이전 extension code 900000000000503은 225553008로 대체됨 → 503 재할당 (Screw Malposition)
     "Wound Dehiscence": SNOMEDMapping(
         code="225553008",
         term="Wound dehiscence",
@@ -2499,6 +2591,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Recurrent herniated disc", "Re-herniation", "Recurrent HNP",
                   "Disc re-herniation", "Same-level recurrence"],
+        abbreviations=["rDH", "ReHNP"],
         korean_term="재발성 추간판 탈출증",
         notes="Herniation at the same level after previous discectomy, typically within 6 months to 2 years",
     ),
@@ -2577,6 +2670,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Pseudoarthrosis", "Nonunion", "Non-union", "Fusion failure",
                   "Failed fusion", "Fibrous nonunion"],
+        abbreviations=["PA", "Non-union"],
         korean_term="가관절증",
         notes="Failure of bone healing after attempted spinal fusion; diagnosed by CT or dynamic X-ray",
     ),
@@ -2632,6 +2726,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["C7-S1 SVA", "Global sagittal balance", "Full-spine sagittal alignment",
                   "Overall sagittal balance"],
+        abbreviations=["GB"],
         korean_term="전체 시상면 균형",
         notes="Global sagittal alignment from C7 plumbline to sacrum; includes T1 pelvic angle (TPA)",
     ),
@@ -2685,6 +2780,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Time to walking", "Mobilization time", "Time to first walk",
                   "Early ambulation time"],
+        abbreviations=["TTA"],
         korean_term="보행 시작 시간",
         notes="Time from surgery to patient's first independent ambulation",
     ),
@@ -2718,6 +2814,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["MacNab criteria", "Modified MacNab criteria", "MacNab classification",
                   "Excellent/Good rate"],
+        abbreviations=["MacNab"],
         korean_term="맥냅 기준",
         notes="4-grade scale: Excellent, Good, Fair, Poor; commonly used after discectomy/decompression",
     ),
@@ -2727,6 +2824,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
         synonyms=["Odom criteria", "Odom classification", "Odom grading"],
+        abbreviations=["Odom"],
         korean_term="오덤 기준",
         notes="4-grade scale for cervical surgery outcomes: Excellent, Good, Satisfactory, Poor",
     ),
@@ -2737,6 +2835,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Satisfaction rate", "Patient satisfaction score", "Clinical outcome",
                   "Surgical outcome satisfaction", "Functional outcome"],
+        abbreviations=["PS", "PSat"],
         korean_term="환자 만족도",
         notes="Overall patient-reported satisfaction with surgery; various scales used",
     ),
@@ -2781,6 +2880,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Sensory deficit", "Sensory recovery", "Dermatomal sensation",
                   "Sensory examination", "Light touch sensation"],
+        abbreviations=["SF"],
         korean_term="감각 기능",
         notes="Assessment of dermatomal sensation; includes light touch, pinprick, proprioception",
     ),
@@ -2801,6 +2901,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
         synonyms=["Nurick myelopathy grade", "Nurick scale", "Nurick classification"],
+        abbreviations=["Nurick"],
         korean_term="누릭 척수병증 등급",
         notes="Grade 0-5 for cervical myelopathy severity based on gait and employment",
     ),
@@ -2870,6 +2971,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Local recurrence", "Tumor recurrence", "Local recurrence rate",
                   "Disease recurrence", "Recurrence-free survival"],
+        abbreviations=["RecR"],
         korean_term="재발률",
         notes="Rate of local tumor recurrence after surgical resection; assessed by MRI follow-up",
     ),
@@ -2891,6 +2993,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Revised Tokuhashi", "Tokuhashi prognosis", "Tokuhashi scoring system",
                   "Tokuhashi survival prediction"],
+        abbreviations=["Tokuhashi"],
         korean_term="토쿠하시 예후 점수",
         notes="0-15 score predicting survival in spinal metastasis: 0-8 (<6mo), 9-11 (>6mo), 12-15 (>1yr)",
     ),
@@ -2901,6 +3004,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Tomita surgical classification", "Tomita scoring system",
                   "Tomita prognostic score"],
+        abbreviations=["Tomita"],
         korean_term="토미타 수술 분류 점수",
         notes="2-10 score based on tumor grade, visceral metastasis, bone metastasis; guides surgical strategy",
     ),
