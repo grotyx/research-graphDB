@@ -10,7 +10,8 @@
       "WebFetch(domain:www.nature.com)",
       "WebFetch(domain:media.springer.com)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "Bash(git fetch:*)"
+      "Bash(git fetch:*)",
+      "Bash(PYTHONPATH=./src:. python3 -m pytest:*)"
     ]
   }
 }

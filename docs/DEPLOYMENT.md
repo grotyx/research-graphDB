@@ -8,7 +8,7 @@
 |------|-----|
 | **Version** | 7.16.0 |
 | **Date** | 2026-02-14 |
-| **SNOMED Mappings** | 139개 (I:45, P:28, O:45, A:21) + 패턴 매핑 60.6% 커버리지 |
+| **SNOMED Mappings** | 140개 (I:46, P:33, O:34, A:27) + 패턴 매핑 62.9% 커버리지 |
 | **Storage** | Neo4j (Graph + Vector 통합, ChromaDB 완전 제거) |
 
 ### v7.16 주요 기능
@@ -37,7 +37,7 @@ rag_research/
 ├── src/                        # 소스 코드 ⭐필수
 │   ├── builder/               # PDF/텍스트 처리, 인용 분석
 │   ├── graph/                 # Neo4j 클라이언트, 관계 빌더
-│   ├── ontology/              # SNOMED-CT 매핑 (125개)
+│   ├── ontology/              # SNOMED-CT 매핑 (140개)
 │   │   ├── spine_snomed_mappings.py  # 전체 매핑 정의
 │   │   └── entity_normalizer.py      # 정규화 엔진
 │   ├── medical_mcp/           # MCP 서버 (10개 통합 도구)

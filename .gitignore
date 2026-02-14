@@ -33,3 +33,6 @@ logs/
 .mypy_cache/
 htmlcov/
 .coverage
+
+# Tmux
+tmux-*.log
