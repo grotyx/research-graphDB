@@ -724,6 +724,26 @@ class EntityNormalizer:
         "Transoral odontoidectomy": [
             "Transoral odontoid resection",
         ],
+        "Open Decompression": [
+            "Open decompression", "Open neural decompression",
+            "Open spinal decompression", "개방 감압술",
+        ],
+        "Endoscopic Surgery": [
+            "Endoscopic spine surgery", "Endoscopic procedure",
+            "내시경 척추 수술",
+        ],
+        "Microscopic Surgery": [
+            "Microsurgery", "Microscopic technique",
+            "미세현미경 수술",
+        ],
+        "Fixation": [
+            "Spinal fixation", "Spinal instrumentation",
+            "Internal fixation", "척추 고정술",
+        ],
+        "Motion Preservation": [
+            "Motion preservation surgery", "Non-fusion surgery",
+            "Dynamic surgery", "운동 보존 수술",
+        ],
     }
 
     # 수술법 카테고리 매핑 (정규화된 이름 → 카테고리)
@@ -843,6 +863,12 @@ class EntityNormalizer:
         "Endoscopic Decompression": "Endoscopic Surgery",
         "Facetectomy": "Decompression Surgery",
         "Osteotomy": "Osteotomy",
+        # v7.16.2: Category aliases
+        "Open Decompression": "Decompression Surgery",
+        "Endoscopic Surgery": "Endoscopic Surgery",
+        "Microscopic Surgery": "Decompression Surgery",
+        "Fixation": "Fixation",
+        "Motion Preservation": "Motion Preservation",
     }
 
     # 결과변수 별칭 매핑
@@ -1163,6 +1189,41 @@ class EntityNormalizer:
         ],
         "Tomita Score": [
             "Tomita surgical classification"
+        ],
+
+        # v7.16.2: SNOMED-mapped outcomes without aliases
+        "Deep Surgical Site Infection": [
+            "Deep SSI", "deep SSI", "Deep infection",
+            "Deep wound infection", "deep wound infection", "심부 감염",
+        ],
+        "Superficial Surgical Site Infection": [
+            "Superficial SSI", "superficial SSI", "Superficial infection",
+            "Superficial wound infection", "superficial wound infection",
+            "표재성 감염",
+        ],
+        "Recurrent Disc Herniation": [
+            "Recurrent herniation", "Re-herniation",
+            "recurrent disc herniation", "Disc re-herniation",
+            "Same-level recurrence", "재발성 디스크",
+        ],
+        "Postoperative Drainage": [
+            "Drainage volume", "Drain output", "Hemovac output",
+            "Post-op drainage", "수술후 배액량", "배액량",
+        ],
+        "Serum CPK": [
+            "CPK", "CK", "Creatine kinase",
+            "Creatine phosphokinase", "Muscle enzyme",
+            "크레아틴 키나제",
+        ],
+        "Scar Quality": [
+            "Wound cosmesis", "Scar appearance",
+            "Cosmetic outcome", "Scar assessment",
+            "흉터 품질",
+        ],
+        "ASD Reoperation Rate": [
+            "ASD reoperation", "Adjacent segment reoperation",
+            "Junctional reoperation", "ASD-RR",
+            "인접분절 재수술률",
         ],
     }
 
@@ -1586,6 +1647,17 @@ class EntityNormalizer:
         ],
         "Diastematomyelia": [
             "Split cord malformation", "이중 척수"
+        ],
+
+        # v7.16.2: SNOMED-mapped pathologies without aliases
+        "Cauda Equina Syndrome": [
+            "CES", "Cauda equina", "cauda equina syndrome",
+            "cauda equina", "마미 증후군", "마미총 증후군",
+        ],
+        "Diabetes Mellitus": [
+            "DM", "Diabetes", "diabetes", "diabetes mellitus",
+            "Type 2 diabetes", "Type 1 diabetes", "Type II DM",
+            "IDDM", "NIDDM", "당뇨병", "당뇨",
         ],
     }
 

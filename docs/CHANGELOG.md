@@ -16,8 +16,17 @@ PDF 처리 및 중요 인용 논문 처리 시 PubMed → DOI(Crossref/Unpaywall
 | 4 | **SNOMED 매핑 7건 추가**: Intervention 4건 (COWO, Open Decompression, Over-the-top, UBD) + Anatomy 3건 (S2, T10, T11) | `spine_snomed_mappings.py` |
 | 5 | **LOCATED_AT, MEASURED_BY**: 미구현 관계 → GRAPH_SCHEMA.md에 "Planned" 표기 | `GRAPH_SCHEMA.md` |
 
-- SNOMED 통계: 140 → **147개** (I:50, P:33, O:34, A:30)
+- SNOMED 통계: 140 → 147 → **304개** (I:122, P:84, O:68, A:30) — 공식 142개 + 확장 162개
 - 문서 동기화: GRAPH_SCHEMA, TERMINOLOGY_ONTOLOGY, DEPLOYMENT, CLAUDE.md
+
+#### 용어 정규화 확장 (2026-02-14)
+
+| # | 변경 | 파일 |
+|---|------|------|
+| 1 | **SNOMED 전면 확장**: 147 → 304개 (I:+72, P:+51, O:+34) — 모든 normalizer alias에 SNOMED 매핑 | `spine_snomed_mappings.py` |
+| 2 | **P0 alias 갭 해소**: 16개 SNOMED 엔티티에 alias 추가 (Cauda Equina, DM, Deep/Superficial SSI 등) | `entity_normalizer.py` |
+| 3 | **카테고리 alias 추가**: Open Decompression, Endoscopic Surgery, Fixation 등 5개 umbrella term | `entity_normalizer.py` |
+| 4 | **공식 SNOMED 코드**: Laminoplasty, ESI, RFA, CDR, OPLL, Ankylosing Spondylitis 등 63개 공식 코드 | `spine_snomed_mappings.py` |
 
 #### 신규 기능
 

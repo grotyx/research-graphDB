@@ -623,15 +623,15 @@ RELATED_TERMS = {
 
 ## 7. 통계 및 커버리지
 
-### 7.1 전체 매핑 통계 (v7.16.1)
+### 7.1 전체 매핑 통계 (v7.16.2)
 
 | 카테고리 | 전체 | 공식 SNOMED | 확장 코드 | 커버리지 |
 |----------|------|-------------|-----------|----------|
-| Interventions | 50 | 25 | 25 | 50.0% |
-| Pathologies | 33 | 27 | 6 | 81.8% |
-| Outcomes | 34 | 15 | 19 | 44.1% |
+| Interventions | 122 | 44 | 78 | 36.1% |
+| Pathologies | 84 | 55 | 29 | 65.5% |
+| Outcomes | 68 | 19 | 49 | 27.9% |
 | Anatomy | 30 | 24 | 6 | 80.0% |
-| **Total** | **147** | **91** | **56** | **61.9%** |
+| **Total** | **304** | **142** | **162** | **46.7%** |
 
 > **v7.14.15 변경사항**: SNOMED 중복 제거 및 정리, 공식 코드 전환 (Wound Dehiscence → 225553008)
 >
@@ -644,6 +644,12 @@ RELATED_TERMS = {
 > - ANATOMY_ALIASES 딕셔너리 신규 추가 (33개 매핑)
 > - Schema 노드 26개에 대한 INTERVENTION_ALIASES 추가
 > - normalize_anatomy() 메서드 추가
+>
+> **v7.16.2 변경사항**:
+> - SNOMED 매핑 대폭 확장: 147 → 304개 (I:+72, P:+51, O:+34)
+> - entity_normalizer.py 16개 alias 갭 수정 (CES, DM, SSI 등)
+> - 공식 SNOMED 코드 49건 추가 (Laminoplasty, OPLL, ESI, Schwannoma 등)
+> - 확장 코드 108건 추가 (척추 수술 특화 용어)
 
 ### 7.2 확장 코드 필요 항목
 
@@ -690,14 +696,14 @@ from src.ontology.spine_snomed_mappings import get_mapping_statistics, get_cover
 
 stats = get_mapping_statistics()
 # → {
-#     "total_mappings": 147,
-#     "interventions": 50,
-#     "pathologies": 33,
-#     "outcomes": 34,
+#     "total_mappings": 304,
+#     "interventions": 122,
+#     "pathologies": 84,
+#     "outcomes": 68,
 #     "anatomy": 30,
-#     "official_snomed_codes": 91,
-#     "extension_codes_needed": 56,
-#     "coverage_percent": 61.9
+#     "official_snomed_codes": 142,
+#     "extension_codes_needed": 162,
+#     "coverage_percent": 46.7
 # }
 
 report = get_coverage_report()
