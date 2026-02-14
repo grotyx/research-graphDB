@@ -553,8 +553,8 @@ class TestLLMCacheCostTracking:
         assert summary["total_requests"] == 3
         assert summary["cached_requests"] == 1
 
-        # 비용 계산 확인
-        expected_cost = (4500 / 1_000_000) * 0.15 + (2250 / 1_000_000) * 0.60
+        # 비용 계산 확인 (Claude Haiku 4.5: $0.80/1M input, $4.00/1M output)
+        expected_cost = (4500 / 1_000_000) * 0.80 + (2250 / 1_000_000) * 4.00
         assert abs(summary["estimated_cost_usd"] - expected_cost) < 0.0001
 
     @pytest.mark.asyncio

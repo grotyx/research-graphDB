@@ -398,6 +398,50 @@ PDF 입력
                                  └─────────────────────────────────────┘
 ```
 
+### 4.1.1 서지 보강 파이프라인 (v7.16.0 — PubMed + DOI Fallback)
+
+논문 처리 시 서지 정보를 항상 3단계 fallback 체인으로 보강합니다.
+
+```
+PDF/Text 메타데이터 (DOI, Title, Authors)
+    │
+    ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  Step 1: PubMed Enrichment (confidence: 1.0)                    │
+│  - PMID, DOI, MeSH Terms, Publication Types, Abstract           │
+│  - source: "pubmed"                                             │
+│  → 성공 시 → Paper 노드 생성 + 임베딩                             │
+└──────────────────────────────┬──────────────────────────────────┘
+                               │ 실패 시
+                               ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  Step 2: DOI/Crossref Fallback (confidence: 0.8)                │
+│  A. DOI 직접 조회: doi_fulltext_fetcher.get_metadata_only()      │
+│  B. Crossref 서지 검색: search_by_bibliographic(title, authors)  │
+│  - DOI, Title, Authors, Journal, Year, Abstract                 │
+│  - source: "crossref"                                           │
+│  → BibliographicMetadata.from_doi_metadata() 변환               │
+└──────────────────────────────┬──────────────────────────────────┘
+                               │ 실패 시
+                               ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  Step 3: Basic Citation (confidence: 0.3)                       │
+│  - Title, Authors, Year만으로 최소 Paper 노드 생성               │
+│  - source: "citation_basic"                                     │
+│  - MeSH terms, keywords 없음                                    │
+└─────────────────────────────────────────────────────────────────┘
+    │
+    ▼
+Paper 노드 + CITES 관계 항상 생성 (어떤 경우든)
+```
+
+**적용 범위**:
+
+- `medical_kag_server.py`: PDF/텍스트 처리 시 PubMed → DOI fallback
+- `important_citation_processor.py`: 인용 논문 처리 시 3단계 fallback 체인
+- `doi_fulltext_fetcher.py`: Crossref API `query.bibliographic` 검색
+- `pubmed_enricher.py`: `DOIMetadata → BibliographicMetadata` 변환
+
 ### 4.2 검색 파이프라인 (Hybrid)
 
 ```

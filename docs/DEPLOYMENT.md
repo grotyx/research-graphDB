@@ -1,4 +1,4 @@
-# Spine GraphRAG v7.14.15 - Deployment Guide
+# Spine GraphRAG v7.16.0 - Deployment Guide
 
 다른 컴퓨터로 프로젝트를 이전하기 위한 가이드입니다.
 
@@ -6,8 +6,8 @@
 
 | 항목 | 값 |
 |------|-----|
-| **Version** | 7.14.15 |
-| **Date** | 2026-01-13 |
+| **Version** | 7.16.0 |
+| **Date** | 2026-02-14 |
 | **SNOMED Mappings** | 139개 (I:45, P:28, O:45, A:21) + 패턴 매핑 60.6% 커버리지 |
 | **Storage** | Neo4j (Graph + Vector 통합, ChromaDB 완전 제거) |
 
