@@ -585,7 +585,7 @@ async def main():
     CONNECTION_TIMEOUT = args.timeout
 
     logger.info("=" * 60)
-    logger.info("Medical KAG MCP Server (Multi-User SSE) v1.16.0")
+    logger.info(f"Medical KAG MCP Server (Multi-User SSE) v{__version__}")
     logger.info("=" * 60)
     logger.info(f"Server URL: http://{args.host}:{args.port}")
     logger.info(f"SSE endpoint: http://{args.host}:{args.port}/sse?user=<user_id>")
