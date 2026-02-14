@@ -46,6 +46,8 @@ NON_SPECIFIC_ANATOMY = {
     "Not specified", "Various", "Not reported", "N/A", "Unknown",
     "Whole spine", "Full spine",
 }
+# 사전 계산된 소문자 세트 (루프 내 재계산 방지)
+_NON_SPECIFIC_LOWER = {s.lower() for s in NON_SPECIFIC_ANATOMY}
 
 DIRECTION_ONLY_ANATOMY = {
     "anterior", "posterior", "lateral", "medial",
@@ -57,8 +59,8 @@ RANGE_PATTERN = re.compile(
     r'^([CTLS])(\d+)\s*[-–]\s*([CTLS]?)(\d+)$', re.IGNORECASE
 )
 
-# 콤마 구분 패턴: "L4-5, L5-S1"
-COMMA_SPLIT_PATTERN = re.compile(r'\s*[,;]\s*')
+# 콤마/세미콜론/and 구분 패턴: "L4-5, L5-S1", "L4-5 and L5-S1"
+COMPOUND_SPLIT_PATTERN = re.compile(r'\s*[,;]\s*|\s+and\s+', re.IGNORECASE)
 
 
 # =====================================================================
@@ -120,23 +122,25 @@ def generate_snomed_update_queries(batch_size: int = 20) -> list[str]:
         items = list(mapping_dict.items())
         for i in range(0, len(items), batch_size):
             batch = items[i:i + batch_size]
+            # CALL {} 서브쿼리로 각 MATCH를 독립 실행 (MATCH 실패 시 배치 전체 스킵 방지)
             statements: list[str] = []
 
             for name, m in batch:
                 escaped_name = name.replace("'", "\\'")
                 escaped_term = m.term.replace("'", "\\'")
-                stmt = f"MATCH (n:{label} {{name: '{escaped_name}'}}) "
+                stmt = f"CALL {{ MATCH (n:{label} {{name: '{escaped_name}'}}) "
                 stmt += f"SET n.snomed_code = '{m.code}', "
                 stmt += f"n.snomed_term = '{escaped_term}'"
                 if m.is_extension:
                     stmt += ", n.snomed_is_extension = true"
                 else:
                     stmt += ", n.snomed_is_extension = false"
+                stmt += " }"
                 statements.append(stmt)
 
-            query = "\nWITH 1 as done\n".join(statements)
             batch_num = i // batch_size + 1
             total_batches = (len(items) + batch_size - 1) // batch_size
+            query = "\n".join(statements)
             query += f"\nRETURN '{label} SNOMED batch {batch_num}/{total_batches} applied'"
             queries.append(query)
 
@@ -277,13 +281,15 @@ async def backfill_treats_relations(
         existing_query = "MATCH ()-[r:TREATS]->() RETURN count(r) as cnt"
         existing_res = await client.run_query(existing_query)
         result.already_existed = existing_res[0]["cnt"] if existing_res else 0
-        result.newly_created = result.total_pairs - result.already_existed
+        result.newly_created = max(0, result.total_pairs - result.already_existed)
 
         # Top 쌍
         for p in pairs[:15]:
             result.top_pairs.append((p["intervention"], p["pathology"], p["evidence"]))
     else:
-        # 실제 MERGE
+        # 실제 MERGE — run_query 사용 (RETURN 결과 필요, run_write_query는 counter dict 반환)
+        # NOTE: relationship_builder.py는 source_paper_id (단수 string)를 사용하고,
+        # backfill은 source_paper_ids (리스트)를 사용. 두 속성이 공존 가능.
         merge_query = """
         MATCH (p:Paper)-[:INVESTIGATES]->(i:Intervention)
         WHERE NOT p.paper_id IN $review_ids
@@ -303,7 +309,7 @@ async def backfill_treats_relations(
         RETURN i.name as intervention, pa.name as pathology, size(paper_ids) as evidence
         ORDER BY evidence DESC
         """
-        pairs = await client.run_write_query(merge_query, {"review_ids": review_ids})
+        pairs = await client.run_query(merge_query, {"review_ids": review_ids})
         result.total_pairs = len(pairs)
         result.newly_created = len(pairs)
 
@@ -381,15 +387,15 @@ def parse_segment_range(range_str: str) -> list[str]:
 
 
 def split_compound_anatomy(name: str) -> list[str]:
-    """콤마/세미콜론으로 구분된 복합 해부학 문자열을 개별 항목으로 분리.
+    """콤마/세미콜론/and로 구분된 복합 해부학 문자열을 개별 항목으로 분리.
 
     Args:
-        name: 복합 문자열 (예: "L4-5, L5-S1")
+        name: 복합 문자열 (예: "L4-5, L5-S1", "L4-5 and L5-S1")
 
     Returns:
         분리된 항목 리스트.
     """
-    parts = COMMA_SPLIT_PATTERN.split(name)
+    parts = COMPOUND_SPLIT_PATTERN.split(name)
     return [p.strip() for p in parts if p.strip()]
 
 
@@ -427,7 +433,7 @@ async def cleanup_anatomy_nodes(
         has_snomed = node["snomed_code"] is not None
 
         # 1. 비특이적 용어
-        if name in NON_SPECIFIC_ANATOMY or name.lower() in {s.lower() for s in NON_SPECIFIC_ANATOMY}:
+        if name in NON_SPECIFIC_ANATOMY or name.lower() in _NON_SPECIFIC_LOWER:
             if node.get("quality_flag") != "non_specific":
                 if not dry_run:
                     await client.run_write_query(
@@ -527,7 +533,9 @@ async def cleanup_anatomy_nodes(
                     )
                 result.normalized += 1
             else:
+                # SNOMED 없고 매핑도 못찾은 노드 (unmapped)
                 result.already_clean += 1
+                logger.debug(f"  Anatomy 매핑 불가: {name}")
 
     return result
 

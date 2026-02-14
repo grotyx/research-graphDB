@@ -1660,6 +1660,18 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         notes="Kyphotic deformity at or below LIV following spinal fusion",
     ),
 
+    # v7.16.4: PJK를 Pathology에도 추가 (Outcome에는 이미 존재)
+    "Proximal Junctional Kyphosis": SNOMEDMapping(
+        code="900000000000233",
+        term="Proximal junctional kyphosis",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        is_extension=True,
+        synonyms=["PJK", "Proximal junctional failure", "PJF", "Junctional kyphosis"],
+        abbreviations=["PJK", "PJF"],
+        korean_term="근위부 경계부 후만",
+        notes="Pathology entry. >10° increase in kyphosis at UIV. Also in OUTCOME_SNOMED as measurable outcome.",
+    ),
+
     # v7.14.1: Adjacent Segment Disease 추가
     "Adjacent Segment Disease": SNOMEDMapping(
         code="900000000000208",
@@ -2036,12 +2048,14 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         korean_term="선천성 측만증",
     ),
     "Neuromuscular Scoliosis": SNOMEDMapping(
-        code="111266001",
+        code="900000000000232",
         term="Neuromuscular scoliosis",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        is_extension=True,
         synonyms=["NM scoliosis", "Muscular dystrophy scoliosis",
                   "Cerebral palsy scoliosis", "Paralytic scoliosis"],
         korean_term="신경근육성 측만증",
+        notes="Extension code. ICD-10: M41.4. Previously shared 111266001 with Adult Scoliosis",
     ),
     "Syndromic Scoliosis": SNOMEDMapping(
         code="900000000000223",
@@ -3011,12 +3025,98 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         korean_term="C6-7 추간판",
         notes="Second most common level for cervical disc herniation",
     ),
+    # v7.16.4: 추가 분절 레벨 (parse_segment_range 분리 결과 매핑)
+    "C3-4": SNOMEDMapping(
+        code="900000000000407",
+        term="C3-C4 intervertebral disc",
+        semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
+        is_extension=True,
+        synonyms=["C3-C4 disc", "C3/4 level"],
+        korean_term="C3-4 추간판",
+    ),
+    "C4-5": SNOMEDMapping(
+        code="900000000000408",
+        term="C4-C5 intervertebral disc",
+        semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
+        is_extension=True,
+        synonyms=["C4-C5 disc", "C4/5 level"],
+        korean_term="C4-5 추간판",
+    ),
+    "C7-T1": SNOMEDMapping(
+        code="900000000000409",
+        term="C7-T1 intervertebral disc",
+        semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
+        is_extension=True,
+        synonyms=["C7-T1 disc", "cervicothoracic disc"],
+        korean_term="C7-T1 추간판",
+        notes="Cervicothoracic junction disc level",
+    ),
+    "L1-2": SNOMEDMapping(
+        code="900000000000410",
+        term="L1-L2 intervertebral disc",
+        semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
+        is_extension=True,
+        synonyms=["L1-L2 disc", "L1/2 level"],
+        korean_term="L1-2 추간판",
+    ),
+    "L2-3": SNOMEDMapping(
+        code="900000000000411",
+        term="L2-L3 intervertebral disc",
+        semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
+        is_extension=True,
+        synonyms=["L2-L3 disc", "L2/3 level"],
+        korean_term="L2-3 추간판",
+    ),
+    "T11-12": SNOMEDMapping(
+        code="900000000000412",
+        term="T11-T12 intervertebral disc",
+        semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
+        is_extension=True,
+        synonyms=["T11-T12 disc", "T11/12 level"],
+        korean_term="T11-12 추간판",
+    ),
+    "T12-L1": SNOMEDMapping(
+        code="900000000000413",
+        term="T12-L1 intervertebral disc",
+        semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
+        is_extension=True,
+        synonyms=["T12-L1 disc", "thoracolumbar disc"],
+        korean_term="T12-L1 추간판",
+        notes="Thoracolumbar junction disc level",
+    ),
 }
 
 
 # ============================================================================
 # HELPER FUNCTIONS
 # ============================================================================
+
+def _search_mapping(
+    mapping_dict: dict[str, SNOMEDMapping], name: str
+) -> Optional[SNOMEDMapping]:
+    """공통 SNOMED 매핑 조회 로직.
+
+    검색 순서: exact key → case-insensitive key → synonyms → abbreviations.
+    """
+    # Direct lookup
+    if name in mapping_dict:
+        return mapping_dict[name]
+
+    # Case-insensitive + synonyms + abbreviations
+    name_lower = name.lower()
+    name_upper = name.upper()
+    for key, mapping in mapping_dict.items():
+        if key.lower() == name_lower:
+            return mapping
+        if any(syn.lower() == name_lower for syn in mapping.synonyms):
+            return mapping
+        if mapping.abbreviations and any(
+            a.upper() == name_upper for a in mapping.abbreviations
+        ):
+            return mapping
+
+    return None
+
 
 def get_snomed_for_intervention(name: str) -> Optional[SNOMEDMapping]:
     """Get SNOMED mapping for an intervention.
@@ -3027,20 +3127,7 @@ def get_snomed_for_intervention(name: str) -> Optional[SNOMEDMapping]:
     Returns:
         SNOMEDMapping if found, None otherwise
     """
-    # Direct lookup
-    if name in SPINE_INTERVENTION_SNOMED:
-        return SPINE_INTERVENTION_SNOMED[name]
-
-    # Case-insensitive lookup
-    name_lower = name.lower()
-    for key, mapping in SPINE_INTERVENTION_SNOMED.items():
-        if key.lower() == name_lower:
-            return mapping
-        # Check synonyms
-        if any(syn.lower() == name_lower for syn in mapping.synonyms):
-            return mapping
-
-    return None
+    return _search_mapping(SPINE_INTERVENTION_SNOMED, name)
 
 
 def get_snomed_for_pathology(name: str) -> Optional[SNOMEDMapping]:
@@ -3052,17 +3139,7 @@ def get_snomed_for_pathology(name: str) -> Optional[SNOMEDMapping]:
     Returns:
         SNOMEDMapping if found, None otherwise
     """
-    if name in SPINE_PATHOLOGY_SNOMED:
-        return SPINE_PATHOLOGY_SNOMED[name]
-
-    name_lower = name.lower()
-    for key, mapping in SPINE_PATHOLOGY_SNOMED.items():
-        if key.lower() == name_lower:
-            return mapping
-        if any(syn.lower() == name_lower for syn in mapping.synonyms):
-            return mapping
-
-    return None
+    return _search_mapping(SPINE_PATHOLOGY_SNOMED, name)
 
 
 def get_snomed_for_outcome(name: str) -> Optional[SNOMEDMapping]:
@@ -3074,17 +3151,7 @@ def get_snomed_for_outcome(name: str) -> Optional[SNOMEDMapping]:
     Returns:
         SNOMEDMapping if found, None otherwise
     """
-    if name in SPINE_OUTCOME_SNOMED:
-        return SPINE_OUTCOME_SNOMED[name]
-
-    name_lower = name.lower()
-    for key, mapping in SPINE_OUTCOME_SNOMED.items():
-        if key.lower() == name_lower:
-            return mapping
-        if any(syn.lower() == name_lower for syn in mapping.synonyms):
-            return mapping
-
-    return None
+    return _search_mapping(SPINE_OUTCOME_SNOMED, name)
 
 
 def get_snomed_for_anatomy(name: str) -> Optional[SNOMEDMapping]:
@@ -3096,17 +3163,7 @@ def get_snomed_for_anatomy(name: str) -> Optional[SNOMEDMapping]:
     Returns:
         SNOMEDMapping if found, None otherwise
     """
-    if name in SPINE_ANATOMY_SNOMED:
-        return SPINE_ANATOMY_SNOMED[name]
-
-    name_lower = name.lower()
-    for key, mapping in SPINE_ANATOMY_SNOMED.items():
-        if key.lower() == name_lower:
-            return mapping
-        if any(syn.lower() == name_lower for syn in mapping.synonyms):
-            return mapping
-
-    return None
+    return _search_mapping(SPINE_ANATOMY_SNOMED, name)
 
 
 def get_all_snomed_codes() -> dict[str, SNOMEDMapping]:

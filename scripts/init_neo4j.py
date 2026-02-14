@@ -15,9 +15,12 @@ import sys
 from pathlib import Path
 from dotenv import load_dotenv
 
-# Add project root to path
+# Add project root and src/ to path
+# project_root: for `from src.graph.*` imports
+# src/: for modules that use `from graph.*`, `from ontology.*` (e.g., snomed_enricher.py)
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
+sys.path.insert(0, str(project_root / "src"))
 
 # Load environment variables from .env (override=True to ensure .env takes precedence)
 env_file = project_root / '.env'

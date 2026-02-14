@@ -2,6 +2,34 @@
 
 ## Version History
 
+### v7.16.4 (2026-02-14): SNOMED 보강 버그픽스 및 커버리지 확장
+
+v7.16.3에서 발견된 Critical/High 이슈 수정 + 누락 커버리지 전면 보완. SNOMED 312개(I:122, P:85, O:68, A:37).
+
+#### 버그 수정
+
+| # | 심각도 | 변경 | 파일 |
+|---|--------|------|------|
+| 1 | **Critical** | TREATS backfill `run_write_query` → `run_query` (counter dict 대신 records 반환 필요) | `snomed_enricher.py` |
+| 2 | **Critical** | `init_neo4j.py`에 `src/` sys.path 추가 (schema.py→snomed_enricher 임포트 경로 해결) | `init_neo4j.py` |
+| 3 | **Critical** | `enhance_taxonomy_snomed.py` 임포트 `src.graph.*` → `graph.*` 통일 | `enhance_taxonomy_snomed.py` |
+| 4 | **High** | `WITH 1 as done` → `CALL {}` 서브쿼리 (MATCH 실패 시 배치 전체 스킵 방지) | `snomed_enricher.py` |
+| 5 | **High** | `get_snomed_for_*()` 4개 함수에 abbreviation 검색 추가 (`_search_mapping` 공통화) | `spine_snomed_mappings.py` |
+| 6 | **Medium** | `split_compound_anatomy`에 "and" 구분자 추가, NON_SPECIFIC 소문자 세트 캐시 | `snomed_enricher.py` |
+| 7 | **Medium** | `enrich_graph_snomed.py` Neo4j 연결 에러 핸들링 + 트러블슈팅 가이드 | `enrich_graph_snomed.py` |
+
+#### 커버리지 확장
+
+| # | 변경 | 파일 |
+|---|------|------|
+| 1 | 분절 레벨 SNOMED **7개** 추가 (C3-4, C4-5, C7-T1, L1-2, L2-3, T11-12, T12-L1) | `spine_snomed_mappings.py` |
+| 2 | PJK를 Pathology SNOMED에 추가 (기존 Outcome에만 존재) | `spine_snomed_mappings.py` |
+| 3 | Neuromuscular Scoliosis 코드 분리 (Adult Scoliosis와 중복 해소, 확장코드 할당) | `spine_snomed_mappings.py` |
+| 4 | Intervention **카테고리 24건** 추가 (누락 0건 달성) | `entity_normalizer.py` |
+| 5 | `update_snomed_codes.py` deprecated 표시 → `enrich_graph_snomed.py`로 대체 | `update_snomed_codes.py` |
+
+- SNOMED 통계: 304 → **312개** (I:122, P:85, O:68, A:37) — 공식 141개 + 확장 171개
+
 ### v7.16.3 (2026-02-14): SNOMED/TREATS/Anatomy 통합 보강 스크립트
 
 파편화된 SNOMED 업데이트 스크립트들을 통합하고, TREATS 관계 백필과 Anatomy 데이터 정리 기능을 추가.

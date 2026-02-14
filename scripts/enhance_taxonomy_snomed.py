@@ -6,11 +6,15 @@ v7.14.13: Orphan Intervention 노드를 적절한 parent에 연결하고 SNOMED 
 
 import asyncio
 import logging
+import sys
+from pathlib import Path
 from dotenv import load_dotenv
 
+# Add src/ to path for consistent imports
+sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 load_dotenv()
 
-from src.graph.neo4j_client import Neo4jClient
+from graph.neo4j_client import Neo4jClient
 
 logging.basicConfig(
     level=logging.INFO,

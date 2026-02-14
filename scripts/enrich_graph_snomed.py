@@ -205,10 +205,29 @@ def main():
         "report": run_report,
     }
 
-    asyncio.run(command_map[args.command]())
-    print(f"\n{'=' * 60}")
-    print("  완료!")
-    print(f"{'=' * 60}")
+    try:
+        asyncio.run(command_map[args.command]())
+        print(f"\n{'=' * 60}")
+        print("  완료!")
+        print(f"{'=' * 60}")
+    except KeyboardInterrupt:
+        print("\n\n중단됨.")
+        sys.exit(1)
+    except Exception as e:
+        error_msg = str(e)
+        if "ServiceUnavailable" in error_msg or "Connection" in error_msg:
+            print(f"\n❌ Neo4j 연결 실패: {error_msg}")
+            print("\n문제 해결:")
+            print("  1. Neo4j가 실행 중인지 확인: docker-compose ps")
+            print("  2. .env 파일의 NEO4J_URI, NEO4J_PASSWORD 확인")
+            print("  3. bolt://localhost:7687 접속 가능한지 확인")
+        elif "Auth" in error_msg:
+            print(f"\n❌ Neo4j 인증 실패: {error_msg}")
+            print("\n문제 해결: .env 파일의 NEO4J_USERNAME, NEO4J_PASSWORD 확인")
+        else:
+            print(f"\n❌ 오류 발생: {error_msg}")
+            logger.exception("상세 오류")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
