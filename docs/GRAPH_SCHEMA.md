@@ -110,8 +110,10 @@ Spine Surgery
 │   └── Stereotactic Navigation ← v1.14.2 추가
 ├── Motion Preservation
 │   └── ADR, Dynamic Stabilization
-└── Osteotomy
-    └── SPO, PSO, VCR
+├── Osteotomy
+│   └── SPO, PSO, VCR
+└── Vertebral Augmentation
+    └── PVP (Percutaneous Vertebroplasty), PKP (Balloon Kyphoplasty)
 ```
 
 ## Hybrid Ranking Algorithm
@@ -158,10 +160,10 @@ final_score = 0.6 * graph_score + 0.4 * vector_score
 | Category | Total | Official SNOMED | Extension Codes |
 |----------|-------|-----------------|-----------------|
 | Intervention | 123 | 44 | 79 |
-| Pathology | 85 | 55 | 30 |
+| Pathology | 85 | 54 | 31 |
 | Outcome | 70 | 19 | 51 |
 | Anatomy | 37 | 24 | 13 |
-| **Total** | **315** | **142** | **173** |
+| **Total** | **315** | **141** | **174** |
 
 ### 주요 매핑 카테고리
 

@@ -6,7 +6,7 @@
 > **대상 도메인**: General Spine Surgery (Degenerative, Deformity, Trauma, Tumor)
 >
 > **⚠️ v5.2 변경사항**: SQLite (`paper_graph.db`) 완전 제거. 모든 Paper-to-Paper 관계는 Neo4j에서 관리.
-> - 마이그레이션 가이드: [SQLITE_REMOVAL_SUMMARY.md](SQLITE_REMOVAL_SUMMARY.md)
+> - (SQLite 완전 제거됨, v5.2)
 
 ---
 

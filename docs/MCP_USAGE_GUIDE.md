@@ -412,6 +412,17 @@ PLIF: 88.5% (4건 RCT, p=0.015)
 
 다양한 저널 스타일로 참고문헌을 생성합니다.
 
+#### 주요 액션
+
+| Action | 설명 |
+|--------|------|
+| `format` | 단일 논문 참고문헌 포맷팅 |
+| `format_multiple` | 여러 논문 일괄 포맷팅 |
+| `list_styles` | 사용 가능한 스타일 목록 |
+| `set_journal_style` | 저널 스타일 설정 |
+| `add_custom_style` | 커스텀 스타일 추가 |
+| `preview` | 포맷 미리보기 |
+
 #### 지원 스타일
 
 | 스타일 | 설명 | 저널 예시 |
@@ -449,6 +460,18 @@ PLIF: 88.5% (4건 RCT, p=0.015)
 ### 10. writing_guide - 논문 작성 가이드
 
 학술 논문 작성 지침과 체크리스트를 제공합니다.
+
+#### 주요 액션
+
+| Action | 설명 |
+|--------|------|
+| `section_guide` | 섹션별 작성 가이드 |
+| `checklist` | EQUATOR 체크리스트 |
+| `expert` | 전문가 정보 |
+| `response_template` | 응답 템플릿 |
+| `draft_response` | 리뷰어 응답 초안 |
+| `analyze_comments` | 리뷰어 코멘트 분석 |
+| `all_guides` | 전체 가이드 통합 조회 |
 
 #### 지원 체크리스트
 

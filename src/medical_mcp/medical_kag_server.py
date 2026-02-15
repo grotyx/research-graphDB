@@ -6301,7 +6301,7 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
 
     @server.list_tools()
     async def list_tools() -> list[Tool]:
-        """8개 통합 도구 반환 (v1.4 - 38개 → 8개 통합).
+        """10개 통합 도구 반환 (v1.4 - 38개 → 10개 통합).
 
         토큰 절감: ~4,800 tokens (63% 절감)
         기능 유지: 100% (action 파라미터로 기존 도구 기능 선택)
