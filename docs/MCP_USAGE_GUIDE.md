@@ -126,7 +126,7 @@ PDF/텍스트 논문을 추가하고 관리합니다.
 
 "analyze 도구 store_paper 액션으로 저장해줘:
 - title, year, authors, journal...
-- chunks: [{text, tier, topic_summary, ...}]
+- chunks: [{content: '본문텍스트', section_type: 'methods', tier: 'tier1', ...}]
 → MCP 서버가 자동으로 OpenAI 임베딩 생성 + Neo4j 저장"
 ```
 

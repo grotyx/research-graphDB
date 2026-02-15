@@ -745,8 +745,11 @@ Return ONLY valid JSON, no additional text.'''
 
                 embedding_gen = OpenAIEmbeddingGenerator()
 
-                # 청크 텍스트 추출
-                chunk_texts = [c.get("content", "") for c in chunks if c.get("content")]
+                # 청크 텍스트 추출 (content/text/summary 필드 호환)
+                def _extract_chunk_text(c: dict) -> str:
+                    return c.get("content") or c.get("text") or c.get("summary") or ""
+
+                chunk_texts = [_extract_chunk_text(c) for c in chunks if _extract_chunk_text(c)]
 
                 if chunk_texts:
                     # v1.14.3: 기존 Chunk 삭제 (중복 방지)
@@ -759,8 +762,10 @@ Return ONLY valid JSON, no additional text.'''
                     for i, (chunk, embedding) in enumerate(zip(chunks, embeddings)):
                         chunk_id = f"{paper_id}_chunk_{i}"
 
-                        chunk_content = chunk.get("content", "")
-                        chunk_tier = chunk.get("tier", 2)
+                        chunk_content = _extract_chunk_text(chunk)
+                        # tier: "tier1"/"tier2" 문자열 또는 1/2 정수 모두 호환
+                        tier_raw = chunk.get("tier", "tier2")
+                        chunk_tier = 1 if str(tier_raw) in ("tier1", "1") else 2
                         chunk_section = chunk.get("section_type", "body")
 
                         await self.server.neo4j_client.run_query(
