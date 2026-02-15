@@ -137,11 +137,10 @@ def sanitize_doi(doi: Optional[str]) -> Optional[str]:
         "unknown",
         "unavailable",
         "pending",
-        "",
     ]
 
     for pattern in invalid_patterns:
-        if pattern in doi_lower or doi_lower == pattern:
+        if pattern in doi_lower:
             return None
 
     # DOI 형식 검증 (10.으로 시작해야 함)
