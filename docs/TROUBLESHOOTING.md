@@ -102,6 +102,27 @@ OPENAI_API_KEY=sk-...
 export OPENAI_API_KEY=sk-...
 ```
 
+### 12. Paper DOI is NULL in Neo4j (v1.18.0에서 수정됨)
+
+**증상:** `store_paper` 또는 PDF 임포트 후 Neo4j에서 DOI가 NULL
+
+**원인 (v1.14.23~v1.17.0):** `sanitize_doi()`의 `invalid_patterns` 리스트에 빈 문자열 `""` 포함.
+Python에서 `"" in "any_string"`은 항상 `True`를 반환하므로 **모든 DOI**가 거부됨.
+
+**해결:** v1.18.0으로 업데이트. 이전 버전에서 NULL DOI가 된 논문은 PubMed API로 복구 가능:
+```cypher
+// NULL DOI 논문 확인
+MATCH (p:Paper) WHERE p.doi IS NULL OR p.doi = '' RETURN p.paper_id, p.title
+```
+
+### 13. Outcome 노드가 생성되지 않음 (v1.18.0에서 수정됨)
+
+**증상:** 논문 임포트 후 Outcome 노드 및 AFFECTS 관계 없음
+
+**원인:** `store_paper`에서 outcome dict를 5개 필드만 복사하여 나머지 데이터 손실 + `pdf_handler.py`에서 `pico_outcomes` 오타 (올바른 필드: `pico_outcome`)
+
+**해결:** v1.18.0으로 업데이트 + MCP 서버 재시작
+
 ## Testing
 
 ### Unit Tests

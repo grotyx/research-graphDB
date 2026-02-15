@@ -2,6 +2,31 @@
 
 ## Version History
 
+### v1.18.0 (2026-02-15): Critical 버그 수정 — sanitize_doi, Outcome, PubMed enrichment
+
+`sanitize_doi`가 모든 DOI를 거부하던 Critical 버그 수정, store_paper의 Outcome 노드 생성 실패 수정, PubMed enrichment 누락 보완.
+
+#### 버그 수정
+
+| # | 심각도 | 변경 | 파일 |
+|---|--------|------|------|
+| 1 | **Critical** | **sanitize_doi가 모든 DOI를 None 반환**: `invalid_patterns`에 빈 문자열 `""` 포함 → Python의 `"" in "any_string"` = True로 모든 DOI 거부됨. `""` 제거로 해결 | `relationship_builder.py` |
+| 2 | **High** | **Outcome 노드 미생성**: `formatted_outcomes`가 5개 필드만 보존하여 나머지 데이터 손실. `dict(o)` 전체 복사 + 빈 name 검증으로 수정 | `medical_kag_server.py`, `pdf_handler.py` |
+| 3 | **High** | **pico_outcome 오타**: `pdf_handler.py`에서 `pico_outcomes` (존재하지 않는 필드) 참조 → `pico_outcome` (단수형)으로 수정. TypeError 사일런트 캐치 해소 | `pdf_handler.py` |
+| 4 | **High** | **store_paper PubMed enrichment 누락**: `analyze_text()`에만 있던 PubMed enrichment를 `store_paper`에도 추가. DOI fallback + PMID→paper_id 업그레이드 포함 | `medical_kag_server.py`, `pdf_handler.py` |
+| 5 | **Medium** | **DOI null 방어**: `doi=doi` → `doi=doi or ""` 변경으로 None 전달 방지 | `medical_kag_server.py`, `pdf_handler.py` |
+
+#### 데이터 복구
+
+| # | 변경 |
+|---|------|
+| 1 | 기존 10개 논문의 NULL DOI를 PubMed API로 복구 (PMID/제목 기반 검색 + 유사도 검증) |
+
+#### 영향 범위
+
+- `sanitize_doi` 버그는 v1.14.23 이후 저장된 **모든 논문**에 영향
+- 수정 후 신규 임포트 2건 (pubmed_39384336, pubmed_39202595) 정상 확인
+
 ### v1.17.0 (2026-02-15): PMC-first PDF 최적화 + Claude Code 병렬 처리 지원
 
 PDF 처리 파이프라인을 개선하여 Open Access 논문의 처리 비용을 절감하고, Claude Code에서 직접 PDF를 병렬 처리할 수 있는 워크플로우를 구축.

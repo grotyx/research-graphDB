@@ -1,6 +1,6 @@
 # Technical Requirements Document v3 - Spine GraphRAG
 
-> **버전**: 1.17.0 (문서 버전 동기화)
+> **버전**: 1.18.0 (문서 버전 동기화)
 > **이전 버전**: [TRD_v2_LLM.md](TRD_v2_LLM.md)
 > **최종 수정**: 2026-02-15
 > **대상 도메인**: General Spine Surgery (Degenerative, Deformity, Trauma, Tumor)
