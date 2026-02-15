@@ -107,7 +107,7 @@ def generate_extension_code(category: str, index: int) -> str:
 # 같은 수술법의 다른 이름들 - 검색 시 모두 동일하게 처리
 
 SYNONYM_GROUPS: list[set[str]] = [
-    # Biportal Endoscopy 계열 (완전 동의어) - v7.14: BED 추가
+    # Biportal Endoscopy 계열 (완전 동의어) - v1.14: BED 추가
     {"UBE", "BESS", "UBESS", "Biportal Endoscopy", "Biportal Endoscopic",
      "Unilateral Biportal Endoscopy", "Biportal Endoscopic Spine Surgery",
      "BED", "Biportal Endoscopic Discectomy"},
@@ -120,16 +120,16 @@ SYNONYM_GROUPS: list[set[str]] = [
     {"OLIF", "ATP", "OLIF25", "OLIF51", "Oblique Lumbar Interbody Fusion",
      "Anterior to Psoas", "Oblique Lateral Interbody Fusion"},
 
-    # BELIF/BE-TLIF 계열 (완전 동의어) - v7.14 추가
+    # BELIF/BE-TLIF 계열 (완전 동의어) - v1.14 추가
     {"BELIF", "BE-TLIF", "BETLIF", "BE-LIF", "BELF",
      "Biportal Endoscopic TLIF", "Biportal Endoscopic Lumbar Interbody Fusion",
      "Biportal endoscopic transforaminal lumbar interbody fusion"},
 
-    # Decompression/Laminectomy 계열 (완전 동의어) - v7.14 추가
+    # Decompression/Laminectomy 계열 (완전 동의어) - v1.14 추가
     {"Decompression", "decompression", "Neural Decompression", "neural decompression",
      "Decompression Surgery", "Spinal decompression", "Neural decompression"},
 
-    # Laminectomy 계열 (완전 동의어) - v7.14 추가
+    # Laminectomy 계열 (완전 동의어) - v1.14 추가
     {"Laminectomy", "laminectomy", "Decompressive Laminectomy", "decompressive laminectomy",
      "Open Laminectomy", "Open laminectomy"},
 
@@ -377,7 +377,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         semantic_type=SNOMEDSemanticType.PROCEDURE,
         parent_code="386638009",  # Endoscopic spinal procedure
         is_extension=True,
-        # v7.14: BED (Biportal Endoscopic Discectomy) 동의어 추가
+        # v1.14: BED (Biportal Endoscopic Discectomy) 동의어 추가
         synonyms=["Biportal endoscopic spine surgery", "Biportal endoscopy",
                   "Biportal Endoscopic Discectomy", "Biportal endoscopic discectomy"],
         abbreviations=["UBE", "BESS", "UBESS", "BED"],
@@ -579,7 +579,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         korean_term="극간 장치 삽입술",
     ),
 
-    # v7.14 추가: BELIF (Biportal Endoscopic Lumbar Interbody Fusion)
+    # v1.14 추가: BELIF (Biportal Endoscopic Lumbar Interbody Fusion)
     "BELIF": SNOMEDMapping(
         code="900000000000119",
         term="Biportal endoscopic lumbar interbody fusion",
@@ -593,7 +593,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         notes="Endoscopic fusion technique combining UBE approach with interbody fusion",
     ),
 
-    # v7.14 추가: Stereotactic Navigation
+    # v1.14 추가: Stereotactic Navigation
     "Stereotactic Navigation": SNOMEDMapping(
         code="900000000000120",
         term="Stereotactic navigation-guided spine surgery",
@@ -669,10 +669,10 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
 
 
     # ========================================
-    # v7.17: Additional Intervention SNOMED Mappings
+    # v1.17: Additional Intervention SNOMED Mappings
     # ========================================
 # =================================================================
-    # v7.17: Missing Intervention SNOMED Mappings (72 entries)
+    # v1.17: Missing Intervention SNOMED Mappings (72 entries)
     # Extension codes: 900000000000126 ~ 900000000000172
     # =================================================================
 
@@ -1747,10 +1747,10 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
 
 
     # ========================================
-    # v7.17: Additional Pathology SNOMED Mappings
+    # v1.17: Additional Pathology SNOMED Mappings
     # ========================================
 # ========================================
-    # INFECTION (Expanded) - v7.17
+    # INFECTION (Expanded) - v1.17
     # ========================================
     "Pyogenic Spondylodiscitis": SNOMEDMapping(
         code="900000000000209",
@@ -1789,7 +1789,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
     ),
 
     # ========================================
-    # CERVICAL-SPECIFIC PATHOLOGIES - v7.17
+    # CERVICAL-SPECIFIC PATHOLOGIES - v1.17
     # ========================================
     "OPLL": SNOMEDMapping(
         code="88199009",
@@ -1848,7 +1848,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
     ),
 
     # ========================================
-    # ADDITIONAL DEGENERATIVE PATHOLOGIES - v7.17
+    # ADDITIONAL DEGENERATIVE PATHOLOGIES - v1.17
     # ========================================
     "DISH": SNOMEDMapping(
         code="156849009",
@@ -1928,7 +1928,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
     ),
 
     # ========================================
-    # TUMOR-SPECIFIC PATHOLOGIES (Expanded) - v7.17
+    # TUMOR-SPECIFIC PATHOLOGIES (Expanded) - v1.17
     # ========================================
     "Hemangioma": SNOMEDMapping(
         code="400210000",
@@ -2028,7 +2028,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
     ),
 
     # ========================================
-    # INFLAMMATORY/RHEUMATOLOGIC PATHOLOGIES - v7.17
+    # INFLAMMATORY/RHEUMATOLOGIC PATHOLOGIES - v1.17
     # ========================================
     "Ankylosing Spondylitis": SNOMEDMapping(
         code="9631008",
@@ -2091,7 +2091,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
     ),
 
     # ========================================
-    # DEFORMITY (Expanded) - v7.17
+    # DEFORMITY (Expanded) - v1.17
     # ========================================
     "Congenital Scoliosis": SNOMEDMapping(
         code="205045003",
@@ -2148,7 +2148,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
     ),
 
     # ========================================
-    # TRAUMA (Expanded) - v7.17
+    # TRAUMA (Expanded) - v1.17
     # ========================================
     "SCIWORA": SNOMEDMapping(
         code="900000000000226",
@@ -2213,7 +2213,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
     ),
 
     # ========================================
-    # PEDIATRIC PATHOLOGIES - v7.17
+    # PEDIATRIC PATHOLOGIES - v1.17
     # ========================================
     "Scheuermann Disease": SNOMEDMapping(
         code="64859001",
@@ -2506,7 +2506,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         notes=">10° increase in kyphosis at UIV defines PJK",
     ),
 
-    # v7.14 추가: Serum CPK (근육 손상 지표)
+    # v1.14 추가: Serum CPK (근육 손상 지표)
     "Serum CPK": SNOMEDMapping(
         code="900000000000311",
         term="Serum creatine phosphokinase level",
@@ -2519,7 +2519,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         notes="Marker for muscle damage, commonly measured in lateral approach surgeries (OLIF, LLIF)",
     ),
 
-    # v7.14 추가: Scar Quality (상처 미용 결과)
+    # v1.14 추가: Scar Quality (상처 미용 결과)
     "Scar Quality": SNOMEDMapping(
         code="900000000000312",
         term="Surgical scar quality assessment",
@@ -2531,7 +2531,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         notes="Assessment of wound cosmesis, relevant for minimally invasive vs open comparisons",
     ),
 
-    # v7.14 추가: Postoperative Drainage (배액량)
+    # v1.14 추가: Postoperative Drainage (배액량)
     "Postoperative Drainage": SNOMEDMapping(
         code="900000000000313",
         term="Postoperative drainage volume",
@@ -2583,7 +2583,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         notes="Partial or complete separation of surgical wound edges",
     ),
 
-    # v7.14 추가: Recurrent Disc Herniation (재발성 디스크 탈출)
+    # v1.14 추가: Recurrent Disc Herniation (재발성 디스크 탈출)
     "Recurrent Disc Herniation": SNOMEDMapping(
         code="900000000000504",
         term="Recurrent intervertebral disc herniation",
@@ -2596,7 +2596,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         notes="Herniation at the same level after previous discectomy, typically within 6 months to 2 years",
     ),
 
-    # v7.14 추가: Epidural Hematoma (경막외 혈종)
+    # v1.14 추가: Epidural Hematoma (경막외 혈종)
     "Epidural Hematoma": SNOMEDMapping(
         code="900000000000505",
         term="Postoperative spinal epidural hematoma",
@@ -2626,7 +2626,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
 
 
     # ========================================
-    # v7.17: Additional Outcome SNOMED Mappings
+    # v1.17: Additional Outcome SNOMED Mappings
     # ========================================
 # === PAIN MEASURES - Cervical ===
     "VAS Neck": SNOMEDMapping(

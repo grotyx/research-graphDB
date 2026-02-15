@@ -1,5 +1,5 @@
 """
-Comprehensive tests for v7.0 Universal Document Processing modules.
+Comprehensive tests for v1.0 Universal Document Processing modules.
 
 Tests cover:
 - DocumentTypeDetector: URL/content-based type detection
@@ -604,11 +604,11 @@ class TestEntityExtractor:
 
 
 class TestV7Integration:
-    """Integration tests for v7.0 pipeline."""
+    """Integration tests for v1.0 pipeline."""
 
     @pytest.fixture
     def mock_pipeline(self):
-        """Create mock v7.0 pipeline."""
+        """Create mock v1.0 pipeline."""
         class MockPipeline:
             def __init__(self):
                 # Initialize all components

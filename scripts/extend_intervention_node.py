@@ -14,7 +14,7 @@ class InterventionNode:
 
     Neo4j Label: Intervention
 
-    v7.1: Extended with TechniqueNode and SurgicalStepNode fields.
+    v1.1: Extended with TechniqueNode and SurgicalStepNode fields.
     """
     name: str  # TLIF, OLIF, UBE, Laminectomy
     full_name: str = ""
@@ -25,21 +25,21 @@ class InterventionNode:
     snomed_term: str = ""  # SNOMED-CT Preferred Term
     aliases: list[str] = field(default_factory=list)
 
-    # Technique fields (merged from TechniqueNode - v7.1)
+    # Technique fields (merged from TechniqueNode - v1.1)
     technique_description: str = ""  # Detailed technique description
     difficulty_level: str = ""  # basic, intermediate, advanced
     pearls: list[str] = field(default_factory=list)  # Surgical tips
     pitfalls: list[str] = field(default_factory=list)  # Cautions
     learning_curve_cases: int = 0  # Number of cases for learning curve
 
-    # Surgical step fields (merged from SurgicalStepNode - v7.1)
+    # Surgical step fields (merged from SurgicalStepNode - v1.1)
     surgical_steps: list[dict] = field(default_factory=list)  # [{"step": 1, "name": "...", "description": "..."}]
 
-    # Required resources (v7.1)
+    # Required resources (v1.1)
     required_implants: list[str] = field(default_factory=list)  # ["Pedicle Screw", "PEEK Cage"]
     required_instruments: list[str] = field(default_factory=list)  # ["Kerrison Rongeur"]
 
-    # Billing/coding (v7.1)
+    # Billing/coding (v1.1)
     cpt_code: str = ""  # CPT procedure code
 
     def to_neo4j_properties(self) -> dict:
@@ -97,7 +97,7 @@ class InterventionNode:
 # TechniqueNode deprecation comment
 TECHNIQUE_DEPRECATION = '''@dataclass
 class TechniqueNode:
-    """수술 테크닉 노드 (v7.1).
+    """수술 테크닉 노드 (v1.1).
 
     Neo4j Label: Technique
 
@@ -116,7 +116,7 @@ class TechniqueNode:
 # SurgicalStepNode deprecation comment
 SURGICAL_STEP_DEPRECATION = '''@dataclass
 class SurgicalStepNode:
-    """수술 단계 노드 (v7.1).
+    """수술 단계 노드 (v1.1).
 
     Neo4j Label: SurgicalStep
 

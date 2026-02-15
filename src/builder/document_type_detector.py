@@ -1,4 +1,4 @@
-"""Document Type Detector (v7.0).
+"""Document Type Detector (v1.0).
 
 Smart auto-detection with hybrid approach for document type classification.
 Supports confidence-based user confirmation when detection is uncertain.

@@ -411,7 +411,7 @@ cat .env | grep NEO4J
 | 2026-02-14 | v1.16.3 | 통합 스크립트 enrich_graph_snomed.py, schema.py SNOMED 동적 생성, TREATS 백필, Anatomy 정리 |
 | 2025-12-26 | v1.14.2 | Facetectomy, BELIF, Stereotactic Navigation 추가 |
 | 2025-12-25 | v1.14.1 | 별칭 대폭 확장 (150+ 신규) |
-| 2025-12-25 | v7.14 | BED→UBE, BE-TLIF→BELIF 통합 |
+| 2025-12-25 | v1.14 | BED→UBE, BE-TLIF→BELIF 통합 |
 
 ---
 

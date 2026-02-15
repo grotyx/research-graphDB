@@ -122,7 +122,7 @@ async def reimport_all_papers():
                 outcomes=outcomes,
                 surgical_approach=spine.get('surgical_approach', []),
                 main_conclusion=spine.get('main_conclusion', ''),
-                # v7.2 Extended entities
+                # v1.2 Extended entities
                 costs=spine.get('costs', []),
                 patient_cohorts=spine.get('patient_cohorts', []),
                 followups=spine.get('followups', []),

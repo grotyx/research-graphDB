@@ -1,4 +1,4 @@
-# Spine GraphRAG v1.16.0 - Deployment Guide
+# Spine GraphRAG v1.17.0 - Deployment Guide
 
 다른 컴퓨터로 프로젝트를 이전하기 위한 가이드입니다.
 
@@ -6,8 +6,8 @@
 
 | 항목 | 값 |
 |------|-----|
-| **Version** | 1.16.4 |
-| **Date** | 2026-02-14 |
+| **Version** | 1.17.0 |
+| **Date** | 2026-02-15 |
 | **SNOMED Mappings** | 315개 (I:123, P:85, O:70, A:37) + 패턴 매핑 |
 | **Storage** | Neo4j (Graph + Vector 통합, ChromaDB 완전 제거) |
 
@@ -235,14 +235,14 @@ print(f'Anatomy: {len(SPINE_ANATOMY_SNOMED)}')
 total = len(SPINE_INTERVENTION_SNOMED) + len(SPINE_PATHOLOGY_SNOMED) + len(SPINE_OUTCOME_SNOMED) + len(SPINE_ANATOMY_SNOMED)
 print(f'Total: {total}')
 
-# v7.16 entries
+# v1.16 entries
 dm = SPINE_PATHOLOGY_SNOMED.get('Diabetes Mellitus')
 ssi_s = SPINE_OUTCOME_SNOMED.get('Superficial Surgical Site Infection')
 ssi_d = SPINE_OUTCOME_SNOMED.get('Deep Surgical Site Infection')
 if dm and ssi_s and ssi_d:
-    print('✅ v7.16 entries OK')
+    print('✅ v1.16 entries OK')
 else:
-    print('❌ v7.16 entries MISSING')
+    print('❌ v1.16 entries MISSING')
 "
 
 # 4. LLM 연결

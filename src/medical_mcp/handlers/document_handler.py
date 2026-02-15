@@ -46,7 +46,7 @@ class DocumentHandler:
         return self.server._get_user_filter_clause(alias)
 
     async def list_documents(self) -> dict:
-        """저장된 문서 목록 (Neo4j 전용 v5.3, 멀티유저 v7.5).
+        """저장된 문서 목록 (Neo4j 전용 v5.3, 멀티유저 v1.5).
 
         Retrieves list of documents (Papers) from Neo4j with chunk counts and metadata.
         Applies user-based filtering to show only owned or shared documents.
@@ -68,7 +68,7 @@ class DocumentHandler:
             # Neo4j에서 문서(Paper) 및 청크 정보 조회
             documents = []
             async with self.neo4j_client as client:
-                # v7.5: 사용자 필터링 적용, v7.15: 파라미터화
+                # v1.5: 사용자 필터링 적용, v1.15: 파라미터화
                 user_filter, filter_params = self._get_user_filter_clause("p")
 
                 # Paper 노드 조회 (청크 수 포함)
@@ -99,15 +99,15 @@ class DocumentHandler:
                         "chunk_count": record["chunk_count"] or 0,
                         "tier1_chunks": record["tier1_count"] or 0,
                         "tier2_chunks": record["tier2_count"] or 0,
-                        "owner": record.get("owner", "system"),        # v7.5
-                        "shared": record.get("shared", True),          # v7.5
+                        "owner": record.get("owner", "system"),        # v1.5
+                        "shared": record.get("shared", True),          # v1.5
                         "metadata": {
                             "title": record.get("title", ""),
                             "year": record.get("year", 0),
                             "evidence_level": record.get("evidence_level", ""),
                             "source": record.get("source", ""),
-                            "owner": record.get("owner", "system"),    # v7.5
-                            "shared": record.get("shared", True)       # v7.5
+                            "owner": record.get("owner", "system"),    # v1.5
+                            "shared": record.get("shared", True)       # v1.5
                         }
                     })
 

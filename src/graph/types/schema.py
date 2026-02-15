@@ -88,11 +88,11 @@ class SpineGraphSchema:
     NODE_LABELS = [
         # Core nodes
         "Paper", "Pathology", "Anatomy", "Intervention", "Outcome", "Chunk",
-        # v7.1 Extended Entity nodes
+        # v1.1 Extended Entity nodes
         "Concept", "Technique", "Recommendation", "Implant", "Complication",
         "Drug", "SurgicalStep", "OutcomeMeasure", "RadioParameter",
         "PredictionModel", "RiskFactor",
-        # v7.2 Additional nodes
+        # v1.2 Additional nodes
         "PatientCohort", "FollowUp", "Cost", "QualityMetric",
     ]
 
@@ -114,7 +114,7 @@ class SpineGraphSchema:
         "SIMILAR_TOPIC",
         "EXTENDS",
         "REPLICATES",
-        # v7.1 Relationships
+        # v1.1 Relationships
         "CAUSES",  # Intervention → Complication
         "HAS_RISK_FACTOR",  # Paper → RiskFactor
         "PREDICTS",  # PredictionModel → Outcome
@@ -122,7 +122,7 @@ class SpineGraphSchema:
         "CORRELATES",  # RadioParameter → OutcomeMeasure
         "USES_DEVICE",  # Intervention → Implant
         "MEASURED_BY",  # Outcome → OutcomeMeasure
-        # v7.2 Relationships
+        # v1.2 Relationships
         "HAS_COHORT",  # Paper → PatientCohort
         "TREATED_WITH",  # PatientCohort → Intervention
         "HAS_FOLLOWUP",  # Paper → FollowUp
@@ -161,7 +161,7 @@ class SpineGraphSchema:
         ("Chunk", "tier"),
         ("Chunk", "section"),
         ("Chunk", "evidence_level"),
-        # v7.1 Extended Entity indexes
+        # v1.1 Extended Entity indexes
         ("OutcomeMeasure", "name"),
         ("OutcomeMeasure", "category"),
         ("RadioParameter", "name"),
@@ -175,7 +175,7 @@ class SpineGraphSchema:
         ("Implant", "name"),
         ("Implant", "device_type"),
         ("Drug", "name"),
-        # v7.2 Additional node indexes
+        # v1.2 Additional node indexes
         ("PatientCohort", "name"),
         ("PatientCohort", "source_paper_id"),
         ("PatientCohort", "cohort_type"),
@@ -199,7 +199,7 @@ class SpineGraphSchema:
         ("Intervention", "name"),
         ("Outcome", "name"),
         ("Chunk", "chunk_id"),  # v5.3: Chunk unique constraint
-        # v7.1 unique constraints
+        # v1.1 unique constraints
         ("OutcomeMeasure", "name"),
         ("RadioParameter", "name"),
         ("Complication", "name"),
@@ -1553,7 +1553,7 @@ class CypherTemplates:
     RETURN p
     """
 
-    # 논문 → 질환 관계 (v7.9: SNOMED 지원 추가)
+    # 논문 → 질환 관계 (v1.9: SNOMED 지원 추가)
     CREATE_STUDIES_RELATION = """
     MATCH (p:Paper {paper_id: $paper_id})
     // 기존 Pathology에서 snomed_code 조회 (fallback용)
@@ -1606,7 +1606,7 @@ class CypherTemplates:
     RETURN i, r, path
     """
 
-    # 수술법 → 결과 관계 (통계 포함, v7.9: SNOMED 지원)
+    # 수술법 → 결과 관계 (통계 포함, v1.9: SNOMED 지원)
     CREATE_AFFECTS_RELATION = """
     MATCH (i:Intervention {name: $intervention_name})
     // 기존 Outcome에서 snomed_code 조회 (fallback용)

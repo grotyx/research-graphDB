@@ -16,7 +16,7 @@ from .neo4j_client import Neo4jClient
 from .entity_normalizer import EntityNormalizer
 from .spine_schema import (
     PaperNode, SpineSubDomain, EvidenceLevel, StudyDesign,
-    # v7.1 new types
+    # v1.1 new types
     OutcomeMeasureNode, RadiographicParameterNode, PredictionModelNode, RiskFactorNode,
     CausesRelation, HasRiskFactorRelation, PredictsRelation, CorrelatesRelation, UsesDeviceRelation,
     ComplicationNode,
@@ -151,7 +151,7 @@ def sanitize_doi(doi: Optional[str]) -> Optional[str]:
     return doi.strip()
 
 
-# ===== Cypher Queries for v7.1 New Relationships =====
+# ===== Cypher Queries for v1.1 New Relationships =====
 
 CREATE_RISK_FACTOR_CYPHER = '''
 MERGE (rf:RiskFactor {name: $name})
@@ -243,7 +243,7 @@ RETURN r
 '''
 
 
-# ===== Cypher Queries for v7.2 New Relationships =====
+# ===== Cypher Queries for v1.2 New Relationships =====
 
 CREATE_PATIENT_COHORT_CYPHER = '''
 MERGE (pc:PatientCohort {name: $name, source_paper_id: $source_paper_id})
@@ -352,7 +352,7 @@ class SpineMetadata:
 
     Vision processor가 추출한 척추 관련 정보.
 
-    v7.0 변경사항:
+    v1.0 변경사항:
     - summary: 700+ word comprehensive summary
     - processing_version: Pipeline version tracking
     - citation_count: Optional citation metrics
@@ -378,18 +378,18 @@ class SpineMetadata:
     outcomes: list[dict] = field(default_factory=list)  # [{name, value, p_value}]
     main_conclusion: str = ""  # 핵심 결론 1문장
 
-    # v7.0 New fields
+    # v1.0 New fields
     summary: str = ""             # 700+ word comprehensive summary
-    processing_version: str = ""  # "v7.0" for new pipeline
+    processing_version: str = ""  # "v1.0" for new pipeline
     citation_count: int = 0       # Number of citations (optional)
 
-    # PICO (v3.0 - chunk에서 이동, v7.0에서 deprecated)
+    # PICO (v3.0 - chunk에서 이동, v1.0에서 deprecated)
     pico_population: str = ""     # 연구 대상
     pico_intervention: str = ""   # 중재
     pico_comparison: str = ""     # 비교 대상
     pico_outcome: str = ""        # 결과 변수
 
-    # v7.2 Extended entity fields
+    # v1.2 Extended entity fields
     patient_cohorts: list[dict] = field(default_factory=list)  # [{name, cohort_type, sample_size, mean_age, ...}]
     followups: list[dict] = field(default_factory=list)  # [{name, timepoint_months, completeness_rate, ...}]
     costs: list[dict] = field(default_factory=list)  # [{name, cost_type, mean_cost, currency, ...}]
@@ -476,8 +476,8 @@ class RelationshipBuilder:
         spine_metadata: SpineMetadata,
         chunks: list["ExtractedChunk"],
         build_paper_relations: bool = True,
-        owner: str = "system",  # v7.5: 소유자 ID
-        shared: bool = True     # v7.5: 공유 여부
+        owner: str = "system",  # v1.5: 소유자 ID
+        shared: bool = True     # v1.5: 공유 여부
     ) -> BuildResult:
         """논문으로부터 전체 그래프 구축.
 
@@ -487,8 +487,8 @@ class RelationshipBuilder:
             spine_metadata: 척추 특화 메타데이터
             chunks: 추출된 청크 목록
             build_paper_relations: 논문 간 관계도 구축할지 여부
-            owner: 소유자 ID (v7.5 멀티유저 지원)
-            shared: 공유 여부 (v7.5 멀티유저 지원)
+            owner: 소유자 ID (v1.5 멀티유저 지원)
+            shared: 공유 여부 (v1.5 멀티유저 지원)
 
         Returns:
             BuildResult
@@ -559,7 +559,7 @@ class RelationshipBuilder:
                 else:
                     result.warnings.append(f"Could not link {intervention} to taxonomy")
 
-            # 7. v7.1 New Relationships
+            # 7. v1.1 New Relationships
             # Risk factors (if present in metadata)
             if hasattr(spine_metadata, 'risk_factors') and spine_metadata.risk_factors:
                 rf_count = await self._create_risk_factor_relationships(
@@ -603,7 +603,7 @@ class RelationshipBuilder:
                     result.relationships_created += implant_count
                     logger.info(f"Created {implant_count} USES_DEVICE relations for {intervention}")
 
-            # 8. v7.2 New Relationships
+            # 8. v1.2 New Relationships
             # Patient Cohorts
             if hasattr(spine_metadata, 'patient_cohorts') and spine_metadata.patient_cohorts:
                 cohort_count = await self._create_cohort_relationships(
@@ -685,8 +685,8 @@ class RelationshipBuilder:
         paper_id: str,
         metadata: "ExtractedMetadata",
         spine_metadata: SpineMetadata,
-        owner: str = "system",  # v7.5: 소유자 ID
-        shared: bool = True     # v7.5: 공유 여부
+        owner: str = "system",  # v1.5: 소유자 ID
+        shared: bool = True     # v1.5: 공유 여부
     ) -> None:
         """Paper 노드 생성.
 
@@ -694,8 +694,8 @@ class RelationshipBuilder:
             paper_id: 논문 ID
             metadata: 추출된 메타데이터
             spine_metadata: 척추 특화 메타데이터
-            owner: 소유자 ID (v7.5 멀티유저 지원)
-            shared: 공유 여부 (v7.5 멀티유저 지원)
+            owner: 소유자 ID (v1.5 멀티유저 지원)
+            shared: 공유 여부 (v1.5 멀티유저 지원)
         """
         # v3.2: sub_domains 우선, 없으면 sub_domain에서 생성
         sub_domains = getattr(spine_metadata, 'sub_domains', []) or []
@@ -724,16 +724,16 @@ class RelationshipBuilder:
             follow_up_months=getattr(spine_metadata, 'follow_up_months', 0) or 0,
             abstract=getattr(metadata, 'abstract', '') or "",
             main_conclusion=getattr(spine_metadata, 'main_conclusion', '') or "",
-            # v7.0 New fields
+            # v1.0 New fields
             summary=getattr(spine_metadata, 'summary', '') or "",
             processing_version=getattr(spine_metadata, 'processing_version', '') or "",
             citation_count=getattr(spine_metadata, 'citation_count', 0) or 0,
-            # PICO (v3.0 - spine_metadata에서 매핑, v7.0에서 deprecated)
+            # PICO (v3.0 - spine_metadata에서 매핑, v1.0에서 deprecated)
             pico_population=getattr(spine_metadata, 'pico_population', '') or "",
             pico_intervention=getattr(spine_metadata, 'pico_intervention', '') or "",
             pico_comparison=getattr(spine_metadata, 'pico_comparison', '') or "",
             pico_outcome=getattr(spine_metadata, 'pico_outcome', '') or "",
-            # v7.5: 멀티유저 지원
+            # v1.5: 멀티유저 지원
             owner=owner,
             shared=shared,
         )
@@ -747,7 +747,7 @@ class RelationshipBuilder:
     ) -> int:
         """Paper → Pathology (STUDIES) 관계 생성.
 
-        v7.9: SNOMED-CT 코드 지원 추가
+        v1.9: SNOMED-CT 코드 지원 추가
 
         Args:
             paper_id: 논문 ID
@@ -973,7 +973,7 @@ class RelationshipBuilder:
         """Intervention → Outcome (AFFECTS) 관계 생성 (통계 포함).
 
         Claude와 Gemini PDF 처리기 결과 모두 지원 (Unified Schema v4.0).
-        v7.9: SNOMED-CT 코드 지원 추가
+        v1.9: SNOMED-CT 코드 지원 추가
 
         Args:
             intervention: 수술법 이름
@@ -1014,7 +1014,7 @@ class RelationshipBuilder:
                     value_difference=outcome.value_difference,
                     category=outcome.category,
                     timepoint=outcome.timepoint,
-                    # v7.9: SNOMED 코드
+                    # v1.9: SNOMED 코드
                     snomed_code=norm_outcome.snomed_code if norm_outcome.snomed_code else None,
                     snomed_term=norm_outcome.snomed_term if norm_outcome.snomed_term else None
                 )
@@ -1170,7 +1170,7 @@ class RelationshipBuilder:
 
         # 1. spine_metadata의 outcomes 사용 (이미 추출된 데이터)
         for outcome_item in spine_metadata.outcomes:
-            # Handle both dict and string types (v7.7 fix)
+            # Handle both dict and string types (v1.7 fix)
             if isinstance(outcome_item, str):
                 outcome_dict = {"name": outcome_item}
             elif isinstance(outcome_item, dict):
@@ -1227,7 +1227,7 @@ class RelationshipBuilder:
 
             if section_type == "results" and statistics:
                 # statistics가 dict인 경우 처리 (dict 또는 객체 모두 지원)
-                # v7.14: p_values (list) 와 p_value (string) 모두 지원
+                # v1.14: p_values (list) 와 p_value (string) 모두 지원
                 if isinstance(statistics, dict):
                     p_values = statistics.get("p_values") or []
                     if not p_values:
@@ -1883,7 +1883,7 @@ class RelationshipBuilder:
                 result.add(str(item))
         return result
 
-    # ===== v7.1 New Relationship Methods =====
+    # ===== v1.1 New Relationship Methods =====
 
     async def _create_risk_factor_relationships(
         self,
@@ -2217,7 +2217,7 @@ class RelationshipBuilder:
 
         return count
 
-    # ===== v7.2 New Relationship Methods =====
+    # ===== v1.2 New Relationship Methods =====
 
     async def _create_cohort_relationships(
         self,

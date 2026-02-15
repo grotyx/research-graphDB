@@ -86,10 +86,10 @@ class CitationProcessingResult:
     papers_created: int = 0
     relationships_created: int = 0
     pubmed_search_failures: int = 0
-    doi_fallback_successes: int = 0  # v7.16: DOI fallback 성공 수
-    basic_citations_created: int = 0  # v7.16: basic info만으로 생성된 수
+    doi_fallback_successes: int = 0  # v1.16: DOI fallback 성공 수
+    basic_citations_created: int = 0  # v1.16: basic info만으로 생성된 수
     processed_citations: list[dict] = field(default_factory=list)
-    citations_data: list[dict] = field(default_factory=list)  # v7.6: JSON 저장용 상세 데이터
+    citations_data: list[dict] = field(default_factory=list)  # v1.6: JSON 저장용 상세 데이터
     errors: list[str] = field(default_factory=list)
 
 
@@ -176,8 +176,8 @@ class ImportantCitationProcessor:
             relationship_builder: 관계 빌더 (인용된 논문 분석용)
             min_confidence: 최소 매칭 신뢰도 (0.0-1.0)
             max_citations: 최대 처리할 인용 수
-            analyze_cited_abstracts: 인용된 논문 abstract LLM 분석 여부 (v7.6)
-            doi_fetcher: DOIFulltextFetcher 인스턴스 (v7.16 DOI fallback용)
+            analyze_cited_abstracts: 인용된 논문 abstract LLM 분석 여부 (v1.6)
+            doi_fetcher: DOIFulltextFetcher 인스턴스 (v1.16 DOI fallback용)
             gemini_api_key: (레거시) Gemini API 키 - 사용 권장하지 않음
         """
         # 레거시 호환성: gemini_api_key가 전달된 경우
@@ -196,10 +196,10 @@ class ImportantCitationProcessor:
         self.max_citations = max_citations
         self.analyze_cited_abstracts = analyze_cited_abstracts
 
-        # v7.6: EntityExtractor for cited paper abstract analysis
+        # v1.6: EntityExtractor for cited paper abstract analysis
         self.entity_extractor = EntityExtractor() if analyze_cited_abstracts else None
 
-        # v7.16: DOI/Crossref fallback for citations when PubMed fails
+        # v1.16: DOI/Crossref fallback for citations when PubMed fails
         self.doi_fetcher = doi_fetcher
 
     async def process_paper_citations(
@@ -285,7 +285,7 @@ class ImportantCitationProcessor:
                     "confidence": processed.pubmed_metadata.confidence if processed.pubmed_metadata else 0
                 })
 
-                # v7.6: JSON 저장용 상세 데이터 (PubMed abstract 포함)
+                # v1.6: JSON 저장용 상세 데이터 (PubMed abstract 포함)
                 citation_detail = {
                     "authors": citation.authors,
                     "year": citation.year,
@@ -583,9 +583,9 @@ class ImportantCitationProcessor:
         self,
         metadata: BibliographicMetadata
     ) -> Optional[str]:
-        """인용된 논문의 Paper 노드 생성 및 LLM 분석 (v7.6).
+        """인용된 논문의 Paper 노드 생성 및 LLM 분석 (v1.6).
 
-        v7.6 업데이트:
+        v1.6 업데이트:
         - abstract가 있으면 LLM으로 엔티티 추출
         - relationship_builder로 관계 구축 (STUDIES, INVESTIGATES, REPORTS)
 
@@ -618,7 +618,7 @@ class ImportantCitationProcessor:
                 logger.debug(f"Paper already exists: {paper_id}, skipping LLM analysis")
                 return paper_id
 
-            # v7.6: abstract LLM 분석으로 엔티티 추출
+            # v1.6: abstract LLM 분석으로 엔티티 추출
             spine_metadata = None
             if self.analyze_cited_abstracts and self.entity_extractor and metadata.abstract:
                 try:
@@ -640,7 +640,7 @@ class ImportantCitationProcessor:
                             outcomes=[e.name for e in entities.outcomes] if entities.outcomes else [],
                             surgical_approach=[],
                             summary=metadata.abstract[:500] if metadata.abstract else "",
-                            processing_version="v7.6_cited",
+                            processing_version="v1.6_cited",
                         )
                         logger.debug(
                             f"Extracted entities from cited paper: "
@@ -1006,7 +1006,7 @@ class ImportantCitationProcessor:
                     "relationship_created": processed.relationship_created
                 })
 
-                # v7.6: JSON 저장용 상세 데이터 (PubMed abstract 포함)
+                # v1.6: JSON 저장용 상세 데이터 (PubMed abstract 포함)
                 citation_detail = {
                     "authors": citation.authors,
                     "year": citation.year,

@@ -346,11 +346,11 @@ def create_network_graph(network_data: dict):
 
 
 # ========================================================================
-# v7.2 Extended Entity Query Functions
+# v1.2 Extended Entity Query Functions
 # ========================================================================
 
 def get_patient_cohorts(neo4j_client: SyncNeo4jClient, paper_id: str = None, limit: int = 50) -> list[dict]:
-    """Get patient cohort data from v7.2 extended entities.
+    """Get patient cohort data from v1.2 extended entities.
 
     Args:
         neo4j_client: Sync Neo4j client instance
@@ -393,7 +393,7 @@ def get_patient_cohorts(neo4j_client: SyncNeo4jClient, paper_id: str = None, lim
 
 
 def get_followup_data(neo4j_client: SyncNeo4jClient, paper_id: str = None, limit: int = 100) -> list[dict]:
-    """Get follow-up data from v7.2 extended entities.
+    """Get follow-up data from v1.2 extended entities.
 
     Args:
         neo4j_client: Sync Neo4j client instance
@@ -432,7 +432,7 @@ def get_followup_data(neo4j_client: SyncNeo4jClient, paper_id: str = None, limit
 
 
 def get_cost_data(neo4j_client: SyncNeo4jClient, paper_id: str = None, limit: int = 50) -> list[dict]:
-    """Get cost-effectiveness data from v7.2 extended entities.
+    """Get cost-effectiveness data from v1.2 extended entities.
 
     Args:
         neo4j_client: Sync Neo4j client instance
@@ -475,7 +475,7 @@ def get_cost_data(neo4j_client: SyncNeo4jClient, paper_id: str = None, limit: in
 
 
 def get_quality_metrics(neo4j_client: SyncNeo4jClient, paper_id: str = None, limit: int = 50) -> list[dict]:
-    """Get quality assessment metrics from v7.2 extended entities.
+    """Get quality assessment metrics from v1.2 extended entities.
 
     Args:
         neo4j_client: Sync Neo4j client instance
@@ -512,13 +512,13 @@ def get_quality_metrics(neo4j_client: SyncNeo4jClient, paper_id: str = None, lim
 
 
 def get_extended_graph_stats(neo4j_client: SyncNeo4jClient) -> dict:
-    """Get extended graph statistics including v7.2 entities.
+    """Get extended graph statistics including v1.2 entities.
 
     Args:
         neo4j_client: Sync Neo4j client instance
 
     Returns:
-        Dict with all node and relationship counts including v7.2 entities
+        Dict with all node and relationship counts including v1.2 entities
     """
     cypher = """
     CALL {
@@ -551,7 +551,7 @@ def get_extended_graph_stats(neo4j_client: SyncNeo4jClient) -> dict:
 
         stats["total_nodes"] += count
 
-    # Get v7.2 relationship counts
+    # Get v1.2 relationship counts
     rel_cypher = """
     MATCH ()-[r]->()
     WHERE type(r) IN ['HAS_COHORT', 'TREATED_WITH', 'HAS_FOLLOWUP', 'REPORTS_OUTCOME', 'REPORTS_COST', 'ASSOCIATED_WITH', 'HAS_QUALITY_METRIC']

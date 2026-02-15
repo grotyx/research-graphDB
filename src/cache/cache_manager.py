@@ -277,7 +277,7 @@ class CacheManager:
             expired = self.embedding_cache.cleanup_expired()
             results["embedding_cache_expired"] = expired
 
-        # LLM cache — v7.15: asyncio.run() 대신 event loop 안전 처리
+        # LLM cache — v1.15: asyncio.run() 대신 event loop 안전 처리
         if self.llm_cache:
             import asyncio
             try:
@@ -304,7 +304,7 @@ class CacheManager:
         if self.embedding_cache:
             self.embedding_cache.cleanup_expired()
 
-        # v7.15: asyncio.run() 대신 event loop 안전 처리
+        # v1.15: asyncio.run() 대신 event loop 안전 처리
         if self.llm_cache:
             import asyncio
             try:

@@ -1,6 +1,6 @@
-"""Tests for HybridRanker v7.15 QC - _merge_results Immutability.
+"""Tests for HybridRanker v1.15 QC - _merge_results Immutability.
 
-The v7.15 QC fixed _merge_results to avoid mutating input scores.
+The v1.15 QC fixed _merge_results to avoid mutating input scores.
 Previously, the method modified HybridResult.score in-place via
 graph_results[i].score *= weight. After the fix, the method creates
 new HybridResult copies with weighted scores.
@@ -398,7 +398,7 @@ class TestHybridRankerInit:
         stats = ranker.get_stats()
         assert stats["graph_db_available"] is False
         assert stats["vector_db"] is None
-        assert stats["ranking_version"] == "v7.0"
+        assert stats["ranking_version"] == "v1.0"
 
 
 if __name__ == "__main__":

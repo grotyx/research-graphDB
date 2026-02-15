@@ -13,7 +13,7 @@
 | Outcome | name, category, unit, snomed_code, snomed_term | 결과 변수 |
 | Chunk | chunk_id, paper_id, tier, section, evidence_level, embedding | 논문 텍스트 청크 (벡터 임베딩 포함) |
 
-### v7.1 Extended Entity Nodes
+### v1.1 Extended Entity Nodes
 
 | Node | Key Properties | Description | Status |
 |------|----------------|-------------|--------|
@@ -31,7 +31,7 @@
 
 > **Note**: Technique, SurgicalStep, Instrument 노드는 deprecated 되었습니다. 각각 InterventionNode의 technique_description, surgical_steps 필드와 ImplantNode(device_type="instrument")를 사용하세요.
 
-### v7.2 Extended Nodes
+### v1.2 Extended Nodes
 
 | Node | Key Properties | Description |
 |------|----------------|-------------|
@@ -66,7 +66,7 @@
 | EXTENDS | Paper → Paper | confidence | 후속/확장 연구 관계 |
 | REPLICATES | Paper → Paper | confidence | 재현 연구 관계 |
 
-### v7.1 Extended Relationships
+### v1.1 Extended Relationships
 
 | Relationship | Start → End | Key Properties | Description |
 |--------------|-------------|----------------|-------------|
@@ -78,7 +78,7 @@
 | USES_DEVICE | Intervention → Implant | | 수술에 사용되는 임플란트 |
 | MEASURED_BY | Outcome → OutcomeMeasure | | 결과 측정 도구 *(Planned)* |
 
-### v7.2 Extended Relationships
+### v1.2 Extended Relationships
 
 | Relationship | Start → End | Key Properties | Description |
 |--------------|-------------|----------------|-------------|
@@ -187,10 +187,10 @@ final_score = 0.6 * graph_score + 0.4 * vector_score
 
 - Pain: VAS, NRS, ODI
 - Function: JOA, mJOA, NDI, SF-36, EQ-5D
-- Complications: SSI (Superficial/Deep), Dural Tear, Reoperation, Epidural Hematoma (v7.14)
+- Complications: SSI (Superficial/Deep), Dural Tear, Reoperation, Epidural Hematoma (v1.14)
 - Radiographic: Fusion Rate, Lordosis, SVA
-- Lab: Serum CPK (v7.14)
-- Wound: Scar Quality, Postoperative Drainage, Wound Dehiscence (v7.14)
+- Lab: Serum CPK (v1.14)
+- Wound: Scar Quality, Postoperative Drainage, Wound Dehiscence (v1.14)
 
 #### Anatomy
 
@@ -227,7 +227,7 @@ Recurrent Disc Herniation: 900000000000504
 Epidural Hematoma: 900000000000505
 ```
 
-### SSI 분류 (v7.11)
+### SSI 분류 (v1.11)
 
 | Type | SNOMED Code | Description |
 |------|-------------|-------------|

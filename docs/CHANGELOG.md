@@ -806,7 +806,7 @@ pubmed action=import_by_pmids pmids=["12345678", "23456789"] max_concurrent=10
 - **TRD 문서 동기화**:
   - LLM 선택 명확화: Claude Haiku 4.5 기본, Sonnet 폴백, Gemini 지원
   - MCP 핸들러 11개로 업데이트 (reference_handler.py 추가)
-  - Reference Formatter (v7.9), Writing Guide (v7.12) 명시
+  - Reference Formatter (v1.9), Writing Guide (v1.12) 명시
 
 **분류 지원**:
 - **Sub-domain**: Degenerative, Deformity, Trauma, Tumor, Infection, Basic Science
@@ -1099,7 +1099,7 @@ pubmed action=import_by_pmids pmids=["12345678", "23456789"] max_concurrent=10
   - `anatomy_level` (str) + `anatomy_region` (str) → `anatomy_levels` (list) 매핑
   - `ExtractedOutcome` 객체 → dict 변환 자동화
 
-- **v7.2 Extended Entities 지원 완성**:
+- **v1.2 Extended Entities 지원 완성**:
   - `patient_cohorts`, `followups`, `costs`, `quality_metrics` 필드 그래프 저장
   - Cost-effectiveness 논문의 ICER, QALY 데이터 Neo4j 저장
 
@@ -1328,7 +1328,7 @@ pubmed action=import_by_pmids pmids=["12345678", "23456789"] max_concurrent=10
 - **GRAPH_SCHEMA.md 업데이트**:
   - Intervention Taxonomy 다이어그램 확장 (BELIF, Facetectomy, Navigation 반영)
   - 매핑 통계 갱신: 139개 총 매핑 (88 official, 51 extension)
-  - Extension Codes 목록 갱신 (v7.14-v1.14.2 추가분 포함)
+  - Extension Codes 목록 갱신 (v1.14-v1.14.2 추가분 포함)
 - **수정된 파일**:
   - `src/graph/types/schema.py`
   - `src/ontology/spine_snomed_mappings.py`
@@ -1394,7 +1394,7 @@ pubmed action=import_by_pmids pmids=["12345678", "23456789"] max_concurrent=10
   - Outcomes: 1.3% → 75-85%
   - Pathologies: 6.3% → 75-80%
 
-### v7.14 (2025-12-25): Terminology Normalization Enhancement
+### v1.14 (2025-12-25): Terminology Normalization Enhancement
 
 - **용어 정규화 강화**: 151개 논문 분석 결과 반영
   - 278개 추출 용어 → ~50-60개 고유 수술법으로 정규화
@@ -1437,7 +1437,7 @@ pubmed action=import_by_pmids pmids=["12345678", "23456789"] max_concurrent=10
 - **새 메서드 추가** (`medical_kag_server.py`)
   - `fetch_by_doi()`: 전문/메타데이터 조회, 선택적 그래프 임포트
   - `get_doi_metadata()`: 메타데이터 전용 (전문 없이)
-  - `import_by_doi()`: v7.5 파이프라인으로 분석 후 그래프 저장
+  - `import_by_doi()`: v1.5 파이프라인으로 분석 후 그래프 저장
   - `_import_doi_to_graph()`: 내부 임포트 헬퍼
 - **SSE 서버 연결 안정성 개선** (`sse_server.py`)
   - `ConnectionManager` 클래스 추가: 연결 상태 추적 및 관리
@@ -1454,7 +1454,7 @@ pubmed action=import_by_pmids pmids=["12345678", "23456789"] max_concurrent=10
   - `doi` 파라미터 추가
   - `import_to_graph`, `fetch_fulltext` 옵션 추가
 
-### v7.13 (2025-12-25): DOI Fulltext Fetcher & PubMed Fallback Integration
+### v1.13 (2025-12-25): DOI Fulltext Fetcher & PubMed Fallback Integration
 
 - **DOI Fulltext Fetcher 추가** (`src/builder/doi_fulltext_fetcher.py`)
   - Crossref API: DOI → 메타데이터 (제목, 저자, 저널, 초록 등)
@@ -1505,7 +1505,7 @@ pubmed action=import_by_pmids pmids=["12345678", "23456789"] max_concurrent=10
   - `requirements.txt`: 의존성 정리
   - `실행법.md`: 신규 문서
 
-### v7.12 (2025-12-23): Academic Writing Guide System
+### v1.12 (2025-12-23): Academic Writing Guide System
 
 - **WritingGuideHandler 추가**: 학술 논문 작성을 위한 통합 가이드 시스템
 - **섹션별 작성 가이드**: 6개 섹션 (Introduction, Methods, Results, Discussion, Conclusion, Figure Legend)
@@ -1547,7 +1547,7 @@ pubmed action=import_by_pmids pmids=["12345678", "23456789"] max_concurrent=10
   - `src/medical_mcp/handlers/__init__.py`: WritingGuideHandler 추가
   - `src/medical_mcp/medical_kag_server.py`: Tool 등록 및 핸들러 통합
 
-### v7.11 (2025-12-22): SSI Classification & Comorbidity Terms
+### v1.11 (2025-12-22): SSI Classification & Comorbidity Terms
 
 - **Surgical Site Infection (SSI) 세분화**: 표재성/심부 구분 추가
   - `Superficial Surgical Site Infection` (SNOMED: 433202001): 피부, 피하조직 감염
@@ -1558,7 +1558,7 @@ pubmed action=import_by_pmids pmids=["12345678", "23456789"] max_concurrent=10
 - **SNOMED 매핑 통계 갱신**: Pathology 28개 (+1), Outcome 27개 (+2)
 - **수정된 파일**: `src/ontology/spine_snomed_mappings.py`
 
-### v7.10 (2025-12-22): SNOMED-CT Full Entity Integration
+### v1.10 (2025-12-22): SNOMED-CT Full Entity Integration
 
 - **SNOMED-CT 코드 전체 엔티티 지원**: Intervention, Pathology, Outcome 모든 노드에 SNOMED 코드 저장
 - **Pathology (질환) SNOMED 지원 추가**:
@@ -1569,7 +1569,7 @@ pubmed action=import_by_pmids pmids=["12345678", "23456789"] max_concurrent=10
   - `CypherTemplates.CREATE_AFFECTS_RELATION`: SNOMED fallback 로직 추가
   - `neo4j_client.create_affects_relation()`: `snomed_code`, `snomed_term` 파라미터 추가
   - `relationship_builder.create_affects_relations()`: 정규화 결과에서 SNOMED 전달
-- **ExtractedEntity SNOMED 필드 추가** (v7.8 보완):
+- **ExtractedEntity SNOMED 필드 추가** (v1.8 보완):
   - `snomed_code`: SNOMED-CT 코드
   - `snomed_term`: SNOMED-CT 선호 용어
   - `_normalize_entities()`: 정규화 시 SNOMED 코드 저장
@@ -1582,7 +1582,7 @@ pubmed action=import_by_pmids pmids=["12345678", "23456789"] max_concurrent=10
   - `src/graph/relationship_builder.py`: create_studies_relations, create_affects_relations
   - `src/builder/entity_extractor.py`: ExtractedEntity, _normalize_entities
 
-### v7.9 (2025-12-22): Reference Citation Formatter
+### v1.9 (2025-12-22): Reference Citation Formatter
 
 - **Reference Formatter 기능 추가**: 다양한 저널 인용 스타일 지원
 - **7개 기본 스타일**: Vancouver, AMA, APA, JBJS, Spine, NLM, Harvard
@@ -1625,7 +1625,7 @@ pubmed action=import_by_pmids pmids=["12345678", "23456789"] max_concurrent=10
 - **경로 설정 개선**: 다중 경로 폴백으로 안정성 향상
 - **데이터 파일**: `data/styles/journal_styles.json` (저널 매핑 및 커스텀 스타일 저장)
 
-### v7.8 (2025-12-22): Important Citations Full Analysis Pipeline
+### v1.8 (2025-12-22): Important Citations Full Analysis Pipeline
 
 - **analyze_text Important Citations 복원**: `_analyze_text_v7`에 Citation Processing 단계 추가
 - **인용된 논문 LLM 분석**: PubMed abstract를 EntityExtractor로 분석하여 spine_metadata 추출
@@ -1649,7 +1649,7 @@ pubmed action=import_by_pmids pmids=["12345678", "23456789"] max_concurrent=10
     → JSON 저장 (important_citations 포함)
   ```
 
-### v7.7 (2025-12-21): Code Quality - medical_kag_server.py Handler Integration
+### v1.7 (2025-12-21): Code Quality - medical_kag_server.py Handler Integration
 
 - **medical_kag_server.py 핸들러 분할 및 완전 통합**: 9개 도메인별 핸들러 + 공유 유틸리티
 - **새 구조**: `src/medical_mcp/handlers/` 패키지 (총 4,716줄)
@@ -1667,7 +1667,7 @@ pubmed action=import_by_pmids pmids=["12345678", "23456789"] max_concurrent=10
 - **DRY 원칙**: 중복 코드 utils.py로 추출 (~160줄 중복 제거)
 - **SRP 준수**: 도메인별 책임 분리
 
-### v7.6 (2025-12-21): Code Quality - spine_schema.py Modularization
+### v1.6 (2025-12-21): Code Quality - spine_schema.py Modularization
 
 - **spine_schema.py 분할**: 4,329줄 → 7개 모듈 (최대 1,296줄)
 - **새 구조**: `src/graph/types/` 패키지
@@ -1679,23 +1679,23 @@ pubmed action=import_by_pmids pmids=["12345678", "23456789"] max_concurrent=10
 - **하위 호환성**: 기존 `from graph.spine_schema import ...` 계속 동작
 - **SRP 준수**: Single Responsibility Principle 적용
 
-### v7.5 (2025-12-21): Unified Narrative Summary Pipeline
-- **v7.0 Simplified Pipeline 기본 사용**: `add_pdf(use_v7=True)` 파라미터
+### v1.5 (2025-12-21): Unified Narrative Summary Pipeline
+- **v1.0 Simplified Pipeline 기본 사용**: `add_pdf(use_v7=True)` 파라미터
 - **통합 요약 형식**: 4개 섹션 (Background, Methodology, Key Findings, Conclusions)
 - **Important Citation 자동 처리**: Discussion/Results에서 중요 인용 추출 → PubMed 검색 → CITES 관계 생성
 - **Legacy Processor Deprecation**: `unified_pdf_processor.py` → `unified_processor_v7.py`
 
-### v7.5 (2025-12-19): Multi-User Support with SSE Transport
+### v1.5 (2025-12-19): Multi-User Support with SSE Transport
 - **다중 사용자 지원**: 라벨 기반 데이터 분리 (owner/shared 필드)
 - **SSE 서버**: `python -m medical_mcp.sse_server --port 8000`
 - **REST API**: FastAPI 기반 `/tool/{name}` 엔드포인트
 
-### v7.4 (2025-12-19): MCP Tool Consolidation
+### v1.4 (2025-12-19): MCP Tool Consolidation
 - **38 Tools → 8 Tools**: Context Token ~63% 절감
 - **8개 통합 도구**: document, search, pubmed, analyze, graph, conflict, intervention, extended
 - **Action 기반 라우팅**: 각 도구에 `action` 파라미터로 세부 기능 선택
 
-### v7.2 (2025-12-19): Extended Entity Schema
+### v1.2 (2025-12-19): Extended Entity Schema
 - **4 New Nodes**: PatientCohort, FollowUp, Cost, QualityMetric
 - **7 New Relationships**: HAS_COHORT, TREATED_WITH, HAS_FOLLOWUP 등
 - **Schema Total**: 21 Node Types, 28 Relationship Types

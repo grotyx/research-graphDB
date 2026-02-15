@@ -1,7 +1,7 @@
 """Unified PDF Processor v3.2.
 
 Note: 이 모듈은 현재 메인 PDF 프로세서입니다.
-- v7.5 Simplified Pipeline이 이 모듈 내에 통합되었습니다.
+- v1.5 Simplified Pipeline이 이 모듈 내에 통합되었습니다.
 - 이전 unified_processor_v7.py는 src/archive/legacy_v7/로 이동되었습니다.
 
 Features:
@@ -668,7 +668,7 @@ In Discussion/Results sections, extract citations that:
 - COMPARE directly with the current study's outcomes
 Extract: author surnames, year, citation_text, direction_match
 
-### 5.5 EXTENDED ENTITY EXTRACTION (v7.2)
+### 5.5 EXTENDED ENTITY EXTRACTION (v1.2)
 
 **Patient Cohort Data** (extract when present):
 - cohort_type: "intervention", "control", "total", "propensity_matched"

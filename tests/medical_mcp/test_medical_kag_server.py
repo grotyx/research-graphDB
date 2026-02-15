@@ -339,7 +339,7 @@ class TestHelperMethods:
         assert all(c.evidence_level == "2a" for c in chunks)
 
     def test_create_chunks_tiers(self, server):
-        """청크의 계층 할당 (완화된 테스트 v7.14+)."""
+        """청크의 계층 할당 (완화된 테스트 v1.14+)."""
         text = "B" * 3000  # 3000 characters
 
         chunks = server._create_chunks(

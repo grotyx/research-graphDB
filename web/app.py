@@ -598,7 +598,7 @@ def main():
 
                 display_name = doc_id[:35] + "..." if len(doc_id) > 35 else doc_id
 
-                # v7.15: XSS 방지 — HTML escape
+                # v1.15: XSS 방지 — HTML escape
                 safe_name = html_mod.escape(display_name)
 
                 st.markdown(f"""
@@ -626,7 +626,7 @@ def main():
                 medal = medals[i] if i < len(medals) else f"{i+1}."
                 badge = '<span class="list-card-badge">SNOMED</span>' if snomed else ""
 
-                # v7.15: XSS 방지 — HTML escape
+                # v1.15: XSS 방지 — HTML escape
                 safe_intervention = html_mod.escape(name)
 
                 st.markdown(f"""

@@ -32,7 +32,7 @@ from typing import Optional
 
 @dataclass
 class ConceptNode:
-    """개념 노드 (교과서/교육용 - v7.1).
+    """개념 노드 (교과서/교육용 - v1.1).
 
     Neo4j Label: Concept
 
@@ -78,7 +78,7 @@ class ConceptNode:
 
 @dataclass
 class TechniqueNode:
-    """수술 테크닉 노드 (v7.1).
+    """수술 테크닉 노드 (v1.1).
 
     Neo4j Label: Technique
 
@@ -121,7 +121,7 @@ class TechniqueNode:
 
 @dataclass
 class RecommendationNode:
-    """권고사항 노드 (가이드라인용 - v7.1).
+    """권고사항 노드 (가이드라인용 - v1.1).
 
     Neo4j Label: Recommendation
 
@@ -173,7 +173,7 @@ class RecommendationNode:
 
 @dataclass
 class InstrumentNode:
-    """수술 기구 노드 (v7.1).
+    """수술 기구 노드 (v1.1).
 
     ⚠️ DEPRECATED: Use ImplantNode with device_type="instrument" instead.
     This class is maintained for backward compatibility only.
@@ -218,7 +218,7 @@ class InstrumentNode:
 
 @dataclass
 class ImplantNode:
-    """임플란트/기기 통합 노드 (v7.1 - Consolidated with InstrumentNode).
+    """임플란트/기기 통합 노드 (v1.1 - Consolidated with InstrumentNode).
 
     Neo4j Label: Implant (alias: Device)
 
@@ -231,36 +231,36 @@ class ImplantNode:
     """
     name: str  # Pedicle Screw, PEEK Cage, Kerrison Rongeur
 
-    # Device Type Classification (NEW in v7.1)
+    # Device Type Classification (NEW in v1.1)
     device_type: str = "implant"  # "implant" | "instrument" | "consumable"
 
     # Implant-specific fields
     implant_category: str = ""  # screw, cage, rod, plate, disc, graft (renamed from 'category')
     material: str = ""  # titanium, PEEK, cobalt-chrome, stainless_steel
 
-    # Instrument-specific fields (NEW in v7.1)
+    # Instrument-specific fields (NEW in v1.1)
     instrument_category: str = ""  # cutting, grasping, retracting, visualization, power
 
     # Device properties
     is_permanent: bool = True  # Implant stays in body (vs temporary instrument)
-    is_reusable: bool = False  # Instrument reusability (NEW in v7.1)
+    is_reusable: bool = False  # Instrument reusability (NEW in v1.1)
 
     # Regulatory information
     fda_status: str = ""  # approved, 510k, pma, investigational
     fda_clearance_year: int = 0
     fda_product_code: str = ""
-    gmdn_code: str = ""  # Global Medical Device Nomenclature (NEW in v7.1)
+    gmdn_code: str = ""  # Global Medical Device Nomenclature (NEW in v1.1)
 
     # Commercial information
     manufacturer: str = ""  # Medtronic, DePuy, Stryker
-    product_name: str = ""  # Specific product name (NEW in v7.1)
+    product_name: str = ""  # Specific product name (NEW in v1.1)
 
     # Clinical usage
     indicated_for: list[str] = field(default_factory=list)  # ["lumbar fusion", "cervical fixation"]
-    contraindicated_for: list[str] = field(default_factory=list)  # NEW in v7.1
+    contraindicated_for: list[str] = field(default_factory=list)  # NEW in v1.1
 
     # Biomechanical properties
-    elastic_modulus: str = ""  # "114 GPa for titanium" (NEW in v7.1)
+    elastic_modulus: str = ""  # "114 GPa for titanium" (NEW in v1.1)
 
     # General information
     description: str = ""  # 설명
@@ -317,7 +317,7 @@ class ImplantNode:
 
 @dataclass
 class ComplicationNode:
-    """합병증 노드 (v7.1).
+    """합병증 노드 (v1.1).
 
     Neo4j Label: Complication
 
@@ -362,7 +362,7 @@ class ComplicationNode:
 
 @dataclass
 class DrugNode:
-    """약물 노드 (v7.1).
+    """약물 노드 (v1.1).
 
     Neo4j Label: Drug
 
@@ -411,7 +411,7 @@ class DrugNode:
 
 @dataclass
 class SurgicalStepNode:
-    """수술 단계 노드 (v7.1).
+    """수술 단계 노드 (v1.1).
 
     Neo4j Label: SurgicalStep
 
@@ -455,7 +455,7 @@ class SurgicalStepNode:
 
 @dataclass
 class OutcomeMeasureNode:
-    """Patient-Reported & Clinical Outcome Measures (v7.1).
+    """Patient-Reported & Clinical Outcome Measures (v1.1).
 
     Neo4j Label: OutcomeMeasure
 
@@ -537,7 +537,7 @@ class OutcomeMeasureNode:
 
 @dataclass
 class RadiographicParameterNode:
-    """Spine Radiographic/Sagittal Balance Parameters (v7.1).
+    """Spine Radiographic/Sagittal Balance Parameters (v1.1).
 
     Neo4j Label: RadioParameter
 
@@ -605,7 +605,7 @@ class RadiographicParameterNode:
 
 @dataclass
 class PredictionModelNode:
-    """Machine Learning Prediction Model (v7.1).
+    """Machine Learning Prediction Model (v1.1).
 
     Neo4j Label: PredictionModel
 
@@ -711,7 +711,7 @@ class PredictionModelNode:
 
 @dataclass
 class RiskFactorNode:
-    """Patient Risk Factor (v7.1).
+    """Patient Risk Factor (v1.1).
 
     Neo4j Label: RiskFactor
 
@@ -792,7 +792,7 @@ class RiskFactorNode:
 
 @dataclass
 class PatientCohortNode:
-    """Patient Cohort Characteristics (v7.2).
+    """Patient Cohort Characteristics (v1.2).
 
     Neo4j Label: PatientCohort
 
@@ -909,7 +909,7 @@ class PatientCohortNode:
 
 @dataclass
 class FollowUpNode:
-    """Follow-Up Timepoint Data (v7.2).
+    """Follow-Up Timepoint Data (v1.2).
 
     Neo4j Label: FollowUp
 
@@ -1027,7 +1027,7 @@ class FollowUpNode:
 
 @dataclass
 class CostNode:
-    """Healthcare Cost Analysis Data (v7.2).
+    """Healthcare Cost Analysis Data (v1.2).
 
     Neo4j Label: Cost
 
@@ -1153,7 +1153,7 @@ class CostNode:
 
 @dataclass
 class QualityMetricNode:
-    """Study Quality Assessment Metrics (v7.2).
+    """Study Quality Assessment Metrics (v1.2).
 
     Neo4j Label: QualityMetric
 

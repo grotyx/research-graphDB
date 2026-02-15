@@ -591,7 +591,7 @@ Respond ONLY with the JSON object, no additional text or markdown formatting."""
         tasks = [process_request(i, req) for i, req in enumerate(requests)]
         results = await asyncio.gather(*tasks, return_exceptions=True)
 
-        # v7.15: 순서 정렬 및 에러 처리 — 실패 시 None 유지하여 인덱스 보존
+        # v1.15: 순서 정렬 및 에러 처리 — 실패 시 None 유지하여 인덱스 보존
         sorted_results: list[tuple[int, Optional[ClaudeResponse]]] = []
         for r in results:
             if isinstance(r, Exception):

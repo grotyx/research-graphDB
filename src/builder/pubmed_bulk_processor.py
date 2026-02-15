@@ -426,8 +426,8 @@ class PubMedBulkProcessor:
         source: str = "search",
         fetch_fulltext: bool = True,
         max_concurrent: int = 1,
-        owner: str = "system",   # v7.5: 소유자 ID
-        shared: bool = True,     # v7.5: 공유 여부
+        owner: str = "system",   # v1.5: 소유자 ID
+        shared: bool = True,     # v1.5: 공유 여부
     ) -> BulkImportSummary:
         """PubMed 논문들을 Neo4j에 임포트. (v5.3: Neo4j Vector Index 사용)
 
@@ -439,8 +439,8 @@ class PubMedBulkProcessor:
             source: 임포트 소스 ("search" | "citation")
             fetch_fulltext: PMC에서 Open Access 전문 가져오기 (기본 True)
             max_concurrent: 최대 동시 처리 수 (기본 1=순차, 3-5 권장)
-            owner: 소유자 ID (v7.5 멀티유저 지원)
-            shared: 공유 여부 (v7.5 멀티유저 지원)
+            owner: 소유자 ID (v1.5 멀티유저 지원)
+            shared: 공유 여부 (v1.5 멀티유저 지원)
 
         Returns:
             BulkImportSummary with import results
@@ -537,8 +537,8 @@ class PubMedBulkProcessor:
         skip_existing: bool,
         source: str,
         fetch_fulltext: bool,
-        owner: str = "system",   # v7.5: 소유자 ID
-        shared: bool = True,     # v7.5: 공유 여부
+        owner: str = "system",   # v1.5: 소유자 ID
+        shared: bool = True,     # v1.5: 공유 여부
     ) -> PubMedImportResult:
         """에러 핸들링이 포함된 단일 논문 임포트."""
         try:
@@ -578,8 +578,8 @@ class PubMedBulkProcessor:
         skip_existing: bool,
         source: str,
         fetch_fulltext: bool = True,
-        owner: str = "system",   # v7.5: 소유자 ID
-        shared: bool = True,     # v7.5: 공유 여부
+        owner: str = "system",   # v1.5: 소유자 ID
+        shared: bool = True,     # v1.5: 공유 여부
     ) -> PubMedImportResult:
         """단일 논문 임포트."""
         pmid = paper.pmid or ""
@@ -726,8 +726,8 @@ class PubMedBulkProcessor:
         paper_id: str,
         paper: BibliographicMetadata,
         fulltext: PMCFullText,
-        owner: str = "system",   # v7.5: 소유자 ID
-        shared: bool = True,     # v7.5: 공유 여부
+        owner: str = "system",   # v1.5: 소유자 ID
+        shared: bool = True,     # v1.5: 공유 여부
     ) -> tuple[int, bool, Optional[dict]]:
         """PMC 전문을 LLM으로 처리하고 Neo4j 관계를 구축.
 
@@ -737,8 +737,8 @@ class PubMedBulkProcessor:
             paper_id: Paper ID
             paper: 서지 메타데이터
             fulltext: PMC 전문 데이터
-            owner: 소유자 ID (v7.5 멀티유저 지원)
-            shared: 공유 여부 (v7.5 멀티유저 지원)
+            owner: 소유자 ID (v1.5 멀티유저 지원)
+            shared: 공유 여부 (v1.5 멀티유저 지원)
 
         Returns:
             (chunks_created, success, extracted_data) 튜플
@@ -844,7 +844,7 @@ class PubMedBulkProcessor:
                 blinding=metadata_dict.get("blinding", ""),
             )
 
-            # RelationshipBuilder로 Neo4j 관계 구축 (v7.5: 멀티유저 지원)
+            # RelationshipBuilder로 Neo4j 관계 구축 (v1.5: 멀티유저 지원)
             build_result = await self.relationship_builder.build_from_paper(
                 paper_id=paper_id,
                 metadata=extracted_metadata,
@@ -875,8 +875,8 @@ class PubMedBulkProcessor:
         self,
         paper_id: str,
         paper: BibliographicMetadata,
-        owner: str = "system",   # v7.5: 소유자 ID
-        shared: bool = True,     # v7.5: 공유 여부
+        owner: str = "system",   # v1.5: 소유자 ID
+        shared: bool = True,     # v1.5: 공유 여부
     ) -> tuple[int, bool, Optional[dict]]:
         """Abstract를 LLM으로 분석하고 Neo4j 관계를 구축.
 
@@ -889,8 +889,8 @@ class PubMedBulkProcessor:
         Args:
             paper_id: Paper ID
             paper: 서지 메타데이터
-            owner: 소유자 ID (v7.5 멀티유저 지원)
-            shared: 공유 여부 (v7.5 멀티유저 지원)
+            owner: 소유자 ID (v1.5 멀티유저 지원)
+            shared: 공유 여부 (v1.5 멀티유저 지원)
 
         Returns:
             (chunks_created, success) 튜플
@@ -994,7 +994,7 @@ class PubMedBulkProcessor:
                 blinding=metadata_dict.get("blinding", ""),
             )
 
-            # RelationshipBuilder로 Neo4j 관계 구축 (v7.5: 멀티유저 지원)
+            # RelationshipBuilder로 Neo4j 관계 구축 (v1.5: 멀티유저 지원)
             build_result = await self.relationship_builder.build_from_paper(
                 paper_id=paper_id,
                 metadata=extracted_metadata,
@@ -1296,16 +1296,16 @@ class PubMedBulkProcessor:
         self,
         paper_id: str,
         min_confidence: float = 0.7,
-        owner: str = "system",   # v7.5: 소유자 ID
-        shared: bool = True,     # v7.5: 공유 여부
+        owner: str = "system",   # v1.5: 소유자 ID
+        shared: bool = True,     # v1.5: 공유 여부
     ) -> BulkImportSummary:
         """기존 논문의 important citations에서 PubMed 논문 임포트.
 
         Args:
             paper_id: 원본 논문 ID (citations 추출 대상)
             min_confidence: 최소 매칭 신뢰도 (기본 0.7)
-            owner: 소유자 ID (v7.5 멀티유저 지원)
-            shared: 공유 여부 (v7.5 멀티유저 지원)
+            owner: 소유자 ID (v1.5 멀티유저 지원)
+            shared: 공유 여부 (v1.5 멀티유저 지원)
 
         Returns:
             BulkImportSummary with import results
@@ -1346,7 +1346,7 @@ class PubMedBulkProcessor:
 
         logger.info(f"Found {len(found_papers)} papers from citations")
 
-        # Import found papers (v7.5: 멀티유저 지원)
+        # Import found papers (v1.5: 멀티유저 지원)
         if found_papers:
             return await self.import_papers(
                 found_papers,

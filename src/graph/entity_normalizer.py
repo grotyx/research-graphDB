@@ -124,7 +124,7 @@ class EntityNormalizer:
             "Biportal endoscopic spine surgery",
             "UBE decompression", "UBE surgery",
             "내시경 수술", "양측 내시경", "척추 내시경", "양문 내시경",
-            # v7.14: BED는 UBE와 동일한 수술법
+            # v1.14: BED는 UBE와 동일한 수술법
             "BED", "Biportal Endoscopic Discectomy",
             "Biportal endoscopic discectomy", "Biportal Discectomy",
             # v1.14.1: UBED, BE 변형 추가
@@ -135,7 +135,7 @@ class EntityNormalizer:
             "Biportal endoscopic lumbar interbody fusion",
             "Biportal endoscopic interbody fusion",
             "BE-LIF", "BELF",
-            # v7.14: BE-TLIF는 BELIF와 동일한 수술법
+            # v1.14: BE-TLIF는 BELIF와 동일한 수술법
             "BE-TLIF", "Biportal Endoscopic TLIF",
             "Biportal endoscopic transforaminal lumbar interbody fusion",
             "BE-transforaminal lumbar interbody fusion",
@@ -312,7 +312,7 @@ class EntityNormalizer:
         "Laminectomy": [
             "Open Laminectomy", "Decompressive Laminectomy",
             "척추판 절제술", "후궁 절제술",
-            # v7.14: 케이스 변형 및 추가 동의어
+            # v1.14: 케이스 변형 및 추가 동의어
             "laminectomy", "decompressive laminectomy",
             "Lumbar laminectomy", "Cervical laminectomy",
         ],
@@ -343,7 +343,7 @@ class EntityNormalizer:
         ],
         "Decompression Surgery": [
             "Decompression", "감압술", "신경 감압술", "Neural Decompression",
-            # v7.14: 케이스 변형 및 추가 동의어
+            # v1.14: 케이스 변형 및 추가 동의어
             "decompression", "neural decompression", "Neural decompression",
             "Spinal decompression", "spinal decompression",
             "Lumbar decompression", "Cervical decompression",
@@ -985,7 +985,7 @@ class EntityNormalizer:
             "sf-36", "Sf-36", "sf36",
         ],
         # v1.14.11: SF-12를 별도 항목으로 분리
-        # v7.15: merged duplicate entries
+        # v1.15: merged duplicate entries
         "SF-12": [
             "Short Form 12", "SF12", "SF-12 score", "SF 12",
             "sf-12", "Sf-12", "sf12",
@@ -1318,7 +1318,7 @@ class EntityNormalizer:
             "Facet hypertrophy", "facet hypertrophy",
         ],
         # v1.14.1: Cervical Myelopathy 신규 추가
-        # v7.15: merged duplicate entries
+        # v1.15: merged duplicate entries
         "Cervical Myelopathy": [
             "Degenerative cervical myelopathy", "degenerative cervical myelopathy",
             "DCM", "Cervical spondylotic myelopathy",
@@ -1400,7 +1400,7 @@ class EntityNormalizer:
             "Global sagittal imbalance", "global sagittal imbalance",
         ],
         # v1.14.1: PJK 신규 추가
-        # v7.15: merged duplicate entries
+        # v1.15: merged duplicate entries
         "PJK": [
             "Proximal Junctional Kyphosis", "proximal junctional kyphosis",
             "PJF", "Proximal junctional failure", "proximal junctional failure",
@@ -1408,13 +1408,13 @@ class EntityNormalizer:
             "근위부 접합부 후만",
         ],
         # v1.14.1: DJK 신규 추가
-        # v7.15: merged duplicate entries
+        # v1.15: merged duplicate entries
         "DJK": [
             "Distal Junctional Kyphosis", "distal junctional kyphosis",
             "Distal junctional failure",
         ],
         # v1.14.1: Adjacent Segment Disease 신규 추가
-        # v7.15: merged duplicate entries
+        # v1.15: merged duplicate entries
         "Adjacent Segment Disease": [
             "adjacent segment disease", "ASD (Adjacent Segment)",
             "Adjacent segment degeneration", "adjacent segment degeneration",

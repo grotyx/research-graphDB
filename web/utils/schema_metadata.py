@@ -17,7 +17,7 @@ from typing import Optional
 class NodeTypeInfo:
     """Information about a node type in the schema."""
     label: str
-    category: str  # "Core", "Extended", "v7.2"
+    category: str  # "Core", "Extended", "v1.2"
     description: str
     key_properties: list[str]
     color: str
@@ -152,11 +152,11 @@ EXTENDED_NODES = {
     ),
 }
 
-# v7.2 Extended Nodes (4)
+# v1.2 Extended Nodes (4)
 V72_NODES = {
     "PatientCohort": NodeTypeInfo(
         label="PatientCohort",
-        category="v7.2",
+        category="v1.2",
         description="Study population characteristics with demographics",
         key_properties=["name", "cohort_type", "sample_size", "mean_age", "baseline_vas"],
         color="#06b6d4",  # Cyan
@@ -164,7 +164,7 @@ V72_NODES = {
     ),
     "FollowUp": NodeTypeInfo(
         label="FollowUp",
-        category="v7.2",
+        category="v1.2",
         description="Follow-up timepoint data with outcome measurements",
         key_properties=["name", "timepoint_months", "completeness_rate", "vas_score"],
         color="#10b981",  # Emerald
@@ -172,7 +172,7 @@ V72_NODES = {
     ),
     "Cost": NodeTypeInfo(
         label="Cost",
-        category="v7.2",
+        category="v1.2",
         description="Healthcare cost analysis (direct, indirect, ICER)",
         key_properties=["name", "cost_type", "mean_cost", "qaly_gained", "icer"],
         color="#eab308",  # Yellow
@@ -180,7 +180,7 @@ V72_NODES = {
     ),
     "QualityMetric": NodeTypeInfo(
         label="QualityMetric",
-        category="v7.2",
+        category="v1.2",
         description="Study quality assessments (GRADE, MINORS, Cochrane ROB)",
         key_properties=["name", "assessment_tool", "overall_score", "grade_certainty"],
         color="#78716c",  # Stone
@@ -202,7 +202,7 @@ class RelationshipTypeInfo:
     type: str
     source: str
     target: str
-    category: str  # "Core", "Paper-to-Paper", "Extended", "v7.2"
+    category: str  # "Core", "Paper-to-Paper", "Extended", "v1.2"
     description: str
     key_properties: list[str]
     color: str
@@ -409,13 +409,13 @@ EXTENDED_RELATIONSHIPS = {
     ),
 }
 
-# v7.2 Extended Relationships (7)
+# v1.2 Extended Relationships (7)
 V72_RELATIONSHIPS = {
     "HAS_COHORT": RelationshipTypeInfo(
         type="HAS_COHORT",
         source="Paper",
         target="PatientCohort",
-        category="v7.2",
+        category="v1.2",
         description="Paper has study cohort",
         key_properties=["is_primary", "role"],
         color="#06b6d4"
@@ -424,7 +424,7 @@ V72_RELATIONSHIPS = {
         type="TREATED_WITH",
         source="PatientCohort",
         target="Intervention",
-        category="v7.2",
+        category="v1.2",
         description="Cohort was treated with intervention",
         key_properties=["n_patients"],
         color="#3b82f6"
@@ -433,7 +433,7 @@ V72_RELATIONSHIPS = {
         type="HAS_FOLLOWUP",
         source="Paper",
         target="FollowUp",
-        category="v7.2",
+        category="v1.2",
         description="Paper has follow-up timepoint data",
         key_properties=["is_primary_endpoint"],
         color="#10b981"
@@ -442,7 +442,7 @@ V72_RELATIONSHIPS = {
         type="REPORTS_OUTCOME",
         source="FollowUp",
         target="Outcome",
-        category="v7.2",
+        category="v1.2",
         description="Follow-up reports outcome value",
         key_properties=["value", "baseline_value", "improvement"],
         color="#f97316"
@@ -451,7 +451,7 @@ V72_RELATIONSHIPS = {
         type="REPORTS_COST",
         source="Paper",
         target="Cost",
-        category="v7.2",
+        category="v1.2",
         description="Paper reports cost analysis",
         key_properties=["is_primary_analysis"],
         color="#eab308"
@@ -460,7 +460,7 @@ V72_RELATIONSHIPS = {
         type="ASSOCIATED_WITH",
         source="Cost",
         target="Intervention",
-        category="v7.2",
+        category="v1.2",
         description="Cost is associated with intervention",
         key_properties=["cost_value"],
         color="#eab308"
@@ -469,7 +469,7 @@ V72_RELATIONSHIPS = {
         type="HAS_QUALITY_METRIC",
         source="Paper",
         target="QualityMetric",
-        category="v7.2",
+        category="v1.2",
         description="Paper has quality assessment",
         key_properties=["assessed_by", "assessment_type"],
         color="#78716c"
@@ -500,7 +500,7 @@ NODE_CATEGORY_COLORS = {
         "background": "#ede9fe",
         "border": "#6d28d9"
     },
-    "v7.2": {
+    "v1.2": {
         "primary": "#f97316",  # Orange
         "background": "#ffedd5",
         "border": "#c2410c"
@@ -511,7 +511,7 @@ RELATIONSHIP_CATEGORY_COLORS = {
     "Core": "#3b82f6",
     "Paper-to-Paper": "#64748b",
     "Extended": "#8b5cf6",
-    "v7.2": "#f97316"
+    "v1.2": "#f97316"
 }
 
 

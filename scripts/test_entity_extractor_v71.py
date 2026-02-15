@@ -1,4 +1,4 @@
-"""Test script for EntityExtractor v7.1 new entity types.
+"""Test script for EntityExtractor v1.1 new entity types.
 
 Tests the extraction of risk factors, radiographic parameters, complications, and prediction models.
 """
@@ -16,7 +16,7 @@ from builder.document_type_detector import DocumentType
 
 
 async def test_v71_entities():
-    """Test v7.1 new entity types extraction."""
+    """Test v1.1 new entity types extraction."""
 
     # Sample medical text with all entity types
     test_text = """
@@ -51,7 +51,7 @@ async def test_v71_entities():
     can effectively predict pseudarthrosis risk after lumbar fusion.
     """
 
-    print("Testing EntityExtractor v7.1...")
+    print("Testing EntityExtractor v1.1...")
     print("=" * 70)
 
     extractor = EntityExtractor()
@@ -98,9 +98,9 @@ async def test_v71_entities():
             print(f"   - {entity.name} [{entity.category}]")
             print(f"     Context: {entity.context[:80]}...")
 
-        # v7.1 New entity types
+        # v1.1 New entity types
         print("\n" + "=" * 70)
-        print("v7.1 NEW ENTITY TYPES")
+        print("v1.1 NEW ENTITY TYPES")
         print("=" * 70)
 
         print(f"\n5. RISK FACTORS ({len(entities.risk_factors)}):")
@@ -139,17 +139,17 @@ async def test_v71_entities():
         print(f"Total Pathologies: {len(entities.pathologies)}")
         print(f"Total Outcomes: {len(entities.outcomes)}")
         print(f"Total Anatomy: {len(entities.anatomy)}")
-        print(f"Total Risk Factors (v7.1): {len(entities.risk_factors)}")
-        print(f"Total Radiographic Parameters (v7.1): {len(entities.radiographic_parameters)}")
-        print(f"Total Complications (v7.1): {len(entities.complications)}")
-        print(f"Total Prediction Models (v7.1): {len(entities.prediction_models)}")
+        print(f"Total Risk Factors (v1.1): {len(entities.risk_factors)}")
+        print(f"Total Radiographic Parameters (v1.1): {len(entities.radiographic_parameters)}")
+        print(f"Total Complications (v1.1): {len(entities.complications)}")
+        print(f"Total Prediction Models (v1.1): {len(entities.prediction_models)}")
         print(f"Medical Content: {entities.is_medical_content}")
 
         # Validate backward compatibility
         print("\n" + "=" * 70)
         print("BACKWARD COMPATIBILITY CHECK")
         print("=" * 70)
-        print("✓ ExtractedEntities has all v7.1 fields")
+        print("✓ ExtractedEntities has all v1.1 fields")
         print("✓ Old fields (interventions, pathologies, outcomes, anatomy) still work")
         print("✓ New fields default to empty lists if not present in JSON")
 
@@ -165,7 +165,7 @@ async def test_backward_compatibility():
     print("BACKWARD COMPATIBILITY TEST")
     print("=" * 70)
 
-    # Simulate old JSON response (without v7.1 fields)
+    # Simulate old JSON response (without v1.1 fields)
     old_json_data = {
         "interventions": [
             {"name": "TLIF", "category": "Fusion Surgery", "aliases": [], "context": "TLIF procedure"}
@@ -201,10 +201,10 @@ async def test_backward_compatibility():
     print(f"  Pathologies: {len(entities.pathologies)}")
     print(f"  Outcomes: {len(entities.outcomes)}")
     print(f"  Anatomy: {len(entities.anatomy)}")
-    print(f"  Risk Factors (v7.1): {len(entities.risk_factors)}")
-    print(f"  Radiographic Parameters (v7.1): {len(entities.radiographic_parameters)}")
-    print(f"  Complications (v7.1): {len(entities.complications)}")
-    print(f"  Prediction Models (v7.1): {len(entities.prediction_models)}")
+    print(f"  Risk Factors (v1.1): {len(entities.risk_factors)}")
+    print(f"  Radiographic Parameters (v1.1): {len(entities.radiographic_parameters)}")
+    print(f"  Complications (v1.1): {len(entities.complications)}")
+    print(f"  Prediction Models (v1.1): {len(entities.prediction_models)}")
 
     print("\n✓ Backward compatibility verified!")
     print("✓ Old code works without errors")
@@ -212,7 +212,7 @@ async def test_backward_compatibility():
 
 
 if __name__ == "__main__":
-    print("EntityExtractor v7.1 Test Suite")
+    print("EntityExtractor v1.1 Test Suite")
     print("=" * 70)
 
     # Test main functionality

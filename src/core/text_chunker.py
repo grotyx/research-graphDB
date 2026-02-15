@@ -202,7 +202,7 @@ class TextChunker:
             List of Chunk objects
 
         Note:
-            v7.15: web_scraper 모듈 제거에 따라 타입 힌트를 Any로 변경.
+            v1.15: web_scraper 모듈 제거에 따라 타입 힌트를 Any로 변경.
             metadata는 url, title, author 속성을 가진 객체이면 됩니다.
         """
         document_id = self._generate_doc_id(metadata.url)

@@ -320,7 +320,7 @@ class PubMedHandler:
                     ],
                 }
 
-                # Import if requested (v7.5: 멀티유저, v1.14.23: 병렬 처리)
+                # Import if requested (v1.5: 멀티유저, v1.14.23: 병렬 처리)
                 if import_results and papers:
                     import_summary = await processor.import_papers(
                         papers,
@@ -374,7 +374,7 @@ class PubMedHandler:
                     pubmed_api_key=os.environ.get("NCBI_API_KEY"),
                 )
 
-                # v7.5: 멀티유저 지원
+                # v1.5: 멀티유저 지원
                 summary = await processor.import_from_citations(
                     paper_id=paper_id,
                     min_confidence=min_confidence,
@@ -551,7 +551,7 @@ class PubMedHandler:
                         "error": "Could not fetch paper details from PubMed",
                     }
 
-                # Import the fetched papers (v7.5: 멀티유저, v1.14.23: 병렬 처리)
+                # Import the fetched papers (v1.5: 멀티유저, v1.14.23: 병렬 처리)
                 # max_concurrent: None이면 환경변수에서 읽음, 아니면 1-10 범위로 제한
                 if max_concurrent is None:
                     safe_concurrent = get_max_concurrent()

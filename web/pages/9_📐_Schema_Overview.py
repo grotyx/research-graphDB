@@ -373,12 +373,12 @@ def render_schema_overview(node_counts: dict, rel_details: list):
 
         st.markdown("</div>", unsafe_allow_html=True)
 
-        # v7.2 Nodes
-        v72_nodes = get_nodes_by_category("v7.2")
+        # v1.2 Nodes
+        v72_nodes = get_nodes_by_category("v1.2")
         st.markdown("""
         <div class="category-section v72">
             <div class="category-title">
-                <span style="color: #f97316;">●</span> v7.2 Extended Nodes
+                <span style="color: #f97316;">●</span> v1.2 Extended Nodes
             </div>
         """, unsafe_allow_html=True)
 

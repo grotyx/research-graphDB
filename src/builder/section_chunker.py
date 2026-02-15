@@ -1,4 +1,4 @@
-"""Section-based Semantic Chunker (v7.0).
+"""Section-based Semantic Chunker (v1.0).
 
 Smart document chunking based on document structure:
 - Papers: IMRAD sections (Introduction, Methods, Results, Discussion)

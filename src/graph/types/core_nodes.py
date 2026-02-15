@@ -39,7 +39,7 @@ class PaperNode:
     - Tier 2: Type-Specific Fields (문서 유형별 선택적)
     - Tier 3: Domain Extensions (의학/척추 연구 특화)
 
-    v7.0 Changes:
+    v1.0 Changes:
     - summary: 700+ word comprehensive summary (replaces focused extraction)
     - processing_version: Track which pipeline version was used
     - citation_count: Optional citation metrics
@@ -86,7 +86,7 @@ class PaperNode:
     # === 요약/설명 ===
     abstract: str = ""
     short_title: str = ""    # 약식 제목 (인용용)
-    summary: str = ""        # v7.0: 700+ word comprehensive summary
+    summary: str = ""        # v1.0: 700+ word comprehensive summary
 
     # === 접근 정보 ===
     url: str = ""
@@ -106,10 +106,10 @@ class PaperNode:
     updated_at: Optional[datetime] = None
     source: str = "pdf"      # pdf | pubmed | pdf+pubmed | manual | import
     is_abstract_only: bool = False
-    processing_version: str = ""  # v7.0: "v7.0" for new processing pipeline
-    citation_count: int = 0       # v7.0: Number of citations (optional)
+    processing_version: str = ""  # v1.0: "v1.0" for new processing pipeline
+    citation_count: int = 0       # v1.0: Number of citations (optional)
 
-    # === 멀티유저 지원 (v7.5) ===
+    # === 멀티유저 지원 (v1.5) ===
     owner: str = "system"    # 소유자 ID (system = 공용)
     shared: bool = True      # True = 모든 사용자 접근 가능, False = 소유자만
 
@@ -193,8 +193,8 @@ class PaperNode:
     blinding: str = ""       # none/single-blind/double-blind/open-label
     follow_up_months: int = 0
 
-    # === PICO (v7.0: deprecated but kept for backward compatibility) ===
-    # These fields are no longer extracted in v7.0 but preserved for older data
+    # === PICO (v1.0: deprecated but kept for backward compatibility) ===
+    # These fields are no longer extracted in v1.0 but preserved for older data
     pico_population: str = ""
     pico_intervention: str = ""
     pico_comparison: str = ""
@@ -234,7 +234,7 @@ class PaperNode:
             "access_date": self.access_date,
             "abstract": self.abstract[:2000] if self.abstract else "",
             "short_title": self.short_title,
-            "summary": self.summary[:5000] if self.summary else "",  # v7.0: Allow up to 5000 chars
+            "summary": self.summary[:5000] if self.summary else "",  # v1.0: Allow up to 5000 chars
             "url": self.url,
             "doi": self.doi,
             "language": self.language,
@@ -246,10 +246,10 @@ class PaperNode:
             "updated_at": now,
             "source": self.source,
             "is_abstract_only": self.is_abstract_only,
-            "processing_version": self.processing_version,  # v7.0
-            "citation_count": self.citation_count,          # v7.0
-            "owner": self.owner,                            # v7.5: 멀티유저
-            "shared": self.shared,                          # v7.5: 공유 여부
+            "processing_version": self.processing_version,  # v1.0
+            "citation_count": self.citation_count,          # v1.0
+            "owner": self.owner,                            # v1.5: 멀티유저
+            "shared": self.shared,                          # v1.5: 공유 여부
             "extra": self.extra[:500] if self.extra else "",
             "notes": self.notes[:1000] if self.notes else "",
 
@@ -360,7 +360,7 @@ class PaperNode:
             access_date=record.get("access_date", ""),
             abstract=record.get("abstract", ""),
             short_title=record.get("short_title", ""),
-            summary=record.get("summary", ""),  # v7.0
+            summary=record.get("summary", ""),  # v1.0
             url=record.get("url", ""),
             doi=record.get("doi", ""),
             language=record.get("language", "en"),
@@ -372,10 +372,10 @@ class PaperNode:
             updated_at=record.get("updated_at"),
             source=record.get("source", "pdf"),
             is_abstract_only=record.get("is_abstract_only", False),
-            processing_version=record.get("processing_version", ""),  # v7.0
-            citation_count=record.get("citation_count", 0),           # v7.0
-            owner=record.get("owner", "system"),                      # v7.5: 멀티유저
-            shared=record.get("shared", True),                        # v7.5: 공유 여부
+            processing_version=record.get("processing_version", ""),  # v1.0
+            citation_count=record.get("citation_count", 0),           # v1.0
+            owner=record.get("owner", "system"),                      # v1.5: 멀티유저
+            shared=record.get("shared", True),                        # v1.5: 공유 여부
             extra=record.get("extra", ""),
             notes=record.get("notes", ""),
 
@@ -462,7 +462,7 @@ class PaperNode:
         )
 
     def is_v7_processed(self) -> bool:
-        """Check if this document was processed with v7.0 pipeline.
+        """Check if this document was processed with v1.0 pipeline.
 
         Returns:
             True if processing_version starts with "v7", False otherwise
@@ -473,7 +473,7 @@ class PaperNode:
         """Get summary for display (v7 summary or abstract fallback).
 
         Returns:
-            Summary text (v7.0 summary if available, otherwise abstract, or fallback message)
+            Summary text (v1.0 summary if available, otherwise abstract, or fallback message)
         """
         if self.summary:
             return self.summary
@@ -652,7 +652,7 @@ class InterventionNode:
 
     Neo4j Label: Intervention
 
-    v7.1: Extended with TechniqueNode and SurgicalStepNode fields.
+    v1.1: Extended with TechniqueNode and SurgicalStepNode fields.
     """
     name: str  # TLIF, OLIF, UBE, Laminectomy
     full_name: str = ""
@@ -663,21 +663,21 @@ class InterventionNode:
     snomed_term: str = ""  # SNOMED-CT Preferred Term
     aliases: list[str] = field(default_factory=list)
 
-    # Technique fields (merged from TechniqueNode - v7.1)
+    # Technique fields (merged from TechniqueNode - v1.1)
     technique_description: str = ""  # Detailed technique description
     difficulty_level: str = ""  # basic, intermediate, advanced
     pearls: list[str] = field(default_factory=list)  # Surgical tips
     pitfalls: list[str] = field(default_factory=list)  # Cautions
     learning_curve_cases: int = 0  # Number of cases for learning curve
 
-    # Surgical step fields (merged from SurgicalStepNode - v7.1)
+    # Surgical step fields (merged from SurgicalStepNode - v1.1)
     surgical_steps: list[dict] = field(default_factory=list)  # [{"step": 1, "name": "...", "description": "..."}]
 
-    # Required resources (v7.1)
+    # Required resources (v1.1)
     required_implants: list[str] = field(default_factory=list)  # ["Pedicle Screw", "PEEK Cage"]
     required_instruments: list[str] = field(default_factory=list)  # ["Kerrison Rongeur"]
 
-    # Billing/coding (v7.1)
+    # Billing/coding (v1.1)
     cpt_code: str = ""  # CPT procedure code
 
     def to_neo4j_properties(self) -> dict:

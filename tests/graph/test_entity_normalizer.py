@@ -1,6 +1,6 @@
-"""Tests for EntityNormalizer v7.15 QC - Alias Integrity After Duplicate Key Merge.
+"""Tests for EntityNormalizer v1.15 QC - Alias Integrity After Duplicate Key Merge.
 
-The v7.15 QC merged duplicate dictionary keys in OUTCOME_ALIASES and
+The v1.15 QC merged duplicate dictionary keys in OUTCOME_ALIASES and
 PATHOLOGY_ALIASES. Previously, Python silently discarded earlier entries
 when the same key appeared twice. After the merge, ALL aliases from both
 former entries must be accessible under the single canonical key.
@@ -139,7 +139,7 @@ class TestCervicalMyelopathyAliasIntegrity:
         for alias in expected_aliases:
             assert alias in actual_aliases, (
                 f"Alias '{alias}' missing from Cervical Myelopathy PATHOLOGY_ALIASES. "
-                f"Possible data loss during v7.15 duplicate key merge."
+                f"Possible data loss during v1.15 duplicate key merge."
             )
 
 
@@ -225,7 +225,7 @@ class TestPJKAliasIntegrity:
         for alias in expected_pathology_aliases:
             assert alias in actual_aliases, (
                 f"Alias '{alias}' missing from PJK PATHOLOGY_ALIASES. "
-                f"Possible data loss during v7.15 duplicate key merge."
+                f"Possible data loss during v1.15 duplicate key merge."
             )
 
 
@@ -330,7 +330,7 @@ class TestAdjacentSegmentDiseaseAliasIntegrity:
         for alias in expected_aliases:
             assert alias in actual_aliases, (
                 f"Alias '{alias}' missing from Adjacent Segment Disease PATHOLOGY_ALIASES. "
-                f"Possible data loss during v7.15 duplicate key merge."
+                f"Possible data loss during v1.15 duplicate key merge."
             )
 
 

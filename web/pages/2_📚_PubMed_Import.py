@@ -175,7 +175,7 @@ def format_paper_card(paper: dict, show_checkbox: bool = True, key_prefix: str =
 
     container = col2 if show_checkbox and pmid else st
 
-    # v7.15: XSS 방지 — 외부 PubMed 데이터 HTML escape
+    # v1.15: XSS 방지 — 외부 PubMed 데이터 HTML escape
     import html as html_mod
     safe_title = html_mod.escape(str(title))
     safe_authors = html_mod.escape(str(authors_str))

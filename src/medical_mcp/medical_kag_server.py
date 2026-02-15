@@ -112,7 +112,7 @@ except ImportError as e:
     GeminiVisionProcessor = None
     print(f"[medical_kag_server] Unified PDF processor import failed: {e}", file=sys.stderr)
 
-# v7.0 Simplified Processing Pipeline - REMOVED (archived to src/archive/legacy_v7/)
+# v1.0 Simplified Processing Pipeline - REMOVED (archived to src/archive/legacy_v7/)
 # unified_pdf_processor.py가 기본 파이프라인으로 사용됨
 V7_AVAILABLE = False
 
@@ -176,7 +176,7 @@ except ImportError as e:
     BulkImportSummary = None
     print(f"[medical_kag_server] PubMed Bulk Processor import failed: {e}", file=sys.stderr)
 
-# DOI Fulltext Fetcher (v7.13+)
+# DOI Fulltext Fetcher (v1.13+)
 try:
     from builder.doi_fulltext_fetcher import (
         DOIFulltextFetcher,
@@ -230,7 +230,7 @@ except ImportError as e:
     TaxonomyManager = None
     print(f"[medical_kag_server] Neo4j Graph import failed: {e}", file=sys.stderr)
 
-# Handler modules (v7.7)
+# Handler modules (v1.7)
 try:
     from medical_mcp.handlers import (
         DocumentHandler, ClinicalDataHandler, PubMedHandler, JSONHandler,
@@ -238,7 +238,7 @@ try:
         WritingGuideHandler
     )
     HANDLERS_AVAILABLE = True
-    print(f"[medical_kag_server] Handler modules imported successfully (v7.13)", file=sys.stderr)
+    print(f"[medical_kag_server] Handler modules imported successfully (v1.13)", file=sys.stderr)
 except ImportError as e:
     HANDLERS_AVAILABLE = False
     DocumentHandler = None
@@ -285,7 +285,7 @@ class MedicalKAGServer:
 
     MCP 도구들을 제공하는 서버 클래스.
 
-    v7.5 멀티유저 지원:
+    v1.5 멀티유저 지원:
     - current_user: 현재 사용자 ID (None이면 'system')
     - set_user(): 사용자 컨텍스트 설정
     - 검색/저장 시 사용자 필터링 적용
@@ -296,7 +296,7 @@ class MedicalKAGServer:
         data_dir: Optional[str | Path] = None,
         enable_llm: bool = True,
         use_neo4j_storage: bool = True,  # v5.3 Phase 4: Neo4j 전용 모드
-        default_user: Optional[str] = None  # v7.5: 기본 사용자 ID
+        default_user: Optional[str] = None  # v1.5: 기본 사용자 ID
     ):
         """초기화.
 
@@ -311,13 +311,13 @@ class MedicalKAGServer:
         self.enable_llm = enable_llm and LLM_AVAILABLE
         self.use_neo4j_storage = use_neo4j_storage  # v5.3 Phase 4
 
-        # v7.5: 멀티유저 지원
+        # v1.5: 멀티유저 지원
         self.current_user: str = default_user or "system"
 
         # Initialize components
         self._init_components()
 
-        # Initialize handlers (v7.7)
+        # Initialize handlers (v1.7)
         self._init_handlers()
 
         logger.info(f"Medical KAG Server initialized. Data dir: {self.data_dir}")
@@ -326,7 +326,7 @@ class MedicalKAGServer:
         logger.info(f"Current user: {self.current_user}")
 
     def set_user(self, user_id: str) -> None:
-        """현재 사용자 설정 (v7.5).
+        """현재 사용자 설정 (v1.5).
 
         Args:
             user_id: 사용자 ID
@@ -335,7 +335,7 @@ class MedicalKAGServer:
         logger.info(f"User context set to: {self.current_user}")
 
     def _get_user_filter_clause(self, alias: str = "p") -> tuple[str, dict]:
-        """사용자 필터링 Cypher WHERE 절 생성 (v7.5, v7.15 보안 강화).
+        """사용자 필터링 Cypher WHERE 절 생성 (v1.5, v1.15 보안 강화).
 
         본인 소유 문서 + 공유 문서만 조회.
         Cypher injection 방지를 위해 파라미터화된 쿼리 반환.
@@ -438,7 +438,7 @@ class MedicalKAGServer:
                                 except Exception as e2:
                                     logger.warning(f"Fallback Vision processor also failed: {e2}")
 
-                    # v7.0 Processor removed (archived)
+                    # v1.0 Processor removed (archived)
                 except Exception as e:
                     logger.warning(f"LLM initialization failed: {e}")
             else:
@@ -470,7 +470,7 @@ class MedicalKAGServer:
             except Exception as e:
                 logger.warning(f"PubMed Enricher initialization failed: {e}")
 
-        # DOI Fulltext Fetcher (v7.16: enrichment fallback)
+        # DOI Fulltext Fetcher (v1.16: enrichment fallback)
         self.doi_fetcher = None
         if DOI_FETCHER_AVAILABLE:
             try:
@@ -585,13 +585,13 @@ class MedicalKAGServer:
                         pubmed_email=pubmed_email,
                         pubmed_api_key=pubmed_api_key if pubmed_api_key else None,
                         neo4j_client=self.neo4j_client,
-                        relationship_builder=self.relationship_builder,  # v7.6: 인용 논문 관계 구축용
+                        relationship_builder=self.relationship_builder,  # v1.6: 인용 논문 관계 구축용
                         min_confidence=0.7,
                         max_citations=15,
-                        analyze_cited_abstracts=True,  # v7.6: 인용 논문 abstract LLM 분석
-                        doi_fetcher=self.doi_fetcher,  # v7.16: DOI fallback
+                        analyze_cited_abstracts=True,  # v1.6: 인용 논문 abstract LLM 분석
+                        doi_fetcher=self.doi_fetcher,  # v1.16: DOI fallback
                     )
-                    logger.info(f"Important Citation Processor initialized (v7.6) with {llm_provider} + LLM analysis")
+                    logger.info(f"Important Citation Processor initialized (v1.6) with {llm_provider} + LLM analysis")
                 else:
                     logger.warning(
                         f"Citation Processor requires {'ANTHROPIC_API_KEY' if llm_provider == 'claude' else 'GEMINI_API_KEY'}"
@@ -656,7 +656,7 @@ class MedicalKAGServer:
             elif isinstance(o, dict):
                 outcomes_dicts.append(o)
 
-        # v7.2 Extended entities
+        # v1.2 Extended entities
         patient_cohorts = getattr(spine_meta, 'patient_cohorts', [])
         followups = getattr(spine_meta, 'followups', [])
         costs = getattr(spine_meta, 'costs', [])
@@ -678,7 +678,7 @@ class MedicalKAGServer:
         )
 
     def _init_handlers(self) -> None:
-        """Initialize domain-specific handlers (v7.7)."""
+        """Initialize domain-specific handlers (v1.7)."""
         if not HANDLERS_AVAILABLE:
             logger.warning("Handler modules not available - handlers not initialized")
             return
@@ -694,15 +694,15 @@ class MedicalKAGServer:
             self.reasoning_handler = ReasoningHandler(self)
             self.graph_handler = GraphHandler(self)
 
-            # v7.8: Reference formatting handler
+            # v1.8: Reference formatting handler
             from medical_mcp.handlers.reference_handler import ReferenceHandler
             self.reference_handler = ReferenceHandler(self)
 
-            # v7.13: Writing guide handler
+            # v1.13: Writing guide handler
             from medical_mcp.handlers.writing_guide_handler import WritingGuideHandler
             self.writing_guide_handler = WritingGuideHandler(self)
 
-            logger.info("[medical_kag_server] Handlers initialized (v7.13 - with WritingGuideHandler)")
+            logger.info("[medical_kag_server] Handlers initialized (v1.13 - with WritingGuideHandler)")
         except Exception as e:
             logger.warning(f"Handler initialization failed: {e}")
             # Initialize as None if failed
@@ -729,7 +729,7 @@ class MedicalKAGServer:
     ) -> dict:
         """PDF 논문 추가.
 
-        v7.5 업데이트: v7.0 Simplified Pipeline을 기본으로 사용합니다.
+        v1.5 업데이트: v1.0 Simplified Pipeline을 기본으로 사용합니다.
         - 700+ word 통합 요약 (4개 섹션)
         - 섹션 기반 청킹
         - 조건부 엔티티 추출 (의학 콘텐츠만)
@@ -739,7 +739,7 @@ class MedicalKAGServer:
             file_path: PDF 파일 경로
             metadata: 추가 메타데이터
             use_vision: 통합 PDF 프로세서 사용 여부 (레거시, True: 권장)
-            use_v7: v7.0 프로세서 사용 여부 (기본값: True, 권장)
+            use_v7: v1.0 프로세서 사용 여부 (기본값: True, 권장)
 
         Returns:
             처리 결과 딕셔너리
@@ -1115,7 +1115,7 @@ class MedicalKAGServer:
             except Exception as e:
                 logger.warning(f"PubMed enrichment failed: {e}")
 
-        # v7.16: DOI Fallback - PubMed 실패 시 Crossref/Unpaywall로 서지 정보 조회
+        # v1.16: DOI Fallback - PubMed 실패 시 Crossref/Unpaywall로 서지 정보 조회
         if not pubmed_enriched and self.doi_fetcher and getattr(extracted_meta, 'doi', None):
             try:
                 logger.info(f"PubMed enrichment failed, trying DOI fallback: {extracted_meta.doi}")
@@ -1360,7 +1360,7 @@ class MedicalKAGServer:
                     if not sub_domains and sub_domain:
                         sub_domains = [sub_domain]
 
-                    # v1.14.9: v7.2 Extended entities 포함
+                    # v1.14.9: v1.2 Extended entities 포함
                     graph_spine_meta = GraphSpineMetadata(
                         sub_domains=sub_domains,
                         sub_domain=sub_domain or (sub_domains[0] if sub_domains else ''),
@@ -1370,7 +1370,7 @@ class MedicalKAGServer:
                         interventions=interventions,
                         outcomes=spine_outcomes,
                         main_conclusion=getattr(spine_meta, 'main_conclusion', '') or '',
-                        # v7.2 Extended entities
+                        # v1.2 Extended entities
                         patient_cohorts=getattr(spine_meta, 'patient_cohorts', []) or [],
                         followups=getattr(spine_meta, 'followups', []) or [],
                         costs=getattr(spine_meta, 'costs', []) or [],
@@ -1380,7 +1380,7 @@ class MedicalKAGServer:
                     # spine_metadata가 없거나 비어있는 경우 - 청크에서 추론
                     graph_spine_meta = self._infer_spine_metadata_from_chunks(result.chunks)
 
-                # Neo4j에 Paper 노드 및 관계 생성 (v7.5: 멀티유저 지원)
+                # Neo4j에 Paper 노드 및 관계 생성 (v1.5: 멀티유저 지원)
                 build_result = await self.relationship_builder.build_from_paper(
                     paper_id=doc_id,
                     metadata=extracted_meta,
@@ -1859,7 +1859,7 @@ class MedicalKAGServer:
         Claude Code에서 논문 텍스트를 붙여넣고 분석 → 관계 구축 → 청크 저장을
         한 번에 수행합니다. PDF 없이 텍스트만으로 지식 그래프 구축이 가능합니다.
 
-        v7.5 업데이트: v7.0 Simplified Pipeline을 기본으로 사용합니다.
+        v1.5 업데이트: v1.0 Simplified Pipeline을 기본으로 사용합니다.
         - 22개 문서 유형 자동 감지
         - 700+ word 통합 요약 (4개 섹션)
         - 섹션 기반 청킹 (15-25 chunks)
@@ -1870,7 +1870,7 @@ class MedicalKAGServer:
             title: 논문 제목
             pmid: PubMed ID (선택, 없으면 자동 생성)
             metadata: 추가 메타데이터 (year, journal, authors, doi 등)
-            use_v7: v7.5 Simplified Pipeline 사용 여부 (기본값: True)
+            use_v7: v1.5 Simplified Pipeline 사용 여부 (기본값: True)
 
         Returns:
             분석 결과 및 저장 통계
@@ -2010,7 +2010,7 @@ class MedicalKAGServer:
                 except Exception as web_e:
                     logger.warning(f"[analyze_text] Web search fallback also failed: {web_e}")
 
-        # v7.16: DOI Fallback for analyze_text
+        # v1.16: DOI Fallback for analyze_text
         if not pubmed_enriched and self.doi_fetcher:
             doi_value = metadata.get("doi") if metadata else getattr(extracted_meta, 'doi', None)
             if doi_value:
@@ -2072,7 +2072,7 @@ class MedicalKAGServer:
         else:
             spine_meta = MinimalSpineMeta()
 
-        # 8. Neo4j 관계 구축 (v7.5: 멀티유저 지원)
+        # 8. Neo4j 관계 구축 (v1.5: 멀티유저 지원)
         neo4j_result = None
         if self.neo4j_client and self.relationship_builder:
             try:
@@ -2258,7 +2258,7 @@ class MedicalKAGServer:
         }
 
     # ========================================================================
-    # v7.5 Text Analysis Pipeline
+    # v1.5 Text Analysis Pipeline
     # ========================================================================
 
     # _analyze_text_v7 removed (v7 pipeline archived to src/archive/legacy_v7/)
@@ -2509,7 +2509,7 @@ class MedicalKAGServer:
         logger.info(f"[analyze_text] Saved extracted data to: {filepath}")
 
     # ========================================================================
-    # v7.3 Store Pre-Analyzed Paper (Desktop/Code Analysis Support)
+    # v1.3 Store Pre-Analyzed Paper (Desktop/Code Analysis Support)
     # ========================================================================
 
     async def store_analyzed_paper(
@@ -2565,10 +2565,10 @@ class MedicalKAGServer:
             summary: 700+ word 종합 요약
             sub_domain: 척추 하위 도메인 ("Degenerative", "Deformity", "Trauma" 등)
             chunks: 청크 목록, 예: [{"content": "...", "section_type": "results", "tier": 1}]
-            patient_cohorts: v7.2 환자 코호트 데이터
-            followups: v7.2 추적관찰 데이터
-            costs: v7.2 비용 분석 데이터
-            quality_metrics: v7.2 품질 평가 데이터
+            patient_cohorts: v1.2 환자 코호트 데이터
+            followups: v1.2 추적관찰 데이터
+            costs: v1.2 비용 분석 데이터
+            quality_metrics: v1.2 품질 평가 데이터
 
         Returns:
             저장 결과 (paper_id, nodes_created, relationships_created 등)
@@ -2636,15 +2636,15 @@ class MedicalKAGServer:
                 pico_outcome=", ".join([o.get("name", "") for o in formatted_outcomes if o.get("name")]),  # singular, not plural
                 main_conclusion=summary[:500] if summary else None,
                 summary=summary or "",
-                processing_version="v7.3_store_analyzed",
-                # v7.2 Extended entities
+                processing_version="v1.3_store_analyzed",
+                # v1.2 Extended entities
                 patient_cohorts=patient_cohorts or [],
                 followups=followups or [],
                 costs=costs or [],
                 quality_metrics=quality_metrics or [],
             )
 
-            # 5. RelationshipBuilder로 Neo4j에 저장 (v7.5: 멀티유저 지원)
+            # 5. RelationshipBuilder로 Neo4j에 저장 (v1.5: 멀티유저 지원)
             from dataclasses import dataclass, field as df
 
             # ExtractedMetadata 호환 객체 생성
@@ -2791,7 +2791,7 @@ class MedicalKAGServer:
         }
 
     # ========================================================================
-    # v7.2 Extended Entity Query Methods
+    # v1.2 Extended Entity Query Methods
     # ========================================================================
 
     async def get_patient_cohorts(
@@ -2801,7 +2801,7 @@ class MedicalKAGServer:
         cohort_type: Optional[str] = None,
         min_sample_size: Optional[int] = None
     ) -> dict:
-        """환자 코호트 정보 조회 (v7.2)."""
+        """환자 코호트 정보 조회 (v1.2)."""
         if not self.neo4j_client:
             return {"success": False, "error": "Neo4j not connected"}
 
@@ -2896,7 +2896,7 @@ class MedicalKAGServer:
         min_months: Optional[int] = None,
         max_months: Optional[int] = None
     ) -> dict:
-        """추적관찰 데이터 조회 (v7.2)."""
+        """추적관찰 데이터 조회 (v1.2)."""
         if not self.neo4j_client:
             return {"success": False, "error": "Neo4j not connected"}
 
@@ -2980,7 +2980,7 @@ class MedicalKAGServer:
         intervention: Optional[str] = None,
         cost_type: Optional[str] = None
     ) -> dict:
-        """비용 효과 분석 데이터 조회 (v7.2)."""
+        """비용 효과 분석 데이터 조회 (v1.2)."""
         if not self.neo4j_client:
             return {"success": False, "error": "Neo4j not connected"}
 
@@ -3066,7 +3066,7 @@ class MedicalKAGServer:
         assessment_tool: Optional[str] = None,
         min_rating: Optional[str] = None
     ) -> dict:
-        """연구 품질 평가 지표 조회 (v7.2)."""
+        """연구 품질 평가 지표 조회 (v1.2)."""
         if not self.neo4j_client:
             return {"success": False, "error": "Neo4j not connected"}
 
@@ -4232,7 +4232,7 @@ MCP 서버의 PDF/텍스트 처리와 100% 같은 스키마로 추출됩니다.
                     ],
                 }
 
-                # Import if requested (v7.5: 멀티유저 지원)
+                # Import if requested (v1.5: 멀티유저 지원)
                 if import_results and papers:
                     import_summary = await processor.import_papers(
                         papers,
@@ -4326,7 +4326,7 @@ MCP 서버의 PDF/텍스트 처리와 100% 같은 스키마로 추출됩니다.
                     pubmed_api_key=os.environ.get("NCBI_API_KEY"),
                 )
 
-                # v7.5: 멀티유저 지원
+                # v1.5: 멀티유저 지원
                 summary = await processor.import_from_citations(
                     paper_id=paper_id,
                     min_confidence=min_confidence,
@@ -4499,7 +4499,7 @@ MCP 서버의 PDF/텍스트 처리와 100% 같은 스키마로 추출됩니다.
                         "error": "Could not fetch paper details from PubMed",
                     }
 
-                # Import the fetched papers (v7.5: 멀티유저, v1.14.23: 병렬 처리)
+                # Import the fetched papers (v1.5: 멀티유저, v1.14.23: 병렬 처리)
                 # max_concurrent: None이면 환경변수에서 읽음
                 if max_concurrent is None:
                     env_concurrent = int(os.environ.get("PUBMED_MAX_CONCURRENT", "5"))
@@ -6214,7 +6214,7 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
 
     @server.list_tools()
     async def list_tools() -> list[Tool]:
-        """8개 통합 도구 반환 (v7.4 - 38개 → 8개 통합).
+        """8개 통합 도구 반환 (v1.4 - 38개 → 8개 통합).
 
         토큰 절감: ~4,800 tokens (63% 절감)
         기능 유지: 100% (action 파라미터로 기존 도구 기능 선택)
@@ -6235,8 +6235,8 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
                         "file_path": {"type": "string", "description": "파일 경로 (add_pdf, add_pdf_v7, add_json, prepare_prompt)"},
                         "document_id": {"type": "string", "description": "문서 ID (delete, export)"},
                         "metadata": {"type": "object", "description": "추가 메타데이터"},
-                        "use_vision": {"type": "boolean", "default": True, "description": "레거시 PDF 프로세서 사용 (add_pdf, v7.5에서는 fallback)"},
-                        "use_v7": {"type": "boolean", "default": True, "description": "v7.5 Simplified Pipeline 사용 (add_pdf, 권장)"},
+                        "use_vision": {"type": "boolean", "default": True, "description": "레거시 PDF 프로세서 사용 (add_pdf, v1.5에서는 fallback)"},
+                        "use_v7": {"type": "boolean", "default": True, "description": "v1.5 Simplified Pipeline 사용 (add_pdf, 권장)"},
                         "document_type": {
                             "type": "string",
                             "enum": ["journal-article", "book", "book-section", "conference-paper", "thesis", "report", "preprint", "newspaper-article", "magazine-article", "blog-post", "webpage", "dataset", "software", "patent", "standard", "presentation", "video", "interview", "letter", "manuscript", "document"],
@@ -6319,7 +6319,7 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
             # 4. Analyze Tool (store_analyzed_paper 포함)
             Tool(
                 name="analyze",
-                description="텍스트 분석 및 사전 분석된 논문 저장. action=text(LLM 분석, v7.5 파이프라인 기본), action=store_paper(사전 분석 데이터 저장, store_analyzed_paper).",
+                description="텍스트 분석 및 사전 분석된 논문 저장. action=text(LLM 분석, v1.5 파이프라인 기본), action=store_paper(사전 분석 데이터 저장, store_analyzed_paper).",
                 inputSchema={
                     "type": "object",
                     "properties": {
@@ -6330,14 +6330,14 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
                         },
                         # text action용
                         "text": {"type": "string", "description": "분석할 텍스트 (text)"},
-                        "use_v7": {"type": "boolean", "default": True, "description": "v7.5 Simplified Pipeline 사용 (text action, 권장)"},
+                        "use_v7": {"type": "boolean", "default": True, "description": "v1.5 Simplified Pipeline 사용 (text action, 권장)"},
                         # 공통
                         "title": {"type": "string", "description": "논문 제목"},
                         "abstract": {"type": "string", "description": "논문 초록 (store_paper 필수)"},
                         "year": {"type": "integer", "description": "출판 연도 (store_paper 필수)"},
                         "pmid": {"type": "string"},
                         "metadata": {"type": "object"},
-                        # store_paper용 (v7.3)
+                        # store_paper용 (v1.3)
                         "interventions": {"type": "array", "items": {"type": "string"}, "description": "수술법 목록 (store_paper 필수)"},
                         "outcomes": {
                             "type": "array",
@@ -6448,10 +6448,10 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
                     "required": ["action"]
                 }
             ),
-            # 8. Extended Entity Tool (v7.2+)
+            # 8. Extended Entity Tool (v1.2+)
             Tool(
                 name="extended",
-                description="확장 엔티티 조회 (v7.2+): 환자 코호트, 추적관찰, 비용 분석, 품질 지표. action으로 조회 유형 선택.",
+                description="확장 엔티티 조회 (v1.2+): 환자 코호트, 추적관찰, 비용 분석, 품질 지표. action으로 조회 유형 선택.",
                 inputSchema={
                     "type": "object",
                     "properties": {
@@ -6473,7 +6473,7 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
                     "required": ["action"]
                 }
             ),
-            # 9. Reference Formatting Tool (v7.8)
+            # 9. Reference Formatting Tool (v1.8)
             Tool(
                 name="reference",
                 description="참고문헌 포맷팅: 다양한 저널 스타일(Vancouver, AMA, APA, JBJS, Spine 등)로 참고문헌 생성. 저널별 커스텀 스타일 저장 및 BibTeX/RIS 내보내기 지원.",
@@ -6516,7 +6516,7 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
                     "required": ["action"]
                 }
             ),
-            # 10. Writing Guide Tool (v7.12)
+            # 10. Writing Guide Tool (v1.12)
             Tool(
                 name="writing_guide",
                 description="학술 논문 작성 가이드: 섹션별 작성 지침, 연구 유형별 체크리스트(STROBE, CONSORT, PRISMA, CARE), 전문가 에이전트, 리비전 응답 템플릿.",
@@ -6566,7 +6566,7 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
 
     @server.call_tool()
     async def call_tool(name: str, arguments: dict) -> list[TextContent]:
-        """통합 도구 핸들러 (v7.4 - action 기반 라우팅)."""
+        """통합 도구 핸들러 (v1.4 - action 기반 라우팅)."""
         action = arguments.get("action", "")
         logger.info(f"Tool called: {name}, action: {action}")
 
@@ -6738,10 +6738,10 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
                         title=arguments.get("title", ""),
                         pmid=arguments.get("pmid"),
                         metadata=arguments.get("metadata"),
-                        use_v7=arguments.get("use_v7", True)  # v7.5: 기본값 True
+                        use_v7=arguments.get("use_v7", True)  # v1.5: 기본값 True
                     )
                 elif action == "store_paper":
-                    # store_analyzed_paper 기능 (v7.3)
+                    # store_analyzed_paper 기능 (v1.3)
                     result = await kag_server.store_analyzed_paper(
                         title=arguments.get("title", ""),
                         abstract=arguments.get("abstract", ""),
@@ -6854,7 +6854,7 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
                 else:
                     result = {"success": False, "error": f"Unknown intervention action: {action}"}
 
-            # 8. Extended Tool (v7.2+)
+            # 8. Extended Tool (v1.2+)
             elif name == "extended":
                 if action == "patient_cohorts":
                     result = await kag_server.get_patient_cohorts(
@@ -6885,7 +6885,7 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
                 else:
                     result = {"success": False, "error": f"Unknown extended action: {action}"}
 
-            # 9. Reference Tool (v7.8)
+            # 9. Reference Tool (v1.8)
             elif name == "reference":
                 if kag_server.reference_handler is None:
                     result = {"success": False, "error": "ReferenceHandler not available"}
@@ -6937,7 +6937,7 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
                 else:
                     result = {"success": False, "error": f"Unknown reference action: {action}"}
 
-            # 10. Writing Guide Tool (v7.12)
+            # 10. Writing Guide Tool (v1.12)
             elif name == "writing_guide":
                 if kag_server.writing_guide_handler is None:
                     result = {"success": False, "error": "WritingGuideHandler not available"}

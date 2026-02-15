@@ -221,7 +221,7 @@ class CypherGenerator:
         return None
 
     def generate(self, query: str, entities: dict) -> tuple[str, dict]:
-        """자연어 쿼리를 파라미터화된 Cypher로 변환 (v7.15 보안 강화).
+        """자연어 쿼리를 파라미터화된 Cypher로 변환 (v1.15 보안 강화).
 
         Args:
             query: 사용자 쿼리

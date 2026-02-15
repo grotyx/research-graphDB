@@ -1,4 +1,4 @@
-"""Entity Extractor for v7.1 Universal Processing Pipeline.
+"""Entity Extractor for v1.1 Universal Processing Pipeline.
 
 Conditional medical entity extraction for research/clinical documents.
 Only extracts entities when document type and content indicate medical focus.
@@ -8,9 +8,9 @@ Features:
 - LLM-powered entity extraction when applicable
 - Integration with EntityNormalizer for normalization
 - Support for non-medical document types (skips extraction)
-- v7.1: Extended entity types (risk factors, radiographic parameters, complications, prediction models)
+- v1.1: Extended entity types (risk factors, radiographic parameters, complications, prediction models)
 
-Supported Entity Types (v7.1):
+Supported Entity Types (v1.1):
 1. Interventions: Surgical procedures, treatments
 2. Pathologies: Diseases, conditions
 3. Outcomes: Measured results
@@ -34,8 +34,8 @@ Usage:
         entities = await extractor.extract(text, DocumentType.JOURNAL_ARTICLE)
         print(entities.interventions)  # List[ExtractedEntity]
         print(entities.pathologies)    # List[ExtractedEntity]
-        print(entities.risk_factors)   # List[ExtractedEntity] (v7.1)
-        print(entities.complications)  # List[ExtractedEntity] (v7.1)
+        print(entities.risk_factors)   # List[ExtractedEntity] (v1.1)
+        print(entities.complications)  # List[ExtractedEntity] (v1.1)
 """
 
 import logging
@@ -79,16 +79,16 @@ class ExtractedEntity:
         aliases: Alternative names found in document
         context: How entity appears in document (excerpt)
         confidence: Extraction confidence (0.0-1.0)
-        snomed_code: SNOMED-CT code (v7.8)
-        snomed_term: SNOMED-CT preferred term (v7.8)
+        snomed_code: SNOMED-CT code (v1.8)
+        snomed_term: SNOMED-CT preferred term (v1.8)
     """
     name: str
     category: str = ""
     aliases: list[str] = field(default_factory=list)
     context: str = ""
     confidence: float = 1.0
-    snomed_code: str = ""  # v7.8: SNOMED-CT code
-    snomed_term: str = ""  # v7.8: SNOMED-CT preferred term
+    snomed_code: str = ""  # v1.8: SNOMED-CT code
+    snomed_term: str = ""  # v1.8: SNOMED-CT preferred term
 
 
 @dataclass
@@ -100,26 +100,26 @@ class ExtractedEntities:
         pathologies: Diseases, conditions
         outcomes: Measured results
         anatomy: Body structures, levels
-        risk_factors: Patient factors that affect outcomes (v7.1)
-        radiographic_parameters: Spine alignment measurements (v7.1)
-        complications: Surgical complications (v7.1)
-        prediction_models: ML/AI models mentioned (v7.1)
-        patient_cohorts: Study population characteristics (v7.2)
-        followups: Follow-up timepoints and data (v7.2)
-        costs: Healthcare cost information (v7.2)
-        quality_metrics: Study quality assessments (v7.2)
+        risk_factors: Patient factors that affect outcomes (v1.1)
+        radiographic_parameters: Spine alignment measurements (v1.1)
+        complications: Surgical complications (v1.1)
+        prediction_models: ML/AI models mentioned (v1.1)
+        patient_cohorts: Study population characteristics (v1.2)
+        followups: Follow-up timepoints and data (v1.2)
+        costs: Healthcare cost information (v1.2)
+        quality_metrics: Study quality assessments (v1.2)
         is_medical_content: Whether content is medical/clinical
     """
     interventions: list[ExtractedEntity] = field(default_factory=list)
     pathologies: list[ExtractedEntity] = field(default_factory=list)
     outcomes: list[ExtractedEntity] = field(default_factory=list)
     anatomy: list[ExtractedEntity] = field(default_factory=list)
-    # v7.1: New entity types
+    # v1.1: New entity types
     risk_factors: list[ExtractedEntity] = field(default_factory=list)
     radiographic_parameters: list[ExtractedEntity] = field(default_factory=list)
     complications: list[ExtractedEntity] = field(default_factory=list)
     prediction_models: list[ExtractedEntity] = field(default_factory=list)
-    # v7.2: Additional entity types
+    # v1.2: Additional entity types
     patient_cohorts: list[ExtractedEntity] = field(default_factory=list)
     followups: list[ExtractedEntity] = field(default_factory=list)
     costs: list[ExtractedEntity] = field(default_factory=list)
@@ -202,7 +202,7 @@ RESEARCH_KEYWORDS = {
     "연구", "시험", "분석", "비교"
 }
 
-# Risk factor terms (v7.1)
+# Risk factor terms (v1.1)
 RISK_FACTOR_KEYWORDS = {
     "risk factor", "predictor", "associated", "odds ratio", "hazard ratio", "relative risk",
     "diabetes", "smoking", "obesity", "BMI", "age", "frailty", "osteoporosis",
@@ -210,7 +210,7 @@ RISK_FACTOR_KEYWORDS = {
     "위험인자", "예측인자", "당뇨", "흡연", "비만"
 }
 
-# Radiographic parameter terms (v7.1)
+# Radiographic parameter terms (v1.1)
 RADIOGRAPHIC_KEYWORDS = {
     "PI", "LL", "PT", "SS", "SVA", "Cobb angle", "sagittal balance", "pelvic incidence",
     "lumbar lordosis", "pelvic tilt", "sacral slope", "thoracic kyphosis", "T1 pelvic angle",
@@ -218,7 +218,7 @@ RADIOGRAPHIC_KEYWORDS = {
     "골반입사각", "요추전만", "시상면균형"
 }
 
-# Prediction model terms (v7.1)
+# Prediction model terms (v1.1)
 PREDICTION_MODEL_KEYWORDS = {
     "prediction model", "predictive model", "machine learning", "ML", "AI", "artificial intelligence",
     "logistic regression", "random forest", "XGBoost", "neural network", "SVM",
@@ -227,7 +227,7 @@ PREDICTION_MODEL_KEYWORDS = {
     "예측모델", "머신러닝", "인공지능"
 }
 
-# Complication terms (v7.1)
+# Complication terms (v1.1)
 COMPLICATION_KEYWORDS = {
     "complication", "adverse event", "dural tear", "durotomy", "CSF leak",
     "infection", "SSI", "wound", "hematoma", "neurological deficit",
@@ -236,7 +236,7 @@ COMPLICATION_KEYWORDS = {
     "합병증", "감염", "경막손상", "인접분절"
 }
 
-# Patient cohort terms (v7.2)
+# Patient cohort terms (v1.2)
 PATIENT_COHORT_KEYWORDS = {
     "cohort", "sample size", "n=", "patients", "subjects", "participants",
     "demographics", "age", "gender", "sex", "male", "female",
@@ -247,7 +247,7 @@ PATIENT_COHORT_KEYWORDS = {
     "대상환자", "연구대상", "환자군", "대조군"
 }
 
-# Follow-up terms (v7.2)
+# Follow-up terms (v1.2)
 FOLLOWUP_KEYWORDS = {
     "follow-up", "followup", "FU", "follow up", "follow-up period",
     "6 months", "12 months", "24 months", "2 years", "5 years",
@@ -256,7 +256,7 @@ FOLLOWUP_KEYWORDS = {
     "6개월", "1년", "2년", "추적관찰", "추적기간"
 }
 
-# Cost/Economic terms (v7.2)
+# Cost/Economic terms (v1.2)
 COST_KEYWORDS = {
     "cost", "hospital cost", "total cost", "direct cost", "indirect cost",
     "cost-effectiveness", "cost-utility", "ICER", "QALY", "quality-adjusted",
@@ -265,7 +265,7 @@ COST_KEYWORDS = {
     "비용", "입원기간", "재원기간", "비용효과"
 }
 
-# Quality assessment terms (v7.2)
+# Quality assessment terms (v1.2)
 QUALITY_METRIC_KEYWORDS = {
     "GRADE", "quality of evidence", "certainty of evidence",
     "risk of bias", "ROB", "Cochrane", "Newcastle-Ottawa", "NOS",
@@ -281,7 +281,7 @@ QUALITY_METRIC_KEYWORDS = {
 # =============================================================================
 
 class EntityExtractor:
-    """Conditional medical entity extraction for v7.0 pipeline.
+    """Conditional medical entity extraction for v1.0 pipeline.
 
     Only extracts entities when:
     1. Document type is medical/research (JOURNAL_ARTICLE, BOOK, THESIS, etc.)
@@ -460,7 +460,7 @@ class EntityExtractor:
             "pathology": sum(1 for kw in PATHOLOGY_KEYWORDS if kw in text_lower),
             "outcome": sum(1 for kw in OUTCOME_KEYWORDS if kw in text_lower),
             "research": sum(1 for kw in RESEARCH_KEYWORDS if kw in text_lower),
-            # v7.1: New keyword categories
+            # v1.1: New keyword categories
             "risk_factor": sum(1 for kw in RISK_FACTOR_KEYWORDS if kw in text_lower),
             "radiographic": sum(1 for kw in RADIOGRAPHIC_KEYWORDS if kw in text_lower),
             "prediction_model": sum(1 for kw in PREDICTION_MODEL_KEYWORDS if kw in text_lower),
@@ -529,28 +529,28 @@ Extract the following types of entities:
 4. **Anatomy**: Anatomical structures, spinal levels
    - Examples: L4-L5, lumbar spine, cervical vertebra, neural foramina
 
-5. **Risk Factors** (v7.1): Patient factors that affect outcomes
+5. **Risk Factors** (v1.1): Patient factors that affect outcomes
    - Examples: diabetes, smoking, obesity, BMI>30, age>65, frailty, osteoporosis
 
-6. **Radiographic Parameters** (v7.1): Spine alignment measurements
+6. **Radiographic Parameters** (v1.1): Spine alignment measurements
    - Examples: PI, LL, SVA, Cobb angle, PI-LL mismatch, sagittal balance
 
-7. **Complications** (v7.1): Surgical complications mentioned
+7. **Complications** (v1.1): Surgical complications mentioned
    - Examples: dural tear, SSI, pseudarthrosis, ASD, screw loosening
 
-8. **Prediction Models** (v7.1): ML/AI models if mentioned
+8. **Prediction Models** (v1.1): ML/AI models if mentioned
    - Examples: Random Forest for pseudarthrosis prediction, XGBoost for complication risk
 
-9. **Patient Cohorts** (v7.2): Study population characteristics
+9. **Patient Cohorts** (v1.2): Study population characteristics
    - Examples: n=150, age 65±8 years, intervention group, control group, propensity-matched cohort
 
-10. **Follow-ups** (v7.2): Follow-up timepoints and data
+10. **Follow-ups** (v1.2): Follow-up timepoints and data
     - Examples: 6-month follow-up, 2-year minimum FU, final follow-up (mean 38 months)
 
-11. **Costs** (v7.2): Healthcare cost data if mentioned
+11. **Costs** (v1.2): Healthcare cost data if mentioned
     - Examples: hospital cost $45,000, ICER $32,000/QALY, 90-day episode cost
 
-12. **Quality Metrics** (v7.2): Study quality assessments
+12. **Quality Metrics** (v1.2): Study quality assessments
     - Examples: GRADE high quality, MINORS 18/24, Newcastle-Ottawa 7 stars
 
 For each entity, provide:
@@ -658,7 +658,7 @@ If no entities found in a category, return empty array.
                     )
                     for item in data.get("anatomy", [])
                 ],
-                # v7.1: New entity types (backward compatible - use empty list if not present)
+                # v1.1: New entity types (backward compatible - use empty list if not present)
                 risk_factors=[
                     ExtractedEntity(
                         name=item.get("name", ""),
@@ -699,7 +699,7 @@ If no entities found in a category, return empty array.
                     )
                     for item in data.get("prediction_models", [])
                 ],
-                # v7.2: Additional entity types (backward compatible)
+                # v1.2: Additional entity types (backward compatible)
                 patient_cohorts=[
                     ExtractedEntity(
                         name=item.get("name", ""),
@@ -779,7 +779,7 @@ If no entities found in a category, return empty array.
     def _normalize_entities(self, entities: ExtractedEntities) -> ExtractedEntities:
         """Normalize entity names using EntityNormalizer.
 
-        v7.8: Also extracts and stores SNOMED-CT codes.
+        v1.8: Also extracts and stores SNOMED-CT codes.
 
         Args:
             entities: Extracted entities
@@ -798,7 +798,7 @@ If no entities found in a category, return empty array.
                 entity.name = result.normalized
                 if result.category:
                     entity.category = result.category
-                # v7.8: Store SNOMED code
+                # v1.8: Store SNOMED code
                 if result.snomed_code:
                     entity.snomed_code = result.snomed_code
                     entity.snomed_term = result.snomed_term
@@ -810,7 +810,7 @@ If no entities found in a category, return empty array.
             result = self.normalizer.normalize_pathology(entity.name)
             if result.confidence > 0.5:
                 entity.name = result.normalized
-                # v7.8: Store SNOMED code
+                # v1.8: Store SNOMED code
                 if result.snomed_code:
                     entity.snomed_code = result.snomed_code
                     entity.snomed_term = result.snomed_term
@@ -822,7 +822,7 @@ If no entities found in a category, return empty array.
             result = self.normalizer.normalize_outcome(entity.name)
             if result.confidence > 0.5:
                 entity.name = result.normalized
-                # v7.8: Store SNOMED code
+                # v1.8: Store SNOMED code
                 if result.snomed_code:
                     entity.snomed_code = result.snomed_code
                     entity.snomed_term = result.snomed_term

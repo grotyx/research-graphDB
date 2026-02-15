@@ -1,4 +1,4 @@
-"""Universal Metadata Extractor (v7.0).
+"""Universal Metadata Extractor (v1.0).
 
 Citation-ready metadata extraction for all document types.
 Supports 22 document types with type-specific fields and APA 7th citation formatting.
@@ -367,7 +367,7 @@ Return JSON:
 
         try:
             response = await self.llm.generate(prompt)
-            # v7.15: JSON 추출/repair — LLM이 markdown 블록으로 감싸는 경우 처리
+            # v1.15: JSON 추출/repair — LLM이 markdown 블록으로 감싸는 경우 처리
             text = response if isinstance(response, str) else str(response)
             if "```json" in text:
                 text = text.split("```json")[1].split("```")[0]

@@ -8,7 +8,7 @@ Enhanced with graceful degradation and error handling.
 v5.3: Neo4j Vector Index 통합
 - use_neo4j_hybrid=True: Neo4j hybrid_search() 사용 (그래프+벡터 통합 쿼리, 권장)
 
-v7.0: Evidence-based Ranking (SIMPLIFIED)
+v1.0: Evidence-based Ranking (SIMPLIFIED)
 - Remove: p-value/effect size scoring
 - Add: Study design weight, recency boost, sample size boost, citation boost
 - Formula: 60% semantic + 40% authority (evidence + design + recency + citations)
@@ -56,10 +56,10 @@ logger = logging.getLogger(__name__)
 
 
 # ============================================================================
-# v7.0 Evidence-based Ranking Configuration
+# v1.0 Evidence-based Ranking Configuration
 # ============================================================================
 
-# Scoring Formula Constants (v7.0)
+# Scoring Formula Constants (v1.0)
 DEFAULT_SEMANTIC_WEIGHT: float = 0.6    # Semantic score weight in final formula
 DEFAULT_AUTHORITY_WEIGHT: float = 0.4   # Authority score weight in final formula
 KEY_FINDING_BOOST: float = 1.2          # Boost multiplier for key findings
@@ -114,12 +114,12 @@ SOURCE_CREDIBILITY = {
     "default": 0.4,
 }
 
-# Deprecated (v7.0) - kept for reference
+# Deprecated (v1.0) - kept for reference
 # SIGNIFICANCE_BOOST = 1.5  # Removed: No longer using p-value
 
 
 # ============================================================================
-# Helper Functions for v7.0 Scoring
+# Helper Functions for v1.0 Scoring
 # ============================================================================
 
 def get_evidence_weight(paper: PaperNode) -> float:
@@ -330,12 +330,12 @@ class HybridResult:
 # ============================================================================
 
 class HybridRanker:
-    """Graph + Vector 통합 랭커 (v7.0).
+    """Graph + Vector 통합 랭커 (v1.0).
 
     Neo4j Graph 검색 결과와 ChromaDB Vector 검색 결과를 통합하여
     최종 랭킹을 생성.
 
-    v7.0 Changes:
+    v1.0 Changes:
     - Remove: p-value/effect size scoring
     - Add: Study design weight, recency boost, sample size boost
     - New formula: 60% semantic + 40% authority
@@ -350,7 +350,7 @@ class HybridRanker:
         1. Neo4j hybrid_search(): 그래프 필터링 + 벡터 검색 통합 쿼리
         2. 단일 트랜잭션으로 처리 (더 빠른 응답)
 
-    점수 계산 (v7.0):
+    점수 계산 (v1.0):
         - Authority 점수: Evidence Level × Study Design × Sample Size × Recency × Citations
         - Semantic 점수: Vector Similarity × Metadata Boosts
         - 최종 점수 = 0.6 × Semantic + 0.4 × Authority
@@ -402,7 +402,7 @@ class HybridRanker:
             top_k: 반환할 결과 수
             graph_weight: Graph 결과 가중치 (0~1)
             vector_weight: Vector 결과 가중치 (0~1)
-            min_p_value: [DEPRECATED v7.0] 유의성 임계값 (no longer used)
+            min_p_value: [DEPRECATED v1.0] 유의성 임계값 (no longer used)
             evidence_levels: 허용할 근거 수준 (예: ["1a", "1b", "2a"])
             graph_filters: 그래프 필터 (v5.3 - Neo4j hybrid용)
                 - intervention: Intervention 이름
@@ -447,7 +447,7 @@ class HybridRanker:
         vector_results: list[HybridResult] = []
         vector_degraded = False
 
-        # v7.15: vector_db None guard 추가
+        # v1.15: vector_db None guard 추가
         if self.vector_db is None:
             logger.info("Vector DB not available, skipping vector search")
             vector_degraded = True
@@ -483,14 +483,14 @@ class HybridRanker:
     async def _graph_search(
         self,
         query: str,
-        min_p_value: float,  # DEPRECATED v7.0
+        min_p_value: float,  # DEPRECATED v1.0
         evidence_levels: Optional[list[str]]
     ) -> GraphSearchResult:
         """Graph 검색 수행.
 
         Args:
             query: 검색 쿼리
-            min_p_value: [DEPRECATED v7.0] p-value 임계값 (no longer used in scoring)
+            min_p_value: [DEPRECATED v1.0] p-value 임계값 (no longer used in scoring)
             evidence_levels: 근거 수준 필터
 
         Returns:
@@ -528,7 +528,7 @@ class HybridRanker:
         # Build Cypher query based on extracted entities
         if interventions and outcomes:
             # Intervention → Outcome search
-            # v7.15: WHERE 절을 MATCH와 OPTIONAL MATCH 사이로 이동 (결과 누락 방지)
+            # v1.15: WHERE 절을 MATCH와 OPTIONAL MATCH 사이로 이동 (결과 누락 방지)
             cypher = """
             MATCH (i:Intervention {name: $intervention})-[a:AFFECTS]->(o:Outcome {name: $outcome})
             WHERE (a.is_significant = true OR a.p_value < $min_p_value)
@@ -594,7 +594,7 @@ class HybridRanker:
 
         elif interventions:
             # Search for intervention's all outcomes
-            # v7.15: WHERE 절을 MATCH와 OPTIONAL MATCH 사이로 이동 (결과 누락 방지)
+            # v1.15: WHERE 절을 MATCH와 OPTIONAL MATCH 사이로 이동 (결과 누락 방지)
             cypher = """
             MATCH (i:Intervention {name: $intervention})-[a:AFFECTS]->(o:Outcome)
             WHERE (a.is_significant = true OR a.p_value < $min_p_value)
@@ -646,7 +646,7 @@ class HybridRanker:
 
         elif outcomes:
             # Search for outcome's all interventions
-            # v7.15: WHERE 절을 MATCH와 OPTIONAL MATCH 사이로 이동 (결과 누락 방지)
+            # v1.15: WHERE 절을 MATCH와 OPTIONAL MATCH 사이로 이동 (결과 누락 방지)
             cypher = """
             MATCH (i:Intervention)-[a:AFFECTS]->(o:Outcome {name: $outcome})
             WHERE (a.is_significant = true OR a.p_value < $min_p_value)
@@ -795,9 +795,9 @@ class HybridRanker:
         )
 
     def _score_graph_results(self, graph_result: GraphSearchResult) -> list[HybridResult]:
-        """Graph 검색 결과 점수화 (v7.0).
+        """Graph 검색 결과 점수화 (v1.0).
 
-        v7.0 Changes:
+        v1.0 Changes:
         - REMOVED: P-value scoring, effect size scoring, significance boost
         - ADDED: Evidence-based authority scoring
 
@@ -823,7 +823,7 @@ class HybridRanker:
                 evidence.evidence_level, 0.1
             )
 
-            # v7.0: Simplified scoring - evidence level is the primary signal
+            # v1.0: Simplified scoring - evidence level is the primary signal
             # Direction matters (improved > unchanged > worsened)
             direction_boost = 1.0
             if evidence.direction == "improved":
@@ -866,9 +866,9 @@ class HybridRanker:
     def _score_vector_results(
         self, vector_results: list[VectorSearchResult]
     ) -> list[HybridResult]:
-        """Vector 검색 결과 점수화 (v7.0).
+        """Vector 검색 결과 점수화 (v1.0).
 
-        v7.0 Changes:
+        v1.0 Changes:
         - NEW: Authority score calculation (evidence + design + recency + sample + citations)
         - Formula: 60% semantic + 40% authority
 
@@ -904,7 +904,7 @@ class HybridRanker:
             if vr.has_statistics:
                 semantic_score *= STATISTICS_BOOST
 
-            # 5. Calculate Authority Score (v7.0)
+            # 5. Calculate Authority Score (v1.0)
             authority_score = self._calculate_authority_score_from_metadata(vr)
 
             # 6. Combine: semantic + authority (weighted)
@@ -927,14 +927,14 @@ class HybridRanker:
                     "has_statistics": vr.has_statistics,
                     "semantic_score": semantic_score,
                     "authority_score": authority_score,
-                    "ranking_version": "v7.0",
+                    "ranking_version": "v1.0",
                 }
             ))
 
         return results
 
     def _calculate_authority_score_from_metadata(self, vr: VectorSearchResult) -> float:
-        """Calculate authority score from vector result metadata (v7.0).
+        """Calculate authority score from vector result metadata (v1.0).
 
         Args:
             vr: VectorSearchResult with metadata
@@ -985,12 +985,12 @@ class HybridRanker:
         evidence_levels: Optional[list[str]],
         graph_filters: Optional[dict]
     ) -> list[HybridResult]:
-        """Neo4j 통합 Hybrid Search (v5.3 + v7.0).
+        """Neo4j 통합 Hybrid Search (v5.3 + v1.0).
 
         Neo4j의 hybrid_search() 메서드를 사용하여
         그래프 필터링 + 벡터 검색을 단일 쿼리로 수행.
 
-        v7.0: Updated scoring with authority metrics.
+        v1.0: Updated scoring with authority metrics.
 
         Args:
             query: 검색 쿼리 (자연어)
@@ -1025,7 +1025,7 @@ class HybridRanker:
 
             logger.info(f"Neo4j hybrid search: {len(raw_results)} results")
 
-            # 결과 변환 (v7.0 scoring)
+            # 결과 변환 (v1.0 scoring)
             results: list[HybridResult] = []
             for raw in raw_results:
                 # Evidence Level 가중치 계산
@@ -1035,7 +1035,7 @@ class HybridRanker:
                 # Key finding 부스트
                 kf_boost = KEY_FINDING_BOOST if raw.get("is_key_finding", False) else 1.0
 
-                # v7.0: Calculate authority score from paper metadata
+                # v1.0: Calculate authority score from paper metadata
                 paper_year = raw.get("paper_year", 0)
                 publication_types = raw.get("publication_types", [])
 
@@ -1069,7 +1069,7 @@ class HybridRanker:
                         "semantic_score": semantic_score,
                         "authority_score": authority_score,
                         "backend": "neo4j_hybrid",
-                        "ranking_version": "v7.0",
+                        "ranking_version": "v1.0",
                     }
                 ))
 
@@ -1192,7 +1192,7 @@ class HybridRanker:
             "graph_db_available": self.neo4j_client is not None,
             "neo4j_hybrid_enabled": self.use_neo4j_hybrid,  # v5.3
             "search_backend": "neo4j_hybrid" if self.use_neo4j_hybrid else "chromadb+neo4j_cypher",
-            "ranking_version": "v7.0",  # NEW
+            "ranking_version": "v1.0",  # NEW
         }
 
         return stats
@@ -1203,7 +1203,7 @@ class HybridRanker:
 # ============================================================================
 
 async def example_usage() -> None:
-    """Hybrid Ranker 사용 예시 (v7.0)."""
+    """Hybrid Ranker 사용 예시 (v1.0)."""
     from ..storage.vector_db import TieredVectorDB
 
     # Vector DB 초기화
@@ -1216,7 +1216,7 @@ async def example_usage() -> None:
     query: str = "What are effective interventions for reducing PJK in ASD surgery?"
     query_embedding: list[float] = vector_db.get_embedding(query)
 
-    # Hybrid 검색 (v7.0 evidence-based ranking)
+    # Hybrid 검색 (v1.0 evidence-based ranking)
     results: list[HybridResult] = await ranker.search(
         query=query,
         query_embedding=query_embedding,

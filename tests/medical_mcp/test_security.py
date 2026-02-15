@@ -1,6 +1,6 @@
-"""Tests for Medical KAG MCP Server Security (v7.15 QC).
+"""Tests for Medical KAG MCP Server Security (v1.15 QC).
 
-Verifies security hardening introduced in v7.15:
+Verifies security hardening introduced in v1.15:
 1. _get_user_filter_clause returns parameterized tuple (str, dict), not f-strings
 2. Path validation rejects path traversal attacks (../../etc/passwd)
 3. delete_document enforces ownership checks

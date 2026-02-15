@@ -3,7 +3,7 @@
 This module handles clinical data queries including patient cohorts,
 follow-up data, cost analysis, and quality metrics.
 
-Extracted from medical_kag_server.py (v7.5) - Lines 2935-3279
+Extracted from medical_kag_server.py (v1.5) - Lines 2935-3279
 """
 
 import logging
@@ -40,7 +40,7 @@ class ClinicalDataHandler:
         cohort_type: Optional[str] = None,
         min_sample_size: Optional[int] = None
     ) -> dict:
-        """환자 코호트 정보 조회 (v7.2).
+        """환자 코호트 정보 조회 (v1.2).
 
         Queries patient cohort information from papers, optionally filtered by
         paper ID, intervention type, cohort type, and minimum sample size.
@@ -160,7 +160,7 @@ class ClinicalDataHandler:
         min_months: Optional[int] = None,
         max_months: Optional[int] = None
     ) -> dict:
-        """추적관찰 데이터 조회 (v7.2).
+        """추적관찰 데이터 조회 (v1.2).
 
         Retrieves follow-up data from clinical studies, including timepoints,
         completeness rates, and associated outcomes.
@@ -271,7 +271,7 @@ class ClinicalDataHandler:
         intervention: Optional[str] = None,
         cost_type: Optional[str] = None
     ) -> dict:
-        """비용 효과 분석 데이터 조회 (v7.2).
+        """비용 효과 분석 데이터 조회 (v1.2).
 
         Queries cost-effectiveness analysis data including direct costs,
         quality-adjusted life years (QALY), incremental cost-effectiveness
@@ -383,7 +383,7 @@ class ClinicalDataHandler:
         assessment_tool: Optional[str] = None,
         min_rating: Optional[str] = None
     ) -> dict:
-        """연구 품질 평가 지표 조회 (v7.2).
+        """연구 품질 평가 지표 조회 (v1.2).
 
         Retrieves research quality assessment metrics using standardized tools
         (e.g., Cochrane Risk of Bias, GRADE, Newcastle-Ottawa Scale).

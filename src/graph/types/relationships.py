@@ -12,18 +12,18 @@ Relationship Types:
     - Intervention → Outcome: AFFECTS
     - Intervention → Intervention: IS_A
     - Paper → Paper: CITES, SUPPORTS, CONTRADICTS, etc.
-    - Intervention → Complication: CAUSES (v7.1)
-    - Paper → RiskFactor: HAS_RISK_FACTOR (v7.1)
-    - PredictionModel → Outcome: PREDICTS (v7.1)
-    - RadioParameter → OutcomeMeasure: CORRELATES (v7.1)
-    - Intervention → Implant: USES_DEVICE (v7.1)
-    - Paper → PatientCohort: HAS_COHORT (v7.2)
-    - PatientCohort → Intervention: TREATED_WITH (v7.2)
-    - Paper → FollowUp: HAS_FOLLOWUP (v7.2)
-    - FollowUp → Outcome: REPORTS_OUTCOME (v7.2)
-    - Paper → Cost: REPORTS_COST (v7.2)
-    - Cost → Intervention: ASSOCIATED_WITH (v7.2)
-    - Paper → QualityMetric: HAS_QUALITY_METRIC (v7.2)
+    - Intervention → Complication: CAUSES (v1.1)
+    - Paper → RiskFactor: HAS_RISK_FACTOR (v1.1)
+    - PredictionModel → Outcome: PREDICTS (v1.1)
+    - RadioParameter → OutcomeMeasure: CORRELATES (v1.1)
+    - Intervention → Implant: USES_DEVICE (v1.1)
+    - Paper → PatientCohort: HAS_COHORT (v1.2)
+    - PatientCohort → Intervention: TREATED_WITH (v1.2)
+    - Paper → FollowUp: HAS_FOLLOWUP (v1.2)
+    - FollowUp → Outcome: REPORTS_OUTCOME (v1.2)
+    - Paper → Cost: REPORTS_COST (v1.2)
+    - Cost → Intervention: ASSOCIATED_WITH (v1.2)
+    - Paper → QualityMetric: HAS_QUALITY_METRIC (v1.2)
 
 Version: 7.5
 """
@@ -371,12 +371,12 @@ class PaperRelationship:
 
 
 # ============================================================================
-# v7.1: New Relationship Types (Complications, Risk Factors, Predictions)
+# v1.1: New Relationship Types (Complications, Risk Factors, Predictions)
 # ============================================================================
 
 @dataclass
 class CausesRelation:
-    """수술법 → 합병증 발생 관계 (v7.1).
+    """수술법 → 합병증 발생 관계 (v1.1).
 
     (Intervention)-[:CAUSES]->(Complication)
 
@@ -442,7 +442,7 @@ class CausesRelation:
 
 @dataclass
 class HasRiskFactorRelation:
-    """논문 → 위험 인자 관계 (v7.1).
+    """논문 → 위험 인자 관계 (v1.1).
 
     (Paper)-[:HAS_RISK_FACTOR]->(RiskFactor)
 
@@ -516,7 +516,7 @@ class HasRiskFactorRelation:
 
 @dataclass
 class PredictsRelation:
-    """예측 모델 → 결과 예측 관계 (v7.1).
+    """예측 모델 → 결과 예측 관계 (v1.1).
 
     (PredictionModel)-[:PREDICTS]->(Outcome)
 
@@ -586,7 +586,7 @@ class PredictsRelation:
 
 @dataclass
 class CorrelatesRelation:
-    """영상 매개변수 → 결과 측정치 상관관계 (v7.1).
+    """영상 매개변수 → 결과 측정치 상관관계 (v1.1).
 
     (RadioParameter)-[:CORRELATES]->(OutcomeMeasure)
 
@@ -644,7 +644,7 @@ class CorrelatesRelation:
 
 @dataclass
 class UsesDeviceRelation:
-    """수술법 → 의료기기 사용 관계 (v7.1).
+    """수술법 → 의료기기 사용 관계 (v1.1).
 
     (Intervention)-[:USES_DEVICE]->(Implant)
 
@@ -693,12 +693,12 @@ class UsesDeviceRelation:
 
 
 # ============================================================================
-# v7.2: New Relationship Types (Cohort, FollowUp, Cost, Quality)
+# v1.2: New Relationship Types (Cohort, FollowUp, Cost, Quality)
 # ============================================================================
 
 @dataclass
 class HasCohortRelation:
-    """논문 → 환자 코호트 관계 (v7.2).
+    """논문 → 환자 코호트 관계 (v1.2).
 
     (Paper)-[:HAS_COHORT]->(PatientCohort)
 
@@ -734,7 +734,7 @@ class HasCohortRelation:
 
 @dataclass
 class TreatedWithRelation:
-    """환자 코호트 → 수술법 치료 관계 (v7.2).
+    """환자 코호트 → 수술법 치료 관계 (v1.2).
 
     (PatientCohort)-[:TREATED_WITH]->(Intervention)
 
@@ -770,7 +770,7 @@ class TreatedWithRelation:
 
 @dataclass
 class HasFollowUpRelation:
-    """논문 → 추적관찰 관계 (v7.2).
+    """논문 → 추적관찰 관계 (v1.2).
 
     (Paper)-[:HAS_FOLLOWUP]->(FollowUp)
 
@@ -802,7 +802,7 @@ class HasFollowUpRelation:
 
 @dataclass
 class ReportsOutcomeAtRelation:
-    """추적관찰 → 결과 보고 관계 (v7.2).
+    """추적관찰 → 결과 보고 관계 (v1.2).
 
     (FollowUp)-[:REPORTS_OUTCOME]->(Outcome)
 
@@ -846,7 +846,7 @@ class ReportsOutcomeAtRelation:
 
 @dataclass
 class ReportsCostRelation:
-    """논문 → 비용 보고 관계 (v7.2).
+    """논문 → 비용 보고 관계 (v1.2).
 
     (Paper)-[:REPORTS_COST]->(Cost)
 
@@ -878,7 +878,7 @@ class ReportsCostRelation:
 
 @dataclass
 class CostAssociatedWithRelation:
-    """비용 → 수술법 연관 관계 (v7.2).
+    """비용 → 수술법 연관 관계 (v1.2).
 
     (Cost)-[:ASSOCIATED_WITH]->(Intervention)
 
@@ -914,7 +914,7 @@ class CostAssociatedWithRelation:
 
 @dataclass
 class HasQualityMetricRelation:
-    """논문 → 품질 평가 관계 (v7.2).
+    """논문 → 품질 평가 관계 (v1.2).
 
     (Paper)-[:HAS_QUALITY_METRIC]->(QualityMetric)
 

@@ -56,7 +56,7 @@ class PDFHandler:
     ) -> dict:
         """PDF 논문 추가.
 
-        v7.5 업데이트: v7.0 Simplified Pipeline을 기본으로 사용합니다.
+        v1.5 업데이트: v1.0 Simplified Pipeline을 기본으로 사용합니다.
         - 700+ word 통합 요약 (4개 섹션)
         - 섹션 기반 청킹
         - 조건부 엔티티 추출 (의학 콘텐츠만)
@@ -66,14 +66,14 @@ class PDFHandler:
             file_path: PDF 파일 경로
             metadata: 추가 메타데이터
             use_vision: 통합 PDF 프로세서 사용 여부 (레거시, True: 권장)
-            use_v7: v7.0 프로세서 사용 여부 (기본값: True, 권장)
+            use_v7: v1.0 프로세서 사용 여부 (기본값: True, 권장)
 
         Returns:
             처리 결과 딕셔너리
         """
         path = Path(file_path).resolve()
 
-        # v7.15: Path traversal 방지 — 허용 디렉토리 검증
+        # v1.15: Path traversal 방지 — 허용 디렉토리 검증
         allowed_dirs = [
             Path(self.server.project_root / "data").resolve() if hasattr(self.server, 'project_root') else None,
             Path.cwd().resolve(),
@@ -125,7 +125,7 @@ class PDFHandler:
         Claude Code에서 논문 텍스트를 붙여넣고 분석 → 관계 구축 → 청크 저장을
         한 번에 수행합니다. PDF 없이 텍스트만으로 지식 그래프 구축이 가능합니다.
 
-        v7.5 업데이트: v7.0 Simplified Pipeline을 기본으로 사용합니다.
+        v1.5 업데이트: v1.0 Simplified Pipeline을 기본으로 사용합니다.
         - 22개 문서 유형 자동 감지
         - 700+ word 통합 요약 (4개 섹션)
         - 섹션 기반 청킹 (15-25 chunks)
@@ -136,7 +136,7 @@ class PDFHandler:
             title: 논문 제목
             pmid: PubMed ID (선택, 없으면 자동 생성)
             metadata: 추가 메타데이터 (year, journal, authors, doi 등)
-            use_v7: v7.5 Simplified Pipeline 사용 여부 (기본값: True)
+            use_v7: v1.5 Simplified Pipeline 사용 여부 (기본값: True)
 
         Returns:
             분석 결과 및 저장 통계
@@ -609,10 +609,10 @@ Return ONLY valid JSON, no additional text.'''
             summary: 700+ word 종합 요약
             sub_domain: 척추 하위 도메인 ("Degenerative", "Deformity", "Trauma" 등)
             chunks: 청크 목록, 예: [{"content": "...", "section_type": "results", "tier": 1}]
-            patient_cohorts: v7.2 환자 코호트 데이터
-            followups: v7.2 추적관찰 데이터
-            costs: v7.2 비용 분석 데이터
-            quality_metrics: v7.2 품질 평가 데이터
+            patient_cohorts: v1.2 환자 코호트 데이터
+            followups: v1.2 추적관찰 데이터
+            costs: v1.2 비용 분석 데이터
+            quality_metrics: v1.2 품질 평가 데이터
 
         Returns:
             저장 결과 (paper_id, nodes_created, relationships_created 등)
@@ -679,15 +679,15 @@ Return ONLY valid JSON, no additional text.'''
                 pico_outcomes=[o.get("name", "") for o in formatted_outcomes if o.get("name")],
                 main_conclusion=summary[:500] if summary else None,
                 summary=summary or "",
-                processing_version="v7.3_store_analyzed",
-                # v7.2 Extended entities
+                processing_version="v1.3_store_analyzed",
+                # v1.2 Extended entities
                 patient_cohorts=patient_cohorts or [],
                 followups=followups or [],
                 costs=costs or [],
                 quality_metrics=quality_metrics or [],
             )
 
-            # 5. RelationshipBuilder로 Neo4j에 저장 (v7.5: 멀티유저 지원)
+            # 5. RelationshipBuilder로 Neo4j에 저장 (v1.5: 멀티유저 지원)
             from dataclasses import dataclass, field as df
 
             # ExtractedMetadata 호환 객체 생성

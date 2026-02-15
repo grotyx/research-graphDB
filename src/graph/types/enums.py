@@ -126,7 +126,7 @@ class DocumentType(Enum):
 
 
 class EntityCategory(Enum):
-    """확장 엔티티 카테고리 (v7.1).
+    """확장 엔티티 카테고리 (v1.1).
 
     문서 유형에 따른 엔티티 분류.
     """
@@ -155,7 +155,7 @@ class EntityCategory(Enum):
     DRUG = "drug"
     COMPLICATION = "complication"
 
-    # v7.1: 결과 측정치 및 예측 모델
+    # v1.1: 결과 측정치 및 예측 모델
     OUTCOME_MEASURE = "outcome_measure"
     RADIO_PARAMETER = "radiographic_parameter"
     PREDICTION_MODEL = "prediction_model"

@@ -27,7 +27,7 @@ class TestKoreanQueryHandling:
         return QueryParser()
 
     def test_korean_procedure_detection(self, parser):
-        """한국어 수술 용어 감지 (완화된 테스트 v7.14+)."""
+        """한국어 수술 용어 감지 (완화된 테스트 v1.14+)."""
         queries = [
             "척추 수술",
             "내시경 수술",
@@ -50,7 +50,7 @@ class TestKoreanQueryHandling:
         assert "plif" in result.normalized
 
     def test_korean_treatment_query(self, parser):
-        """한국어 치료 질문 (완화된 테스트 v7.14+)."""
+        """한국어 치료 질문 (완화된 테스트 v1.14+)."""
         result = parser.parse("요추 협착증 치료 방법")
 
         # 키워드가 최소 1개 이상 추출되면 됨
@@ -66,7 +66,7 @@ class TestKoreanQueryHandling:
         assert "fusion" in result.normalized
 
     def test_korean_particle_handling(self, parser):
-        """한국어 조사 처리 (완화된 테스트 v7.14+)."""
+        """한국어 조사 처리 (완화된 테스트 v1.14+)."""
         result = parser.parse("OLIF가 효과적인가?")
 
         # 조사가 포함되어도 OLIF가 키워드에 있으면 됨
@@ -113,7 +113,7 @@ class TestSpineSurgeryTerminology:
         assert len(procedure_entities) > 0
 
     def test_spinal_pathology_terms(self, parser):
-        """척추 질환 용어 (완화된 테스트 v7.14+)."""
+        """척추 질환 용어 (완화된 테스트 v1.14+)."""
         queries = [
             "lumbar stenosis treatment",
             "disc herniation surgery",
@@ -443,7 +443,7 @@ class TestComplexRealWorldQueries:
         return QueryParser()
 
     def test_multi_component_query(self, parser):
-        """다중 구성요소 쿼리 (완화된 테스트 v7.14+)."""
+        """다중 구성요소 쿼리 (완화된 테스트 v1.14+)."""
         query = "What are the outcomes of TLIF vs PLIF for L4-L5 lumbar stenosis in elderly patients?"
         result = parser.parse(query)
 

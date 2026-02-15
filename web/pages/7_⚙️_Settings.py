@@ -222,8 +222,8 @@ def main():
                 with stat_cols[5]:
                     st.metric("🔗 Relationships", db_stats.get("total_relationships", 0))
 
-                # v7.2 Extended Entities
-                st.markdown("**v7.2 Extended Entities:**")
+                # v1.2 Extended Entities
+                st.markdown("**v1.2 Extended Entities:**")
                 v72_cols = st.columns(4)
                 with v72_cols[0]:
                     st.metric("👥 PatientCohort", nodes.get("PatientCohort", 0))
@@ -252,7 +252,7 @@ def main():
             st.markdown("**Data Directory:**")
             st.code(str(server.data_dir))
 
-            st.markdown("**Storage Backend (v7.2):**")
+            st.markdown("**Storage Backend (v1.2):**")
             st.code("Neo4j Vector Index (통합 저장소, Extended Entity Schema)")
 
     # ═══════════════════════════════════════════════════════════
@@ -884,7 +884,7 @@ def main():
         - 🏥 SNOMED-CT 통합
         - 🧠 근거 기반 추론
 
-        **Tech Stack (v7.2):**
+        **Tech Stack (v1.2):**
         - Embedding: OpenAI text-embedding-3-large (3072-dim)
         - LLM: Claude Haiku 4.5
         - Graph + Vector DB: Neo4j (통합)

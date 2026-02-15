@@ -1,4 +1,4 @@
-"""Tests for CypherGenerator v7.15 QC.
+"""Tests for CypherGenerator v1.15 QC.
 
 Verifies:
 1. generate() returns tuple[str, dict] (parameterized queries)

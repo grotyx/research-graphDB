@@ -55,7 +55,7 @@ class JSONHandler:
         """
         path = Path(file_path).resolve()
 
-        # v7.15: Path traversal 방지 — 허용 디렉토리 검증
+        # v1.15: Path traversal 방지 — 허용 디렉토리 검증
         allowed_dirs = [
             Path(self.server.project_root / "data").resolve() if hasattr(self.server, 'project_root') else None,
             Path.cwd().resolve(),
@@ -228,7 +228,7 @@ class JSONHandler:
                     outcomes=outcomes_dicts,
                     surgical_approach=spine_dict.get('surgical_approach', []),
                     main_conclusion=spine_dict.get('main_conclusion', ''),
-                    # v7.2 Extended entities
+                    # v1.2 Extended entities
                     patient_cohorts=spine_dict.get('patient_cohorts', []),
                     followups=spine_dict.get('followups', []),
                     costs=spine_dict.get('costs', []),

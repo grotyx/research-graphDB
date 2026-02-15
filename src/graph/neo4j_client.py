@@ -931,8 +931,8 @@ class Neo4jClient:
             paper_id: 논문 ID
             pathology_name: 질환명
             is_primary: 주요 질환 여부
-            snomed_code: SNOMED-CT 코드 (v7.9)
-            snomed_term: SNOMED-CT 용어 (v7.9)
+            snomed_code: SNOMED-CT 코드 (v1.9)
+            snomed_term: SNOMED-CT 용어 (v1.9)
 
         Returns:
             생성된 관계 정보
@@ -1001,22 +1001,22 @@ class Neo4jClient:
         value_difference: str = "",
         category: str = "",
         timepoint: str = "",
-        # v7.9: SNOMED 지원
+        # v1.9: SNOMED 지원
         snomed_code: Optional[str] = None,
         snomed_term: Optional[str] = None
     ) -> dict:
         """수술법 → 결과 관계 생성 (Unified Schema v4.0).
 
         Claude와 Gemini PDF 처리기 결과 모두 지원.
-        v7.9: Outcome 노드에 SNOMED-CT 코드 지원 추가.
+        v1.9: Outcome 노드에 SNOMED-CT 코드 지원 추가.
 
         Args:
             intervention_name: 수술법 이름
             outcome_name: 결과변수 이름
             source_paper_id: 출처 논문 ID
             ... (통계 파라미터들)
-            snomed_code: Outcome의 SNOMED-CT 코드 (v7.9)
-            snomed_term: Outcome의 SNOMED-CT 용어 (v7.9)
+            snomed_code: Outcome의 SNOMED-CT 코드 (v1.9)
+            snomed_term: Outcome의 SNOMED-CT 용어 (v1.9)
 
         Returns:
             생성된 관계 정보

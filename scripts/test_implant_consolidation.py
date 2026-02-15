@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Test script for ImplantNode consolidation (v7.1).
+"""Test script for ImplantNode consolidation (v1.1).
 
 Verifies that ImplantNode can represent both implants and instruments
 with the new unified schema.
@@ -121,7 +121,7 @@ def test_backward_compatibility():
 
 
 def test_all_new_fields():
-    """Test that all v7.1 fields are present."""
+    """Test that all v1.1 fields are present."""
     required_fields = [
         'device_type', 'implant_category', 'instrument_category',
         'is_permanent', 'is_reusable', 'fda_clearance_year',
@@ -133,12 +133,12 @@ def test_all_new_fields():
     for field in required_fields:
         assert hasattr(implant, field), f"Missing field: {field}"
 
-    print("✓ All v7.1 fields present\n")
+    print("✓ All v1.1 fields present\n")
 
 
 if __name__ == "__main__":
     print("=" * 60)
-    print("ImplantNode Consolidation Test (v7.1)")
+    print("ImplantNode Consolidation Test (v1.1)")
     print("=" * 60 + "\n")
 
     test_implant_device()

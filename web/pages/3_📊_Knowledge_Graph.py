@@ -184,7 +184,7 @@ def render_relation_card(rel: dict, rel_type: str, selected_paper: str = None) -
     evidence_html = ""
     if evidence:
         evidence_display = evidence[:100] + "..." if len(evidence) > 100 else evidence
-        # v7.15: XSS 방지
+        # v1.15: XSS 방지
         import html as html_mod
         evidence_display = html_mod.escape(evidence_display)
         evidence_html = f'<p style="margin: 0; font-size: 0.85rem; color: #64748b; font-style: italic;">{evidence_display}</p>'
@@ -192,7 +192,7 @@ def render_relation_card(rel: dict, rel_type: str, selected_paper: str = None) -
     # Build confidence badge
     badge_html = get_confidence_badge(conf)
 
-    # v7.15: XSS 방지 — Neo4j 데이터 HTML escape
+    # v1.15: XSS 방지 — Neo4j 데이터 HTML escape
     import html as html_mod
     safe_target = html_mod.escape(str(target_display))
 

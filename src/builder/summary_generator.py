@@ -1,4 +1,4 @@
-"""Summary Generator (v7.0).
+"""Summary Generator (v1.0).
 
 Generate comprehensive English summaries (700+ words) for all document types.
 Validates quality and enhances if necessary.
@@ -116,7 +116,7 @@ class SummaryQuality:
 # =============================================================================
 
 class SummaryGenerator:
-    """문서 요약 생성기 (v7.0).
+    """문서 요약 생성기 (v1.0).
 
     Generates comprehensive English summaries with 4 sections:
     1. Background/Context (150-200 words)
