@@ -196,6 +196,16 @@ except ImportError as e:
     get_doi_metadata = None
     print(f"[medical_kag_server] DOI Fulltext Fetcher import failed: {e}", file=sys.stderr)
 
+# PMC Full Text Fetcher (PMC-first optimization for PDF upload)
+try:
+    from builder.pmc_fulltext_fetcher import PMCFullTextFetcher
+    PMC_FETCHER_AVAILABLE = True
+    print(f"[medical_kag_server] PMC Full Text Fetcher imported successfully", file=sys.stderr)
+except ImportError as e:
+    PMC_FETCHER_AVAILABLE = False
+    PMCFullTextFetcher = None
+    print(f"[medical_kag_server] PMC Full Text Fetcher import failed: {e}", file=sys.stderr)
+
 # Neo4j Graph modules (Spine GraphRAG v3)
 try:
     from graph.neo4j_client import Neo4jClient, Neo4jConfig
@@ -468,6 +478,15 @@ class MedicalKAGServer:
                 logger.info("DOI Fulltext Fetcher initialized for enrichment fallback")
             except Exception as e:
                 logger.warning(f"DOI Fulltext Fetcher initialization failed: {e}")
+
+        # PMC Full Text Fetcher (PMC-first PDF optimization)
+        self.pmc_fetcher = None
+        if PMC_FETCHER_AVAILABLE:
+            try:
+                self.pmc_fetcher = PMCFullTextFetcher()
+                logger.info("PMC Full Text Fetcher initialized (PMC-first optimization)")
+            except Exception as e:
+                logger.warning(f"PMC Full Text Fetcher init failed: {e}")
 
         # Ontology modules (SNOMED-CT integration)
         self.concept_hierarchy = None
@@ -757,6 +776,133 @@ class MedicalKAGServer:
         logger.info("add_pdf_v7 called, redirecting to add_pdf()")
         return await self.add_pdf(file_path, metadata)
 
+    def _extract_identifiers_from_pdf(self, path: Path) -> dict[str, str]:
+        """PDF 첫 2페이지에서 DOI/PMID를 경량 추출 (regex, LLM 호출 없음).
+
+        Args:
+            path: PDF 파일 경로
+
+        Returns:
+            {'doi': '10.xxxx/...', 'pmid': '12345678'} (발견된 것만 포함)
+        """
+        import re
+        result = {}
+
+        try:
+            import fitz
+            doc = fitz.open(str(path))
+            text = ""
+            for page_num in range(min(2, len(doc))):
+                text += doc[page_num].get_text()
+            doc.close()
+        except Exception as e:
+            logger.debug(f"[PMC-first] PDF text extraction failed: {e}")
+            return result
+
+        if not text:
+            return result
+
+        # DOI: 10.xxxx/... 패턴 (doi:, DOI , https://doi.org/ 등)
+        doi_match = re.search(
+            r'(?:doi[:\s]*|https?://(?:dx\.)?doi\.org/)?(10\.\d{4,9}/[^\s,;}\]]+)',
+            text, re.IGNORECASE
+        )
+        if doi_match:
+            doi = doi_match.group(1).rstrip('.')
+            result['doi'] = doi
+            logger.info(f"[PMC-first] Extracted DOI from PDF: {doi}")
+
+        # PMID: PMID: 12345678 또는 PMID 12345678
+        pmid_match = re.search(r'PMID[:\s]*(\d{7,8})', text, re.IGNORECASE)
+        if pmid_match:
+            result['pmid'] = pmid_match.group(1)
+            logger.info(f"[PMC-first] Extracted PMID from PDF: {result['pmid']}")
+
+        return result
+
+    async def _try_open_access_text(
+        self,
+        path: Path,
+        identifiers: dict[str, str],
+    ) -> Optional[Any]:
+        """Vision API 전에 Open Access 전문을 시도 (PMC → Unpaywall).
+
+        성공 시 process_text()로 처리한 ProcessorResult 반환, 실패 시 None.
+        """
+        doi = identifiers.get('doi', '')
+        pmid = identifiers.get('pmid', '')
+
+        if not doi and not pmid:
+            return None
+
+        MIN_TEXT_LENGTH = 500
+
+        # Step 1: DOI에서 PMID 확인 (PMC 조회용)
+        if not pmid and doi and self.pubmed_enricher:
+            try:
+                bib_meta = await self.pubmed_enricher.enrich_by_doi(doi)
+                if bib_meta and bib_meta.pmid:
+                    pmid = bib_meta.pmid
+                    logger.info(f"[PMC-first] DOI → PMID resolved: {doi} → {pmid}")
+            except Exception as e:
+                logger.debug(f"[PMC-first] DOI→PMID resolution failed: {e}")
+
+        # Step 2: PMC BioC API (구조화된 전문, 최고 품질)
+        if pmid and self.pmc_fetcher:
+            try:
+                pmc_result = await self.pmc_fetcher.fetch_fulltext(pmid)
+                if pmc_result.has_full_text and len(pmc_result.full_text) >= MIN_TEXT_LENGTH:
+                    logger.info(
+                        f"[PMC-first] PMC full text found: PMID {pmid} "
+                        f"({len(pmc_result.sections)} sections, {len(pmc_result.full_text)} chars)"
+                    )
+                    result = await self.vision_processor.process_text(
+                        text=pmc_result.full_text,
+                        title=pmc_result.title or path.stem,
+                        source="pmc_from_pdf",
+                    )
+                    if result.success:
+                        logger.info(
+                            f"[PMC-first] Text processing succeeded "
+                            f"(in={result.input_tokens}, out={result.output_tokens})"
+                        )
+                        return result
+                    else:
+                        logger.warning(f"[PMC-first] Text processing failed: {result.error}")
+            except Exception as e:
+                logger.warning(f"[PMC-first] PMC fetch/process failed: {e}")
+
+        # Step 3: Unpaywall (DOI 기반 OA 텍스트)
+        if doi and self.doi_fetcher:
+            try:
+                doi_result = await self.doi_fetcher.fetch(
+                    doi, download_pdf=False, fetch_pmc=False,
+                )
+                if doi_result.has_full_text and doi_result.full_text and len(doi_result.full_text) >= MIN_TEXT_LENGTH:
+                    oa_status = doi_result.metadata.oa_status if doi_result.metadata else "unknown"
+                    logger.info(
+                        f"[PMC-first] Unpaywall text found: DOI {doi} "
+                        f"({len(doi_result.full_text)} chars, OA: {oa_status})"
+                    )
+                    result = await self.vision_processor.process_text(
+                        text=doi_result.full_text,
+                        title=(doi_result.metadata.title if doi_result.metadata else "") or path.stem,
+                        source="unpaywall_from_pdf",
+                    )
+                    if result.success:
+                        logger.info(
+                            f"[PMC-first] Unpaywall text processing succeeded "
+                            f"(in={result.input_tokens}, out={result.output_tokens})"
+                        )
+                        return result
+                    else:
+                        logger.warning(f"[PMC-first] Unpaywall text processing failed: {result.error}")
+            except Exception as e:
+                logger.warning(f"[PMC-first] Unpaywall fetch/process failed: {e}")
+
+        logger.info(f"[PMC-first] No OA text available for {path.name}, using Vision API")
+        return None
+
     async def _process_with_vision(
         self,
         path: Path,
@@ -777,8 +923,19 @@ class MedicalKAGServer:
         import json
         from dataclasses import dataclass, field
 
-        # 1. LLM API로 전체 처리 (Claude 또는 Gemini)
-        result = await self.vision_processor.process_pdf(str(path))
+        # 0. PMC-first: Open Access 전문이 있으면 Vision API 대신 텍스트 처리
+        oa_result = None
+        if self.pmc_fetcher or self.doi_fetcher:
+            identifiers = self._extract_identifiers_from_pdf(path)
+            if identifiers:
+                oa_result = await self._try_open_access_text(path, identifiers)
+
+        # 1. LLM API로 전체 처리 (OA 텍스트 또는 Vision API)
+        if oa_result is not None:
+            result = oa_result
+            logger.info(f"[PMC-first] Using Open Access text result for {path.name}")
+        else:
+            result = await self.vision_processor.process_pdf(str(path))
 
         if not result.success:
             logger.warning(f"PDF processing failed: {result.error}")
@@ -1774,7 +1931,35 @@ class MedicalKAGServer:
             }
 
         # 5. PubMed 서지 정보 enrichment (v5.3.5)
-        extracted_meta = result.extracted_metadata
+        # ProcessorResult.extracted_data (dict)에서 메타데이터 파싱
+        _extracted = result.extracted_data or {}
+        _meta_dict = _extracted.get("metadata") or {}
+        _spine_dict = _extracted.get("spine_metadata") or {}
+
+        @dataclass
+        class _AnalyzeExtractedMeta:
+            title: str = ""
+            authors: list = field(default_factory=list)
+            year: int = 0
+            journal: str = ""
+            doi: str = ""
+            pmid: str = ""
+            evidence_level: str = ""
+            study_design: str = ""
+            sample_size: int = 0
+
+        extracted_meta = _AnalyzeExtractedMeta(
+            title=_meta_dict.get("title", title),
+            authors=_meta_dict.get("authors", []),
+            year=_meta_dict.get("year", 0),
+            journal=_meta_dict.get("journal", ""),
+            doi=_meta_dict.get("doi", ""),
+            pmid=_meta_dict.get("pmid", ""),
+            evidence_level=_meta_dict.get("evidence_level", ""),
+            study_design=_meta_dict.get("study_design", ""),
+            sample_size=_meta_dict.get("sample_size", 0),
+        )
+
         pubmed_metadata = None
         pubmed_enriched = False
         web_search_result = None
@@ -1869,16 +2054,22 @@ class MedicalKAGServer:
             if not year and web_search_result.get("year"):
                 year = web_search_result["year"]
 
-        # 7. SpineMetadata 준비 (result.spine_metadata는 unified_pdf_processor의 SpineMetadata 타입)
-        spine_meta = result.spine_metadata
-        # Fallback - 최소 필수 속성 설정 (duck typing으로 처리)
+        # 7. SpineMetadata 준비 (extracted_data의 spine_metadata dict에서 파싱)
         class MinimalSpineMeta:
             sub_domain = "Unknown"
             anatomy_levels = []
             interventions = []
             pathologies = []
             outcomes = []
-        if not spine_meta:
+
+        if _spine_dict:
+            spine_meta = MinimalSpineMeta()
+            spine_meta.sub_domain = _spine_dict.get("sub_domain", "Unknown")
+            spine_meta.anatomy_levels = _spine_dict.get("anatomy_levels", [])
+            spine_meta.interventions = _spine_dict.get("interventions", [])
+            spine_meta.pathologies = _spine_dict.get("pathologies", [])
+            spine_meta.outcomes = _spine_dict.get("outcomes", [])
+        else:
             spine_meta = MinimalSpineMeta()
 
         # 8. Neo4j 관계 구축 (v7.5: 멀티유저 지원)
@@ -1934,7 +2125,8 @@ class MedicalKAGServer:
 
         # 9. 청크 생성 및 임베딩 저장
         chunks_created = 0
-        chunks_data = result.chunks or []
+        _chunks_list = _extracted.get("chunks") or []
+        chunks_data = _chunks_list
 
         if chunks_data and self.neo4j_client:
             try:
@@ -1942,8 +2134,13 @@ class MedicalKAGServer:
 
                 embedding_gen = OpenAIEmbeddingGenerator()
 
-                # 청크 텍스트 추출
-                chunk_texts = [c.content for c in chunks_data if hasattr(c, 'content')]
+                # 청크 텍스트 추출 (dict 또는 object 호환)
+                def _get_chunk_field(c, key, default=None):
+                    if isinstance(c, dict):
+                        return c.get(key, default)
+                    return getattr(c, key, default)
+
+                chunk_texts = [_get_chunk_field(c, 'content', '') for c in chunks_data if _get_chunk_field(c, 'content')]
 
                 if chunk_texts:
                     # v1.14.3: 기존 Chunk 삭제 (중복 방지)
@@ -1956,10 +2153,11 @@ class MedicalKAGServer:
                     for i, (chunk, embedding) in enumerate(zip(chunks_data, embeddings)):
                         chunk_id = f"{paper_id}_chunk_{i}"
 
-                        # 청크 속성 추출
-                        chunk_content = chunk.content if hasattr(chunk, 'content') else str(chunk)
-                        chunk_tier = chunk.tier if hasattr(chunk, 'tier') else 2
-                        chunk_section = chunk.section_type if hasattr(chunk, 'section_type') else "body"
+                        # 청크 속성 추출 (dict 또는 object 호환)
+                        chunk_content = _get_chunk_field(chunk, 'content', str(chunk))
+                        tier_raw = _get_chunk_field(chunk, 'tier', 'tier2')
+                        chunk_tier = 1 if str(tier_raw) in ("tier1", "1") else 2
+                        chunk_section = _get_chunk_field(chunk, 'section_type', 'body')
 
                         # Neo4j에 Chunk 노드 생성 및 Paper와 연결
                         await self.neo4j_client.run_query(
@@ -2010,8 +2208,8 @@ class MedicalKAGServer:
                         "outcomes": spine_meta.outcomes,
                     },
                     "chunks": [
-                        {"content": c.content if hasattr(c, 'content') else str(c)}
-                        for c in (result.chunks or [])
+                        {"content": _get_chunk_field(c, 'content', str(c))}
+                        for c in chunks_data
                     ],
                 },
                 pubmed_metadata=pubmed_metadata,
@@ -2519,7 +2717,9 @@ class MedicalKAGServer:
                         chunk_id = f"{paper_id}_chunk_{i}"
 
                         chunk_content = chunk.get("content", "")
-                        chunk_tier = chunk.get("tier", 2)
+                        # tier: "tier1"/"tier2" 문자열 또는 1/2 정수 모두 호환
+                        tier_raw = chunk.get("tier", "tier2")
+                        chunk_tier = 1 if str(tier_raw) in ("tier1", "1") else 2
                         chunk_section = chunk.get("section_type", "body")
 
                         await self.neo4j_client.run_query(
@@ -3224,132 +3424,31 @@ class MedicalKAGServer:
             if not full_text.strip():
                 return {"success": False, "error": "PDF에서 텍스트를 추출할 수 없습니다."}
 
-            # JSON 스키마 및 프롬프트 생성
-            extraction_prompt = '''You are a medical research paper analyst specializing in spine surgery literature.
-Analyze the following PDF text and extract ALL important information in a structured JSON format.
-
-## JSON SCHEMA
-
-{
-  "metadata": {
-    "title": "Paper title",
-    "authors": ["Author 1", "Author 2"],
-    "year": 2024,
-    "journal": "Journal name",
-    "doi": "",
-    "pmid": "",
-    "abstract": "Complete original abstract text (REQUIRED)",
-    "study_type": "meta-analysis/systematic-review/RCT/prospective-cohort/retrospective-cohort/case-control/case-series/case-report/expert-opinion",
-    "study_design": "randomized/non-randomized/single-arm/multi-arm",
-    "evidence_level": "1a/1b/2a/2b/3/4/5",
-    "sample_size": 100,
-    "centers": "single-center/multi-center",
-    "blinding": "none/single-blind/double-blind/open-label"
-  },
-  "spine_metadata": {
-    "sub_domain": "Degenerative/Deformity/Trauma/Tumor/Infection/Basic Science",
-    "anatomy_level": "L4-5",
-    "anatomy_region": "cervical/thoracic/lumbar/sacral/thoracolumbar/lumbosacral",
-    "pathology": ["Disease 1", "Disease 2"],
-    "interventions": ["Surgery 1", "Surgery 2"],
-    "comparison_type": "vs_conventional/vs_other_mis/vs_conservative/single_arm",
-    "follow_up_months": 24,
-    "main_conclusion": "Brief conclusion in 1-2 sentences",
-    "outcomes": [
-      {
-        "name": "VAS",
-        "category": "pain/function/radiologic/complication/satisfaction/quality_of_life",
-        "baseline": 7.2,
-        "final": 2.1,
-        "value_intervention": "2.1 ± 0.8",
-        "value_control": "3.5 ± 1.2",
-        "value_difference": "-1.4",
-        "p_value": "0.001",
-        "confidence_interval": "95% CI: -2.1 to -0.7",
-        "effect_size": "Cohen's d = 0.8",
-        "timepoint": "preop/postop/1mo/3mo/6mo/1yr/2yr/final",
-        "is_significant": true,
-        "direction": "improved/worsened/unchanged"
-      }
-    ],
-    "complications": [
-      {
-        "name": "Dural tear",
-        "incidence_intervention": "2.5%",
-        "incidence_control": "4.1%",
-        "p_value": "0.35",
-        "severity": "minor/major/revision_required"
-      }
-    ]
-  },
-  "important_citations": [
-    {
-      "authors": ["Kim", "Park"],
-      "year": 2023,
-      "context": "supports_result/contradicts_result/comparison",
-      "section": "discussion/results/introduction",
-      "citation_text": "Original sentence containing the citation",
-      "importance_reason": "Why this citation is important",
-      "outcome_comparison": "VAS/ODI/fusion_rate",
-      "direction_match": true
-    }
-  ],
-  "chunks": [
-    {
-      "content": "Chunk text content (200-500 chars for text, complete for tables)",
-      "content_type": "text/table/figure/key_finding",
-      "section_type": "abstract/introduction/methods/results/discussion/conclusion",
-      "tier": "tier1/tier2",
-      "is_key_finding": false,
-      "topic_summary": "One sentence summary",
-      "keywords": ["keyword1", "keyword2"],
-      "pico": {
-        "population": "",
-        "intervention": "",
-        "comparison": "",
-        "outcome": ""
-      },
-      "statistics": {
-        "p_values": [],
-        "effect_sizes": [],
-        "confidence_intervals": []
-      }
-    }
-  ]
-}
-
-## CRITICAL INSTRUCTIONS
-
-1. **METADATA**: Extract title, authors, year, journal, DOI, PMID, abstract (REQUIRED)
-2. **EVIDENCE LEVEL**: 1a=Meta-analysis, 1b=RCT, 2a=Cohort review, 2b=Cohort, 3=Case-control, 4=Case series, 5=Expert opinion
-3. **SPINE METADATA**: Extract sub_domain, anatomy, pathology, interventions, outcomes with ALL statistics
-4. **CHUNKS**: Create 15-25 chunks (tier1=abstract/results/conclusion, tier2=intro/methods/discussion)
-5. **TABLES**: Extract COMPLETE table data - DO NOT summarize or omit any rows
-6. **STATISTICS**: Extract exact p-values, CIs, effect sizes - these are CRITICAL
-7. **CITATIONS**: Extract important citations that support/contradict results
-
-Return ONLY valid JSON, no additional text.'''
+            # 전체 EXTRACTION_PROMPT 사용 (unified_pdf_processor.py와 동일)
+            from builder.unified_pdf_processor import EXTRACTION_PROMPT
+            extraction_prompt = EXTRACTION_PROMPT.replace(
+                "Analyze this PDF and extract ALL important information",
+                "Analyze the following medical research paper text and extract ALL important information"
+            )
 
             # 사용자 안내 메시지
-            usage_guide = """
-## 📋 사용 방법
+            usage_guide = """## 사용 방법
 
-아래 프롬프트와 PDF 텍스트를 복사하여 Claude 앱에서 분석하세요.
-분석 결과로 받은 JSON을 `add_json` 도구로 저장할 수 있습니다.
+### Claude Code 병렬 처리 (권장)
+1. prepare_prompt로 추출 프롬프트 확인
+2. Claude Code에서 PDF 직접 Read
+3. 프롬프트 + PDF 내용으로 구조화 추출 (JSON)
+4. analyze(action=store_paper, chunks=[...])로 DB 저장
+   - chunks 포함 시 자동으로 임베딩 생성 + Neo4j 저장
 
-### 방법 1: 직접 복사-붙여넣기
-1. 아래 "prompt" 내용을 Claude 앱에 붙여넣기
-2. "pdf_text" 내용을 이어서 붙여넣기
-3. Claude의 JSON 응답을 파일로 저장
-4. `add_json` 도구로 저장: add_json(file_path="저장한파일.json")
+### Claude Desktop 수동 처리
+1. prompt + pdf_text를 Claude 앱에 붙여넣기
+2. JSON 응답을 파일로 저장
+3. add_json(file_path="파일.json")으로 저장
 
-### 방법 2: JSON 파일 직접 저장
-분석 후 JSON을 data/extracted/ 폴더에 저장하면 add_json으로 로드 가능.
-
-### JSON 저장 시 주의사항
-- 파일명: {년도}_{저자}_{제목}.json 형식 권장
-- 인코딩: UTF-8
-- 형식: 위 스키마를 정확히 따를 것
+### 프롬프트 참고
+이 프롬프트는 unified_pdf_processor.py의 EXTRACTION_PROMPT와 동일합니다.
+MCP 서버의 PDF/텍스트 처리와 100% 같은 스키마로 추출됩니다.
 """
 
             return {
@@ -3360,7 +3459,7 @@ Return ONLY valid JSON, no additional text.'''
                 "usage_guide": usage_guide,
                 "prompt": extraction_prompt,
                 "pdf_text": full_text,
-                "next_step": "Claude 앱에서 분석 후 add_json으로 결과 저장"
+                "next_step": "Claude Code: PDF Read → 추출 → store_paper(chunks 포함) / Claude Desktop: add_json"
             }
 
         except Exception as e:
@@ -6101,7 +6200,17 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
         logger.error("MCP library not available")
         return None
 
-    server = Server("medical-kag")
+    # Read version from src/__init__.py (single source of truth)
+    _pkg_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    try:
+        with open(os.path.join(_pkg_root, "__init__.py")) as _f:
+            _version = next(
+                line.split('"')[1] for line in _f if line.startswith("__version__")
+            )
+    except (FileNotFoundError, StopIteration):
+        _version = "unknown"
+
+    server = Server("medical-kag", version=_version)
 
     @server.list_tools()
     async def list_tools() -> list[Tool]:

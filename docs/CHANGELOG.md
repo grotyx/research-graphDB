@@ -2,6 +2,49 @@
 
 ## Version History
 
+### v1.17.0 (2026-02-15): PMC-first PDF 최적화 + Claude Code 병렬 처리 지원
+
+PDF 처리 파이프라인을 개선하여 Open Access 논문의 처리 비용을 절감하고, Claude Code에서 직접 PDF를 병렬 처리할 수 있는 워크플로우를 구축.
+
+#### 신규 기능
+
+| # | 변경 | 파일 |
+|---|------|------|
+| 1 | **PMC-first PDF 최적화**: PDF 업로드 시 Vision API 전에 PMC/Unpaywall 전문을 우선 시도. Open Access 논문은 텍스트 처리로 전환하여 비용 ~60-80% 절감 | `medical_kag_server.py` |
+| 2 | **DOI/PMID 경량 추출**: PyMuPDF로 첫 2페이지만 읽어 regex로 DOI/PMID 추출 (~100ms, LLM 호출 없음) | `medical_kag_server.py` |
+| 3 | **prepare_prompt 전체 스키마**: 간소화 프롬프트를 `EXTRACTION_PROMPT` import로 교체. MCP 서버 내부 처리와 100% 동일한 추출 스키마 | `medical_kag_server.py` |
+| 4 | **Claude Code 병렬 PDF 처리 워크플로우**: PDF Read → EXTRACTION_PROMPT로 추출 → store_paper(chunks 포함) → 임베딩 자동 생성 | `medical_kag_server.py` |
+
+#### 버그 수정
+
+| # | 변경 | 파일 |
+|---|------|------|
+| 1 | **analyze text 액션 수정**: `result.extracted_metadata` → `result.extracted_data` dict 파싱으로 변경 (AttributeError 해결) | `medical_kag_server.py` |
+| 2 | **analyze text spine_metadata 수정**: `result.spine_metadata` → `_spine_dict`에서 파싱 | `medical_kag_server.py` |
+| 3 | **analyze text chunks 수정**: `result.chunks` → `_extracted.get("chunks")` dict 호환 처리 | `medical_kag_server.py` |
+| 4 | **chunk tier 타입 호환**: `"tier1"/"tier2"` 문자열 ↔ `1/2` 정수 자동 변환 (store_paper, analyze_text 양쪽) | `medical_kag_server.py` |
+| 5 | **MCP 서버 버전 동기화**: `Server("medical-kag", version=_version)` — `src/__init__.py`에서 동적 참조 | `medical_kag_server.py` |
+
+#### PMC-first 처리 흐름
+
+```
+PDF 업로드 → 첫 2페이지 DOI/PMID 추출 (regex)
+  → DOI만 있으면 PubMed에서 PMID 확인
+  → PMC BioC API 전문 시도 (구조화 텍스트)
+  → 실패 시 Unpaywall 시도
+  → 전문 있으면 process_text() (저비용 텍스트 처리)
+  → 없으면 기존 Vision API fallback
+```
+
+#### Claude Code 병렬 처리 워크플로우
+
+```
+1. prepare_prompt → EXTRACTION_PROMPT 확인 (unified_pdf_processor와 동일)
+2. Claude Code: Task agent 병렬로 PDF Read
+3. EXTRACTION_PROMPT 스키마로 JSON 추출
+4. store_paper(chunks=[...]) → MCP 서버가 임베딩 생성 + Neo4j 저장
+```
+
 ### v1.16.4 (2026-02-14): SNOMED 보강 버그픽스 및 커버리지 확장
 
 v1.16.3에서 발견된 Critical/High 이슈 수정 + 누락 커버리지 전면 보완. SNOMED 315개(I:123, P:85, O:70, A:37).
