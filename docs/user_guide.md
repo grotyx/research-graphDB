@@ -469,6 +469,7 @@ PubMed에서 논문을 검색하고 가져옵니다. v1.16에서 DOI/Crossref fa
 | `response_template` | 리비전 응답 템플릿 |
 | `draft_response` | 리뷰어 코멘트 응답 초안 |
 | `analyze_comments` | 리뷰어 코멘트 분석 |
+| `all_guides` | 전체 가이드 통합 조회 |
 
 **Usage**:
 ```
