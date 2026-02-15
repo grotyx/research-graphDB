@@ -3446,9 +3446,20 @@ class MedicalKAGServer:
    - "text" 또는 "summary" 필드도 호환 가능
    - chunks 포함 시 자동으로 OpenAI 임베딩 생성 + Neo4j 저장
 
+### 중요: 청크 생성 규칙 (반드시 준수)
+- **목표: 15-25개 청크** (8개 미만이면 부족!)
+- text: 8-12개 (200-500자, abstract/intro/methods/discussion/conclusion)
+- key_finding: 5-8개 (통계 포함 결과, is_key_finding=true, tier=tier1)
+- table: 2-4개 (표 내러티브 요약, tier=tier1)
+- figure: 2-3개 (그림 서술적 설명, tier=tier2)
+- 각 청크 content는 200-500자 (너무 길면 분할!)
+
 ### chunk 스키마 (EXTRACTION_PROMPT 동일)
 ```json
-{"chunks": [{"content": "본문 텍스트...", "section_type": "methods", "tier": "tier1", "summary": "요약", "keywords": [...]}]}
+{"chunks": [
+  {"content": "본문 텍스트 200-500자...", "content_type": "text", "section_type": "methods", "tier": "tier2", "is_key_finding": false, "summary": "한줄 요약", "keywords": ["keyword1", "keyword2"]},
+  {"content": "VAS 점수가 수술 전 6.8±1.2에서 최종 추시 시 2.1±0.9로 유의하게 감소 (p<0.001)...", "content_type": "key_finding", "section_type": "results", "tier": "tier1", "is_key_finding": true, "summary": "VAS 유의한 개선", "keywords": ["VAS", "pain"], "statistics": {"p_value": "<0.001", "is_significant": true}}
+]}
 ```
 
 ### Claude Desktop 수동 처리
