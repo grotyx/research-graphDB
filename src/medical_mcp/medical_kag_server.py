@@ -2604,22 +2604,81 @@ class MedicalKAGServer:
         if not self.relationship_builder:
             return {"success": False, "error": "RelationshipBuilder not initialized"}
 
-        # 4. GraphSpineMetadata 생성
+        # 4. PubMed enrichment (v1.18: store_paper에도 추가)
+        pubmed_metadata = None
+        pubmed_enriched = False
+        if self.pubmed_enricher and (doi or title):
+            try:
+                logger.info(f"[store_paper] Attempting PubMed enrichment for: {title[:50]}...")
+                pubmed_metadata = await self.pubmed_enricher.auto_enrich(
+                    title=title,
+                    authors=authors or [],
+                    year=year,
+                    journal=journal,
+                    doi=doi
+                )
+                if pubmed_metadata:
+                    pubmed_enriched = True
+                    logger.info(f"[store_paper] PubMed enrichment successful: PMID={pubmed_metadata.pmid}")
+
+                    # PubMed 서지 정보 병합 (기존 값 우선, 빈 값만 보강)
+                    if not pmid and pubmed_metadata.pmid:
+                        pmid = pubmed_metadata.pmid
+                    if not doi and pubmed_metadata.doi:
+                        doi = pubmed_metadata.doi
+                    if not authors and pubmed_metadata.authors:
+                        authors = pubmed_metadata.authors
+                    if (not journal or journal == "Unknown") and pubmed_metadata.journal:
+                        journal = pubmed_metadata.journal
+
+                    # 근거 수준 추론 (기존 값 없는 경우)
+                    if not evidence_level and pubmed_metadata.publication_types:
+                        inferred_level = self.pubmed_enricher.get_evidence_level_from_publication_type(
+                            pubmed_metadata.publication_types
+                        )
+                        if inferred_level:
+                            evidence_level = inferred_level
+                            logger.info(f"[store_paper] Evidence level inferred: {inferred_level}")
+                else:
+                    logger.info("[store_paper] PubMed enrichment returned no results")
+            except Exception as e:
+                logger.warning(f"[store_paper] PubMed enrichment failed: {e}")
+
+        # DOI fallback (PubMed 실패 시)
+        if not pubmed_enriched and doi and self.doi_fetcher:
+            try:
+                logger.info(f"[store_paper] Trying DOI fallback: {doi}")
+                doi_metadata = await self.doi_fetcher.get_metadata_only(doi)
+                if doi_metadata:
+                    from builder.pubmed_enricher import BibliographicMetadata as BibMeta
+                    pubmed_metadata = BibMeta.from_doi_metadata(doi_metadata, confidence=0.8)
+                    pubmed_enriched = True
+                    if not pmid and pubmed_metadata.pmid:
+                        pmid = pubmed_metadata.pmid
+                    logger.info(f"[store_paper] DOI fallback successful")
+            except Exception as e:
+                logger.warning(f"[store_paper] DOI fallback failed: {e}")
+
+        # PMID가 확보되면 paper_id 재생성
+        if pmid and paper_id.startswith("analyzed_"):
+            paper_id = f"pubmed_{pmid}"
+            logger.info(f"[store_paper] Paper ID updated with PMID: {paper_id}")
+
+        # 5. GraphSpineMetadata 생성
         try:
             # GraphSpineMetadata already imported at module level
 
-            # outcomes 형식 변환
+            # outcomes 형식 변환 (모든 필드 유지, v1.18)
             formatted_outcomes = []
             for o in outcomes:
                 if isinstance(o, dict):
-                    formatted_outcomes.append({
-                        "name": o.get("name", ""),
-                        "value": o.get("value"),
-                        "p_value": o.get("p_value"),
-                        "direction": o.get("direction", ""),
-                        "effect_size": o.get("effect_size", ""),
-                    })
-                else:
+                    # 원본 dict 전체 복사 + name 필수 보장
+                    outcome_dict = dict(o)
+                    if not outcome_dict.get("name"):
+                        logger.warning(f"[store_paper] Outcome with empty name, skipping: {o}")
+                        continue
+                    formatted_outcomes.append(outcome_dict)
+                elif o:
                     formatted_outcomes.append({"name": str(o)})
 
             graph_spine_meta = GraphSpineMetadata(
@@ -2670,7 +2729,7 @@ class MedicalKAGServer:
                 authors=authors or [],
                 year=year,
                 journal=journal or "Unknown",
-                doi=doi,
+                doi=doi or "",  # v1.18: None 방지 (sanitize_doi가 처리하지만 방어적으로)
                 pmid=pmid or "",
                 study_design=study_design or "",
                 evidence_level=evidence_level or "unknown",
@@ -2689,6 +2748,12 @@ class MedicalKAGServer:
             )
 
             logger.info(f"Neo4j relationships built: {neo4j_result.nodes_created} nodes, {neo4j_result.relationships_created} relationships")
+
+            # v1.18: Outcome 생성 결과 로깅
+            if formatted_outcomes:
+                logger.info(f"[store_paper] Passed {len(formatted_outcomes)} outcomes to build_from_paper")
+            if neo4j_result.warnings:
+                logger.info(f"[store_paper] Build warnings: {neo4j_result.warnings}")
 
         except Exception as e:
             logger.exception(f"Neo4j storage failed: {e}")
@@ -2759,6 +2824,7 @@ class MedicalKAGServer:
             "paper_id": paper_id,
             "title": title,
             "processing_method": "store_analyzed_paper",
+            "pubmed_enriched": pubmed_enriched,
             "stored_metadata": {
                 "title": title,
                 "year": year,
@@ -2773,7 +2839,7 @@ class MedicalKAGServer:
                 "interventions": interventions,
                 "pathologies": pathologies,
                 "anatomy_levels": anatomy_levels,
-                "outcomes_count": len(outcomes),
+                "outcomes_count": len(formatted_outcomes),
             },
             "neo4j_result": {
                 "nodes_created": neo4j_result.nodes_created if neo4j_result else 0,

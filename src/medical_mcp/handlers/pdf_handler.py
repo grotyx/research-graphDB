@@ -647,22 +647,52 @@ Return ONLY valid JSON, no additional text.'''
         if not self.server.relationship_builder:
             return {"success": False, "error": "RelationshipBuilder not initialized"}
 
-        # 4. GraphSpineMetadata 생성
+        # 4. PubMed enrichment (v1.18: store_paper에도 추가)
+        pubmed_metadata = None
+        pubmed_enriched = False
+        if hasattr(self.server, 'pubmed_enricher') and self.server.pubmed_enricher and (doi or title):
+            try:
+                logger.info(f"[store_paper/handler] PubMed enrichment for: {title[:50]}...")
+                pubmed_metadata = await self.server.pubmed_enricher.auto_enrich(
+                    title=title, authors=authors or [], year=year, journal=journal, doi=doi
+                )
+                if pubmed_metadata:
+                    pubmed_enriched = True
+                    if not pmid and pubmed_metadata.pmid:
+                        pmid = pubmed_metadata.pmid
+                    if not doi and pubmed_metadata.doi:
+                        doi = pubmed_metadata.doi
+                    if not authors and pubmed_metadata.authors:
+                        authors = pubmed_metadata.authors
+                    if (not journal or journal == "Unknown") and pubmed_metadata.journal:
+                        journal = pubmed_metadata.journal
+                    if not evidence_level and pubmed_metadata.publication_types:
+                        inferred = self.server.pubmed_enricher.get_evidence_level_from_publication_type(
+                            pubmed_metadata.publication_types
+                        )
+                        if inferred:
+                            evidence_level = inferred
+            except Exception as e:
+                logger.warning(f"[store_paper/handler] PubMed enrichment failed: {e}")
+
+        # PMID가 확보되면 paper_id 재생성
+        if pmid and paper_id.startswith("analyzed_"):
+            paper_id = f"pubmed_{pmid}"
+
+        # 5. GraphSpineMetadata 생성
         try:
             # GraphSpineMetadata imported at module level from relationship_builder
 
-            # outcomes 형식 변환
+            # outcomes 형식 변환 (모든 필드 유지, v1.18)
             formatted_outcomes = []
             for o in outcomes:
                 if isinstance(o, dict):
-                    formatted_outcomes.append({
-                        "name": o.get("name", ""),
-                        "value": o.get("value"),
-                        "p_value": o.get("p_value"),
-                        "direction": o.get("direction", ""),
-                        "effect_size": o.get("effect_size", ""),
-                    })
-                else:
+                    outcome_dict = dict(o)
+                    if not outcome_dict.get("name"):
+                        logger.warning(f"[store_paper/handler] Outcome with empty name, skipping: {o}")
+                        continue
+                    formatted_outcomes.append(outcome_dict)
+                elif o:
                     formatted_outcomes.append({"name": str(o)})
 
             graph_spine_meta = GraphSpineMetadata(
@@ -676,7 +706,7 @@ Return ONLY valid JSON, no additional text.'''
                 pico_population=None,
                 pico_intervention=interventions[0] if interventions else None,
                 pico_comparison=interventions[1] if len(interventions) > 1 else None,
-                pico_outcomes=[o.get("name", "") for o in formatted_outcomes if o.get("name")],
+                pico_outcome=", ".join([o.get("name", "") for o in formatted_outcomes if o.get("name")]),
                 main_conclusion=summary[:500] if summary else None,
                 summary=summary or "",
                 processing_version="v1.3_store_analyzed",
@@ -687,7 +717,7 @@ Return ONLY valid JSON, no additional text.'''
                 quality_metrics=quality_metrics or [],
             )
 
-            # 5. RelationshipBuilder로 Neo4j에 저장 (v1.5: 멀티유저 지원)
+            # 6. RelationshipBuilder로 Neo4j에 저장 (v1.5: 멀티유저 지원)
             from dataclasses import dataclass, field as df
 
             # ExtractedMetadata 호환 객체 생성
@@ -713,7 +743,7 @@ Return ONLY valid JSON, no additional text.'''
                 authors=authors or [],
                 year=year,
                 journal=journal or "Unknown",
-                doi=doi,
+                doi=doi or "",  # v1.18: None 방지
                 pmid=pmid or "",
                 study_design=study_design or "",
                 evidence_level=evidence_level or "unknown",
@@ -802,6 +832,7 @@ Return ONLY valid JSON, no additional text.'''
             "paper_id": paper_id,
             "title": title,
             "processing_method": "store_analyzed_paper",
+            "pubmed_enriched": pubmed_enriched,
             "stored_metadata": {
                 "title": title,
                 "year": year,
@@ -816,7 +847,7 @@ Return ONLY valid JSON, no additional text.'''
                 "interventions": interventions,
                 "pathologies": pathologies,
                 "anatomy_levels": anatomy_levels,
-                "outcomes_count": len(outcomes),
+                "outcomes_count": len(formatted_outcomes),
             },
             "neo4j_result": {
                 "nodes_created": neo4j_result.nodes_created if neo4j_result else 0,
