@@ -1,10 +1,10 @@
-# Spine GraphRAG v1.17.0 - User Guide
+# Spine GraphRAG v1.18.0 - User Guide
 
 ## Overview
 
 Spine GraphRAG is an advanced knowledge augmented generation system for spine surgery research. It uses Neo4j as a unified graph and vector database (HNSW 3072d) with LLM-based reasoning (Claude Haiku 4.5) to provide evidence-based answers to medical questions.
 
-**Version**: 1.17.0
+**Version**: 1.18.0
 **Last Updated**: 2026-02-15
 
 ### Key Features (v1.17)
@@ -66,7 +66,7 @@ cp .env.example .env
 python scripts/init_neo4j.py
 
 # Check Neo4j connection
-docker logs neo4j-spine
+docker logs spine_graphrag_neo4j
 # Should see "Started."
 
 # Start Web UI
@@ -327,10 +327,12 @@ PDF/텍스트 논문을 추가하고 관리합니다.
 |--------|------|
 | `add_pdf_v7` | PDF 논문 추가 (v7 파이프라인, 권장) |
 | `add_pdf` | PDF 논문 추가 (레거시) |
+| `add_json` | JSON 파일로 논문 추가 |
 | `list` | 저장된 논문 목록 조회 |
 | `delete` | 논문 삭제 |
 | `export` | 논문 데이터 내보내기 |
 | `reset` | 데이터베이스 초기화 |
+| `prepare_prompt` | PDF 분석 프롬프트 준비 |
 
 **Usage**:
 ```
@@ -360,6 +362,7 @@ PubMed에서 논문을 검색하고 가져옵니다. v1.16에서 DOI/Crossref fa
 |--------|------|
 | `search` | PubMed 검색 |
 | `bulk_search` | 대량 검색 |
+| `hybrid_search` | PubMed + 로컬 통합 검색 |
 | `import_by_pmids` | PMID로 논문 가져오기 (가장 효율적) |
 | `import_citations` | 인용 정보 가져오기 |
 | `fetch_by_doi` | DOI로 논문 조회 (전문 포함) |
@@ -367,6 +370,7 @@ PubMed에서 논문을 검색하고 가져옵니다. v1.16에서 DOI/Crossref fa
 | `import_by_doi` | DOI로 논문 임포트 |
 | `upgrade_pdf` | PDF에 PubMed 메타데이터 추가 |
 | `get_abstract_only` | 초록만 가져오기 |
+| `get_stats` | 통계 조회 |
 
 **Usage**:
 ```
@@ -397,6 +401,7 @@ PubMed에서 논문을 검색하고 가져옵니다. v1.16에서 DOI/Crossref fa
 | `clusters` | 관련 논문 클러스터 |
 | `multi_hop` | 멀티홉 추론 |
 | `draft_citations` | 인용 문구 초안 생성 |
+| `build_relations` | 논문 간 SIMILAR_TOPIC 관계 자동 구축 |
 
 **Usage**:
 ```
@@ -688,7 +693,7 @@ docker ps | grep neo4j
 docker-compose restart neo4j
 
 # Check logs
-docker logs neo4j-spine
+docker logs spine_graphrag_neo4j
 ```
 
 #### 2. PDF Processing Fails

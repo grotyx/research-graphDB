@@ -985,7 +985,7 @@ PyMuPDF>=1.23.0
 # Neo4j 설정 (docker-compose.yml)
 services:
   neo4j:
-    image: neo4j:5.15-community
+    image: neo4j:5.26-community
     ports:
       - "7474:7474"    # Browser
       - "7687:7687"    # Bolt

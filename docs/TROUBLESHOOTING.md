@@ -10,7 +10,7 @@ docker ps | grep neo4j
 docker-compose restart neo4j
 
 # View logs
-docker logs neo4j-spine
+docker logs spine_graphrag_neo4j
 
 # Access browser (after 30 seconds)
 open http://localhost:7474
@@ -21,7 +21,7 @@ open http://localhost:7474
 
 ### 1. ServiceUnavailable: Neo4j service not available
 - Wait 30 seconds after `docker-compose up` for full initialization
-- Check logs: `docker logs neo4j-spine`
+- Check logs: `docker logs spine_graphrag_neo4j`
 - Verify credentials in .env
 
 ### 2. Neo4j Vector Index not found
