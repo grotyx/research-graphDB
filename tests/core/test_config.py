@@ -112,12 +112,16 @@ development:
 
 @pytest.fixture
 def reset_config():
-    """Reset config singleton between tests."""
+    """Reset config singleton between tests and preserve environment."""
     ConfigManager._instance = None
     ConfigManager._config = None
+    saved_env = dict(os.environ)
     yield
     ConfigManager._instance = None
     ConfigManager._config = None
+    # Restore environment: remove any new vars, restore deleted ones
+    os.environ.clear()
+    os.environ.update(saved_env)
 
 
 # ============================================================================
@@ -166,7 +170,10 @@ def test_config_caching(temp_config_file, reset_config):
 
 def test_env_var_resolution_with_default(temp_config_file, reset_config):
     """Test environment variable resolution with defaults."""
-    # Don't set env vars, should use defaults
+    # Remove env vars so config file defaults apply (reset_config fixture restores them)
+    for key in ["NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD", "GEMINI_API_KEY", "LLM_MODEL"]:
+        os.environ.pop(key, None)
+
     manager = ConfigManager()
     config = manager.load(temp_config_file)
 
@@ -177,22 +184,17 @@ def test_env_var_resolution_with_default(temp_config_file, reset_config):
 
 def test_env_var_resolution_with_override(temp_config_file, reset_config):
     """Test environment variable override."""
+    # Set override values (reset_config fixture restores originals)
     os.environ["NEO4J_URI"] = "bolt://override:7687"
     os.environ["NEO4J_USERNAME"] = "override_user"
     os.environ["GEMINI_API_KEY"] = "override_key"
 
-    try:
-        manager = ConfigManager()
-        config = manager.load(temp_config_file)
+    manager = ConfigManager()
+    config = manager.load(temp_config_file)
 
-        assert config.neo4j.uri == "bolt://override:7687"
-        assert config.neo4j.username == "override_user"
-        assert config.llm.api_key == "override_key"
-    finally:
-        # Cleanup
-        del os.environ["NEO4J_URI"]
-        del os.environ["NEO4J_USERNAME"]
-        del os.environ["GEMINI_API_KEY"]
+    assert config.neo4j.uri == "bolt://override:7687"
+    assert config.neo4j.username == "override_user"
+    assert config.llm.api_key == "override_key"
 
 
 def test_env_var_resolution_without_default(temp_config_file, reset_config):
@@ -466,6 +468,10 @@ def test_full_config_integration(temp_config_file, reset_config):
 
 def test_config_usage_in_module_context(temp_config_file, reset_config):
     """Test configuration usage as it would be in actual modules."""
+    # Remove env vars so config file defaults apply (reset_config fixture restores them)
+    for key in ["NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD", "GEMINI_API_KEY", "LLM_MODEL"]:
+        os.environ.pop(key, None)
+
     manager = ConfigManager()
     manager.load(temp_config_file)
 

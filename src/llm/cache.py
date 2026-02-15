@@ -336,7 +336,7 @@ class LLMCache:
                     FROM cost_log
                     WHERE timestamp >= ?
                     """,
-                    (since.isoformat(),)
+                    (since.strftime('%Y-%m-%d %H:%M:%S'),)
                 )
             else:
                 cursor = await db.execute(
