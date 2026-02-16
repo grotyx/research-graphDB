@@ -38,6 +38,7 @@ Usage:
         print(entities.complications)  # List[ExtractedEntity] (v1.1)
 """
 
+import json
 import logging
 import re
 from dataclasses import dataclass, field
@@ -612,7 +613,6 @@ If no entities found in a category, return empty array.
             response_text = response.text if hasattr(response, 'text') else str(response)
 
             # Parse JSON response
-            import json
             response_json = self._extract_json_from_response(response_text)
             data = json.loads(response_json)
 

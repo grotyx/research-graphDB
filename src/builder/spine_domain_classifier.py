@@ -6,6 +6,7 @@ Neo4j Graph에 저장하기 적합한 형태로 변환.
 """
 
 import logging
+import re
 from dataclasses import dataclass, field
 from typing import Optional
 
@@ -279,7 +280,6 @@ class SpineDomainClassifier:
 
         # 추가 검증 로직은 필요시 구현
         # 예: "L4-L5" → "L4-5", "C5-C6" → "C5-6"
-        import re
 
         # 간단한 정리: L4-L5 → L4-5
         cleaned = re.sub(r'([CTLS])(\d+)-\1(\d+)', r'\1\2-\3', cleaned)
@@ -358,8 +358,6 @@ class SpineDomainClassifier:
         Returns:
             추출된 해부학 레벨 (없으면 빈 문자열)
         """
-        import re
-
         # 패턴: L4-5, C5-6, T10-L2 등
         patterns = [
             r'\b([CTLS]\d+[-–]\d+)\b',  # L4-5, C5-6

@@ -12,6 +12,7 @@ v1.14.11: Entity Normalization 적용
 """
 
 import logging
+import time
 from dataclasses import dataclass
 from typing import Optional
 
@@ -180,7 +181,6 @@ class GraphSearch:
         """
 
         try:
-            import time
             start = time.perf_counter()
 
             results = await self.neo4j_client.run_query(
@@ -279,7 +279,6 @@ class GraphSearch:
         cypher = CypherTemplates.SEARCH_INTERVENTIONS_FOR_PATHOLOGY + " LIMIT $limit"
 
         try:
-            import time
             start = time.perf_counter()
 
             results = await self.neo4j_client.run_query(
@@ -468,7 +467,6 @@ class GraphSearch:
             params = {"intervention_name": intervention_name}
 
         try:
-            import time
             start = time.perf_counter()
 
             results = await self.neo4j_client.run_query(cypher, params)
@@ -605,7 +603,6 @@ class GraphSearch:
         """
 
         try:
-            import time
             start = time.perf_counter()
 
             results = await self.neo4j_client.run_query(cypher, params)

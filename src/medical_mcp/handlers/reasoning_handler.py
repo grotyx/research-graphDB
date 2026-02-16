@@ -142,6 +142,7 @@ class ReasoningHandler(BaseHandler):
             try:
                 search_pipeline = UnifiedSearchPipeline(neo4j_client=self.neo4j_client)
             except Exception as e:
+                logger.error(f"Search pipeline init failed: {e}", exc_info=True)
                 return {"success": False, "error": f"Search pipeline initialization failed: {e}"}
 
         reasoner = MultiHopReasoner(

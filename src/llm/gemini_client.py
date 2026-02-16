@@ -5,6 +5,7 @@
 """
 
 import asyncio
+import json
 import os
 import time
 import logging
@@ -456,8 +457,6 @@ class GeminiClient:
         Returns:
             {"data": 파싱된 JSON, "input_tokens": int, "output_tokens": int}
         """
-        import json
-
         # 설정 구성 (JSON 모드)
         config = types.GenerateContentConfig(
             temperature=self.config.temperature,
@@ -509,8 +508,6 @@ class GeminiClient:
         Returns:
             GeminiResponse 목록 (입력 순서 유지)
         """
-        import json
-
         semaphore = asyncio.Semaphore(concurrency)
 
         async def process_request(idx: int, req: dict) -> tuple[int, GeminiResponse]:

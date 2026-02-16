@@ -46,6 +46,12 @@ except ImportError:
         LEVEL_4 = "4"
         LEVEL_5 = "5"
 try:
+    import nest_asyncio
+    nest_asyncio.apply()
+except ImportError:
+    pass
+
+try:
     import openai
     OPENAI_AVAILABLE = True
 except ImportError:
@@ -508,8 +514,6 @@ class TieredHybridSearch:
                 loop = asyncio.get_running_loop()
                 # 이벤트 루프가 있으면 run_until_complete 사용 불가
                 # asyncio.create_task 또는 다른 방법 필요
-                import nest_asyncio
-                nest_asyncio.apply()
                 raw_results = asyncio.get_event_loop().run_until_complete(
                     self.neo4j_client.vector_search_chunks(
                         embedding=query_embedding,
@@ -642,8 +646,6 @@ class TieredHybridSearch:
             import asyncio
             try:
                 loop = asyncio.get_running_loop()
-                import nest_asyncio
-                nest_asyncio.apply()
                 raw_results = asyncio.get_event_loop().run_until_complete(
                     self.neo4j_client.hybrid_search(
                         embedding=query_embedding,

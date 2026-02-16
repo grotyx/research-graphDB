@@ -30,6 +30,8 @@ except ImportError:
 
 import asyncio
 import json
+import re
+import uuid
 from datetime import datetime
 from typing import Optional, Any
 
@@ -784,7 +786,6 @@ class MedicalKAGServer:
         Returns:
             {'doi': '10.xxxx/...', 'pmid': '12345678'} (발견된 것만 포함)
         """
-        import re
         result = {}
 
         try:
@@ -921,7 +922,6 @@ class MedicalKAGServer:
         Returns:
             처리 결과 딕셔너리
         """
-        import json
         from dataclasses import dataclass, field
 
         # 0. PMC-first: Open Access 전문이 있으면 Vision API 대신 텍스트 처리
@@ -1526,8 +1526,6 @@ class MedicalKAGServer:
         Returns:
             GraphSpineMetadata 객체
         """
-        import re
-
         interventions = set()
         pathologies = set()
         anatomy_levels = set()
@@ -1876,9 +1874,6 @@ class MedicalKAGServer:
         Returns:
             분석 결과 및 저장 통계
         """
-        import uuid
-        from datetime import datetime
-
         logger.info("Using text analysis pipeline")
 
         # 1. 입력 검증
@@ -2447,10 +2442,6 @@ class MedicalKAGServer:
             pubmed_metadata: PubMed enrichment 결과 (선택)
             web_search_result: 웹 검색 결과 (선택)
         """
-        import json
-        import re
-        from pathlib import Path
-
         # data/extracted 폴더 확인
         extracted_dir = Path("data/extracted")
         extracted_dir.mkdir(parents=True, exist_ok=True)
@@ -2560,7 +2551,6 @@ class MedicalKAGServer:
         Returns:
             유효 여부
         """
-        import re
         return bool(re.match(r'^\d{1,8}$', str(pmid).strip()))
 
     @staticmethod
@@ -2573,7 +2563,6 @@ class MedicalKAGServer:
         Returns:
             유효 여부
         """
-        import re
         return bool(re.match(r'^10\.\d{4,}/.+$', str(doi).strip()))
 
     # =========================================================================
@@ -2595,7 +2584,6 @@ class MedicalKAGServer:
             성공 여부
         """
         try:
-            import os
             from openai import OpenAI
 
             # v1.18: OpenAI 클라이언트 lazy 초기화 (재사용)
@@ -2780,8 +2768,6 @@ class MedicalKAGServer:
         Returns:
             처리된 TextChunk 목록
         """
-        import json
-
         chunks = []
 
         try:
@@ -2937,8 +2923,6 @@ class MedicalKAGServer:
         Returns:
             문서 ID 문자열
         """
-        import re
-
         parts = []
 
         # 1. 첫 번째 저자
@@ -3803,6 +3787,7 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
             result = await kag_server.document_handler.export_document(paper_id)
             return json.dumps(result, ensure_ascii=False, indent=2)
         except Exception as e:
+            logger.error(f"read_resource failed: {e}", exc_info=True)
             return json.dumps({"error": str(e)})
 
     # ================================================================
@@ -3918,7 +3903,6 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
             else:
                 result = await dispatcher(action, arguments)
 
-            import json
             result_text = json.dumps(result, ensure_ascii=False, indent=2)
             return [TextContent(type="text", text=result_text)]
 

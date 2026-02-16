@@ -16,10 +16,12 @@ v3.2+ Important Citation Extraction Feature
 v3.2.1 Claude/Gemini 듀얼 프로바이더 지원
 """
 
+import asyncio
 import re
 import json
 import logging
 import os
+import time
 from dataclasses import dataclass, field
 from typing import Optional, Any
 from enum import Enum
@@ -312,9 +314,6 @@ class ClaudeBackend:
         Returns:
             추출 결과 딕셔너리
         """
-        import asyncio
-        import time
-
         start_time = time.time()
 
         try:
@@ -401,7 +400,6 @@ class GeminiBackend:
         Returns:
             추출 결과 딕셔너리
         """
-        import time
         from google.genai.types import GenerateContentConfig, Part
 
         start_time = time.time()

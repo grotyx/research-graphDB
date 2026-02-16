@@ -28,6 +28,7 @@ import asyncio
 import hashlib
 import json
 import logging
+import os
 import re
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -458,8 +459,6 @@ class PubMedBulkProcessor:
             results = await processor.import_papers(papers, owner="kim", shared=False)
             print(f"Imported {results.imported} / {results.total_papers} papers")
         """
-        import asyncio
-
         summary = BulkImportSummary(total_papers=len(papers))
 
         # v1.14.24: LLM 처리 전에 배치 중복 체크 (DB 쿼리 1회로 모든 중복 확인)
@@ -1383,7 +1382,6 @@ class PubMedBulkProcessor:
                 citations = result[0]["citations"]
                 # Parse citations if stored as JSON string
                 if isinstance(citations, str):
-                    import json
                     return json.loads(citations)
                 return citations
         except Exception as e:
@@ -1465,7 +1463,6 @@ class PubMedBulkProcessor:
             성공 여부
         """
         try:
-            import os
             from openai import OpenAI
 
             if self._openai_client is None:

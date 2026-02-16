@@ -110,6 +110,11 @@ class PubMedHandler(BaseHandler):
         self.pubmed_enricher = server.pubmed_enricher
         self.relationship_builder = server.relationship_builder
 
+    async def _get_fresh_neo4j_client(self):
+        """Create a fresh Neo4j client to avoid event loop conflicts with Streamlit."""
+        from graph.neo4j_client import Neo4jClient
+        return Neo4jClient()
+
     def _classify_sub_domain(self, title: str, abstract: str) -> Optional[str]:
         """제목과 초록으로 sub_domain 분류 (v1.14.18)."""
         text = f"{title} {abstract}".lower()
@@ -285,9 +290,7 @@ class PubMedHandler(BaseHandler):
         self._require_neo4j()
 
         # Create a fresh Neo4j client to avoid event loop conflicts
-        from graph.neo4j_client import Neo4jClient
-
-        async with Neo4jClient() as fresh_neo4j:
+        async with await self._get_fresh_neo4j_client() as fresh_neo4j:
             # Initialize processor (v5.3: Neo4j 전용)
             processor = PubMedBulkProcessor(
                 neo4j_client=fresh_neo4j,
@@ -364,9 +367,7 @@ class PubMedHandler(BaseHandler):
         self._require_neo4j()
 
         # Create a fresh Neo4j client to avoid event loop conflicts
-        from graph.neo4j_client import Neo4jClient
-
-        async with Neo4jClient() as fresh_neo4j:
+        async with await self._get_fresh_neo4j_client() as fresh_neo4j:
             processor = PubMedBulkProcessor(
                 neo4j_client=fresh_neo4j,
                 vector_db=None,  # v5.3: ChromaDB 제거됨
@@ -425,9 +426,7 @@ class PubMedHandler(BaseHandler):
             return {"success": False, "error": f"PDF processing failed: {pdf_result.get('error')}"}
 
         # Create a fresh Neo4j client to avoid event loop conflicts
-        from graph.neo4j_client import Neo4jClient
-
-        async with Neo4jClient() as fresh_neo4j:
+        async with await self._get_fresh_neo4j_client() as fresh_neo4j:
             processor = PubMedBulkProcessor(
                 neo4j_client=fresh_neo4j,
                 vector_db=None,  # v5.3: ChromaDB 제거됨
@@ -469,9 +468,7 @@ class PubMedHandler(BaseHandler):
         self._require_neo4j()
 
         # Create a fresh Neo4j client to avoid event loop conflicts
-        from graph.neo4j_client import Neo4jClient
-
-        async with Neo4jClient() as fresh_neo4j:
+        async with await self._get_fresh_neo4j_client() as fresh_neo4j:
             processor = PubMedBulkProcessor(
                 neo4j_client=fresh_neo4j,
                 vector_db=None,  # v5.3: ChromaDB 제거됨
@@ -517,9 +514,7 @@ class PubMedHandler(BaseHandler):
 
         # Create a fresh Neo4j client to avoid event loop conflicts
         # when called from Streamlit via run_async()
-        from graph.neo4j_client import Neo4jClient
-
-        async with Neo4jClient() as fresh_neo4j:
+        async with await self._get_fresh_neo4j_client() as fresh_neo4j:
             processor = PubMedBulkProcessor(
                 neo4j_client=fresh_neo4j,
                 vector_db=None,  # v5.3: ChromaDB 제거됨
@@ -578,9 +573,7 @@ class PubMedHandler(BaseHandler):
         self._require_neo4j()
 
         # Create a fresh Neo4j client to avoid event loop conflicts
-        from graph.neo4j_client import Neo4jClient
-
-        async with Neo4jClient() as fresh_neo4j:
+        async with await self._get_fresh_neo4j_client() as fresh_neo4j:
             processor = PubMedBulkProcessor(
                 neo4j_client=fresh_neo4j,
                 vector_db=None,  # v5.3: ChromaDB 제거됨
@@ -682,9 +675,7 @@ class PubMedHandler(BaseHandler):
                 result["pubmed_error"] = "Neo4j client not available"
                 return result
 
-            from graph.neo4j_client import Neo4jClient
-
-            async with Neo4jClient() as fresh_neo4j:
+            async with await self._get_fresh_neo4j_client() as fresh_neo4j:
                 processor = PubMedBulkProcessor(
                     neo4j_client=fresh_neo4j,
                     vector_db=None,

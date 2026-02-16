@@ -3,7 +3,10 @@
 Handles document listing, statistics, deletion, and database reset operations.
 """
 
+import json
 import logging
+from datetime import datetime
+from pathlib import Path
 from typing import Optional, Any
 
 from medical_mcp.handlers.base_handler import BaseHandler, safe_execute
@@ -445,10 +448,6 @@ class DocumentHandler(BaseHandler):
         Returns:
             내보내기 결과
         """
-        import json
-        from pathlib import Path
-        from datetime import datetime
-
         if not document_id:
             return {"success": False, "error": "document_id가 필요합니다."}
 
@@ -572,4 +571,5 @@ class DocumentHandler(BaseHandler):
                 "note": "일부 원본 데이터(outcomes 상세, complications 등)는 복원되지 않습니다."
             }
         except Exception as e:
+            logger.error(f"File save failed: {e}", exc_info=True)
             return {"success": False, "error": f"파일 저장 실패: {e}"}

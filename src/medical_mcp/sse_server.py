@@ -60,6 +60,7 @@ import logging
 import os
 import sys
 import time
+import uuid
 from typing import Optional, Dict
 from contextlib import asynccontextmanager
 
@@ -281,7 +282,6 @@ def create_app():
 
     async def handle_sse(request: Request):
         """Handle SSE connection with user context and heartbeat."""
-        import uuid
         session_id = str(uuid.uuid4())
         user_id = get_user_from_request(request)
 
@@ -413,6 +413,7 @@ def create_app():
                 "user": {"id": user_id, "name": name, "role": role}
             })
         except Exception as e:
+            logger.error(f"User creation failed: {e}", exc_info=True)
             return JSONResponse({"error": str(e)}, status_code=500)
 
     async def connection_stats(request: Request):
@@ -580,8 +581,6 @@ def create_streamable_http_app():
     - Session management via Mcp-Session-Id header
     - No long-lived SSE connections needed
     """
-    import uuid
-
     # Session state: session_id -> (transport, task_group, mcp_server)
     _sessions: Dict[str, dict] = {}
 

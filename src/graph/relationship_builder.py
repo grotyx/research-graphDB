@@ -9,6 +9,7 @@
 """
 
 import logging
+import re
 from dataclasses import dataclass, field
 from typing import Any, Optional
 
@@ -1548,7 +1549,6 @@ class RelationshipBuilder:
         if isinstance(raw_val, str):
             try:
                 # 숫자만 추출 (예: "7.2", "7.2 ± 1.5")
-                import re
                 match = re.search(r'^([\d.]+)', raw_val.strip())
                 if match:
                     return float(match.group(1))
@@ -1570,8 +1570,6 @@ class RelationshipBuilder:
             return None
 
         try:
-            import re
-
             p_str_lower = p_str.lower().strip()
 
             # "p=0.001" 형식
@@ -1968,7 +1966,6 @@ class RelationshipBuilder:
 
                     # Try to extract incidence rate if present
                     incidence_rate = ""
-                    import re
                     # Pattern: X% or X/Y or X out of Y
                     rate_match = re.search(r'(\d+\.?\d*)\s*%', content)
                     if rate_match:

@@ -71,6 +71,8 @@ import base64
 import json
 import logging
 import os
+import re
+import time
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
@@ -774,8 +776,6 @@ def _repair_json(text: str) -> str:
     - Handle truncated responses
     - Fix control characters
     """
-    import re
-
     # 1. Extract JSON block from markdown
     if "```json" in text:
         text = text.split("```json")[1].split("```")[0]
@@ -911,7 +911,6 @@ class ClaudeBackend:
         Returns:
             처리 결과 딕셔너리 (success, data, stop_reason 등 포함)
         """
-        import time
         start_time = time.time()
 
         model_to_use = model_override or self.model
@@ -1040,7 +1039,6 @@ class ClaudeBackend:
         Returns:
             처리 결과 딕셔너리 (success, data, stop_reason 등 포함)
         """
-        import time
         start_time = time.time()
 
         model_to_use = model_override or self.model
@@ -1166,7 +1164,6 @@ class GeminiBackend:
 
     async def process_pdf(self, pdf_path: Path, prompt: str) -> dict[str, Any]:
         """PDF 처리 (async)."""
-        import time
         from google.genai import types
 
         start_time = time.time()
