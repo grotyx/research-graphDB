@@ -20,6 +20,7 @@ from core.text_chunker import TextChunker
 from core.embedding import EmbeddingGenerator
 from core.vector_db import VectorDBManager
 from search.engine import SearchEngine, format_search_results
+from core.exceptions import ValidationError
 
 # Configure logging
 logging.basicConfig(
@@ -280,7 +281,7 @@ async def search(query: str, top_k: int = 5, author: str | None = None) -> str:
 
         return format_search_results(response)
 
-    except ValueError as e:
+    except (ValueError, ValidationError) as e:
         return f"검색 오류: {str(e)}"
     except Exception as e:
         logger.exception("Error during search")

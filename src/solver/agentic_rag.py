@@ -42,6 +42,8 @@ from .unified_pipeline import UnifiedSearchPipeline, SearchOptions, SearchRespon
 from .evidence_synthesizer import EvidenceSynthesizer, EvidenceStrength
 from .query_parser import QueryParser
 
+from core.exceptions import ValidationError, ErrorCode
+
 # Try to import dependencies
 try:
     from ..graph.neo4j_client import Neo4jClient
@@ -442,7 +444,7 @@ class SynthesisAgent(RAGAgent):
             search_results = task.context.get("search_results", [])
 
             if not intervention or not outcome:
-                raise ValueError("Intervention and outcome required for synthesis")
+                raise ValidationError(message="Intervention and outcome required for synthesis", error_code=ErrorCode.VAL_MISSING_FIELD)
 
             logger.info(
                 "SynthesisAgent executing",
@@ -624,7 +626,7 @@ class ValidationAgent(RAGAgent):
             synthesis = task.context.get("synthesis")
 
             if not answer:
-                raise ValueError("Answer required for validation")
+                raise ValidationError(message="Answer required for validation", error_code=ErrorCode.VAL_MISSING_FIELD)
 
             logger.info("ValidationAgent executing", answer_length=len(answer))
 

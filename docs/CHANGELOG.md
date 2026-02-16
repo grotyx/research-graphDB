@@ -2,6 +2,83 @@
 
 ## Version History
 
+### v1.22.0 (2026-02-16): CA Deferred Plan 실행 — Neo4jClient 분리, 예외 전환, 테스트 확장
+
+CA Deferred Items D-005~D-008 전체 실행. 아키텍처 개선 + 테스트 커버리지 대폭 확장.
+
+#### D-005: Neo4jClient God Object 분리 (Composition + Delegation)
+- `RelationshipDAO` 추출 (17 methods → `src/graph/relationship_dao.py`)
+- `SearchDAO` 추출 (7 methods → `src/graph/search_dao.py`)
+- `SchemaManager` 추출 (4 methods → `src/graph/schema_manager.py`)
+- Neo4jClient에 backward-compatible delegation 유지
+
+#### D-006: TieredTextChunker 계층 위반 해소
+- `core/text_chunker.py` → `builder/tiered_text_chunker.py`로 이동
+- core→builder 의존성 제거 (lazy import → top-level import)
+
+#### D-007: 테스트 커버리지 확장 (1830 → 2360, +530 tests)
+- **Phase 1 (Easy)**: schema, relationships, text_chunker, error_handler, enums, bounded_cache
+- **Phase 2 (Medium)**: writing_guide, metadata_extractor, entity_extractor, snomed_api_client, stats_parser, graph_search, section_chunker, citation_context
+- **Phase 3 (Hard)**: pdf_processor, citation_processor, multi_hop_reasoning, pubmed_handler, pdf_handler, graph_handler
+
+#### D-008: ValueError/RuntimeError → 커스텀 예외 전환
+- 36개 `raise ValueError/RuntimeError` → `ValidationError`, `ProcessingError`, `LLMError`, `Neo4jError`
+- 5개 `except ValueError` 사이트 업데이트
+- 전체 모듈: graph/, builder/, solver/, ontology/, core/, medical_mcp/
+
+---
+
+### v1.21.2 (2026-02-16): SNOMED 커버리지 확장 — 고빈도 미매핑 별칭 추가
+
+Neo4j 고빈도 미매핑 엔티티에 대한 선별적 별칭 추가 및 SNOMED 매핑 확장.
+
+#### Normalizer 별칭 추가 (`entity_normalizer.py`)
+
+| 카테고리 | 확장된 Canonical | 추가 Alias 수 | 주요 추가 항목 |
+|----------|------------------|---------------|----------------|
+| Intervention | 9개 | ~15 | Bone Graft, Robot-Assisted Surgery, PELD(PTED), BMP(rhBMP-2), Cage Insertion |
+| Pathology | 11개 | ~25 | DDD(Lumbar Degeneration), Sagittal Imbalance(Spinopelvic malalignment), Pseudarthrosis(Failed fusion) 등 |
+| Outcome | 14개 확장 + 3개 신규 | ~35 | SF-36(PCS/MCS), Fusion Rate(시점별), Screw Accuracy(Navigation/AR), ROM(신규), PROMs(신규) |
+
+#### SNOMED 매핑 추가 (`spine_snomed_mappings.py`)
+
+| Entity | SNOMED Code | 유형 |
+|--------|-------------|------|
+| Pseudarthrosis (pathology) | 58611004 | Official |
+| Low Back Pain | 279039007 | Official |
+| Spinal Cord Compression | 52423008 | Official |
+| Bone Graft | 88834003 | Official |
+| Heterotopic Ossification | 16096001 | Official |
+| Central Canal Stenosis | 900000000000261 | Extension |
+| Mortality | 900000000000371 | Extension |
+| Functional Recovery | 900000000000372 | Extension |
+| PROMs | 900000000000373 | Extension |
+
+#### Neo4j SNOMED 커버리지 변화
+
+| 카테고리 | v1.21.1 | v1.21.2 | 변화 |
+|----------|---------|---------|------|
+| Intervention | 188/466 (40.3%) | **190/466 (40.8%)** | +2 |
+| Pathology | 109/294 (37.1%) | **115/294 (39.1%)** | +6 |
+| Outcome | 366/1874 (19.5%) | **385/1874 (20.5%)** | +19 |
+| Anatomy | 163/183 (89.1%) | 163/183 (89.1%) | — |
+| **합계** | **826** | **853** | **+27** |
+
+#### SNOMED 매핑 소스 통계 (spine_snomed_mappings.py)
+
+| 카테고리 | 전체 | 공식 | 확장 |
+|----------|------|------|------|
+| Intervention | 168 | 49 | 119 |
+| Pathology | 125 | 65 | 60 |
+| Outcome | 108 | 26 | 82 |
+| Anatomy | 46 | 24 | 22 |
+| **Total** | **447** | **164** | **283** |
+
+#### 기타
+- `tests/test_auto_normalizer.py`: 정적 별칭 충돌 수정 (Operative Duration → Time in Operating Theatre)
+
+---
+
 ### v1.21.1 (2026-02-16): Code Audit 전체 수정 완료 + 의존성 정리
 
 CA v1.21.0 잔여 MEDIUM/LOW 항목 6건 수정.

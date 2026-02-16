@@ -11,6 +11,8 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Optional, Any
 
+from core.exceptions import ProcessingError, ErrorCode
+
 
 # =============================================================================
 # Enums
@@ -460,7 +462,7 @@ def convert_to_base_chunk(chunk: Any) -> ChunkBase:
             is_key_finding=getattr(chunk, 'is_key_finding', False),
         )
 
-    raise ValueError(f"Cannot convert {type(chunk)} to ChunkBase")
+    raise ProcessingError(message=f"Cannot convert {type(chunk)} to ChunkBase", error_code=ErrorCode.PROC_UNKNOWN)
 
 
 # =============================================================================

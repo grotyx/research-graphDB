@@ -47,6 +47,10 @@ except ImportError:
     _OpenAI = None  # type: ignore
 
 from .spine_schema import SpineGraphSchema, PaperNode, ChunkNode, CypherTemplates
+from .relationship_dao import RelationshipDAO
+from .schema_manager import SchemaManager
+from .search_dao import SearchDAO
+from core.exceptions import ValidationError, ErrorCode
 
 # Import error handling
 try:
@@ -110,6 +114,9 @@ class Neo4jClient:
             self.config = config or Neo4jConfig()
             self._circuit_breaker = None
             self._openai_client = None
+            self.schema_mgr = SchemaManager(self.run_query, self.run_write_query)
+            self.relationships = RelationshipDAO(self.run_query, self.run_write_query)
+            self.search = SearchDAO(self.run_query)
             return
 
         self._mock_mode = False
@@ -130,6 +137,11 @@ class Neo4jClient:
             )
         else:
             self._circuit_breaker = None
+
+        # DAO delegates
+        self.schema_mgr = SchemaManager(self.run_query, self.run_write_query)
+        self.relationships = RelationshipDAO(self.run_query, self.run_write_query)
+        self.search = SearchDAO(self.run_query)
 
     async def connect(self) -> None:
         """Neo4j 연결."""
@@ -301,82 +313,8 @@ class Neo4jClient:
         if self._mock_mode:
             logger.info("Mock mode - skipping schema initialization")
             return
-
-        if self._initialized:
-            return
-
-        logger.info("Initializing Neo4j schema...")
-
-        # 1. 제약 조건 생성
-        for query in SpineGraphSchema.get_create_constraints_cypher():
-            try:
-                await self.run_write_query(query)
-            except Exception as e:
-                # 이미 존재하는 제약 조건은 무시
-                if "already exists" not in str(e).lower():
-                    logger.warning(f"Constraint creation warning: {e}")
-
-        # 2. 인덱스 생성
-        for query in SpineGraphSchema.get_create_indexes_cypher():
-            try:
-                await self.run_write_query(query)
-            except Exception as e:
-                if "already exists" not in str(e).lower():
-                    logger.warning(f"Index creation warning: {e}")
-
-        # 3. Paper relation indexes
-        paper_relation_indexes = [
-            """
-            CREATE INDEX paper_relation_confidence IF NOT EXISTS
-            FOR ()-[r:SUPPORTS]-() ON (r.confidence)
-            """,
-            """
-            CREATE INDEX paper_relation_confidence_contradicts IF NOT EXISTS
-            FOR ()-[r:CONTRADICTS]-() ON (r.confidence)
-            """,
-            """
-            CREATE INDEX paper_relation_confidence_similar IF NOT EXISTS
-            FOR ()-[r:SIMILAR_TOPIC]-() ON (r.confidence)
-            """,
-            """
-            CREATE INDEX paper_relation_confidence_extends IF NOT EXISTS
-            FOR ()-[r:EXTENDS]-() ON (r.confidence)
-            """,
-            """
-            CREATE INDEX paper_relation_confidence_cites IF NOT EXISTS
-            FOR ()-[r:CITES]-() ON (r.confidence)
-            """,
-            """
-            CREATE INDEX paper_relation_confidence_replicates IF NOT EXISTS
-            FOR ()-[r:REPLICATES]-() ON (r.confidence)
-            """,
-        ]
-
-        for query in paper_relation_indexes:
-            try:
-                await self.run_write_query(query)
-            except Exception as e:
-                if "already exists" not in str(e).lower():
-                    logger.warning(f"Paper relation index creation warning: {e}")
-
-        # 4. Vector Index 생성 (v5.3 - Neo4j Vector Index)
-        for query in SpineGraphSchema.get_create_vector_indexes_cypher():
-            try:
-                await self.run_write_query(query)
-                logger.info("Vector index created successfully")
-            except Exception as e:
-                if "already exists" not in str(e).lower():
-                    logger.warning(f"Vector index creation warning: {e}")
-
-        # 5. Taxonomy 초기화
-        try:
-            await self.run_write_query(SpineGraphSchema.get_init_taxonomy_cypher())
-            logger.info("Intervention taxonomy initialized")
-        except Exception as e:
-            logger.warning(f"Taxonomy initialization warning: {e}")
-
-        self._initialized = True
-        logger.info("Neo4j schema initialization complete")
+        await self.schema_mgr.initialize_schema()
+        self._initialized = self.schema_mgr._initialized
 
     # ========================================================================
     # Paper Operations
@@ -731,73 +669,12 @@ class Neo4jClient:
         min_year: Optional[int] = None,
         min_score: float = 0.5
     ) -> list[dict]:
-        """벡터 유사도 기반 청크 검색.
-
-        Neo4j 5.26 Vector Index 사용.
-
-        Args:
-            embedding: 쿼리 임베딩 (MedTE: 768d, OpenAI: 3072d)
-            top_k: 반환할 청크 수
-            tier: 필터링할 티어 ("tier1" | "tier2")
-            evidence_level: 필터링할 근거 수준 (단일)
-            evidence_levels: 필터링할 근거 수준 (복수)
-            min_year: 최소 연도 (Paper 노드에서 필터링)
-            min_score: 최소 유사도 점수
-
-        Returns:
-            청크 정보 리스트 (score 포함)
-        """
-        # 기본 벡터 검색 (HNSW index)
-        query = """
-        CALL db.index.vector.queryNodes('chunk_embedding_index', $top_k, $embedding)
-        YIELD node as c, score
-        WHERE score >= $min_score
-        """
-        params: dict[str, Any] = {
-            "embedding": embedding,
-            "top_k": top_k * 3,  # 필터링 후 충분한 결과 확보
-            "min_score": min_score,
-        }
-
-        # 조건 필터링
-        if tier:
-            query += " AND c.tier = $tier"
-            params["tier"] = tier
-
-        if evidence_level:
-            query += " AND c.evidence_level = $evidence_level"
-            params["evidence_level"] = evidence_level
-        elif evidence_levels:
-            query += " AND c.evidence_level IN $evidence_levels"
-            params["evidence_levels"] = evidence_levels
-
-        # min_year 필터링은 Paper 노드와 조인 필요
-        if min_year:
-            query += """
-        OPTIONAL MATCH (p:Paper {paper_id: c.paper_id})
-        WITH c, score, p
-        WHERE p IS NULL OR p.year >= $min_year
-            """
-            params["min_year"] = min_year
-
-        query += """
-        OPTIONAL MATCH (paper:Paper {paper_id: c.paper_id})
-        RETURN c.chunk_id as chunk_id,
-               c.paper_id as paper_id,
-               c.content as content,
-               c.tier as tier,
-               c.section as section,
-               c.evidence_level as evidence_level,
-               c.is_key_finding as is_key_finding,
-               paper.title as paper_title,
-               paper.year as paper_year,
-               score
-        ORDER BY score DESC
-        LIMIT $limit
-        """
-        params["limit"] = top_k
-
-        return await self.run_query(query, params)
+        """벡터 유사도 기반 청크 검색. Delegates to SearchDAO."""
+        return await self.search.vector_search_chunks(
+            embedding=embedding, top_k=top_k, tier=tier,
+            evidence_level=evidence_level, evidence_levels=evidence_levels,
+            min_year=min_year, min_score=min_score,
+        )
 
     async def hybrid_search(
         self,
@@ -807,96 +684,11 @@ class Neo4jClient:
         graph_weight: float = 0.6,
         vector_weight: float = 0.4
     ) -> list[dict]:
-        """그래프 + 벡터 하이브리드 검색.
-
-        Args:
-            embedding: 쿼리 임베딩 (MedTE: 768d, OpenAI: 3072d)
-            graph_filters: 그래프 필터 조건
-                - intervention: 수술법 이름
-                - pathology: 질환 이름
-                - evidence_levels: 근거 수준 리스트
-                - min_year: 최소 연도
-            top_k: 반환할 결과 수
-            graph_weight: 그래프 점수 가중치
-            vector_weight: 벡터 점수 가중치
-
-        Returns:
-            하이브리드 검색 결과
-        """
-        graph_filters = graph_filters or {}
-
-        # 벡터 검색으로 시작
-        query = """
-        CALL db.index.vector.queryNodes('chunk_embedding_index', $top_k_vector, $embedding)
-        YIELD node as c, score as vector_score
-        """
-        params: dict[str, Any] = {
-            "embedding": embedding,
-            "top_k_vector": top_k * 3,  # 필터링 전 더 많은 결과 검색
-        }
-
-        # Paper 조인
-        query += """
-        MATCH (p:Paper)-[:HAS_CHUNK]->(c)
-        """
-
-        # 그래프 필터 적용
-        filters = []
-        if graph_filters.get("intervention"):
-            filters.append("(p)-[:INVESTIGATES]->(:Intervention {name: $intervention})")
-            params["intervention"] = graph_filters["intervention"]
-
-        if graph_filters.get("pathology"):
-            filters.append("(p)-[:STUDIES]->(:Pathology {name: $pathology})")
-            params["pathology"] = graph_filters["pathology"]
-
-        if graph_filters.get("evidence_levels"):
-            filters.append("p.evidence_level IN $evidence_levels")
-            params["evidence_levels"] = graph_filters["evidence_levels"]
-
-        if graph_filters.get("min_year"):
-            filters.append("p.year >= $min_year")
-            params["min_year"] = graph_filters["min_year"]
-
-        if filters:
-            query += " WHERE " + " AND ".join(filters)
-
-        # 그래프 점수 계산 (evidence level 기반)
-        query += """
-        WITH c, p, vector_score,
-             CASE p.evidence_level
-                 WHEN '1a' THEN 1.0
-                 WHEN '1b' THEN 0.9
-                 WHEN '2a' THEN 0.8
-                 WHEN '2b' THEN 0.7
-                 WHEN '3' THEN 0.5
-                 WHEN '4' THEN 0.3
-                 ELSE 0.1
-             END as graph_score
-        WITH c, p, vector_score, graph_score,
-             ($graph_weight * graph_score + $vector_weight * vector_score) as final_score
-        """
-        params["graph_weight"] = graph_weight
-        params["vector_weight"] = vector_weight
-
-        query += """
-        RETURN c.chunk_id as chunk_id,
-               c.paper_id as paper_id,
-               c.content as content,
-               c.tier as tier,
-               c.section as section,
-               p.title as paper_title,
-               p.evidence_level as evidence_level,
-               p.year as year,
-               vector_score,
-               graph_score,
-               final_score
-        ORDER BY final_score DESC
-        LIMIT $limit
-        """
-        params["limit"] = top_k
-
-        return await self.run_query(query, params)
+        """그래프 + 벡터 하이브리드 검색. Delegates to SearchDAO."""
+        return await self.search.hybrid_search(
+            embedding=embedding, graph_filters=graph_filters, top_k=top_k,
+            graph_weight=graph_weight, vector_weight=vector_weight,
+        )
 
     async def get_chunk_count(self, paper_id: Optional[str] = None) -> int:
         """청크 수 조회.
@@ -932,27 +724,9 @@ class Neo4jClient:
         snomed_code: Optional[str] = None,
         snomed_term: Optional[str] = None
     ) -> dict:
-        """논문 → 질환 관계 생성.
-
-        Args:
-            paper_id: 논문 ID
-            pathology_name: 질환명
-            is_primary: 주요 질환 여부
-            snomed_code: SNOMED-CT 코드 (v1.9)
-            snomed_term: SNOMED-CT 용어 (v1.9)
-
-        Returns:
-            생성된 관계 정보
-        """
-        return await self.run_write_query(
-            CypherTemplates.CREATE_STUDIES_RELATION,
-            {
-                "paper_id": paper_id,
-                "pathology_name": pathology_name,
-                "is_primary": is_primary,
-                "snomed_code": snomed_code,
-                "snomed_term": snomed_term,
-            }
+        """논문 -> 질환 관계 생성. Delegates to RelationshipDAO."""
+        return await self.relationships.create_studies_relation(
+            paper_id, pathology_name, is_primary, snomed_code, snomed_term
         )
 
     async def create_investigates_relation(
@@ -964,29 +738,9 @@ class Neo4jClient:
         snomed_code: Optional[str] = None,
         snomed_term: Optional[str] = None
     ) -> dict:
-        """논문 → 수술법 관계 생성.
-
-        Args:
-            paper_id: 논문 ID
-            intervention_name: 수술법 이름
-            is_comparison: 비교군 수술법 여부
-            category: 수술법 카테고리 (EntityNormalizer에서)
-            snomed_code: SNOMED-CT 코드 (EntityNormalizer에서)
-            snomed_term: SNOMED-CT 용어 (EntityNormalizer에서)
-
-        Returns:
-            생성된 관계 정보
-        """
-        return await self.run_write_query(
-            CypherTemplates.CREATE_INVESTIGATES_RELATION,
-            {
-                "paper_id": paper_id,
-                "intervention_name": intervention_name,
-                "is_comparison": is_comparison,
-                "category": category,
-                "snomed_code": snomed_code,
-                "snomed_term": snomed_term,
-            }
+        """논문 -> 수술법 관계 생성. Delegates to RelationshipDAO."""
+        return await self.relationships.create_investigates_relation(
+            paper_id, intervention_name, is_comparison, category, snomed_code, snomed_term
         )
 
     async def create_affects_relation(
@@ -1001,58 +755,35 @@ class Neo4jClient:
         confidence_interval: str = "",
         is_significant: bool = False,
         direction: str = "",
-        # v4.0 추가 필드 (Claude/Gemini 통합 지원)
         baseline: Optional[float] = None,
         final: Optional[float] = None,
         value_intervention: str = "",
         value_difference: str = "",
         category: str = "",
         timepoint: str = "",
-        # v1.9: SNOMED 지원
         snomed_code: Optional[str] = None,
         snomed_term: Optional[str] = None
     ) -> dict:
-        """수술법 → 결과 관계 생성 (Unified Schema v4.0).
-
-        Claude와 Gemini PDF 처리기 결과 모두 지원.
-        v1.9: Outcome 노드에 SNOMED-CT 코드 지원 추가.
-
-        Args:
-            intervention_name: 수술법 이름
-            outcome_name: 결과변수 이름
-            source_paper_id: 출처 논문 ID
-            ... (통계 파라미터들)
-            snomed_code: Outcome의 SNOMED-CT 코드 (v1.9)
-            snomed_term: Outcome의 SNOMED-CT 용어 (v1.9)
-
-        Returns:
-            생성된 관계 정보
-        """
-        return await self.run_write_query(
-            CypherTemplates.CREATE_AFFECTS_RELATION,
-            {
-                "intervention_name": intervention_name,
-                "outcome_name": outcome_name,
-                "snomed_code": snomed_code,
-                "snomed_term": snomed_term,
-                "properties": {
-                    "source_paper_id": source_paper_id,
-                    "value": value,
-                    "value_control": value_control,
-                    "p_value": p_value,
-                    "effect_size": effect_size,
-                    "confidence_interval": confidence_interval,
-                    "is_significant": is_significant,
-                    "direction": direction,
-                    # v4.0 추가 필드
-                    "baseline": baseline,
-                    "final": final,
-                    "value_intervention": value_intervention,
-                    "value_difference": value_difference,
-                    "category": category,
-                    "timepoint": timepoint,
-                },
-            }
+        """수술법 -> 결과 관계 생성. Delegates to RelationshipDAO."""
+        return await self.relationships.create_affects_relation(
+            intervention_name=intervention_name,
+            outcome_name=outcome_name,
+            source_paper_id=source_paper_id,
+            value=value,
+            value_control=value_control,
+            p_value=p_value,
+            effect_size=effect_size,
+            confidence_interval=confidence_interval,
+            is_significant=is_significant,
+            direction=direction,
+            baseline=baseline,
+            final=final,
+            value_intervention=value_intervention,
+            value_difference=value_difference,
+            category=category,
+            timepoint=timepoint,
+            snomed_code=snomed_code,
+            snomed_term=snomed_term,
         )
 
     async def create_treats_relation(
@@ -1064,31 +795,10 @@ class Neo4jClient:
         contraindication: str = "",
         indication_level: str = "",
     ) -> dict:
-        """수술법 → 질환 치료 관계 생성 (Intervention → Pathology).
-
-        v1.16.1: TREATS 관계 구현.
-
-        Args:
-            intervention_name: 수술법 이름
-            pathology_name: 질환 이름
-            source_paper_id: 출처 논문 ID
-            indication: 적응증
-            contraindication: 금기사항
-            indication_level: 적응 수준 (strong/moderate/weak)
-
-        Returns:
-            생성된 관계 정보
-        """
-        return await self.run_write_query(
-            CypherTemplates.CREATE_TREATS_RELATION,
-            {
-                "intervention_name": intervention_name,
-                "pathology_name": pathology_name,
-                "source_paper_id": source_paper_id,
-                "indication": indication[:500] if indication else "",
-                "contraindication": contraindication[:500] if contraindication else "",
-                "indication_level": indication_level,
-            }
+        """수술법 -> 질환 치료 관계 생성. Delegates to RelationshipDAO."""
+        return await self.relationships.create_treats_relation(
+            intervention_name, pathology_name, source_paper_id,
+            indication, contraindication, indication_level,
         )
 
     async def create_involves_relation(
@@ -1100,29 +810,9 @@ class Neo4jClient:
         snomed_code: str | None = None,
         snomed_term: str | None = None,
     ) -> dict:
-        """논문 → 해부학 위치 관계 생성 (Paper → Anatomy).
-
-        Args:
-            paper_id: 논문 ID
-            anatomy_name: 해부학적 위치 (예: "L4-5", "C5-6", "Lumbar")
-            level: 척추 레벨 (예: "lumbar", "cervical", "thoracic")
-            region: 상세 영역 (예: "L4-L5", "C5-C6")
-            snomed_code: SNOMED-CT 코드 (v1.19.5)
-            snomed_term: SNOMED-CT 용어 (v1.19.5)
-
-        Returns:
-            생성 결과
-        """
-        return await self.run_write_query(
-            CypherTemplates.CREATE_INVOLVES_RELATION,
-            {
-                "paper_id": paper_id,
-                "anatomy_name": anatomy_name,
-                "level": level,
-                "region": region,
-                "snomed_code": snomed_code,
-                "snomed_term": snomed_term,
-            }
+        """논문 -> 해부학 위치 관계 생성. Delegates to RelationshipDAO."""
+        return await self.relationships.create_involves_relation(
+            paper_id, anatomy_name, level, region, snomed_code, snomed_term,
         )
 
     # ========================================================================
@@ -1138,57 +828,11 @@ class Neo4jClient:
         evidence: str = "",
         detected_by: str = ""
     ) -> bool:
-        """논문 간 관계 생성.
-
-        Args:
-            source_paper_id: 원본 논문 ID
-            target_paper_id: 대상 논문 ID
-            relation_type: 관계 유형 (SUPPORTS, CONTRADICTS, SIMILAR_TOPIC, EXTENDS, CITES, REPLICATES)
-            confidence: 관계 신뢰도 (0.0-1.0)
-            evidence: 근거 텍스트
-            detected_by: 탐지 방법 (예: "manual", "llm", "citation_parser")
-
-        Returns:
-            성공 여부
-
-        Raises:
-            ValueError: Invalid relation_type or confidence
-        """
-        # Validate relation type
-        valid_types = {"SUPPORTS", "CONTRADICTS", "SIMILAR_TOPIC", "EXTENDS", "CITES", "REPLICATES"}
-        if relation_type not in valid_types:
-            raise ValueError(f"Invalid relation_type: {relation_type}. Must be one of {valid_types}")
-
-        # Validate confidence
-        if not 0.0 <= confidence <= 1.0:
-            raise ValueError(f"Invalid confidence: {confidence}. Must be between 0.0 and 1.0")
-
-        query = f"""
-        MATCH (a:Paper {{paper_id: $source_id}})
-        MATCH (b:Paper {{paper_id: $target_id}})
-        MERGE (a)-[r:{relation_type}]->(b)
-        SET r.confidence = $confidence,
-            r.evidence = $evidence,
-            r.detected_by = $detected_by,
-            r.created_at = datetime()
-        RETURN r
-        """
-
-        try:
-            result = await self.run_write_query(
-                query,
-                {
-                    "source_id": source_paper_id,
-                    "target_id": target_paper_id,
-                    "confidence": confidence,
-                    "evidence": evidence,
-                    "detected_by": detected_by,
-                }
-            )
-            return result.get("relationships_created", 0) > 0 or result.get("properties_set", 0) > 0
-        except Exception as e:
-            logger.error(f"Failed to create paper relation: {e}", exc_info=True)
-            raise
+        """논문 간 관계 생성. Delegates to RelationshipDAO."""
+        return await self.relationships.create_paper_relation(
+            source_paper_id, target_paper_id, relation_type,
+            confidence, evidence, detected_by,
+        )
 
     async def create_supports_relation(
         self,
@@ -1197,24 +841,9 @@ class Neo4jClient:
         evidence: str = "",
         confidence: float = 0.0
     ) -> bool:
-        """SUPPORTS 관계 생성 (convenience wrapper).
-
-        Args:
-            source_paper_id: 원본 논문 ID
-            target_paper_id: 대상 논문 ID
-            evidence: 근거 텍스트
-            confidence: 관계 신뢰도 (0.0-1.0)
-
-        Returns:
-            성공 여부
-        """
-        return await self.create_paper_relation(
-            source_paper_id=source_paper_id,
-            target_paper_id=target_paper_id,
-            relation_type="SUPPORTS",
-            confidence=confidence,
-            evidence=evidence,
-            detected_by="citation_parser"
+        """SUPPORTS 관계 생성. Delegates to RelationshipDAO."""
+        return await self.relationships.create_supports_relation(
+            source_paper_id, target_paper_id, evidence, confidence,
         )
 
     async def create_contradicts_relation(
@@ -1224,24 +853,9 @@ class Neo4jClient:
         evidence: str = "",
         confidence: float = 0.0
     ) -> bool:
-        """CONTRADICTS 관계 생성 (convenience wrapper).
-
-        Args:
-            source_paper_id: 원본 논문 ID
-            target_paper_id: 대상 논문 ID
-            evidence: 근거 텍스트
-            confidence: 관계 신뢰도 (0.0-1.0)
-
-        Returns:
-            성공 여부
-        """
-        return await self.create_paper_relation(
-            source_paper_id=source_paper_id,
-            target_paper_id=target_paper_id,
-            relation_type="CONTRADICTS",
-            confidence=confidence,
-            evidence=evidence,
-            detected_by="citation_parser"
+        """CONTRADICTS 관계 생성. Delegates to RelationshipDAO."""
+        return await self.relationships.create_contradicts_relation(
+            source_paper_id, target_paper_id, evidence, confidence,
         )
 
     async def create_cites_relation(
@@ -1251,25 +865,9 @@ class Neo4jClient:
         citation_text: str = "",
         context: str = ""
     ) -> bool:
-        """CITES 관계 생성 (convenience wrapper).
-
-        Args:
-            source_paper_id: 원본 논문 ID
-            target_paper_id: 대상 논문 ID
-            citation_text: 인용 텍스트
-            context: 인용 컨텍스트
-
-        Returns:
-            성공 여부
-        """
-        evidence = f"{citation_text}\n\nContext: {context}" if context else citation_text
-        return await self.create_paper_relation(
-            source_paper_id=source_paper_id,
-            target_paper_id=target_paper_id,
-            relation_type="CITES",
-            confidence=1.0,  # 인용은 명시적이므로 확실함
-            evidence=evidence,
-            detected_by="citation_parser"
+        """CITES 관계 생성. Delegates to RelationshipDAO."""
+        return await self.relationships.create_cites_relation(
+            source_paper_id, target_paper_id, citation_text, context,
         )
 
     async def get_paper_relations(
@@ -1278,62 +876,10 @@ class Neo4jClient:
         relation_types: Optional[list[str]] = None,
         direction: str = "both"
     ) -> list[dict]:
-        """논문의 관계 조회.
-
-        Args:
-            paper_id: 논문 ID
-            relation_types: 관계 유형 필터 (None이면 전체)
-            direction: 관계 방향 ("outgoing", "incoming", "both")
-
-        Returns:
-            관계 목록 (각 항목: {relation_type, target_paper, confidence, evidence, detected_by, created_at})
-
-        Raises:
-            ValueError: Invalid direction
-        """
-        if direction not in {"outgoing", "incoming", "both"}:
-            raise ValueError(f"Invalid direction: {direction}. Must be 'outgoing', 'incoming', or 'both'")
-
-        # Build relationship type filter
-        rel_type_filter = ""
-        if relation_types:
-            rel_type_filter = f":{':'.join(relation_types)}"
-
-        if direction == "outgoing":
-            query = f"""
-            MATCH (p:Paper {{paper_id: $paper_id}})-[r{rel_type_filter}]->(target:Paper)
-            RETURN type(r) as relation_type, target, r.confidence as confidence,
-                   r.evidence as evidence, r.detected_by as detected_by, r.created_at as created_at
-            ORDER BY r.confidence DESC
-            """
-        elif direction == "incoming":
-            query = f"""
-            MATCH (source:Paper)-[r{rel_type_filter}]->(p:Paper {{paper_id: $paper_id}})
-            RETURN type(r) as relation_type, source as target, r.confidence as confidence,
-                   r.evidence as evidence, r.detected_by as detected_by, r.created_at as created_at
-            ORDER BY r.confidence DESC
-            """
-        else:  # both
-            query = f"""
-            MATCH (p:Paper {{paper_id: $paper_id}})
-            CALL {{
-                WITH p
-                MATCH (p)-[r{rel_type_filter}]->(target:Paper)
-                RETURN type(r) as relation_type, target, r.confidence as confidence,
-                       r.evidence as evidence, r.detected_by as detected_by,
-                       r.created_at as created_at, 'outgoing' as direction
-                UNION
-                WITH p
-                MATCH (source:Paper)-[r{rel_type_filter}]->(p)
-                RETURN type(r) as relation_type, source as target, r.confidence as confidence,
-                       r.evidence as evidence, r.detected_by as detected_by,
-                       r.created_at as created_at, 'incoming' as direction
-            }}
-            RETURN relation_type, target, confidence, evidence, detected_by, created_at, direction
-            ORDER BY confidence DESC
-            """
-
-        return await self.run_query(query, {"paper_id": paper_id})
+        """논문의 관계 조회. Delegates to RelationshipDAO."""
+        return await self.relationships.get_paper_relations(
+            paper_id, relation_types, direction,
+        )
 
     async def get_related_papers(
         self,
@@ -1342,104 +888,30 @@ class Neo4jClient:
         min_confidence: float = 0.0,
         limit: int = 10
     ) -> list[dict]:
-        """특정 관계 유형의 관련 논문 조회.
-
-        Args:
-            paper_id: 논문 ID
-            relation_type: 관계 유형
-            min_confidence: 최소 신뢰도
-            limit: 최대 결과 수
-
-        Returns:
-            관련 논문 목록
-
-        Raises:
-            ValueError: Invalid relation_type
-        """
-        # Validate relation type to prevent Cypher injection
-        valid_types = {"SUPPORTS", "CONTRADICTS", "SIMILAR_TOPIC", "EXTENDS", "CITES", "REPLICATES"}
-        if relation_type not in valid_types:
-            raise ValueError(f"Invalid relation_type: {relation_type}. Must be one of {valid_types}")
-
-        query = f"""
-        MATCH (p:Paper {{paper_id: $paper_id}})-[r:{relation_type}]->(target:Paper)
-        WHERE r.confidence >= $min_confidence
-        RETURN target, r.confidence as confidence, r.evidence as evidence
-        ORDER BY r.confidence DESC
-        LIMIT $limit
-        """
-
-        return await self.run_query(
-            query,
-            {"paper_id": paper_id, "min_confidence": min_confidence, "limit": limit}
+        """특정 관계 유형의 관련 논문 조회. Delegates to RelationshipDAO."""
+        return await self.relationships.get_related_papers(
+            paper_id, relation_type, min_confidence, limit,
         )
 
     async def get_supporting_papers(self, paper_id: str, limit: int = 10) -> list[dict]:
-        """지지하는 논문들 조회 (SUPPORTS 관계).
-
-        Args:
-            paper_id: 논문 ID
-            limit: 최대 결과 수
-
-        Returns:
-            지지하는 논문 목록
-        """
-        return await self.get_related_papers(paper_id, "SUPPORTS", limit=limit)
+        """지지하는 논문들 조회. Delegates to RelationshipDAO."""
+        return await self.relationships.get_supporting_papers(paper_id, limit)
 
     async def get_contradicting_papers(self, paper_id: str, limit: int = 10) -> list[dict]:
-        """상충하는 논문들 조회 (CONTRADICTS 관계).
-
-        Args:
-            paper_id: 논문 ID
-            limit: 최대 결과 수
-
-        Returns:
-            상충하는 논문 목록
-        """
-        return await self.get_related_papers(paper_id, "CONTRADICTS", limit=limit)
+        """상충하는 논문들 조회. Delegates to RelationshipDAO."""
+        return await self.relationships.get_contradicting_papers(paper_id, limit)
 
     async def get_similar_papers(self, paper_id: str, limit: int = 10) -> list[dict]:
-        """유사 주제 논문들 조회 (SIMILAR_TOPIC 관계).
-
-        Args:
-            paper_id: 논문 ID
-            limit: 최대 결과 수
-
-        Returns:
-            유사 논문 목록
-        """
-        return await self.get_related_papers(paper_id, "SIMILAR_TOPIC", limit=limit)
+        """유사 주제 논문들 조회. Delegates to RelationshipDAO."""
+        return await self.relationships.get_similar_papers(paper_id, limit)
 
     async def get_citing_papers(self, paper_id: str, limit: int = 10) -> list[dict]:
-        """이 논문을 인용한 논문들 조회.
-
-        Args:
-            paper_id: 논문 ID
-            limit: 최대 결과 수
-
-        Returns:
-            인용 논문 목록 (이 논문을 인용한 논문들)
-        """
-        query = """
-        MATCH (source:Paper)-[r:CITES]->(p:Paper {paper_id: $paper_id})
-        RETURN source, r.confidence as confidence, r.evidence as evidence
-        ORDER BY source.year DESC
-        LIMIT $limit
-        """
-
-        return await self.run_query(query, {"paper_id": paper_id, "limit": limit})
+        """이 논문을 인용한 논문들 조회. Delegates to RelationshipDAO."""
+        return await self.relationships.get_citing_papers(paper_id, limit)
 
     async def get_cited_papers(self, paper_id: str, limit: int = 10) -> list[dict]:
-        """이 논문이 인용한 논문들 조회.
-
-        Args:
-            paper_id: 논문 ID
-            limit: 최대 결과 수
-
-        Returns:
-            피인용 논문 목록 (이 논문이 인용한 논문들)
-        """
-        return await self.get_related_papers(paper_id, "CITES", limit=limit)
+        """이 논문이 인용한 논문들 조회. Delegates to RelationshipDAO."""
+        return await self.relationships.get_cited_papers(paper_id, limit)
 
     async def delete_paper_relation(
         self,
@@ -1447,38 +919,10 @@ class Neo4jClient:
         target_paper_id: str,
         relation_type: str
     ) -> bool:
-        """논문 간 관계 삭제.
-
-        Args:
-            source_paper_id: 원본 논문 ID
-            target_paper_id: 대상 논문 ID
-            relation_type: 관계 유형
-
-        Returns:
-            성공 여부
-
-        Raises:
-            ValueError: Invalid relation_type
-        """
-        # Validate relation type to prevent Cypher injection
-        valid_types = {"SUPPORTS", "CONTRADICTS", "SIMILAR_TOPIC", "EXTENDS", "CITES", "REPLICATES"}
-        if relation_type not in valid_types:
-            raise ValueError(f"Invalid relation_type: {relation_type}. Must be one of {valid_types}")
-
-        query = f"""
-        MATCH (a:Paper {{paper_id: $source_id}})-[r:{relation_type}]->(b:Paper {{paper_id: $target_id}})
-        DELETE r
-        """
-
-        try:
-            result = await self.run_write_query(
-                query,
-                {"source_id": source_paper_id, "target_id": target_paper_id}
-            )
-            return result.get("relationships_deleted", 0) > 0
-        except Exception as e:
-            logger.error(f"Failed to delete paper relation: {e}", exc_info=True)
-            raise
+        """논문 간 관계 삭제. Delegates to RelationshipDAO."""
+        return await self.relationships.delete_paper_relation(
+            source_paper_id, target_paper_id, relation_type,
+        )
 
     async def update_paper_relation_confidence(
         self,
@@ -1487,90 +931,34 @@ class Neo4jClient:
         relation_type: str,
         new_confidence: float
     ) -> bool:
-        """관계 신뢰도 업데이트.
-
-        Args:
-            source_paper_id: 원본 논문 ID
-            target_paper_id: 대상 논문 ID
-            relation_type: 관계 유형
-            new_confidence: 새 신뢰도 (0.0-1.0)
-
-        Returns:
-            성공 여부
-
-        Raises:
-            ValueError: Invalid relation_type or confidence value
-        """
-        # Validate relation type to prevent Cypher injection
-        valid_types = {"SUPPORTS", "CONTRADICTS", "SIMILAR_TOPIC", "EXTENDS", "CITES", "REPLICATES"}
-        if relation_type not in valid_types:
-            raise ValueError(f"Invalid relation_type: {relation_type}. Must be one of {valid_types}")
-
-        if not 0.0 <= new_confidence <= 1.0:
-            raise ValueError(f"Invalid confidence: {new_confidence}. Must be between 0.0 and 1.0")
-
-        query = f"""
-        MATCH (a:Paper {{paper_id: $source_id}})-[r:{relation_type}]->(b:Paper {{paper_id: $target_id}})
-        SET r.confidence = $new_confidence,
-            r.updated_at = datetime()
-        RETURN r
-        """
-
-        try:
-            result = await self.run_write_query(
-                query,
-                {
-                    "source_id": source_paper_id,
-                    "target_id": target_paper_id,
-                    "new_confidence": new_confidence,
-                }
-            )
-            return result.get("properties_set", 0) > 0
-        except Exception as e:
-            logger.error(f"Failed to update paper relation confidence: {e}", exc_info=True)
-            raise
+        """관계 신뢰도 업데이트. Delegates to RelationshipDAO."""
+        return await self.relationships.update_paper_relation_confidence(
+            source_paper_id, target_paper_id, relation_type, new_confidence,
+        )
 
     # ========================================================================
     # Search Operations
     # ========================================================================
 
     async def get_intervention_hierarchy(self, intervention_name: str) -> list[dict]:
-        """수술법 계층 조회."""
-        return await self.run_query(
-            CypherTemplates.GET_INTERVENTION_HIERARCHY,
-            {"intervention_name": intervention_name}
-        )
+        """수술법 계층 조회. Delegates to SearchDAO."""
+        return await self.search.get_intervention_hierarchy(intervention_name)
 
     async def get_intervention_children(self, intervention_name: str) -> list[dict]:
-        """수술법 하위 항목 조회."""
-        return await self.run_query(
-            CypherTemplates.GET_INTERVENTION_CHILDREN,
-            {"intervention_name": intervention_name}
-        )
+        """수술법 하위 항목 조회. Delegates to SearchDAO."""
+        return await self.search.get_intervention_children(intervention_name)
 
     async def search_effective_interventions(self, outcome_name: str) -> list[dict]:
-        """효과적인 수술법 검색."""
-        return await self.run_query(
-            CypherTemplates.SEARCH_EFFECTIVE_INTERVENTIONS,
-            {"outcome_name": outcome_name}
-        )
+        """효과적인 수술법 검색. Delegates to SearchDAO."""
+        return await self.search.search_effective_interventions(outcome_name)
 
     async def search_interventions_for_pathology(self, pathology_name: str) -> list[dict]:
-        """질환별 수술법 검색."""
-        return await self.run_query(
-            CypherTemplates.SEARCH_INTERVENTIONS_FOR_PATHOLOGY,
-            {"pathology_name": pathology_name}
-        )
-
-    # NOTE: get_paper_relations is defined at line 587 with full implementation
-    # This duplicate simple version has been removed to avoid confusion
+        """질환별 수술법 검색. Delegates to SearchDAO."""
+        return await self.search.search_interventions_for_pathology(pathology_name)
 
     async def find_conflicting_results(self, intervention_name: str) -> list[dict]:
-        """상충 결과 검색."""
-        return await self.run_query(
-            CypherTemplates.FIND_CONFLICTING_RESULTS,
-            {"intervention_name": intervention_name}
-        )
+        """상충 결과 검색. Delegates to SearchDAO."""
+        return await self.search.find_conflicting_results(intervention_name)
 
     # ========================================================================
     # Statistics
@@ -1580,25 +968,7 @@ class Neo4jClient:
         """그래프 통계."""
         if self._mock_mode:
             return {"mock": True, "nodes": 0, "relationships": 0}
-
-        stats_query = """
-        MATCH (n)
-        WITH labels(n) as label, count(n) as count
-        RETURN label, count
-        """
-        label_counts = await self.run_query(stats_query)
-
-        rel_query = """
-        MATCH ()-[r]->()
-        WITH type(r) as type, count(r) as count
-        RETURN type, count
-        """
-        rel_counts = await self.run_query(rel_query)
-
-        return {
-            "nodes": {r["label"][0]: r["count"] for r in label_counts if r["label"]},
-            "relationships": {r["type"]: r["count"] for r in rel_counts},
-        }
+        return await self.schema_mgr.get_stats()
 
     # ========================================================================
     # Delete Operations
@@ -1676,25 +1046,7 @@ class Neo4jClient:
         if self._mock_mode:
             logger.info("Mock mode - skipping database clear")
             return {"nodes_deleted": 0, "relationships_deleted": 0}
-
-        # Paper, Pathology, Outcome 노드만 삭제 (Intervention/Anatomy는 Taxonomy이므로 보존)
-        query = """
-        MATCH (n)
-        WHERE n:Paper OR n:Pathology OR n:Outcome OR n:Chunk
-        DETACH DELETE n
-        """
-
-        try:
-            result = await self.run_write_query(query)
-            logger.warning(
-                f"Database cleared: "
-                f"{result.get('nodes_deleted', 0)} nodes, "
-                f"{result.get('relationships_deleted', 0)} relationships deleted"
-            )
-            return result
-        except Exception as e:
-            logger.error(f"Failed to clear database: {e}", exc_info=True)
-            raise
+        return await self.schema_mgr.clear_database()
 
     async def clear_all_including_taxonomy(self) -> dict:
         """전체 데이터베이스 완전 리셋 (Taxonomy 포함).
@@ -1710,24 +1062,9 @@ class Neo4jClient:
         if self._mock_mode:
             logger.info("Mock mode - skipping full database clear")
             return {"nodes_deleted": 0, "relationships_deleted": 0}
-
-        query = """
-        MATCH (n)
-        DETACH DELETE n
-        """
-
-        try:
-            result = await self.run_write_query(query)
-            self._initialized = False  # 스키마 재초기화 필요
-            logger.warning(
-                f"Full database cleared (including taxonomy): "
-                f"{result.get('nodes_deleted', 0)} nodes, "
-                f"{result.get('relationships_deleted', 0)} relationships deleted"
-            )
-            return result
-        except Exception as e:
-            logger.error(f"Failed to clear full database: {e}", exc_info=True)
-            raise
+        result = await self.schema_mgr.clear_all_including_taxonomy()
+        self._initialized = False  # 스키마 재초기화 필요
+        return result
 
 
 class MockSession:

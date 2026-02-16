@@ -11,6 +11,8 @@ import logging
 import functools
 from typing import Any, Callable, Optional, TYPE_CHECKING
 
+from core.exceptions import Neo4jError, ValidationError, ErrorCode
+
 if TYPE_CHECKING:
     from medical_mcp.medical_kag_server import MedicalKAGServer
 
@@ -31,7 +33,7 @@ class BaseHandler:
     def _require_neo4j(self) -> None:
         """Check that neo4j_client is available. Raises ValueError if not."""
         if not self.neo4j_client:
-            raise ValueError("Neo4j client not available")
+            raise Neo4jError(message="Neo4j client not available", error_code=ErrorCode.NEO4J_CONNECTION)
 
     async def _ensure_connected(self) -> None:
         """Ensure Neo4j connection is established."""
@@ -64,7 +66,7 @@ def safe_execute(func: Callable) -> Callable:
     async def wrapper(self, *args, **kwargs):
         try:
             return await func(self, *args, **kwargs)
-        except ValueError as e:
+        except (ValueError, Neo4jError, ValidationError) as e:
             # Expected validation errors (e.g., _require_neo4j)
             logger.warning(f"{self.__class__.__name__}.{func.__name__}: {e}")
             return {"success": False, "error": str(e)}

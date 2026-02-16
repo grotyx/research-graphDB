@@ -27,6 +27,7 @@ from typing import Optional, Any
 from enum import Enum
 
 from dotenv import load_dotenv
+from core.exceptions import LLMError, ErrorCode
 
 # Load environment variables
 load_dotenv()
@@ -298,7 +299,7 @@ class ClaudeBackend:
 
         self.api_key = os.getenv("ANTHROPIC_API_KEY")
         if not self.api_key:
-            raise ValueError("ANTHROPIC_API_KEY not set")
+            raise LLMError(message="ANTHROPIC_API_KEY not set", error_code=ErrorCode.LLM_API_ERROR)
 
         self.model = model or os.getenv("CLAUDE_MODEL", "claude-haiku-4-5-20251001")
         self.client = anthropic.Anthropic(api_key=self.api_key)
@@ -384,7 +385,7 @@ class GeminiBackend:
 
         self.api_key = os.getenv("GEMINI_API_KEY")
         if not self.api_key:
-            raise ValueError("GEMINI_API_KEY not set")
+            raise LLMError(message="GEMINI_API_KEY not set", error_code=ErrorCode.LLM_API_ERROR)
 
         self.model = model or os.getenv("GEMINI_MODEL", "gemini-2.5-flash-preview-05-20")
         self.client = genai.Client(api_key=self.api_key)

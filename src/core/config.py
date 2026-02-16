@@ -34,6 +34,8 @@ from typing import Any, Optional
 
 import yaml
 
+from core.exceptions import ValidationError, ErrorCode
+
 logger = logging.getLogger(__name__)
 
 
@@ -535,7 +537,7 @@ class ConfigManager:
             with open(path, "r", encoding="utf-8") as f:
                 return yaml.safe_load(f)
         except yaml.YAMLError as e:
-            raise ValueError(f"Invalid YAML in config file: {e}")
+            raise ValidationError(message=f"Invalid YAML in config file: {e}", error_code=ErrorCode.VAL_INVALID_VALUE)
 
     def _resolve_env_vars(self, data: Any) -> Any:
         """Resolve environment variables in config.
@@ -848,7 +850,7 @@ def get_threshold(name: str, default: Optional[float] = None) -> float:
     if default is not None:
         return default
 
-    raise ValueError(f"Threshold '{name}' not found in configuration and no default provided")
+    raise ValidationError(message=f"Threshold '{name}' not found in configuration and no default provided", error_code=ErrorCode.VAL_INVALID_VALUE)
 
 
 def reload_config(config_path: Optional[str] = None) -> Config:

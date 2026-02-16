@@ -13,6 +13,7 @@ import logging
 from typing import Optional
 
 from medical_mcp.handlers.base_handler import BaseHandler, safe_execute
+from core.exceptions import ValidationError
 
 # Configure logging
 logger = logging.getLogger("medical-kag.graph-handler")
@@ -782,7 +783,7 @@ class GraphHandler(BaseHandler):
                     "result_count": len(results),
                     "results": results,
                 }
-            except ValueError as e:
+            except (ValueError, ValidationError) as e:
                 return {"success": False, "error": str(e)}
 
         # Auto-select rule based on provided parameters

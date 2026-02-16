@@ -33,6 +33,7 @@ from ..core.error_handler import (
     get_error_reporter,
     PDFProcessingError,
 )
+from ..core.exceptions import ProcessingError, ErrorCode
 
 logger = logging.getLogger(__name__)
 
@@ -367,7 +368,7 @@ class BatchProcessor:
         """
         pdf_path = Path(pdf_dir)
         if not pdf_path.exists():
-            raise ValueError(f"Directory not found: {pdf_dir}")
+            raise ProcessingError(message=f"Directory not found: {pdf_dir}", error_code=ErrorCode.PROC_GENERAL)
 
         # Find all PDF files
         pdf_files = list(pdf_path.glob("**/*.pdf"))
@@ -599,7 +600,7 @@ class BatchProcessor:
         """
         checkpoint_path = Path(checkpoint_file)
         if not checkpoint_path.exists():
-            raise ValueError(f"Checkpoint file not found: {checkpoint_file}")
+            raise ProcessingError(message=f"Checkpoint file not found: {checkpoint_file}", error_code=ErrorCode.PROC_GENERAL)
 
         # Extract batch_id from filename
         batch_id = checkpoint_path.stem.replace("_checkpoint", "")
@@ -607,7 +608,7 @@ class BatchProcessor:
         # Load checkpoint
         checkpoint = self.checkpoint_manager.load_checkpoint(batch_id)
         if not checkpoint:
-            raise ValueError(f"Failed to load checkpoint: {checkpoint_file}")
+            raise ProcessingError(message=f"Failed to load checkpoint: {checkpoint_file}", error_code=ErrorCode.PROC_GENERAL)
 
         # Get original file list (need to reconstruct)
         # This is a limitation - we need to store the original file list in checkpoint

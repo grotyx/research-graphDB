@@ -55,11 +55,11 @@ class TestDynamicAlias:
     def test_register_valid_alias(self, normalizer):
         """유효한 alias 등록 후 정규화 성공."""
         result = normalizer.register_dynamic_alias(
-            "outcome", "Operative Duration", "Operation Time"
+            "outcome", "Time in Operating Theatre", "Operation Time"
         )
         assert result is True
         # 등록 후 정규화 가능해야 함
-        norm = normalizer.normalize_outcome("Operative Duration")
+        norm = normalizer.normalize_outcome("Time in Operating Theatre")
         assert norm.normalized == "Operation Time"
         assert norm.confidence == 1.0
 

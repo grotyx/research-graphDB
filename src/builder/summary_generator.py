@@ -30,6 +30,7 @@ from typing import Optional
 
 from .document_type_detector import DocumentType
 from llm import LLMClient, LLMConfig
+from core.exceptions import ProcessingError, LLMError, ErrorCode
 
 logger = logging.getLogger(__name__)
 
@@ -187,7 +188,7 @@ class SummaryGenerator:
             RuntimeError: If LLM generation fails
         """
         if not text or not text.strip():
-            raise ValueError("Text cannot be empty")
+            raise ProcessingError(message="Text cannot be empty", error_code=ErrorCode.PROC_GENERAL)
 
         # 프롬프트 생성
         prompt = self._build_prompt(
@@ -238,7 +239,7 @@ class SummaryGenerator:
 
         except Exception as e:
             logger.error(f"Summary generation failed: {e}", exc_info=True)
-            raise RuntimeError(f"Failed to generate summary: {e}") from e
+            raise LLMError(message=f"Failed to generate summary: {e}", error_code=ErrorCode.LLM_API_ERROR) from e
 
     async def validate(self, summary: str) -> SummaryQuality:
         """요약 품질 검증.

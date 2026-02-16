@@ -27,9 +27,11 @@ import logging
 try:
     from external.pubmed_client import PubMedClient, PaperMetadata, PubMedError, APIError
     from builder.evidence_classifier import EvidenceLevelClassifier, get_evidence_level_from_publication_type
+    from core.exceptions import ValidationError, ErrorCode
 except ImportError:
     from src.external.pubmed_client import PubMedClient, PaperMetadata, PubMedError, APIError
     from src.builder.evidence_classifier import EvidenceLevelClassifier, get_evidence_level_from_publication_type
+    from src.core.exceptions import ValidationError, ErrorCode
 
 if TYPE_CHECKING:
     from builder.doi_fulltext_fetcher import DOIMetadata
@@ -270,7 +272,7 @@ class PubMedEnricher:
             ValueError: 쿼리가 비어있거나 너무 긴 경우
         """
         if not query or not query.strip():
-            raise ValueError("Query cannot be empty")
+            raise ValidationError(message="Query cannot be empty", error_code=ErrorCode.VAL_INVALID_VALUE)
 
         # 위험한 문자 제거
         sanitized = DANGEROUS_CHARS_PATTERN.sub('', query)
@@ -286,7 +288,7 @@ class PubMedEnricher:
         sanitized = sanitized.strip()
 
         if not sanitized:
-            raise ValueError("Query contains only invalid characters")
+            raise ValidationError(message="Query contains only invalid characters", error_code=ErrorCode.VAL_INVALID_VALUE)
 
         return sanitized
 
@@ -332,7 +334,7 @@ class PubMedEnricher:
         except asyncio.TimeoutError:
             logger.warning(f"PubMed DOI search timed out after {self.timeout}s: {doi}")
             return None
-        except ValueError as e:
+        except ValidationError as e:
             logger.warning(f"Invalid DOI input: {e}")
             return None
         except PubMedError as e:
@@ -417,7 +419,7 @@ class PubMedEnricher:
                     try:
                         sanitized_author = self._sanitize_query_input(first_author)
                         query_parts.append(f"{sanitized_author}[Author]")
-                    except ValueError:
+                    except ValidationError:
                         pass  # 잘못된 저자명은 무시
 
             # 연도 추가
@@ -434,7 +436,7 @@ class PubMedEnricher:
                 try:
                     sanitized_journal = self._sanitize_query_input(journal)
                     query_parts.append(f'"{sanitized_journal}"[Journal]')
-                except ValueError:
+                except ValidationError:
                     pass  # 잘못된 저널명은 무시
 
             query = " AND ".join(query_parts)
@@ -476,7 +478,7 @@ class PubMedEnricher:
         except asyncio.TimeoutError:
             logger.warning(f"PubMed title search timed out after {self.timeout}s")
             return None
-        except ValueError as e:
+        except ValidationError as e:
             logger.warning(f"Invalid title input: {e}")
             return None
         except PubMedError as e:
@@ -729,7 +731,7 @@ class PubMedEnricher:
                 try:
                     sanitized_author = self._sanitize_query_input(first_author)
                     query_parts.append(f"{sanitized_author}[Author]")
-                except ValueError:
+                except ValidationError:
                     pass
 
             # 연도 추가
@@ -749,7 +751,7 @@ class PubMedEnricher:
                     keywords = sanitized_keywords.split()[:5]  # 최대 5개 키워드
                     keyword_query = " AND ".join([f"{kw}[Title]" for kw in keywords])
                     query_parts.append(f"({keyword_query})")
-                except ValueError:
+                except ValidationError:
                     pass
 
             # 저널 추가
@@ -757,7 +759,7 @@ class PubMedEnricher:
                 try:
                     sanitized_journal = self._sanitize_query_input(journal)
                     query_parts.append(f'"{sanitized_journal}"[Journal]')
-                except ValueError:
+                except ValidationError:
                     pass
 
             if not query_parts:

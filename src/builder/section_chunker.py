@@ -31,6 +31,7 @@ from typing import Optional
 
 from llm import LLMClient
 from builder.document_type_detector import DocumentType
+from core.exceptions import ProcessingError, ErrorCode
 
 logger = logging.getLogger(__name__)
 
@@ -63,7 +64,7 @@ class Chunk:
     def __post_init__(self):
         """Validate and compute derived properties."""
         if not self.text:
-            raise ValueError("Chunk text cannot be empty")
+            raise ProcessingError(message="Chunk text cannot be empty", error_code=ErrorCode.PROC_CHUNKING_FAILED)
 
         # Ensure word count is accurate
         if self.word_count == 0:
@@ -225,7 +226,7 @@ class SectionChunker:
             ValueError: If text is empty or invalid
         """
         if not text or not text.strip():
-            raise ValueError("Text cannot be empty")
+            raise ProcessingError(message="Text cannot be empty", error_code=ErrorCode.PROC_CHUNKING_FAILED)
 
         logger.info(f"Chunking {document_type.value} document: {paper_id} (target: {target_chunks} chunks)")
 

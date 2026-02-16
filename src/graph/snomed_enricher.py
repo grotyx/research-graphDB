@@ -18,6 +18,7 @@ from ontology.spine_snomed_mappings import (
     SPINE_ANATOMY_SNOMED,
     SNOMEDMapping,
 )
+from core.exceptions import ValidationError, ErrorCode
 
 logger = logging.getLogger(__name__)
 
@@ -123,7 +124,10 @@ def generate_snomed_update_queries(batch_size: int = 20) -> list[tuple[str, dict
 
     for entity_type, (label, mapping_dict) in ENTITY_TYPE_CONFIG.items():
         if label not in ALLOWED_LABELS:
-            raise ValueError(f"Invalid label: {label}")
+            raise ValidationError(
+                message=f"Invalid label: {label}",
+                error_code=ErrorCode.VAL_INVALID_VALUE,
+            )
 
         items = list(mapping_dict.items())
         for i in range(0, len(items), batch_size):
@@ -182,12 +186,18 @@ async def update_snomed_for_entity_type(
         min_confidence: SNOMED 코드 할당 최소 confidence (기본 0.8, v1.19.5)
     """
     if entity_type not in ENTITY_TYPE_CONFIG:
-        raise ValueError(f"Unknown entity type: {entity_type}")
+        raise ValidationError(
+            message=f"Unknown entity type: {entity_type}",
+            error_code=ErrorCode.VAL_INVALID_VALUE,
+        )
 
     ALLOWED_LABELS = {"Intervention", "Pathology", "Outcome", "Anatomy"}
     label, _ = ENTITY_TYPE_CONFIG[entity_type]
     if label not in ALLOWED_LABELS:
-        raise ValueError(f"Invalid label: {label}")
+        raise ValidationError(
+            message=f"Invalid label: {label}",
+            error_code=ErrorCode.VAL_INVALID_VALUE,
+        )
     result = UpdateResult(entity_type=entity_type)
 
     # 전체 노드 수

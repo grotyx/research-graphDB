@@ -3,6 +3,8 @@
 import pytest
 from dataclasses import asdict
 
+from core.exceptions import ProcessingError
+
 from src.core.models import (
     ChunkBase,
     Tier1Chunk,
@@ -492,13 +494,13 @@ class TestConversionUtilities:
         assert chunk.page_number == 5
 
     def test_convert_invalid_type_raises_error(self):
-        """Test converting invalid type raises ValueError."""
-        with pytest.raises(ValueError, match="Cannot convert"):
+        """Test converting invalid type raises ProcessingError."""
+        with pytest.raises(ProcessingError, match="Cannot convert"):
             convert_to_base_chunk("invalid string")
 
     def test_convert_none_raises_error(self):
-        """Test converting None raises ValueError."""
-        with pytest.raises((ValueError, AttributeError)):
+        """Test converting None raises ProcessingError."""
+        with pytest.raises((ProcessingError, AttributeError)):
             convert_to_base_chunk(None)
 
 

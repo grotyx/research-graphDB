@@ -13,7 +13,7 @@ from typing import Optional, Union
 from llm import LLMClient, ClaudeClient, GeminiClient
 from llm.prompts import SEMANTIC_CHUNKER_SYSTEM, SEMANTIC_CHUNKER_SCHEMA
 from builder.llm_section_classifier import SectionBoundary, SECTION_TIERS
-from core.text_chunker import TieredTextChunker
+from builder.tiered_text_chunker import TieredTextChunker
 
 logger = logging.getLogger(__name__)
 

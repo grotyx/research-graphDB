@@ -11,6 +11,8 @@ from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
+from core.exceptions import ValidationError
+
 from ontology.spine_snomed_mappings import (
     SNOMEDMapping,
     SNOMEDSemanticType,
@@ -287,7 +289,7 @@ class TestExtensionCodeGeneration:
         assert code == f"{EXTENSION_NAMESPACE}305"
 
     def test_invalid_category_raises_error(self):
-        with pytest.raises(ValueError, match="Unknown category"):
+        with pytest.raises(ValidationError, match="Unknown category"):
             generate_extension_code("invalid_category", 1)
 
     def test_is_official_code(self):

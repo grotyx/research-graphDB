@@ -24,6 +24,7 @@ from src.solver.unified_pipeline import (
 from src.solver.adaptive_ranker import QueryType, RankedResult
 from src.solver.evidence_synthesizer import SynthesisResult, EvidenceStrength
 from src.solver.conflict_detector import ConflictResult, ConflictSeverity
+from core.exceptions import ValidationError
 
 
 # =============================================================================
@@ -449,7 +450,7 @@ async def test_search_without_vectordb():
     """VectorDB 없이 검색 시도 (에러 발생)."""
     pipeline = UnifiedSearchPipeline(None, None)
 
-    with pytest.raises(ValueError, match="VectorDB is required"):
+    with pytest.raises(ValidationError, match="VectorDB is required"):
         await pipeline.search("test query")
 
 

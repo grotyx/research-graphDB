@@ -7,6 +7,7 @@ Test coverage:
 - Conflict detection rules
 - Inference engine API
 """
+from core.exceptions import ValidationError
 
 import pytest
 from unittest.mock import AsyncMock, MagicMock
@@ -93,7 +94,7 @@ def test_inference_rule_missing_parameters():
         parameters=["intervention"],
     )
 
-    with pytest.raises(ValueError, match="Missing required parameters"):
+    with pytest.raises(ValidationError, match="Missing required parameters"):
         rule.generate_cypher()
 
 
@@ -320,7 +321,7 @@ async def test_execute_rule(mock_neo4j_client, inference_engine):
 @pytest.mark.asyncio
 async def test_execute_rule_unknown_rule(inference_engine):
     """Test execute_rule with unknown rule."""
-    with pytest.raises(ValueError, match="Unknown rule"):
+    with pytest.raises(ValidationError, match="Unknown rule"):
         await inference_engine.execute_rule("unknown_rule")
 
 

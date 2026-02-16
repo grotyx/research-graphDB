@@ -1,1 +1,1 @@
-"""Tests for builder modules."""
+"""Builder module tests."""

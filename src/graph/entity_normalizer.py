@@ -150,7 +150,9 @@ class EntityNormalizer:
         ],
         "PELD": [
             "Percutaneous Endoscopic Lumbar Discectomy",
-            "경피적 내시경", "PELD technique"
+            "경피적 내시경", "PELD technique",
+            # v1.21.0: PTED = Percutaneous Transforaminal Endoscopic Discectomy ≈ PELD
+            "PTED", "Percutaneous Transforaminal Endoscopic Discectomy",
         ],
         "FESS": [
             "Full Endoscopic Spinal Surgery",
@@ -351,12 +353,17 @@ class EntityNormalizer:
             # v1.14.11: 협착증 수술 용어 추가
             "stenosis surgery", "spinal stenosis surgery",
             "협착증 수술", "척추관 협착증 수술",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가
+            "Non-instrumented decompression", "Posterior lumbar decompression",
+            "Degenerative spine surgery",
         ],
 
         # Motion Preservation
         "ADR": [
             "Artificial Disc Replacement", "TDR",
-            "Total Disc Replacement", "Disc Arthroplasty"
+            "Total Disc Replacement", "Disc Arthroplasty",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가
+            "TDR (Simplify Cervical Disc)",
         ],
         "Dynamic Stabilization": [
             "Dynamic Spinal Stabilization"
@@ -402,6 +409,8 @@ class EntityNormalizer:
             "disk surgery", "disc surgery", "디스크 수술",
             "disc herniation surgery", "disk herniation surgery",
             "herniated disc surgery", "herniated disk surgery",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가
+            "sequestrectomy", "Sequestrectomy",
         ],
         "Corpectomy": [
             "Anterior corpectomy", "Cervical corpectomy", "Lumbar corpectomy"
@@ -465,7 +474,10 @@ class EntityNormalizer:
             "Large PEEK cage insertion", "PEEK cage insertion",
             "3D-printed titanium cage", "Titanium cage insertion",
             "Posterior lumbar interbody fusion with window-type 3D-printed titanium cage",
-            "Posterior lumbar interbody fusion with non-window-type 3D-printed titanium cage"
+            "Posterior lumbar interbody fusion with non-window-type 3D-printed titanium cage",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가
+            "PEEK cage", "Stand-alone cage", "Standalone cage",
+            "Stand-alone PEEK cage", "Cage implantation",
         ],
 
         # ========================================
@@ -473,7 +485,12 @@ class EntityNormalizer:
         # ========================================
         "Robot-Assisted Surgery": [
             "Robotic surgery", "Robotic-assisted", "Robot-assisted spine surgery",
-            "ROSA robot", "Mazor robot", "ExcelsiusGPS", "로봇 수술"
+            "ROSA robot", "Mazor robot", "ExcelsiusGPS", "로봇 수술",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가
+            "Robot-assisted pedicle screw placement",
+            "Robotic-assisted pedicle screw placement",
+            "Robot-guided pedicle screw placement",
+            "Robotic pedicle screw", "Mazor X Stealth Edition",
         ],
         "Navigation-Guided Surgery": [
             "Navigation surgery", "CT navigation", "O-arm navigation",
@@ -681,6 +698,8 @@ class EntityNormalizer:
         "Spinopelvic fusion": [
             "Spinopelvic fixation", "Lumbopelvic fixation",
             "Iliac fixation", "골반 고정술",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가
+            "Sacropelvic fusion", "Sacropelvic fixation",
         ],
         "Craniocervical Junction Surgery": [
             "Craniocervical surgery", "CVJ surgery",
@@ -798,10 +817,15 @@ class EntityNormalizer:
         "Bone Graft": [
             "bone graft", "Autograft", "Allograft",
             "Bone grafting", "자가골 이식", "동종골 이식",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가
+            "Bone graft",
         ],
         "BMP": [
             "Bone Morphogenetic Protein", "rhBMP-2", "BMP-2",
             "Infuse", "bone morphogenetic protein",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가
+            "rhBMP-2 augmentation", "E.BMP-2 augmentation",
+            "BMP augmentation", "BMP-2 augmentation",
         ],
         "DBM": [
             "Demineralized Bone Matrix", "demineralized bone matrix",
@@ -1139,11 +1163,22 @@ class EntityNormalizer:
             "QOL", "quality of life score",
             # 정규화된 이름의 대소문자 변형
             "eq-5d", "Eq-5d", "eq5d",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가
+            "EuroQol-5-Dimensions-5-Level (EQ-5D-5L)",
         ],
         "SF-36": [
             "Short Form 36", "SF36", "SF-36 score", "SF 36",
             # 정규화된 이름의 대소문자 변형
             "sf-36", "Sf-36", "sf36",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가 (PCS/MCS 변형)
+            "SF-36 Physical Component Summary (PCS)",
+            "SF-36 Mental Component Summary (MCS)",
+            "SF-12/36 Physical Component Summary (PCS)",
+            "SF-12/36 Mental Component Summary (MCS)",
+            "SF-12/36 PCS", "SF-12/36 MCS",
+            "SF-12/36 PCS - Lumbar Subgroup",
+            "SF-12/36 PCS - Cervical Subgroup",
+            "Short Form Survey Physical Component Score (SF-12/36 PCS)",
         ],
         # v1.14.11: SF-12를 별도 항목으로 분리
         # v1.15: merged duplicate entries
@@ -1162,11 +1197,20 @@ class EntityNormalizer:
             # v1.14.11: 추가 변형
             "bone fusion", "solid fusion", "fusion outcome",
             "radiographic fusion", "CT fusion",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가
+            "Fusion Rate at 6 Months", "Fusion Rate at 12 Months",
+            "Interbody Fusion Rate", "Interbody Fusion Rate (Primary Outcome)",
+            "Fusion Rates/Clinical Outcomes",
         ],
         # v1.14.11: Pseudarthrosis 추가
         "Pseudarthrosis": [
             "pseudarthrosis", "Pseudoarthrosis", "nonunion",
             "non-union", "Nonunion", "fusion failure",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가
+            "Pseudoarthrosis/Nonunion - Lumbar Level",
+            "Pseudoarthrosis/Nonunion - Cervical Level",
+            "Pseudoarthrosis/Nonunion - Multivariate Analysis",
+            "Pseudarthrosis rate", "pseudarthrosis rate",
         ],
         "Cage Subsidence": [
             "Subsidence", "Cage migration", "Implant subsidence"
@@ -1257,6 +1301,8 @@ class EntityNormalizer:
             # v1.20.2: 추가 변형
             "Procedure time", "Procedure duration",
             "Procedure elapsed minutes", "Operating room time",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가
+            "Operative Duration", "operative duration",
         ],
         "Blood Loss": [
             "EBL", "Estimated blood loss", "Intraoperative blood loss",
@@ -1268,6 +1314,9 @@ class EntityNormalizer:
             # v1.20.2: 추가 변형
             "Estimated Blood Loss", "Intraoperative EBL",
             "Total EBL", "추정 출혈량",
+            # v1.21.0: Neo4j 비교형식 변형 정규화
+            "Full-Endoscopic LIF vs MIS-TLIF - Blood Loss",
+            "OLIF vs MIS-TLIF - Blood Loss",
         ],
         "Hospital Stay": [
             "Length of stay", "LOS", "Hospital length of stay",
@@ -1276,6 +1325,8 @@ class EntityNormalizer:
             "Length of Stay", "length of stay",
             "Hospital LOS", "hospital stay",
             "Postoperative hospital stay",
+            # v1.21.0: Neo4j 비교형식 변형 정규화
+            "Tubular vs Open Microdiscectomy - Hospital Stay",
         ],
         "Time to Ambulation": [
             "Time to walking", "Mobilization time", "보행 시작 시간"
@@ -1357,7 +1408,9 @@ class EntityNormalizer:
         # ========================================
         "Disc Height": [
             "Disc space height", "DHI", "Disc height index",
-            "추간판 높이"
+            "추간판 높이",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가
+            "Intervertebral Disc Height", "intervertebral disc height",
         ],
         "Foraminal Height": [
             "Neural foraminal height", "Foramen height"
@@ -1441,6 +1494,9 @@ class EntityNormalizer:
         "Rod Fracture": [
             "Rod fracture", "rod fracture", "Rod breakage",
             "Instrumentation failure",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가
+            "Rod Fracture incidence", "rod fracture incidence",
+            "Rod fracture rate",
         ],
         "Screw Loosening": [
             "screw loosening", "Pedicle screw loosening",
@@ -1450,6 +1506,10 @@ class EntityNormalizer:
             "screw accuracy", "Screw placement accuracy",
             "Pedicle screw accuracy", "Screw malposition",
             "screw malposition",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가
+            "Navigation-Assisted Pedicle Screw Accuracy",
+            "Percutaneous Pedicle Screw Accuracy",
+            "AR Pedicle Screw Placement Accuracy",
         ],
         "Readmission Rate": [
             "readmission rate", "30-day readmission",
@@ -1467,10 +1527,14 @@ class EntityNormalizer:
         "Heterotopic Ossification": [
             "heterotopic ossification", "HO",
             "Ectopic bone formation",
+            # v1.21.0: Neo4j 오타 변형 추가
+            "Heterotrophic Ossification", "heterotrophic ossification",
         ],
         "Osteolysis": [
             "osteolysis", "Endplate resorption",
             "Bone resorption", "Endplate Resorption",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가
+            "Endplate Resorption/Osteolysis",
         ],
         "Facet Joint Violation": [
             "facet joint violation", "Facet violation",
@@ -1510,6 +1574,10 @@ class EntityNormalizer:
             "30-day mortality", "90-day mortality",
             "Perioperative mortality", "Postoperative mortality",
             "사망률",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가
+            "Mortality rate", "mortality rate",
+            "In-Hospital Mortality (CKD vs Non-CKD)",
+            "In-Hospital Mortality (Dialysis vs Non-Dialysis)",
         ],
 
         # Specific complication outcomes
@@ -1727,6 +1795,23 @@ class EntityNormalizer:
             "Opioid use", "Morphine equivalent",
             "MED (morphine equivalent dose)",
         ],
+
+        # v1.21.0: Neo4j 고빈도 미매핑 신규 canonical 추가
+        "ROM": [
+            "Range of Motion", "range of motion", "ROM",
+            "Range of Motion (ROM)", "Range of Motion (ROM) - Biomechanical",
+            "Cervical ROM", "Lumbar ROM", "Segmental ROM",
+            "가동 범위",
+        ],
+        "Functional Recovery": [
+            "Functional recovery", "functional recovery",
+            "Functional improvement", "Functional status improvement",
+        ],
+        "PROMs": [
+            "Patient-Reported Outcome Measures",
+            "Patient-Reported Outcome Measures (PROMs)",
+            "Patient reported outcomes", "PROs",
+        ],
     }
 
     # 질환명 별칭 매핑
@@ -1740,6 +1825,8 @@ class EntityNormalizer:
             "lumbar spinal stenosis", "lumbar stenosis",
             "spinal stenosis", "central stenosis",
             "Lumbar stenosis with instability",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가
+            "Spinal canal narrowing", "spinal canal narrowing",
         ],
         "Cervical Stenosis": [
             "Cervical Spinal Stenosis", "CSS",
@@ -1765,6 +1852,10 @@ class EntityNormalizer:
             "Intervertebral disc herniation", "intervertebral disc herniation",
             "Recurrent lumbar disc herniation", "recurrent disc herniation",
             "Juvenile lumbar disc herniation",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가
+            "Herniated Intervertebral Disc", "Herniated disc",
+            "herniated disc", "Herniated intervertebral disc",
+            "intervertebral disc disease", "Spinal disc disease",
         ],
         "Cervical Disc Herniation": [
             "CDH", "Cervical HNP", "Cervical disc prolapse",
@@ -1781,6 +1872,9 @@ class EntityNormalizer:
             "Intervertebral disc degeneration", "intervertebral disc degeneration",
             "Lumbar degenerative disease", "lumbar degenerative disease",
             "Disc degeneration",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가
+            "Lumbar Degeneration", "lumbar degeneration",
+            "Discogenic low back pain", "discogenic low back pain",
         ],
         "Facet Arthropathy": [
             "Facet Joint Arthritis", "Facet Arthritis",
@@ -1788,6 +1882,9 @@ class EntityNormalizer:
             # v1.14.1: 소문자 변형 추가
             "facet arthropathy", "facet joint arthritis",
             "Facet hypertrophy", "facet hypertrophy",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가
+            "Lumbar facet joint osteoarthritis", "FJOA",
+            "Facet joint osteoarthritis",
         ],
         # v1.14.1: Cervical Myelopathy 신규 추가
         # v1.15: merged duplicate entries
@@ -1873,6 +1970,8 @@ class EntityNormalizer:
             # v1.14.1: 소문자 변형 추가
             "sagittal imbalance", "sagittal malalignment",
             "Global sagittal imbalance", "global sagittal imbalance",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가
+            "Spinopelvic malalignment", "spinopelvic malalignment",
         ],
         # v1.14.1: PJK 신규 추가
         # v1.15: merged duplicate entries
@@ -1905,7 +2004,9 @@ class EntityNormalizer:
         "Compression Fracture": [
             "VCF", "Vertebral Compression Fracture",
             "Osteoporotic Fracture",
-            "척추 압박 골절", "골다공증성 골절"
+            "척추 압박 골절", "골다공증성 골절",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가
+            "Vertebra plana", "vertebra plana",
         ],
         "Burst Fracture": [
             "Vertebral Burst Fracture", "Thoracolumbar Burst Fracture",
@@ -1935,6 +2036,8 @@ class EntityNormalizer:
             "Metastatic spinal disease", "metastatic spinal disease",
             "Metastatic spinal tumors", "metastatic spinal tumors",
             "Metastatic spine disease",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가
+            "Lung cancer metastasis", "lung cancer metastasis",
         ],
         "Intradural Tumor": [
             "Intradural Spinal Tumor", "Intradural neoplasm"
@@ -2018,7 +2121,9 @@ class EntityNormalizer:
             "Lumbosacral transitional vertebra", "LSTV"
         ],
         "Synovial Cyst": [
-            "Facet cyst", "Juxta-articular cyst", "활막낭종"
+            "Facet cyst", "Juxta-articular cyst", "활막낭종",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가
+            "Lumbar synovial facet cyst", "lumbar synovial facet cyst",
         ],
         "Tarlov Cyst": [
             "Perineural cyst", "Sacral nerve root cyst"
@@ -2193,6 +2298,8 @@ class EntityNormalizer:
         "Lumbar Spondylosis": [
             "lumbar spondylosis", "Lumbar degenerative changes",
             "Degenerative lumbar spine", "요추 퇴행성 변화",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가
+            "Lumbar spine disorders", "lumbar spine disorders",
         ],
         "Thoracic Disc Herniation": [
             "thoracic disc herniation", "Thoracic HNP",
@@ -2209,6 +2316,8 @@ class EntityNormalizer:
         "Central Canal Stenosis": [
             "central canal stenosis", "Central stenosis",
             "central canal narrowing",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가
+            "Central spinal canal stenosis", "central spinal canal stenosis",
         ],
         "Lateral Recess Stenosis": [
             "lateral recess stenosis", "Lateral recess narrowing",
@@ -2223,6 +2332,8 @@ class EntityNormalizer:
         "Coronal Imbalance": [
             "coronal imbalance", "Coronal malalignment",
             "Coronal decompensation", "관상면 불균형",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가
+            "Coronal deformity", "coronal deformity",
         ],
         "Fixed Sagittal Imbalance": [
             "fixed sagittal imbalance", "FSI",
@@ -2328,6 +2439,8 @@ class EntityNormalizer:
         "Pseudarthrosis": [
             "pseudarthrosis", "Pseudoarthrosis", "Nonunion",
             "Non-union", "Fusion failure", "가관절증",
+            # v1.21.0: Neo4j 고빈도 미매핑 추가
+            "Failed fusion", "failed fusion",
         ],
         "Post-laminectomy Syndrome": [
             "post-laminectomy syndrome", "Failed back surgery",

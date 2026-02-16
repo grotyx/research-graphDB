@@ -65,6 +65,7 @@ from solver.conflict_detector import ConflictDetector, ConflictInput
 # v1.14.12: ChromaDB 완전 제거 - Neo4j Vector Index만 사용
 # TextChunk는 하위 호환성을 위해 storage/__init__.py에서 유지
 from storage import TextChunk, SearchFilters
+from core.exceptions import ValidationError, ErrorCode
 
 # Builder modules (if available)
 try:
@@ -73,7 +74,7 @@ try:
     from builder.study_classifier import StudyClassifier
     from builder.pico_extractor import PICOExtractor
     from builder.stats_parser import StatsParser
-    from core.text_chunker import TieredTextChunker
+    from builder.tiered_text_chunker import TieredTextChunker
     BUILDER_AVAILABLE = True
 except ImportError:
     BUILDER_AVAILABLE = False
@@ -3881,7 +3882,7 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
                 ],
             )
         else:
-            raise ValueError(f"Unknown prompt: {name}")
+            raise ValidationError(message=f"Unknown prompt: {name}", error_code=ErrorCode.VAL_INVALID_VALUE)
 
     # ================================================================
     # Tool Call Handler

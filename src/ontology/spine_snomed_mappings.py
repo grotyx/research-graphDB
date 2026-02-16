@@ -24,6 +24,8 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Optional
 
+from core.exceptions import ValidationError, ErrorCode
+
 
 # Extension Code Configuration
 EXTENSION_NAMESPACE = "900000000000"
@@ -97,7 +99,7 @@ def generate_extension_code(category: str, index: int) -> str:
         Extension code string (e.g., "900000000000101" for procedure index 1)
     """
     if category not in EXTENSION_RANGES:
-        raise ValueError(f"Unknown category: {category}")
+        raise ValidationError(message=f"Unknown category: {category}", error_code=ErrorCode.VAL_INVALID_VALUE)
     base, _ = EXTENSION_RANGES[category]
     return f"{EXTENSION_NAMESPACE}{base + index}"
 
@@ -1863,6 +1865,15 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         synonyms=["Spinal surgery", "Spine operation"],
         notes="Root node for IS_A taxonomy",
     ),
+
+    # v1.21.0: 미매핑 canonical 추가
+    "Bone Graft": SNOMEDMapping(
+        code="88834003",
+        term="Bone grafting",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        synonyms=["Bone graft", "Bone grafting procedure"],
+        korean_term="골이식",
+    ),
 }
 
 
@@ -3009,6 +3020,41 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
                   "Cervical disability"],
         korean_term="척수 퇴행",
     ),
+
+    # v1.21.0: 미매핑 canonical 추가
+    "Pseudarthrosis": SNOMEDMapping(
+        code="58611004",
+        term="Pseudarthrosis",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        synonyms=["Pseudoarthrosis", "Nonunion", "Non-union",
+                  "Failed fusion", "Fusion failure"],
+        korean_term="가관절증",
+    ),
+    "Low Back Pain": SNOMEDMapping(
+        code="279039007",
+        term="Low back pain",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        synonyms=["LBP", "Chronic low back pain", "CLBP",
+                  "Mechanical low back pain"],
+        abbreviations=["LBP", "CLBP"],
+        korean_term="요통",
+    ),
+    "Spinal Cord Compression": SNOMEDMapping(
+        code="52423008",
+        term="Spinal cord compression",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        synonyms=["Cord compression", "Thoracic cord compression"],
+        korean_term="척수 압박",
+    ),
+    "Central Canal Stenosis": SNOMEDMapping(
+        code="900000000000261",
+        term="Central spinal canal stenosis",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        is_extension=True,
+        synonyms=["Central stenosis", "Central canal narrowing",
+                  "Central spinal canal stenosis"],
+        korean_term="중심관 협착증",
+    ),
 }
 
 
@@ -4075,6 +4121,46 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         synonyms=["Subsidence in mm", "Cage settling measurement",
                   "Interbody cage subsidence measurement"],
         korean_term="침하량 측정",
+    ),
+
+    # v1.21.0: 미매핑 canonical 추가
+    "Mortality": SNOMEDMapping(
+        code="900000000000371",
+        term="Surgical mortality rate",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        is_extension=True,
+        synonyms=["Mortality rate", "In-hospital mortality",
+                  "30-day mortality", "90-day mortality",
+                  "Perioperative mortality"],
+        korean_term="사망률",
+    ),
+    "Heterotopic Ossification": SNOMEDMapping(
+        code="16096001",
+        term="Heterotopic ossification",
+        semantic_type=SNOMEDSemanticType.FINDING,
+        synonyms=["HO", "Ectopic bone formation",
+                  "Heterotrophic Ossification"],
+        abbreviations=["HO"],
+        korean_term="이소성 골화",
+    ),
+    "Functional Recovery": SNOMEDMapping(
+        code="900000000000372",
+        term="Functional recovery assessment",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        is_extension=True,
+        synonyms=["Functional improvement", "Functional recovery",
+                  "Functional status improvement"],
+        korean_term="기능 회복",
+    ),
+    "PROMs": SNOMEDMapping(
+        code="900000000000373",
+        term="Patient-reported outcome measures",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        is_extension=True,
+        synonyms=["Patient-Reported Outcome Measures",
+                  "Patient reported outcomes", "PROs"],
+        abbreviations=["PROMs", "PROs"],
+        korean_term="환자보고 결과지표",
     ),
 }
 

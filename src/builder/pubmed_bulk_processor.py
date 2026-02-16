@@ -45,6 +45,7 @@ try:
     from graph.relationship_builder import RelationshipBuilder, SpineMetadata
     from graph.entity_normalizer import EntityNormalizer
     from core.embedding import EmbeddingGenerator
+    from core.exceptions import ProcessingError, ErrorCode
     from storage import TextChunk
     DOI_FETCHER_AVAILABLE = True
 except ImportError:
@@ -58,6 +59,7 @@ except ImportError:
         from src.graph.relationship_builder import RelationshipBuilder, SpineMetadata
         from src.graph.entity_normalizer import EntityNormalizer
         from src.core.embedding import EmbeddingGenerator
+        from src.core.exceptions import ProcessingError, ErrorCode
         from src.storage import TextChunk
         DOI_FETCHER_AVAILABLE = True
     except ImportError:
@@ -252,7 +254,7 @@ class PubMedBulkProcessor:
                 # v1.14.26: MedTE 폴백 제거 (768d는 3072d 인덱스와 호환 불가)
                 logger.error(f"OpenAI embedding initialization failed: {e}", exc_info=True)
                 logger.error("OPENAI_API_KEY must be set - MedTE fallback removed (dimension mismatch)")
-                raise RuntimeError(f"OpenAI embedding required (3072d index): {e}")
+                raise ProcessingError(message=f"OpenAI embedding required (3072d index): {e}", error_code=ErrorCode.PROC_EMBEDDING_FAILED)
 
         # LLM processor for text analysis (PMC full text + Abstract)
         # Always initialize for Abstract LLM processing even if enable_fulltext=False

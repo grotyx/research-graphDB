@@ -23,6 +23,8 @@ from dataclasses import dataclass, field
 from typing import Optional, Any
 from enum import Enum
 
+from core.exceptions import ValidationError, ErrorCode
+
 logger = logging.getLogger(__name__)
 
 
@@ -76,7 +78,10 @@ class InferenceRule:
         # 필수 파라미터 검증
         missing = [p for p in self.parameters if p not in params]
         if missing:
-            raise ValueError(f"Missing required parameters: {missing}")
+            raise ValidationError(
+                message=f"Missing required parameters: {missing}",
+                error_code=ErrorCode.VAL_MISSING_FIELD,
+            )
 
         # Neo4j는 $parameter 구문을 사용하므로 템플릿을 그대로 반환
         # 실제 파라미터 바인딩은 run_query(cypher, params)에서 수행
@@ -676,7 +681,10 @@ class InferenceEngine:
             ValueError: 규칙을 찾을 수 없거나 파라미터 오류
         """
         if rule_name not in self.rules:
-            raise ValueError(f"Unknown rule: {rule_name}")
+            raise ValidationError(
+                message=f"Unknown rule: {rule_name}",
+                error_code=ErrorCode.VAL_INVALID_VALUE,
+            )
 
         rule = self.rules[rule_name]
 

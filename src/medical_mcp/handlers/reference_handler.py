@@ -24,6 +24,7 @@ if TYPE_CHECKING:
     from medical_mcp.medical_kag_server import MedicalKAGServer
 
 from medical_mcp.handlers.base_handler import BaseHandler, safe_execute
+from core.exceptions import ProcessingError, ErrorCode
 
 try:
     from builder.reference_formatter import (
@@ -58,7 +59,7 @@ class ReferenceHandler(BaseHandler):
         """ReferenceFormatter 인스턴스 (lazy loading)."""
         if self._formatter is None:
             if not FORMATTER_AVAILABLE:
-                raise RuntimeError("ReferenceFormatter not available")
+                raise ProcessingError(message="ReferenceFormatter not available", error_code=ErrorCode.PROC_UNKNOWN)
             self._formatter = ReferenceFormatter()
         return self._formatter
 

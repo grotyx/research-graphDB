@@ -16,6 +16,7 @@ import pytest
 from unittest.mock import AsyncMock, MagicMock
 from typing import List, Dict, Any
 
+from core.exceptions import ValidationError
 from src.graph.inference_rules import (
     InferenceEngine,
     InferenceRule,
@@ -179,7 +180,7 @@ class TestInferenceRuleBasics:
 
     def test_rule_missing_parameters(self):
         """Test error on missing parameters."""
-        with pytest.raises(ValueError, match="Missing required parameters"):
+        with pytest.raises(ValidationError, match="Missing required parameters"):
             TRANSITIVE_HIERARCHY.generate_cypher()  # Missing 'intervention'
 
     def test_rule_validate_result(self):
@@ -545,13 +546,13 @@ class TestLowLevelAPI:
     @pytest.mark.asyncio
     async def test_execute_rule_unknown(self, inference_engine):
         """Test execution of unknown rule."""
-        with pytest.raises(ValueError, match="Unknown rule"):
+        with pytest.raises(ValidationError, match="Unknown rule"):
             await inference_engine.execute_rule("nonexistent_rule")
 
     @pytest.mark.asyncio
     async def test_execute_rule_missing_params(self, inference_engine):
         """Test rule execution with missing parameters."""
-        with pytest.raises(ValueError, match="Missing required parameters"):
+        with pytest.raises(ValidationError, match="Missing required parameters"):
             await inference_engine.execute_rule("transitive_hierarchy")  # Missing intervention
 
     def test_get_rule(self, inference_engine):

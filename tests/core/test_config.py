@@ -14,6 +14,8 @@ from pathlib import Path
 
 import pytest
 
+from core.exceptions import ValidationError
+
 from core.config import (
     Config,
     ConfigManager,
@@ -320,7 +322,7 @@ def test_get_threshold_not_found(temp_config_file, reset_config):
     manager = ConfigManager()
     manager.load(temp_config_file)
 
-    with pytest.raises(ValueError, match="not found in configuration"):
+    with pytest.raises(ValidationError, match="not found in configuration"):
         get_threshold("nonexistent_threshold")
 
 
@@ -370,7 +372,7 @@ def test_invalid_yaml(reset_config):
 
     try:
         manager = ConfigManager()
-        with pytest.raises(ValueError, match="Invalid YAML"):
+        with pytest.raises(ValidationError, match="Invalid YAML"):
             manager.load(temp_path)
     finally:
         Path(temp_path).unlink()

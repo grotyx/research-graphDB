@@ -52,6 +52,8 @@ from .evidence_synthesizer import (
 from .conflict_detector import ConflictDetector, ConflictResult, ConflictSeverity
 from .direction_determiner import DirectionDeterminer, OutcomeDirection
 
+from core.exceptions import ValidationError, ErrorCode
+
 # v4.2: Import GraphContextExpander for IS_A hierarchy expansion
 try:
     from .graph_context_expander import GraphContextExpander, ExpandedContext
@@ -343,7 +345,7 @@ class UnifiedSearchPipeline:
 
         # Validate
         if not self.vector_db:
-            raise ValueError("VectorDB is required for search")
+            raise ValidationError(message="VectorDB is required for search", error_code=ErrorCode.VAL_MISSING_FIELD)
 
         logger.info("Starting unified search", query=query[:100])
 
