@@ -2,6 +2,21 @@
 
 ## Version History
 
+### v1.21.1 (2026-02-16): Code Audit 전체 수정 완료 + 의존성 정리
+
+CA v1.21.0 잔여 MEDIUM/LOW 항목 6건 수정.
+
+| # | 항목 | 변경 | 파일 |
+|---|------|------|------|
+| 1 | **M-4: optional deps 분리** | networkx, sentence-transformers, torch → `[ml]` 그룹 이동 (설치 ~2GB 절감) | `pyproject.toml` |
+| 2 | **M-5: pubmed_handler 헬퍼 추출** | 7중 Neo4jClient 재생성 → `_get_fresh_neo4j_client()` 헬퍼 | `pubmed_handler.py` |
+| 3 | **M-6: MCP 핸들러 서버측 로깅** | 4곳 except 블록에 `logger.error(exc_info=True)` 추가 | 4개 파일 |
+| 4 | **L-1: stdlib lazy import 정리** | 40건 함수 내 import → 모듈 top-level 이동 | 12개 파일 |
+| 5 | **L-2: nest_asyncio 모듈화** | 반복 호출 → tiered_search.py 모듈 레벨 1회 적용 | `tiered_search.py` |
+| 6 | **L-3: 의존성 상한 추가** | google-genai `<2.0.0`, langchain-anthropic `<1.0.0`, langchain-google-genai `<3.0.0` | `pyproject.toml` |
+
+---
+
 ### v1.21.0 (2026-02-16): Data Validation 후속 조치 — SNOMED 정리 + Summary 백필 + 계층 구조 개선
 
 DV v1.20.1 결과 발견된 다수 이슈의 전체 후속 조치 실행.
