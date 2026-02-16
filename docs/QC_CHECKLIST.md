@@ -505,7 +505,7 @@ Phase 1 (병렬)          Phase 2 (병렬)          Phase 3 (순차)       Phase
 |----|-------|------|----------|--------|
 | QC-A-001 | 2.3 | `scripts/`, `__main__` 블록 내 print() 사용 (~110건) | 의도적: CLI 도구의 stdout 출력 | 2026-02-16 |
 | QC-A-002 | 2.3 | TODO/FIXME 주석 | CA deferred items(D-005~D-008)로 별도 추적 | 2026-02-16 |
-| QC-A-003 | 2.1 | `test_pubmed_enricher::test_enrich_paper_metadata` 실패 | 기존 알려진 이슈: BibliographicMetadata dataclass vs dict 반환 | 2026-02-16 |
+| ~~QC-A-003~~ | 2.1 | `test_pubmed_enricher::test_enrich_paper_metadata` 실패 | ~~기존 알려진 이슈~~ → **v1.23.0에서 수정 완료** (assertion 강화) | 2026-02-16 |
 
 ---
 
@@ -543,5 +543,6 @@ Phase 1 (병렬)          Phase 2 (병렬)          Phase 3 (순차)       Phase
 
 | 일자 | 버전 | 신규 발견 | 해소 | 잔여 Open | 잔여 Accepted | 비고 |
 |------|------|----------|------|----------|--------------|------|
+| 2026-02-16 | v1.23.0 | 0 | 1 | 0 | 2 | QC-A-003 해소 (test assertion 강화) |
 | 2026-02-16 | v1.22.0 | 4 | 9 | 0 | 3 | Cleanup Sprint: QC-001~005 + NEW-1~4 전체 해소 |
 | 2026-02-16 | v1.21.2 | 5 | 0 | 5 | 3 | 초기 등록 |

@@ -2,6 +2,29 @@
 
 ## Version History
 
+### v1.23.0 (2026-02-16): Cleanup Sprint Phase 2 — Monolith 분해, 테스트 250개 추가, 스크립트
+
+#### D-009: pubmed_bulk_processor.py 분해 (462줄 → 3 모듈)
+- `pubmed_downloader.py` (~250줄): PubMedDownloader — 검색, 배치 fetch, 인용 조회, 중복 감지
+- `pubmed_processor.py` (~580줄): PubMedPaperProcessor — LLM 처리, 청크 생성, Neo4j 저장
+- `pubmed_bulk_processor.py` (~340줄): Thin facade, 기존 공개 API 100% 호환
+- 46개 신규 테스트 (downloader 19, processor 27)
+
+#### D-010: 테스트 커버리지 확장 (+250 tests, 2342 → 2592)
+- `test_tiered_search_extended.py` (~490줄): 검색 계층, 필터, 퓨전, RRF, fallback
+- `test_hybrid_ranker_extended.py` (~430줄): 스코어링, 경계값, 통계, 상수
+- `test_conflict_detector_extended.py` (~380줄): 심각도, 레거시 API, 요약 생성
+- `test_pdf_processor_extended.py` (~530줄): JSON 복구, 데이터 변환, fallback
+
+#### QC-A-003: test_pubmed_enricher 테스트 수정
+- 약한 assertion (None/dict/dataclass 허용) → 정확한 BibliographicMetadata 검증으로 강화
+
+#### DV-006: HAS_CHUNK 복구 스크립트
+- `scripts/repair_missing_chunks.py` 신규: --dry-run, --paper-ids, --max-concurrent 지원
+- extracted JSON 우선 로드, abstract fallback, OpenAI 임베딩
+
+---
+
 ### v1.22.1 (2026-02-16): Cleanup Sprint — 죽은 코드 제거, 문서 동기화, 데이터 방지, 코드 품질 개선
 
 QC/CA/DV 스캔에서 발견된 모든 Open Issues를 4-Agent 병렬 실행으로 일괄 해결.

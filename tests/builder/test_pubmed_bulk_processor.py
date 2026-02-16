@@ -18,6 +18,8 @@ from builder.pubmed_bulk_processor import (
     PubMedImportResult,
     BulkImportSummary,
 )
+from builder.pubmed_downloader import PubMedDownloader
+from builder.pubmed_processor import PubMedPaperProcessor
 from builder.pubmed_enricher import BibliographicMetadata
 
 
@@ -333,13 +335,19 @@ class TestPubMedBulkProcessorMocked:
             processor.pubmed_enricher = mock_pubmed_enricher
             processor.embedding_generator = mock_embedding
 
+            # D-009: Add delegate mocks for decomposed modules
+            processor._downloader = MagicMock(spec=PubMedDownloader)
+            processor._downloader.neo4j = mock_neo4j
+            processor._processor = MagicMock(spec=PubMedPaperProcessor)
+            processor._processor.neo4j = mock_neo4j
+
         return processor
 
     @pytest.mark.asyncio
     async def test_check_existing_paper_found(self, mock_processor):
         """기존 논문 확인 - 존재하는 경우."""
-        mock_processor.neo4j.run_query = AsyncMock(
-            return_value=[{"paper_id": "existing_paper_123"}]
+        mock_processor._downloader.check_existing_paper = AsyncMock(
+            return_value="existing_paper_123"
         )
 
         result = await mock_processor._check_existing_paper("12345678")
@@ -349,7 +357,7 @@ class TestPubMedBulkProcessorMocked:
     @pytest.mark.asyncio
     async def test_check_existing_paper_not_found(self, mock_processor):
         """기존 논문 확인 - 존재하지 않는 경우."""
-        mock_processor.neo4j.run_query = AsyncMock(return_value=[])
+        mock_processor._downloader.check_existing_paper = AsyncMock(return_value=None)
 
         result = await mock_processor._check_existing_paper("99999999")
 
@@ -358,6 +366,8 @@ class TestPubMedBulkProcessorMocked:
     @pytest.mark.asyncio
     async def test_import_papers_empty_list(self, mock_processor):
         """빈 리스트 임포트."""
+        mock_processor._downloader.check_existing_papers_batch = AsyncMock(return_value={})
+
         summary = await mock_processor.import_papers([])
 
         assert summary.total_papers == 0
@@ -367,7 +377,7 @@ class TestPubMedBulkProcessorMocked:
     @pytest.mark.asyncio
     async def test_get_abstract_only_papers(self, mock_processor):
         """abstract-only 논문 조회."""
-        mock_processor.neo4j.run_query = AsyncMock(return_value=[
+        mock_processor._processor.get_abstract_only_papers = AsyncMock(return_value=[
             {"paper_id": "pubmed_111", "title": "Paper 1", "pmid": "111"},
             {"paper_id": "pubmed_222", "title": "Paper 2", "pmid": "222"},
         ])
@@ -380,7 +390,7 @@ class TestPubMedBulkProcessorMocked:
     @pytest.mark.asyncio
     async def test_get_abstract_only_papers_empty(self, mock_processor):
         """abstract-only 논문 없음."""
-        mock_processor.neo4j.run_query = AsyncMock(return_value=[])
+        mock_processor._processor.get_abstract_only_papers = AsyncMock(return_value=[])
 
         papers = await mock_processor.get_abstract_only_papers()
 
@@ -389,12 +399,14 @@ class TestPubMedBulkProcessorMocked:
     @pytest.mark.asyncio
     async def test_upgrade_with_pdf_paper_not_found(self, mock_processor):
         """업그레이드 - 논문 없음."""
-        mock_processor.neo4j.run_query = AsyncMock(return_value=[])
+        mock_processor._processor.upgrade_with_pdf = AsyncMock(return_value={
+            "success": False,
+            "error": "Paper is not a PubMed-only paper",
+        })
 
         result = await mock_processor.upgrade_with_pdf("nonexistent_id", {})
 
         assert result.get("success") is False
-        # Error message can be "not found" or "not a pubmed-only paper"
         error_msg = result.get("error", "").lower()
         assert "not found" in error_msg or "not a pubmed" in error_msg
 
