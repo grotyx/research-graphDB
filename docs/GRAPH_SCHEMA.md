@@ -1,5 +1,7 @@
 # Spine GraphRAG Schema
 
+> **Version**: 1.23.0
+
 ## Node Types
 
 ### Core Nodes

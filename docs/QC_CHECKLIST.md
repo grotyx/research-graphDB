@@ -196,7 +196,6 @@ modules = [
     'ontology.snomed_linker',
     'core.config',
     'core.embedding',
-    'orchestrator.chain_builder',
     'medical_mcp.medical_kag_server',
 ]
 failed = []

@@ -1,5 +1,7 @@
 # Medical KAG System - 요구사항 정의서 (PRD)
 
+> **Version**: 1.23.0
+
 ## 프로젝트 개요
 
 **한 줄 요약**: SNOMED-CT 의학 온톨로지와 KAG(Knowledge Augmented Generation) 프레임워크를 결합하여, 의학 논문 PDF를 기반으로 정확한 의학 논문 작성을 지원하는 지식 증강 시스템
