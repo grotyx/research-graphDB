@@ -38,7 +38,7 @@ class SearchHandler(BaseHandler):
         self.graph_searcher = server.graph_searcher
         self.concept_hierarchy = server.concept_hierarchy
         self.cypher_generator = server.cypher_generator
-        self.vector_db = server.vector_db
+        self.vector_db = server.vector_db  # None (kept for backward compatibility)
 
     @safe_execute
     async def search(
@@ -398,8 +398,8 @@ class SearchHandler(BaseHandler):
     ) -> dict:
         """통합 검색 파이프라인 - Neo4j 하이브리드 검색 사용.
 
-        v1.14.18+: ChromaDB 제거로 인해 Neo4j 내장 벡터 인덱스를 사용하는
-        hybrid_search로 대체됩니다. 근거 종합 및 충돌 탐지를 포함합니다.
+        Neo4j 내장 벡터 인덱스를 사용하는
+        hybrid_search를 수행합니다. 근거 종합 및 충돌 탐지를 포함합니다.
 
         Args:
             query: 검색 쿼리
@@ -415,8 +415,7 @@ class SearchHandler(BaseHandler):
         # Ensure Neo4j connection is established
         await self._ensure_connected()
 
-        # v1.14.19: Use Neo4j's built-in hybrid search instead of UnifiedSearchPipeline
-        # Since ChromaDB was removed, we use Neo4j's vector index directly
+        # Use Neo4j's built-in hybrid search (vector index + graph filters)
         import time
         start_time = time.time()
 
@@ -428,7 +427,7 @@ class SearchHandler(BaseHandler):
             except Exception as emb_err:
                 logger.warning(f"Embedding generation failed: {emb_err}")
 
-        # Fallback: use EmbeddingGenerator directly if vector_db not available
+        # Fallback: use EmbeddingGenerator directly
         if query_embedding is None:
             try:
                 from core.embedding import get_embedding_generator

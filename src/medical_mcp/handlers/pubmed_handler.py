@@ -21,6 +21,12 @@ if TYPE_CHECKING:
 
 logger = logging.getLogger(__name__)
 
+# Allowlist for Paper property updates (CA NEW-3: prevent Cypher injection)
+ALLOWED_UPDATE_FIELDS = {
+    "study_design", "subdomain", "sub_domain", "evidence_level", "journal",
+    "doi", "pmid", "year", "authors", "abstract", "title", "summary",
+}
+
 # Sub-domain classification keywords (v1.14.18)
 SUB_DOMAIN_KEYWORDS = {
     "Degenerative": [
@@ -187,10 +193,14 @@ class PubMedHandler(BaseHandler):
 
                 # 업데이트 실행
                 if updates:
-                    set_clauses = ", ".join([f"p.{k} = ${k}" for k in updates.keys()])
+                    safe_updates = {k: v for k, v in updates.items() if k in ALLOWED_UPDATE_FIELDS}
+                    if not safe_updates:
+                        logger.warning(f"Paper {paper_id}: all update keys rejected by allowlist: {list(updates.keys())}")
+                        continue
+                    set_clauses = ", ".join([f"p.{k} = ${k}" for k in safe_updates.keys()])
                     await neo4j_client.run_query(
                         f"MATCH (p:Paper {{paper_id: $paper_id}}) SET {set_clauses}",
-                        {"paper_id": paper_id, **updates}
+                        {"paper_id": paper_id, **safe_updates}
                     )
                     classified_count += 1
 
@@ -294,7 +304,7 @@ class PubMedHandler(BaseHandler):
             # Initialize processor (v5.3: Neo4j 전용)
             processor = PubMedBulkProcessor(
                 neo4j_client=fresh_neo4j,
-                vector_db=None,  # ChromaDB 제거됨
+
                 pubmed_email=os.environ.get("NCBI_EMAIL"),
                 pubmed_api_key=os.environ.get("NCBI_API_KEY"),
             )
@@ -370,7 +380,7 @@ class PubMedHandler(BaseHandler):
         async with await self._get_fresh_neo4j_client() as fresh_neo4j:
             processor = PubMedBulkProcessor(
                 neo4j_client=fresh_neo4j,
-                vector_db=None,  # v5.3: ChromaDB 제거됨
+
                 pubmed_email=os.environ.get("NCBI_EMAIL"),
                 pubmed_api_key=os.environ.get("NCBI_API_KEY"),
             )
@@ -429,7 +439,7 @@ class PubMedHandler(BaseHandler):
         async with await self._get_fresh_neo4j_client() as fresh_neo4j:
             processor = PubMedBulkProcessor(
                 neo4j_client=fresh_neo4j,
-                vector_db=None,  # v5.3: ChromaDB 제거됨
+
                 pubmed_email=os.environ.get("NCBI_EMAIL"),
                 pubmed_api_key=os.environ.get("NCBI_API_KEY"),
             )
@@ -471,7 +481,7 @@ class PubMedHandler(BaseHandler):
         async with await self._get_fresh_neo4j_client() as fresh_neo4j:
             processor = PubMedBulkProcessor(
                 neo4j_client=fresh_neo4j,
-                vector_db=None,  # v5.3: ChromaDB 제거됨
+
             )
 
             papers = await processor.get_abstract_only_papers(limit=limit)
@@ -517,7 +527,7 @@ class PubMedHandler(BaseHandler):
         async with await self._get_fresh_neo4j_client() as fresh_neo4j:
             processor = PubMedBulkProcessor(
                 neo4j_client=fresh_neo4j,
-                vector_db=None,  # v5.3: ChromaDB 제거됨
+
                 pubmed_email=os.environ.get("NCBI_EMAIL"),
                 pubmed_api_key=os.environ.get("NCBI_API_KEY"),
             )
@@ -576,7 +586,7 @@ class PubMedHandler(BaseHandler):
         async with await self._get_fresh_neo4j_client() as fresh_neo4j:
             processor = PubMedBulkProcessor(
                 neo4j_client=fresh_neo4j,
-                vector_db=None,  # v5.3: ChromaDB 제거됨
+
             )
 
             stats = await processor.get_import_statistics()
@@ -678,7 +688,6 @@ class PubMedHandler(BaseHandler):
             async with await self._get_fresh_neo4j_client() as fresh_neo4j:
                 processor = PubMedBulkProcessor(
                     neo4j_client=fresh_neo4j,
-                    vector_db=None,
                     pubmed_email=os.environ.get("NCBI_EMAIL"),
                     pubmed_api_key=os.environ.get("NCBI_API_KEY"),
                 )

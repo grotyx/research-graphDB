@@ -506,6 +506,12 @@ async def cleanup_anatomy_nodes(
                 else:
                     all_segments.append(part)
 
+            # DV-002: Title-case each segment before MERGE to prevent duplicates
+            all_segments = [
+                (s[0].upper() + s[1:] if s and not s[0].isupper() else s)
+                for s in all_segments
+            ]
+
             if not dry_run:
                 # 원래 노드를 참조하는 Paper에 개별 분절 관계 생성
                 for seg in all_segments:
@@ -533,6 +539,11 @@ async def cleanup_anatomy_nodes(
         # 4. 다분절 범위 (단일 항목)
         range_segments = parse_segment_range(name)
         if range_segments and len(range_segments) > 1:
+            # DV-002: Title-case each segment before MERGE to prevent duplicates
+            range_segments = [
+                (s[0].upper() + s[1:] if s and not s[0].isupper() else s)
+                for s in range_segments
+            ]
             if not dry_run:
                 for seg in range_segments:
                     await client.run_write_query(

@@ -457,9 +457,9 @@ if __name__ == "__main__":
     ]
 
     for query in queries:
-        print(f"\n쿼리: {query}")
+        logger.debug(f"쿼리: {query}")
         entities = generator.extract_entities(query)
-        print(f"엔티티: {entities}")
+        logger.debug(f"엔티티: {entities}")
 
         cypher = generator.generate(query, entities)
-        print(f"Cypher:\n{cypher}")
+        logger.debug(f"Cypher:\n{cypher}")

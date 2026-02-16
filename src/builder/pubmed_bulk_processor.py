@@ -1,7 +1,7 @@
 """PubMed Bulk Processing Module (v5.3.1).
 
 대량의 PubMed 논문을 검색하고 Neo4j에 임포트하는 기능을 제공합니다.
-v5.3부터 ChromaDB가 제거되고 Neo4j Vector Index만 사용합니다.
+v5.3부터 Neo4j Vector Index만 사용합니다.
 v5.3.1부터 OpenAI text-embedding-3-large (3072d)를 기본 임베딩으로 사용합니다.
 
 Two main scenarios:
@@ -186,18 +186,18 @@ class PubMedBulkProcessor:
     """PubMed 대량 처리기.
 
     Neo4j에 PubMed 논문을 대량으로 임포트합니다.
-    v5.3부터 ChromaDB가 제거되고 Neo4j Vector Index만 사용합니다.
+    v5.3부터 Neo4j Vector Index만 사용합니다.
 
     Example:
         processor = PubMedBulkProcessor(neo4j_client)
 
         # Search and preview
         papers = await processor.search_pubmed("spine fusion", max_results=20)
-        print(f"Found {len(papers)} papers")
+        logger.info(f"Found {len(papers)} papers")
 
         # Import selected papers
         results = await processor.import_papers(papers[:10])
-        print(f"Imported {results.imported} papers")
+        logger.info(f"Imported {results.imported} papers")
     """
 
     # Paper ID prefix for PubMed-only papers
@@ -210,7 +210,6 @@ class PubMedBulkProcessor:
     def __init__(
         self,
         neo4j_client: "Neo4jClient",
-        vector_db: "VectorDB" = None,  # v5.3: Optional (deprecated, use Neo4j)
         pubmed_email: Optional[str] = None,
         pubmed_api_key: Optional[str] = None,
         embedding_generator=None,  # OpenAIEmbeddingGenerator or EmbeddingGenerator
@@ -222,7 +221,6 @@ class PubMedBulkProcessor:
 
         Args:
             neo4j_client: Neo4j 클라이언트
-            vector_db: (Deprecated) ChromaDB 벡터 저장소 - v5.3에서 Neo4j Vector Index 사용
             pubmed_email: NCBI 이메일 (권장)
             pubmed_api_key: NCBI API 키 (rate limit 향상)
             embedding_generator: 임베딩 생성기 (None이면 OpenAI 자동 생성)
@@ -231,7 +229,6 @@ class PubMedBulkProcessor:
             entity_normalizer: 엔티티 정규화기 (None이면 자동 생성)
         """
         self.neo4j = neo4j_client
-        self.vector_db = vector_db  # v5.3: May be None (deprecated)
         self.pubmed_client = PubMedClient(email=pubmed_email, api_key=pubmed_api_key)
         self.pubmed_enricher = PubMedEnricher(email=pubmed_email, api_key=pubmed_api_key)
 
@@ -459,7 +456,7 @@ class PubMedBulkProcessor:
             results = await processor.import_papers(papers, max_concurrent=3)
             # 특정 사용자 소유로 임포트
             results = await processor.import_papers(papers, owner="kim", shared=False)
-            print(f"Imported {results.imported} / {results.total_papers} papers")
+            logger.info(f"Imported {results.imported} / {results.total_papers} papers")
         """
         summary = BulkImportSummary(total_papers=len(papers))
 
@@ -1113,7 +1110,7 @@ class PubMedBulkProcessor:
         contents = [c.content for c in text_chunks]
         embeddings = self.embedding_generator.embed_batch(contents)
 
-        # v5.3: Store chunks in Neo4j (ChromaDB deprecated)
+        # v5.3: Store chunks in Neo4j
         total_added = await self._store_chunks_to_neo4j(paper_id, text_chunks, embeddings)
 
         tier1_count = sum(1 for c in text_chunks if c.tier == "tier1")
@@ -1561,7 +1558,7 @@ class PubMedBulkProcessor:
         contents = [c.content for c in chunks]
         embeddings = self.embedding_generator.embed_batch(contents)
 
-        # Convert AbstractChunk to TextChunk for vector_db
+        # Convert AbstractChunk to TextChunk for Neo4j
         text_chunks = []
         for chunk in chunks:
             text_chunk = TextChunk(
@@ -1584,7 +1581,7 @@ class PubMedBulkProcessor:
             )
             text_chunks.append(text_chunk)
 
-        # v5.3: Store chunks in Neo4j (ChromaDB deprecated)
+        # v5.3: Store chunks in Neo4j
         total_added = await self._store_chunks_to_neo4j(paper_id, text_chunks, embeddings)
         logger.debug(f"Added {total_added} chunks for paper {paper_id}")
         return total_added
@@ -1685,7 +1682,7 @@ class PubMedBulkProcessor:
         contents = [c.content for c in text_chunks]
         embeddings = self.embedding_generator.embed_batch(contents)
 
-        # v5.3: Store chunks in Neo4j (ChromaDB deprecated)
+        # v5.3: Store chunks in Neo4j
         total_added = await self._store_chunks_to_neo4j(paper_id, text_chunks, embeddings)
         return total_added
 
@@ -1695,7 +1692,7 @@ class PubMedBulkProcessor:
         text_chunks: list[TextChunk],
         embeddings: list[list[float]],
     ) -> int:
-        """청크를 Neo4j에 저장 (v5.3: ChromaDB 대체).
+        """청크를 Neo4j에 저장.
 
         Args:
             paper_id: Paper ID

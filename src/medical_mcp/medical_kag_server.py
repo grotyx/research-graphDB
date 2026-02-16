@@ -62,7 +62,7 @@ from solver.reasoner import Reasoner, ReasonerInput
 from solver.response_generator import ResponseGenerator, GeneratorInput, ResponseFormat
 from solver.conflict_detector import ConflictDetector, ConflictInput
 
-# v1.14.12: ChromaDB 완전 제거 - Neo4j Vector Index만 사용
+# Neo4j Vector Index만 사용
 # TextChunk는 하위 호환성을 위해 storage/__init__.py에서 유지
 from storage import TextChunk, SearchFilters
 from core.exceptions import ValidationError, ErrorCode
@@ -313,7 +313,7 @@ class MedicalKAGServer:
         Args:
             data_dir: 데이터 저장 경로
             enable_llm: LLM 기능 활성화 여부
-            use_neo4j_storage: True면 Neo4j Vector Index 사용 (v5.3: 항상 True, ChromaDB 제거됨)
+            use_neo4j_storage: True면 Neo4j Vector Index 사용 (v5.3: 항상 True)
             default_user: 기본 사용자 ID (None이면 'system')
         """
         self.data_dir = Path(data_dir) if data_dir else src_dir.parent / "data"
@@ -365,8 +365,7 @@ class MedicalKAGServer:
 
     def _init_components(self) -> None:
         """컴포넌트 초기화."""
-        # v5.3 Phase 4: ChromaDB 제거 - Neo4j Vector Index만 사용
-        # self.vector_db는 더 이상 사용하지 않음 - 하위 호환성을 위해 None으로 유지
+        # Neo4j Vector Index만 사용 (하위 호환성을 위해 None으로 유지)
         self.vector_db = None
 
         # Solver modules (search_engine 초기화는 Neo4j 초기화 후로 이동 - v5.3 Phase 4)
@@ -563,7 +562,7 @@ class MedicalKAGServer:
         if self.neo4j_client:
             # Neo4j 전용 모드: Neo4j Vector Index + Graph 필터 통합
             self.search_engine = TieredHybridSearch(
-                vector_db=None,  # ChromaDB 제거됨
+                vector_db=None,
                 neo4j_client=self.neo4j_client,
                 use_neo4j_vector=True,
                 config={
@@ -1243,7 +1242,7 @@ class MedicalKAGServer:
         tier1_chunks = [c for c in chunks if c.tier == "tier1"]
         tier2_chunks = [c for c in chunks if c.tier == "tier2"]
 
-        # v5.3: ChromaDB 제거됨 - Neo4j만 사용
+        # v5.3: Neo4j만 사용
         logger.info(f"Neo4j-only mode: {len(tier1_chunks)} tier1, {len(tier2_chunks)} tier2 chunks prepared")
 
         # 5.5 Neo4j Chunk 저장 (v5.3 - Neo4j Vector Index, Primary Storage)
@@ -1800,7 +1799,7 @@ class MedicalKAGServer:
 
         neo4j_chunk_count = 0
 
-        # v5.3: ChromaDB 제거됨 - Neo4j만 사용
+        # v5.3: Neo4j만 사용
         logger.info(f"Legacy pipeline: {len(tier1_chunks)} tier1, {len(tier2_chunks)} tier2 chunks prepared")
 
         # Neo4j Chunk 저장 (v5.3)

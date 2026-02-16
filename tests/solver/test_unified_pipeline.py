@@ -40,18 +40,9 @@ def mock_neo4j_client():
 
 
 @pytest.fixture
-def mock_vector_db():
-    """Mock VectorDB."""
-    db = Mock()
-    db.get_embedding = Mock(return_value=[0.1] * 768)
-    db.search_all = Mock(return_value=[])
-    return db
-
-
-@pytest.fixture
-def pipeline(mock_neo4j_client, mock_vector_db):
+def pipeline(mock_neo4j_client):
     """UnifiedSearchPipeline 인스턴스."""
-    return UnifiedSearchPipeline(mock_neo4j_client, mock_vector_db)
+    return UnifiedSearchPipeline(mock_neo4j_client)
 
 
 @pytest.fixture
@@ -111,12 +102,11 @@ def sample_conflict():
 # Test Pipeline Initialization
 # =============================================================================
 
-def test_pipeline_initialization_with_clients(mock_neo4j_client, mock_vector_db):
-    """Neo4j + VectorDB로 초기화."""
-    pipeline = UnifiedSearchPipeline(mock_neo4j_client, mock_vector_db)
+def test_pipeline_initialization_with_clients(mock_neo4j_client):
+    """Neo4j로 초기화."""
+    pipeline = UnifiedSearchPipeline(mock_neo4j_client)
 
     assert pipeline.neo4j_client is not None
-    assert pipeline.vector_db is not None
     assert pipeline.query_classifier is not None
     assert pipeline.adaptive_ranker is not None
     assert pipeline.hybrid_ranker is not None
@@ -124,24 +114,22 @@ def test_pipeline_initialization_with_clients(mock_neo4j_client, mock_vector_db)
     assert pipeline.conflict_detector is not None
 
 
-def test_pipeline_initialization_without_neo4j(mock_vector_db):
-    """VectorDB만으로 초기화 (Neo4j 없음)."""
-    pipeline = UnifiedSearchPipeline(None, mock_vector_db)
+def test_pipeline_initialization_without_neo4j():
+    """Neo4j 없이 초기화."""
+    pipeline = UnifiedSearchPipeline(None)
 
     assert pipeline.neo4j_client is None
-    assert pipeline.vector_db is not None
     assert pipeline.hybrid_ranker is None
     assert pipeline.evidence_synthesizer is None
     assert pipeline.conflict_detector is None
 
 
-def test_create_pipeline_helper(mock_neo4j_client, mock_vector_db):
+def test_create_pipeline_helper(mock_neo4j_client):
     """create_pipeline() 헬퍼 함수."""
-    pipeline = create_pipeline(mock_neo4j_client, mock_vector_db)
+    pipeline = create_pipeline(mock_neo4j_client)
 
     assert isinstance(pipeline, UnifiedSearchPipeline)
     assert pipeline.neo4j_client is mock_neo4j_client
-    assert pipeline.vector_db is mock_vector_db
 
 
 # =============================================================================
@@ -153,12 +141,12 @@ async def test_query_classification_factual(pipeline):
     """FACTUAL 쿼리 분류."""
     query = "What is the fusion rate of TLIF?"
 
+    pipeline.neo4j_client.get_embedding = AsyncMock(return_value=[0.1] * 768)
     with patch.object(pipeline, 'hybrid_ranker', None):
-        with patch.object(pipeline.vector_db, 'search_all', return_value=[]):
-            response = await pipeline.search(query, SearchOptions(
-                include_synthesis=False,
-                detect_conflicts=False
-            ))
+        response = await pipeline.search(query, SearchOptions(
+            include_synthesis=False,
+            detect_conflicts=False
+        ))
 
     assert response.query_analysis.query_type == QueryType.FACTUAL
     assert response.query_analysis.confidence > 0
@@ -169,12 +157,12 @@ async def test_query_classification_comparative(pipeline):
     """COMPARATIVE 쿼리 분류."""
     query = "TLIF vs OLIF for stenosis"
 
+    pipeline.neo4j_client.get_embedding = AsyncMock(return_value=[0.1] * 768)
     with patch.object(pipeline, 'hybrid_ranker', None):
-        with patch.object(pipeline.vector_db, 'search_all', return_value=[]):
-            response = await pipeline.search(query, SearchOptions(
-                include_synthesis=False,
-                detect_conflicts=False
-            ))
+        response = await pipeline.search(query, SearchOptions(
+            include_synthesis=False,
+            detect_conflicts=False
+        ))
 
     assert response.query_analysis.query_type == QueryType.COMPARATIVE
 
@@ -184,12 +172,12 @@ async def test_query_classification_exploratory(pipeline):
     """EXPLORATORY 쿼리 분류."""
     query = "What treatments exist for lumbar stenosis?"
 
+    pipeline.neo4j_client.get_embedding = AsyncMock(return_value=[0.1] * 768)
     with patch.object(pipeline, 'hybrid_ranker', None):
-        with patch.object(pipeline.vector_db, 'search_all', return_value=[]):
-            response = await pipeline.search(query, SearchOptions(
-                include_synthesis=False,
-                detect_conflicts=False
-            ))
+        response = await pipeline.search(query, SearchOptions(
+            include_synthesis=False,
+            detect_conflicts=False
+        ))
 
     assert response.query_analysis.query_type == QueryType.EXPLORATORY
 
@@ -203,6 +191,7 @@ async def test_search_basic(pipeline, sample_ranked_results):
     """기본 검색 실행."""
     query = "TLIF fusion rate"
 
+    pipeline.neo4j_client.get_embedding = AsyncMock(return_value=[0.1] * 768)
     # Mock adaptive_ranker.rank
     with patch.object(
         pipeline.adaptive_ranker, 'rank', return_value=sample_ranked_results
@@ -227,6 +216,7 @@ async def test_search_with_synthesis(pipeline, sample_ranked_results, sample_syn
     """근거 종합 포함 검색."""
     query = "TLIF fusion rate"
 
+    pipeline.neo4j_client.get_embedding = AsyncMock(return_value=[0.1] * 768)
     with patch.object(
         pipeline.adaptive_ranker, 'rank', return_value=sample_ranked_results
     ):
@@ -261,6 +251,7 @@ async def test_search_with_conflicts(pipeline, sample_ranked_results, sample_con
     """충돌 탐지 포함 검색."""
     query = "TLIF vs OLIF"
 
+    pipeline.neo4j_client.get_embedding = AsyncMock(return_value=[0.1] * 768)
     # Directly mock the conflict_detector
     mock_conflict_detector = AsyncMock()
     mock_conflict_detector.detect_conflicts.return_value = sample_conflict
@@ -297,6 +288,7 @@ async def test_search_full_pipeline(
     """전체 파이프라인 실행 (synthesis + conflicts)."""
     query = "TLIF vs OLIF for stenosis"
 
+    pipeline.neo4j_client.get_embedding = AsyncMock(return_value=[0.1] * 768)
     # Directly mock the components
     mock_conflict_detector = AsyncMock()
     mock_conflict_detector.detect_conflicts.return_value = sample_conflict
@@ -391,6 +383,7 @@ def test_search_response_to_dict(sample_ranked_results):
 @pytest.mark.asyncio
 async def test_search_options_top_k(pipeline, sample_ranked_results):
     """top_k 옵션 처리."""
+    pipeline.neo4j_client.get_embedding = AsyncMock(return_value=[0.1] * 768)
     with patch.object(
         pipeline.adaptive_ranker, 'rank', return_value=sample_ranked_results
     ):
@@ -408,6 +401,7 @@ async def test_search_options_top_k(pipeline, sample_ranked_results):
 @pytest.mark.asyncio
 async def test_search_options_disable_synthesis(pipeline):
     """근거 종합 비활성화."""
+    pipeline.neo4j_client.get_embedding = AsyncMock(return_value=[0.1] * 768)
     with patch.object(pipeline, 'adaptive_ranker'):
         pipeline.adaptive_ranker.rank = Mock(return_value=[])
 
@@ -426,6 +420,7 @@ async def test_search_options_disable_synthesis(pipeline):
 @pytest.mark.asyncio
 async def test_search_options_disable_conflicts(pipeline):
     """충돌 탐지 비활성화."""
+    pipeline.neo4j_client.get_embedding = AsyncMock(return_value=[0.1] * 768)
     with patch.object(pipeline, 'adaptive_ranker'):
         pipeline.adaptive_ranker.rank = Mock(return_value=[])
 
@@ -446,17 +441,18 @@ async def test_search_options_disable_conflicts(pipeline):
 # =============================================================================
 
 @pytest.mark.asyncio
-async def test_search_without_vectordb():
-    """VectorDB 없이 검색 시도 (에러 발생)."""
-    pipeline = UnifiedSearchPipeline(None, None)
+async def test_search_without_neo4j():
+    """Neo4j 없이 검색 시도 (에러 발생)."""
+    pipeline = UnifiedSearchPipeline(None)
 
-    with pytest.raises(ValidationError, match="VectorDB is required"):
+    with pytest.raises(ValidationError, match="Neo4j client is required"):
         await pipeline.search("test query")
 
 
 @pytest.mark.asyncio
 async def test_search_synthesis_error_handling(pipeline, sample_ranked_results):
     """근거 종합 실패 시 에러 처리."""
+    pipeline.neo4j_client.get_embedding = AsyncMock(return_value=[0.1] * 768)
     with patch.object(
         pipeline.adaptive_ranker, 'rank', return_value=sample_ranked_results
     ):
@@ -487,7 +483,7 @@ async def test_search_synthesis_error_handling(pipeline, sample_ranked_results):
 # =============================================================================
 
 @pytest.mark.asyncio
-async def test_quick_search_helper(mock_neo4j_client, mock_vector_db):
+async def test_quick_search_helper(mock_neo4j_client):
     """quick_search() 헬퍼 함수."""
     with patch('src.solver.unified_pipeline.UnifiedSearchPipeline'):
         mock_pipeline = Mock()
@@ -506,7 +502,6 @@ async def test_quick_search_helper(mock_neo4j_client, mock_vector_db):
             response = await quick_search(
                 "test query",
                 neo4j_client=mock_neo4j_client,
-                vector_db=mock_vector_db,
                 top_k=5
             )
 
@@ -527,13 +522,10 @@ async def test_end_to_end_integration():
     # Create mock clients
     mock_neo4j = Mock()
     mock_neo4j.run_query = AsyncMock(return_value=[])
-
-    mock_vector = Mock()
-    mock_vector.get_embedding = Mock(return_value=[0.1] * 768)
-    mock_vector.search_all = Mock(return_value=[])
+    mock_neo4j.get_embedding = AsyncMock(return_value=[0.1] * 768)
 
     # Create pipeline
-    pipeline = create_pipeline(mock_neo4j, mock_vector)
+    pipeline = create_pipeline(mock_neo4j)
 
     # Execute search
     response = await pipeline.search(

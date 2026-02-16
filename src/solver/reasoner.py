@@ -610,7 +610,7 @@ class Reasoner:
             (supporting_count, contradicting_count)
         """
         # 현재 버전: 모든 근거를 지지로 처리
-        # TODO: 상충 감지 로직 추가
+        # Conflict detection is handled by solver/conflict_detector.py
         return len(evidence_list), 0
 
     def _create_empty_result(self, query: str) -> ReasoningResult:

@@ -521,17 +521,21 @@ Phase 1 (병렬)          Phase 2 (병렬)          Phase 3 (순차)       Phase
 
 ### 현재 미해결
 
-| ID | Check | 심각도 | 설명 | 발견 버전 | 상태 |
-|----|-------|--------|------|----------|------|
-| QC-001 | 1.1 | Medium | 6개 문서 버전 불일치 (DEPLOYMENT, NEO4J_SETUP, user_guide, MCP_USAGE_GUIDE, developer_guide, SYSTEM_VALIDATION) | v1.21.2 | 🔴 |
-| QC-002 | 1.1 | Low | CLAUDE.md Dependencies 섹션 pyproject.toml과 불일치 (openai, neo4j, google-genai, mcp, sentence-transformers) | v1.21.2 | 🔴 |
-| QC-003 | 1.1 | Low | DEPLOYMENT.md SNOMED 수치 불일치 (414→447) + entity_normalizer.py 경로 오류 | v1.21.2 | 🔴 |
-| QC-004 | 2.4 | Medium | ChromaDB/chroma 잔재 참조 44곳 (solver/, builder/, medical_mcp/) | v1.21.2 | 🔴 |
-| QC-005 | 2.4 | Medium | 죽은 코드 파일 5개 (server.py, raptor.py, chain_builder.py, response_synthesizer.py, test_raptor.py) | v1.21.2 | 🔴 |
+(없음)
 
 ### 해소 완료
 
-(없음)
+| ID | Check | 심각도 | 설명 | 발견 버전 | 해소 버전 | 상태 |
+|----|-------|--------|------|----------|----------|------|
+| QC-001 | 1.1 | Medium | 6개 문서 버전 불일치 (DEPLOYMENT, NEO4J_SETUP, user_guide, MCP_USAGE_GUIDE, developer_guide, SYSTEM_VALIDATION) | v1.21.2 | v1.22.0 | ✅ Cleanup Sprint v1.22.0에서 해결 |
+| QC-002 | 1.1 | Low | CLAUDE.md Dependencies 섹션 pyproject.toml과 불일치 (openai, neo4j, google-genai, mcp, sentence-transformers) | v1.21.2 | v1.22.0 | ✅ Cleanup Sprint v1.22.0에서 해결 |
+| QC-003 | 1.1 | Low | DEPLOYMENT.md SNOMED 수치 불일치 (414→447) + entity_normalizer.py 경로 오류 | v1.21.2 | v1.22.0 | ✅ Cleanup Sprint v1.22.0에서 해결 |
+| QC-004 | 2.4 | Medium | ChromaDB/chroma 잔재 참조 44곳 (solver/, builder/, medical_mcp/) | v1.21.2 | v1.22.0 | ✅ Cleanup Sprint v1.22.0에서 해결 |
+| QC-005 | 2.4 | Medium | 죽은 코드 파일 6개 (server.py, raptor.py, chain_builder.py, response_synthesizer.py, test_raptor.py + orphaned test) | v1.21.2 | v1.22.0 | ✅ Cleanup Sprint v1.22.0에서 해결 |
+| QC-NEW-1 | 3.4 | Low | MCP Docker 컨테이너 버전 불일치 | v1.21.2 | v1.22.0 | ✅ Cleanup Sprint v1.22.0에서 해결 (재시작, v1.22.0 반영) |
+| QC-NEW-2 | 1.1 | Low | .env.example 버전 미갱신 | v1.21.2 | v1.22.0 | ✅ Cleanup Sprint v1.22.0에서 해결 |
+| QC-NEW-3 | 1.1 | Low | TERMINOLOGY_ONTOLOGY.md 버전 미갱신 | v1.21.2 | v1.22.0 | ✅ Cleanup Sprint v1.22.0에서 해결 |
+| QC-NEW-4 | 2.2 | Low | chain_builder import 오류 (모듈 삭제됨) | v1.21.2 | v1.22.0 | ✅ Cleanup Sprint v1.22.0에서 해결 (파일 자체 삭제) |
 
 ---
 
@@ -539,4 +543,5 @@ Phase 1 (병렬)          Phase 2 (병렬)          Phase 3 (순차)       Phase
 
 | 일자 | 버전 | 신규 발견 | 해소 | 잔여 Open | 잔여 Accepted | 비고 |
 |------|------|----------|------|----------|--------------|------|
+| 2026-02-16 | v1.22.0 | 4 | 9 | 0 | 3 | Cleanup Sprint: QC-001~005 + NEW-1~4 전체 해소 |
 | 2026-02-16 | v1.21.2 | 5 | 0 | 5 | 3 | 초기 등록 |

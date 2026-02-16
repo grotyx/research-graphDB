@@ -35,7 +35,7 @@ from src.solver.graph_result import GraphEvidence, PaperNode
 @pytest.fixture
 def ranker():
     """Create HybridRanker without real backends."""
-    return HybridRanker(vector_db=None, neo4j_client=None)
+    return HybridRanker(neo4j_client=None)
 
 
 def _make_graph_result(source_id: str, score: float, **kwargs) -> HybridResult:
@@ -377,15 +377,13 @@ class TestHybridRankerInit:
 
     def test_init_no_backends(self):
         """Initializing without backends works (graceful degradation)."""
-        ranker = HybridRanker(vector_db=None, neo4j_client=None)
-        assert ranker.vector_db is None
+        ranker = HybridRanker(neo4j_client=None)
         assert ranker.neo4j_client is None
         assert ranker.use_neo4j_hybrid is False
 
     def test_init_neo4j_hybrid_requires_client(self):
         """use_neo4j_hybrid=True requires neo4j_client to be set."""
         ranker = HybridRanker(
-            vector_db=None,
             neo4j_client=None,
             use_neo4j_hybrid=True
         )
@@ -394,10 +392,9 @@ class TestHybridRankerInit:
 
     def test_get_stats_no_backends(self):
         """get_stats works without backends."""
-        ranker = HybridRanker(vector_db=None, neo4j_client=None)
+        ranker = HybridRanker(neo4j_client=None)
         stats = ranker.get_stats()
         assert stats["graph_db_available"] is False
-        assert stats["vector_db"] is None
         assert stats["ranking_version"] == "v1.0"
 
 

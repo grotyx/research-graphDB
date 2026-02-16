@@ -1,7 +1,7 @@
 """Tiered Hybrid Search module for hierarchical document retrieval.
 
 v5.3: Neo4j Vector Index 통합 지원
-v1.14.12: ChromaDB 제거 - Neo4j Vector Index가 유일한 벡터 저장소
+v1.14.12: Neo4j Vector Index가 유일한 벡터 저장소
 v1.14.17: Neo4j hybrid_search 통합 - 그래프 필터링 + 벡터 검색 단일 쿼리
 """
 
@@ -185,7 +185,7 @@ class TieredHybridSearch:
 
     v5.3: Neo4j Vector Index 지원
     - use_neo4j_vector=True: Neo4j vector_search_chunks() 사용
-    - use_neo4j_vector=False: 기존 ChromaDB 사용 (기본값)
+    - use_neo4j_vector=False: 레거시 VectorDB 프로토콜 사용 (기본값)
     """
 
     # Tier별 컬렉션 매핑
@@ -208,7 +208,7 @@ class TieredHybridSearch:
         """초기화.
 
         Args:
-            vector_db: 벡터 DB 인스턴스 (ChromaDB)
+            vector_db: 벡터 DB 인스턴스 (VectorDBProtocol)
             graph_db: 그래프 DB 인스턴스 (엔티티 기반 검색)
             neo4j_client: Neo4j 클라이언트 (v5.3 - 벡터 검색용)
             config: 설정 딕셔너리
@@ -332,7 +332,7 @@ class TieredHybridSearch:
             vector_results=vector_count,
             graph_results=graph_count,
             search_strategy_used=input_data.tier_strategy,
-            vector_backend=SearchBackend.NEO4J  # v1.14.12: ChromaDB 제거
+            vector_backend=SearchBackend.NEO4J
         )
 
     def _search_tier(
@@ -361,7 +361,7 @@ class TieredHybridSearch:
             # Hybrid 검색 실패 시 벡터 검색으로 폴백
             logger.warning("Neo4j hybrid search returned no results, falling back to vector search")
 
-        # 벡터 검색 (v5.3: Neo4j 또는 ChromaDB)
+        # 벡터 검색 (v5.3: Neo4j 또는 VectorDB)
         if self.use_neo4j_vector and self.neo4j_client:
             vector_results = self._neo4j_vector_search(input_data, tier, top_k)
         else:

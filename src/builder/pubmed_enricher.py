@@ -201,8 +201,8 @@ class PubMedEnricher:
         )
 
         if result:
-            print(f"PMID: {result.pmid}")
-            print(f"MeSH: {result.mesh_terms}")
+            logger.info(f"PMID: {result.pmid}")
+            logger.info(f"MeSH: {result.mesh_terms}")
     """
 
     def __init__(
@@ -840,7 +840,7 @@ class PubMedEnricher:
                 min_confidence=0.8
             )
             if cited_paper:
-                print(f"Found: {cited_paper.title}")
+                logger.info(f"Found: {cited_paper.title}")
         """
         results = await self.search_cited_paper(
             authors=authors,

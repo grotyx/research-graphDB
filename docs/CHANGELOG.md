@@ -2,6 +2,40 @@
 
 ## Version History
 
+### v1.22.1 (2026-02-16): Cleanup Sprint — 죽은 코드 제거, 문서 동기화, 데이터 방지, 코드 품질 개선
+
+QC/CA/DV 스캔에서 발견된 모든 Open Issues를 4-Agent 병렬 실행으로 일괄 해결.
+
+#### Agent 1: Dead Code Purge (QC-004, QC-005)
+- 죽은 파일 6개 삭제: `server.py`, `raptor.py`, `test_raptor.py`, `chain_builder.py`, `response_synthesizer.py`, `test_response_synthesizer.py`
+- ChromaDB 잔재 정리: 8개 소스 + 3개 테스트 파일에서 `vector_db` 파라미터 및 chroma 참조 완전 제거
+- `pubmed_bulk_processor.py`: print→logger 3곳 전환
+
+#### Agent 2: Doc Sync (QC-001, QC-002, QC-003)
+- 8개 문서 버전 1.22.x로 동기화 (DEPLOYMENT, NEO4J_SETUP, user_guide, MCP_USAGE_GUIDE, developer_guide, SYSTEM_VALIDATION, TERMINOLOGY_ONTOLOGY, .env.example)
+- DEPLOYMENT.md: SNOMED 수치 414→447, entity_normalizer 경로 수정
+- CLAUDE.md: Dependencies 5개 pyproject.toml과 동기화, schema.py 경로 수정
+
+#### Agent 3: Data Prevention (DV-001, DV-002)
+- `_normalize_secondary_entity()` 추가: 8개 secondary entity 타입에 trim+capitalize 정규화 적용
+  (RiskFactor, Complication, RadioParameter, PredictionModel, PatientCohort, FollowUp, Cost, QualityMetric)
+- `snomed_enricher.py`: Anatomy MERGE 시 compound/range split 후 title-case 정규화
+- 15개 방어적 테스트 추가 (`test_secondary_normalization.py`)
+
+#### Agent 4: Code Quality (CA 관련)
+- print→logger 6곳 전환 (cypher_generator 3, pubmed_enricher 3)
+- TODO 해결: reasoner.py conflict_detector 연결 주석
+- relationship_builder.py stubs 정리: fallback import 제거, 직접 정의로 전환
+- pubmed_handler.py: `ALLOWED_UPDATE_FIELDS` 허용목록 추가
+- pyproject.toml: aiohttp 상한 `<4.0.0` 추가
+
+#### DB 직접 수정
+- DV-003: 고아 테스트 청크 10개 삭제
+- DV-004: Anatomy 대소문자 중복 7쌍 병합
+- DV-005: "Discogenic low back pain" SNOMED 코드 수정
+
+---
+
 ### v1.22.0 (2026-02-16): CA Deferred Plan 실행 — Neo4jClient 분리, 예외 전환, 테스트 확장
 
 CA Deferred Items D-005~D-008 전체 실행. 아키텍처 개선 + 테스트 커버리지 대폭 확장.

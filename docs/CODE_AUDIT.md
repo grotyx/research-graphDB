@@ -644,8 +644,9 @@ Phase 4 (병렬)         Phase 5 (병렬)         Phase 6 (병렬)
 
 | 일자 | 버전 | 신규 발견 | 해소 | 잔여 Deferred | 잔여 Accepted | 비고 |
 |------|------|----------|------|--------------|--------------|------|
-| 2026-02-16 | v1.21.0 | 8 | 4 | 4 | 3 | D-001~D-004 해소, D-005~D-008 잔여 |
+| 2026-02-16 | v1.22.0 | 2 | 5 | 2 | 3 | Cleanup Sprint: print→logger 9건, TODO, stubs, allowlist, aiohttp 해소. D-009~D-010 신규 등록 |
 | 2026-02-16 | v1.22.0 | 0 | 4 | 0 | 3 | D-005~D-008 전체 해소 (팀에이전트 실행) |
+| 2026-02-16 | v1.21.0 | 8 | 4 | 4 | 3 | D-001~D-004 해소, D-005~D-008 잔여 |
 
 ---
 
@@ -662,9 +663,39 @@ Phase 4 (병렬)         Phase 5 (병렬)         Phase 6 (병렬)
 
 ### 현재 미수정 항목
 
-(없음 — D-005~D-008 모두 v1.22.0에서 해소)
+#### D-009: pubmed_bulk_processor.py 분해 (Monolith Decomposition)
+
+| 항목 | 내용 |
+|------|------|
+| **발견 버전** | v1.22.0 (Cleanup Sprint 2026-02-16) |
+| **Phase** | 4.1 God Object |
+| **심각도** | MEDIUM |
+| **상태** | 🔴 미수정 |
+| **설명** | 462줄 단일 파일. PubMedDownloader (HTTP/API 호출) + PubMedProcessor (파싱/변환) 로 분리 권장. 현재 다운로드/파싱/변환이 한 클래스에 혼재. |
+| **예상 규모** | 2-3시간 |
+
+#### D-010: 테스트 커버리지 확장 (builder/ & solver/)
+
+| 항목 | 내용 |
+|------|------|
+| **발견 버전** | v1.22.0 (Cleanup Sprint 2026-02-16) |
+| **Phase** | 5.1 커버리지 |
+| **심각도** | MEDIUM |
+| **상태** | 🔴 미수정 |
+| **설명** | builder/ 및 solver/ 모듈 테스트 커버리지 60% 미만. 특히 unified_pdf_processor, pubmed_bulk_processor, tiered_search, hybrid_ranker 등 핵심 모듈의 엣지 케이스 테스트 부족. |
+| **예상 규모** | 4-6시간 |
 
 ### 해소 완료 항목
+
+#### Cleanup Sprint v1.22.0 개별 수정 항목 (CA Deferred 외)
+
+| 항목 | 내용 | 해소 버전 |
+|------|------|----------|
+| print→logger 전환 (9건) | cypher_generator.py 3건, pubmed_enricher.py 3건, pubmed_bulk_processor.py 3건 → logger 전환 | v1.22.0 |
+| TODO 해소: reasoner.py line 613 | 해당 TODO 구현 완료 | v1.22.0 |
+| Stubs 정리: relationship_builder.py lines 28-100 | 미사용 스텁 코드 삭제 | v1.22.0 |
+| pubmed_handler allowlist 추가 | 외부 입력 검증용 allowlist 적용 | v1.22.0 |
+| aiohttp 상한 버전 추가 | pyproject.toml에 aiohttp 상한 bound 설정 | v1.22.0 |
 
 #### D-005: Neo4jClient God Object 분리
 

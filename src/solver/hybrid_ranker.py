@@ -14,8 +14,7 @@ v1.0: Evidence-based Ranking (SIMPLIFIED)
 - Formula: 60% semantic + 40% authority (evidence + design + recency + citations)
 - Non-research document support
 
-v1.14.12: ChromaDB 제거
-- Neo4j Vector Index가 유일한 벡터 저장소
+v1.14.12: Neo4j Vector Index가 유일한 벡터 저장소
 """
 
 import logging
@@ -25,7 +24,7 @@ from datetime import datetime
 
 from .graph_result import GraphEvidence, GraphSearchResult, PaperNode
 
-# ChromaDB removed in v1.14.12 — Neo4j Vector Index is the only vector store
+# Neo4j Vector Index is the only vector store
 VectorSearchResult = None  # type: ignore
 
 # Optional Neo4j import (graceful fallback)
@@ -330,7 +329,7 @@ class HybridResult:
 class HybridRanker:
     """Graph + Vector 통합 랭커 (v1.0).
 
-    Neo4j Graph 검색 결과와 ChromaDB Vector 검색 결과를 통합하여
+    Neo4j Graph 검색 결과와 Neo4j Vector 검색 결과를 통합하여
     최종 랭킹을 생성.
 
     v1.0 Changes:
@@ -340,7 +339,7 @@ class HybridRanker:
 
     검색 흐름 (기본):
         1. Graph Search: 구조적 근거 추출 (Intervention → Outcome 관계)
-        2. Vector Search: 의미적 유사도 검색 (ChromaDB)
+        2. Vector Search: 의미적 유사도 검색 (Neo4j Vector Index)
         3. Hybrid Ranking: 통합 점수 계산 및 정렬
         4. Result Merging: 중복 제거 및 최종 결과 반환
 
@@ -356,18 +355,15 @@ class HybridRanker:
 
     def __init__(
         self,
-        vector_db: Optional[object] = None,  # deprecated (ChromaDB removed in v1.14.12)
         neo4j_client: Optional["Neo4jClient"] = None,
         use_neo4j_hybrid: bool = False
     ) -> None:
         """초기화.
 
         Args:
-            vector_db: deprecated (ChromaDB removed in v1.14.12)
             neo4j_client: Neo4j 클라이언트 (선택적)
             use_neo4j_hybrid: Neo4j 통합 hybrid_search 사용 여부 (v5.3)
         """
-        self.vector_db = vector_db
         self.neo4j_client: Optional["Neo4jClient"] = neo4j_client
         self.use_neo4j_hybrid: bool = use_neo4j_hybrid and neo4j_client is not None
 
@@ -377,9 +373,6 @@ class HybridRanker:
 
         if self.use_neo4j_hybrid:
             logger.info("HybridRanker: Using Neo4j integrated hybrid search (v5.3)")
-
-        if vector_db is None and not self.use_neo4j_hybrid:
-            logger.warning("Vector DB not provided and Neo4j hybrid not enabled. Vector search will be unavailable.")
 
     async def search(
         self,
@@ -441,32 +434,14 @@ class HybridRanker:
                 logger.error(f"Graph search failed: {e}. Falling back to vector-only.", exc_info=True)
                 graph_degraded = True
 
-        # 2. Vector Search with error handling
+        # 2. Vector Search (Neo4j Vector Index)
         vector_results: list[HybridResult] = []
-        vector_degraded = False
+        vector_degraded = True  # No standalone vector search without Neo4j hybrid
 
-        # v1.15: vector_db None guard 추가
-        if self.vector_db is None:
-            logger.info("Vector DB not available, skipping vector search")
-            vector_degraded = True
-        else:
-            try:
-                vector_search_results = self.vector_db.search_all(
-                    query_embedding=query_embedding,
-                    top_k=top_k * 2,  # 여유있게 검색
-                    tier1_weight=1.0,
-                    tier2_weight=0.7
-                )
-                vector_results = self._score_vector_results(vector_search_results)
-                logger.info(f"Vector search: {len(vector_results)} results")
-            except Exception as e:
-                logger.error(f"Vector search failed: {e}", exc_info=True)
-                vector_degraded = True
-
-            # If both failed, return empty results with warning
-            if graph_degraded or not graph_results:
-                logger.error("Both Graph and Vector search failed. Returning empty results.")
-                return []
+        # If both failed, return empty results with warning
+        if graph_degraded or not graph_results:
+            logger.error("Graph search failed. Returning empty results.")
+            return []
 
         # 3. Merge and Rank
         merged_results = self._merge_results(
@@ -871,7 +846,7 @@ class HybridRanker:
         - Formula: 60% semantic + 40% authority
 
         점수 계산:
-            1. Base Semantic Score: ChromaDB similarity score
+            1. Base Semantic Score: vector similarity score
             2. Evidence Level Boost
             3. Key Finding Boost: 1.2x if is_key_finding
             4. Statistics Boost: 1.1x if has_statistics
@@ -887,7 +862,7 @@ class HybridRanker:
         results: list[HybridResult] = []
 
         for vr in vector_results:
-            # 1. Base Semantic Score (ChromaDB similarity)
+            # 1. Base Semantic Score (vector similarity)
             semantic_score = vr.score
 
             # 2. Evidence Level Boost
@@ -1092,23 +1067,11 @@ class HybridRanker:
             except Exception as ge:
                 logger.warning(f"Graph search also failed: {ge}")
 
-            vector_results: list[HybridResult] = []
-            try:
-                vector_search_results = self.vector_db.search_all(
-                    query_embedding=query_embedding,
-                    top_k=top_k * 2,
-                    tier1_weight=1.0,
-                    tier2_weight=0.7
-                )
-                vector_results = self._score_vector_results(vector_search_results)
-            except Exception as ve:
-                logger.warning(f"Vector search also failed: {ve}")
-
-            if not graph_results and not vector_results:
+            if not graph_results:
                 return []
 
             merged = self._merge_results(
-                graph_results, vector_results, graph_weight, vector_weight
+                graph_results, [], graph_weight, vector_weight
             )
             merged.sort(key=lambda r: r.score, reverse=True)
             return merged[:top_k]
@@ -1186,7 +1149,6 @@ class HybridRanker:
             Vector DB 통계 및 Graph DB 연결 상태
         """
         stats: dict[str, Any] = {
-            "vector_db": self.vector_db.get_stats() if self.vector_db else None,
             "graph_db_available": self.neo4j_client is not None,
             "neo4j_hybrid_enabled": self.use_neo4j_hybrid,  # v5.3
             "search_backend": "neo4j_hybrid" if self.use_neo4j_hybrid else "neo4j_cypher",
@@ -1203,7 +1165,7 @@ class HybridRanker:
 async def example_usage() -> None:
     """Hybrid Ranker 사용 예시 (v1.0).
 
-    Neo4j hybrid search를 사용합니다 (v1.14.12: ChromaDB 제거됨).
+    Neo4j hybrid search를 사용합니다.
     """
     from ..graph.neo4j_client import Neo4jClient
 

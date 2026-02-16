@@ -1,3 +1,3 @@
 """Spine GraphRAG - Neo4j based medical literature knowledge graph system"""
 
-__version__ = "1.22.0"
+__version__ = "1.22.1"

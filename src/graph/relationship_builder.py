@@ -23,92 +23,77 @@ from .spine_schema import (
     ComplicationNode,
 )
 
-# Citation extractor types (imported for type hints)
+# Citation types (knowledge.citation_extractor removed in v1.20.0)
+from enum import Enum
+
+
+class CitationType(Enum):
+    """Citation relationship type between papers."""
+    SUPPORTING = "supporting"
+    CONTRASTING = "contrasting"
+    NEUTRAL = "neutral"
+    BACKGROUND = "background"
+    METHODOLOGICAL = "methodological"
+
+
+@dataclass
+class CitationInfo:
+    """Citation information extracted from paper references."""
+    cited_title: Optional[str] = None
+    cited_authors: list[str] = field(default_factory=list)
+    cited_year: Optional[int] = None
+    citation_context: str = ""
+    citation_type: CitationType = CitationType.NEUTRAL
+    citation_text: str = ""
+    confidence: float = 0.0
+
+# Vision processor types
 try:
-    from src.knowledge.citation_extractor import CitationInfo, CitationType
-except ImportError:
-    try:
-        from knowledge.citation_extractor import CitationInfo, CitationType
-    except ImportError:
-        # Fallback: define minimal stub classes for type hints
-        from enum import Enum
-
-        class CitationType(Enum):
-            """Stub for type hints when citation_extractor not available."""
-            SUPPORTING = "supporting"
-            CONTRASTING = "contrasting"
-            NEUTRAL = "neutral"
-            BACKGROUND = "background"
-            METHODOLOGICAL = "methodological"
-
-        @dataclass
-        class CitationInfo:
-            """Stub for type hints when citation_extractor not available."""
-            cited_title: Optional[str] = None
-            cited_authors: list[str] = field(default_factory=list)
-            cited_year: Optional[int] = None
-            citation_context: str = ""
-            citation_type: CitationType = CitationType.NEUTRAL
-            citation_text: str = ""
-            confidence: float = 0.0
-
-# Vision processor types (imported for type hints)
-# Use try/except for both import styles for compatibility
-try:
-    from src.builder.gemini_vision_processor import (
+    from builder.gemini_vision_processor import (
         ExtractedMetadata,
         ExtractedChunk,
         PICOData,
         StatisticsData,
     )
 except ImportError:
-    try:
-        from builder.gemini_vision_processor import (
-            ExtractedMetadata,
-            ExtractedChunk,
-            PICOData,
-            StatisticsData,
-        )
-    except ImportError:
-        # Fallback: define minimal stub classes for type hints
-        from dataclasses import dataclass, field
-        from typing import Any as _Any
+    # Fallback: define minimal stub classes for type hints
+    from typing import Any as _Any
 
-        @dataclass
-        class ExtractedMetadata:
-            """Stub for type hints when vision processor not available."""
-            title: str = ""
-            authors: list[str] = field(default_factory=list)
-            year: int = 0
-            journal: str = ""
-            doi: str = ""
-            study_design: str = ""
-            evidence_level: str = "5"
-            sample_size: int = 0
-            follow_up_months: int = 0
+    @dataclass
+    class ExtractedMetadata:
+        """Stub for type hints when vision processor not available."""
+        title: str = ""
+        authors: list[str] = field(default_factory=list)
+        year: int = 0
+        journal: str = ""
+        doi: str = ""
+        study_design: str = ""
+        evidence_level: str = "5"
+        sample_size: int = 0
+        follow_up_months: int = 0
 
-        @dataclass
-        class ExtractedChunk:
-            """Stub for type hints when vision processor not available."""
-            section: str = ""
-            content: str = ""
-            tier: int = 2
+    @dataclass
+    class ExtractedChunk:
+        """Stub for type hints when vision processor not available."""
+        section: str = ""
+        content: str = ""
+        tier: int = 2
 
-        @dataclass
-        class PICOData:
-            """Stub for type hints when vision processor not available."""
-            population: str = ""
-            intervention: str = ""
-            comparison: str = ""
-            outcome: str = ""
+    @dataclass
+    class PICOData:
+        """Stub for type hints when vision processor not available."""
+        population: str = ""
+        intervention: str = ""
+        comparison: str = ""
+        outcome: str = ""
 
-        @dataclass
-        class StatisticsData:
-            """Stub for type hints when vision processor not available."""
-            measure: str = ""
-            value: Optional[_Any] = None
-            p_value: Optional[float] = None
-            effect_size: str = ""
+    @dataclass
+    class StatisticsData:
+        """Stub for type hints when vision processor not available."""
+        measure: str = ""
+        value: Optional[_Any] = None
+        p_value: Optional[float] = None
+        effect_size: str = ""
 
 logger = logging.getLogger(__name__)
 
@@ -2026,6 +2011,30 @@ class RelationshipBuilder:
                 result.add(str(item))
         return result
 
+    # ===== Secondary Entity Normalization =====
+
+    def _normalize_secondary_entity(self, name: str) -> str:
+        """Normalize secondary entity names (trim + capitalize first letter).
+
+        Preserves all-uppercase acronyms (e.g., BMI, VAS, MRI).
+
+        Args:
+            name: Raw entity name from LLM extraction.
+
+        Returns:
+            Normalized name with leading/trailing whitespace removed
+            and first letter capitalized (unless all-uppercase acronym).
+        """
+        if not name:
+            return name
+        normalized = name.strip()
+        if not normalized:
+            return normalized
+        # Preserve all-caps acronyms
+        if not normalized.isupper():
+            normalized = normalized[0].upper() + normalized[1:]
+        return normalized
+
     # ===== v1.1 New Relationship Methods =====
 
     async def _create_risk_factor_relationships(
@@ -2057,6 +2066,7 @@ class RelationshipBuilder:
             name = rf_dict.get("name")
             if not name:
                 continue
+            name = self._normalize_secondary_entity(name)
             items.append({
                 "name": name,
                 "category": rf_dict.get("category", ""),
@@ -2124,6 +2134,7 @@ class RelationshipBuilder:
             name = comp_dict.get("name")
             if not name:
                 continue
+            name = self._normalize_secondary_entity(name)
             items.append({
                 "name": name,
                 "category": comp_dict.get("category", ""),
@@ -2183,6 +2194,7 @@ class RelationshipBuilder:
             outcome_measure = corr_dict.get("outcome_measure")
             if not radio_param or not outcome_measure:
                 continue
+            radio_param = self._normalize_secondary_entity(radio_param)
             items.append({
                 "radio_param": radio_param,
                 "radio_category": corr_dict.get("radio_category", ""),
@@ -2267,6 +2279,7 @@ class RelationshipBuilder:
             model_name = model_dict.get("name")
             if not model_name:
                 continue
+            model_name = self._normalize_secondary_entity(model_name)
 
             features = model_dict.get("features", [])
             model_items.append({
@@ -2437,6 +2450,7 @@ class RelationshipBuilder:
             name = cohort_dict.get("name")
             if not name:
                 continue
+            name = self._normalize_secondary_entity(name)
 
             role = cohort_dict.get("cohort_type", "")
             is_primary = cohort_dict.get("cohort_type") == "total" or len(cohorts) == 1
@@ -2542,6 +2556,7 @@ class RelationshipBuilder:
             name = fu_dict.get("name")
             if not name:
                 continue
+            name = self._normalize_secondary_entity(name)
 
             fu_items.append({
                 "name": name,
@@ -2645,6 +2660,7 @@ class RelationshipBuilder:
             name = cost_dict.get("name")
             if not name:
                 continue
+            name = self._normalize_secondary_entity(name)
 
             cost_items.append({
                 "name": name,
@@ -2742,6 +2758,7 @@ class RelationshipBuilder:
             name = qm_dict.get("name")
             if not name:
                 continue
+            name = self._normalize_secondary_entity(name)
 
             try:
                 # Create QualityMetric node

@@ -13,7 +13,7 @@
 
 사용 예:
     >>> # 기본 설정으로 파이프라인 생성
-    >>> pipeline = create_pipeline(neo4j_client, vector_db)
+    >>> pipeline = create_pipeline(neo4j_client)
     >>>
     >>> # 검색 수행
     >>> response = await pipeline.search(
@@ -77,7 +77,7 @@ except ImportError:
     QueryPattern = None
     ParsedQuery = None
 
-# Try to import Neo4j and VectorDB
+# Try to import Neo4j
 try:
     from ..graph.neo4j_client import Neo4jClient
     NEO4J_AVAILABLE = True
@@ -253,7 +253,7 @@ class UnifiedSearchPipeline:
         5. Outcome Direction Interpretation
 
     사용 예:
-        >>> pipeline = UnifiedSearchPipeline(neo4j_client, vector_db)
+        >>> pipeline = UnifiedSearchPipeline(neo4j_client)
         >>> response = await pipeline.search(
         ...     query="What is the fusion rate of TLIF?",
         ...     options=SearchOptions(top_k=10)
@@ -264,18 +264,15 @@ class UnifiedSearchPipeline:
     def __init__(
         self,
         neo4j_client: Optional["Neo4jClient"] = None,
-        vector_db: Optional[object] = None,  # deprecated (ChromaDB removed in v1.14.12)
         config: Optional[dict] = None
     ):
         """초기화.
 
         Args:
             neo4j_client: Neo4j 클라이언트 (선택적)
-            vector_db: deprecated (ChromaDB removed in v1.14.12)
             config: 설정 딕셔너리 (선택적)
         """
         self.neo4j_client = neo4j_client
-        self.vector_db = vector_db
         self.config = config or {}
 
         # Component initialization
@@ -293,7 +290,7 @@ class UnifiedSearchPipeline:
 
         # Neo4j-dependent components
         if neo4j_client:
-            self.hybrid_ranker = HybridRanker(vector_db, neo4j_client)
+            self.hybrid_ranker = HybridRanker(neo4j_client=neo4j_client)
             self.evidence_synthesizer = EvidenceSynthesizer(neo4j_client)
             self.conflict_detector = ConflictDetector(neo4j_client)
 
@@ -338,14 +335,14 @@ class UnifiedSearchPipeline:
             SearchResponse 객체
 
         Raises:
-            ValueError: VectorDB가 없는 경우
+            ValidationError: Neo4j 클라이언트가 없는 경우
         """
         start_time = time.time()
         options = options or SearchOptions()
 
         # Validate
-        if not self.vector_db:
-            raise ValidationError(message="VectorDB is required for search", error_code=ErrorCode.VAL_MISSING_FIELD)
+        if not self.neo4j_client:
+            raise ValidationError(message="Neo4j client is required for search", error_code=ErrorCode.VAL_MISSING_FIELD)
 
         logger.info("Starting unified search", query=query[:100])
 
@@ -422,7 +419,8 @@ class UnifiedSearchPipeline:
                 search_query = f"{query} {' '.join(expanded_terms)}"
                 logger.debug(f"Enhanced search query with expansions: {search_query[:100]}")
 
-        query_embedding = self.vector_db.get_embedding(search_query)
+        # Generate query embedding via Neo4j client
+        query_embedding = await self.neo4j_client.get_embedding(search_query)
 
         # Perform hybrid search
         if self.hybrid_ranker and options.enable_adaptive:
@@ -463,26 +461,8 @@ class UnifiedSearchPipeline:
                 )
             )
         else:
-            # Fallback: Vector-only search
-            vector_results = self.vector_db.search_all(
-                query_embedding=query_embedding,
-                top_k=options.top_k,
-                tier1_weight=1.0,
-                tier2_weight=0.7
-            )
-
-            # Convert to RankedResult
+            # Fallback: empty results (Neo4j hybrid ranker not available)
             ranked_results = []
-            for vr in vector_results:
-                ranked_results.append(RankedResult(
-                    paper_id=vr.document_id,
-                    title=vr.title,
-                    graph_score=0.0,
-                    vector_score=vr.score,
-                    final_score=vr.score,
-                    query_type=query_type,
-                    vector_result=vr
-                ))
 
         search_time = (time.time() - search_start) * 1000
 
@@ -666,14 +646,12 @@ class UnifiedSearchPipeline:
 
 def create_pipeline(
     neo4j_client: Optional["Neo4jClient"] = None,
-    vector_db: Optional[object] = None,  # deprecated
     config: Optional[dict] = None
 ) -> UnifiedSearchPipeline:
     """파이프라인 생성 헬퍼 함수.
 
     Args:
         neo4j_client: Neo4j 클라이언트 (선택적)
-        vector_db: deprecated (ChromaDB removed in v1.14.12)
         config: 설정 딕셔너리 (선택적)
 
     Returns:
@@ -686,13 +664,12 @@ def create_pipeline(
         ...     pipeline = create_pipeline(client)
         ...     response = await pipeline.search("TLIF vs OLIF")
     """
-    return UnifiedSearchPipeline(neo4j_client, vector_db, config)
+    return UnifiedSearchPipeline(neo4j_client, config)
 
 
 async def quick_search(
     query: str,
     neo4j_client: Optional["Neo4jClient"] = None,
-    vector_db: Optional[object] = None,  # deprecated
     top_k: int = 10
 ) -> SearchResponse:
     """빠른 검색 헬퍼 함수 (기본 설정).
@@ -700,7 +677,6 @@ async def quick_search(
     Args:
         query: 검색 쿼리
         neo4j_client: Neo4j 클라이언트 (선택적)
-        vector_db: deprecated (ChromaDB removed in v1.14.12)
         top_k: 반환할 결과 수
 
     Returns:
@@ -709,12 +685,11 @@ async def quick_search(
     Example:
         >>> response = await quick_search(
         ...     "What is the fusion rate of TLIF?",
-        ...     neo4j_client=client,
-        ...     vector_db=vector_db
+        ...     neo4j_client=client
         ... )
         >>> print(response.get_summary())
     """
-    pipeline = create_pipeline(neo4j_client, vector_db)
+    pipeline = create_pipeline(neo4j_client)
     options = SearchOptions(
         top_k=top_k,
         include_synthesis=True,
@@ -735,10 +710,9 @@ async def example_usage():
 
     # Mock clients (실제로는 실제 클라이언트 사용)
     neo4j_client = None  # await Neo4jClient().__aenter__()
-    vector_db = None  # deprecated (ChromaDB removed in v1.14.12)
 
     # Create pipeline
-    pipeline = create_pipeline(neo4j_client, vector_db)
+    pipeline = create_pipeline(neo4j_client)
 
     # Example queries
     queries = [

@@ -686,7 +686,6 @@ async def test_orchestrator_initialization():
     """Test AgentOrchestrator initialization."""
     orchestrator = AgentOrchestrator(
         neo4j_client=None,
-        vector_db=None,
         llm_client=None
     )
 
@@ -728,7 +727,6 @@ async def test_orchestrator_solve_simple():
 
         orchestrator = AgentOrchestrator(
             neo4j_client=None,
-            vector_db=None,
             llm_client=None
         )
 
@@ -789,7 +787,6 @@ async def test_orchestrator_solve_with_planning():
 
         orchestrator = AgentOrchestrator(
             neo4j_client=None,
-            vector_db=None,
             llm_client=mock_llm
         )
 
@@ -823,7 +820,6 @@ async def test_orchestrator_reasoning_chain():
 
         orchestrator = AgentOrchestrator(
             neo4j_client=None,
-            vector_db=None,
             llm_client=None
         )
 
@@ -854,7 +850,6 @@ async def test_orchestrator_error_handling():
 
         orchestrator = AgentOrchestrator(
             neo4j_client=None,
-            vector_db=None,
             llm_client=None
         )
 
@@ -1014,7 +1009,6 @@ async def test_end_to_end_simple_query():
 
         orchestrator = AgentOrchestrator(
             neo4j_client=None,
-            vector_db=None,
             llm_client=None
         )
 
