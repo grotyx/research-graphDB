@@ -21,6 +21,48 @@ import httpx
 logger = logging.getLogger(__name__)
 
 
+async def _async_request_with_retry(
+    client: httpx.AsyncClient,
+    method: str,
+    url: str,
+    max_retries: int = 3,
+    backoff_base: int = 2,
+    **kwargs,
+) -> httpx.Response:
+    """Async retry wrapper for httpx requests.
+
+    Args:
+        client: httpx AsyncClient instance
+        method: HTTP method ('get', 'post', etc.)
+        url: Request URL
+        max_retries: Maximum number of attempts
+        backoff_base: Base for exponential backoff
+        **kwargs: Additional arguments passed to the request method
+
+    Returns:
+        httpx.Response
+
+    Raises:
+        Last exception if all retries fail
+    """
+    last_error = None
+    for attempt in range(max_retries):
+        try:
+            response = await getattr(client, method)(url, **kwargs)
+            response.raise_for_status()
+            return response
+        except (httpx.ConnectError, httpx.TimeoutException, httpx.HTTPStatusError) as e:
+            last_error = e
+            if attempt < max_retries - 1:
+                wait = min(backoff_base ** attempt, 30)
+                logger.warning(
+                    f"HTTP request failed (attempt {attempt + 1}/{max_retries}): {e}, "
+                    f"retrying in {wait}s"
+                )
+                await asyncio.sleep(wait)
+    raise last_error
+
+
 @dataclass
 class DOIMetadata:
     """DOI에서 추출한 메타데이터."""
@@ -206,14 +248,18 @@ class DOIFulltextFetcher:
             params = {"mailto": self.email}
 
             logger.debug(f"Fetching Crossref metadata for DOI: {doi}")
-            response = await client.get(url, params=params)
-
-            if response.status_code == 404:
-                logger.debug(f"DOI not found in Crossref: {doi}")
+            try:
+                response = await _async_request_with_retry(
+                    client, "get", url, params=params,
+                )
+            except httpx.HTTPStatusError as e:
+                if e.response.status_code == 404:
+                    logger.debug(f"DOI not found in Crossref: {doi}")
+                    return None
+                logger.warning(f"Crossref API error for {doi}: {e.response.status_code}")
                 return None
-
-            if response.status_code != 200:
-                logger.warning(f"Crossref API error for {doi}: {response.status_code}")
+            except (httpx.ConnectError, httpx.TimeoutException) as e:
+                logger.error(f"Crossref request failed for {doi} after retries: {e}", exc_info=True)
                 return None
 
             data = response.json()
@@ -268,7 +314,7 @@ class DOIFulltextFetcher:
             return metadata
 
         except Exception as e:
-            logger.error(f"Error fetching Crossref for {doi}: {e}")
+            logger.error(f"Error fetching Crossref for {doi}: {e}", exc_info=True)
             return None
 
     async def fetch_unpaywall(self, doi: str) -> dict:
@@ -293,14 +339,18 @@ class DOIFulltextFetcher:
             params = {"email": self.email}
 
             logger.debug(f"Fetching Unpaywall OA info for DOI: {doi}")
-            response = await client.get(url, params=params)
-
-            if response.status_code == 404:
-                logger.debug(f"DOI not found in Unpaywall: {doi}")
+            try:
+                response = await _async_request_with_retry(
+                    client, "get", url, params=params,
+                )
+            except httpx.HTTPStatusError as e:
+                if e.response.status_code == 404:
+                    logger.debug(f"DOI not found in Unpaywall: {doi}")
+                    return result
+                logger.warning(f"Unpaywall API error for {doi}: {e.response.status_code}")
                 return result
-
-            if response.status_code != 200:
-                logger.warning(f"Unpaywall API error for {doi}: {response.status_code}")
+            except (httpx.ConnectError, httpx.TimeoutException) as e:
+                logger.error(f"Unpaywall request failed for {doi} after retries: {e}", exc_info=True)
                 return result
 
             data = response.json()
@@ -329,7 +379,7 @@ class DOIFulltextFetcher:
             return result
 
         except Exception as e:
-            logger.error(f"Error fetching Unpaywall for {doi}: {e}")
+            logger.error(f"Error fetching Unpaywall for {doi}: {e}", exc_info=True)
             return result
 
     async def download_pdf(self, pdf_url: str, doi: str) -> Optional[str]:
@@ -350,10 +400,12 @@ class DOIFulltextFetcher:
             client = await self._get_client()
 
             logger.debug(f"Downloading PDF from: {pdf_url}")
-            response = await client.get(pdf_url)
-
-            if response.status_code != 200:
-                logger.warning(f"PDF download failed: {response.status_code}")
+            try:
+                response = await _async_request_with_retry(
+                    client, "get", pdf_url,
+                )
+            except (httpx.ConnectError, httpx.TimeoutException, httpx.HTTPStatusError) as e:
+                logger.warning(f"PDF download failed after retries: {e}")
                 return None
 
             # 파일명 생성 (DOI의 특수문자 제거)
@@ -371,7 +423,7 @@ class DOIFulltextFetcher:
             return str(pdf_path)
 
         except Exception as e:
-            logger.error(f"Error downloading PDF: {e}")
+            logger.error(f"Error downloading PDF: {e}", exc_info=True)
             return None
 
     async def fetch(
@@ -542,10 +594,15 @@ class DOIFulltextFetcher:
             url = "https://api.crossref.org/works"
             logger.debug(f"Crossref bibliographic search: {query_str[:80]}")
 
-            response = await client.get(url, params=params)
-
-            if response.status_code != 200:
-                logger.warning(f"Crossref search API error: {response.status_code}")
+            try:
+                response = await _async_request_with_retry(
+                    client, "get", url, params=params,
+                )
+            except httpx.HTTPStatusError as e:
+                logger.warning(f"Crossref search API error: {e.response.status_code}")
+                return None
+            except (httpx.ConnectError, httpx.TimeoutException) as e:
+                logger.error(f"Crossref bibliographic search failed after retries: {e}", exc_info=True)
                 return None
 
             data = response.json()

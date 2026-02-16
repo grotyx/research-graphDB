@@ -83,11 +83,12 @@ echo '{
 ## Environment Variables
 
 ```bash
-LLM_PROVIDER=claude
+# .env.example을 복사하여 사용
+cp .env.example .env
+# 필수 키 설정
 ANTHROPIC_API_KEY=sk-ant-...
-NEO4J_URI=bolt://localhost:7687
-NEO4J_USERNAME=neo4j
-NEO4J_PASSWORD=spine_graph_2024
+OPENAI_API_KEY=sk-...
+NEO4J_PASSWORD=<your-password>
 ```
 
 See [docs/](docs/) for detailed documentation.

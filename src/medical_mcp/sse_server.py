@@ -182,7 +182,7 @@ class ConnectionManager:
             except asyncio.CancelledError:
                 break
             except Exception as e:
-                logger.error(f"Cleanup error: {e}")
+                logger.error(f"Cleanup error: {e}", exc_info=True)
 
     def start_cleanup(self):
         """정리 태스크 시작."""
@@ -307,7 +307,7 @@ def create_app():
                         pass
 
         except Exception as e:
-            logger.error(f"SSE connection error: {session_id[:8]}... - {e}")
+            logger.error(f"SSE connection error: {session_id[:8]}... - {e}", exc_info=True)
         finally:
             connection_manager.unregister(session_id)
 
@@ -325,7 +325,7 @@ def create_app():
         except asyncio.CancelledError:
             pass
         except Exception as e:
-            logger.error(f"Heartbeat error: {e}")
+            logger.error(f"Heartbeat error: {e}", exc_info=True)
 
     async def health_check(request: Request):
         """Health check endpoint with connection stats."""
@@ -435,8 +435,8 @@ def create_app():
                     if hasattr(server, 'neo4j_client') and server.neo4j_client:
                         try:
                             await server.neo4j_client.close()
-                        except Exception:
-                            pass
+                        except Exception as e:
+                            logger.debug(f"Server cleanup failed: {e}")
                     del user_servers[user_id]
                     logger.info(f"Reset server for user: {user_id}")
 
@@ -457,8 +457,8 @@ def create_app():
                     if hasattr(server, 'neo4j_client') and server.neo4j_client:
                         try:
                             await server.neo4j_client.close()
-                        except Exception:
-                            pass
+                        except Exception as e:
+                            logger.debug(f"Server reset failed: {e}")
 
                 user_servers.clear()
                 mcp_servers.clear()
@@ -477,7 +477,7 @@ def create_app():
                 })
 
         except Exception as e:
-            logger.error(f"Reset error: {e}")
+            logger.error(f"Reset error: {e}", exc_info=True)
             return JSONResponse({"error": str(e)}, status_code=500)
 
     async def restart_neo4j(request: Request):
@@ -498,8 +498,8 @@ def create_app():
                         # 기존 연결 닫기
                         try:
                             await server.neo4j_client.close()
-                        except Exception:
-                            pass
+                        except Exception as e:
+                            logger.debug(f"Reconnect failed: {e}")
 
                         # 새 연결 생성
                         await server.neo4j_client.connect()
@@ -507,7 +507,7 @@ def create_app():
                         logger.info(f"Neo4j reconnected for user: {user_id}")
                 except Exception as e:
                     failed.append({"user": user_id, "error": str(e)})
-                    logger.error(f"Neo4j reconnect failed for {user_id}: {e}")
+                    logger.error(f"Neo4j reconnect failed for {user_id}: {e}", exc_info=True)
 
             return JSONResponse({
                 "success": len(failed) == 0,
@@ -516,7 +516,7 @@ def create_app():
             })
 
         except Exception as e:
-            logger.error(f"Restart error: {e}")
+            logger.error(f"Restart error: {e}", exc_info=True)
             return JSONResponse({"error": str(e)}, status_code=500)
 
     async def ping(request: Request):

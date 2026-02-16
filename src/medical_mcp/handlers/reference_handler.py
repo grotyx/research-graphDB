@@ -23,6 +23,8 @@ from typing import TYPE_CHECKING, Optional, List, Dict, Any
 if TYPE_CHECKING:
     from medical_mcp.medical_kag_server import MedicalKAGServer
 
+from medical_mcp.handlers.base_handler import BaseHandler, safe_execute
+
 try:
     from builder.reference_formatter import (
         ReferenceFormatter,
@@ -39,7 +41,7 @@ except ImportError:
 logger = logging.getLogger(__name__)
 
 
-class ReferenceHandler:
+class ReferenceHandler(BaseHandler):
     """참고문헌 포맷팅 및 스타일 관리 핸들러."""
 
     def __init__(self, server: "MedicalKAGServer"):
@@ -48,7 +50,7 @@ class ReferenceHandler:
         Args:
             server: MedicalKAGServer 인스턴스
         """
-        self.server = server
+        super().__init__(server)
         self._formatter: Optional[ReferenceFormatter] = None
 
     @property
@@ -60,6 +62,7 @@ class ReferenceHandler:
             self._formatter = ReferenceFormatter()
         return self._formatter
 
+    @safe_execute
     async def format_reference(
         self,
         paper_id: Optional[str] = None,
@@ -83,77 +86,73 @@ class ReferenceHandler:
         if not FORMATTER_AVAILABLE:
             return {"success": False, "error": "ReferenceFormatter not available"}
 
-        try:
-            # 1. 논문 찾기
-            paper_data = None
+        # 1. 논문 찾기
+        paper_data = None
 
-            if paper_id:
-                paper_data = await self._load_paper_by_id(paper_id)
+        if paper_id:
+            paper_data = await self._load_paper_by_id(paper_id)
 
-            if not paper_data and query:
-                # 검색으로 찾기
-                try:
-                    search_result = await self.server.search(
-                        query=query,
-                        top_k=1,
-                        prefer_original=True
-                    )
-                    if search_result and search_result.get("success") and search_result.get("results"):
-                        result = search_result["results"][0]
-                        paper_id = result.get("document_id", "")
-                        if paper_id:
-                            paper_data = await self._load_paper_by_id(paper_id)
-                except Exception as search_err:
-                    logger.warning(f"Search failed for query '{query}': {search_err}")
-                    # 검색 실패해도 paper_id로 시도한 결과가 있으면 계속 진행
+        if not paper_data and query:
+            # 검색으로 찾기
+            try:
+                search_result = await self.server.search(
+                    query=query,
+                    top_k=1,
+                    prefer_original=True
+                )
+                if search_result and search_result.get("success") and search_result.get("results"):
+                    result = search_result["results"][0]
+                    paper_id = result.get("document_id", "")
+                    if paper_id:
+                        paper_data = await self._load_paper_by_id(paper_id)
+            except Exception as search_err:
+                logger.warning(f"Search failed for query '{query}': {search_err}")
+                # 검색 실패해도 paper_id로 시도한 결과가 있으면 계속 진행
 
-            if not paper_data:
-                return {
-                    "success": False,
-                    "error": f"논문을 찾을 수 없습니다: {paper_id or query}"
-                }
-
-            # 2. PaperReference 생성
-            metadata = paper_data.get("metadata") or {}
-            paper = PaperReference.from_metadata(metadata, paper_id or "")
-
-            # 3. 스타일 결정
-            if target_journal:
-                # 저널에 매핑된 스타일 사용
-                mapped_style = self.formatter.get_journal_style(target_journal)
-                if mapped_style:
-                    style = mapped_style
-                    logger.info(f"Using mapped style '{style}' for journal '{target_journal}'")
-
-            # 4. 포맷팅
-            if output_format == "bibtex":
-                formatted = self.formatter.to_bibtex(paper)
-            elif output_format == "ris":
-                formatted = self.formatter.to_ris(paper)
-            else:
-                formatted = self.formatter.format(paper, style=style)
-
+        if not paper_data:
             return {
-                "success": True,
-                "paper_id": paper_id,
-                "title": metadata.get("title", ""),
-                "style": style,
-                "target_journal": target_journal,
-                "output_format": output_format,
-                "formatted_reference": formatted,
-                "metadata": {
-                    "authors": metadata.get("authors", []),
-                    "year": metadata.get("year"),
-                    "journal": metadata.get("journal", ""),
-                    "doi": metadata.get("doi"),
-                    "pmid": metadata.get("pmid"),
-                }
+                "success": False,
+                "error": f"논문을 찾을 수 없습니다: {paper_id or query}"
             }
 
-        except Exception as e:
-            logger.exception(f"Reference formatting error: {e}")
-            return {"success": False, "error": str(e)}
+        # 2. PaperReference 생성
+        metadata = paper_data.get("metadata") or {}
+        paper = PaperReference.from_metadata(metadata, paper_id or "")
 
+        # 3. 스타일 결정
+        if target_journal:
+            # 저널에 매핑된 스타일 사용
+            mapped_style = self.formatter.get_journal_style(target_journal)
+            if mapped_style:
+                style = mapped_style
+                logger.info(f"Using mapped style '{style}' for journal '{target_journal}'")
+
+        # 4. 포맷팅
+        if output_format == "bibtex":
+            formatted = self.formatter.to_bibtex(paper)
+        elif output_format == "ris":
+            formatted = self.formatter.to_ris(paper)
+        else:
+            formatted = self.formatter.format(paper, style=style)
+
+        return {
+            "success": True,
+            "paper_id": paper_id,
+            "title": metadata.get("title", ""),
+            "style": style,
+            "target_journal": target_journal,
+            "output_format": output_format,
+            "formatted_reference": formatted,
+            "metadata": {
+                "authors": metadata.get("authors", []),
+                "year": metadata.get("year"),
+                "journal": metadata.get("journal", ""),
+                "doi": metadata.get("doi"),
+                "pmid": metadata.get("pmid"),
+            }
+        }
+
+    @safe_execute
     async def format_references(
         self,
         paper_ids: Optional[List[str]] = None,
@@ -183,81 +182,77 @@ class ReferenceHandler:
         if not FORMATTER_AVAILABLE:
             return {"success": False, "error": "ReferenceFormatter not available"}
 
-        try:
-            papers = []
+        papers = []
 
-            if paper_ids:
-                # ID로 직접 로드
-                for pid in paper_ids:
-                    paper_data = await self._load_paper_by_id(pid)
-                    if paper_data:
-                        # v1.14.27: None 값 처리
-                        metadata = paper_data.get("metadata") or {}
-                        papers.append(PaperReference.from_metadata(metadata, pid))
+        if paper_ids:
+            # ID로 직접 로드
+            for pid in paper_ids:
+                paper_data = await self._load_paper_by_id(pid)
+                if paper_data:
+                    # v1.14.27: None 값 처리
+                    metadata = paper_data.get("metadata") or {}
+                    papers.append(PaperReference.from_metadata(metadata, pid))
 
-            elif query:
-                # 검색으로 찾기
-                try:
-                    search_result = await self.server.search(
-                        query=query,
-                        top_k=max_results,
-                        prefer_original=True
-                    )
-                    if search_result and search_result.get("success"):
-                        for result in search_result.get("results", []):
-                            pid = result.get("document_id", "")
-                            if not pid:
-                                continue
-                            paper_data = await self._load_paper_by_id(pid)
-                            if paper_data:
-                                metadata = paper_data.get("metadata") or {}
-                                papers.append(PaperReference.from_metadata(metadata, pid))
-                except Exception as search_err:
-                    logger.warning(f"Search failed for query '{query}': {search_err}")
-
-            if not papers:
-                return {
-                    "success": False,
-                    "error": "포맷할 논문을 찾을 수 없습니다"
-                }
-
-            # 스타일 결정
-            if target_journal:
-                mapped_style = self.formatter.get_journal_style(target_journal)
-                if mapped_style:
-                    style = mapped_style
-
-            # 포맷팅
-            if output_format == "bibtex":
-                formatted = "\n\n".join(self.formatter.to_bibtex(p) for p in papers)
-            elif output_format == "ris":
-                formatted = "\n".join(self.formatter.to_ris(p) for p in papers)
-            else:
-                formatted = self.formatter.format_multiple(
-                    papers,
-                    style=style,
-                    numbered=numbered,
-                    start_number=start_number,
+        elif query:
+            # 검색으로 찾기
+            try:
+                search_result = await self.server.search(
+                    query=query,
+                    top_k=max_results,
+                    prefer_original=True
                 )
+                if search_result and search_result.get("success"):
+                    for result in search_result.get("results", []):
+                        pid = result.get("document_id", "")
+                        if not pid:
+                            continue
+                        paper_data = await self._load_paper_by_id(pid)
+                        if paper_data:
+                            metadata = paper_data.get("metadata") or {}
+                            papers.append(PaperReference.from_metadata(metadata, pid))
+            except Exception as search_err:
+                logger.warning(f"Search failed for query '{query}': {search_err}")
 
+        if not papers:
             return {
-                "success": True,
-                "count": len(papers),
-                "style": style,
-                "target_journal": target_journal,
-                "output_format": output_format,
-                "numbered": numbered,
-                "formatted_references": formatted,
-                "papers": [
-                    {"paper_id": p.paper_id, "title": p.title, "year": p.year}
-                    for p in papers
-                ]
+                "success": False,
+                "error": "포맷할 논문을 찾을 수 없습니다"
             }
 
-        except Exception as e:
-            logger.exception(f"References formatting error: {e}")
-            return {"success": False, "error": str(e)}
+        # 스타일 결정
+        if target_journal:
+            mapped_style = self.formatter.get_journal_style(target_journal)
+            if mapped_style:
+                style = mapped_style
 
+        # 포맷팅
+        if output_format == "bibtex":
+            formatted = "\n\n".join(self.formatter.to_bibtex(p) for p in papers)
+        elif output_format == "ris":
+            formatted = "\n".join(self.formatter.to_ris(p) for p in papers)
+        else:
+            formatted = self.formatter.format_multiple(
+                papers,
+                style=style,
+                numbered=numbered,
+                start_number=start_number,
+            )
+
+        return {
+            "success": True,
+            "count": len(papers),
+            "style": style,
+            "target_journal": target_journal,
+            "output_format": output_format,
+            "numbered": numbered,
+            "formatted_references": formatted,
+            "papers": [
+                {"paper_id": p.paper_id, "title": p.title, "year": p.year}
+                for p in papers
+            ]
+        }
+
+    @safe_execute
     async def list_styles(self) -> Dict[str, Any]:
         """사용 가능한 스타일 목록.
 
@@ -267,42 +262,38 @@ class ReferenceHandler:
         if not FORMATTER_AVAILABLE:
             return {"success": False, "error": "ReferenceFormatter not available"}
 
-        try:
-            styles_info = self.formatter.list_styles()
+        styles_info = self.formatter.list_styles()
 
-            # 상세 정보 추가
-            default_styles_detail = {}
-            for name in styles_info["default_styles"]:
-                config = self.formatter.get_style(name)
-                default_styles_detail[name] = {
-                    "full_name": config.name,
-                    "author_format": config.author.format,
-                    "et_al_threshold": config.author.et_al_threshold,
-                    "include_doi": config.include_doi,
-                    "journal_abbreviation": config.journal.use_abbreviation,
-                }
-
-            return {
-                "success": True,
-                "default_styles": default_styles_detail,
-                "custom_styles": styles_info["custom_styles"],
-                "journal_mappings": styles_info.get("journal_mappings_detail", {}),
-                "journal_count": {
-                    "default": styles_info.get("default_journal_count", 0),
-                    "user_saved": styles_info.get("user_journal_count", 0),
-                },
-                "usage_examples": {
-                    "format_single": 'format_reference(paper_id="2025_Park_BED_vs_MD_RCT", style="vancouver")',
-                    "format_for_journal": 'format_reference(paper_id="...", target_journal="Spine")',
-                    "format_multiple": 'format_references(query="lumbar fusion", style="ama", numbered=True)',
-                    "export_bibtex": 'format_reference(paper_id="...", output_format="bibtex")',
-                }
+        # 상세 정보 추가
+        default_styles_detail = {}
+        for name in styles_info["default_styles"]:
+            config = self.formatter.get_style(name)
+            default_styles_detail[name] = {
+                "full_name": config.name,
+                "author_format": config.author.format,
+                "et_al_threshold": config.author.et_al_threshold,
+                "include_doi": config.include_doi,
+                "journal_abbreviation": config.journal.use_abbreviation,
             }
 
-        except Exception as e:
-            logger.exception(f"List styles error: {e}")
-            return {"success": False, "error": str(e)}
+        return {
+            "success": True,
+            "default_styles": default_styles_detail,
+            "custom_styles": styles_info["custom_styles"],
+            "journal_mappings": styles_info.get("journal_mappings_detail", {}),
+            "journal_count": {
+                "default": styles_info.get("default_journal_count", 0),
+                "user_saved": styles_info.get("user_journal_count", 0),
+            },
+            "usage_examples": {
+                "format_single": 'format_reference(paper_id="2025_Park_BED_vs_MD_RCT", style="vancouver")',
+                "format_for_journal": 'format_reference(paper_id="...", target_journal="Spine")',
+                "format_multiple": 'format_references(query="lumbar fusion", style="ama", numbered=True)',
+                "export_bibtex": 'format_reference(paper_id="...", output_format="bibtex")',
+            }
+        }
 
+    @safe_execute
     async def set_journal_style(
         self,
         journal_name: str,
@@ -323,32 +314,28 @@ class ReferenceHandler:
         if not FORMATTER_AVAILABLE:
             return {"success": False, "error": "ReferenceFormatter not available"}
 
-        try:
-            # 스타일 유효성 검사
-            available = self.formatter.list_styles()
-            all_styles = available["default_styles"] + available["custom_styles"]
+        # 스타일 유효성 검사
+        available = self.formatter.list_styles()
+        all_styles = available["default_styles"] + available["custom_styles"]
 
-            if style_name not in all_styles:
-                return {
-                    "success": False,
-                    "error": f"스타일 '{style_name}'을 찾을 수 없습니다",
-                    "available_styles": all_styles
-                }
-
-            # 매핑 저장
-            self.formatter.set_journal_style(journal_name, style_name)
-
+        if style_name not in all_styles:
             return {
-                "success": True,
-                "message": f"저널 '{journal_name}'에 스타일 '{style_name}' 매핑 완료",
-                "journal_name": journal_name,
-                "style_name": style_name,
+                "success": False,
+                "error": f"스타일 '{style_name}'을 찾을 수 없습니다",
+                "available_styles": all_styles
             }
 
-        except Exception as e:
-            logger.exception(f"Set journal style error: {e}")
-            return {"success": False, "error": str(e)}
+        # 매핑 저장
+        self.formatter.set_journal_style(journal_name, style_name)
 
+        return {
+            "success": True,
+            "message": f"저널 '{journal_name}'에 스타일 '{style_name}' 매핑 완료",
+            "journal_name": journal_name,
+            "style_name": style_name,
+        }
+
+    @safe_execute
     async def add_custom_style(
         self,
         name: str,
@@ -384,57 +371,53 @@ class ReferenceHandler:
         if not FORMATTER_AVAILABLE:
             return {"success": False, "error": "ReferenceFormatter not available"}
 
-        try:
-            # 기반 스타일 가져오기
-            base = self.formatter.get_style(base_style)
+        # 기반 스타일 가져오기
+        base = self.formatter.get_style(base_style)
 
-            # 새 설정 생성
-            config = StyleConfig(
-                name=name,
-                base_style=base_style,
-                author=AuthorFormatConfig(
-                    format=base.author.format,
-                    separator=base.author.separator,
-                    et_al_threshold=author_et_al_threshold,
-                    et_al_min=author_et_al_min,
-                    et_al_text=base.author.et_al_text,
-                    initials_format=author_initials_format,
-                ),
-                title_quotes=base.title_quotes,
-                title_italics=base.title_italics,
-                title_period=base.title_period,
-                title_case=base.title_case,
-                journal=JournalFormatConfig(
-                    use_abbreviation=journal_abbreviation,
-                    italicize=base.journal.italicize,
-                ),
-                date=base.date,
-                volume_bold=base.volume_bold,
-                volume_format=volume_format,
-                issue_in_parens=base.issue_in_parens,
-                pages_format=pages_format,
-                pages_prefix=base.pages_prefix,
-                include_doi=include_doi,
-                doi_format=base.doi_format,
-                include_pmid=include_pmid,
-                pmid_format=base.pmid_format,
-            )
+        # 새 설정 생성
+        config = StyleConfig(
+            name=name,
+            base_style=base_style,
+            author=AuthorFormatConfig(
+                format=base.author.format,
+                separator=base.author.separator,
+                et_al_threshold=author_et_al_threshold,
+                et_al_min=author_et_al_min,
+                et_al_text=base.author.et_al_text,
+                initials_format=author_initials_format,
+            ),
+            title_quotes=base.title_quotes,
+            title_italics=base.title_italics,
+            title_period=base.title_period,
+            title_case=base.title_case,
+            journal=JournalFormatConfig(
+                use_abbreviation=journal_abbreviation,
+                italicize=base.journal.italicize,
+            ),
+            date=base.date,
+            volume_bold=base.volume_bold,
+            volume_format=volume_format,
+            issue_in_parens=base.issue_in_parens,
+            pages_format=pages_format,
+            pages_prefix=base.pages_prefix,
+            include_doi=include_doi,
+            doi_format=base.doi_format,
+            include_pmid=include_pmid,
+            pmid_format=base.pmid_format,
+        )
 
-            # 저장
-            self.formatter.add_custom_style(name, config)
+        # 저장
+        self.formatter.add_custom_style(name, config)
 
-            return {
-                "success": True,
-                "message": f"커스텀 스타일 '{name}' 생성 완료",
-                "style_name": name,
-                "base_style": base_style,
-                "config": config.to_dict(),
-            }
+        return {
+            "success": True,
+            "message": f"커스텀 스타일 '{name}' 생성 완료",
+            "style_name": name,
+            "base_style": base_style,
+            "config": config.to_dict(),
+        }
 
-        except Exception as e:
-            logger.exception(f"Add custom style error: {e}")
-            return {"success": False, "error": str(e)}
-
+    @safe_execute
     async def preview_styles(
         self,
         paper_id: Optional[str] = None,
@@ -456,56 +439,51 @@ class ReferenceHandler:
         if not FORMATTER_AVAILABLE:
             return {"success": False, "error": "ReferenceFormatter not available"}
 
-        try:
-            # 논문 찾기
-            paper_data = None
+        # 논문 찾기
+        paper_data = None
 
-            if paper_id:
-                paper_data = await self._load_paper_by_id(paper_id)
+        if paper_id:
+            paper_data = await self._load_paper_by_id(paper_id)
 
-            if not paper_data and query:
-                try:
-                    search_result = await self.server.search(query=query, top_k=1)
-                    if search_result and search_result.get("success") and search_result.get("results"):
-                        result = search_result["results"][0]
-                        paper_id = result.get("document_id", "")
-                        if paper_id:
-                            paper_data = await self._load_paper_by_id(paper_id)
-                except Exception as search_err:
-                    logger.warning(f"Search failed for query '{query}': {search_err}")
+        if not paper_data and query:
+            try:
+                search_result = await self.server.search(query=query, top_k=1)
+                if search_result and search_result.get("success") and search_result.get("results"):
+                    result = search_result["results"][0]
+                    paper_id = result.get("document_id", "")
+                    if paper_id:
+                        paper_data = await self._load_paper_by_id(paper_id)
+            except Exception as search_err:
+                logger.warning(f"Search failed for query '{query}': {search_err}")
 
-            if not paper_data:
-                return {"success": False, "error": "논문을 찾을 수 없습니다"}
+        if not paper_data:
+            return {"success": False, "error": "논문을 찾을 수 없습니다"}
 
-            metadata = paper_data.get("metadata") or {}
-            paper = PaperReference.from_metadata(metadata, paper_id or "")
+        metadata = paper_data.get("metadata") or {}
+        paper = PaperReference.from_metadata(metadata, paper_id or "")
 
-            # 스타일 목록
-            if not styles:
-                styles = ["vancouver", "ama", "apa", "jbjs", "spine", "nlm"]
+        # 스타일 목록
+        if not styles:
+            styles = ["vancouver", "ama", "apa", "jbjs", "spine", "nlm"]
 
-            # 각 스타일로 포맷
-            previews = {}
-            for style in styles:
-                try:
-                    previews[style] = self.formatter.format(paper, style=style)
-                except Exception as e:
-                    previews[style] = f"Error: {e}"
+        # 각 스타일로 포맷
+        previews = {}
+        for style in styles:
+            try:
+                previews[style] = self.formatter.format(paper, style=style)
+            except Exception as e:
+                previews[style] = f"Error: {e}"
 
-            # Export 형식도 추가
-            previews["bibtex"] = self.formatter.to_bibtex(paper)
-            previews["ris"] = self.formatter.to_ris(paper)
+        # Export 형식도 추가
+        previews["bibtex"] = self.formatter.to_bibtex(paper)
+        previews["ris"] = self.formatter.to_ris(paper)
 
-            return {
-                "success": True,
-                "paper_id": paper_id,
-                "title": metadata.get("title", ""),
-                "previews": previews,
-            }
-
-        except Exception as e:
-            logger.exception(f"Preview styles error: {e}")
-            return {"success": False, "error": str(e)}
+        return {
+            "success": True,
+            "paper_id": paper_id,
+            "title": metadata.get("title", ""),
+            "previews": previews,
+        }
 
     def _get_extracted_dir(self) -> Optional[Path]:
         """data/extracted 폴더 경로 반환."""

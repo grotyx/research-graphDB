@@ -5,7 +5,7 @@
 Spine GraphRAG는 Neo4j 그래프 데이터베이스를 사용한 단일 저장소 시스템입니다.
 척추 수술 분야의 의학 논문을 처리하여 구조화된 지식 그래프를 구축하고, 근거 기반 검색을 지원합니다.
 
-**Version**: 1.18.0 | **Status**: Production Ready
+**Version**: 1.19.4 | **Status**: Production Ready
 **Docs**: [PRD](docs/PRD.md) | [TRD](docs/TRD_v3_GraphRAG.md) | [Changelog](docs/CHANGELOG.md)
 
 ### Architecture (Single-Store: Neo4j Only)
@@ -138,7 +138,7 @@ LLM_PROVIDER=claude
 ANTHROPIC_API_KEY=sk-ant-...
 NEO4J_URI=bolt://localhost:7687
 NEO4J_USERNAME=neo4j
-NEO4J_PASSWORD=spineGraph2024
+NEO4J_PASSWORD=<see .env>
 NEO4J_DATABASE=neo4j
 NEO4J_BOLT_THREAD_POOL_SIZE=40  # Bolt 스레드 풀 (재시작 필요)
 
@@ -210,7 +210,7 @@ rag_research/
 │   ├── builder/         # PDF/PubMed 처리 (unified_pdf_processor, reference_formatter)
 │   ├── solver/          # 검색/추론 모듈 (tiered_search, hybrid_ranker, conflict_detector)
 │   ├── llm/             # LLM 클라이언트 (claude_client, gemini_client)
-│   ├── medical_mcp/     # MCP 서버 (medical_kag_server, handlers/)
+│   ├── medical_mcp/     # MCP 서버 Facade + 11개 도메인 핸들러 (BaseHandler 상속)
 │   ├── core/            # 설정/로깅/예외 (config, exceptions, embedding, text_chunker)
 │   ├── cache/           # 캐싱 (llm_cache, query_cache, embedding_cache, semantic_cache)
 │   ├── knowledge/       # 지식 처리 (citation_extractor, paper_graph, relationship_reasoner)
@@ -231,15 +231,25 @@ rag_research/
 | `relationship_builder.py` | Paper → Graph 구축 |
 | `entity_normalizer.py` | 용어 정규화 (UBE↔BESS), SNOMED 자동 링크 |
 | `taxonomy_manager.py` | Intervention IS_A 계층 관리 |
-| `spine_snomed_mappings.py` | SNOMED-CT 매핑 (315개: I:123, P:85, O:70, A:37) — Single Source of Truth |
+| `spine_snomed_mappings.py` | SNOMED-CT 매핑 (414개: I:144, P:120, O:104, A:46) — Single Source of Truth |
 | `snomed_enricher.py` | SNOMED 업데이트, TREATS 백필, Anatomy 정리 통합 모듈 |
 | `schema.py` | Neo4j 스키마, 인덱스, Cypher 템플릿 |
-| `medical_kag_server.py` | MCP 서버 (10개 통합 도구) |
+| `medical_kag_server.py` | MCP 서버 Facade (10개 도구, Tool Registry 디스패치 → 11개 핸들러) |
+| `handlers/base_handler.py` | BaseHandler 공통 클래스 + safe_execute 데코레이터 |
 | `solver/hybrid_ranker.py` | Evidence-based 랭킹 |
 | `reference_formatter.py` | 참고문헌 스타일 포맷팅 |
 | `writing_guide_handler.py` | 학술 논문 작성 가이드 (9개 체크리스트) |
 | `doi_fulltext_fetcher.py` | DOI/Unpaywall 기반 전문 조회 |
 | `pmc_fulltext_fetcher.py` | PMC Open Access 전문 조회 |
+| `llm/base.py` | LLM Provider 인터페이스 (BaseLLMClient Protocol) |
+
+### Key Scripts
+
+| Script | Description |
+|--------|-------------|
+| `scripts/repair_isolated_papers.py` | 고립 논문 복구 (LLM 재분석 → 관계 구축, `--dry-run`, `--max-concurrent`, `--paper-ids` 지원) |
+| `scripts/init_neo4j.py` | Neo4j 스키마/인덱스 초기화 |
+| `scripts/enrich_graph_snomed.py` | SNOMED 코드 일괄 적용 + TREATS 백필 |
 
 ## Documentation
 
@@ -266,6 +276,8 @@ rag_research/
 
 ### 추가 참고
 - [QC_CHECKLIST.md](docs/QC_CHECKLIST.md) - **QC 체크리스트 (버전/문서/코드 일관성 검증)**
+- [CODE_AUDIT.md](docs/CODE_AUDIT.md) - **Code Audit (보안/성능/설계 심층 분석)**
+- [DATA_VALIDATION.md](docs/DATA_VALIDATION.md) - **Data Validation (Neo4j 데이터 무결성/완전성 검증)**
 - [DEPLOYMENT.md](docs/DEPLOYMENT.md) - 배포 가이드
 - [HOW_TO_RUN_kr.md](docs/HOW_TO_RUN_kr.md) - 실행 가이드 (한국어)
 - [SCHEMA_UPDATE_GUIDE.md](docs/SCHEMA_UPDATE_GUIDE.md) - 스키마/Taxonomy 업데이트 절차
@@ -276,10 +288,14 @@ rag_research/
 
 ```yaml
 python: ">=3.10"
-anthropic: ">=0.40.0"     # Claude API
-neo4j: ">=5.15.0"         # Graph DB
-langchain: ">=0.1.0"
+anthropic: ">=0.40.0,<1.0.0"     # Claude API
+openai: ">=1.0.0,<2.0.0"         # Embeddings (text-embedding-3-large)
+google-genai: ">=1.0.0"          # Gemini API
+neo4j: ">=5.15.0,<6.0.0"         # Graph DB
+langchain-core: ">=0.2.0,<0.4.0" # Chain/Prompt
 sentence-transformers: ">=2.2.0"
-pymupdf: ">=1.23.0"       # PDF
-mcp: ">=1.0.0"            # MCP Server
+pymupdf: ">=1.23.0,<2.0.0"       # PDF
+mcp: ">=1.0.0,<2.0.0"            # MCP Server
+httpx: ">=0.24.0"                 # Async HTTP
+pydantic: ">=2.0.0"               # Data validation
 ```

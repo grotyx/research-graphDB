@@ -11,7 +11,10 @@ This module handles all PubMed-related operations including:
 
 import logging
 import os
+import re
 from typing import TYPE_CHECKING, Optional, List
+
+from medical_mcp.handlers.base_handler import BaseHandler, safe_execute
 
 if TYPE_CHECKING:
     from medical_mcp.medical_kag_server import MedicalKAGServer
@@ -71,6 +74,14 @@ except ImportError:
     logger.warning("PubMed Bulk Processor not available")
     PUBMED_BULK_AVAILABLE = False
 
+# DOI Fulltext Fetcher availability
+try:
+    from builder.doi_fulltext_fetcher import DOIFulltextFetcher
+    DOI_FETCHER_AVAILABLE = True
+except ImportError:
+    DOI_FETCHER_AVAILABLE = False
+    DOIFulltextFetcher = None
+
 
 def get_max_concurrent() -> int:
     """환경변수에서 PUBMED_MAX_CONCURRENT 값을 읽어옴.
@@ -85,7 +96,7 @@ def get_max_concurrent() -> int:
         return 5
 
 
-class PubMedHandler:
+class PubMedHandler(BaseHandler):
     """Handles PubMed search, import, and management operations."""
 
     def __init__(self, server: "MedicalKAGServer"):
@@ -94,9 +105,8 @@ class PubMedHandler:
         Args:
             server: Parent MedicalKAGServer instance for accessing clients
         """
-        self.server = server
+        super().__init__(server)
         self.pubmed_client = server.pubmed_client
-        self.neo4j_client = server.neo4j_client
         self.pubmed_enricher = server.pubmed_enricher
         self.relationship_builder = server.relationship_builder
 
@@ -185,6 +195,7 @@ class PubMedHandler:
         logger.info(f"Auto-classified {classified_count} papers")
         return classified_count
 
+    @safe_execute
     async def search_pubmed(
         self,
         query: str,
@@ -204,8 +215,7 @@ class PubMedHandler:
         if not self.pubmed_client:
             return {"success": False, "error": "PubMed client not available"}
 
-        try:
-            # Search for PMIDs
+        # Search for PMIDs
             pmids = self.pubmed_client.search(query, max_results=max_results)
 
             if not pmids:
@@ -246,10 +256,7 @@ class PubMedHandler:
                 "results": results
             }
 
-        except Exception as e:
-            logger.exception(f"PubMed search error: {e}")
-            return {"success": False, "error": str(e)}
-
+    @safe_execute
     async def pubmed_bulk_search(
         self,
         query: str,
@@ -275,73 +282,68 @@ class PubMedHandler:
         if not PUBMED_BULK_AVAILABLE:
             return {"success": False, "error": "PubMed Bulk Processor not available"}
 
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j client not available"}
+        self._require_neo4j()
 
-        try:
-            # Create a fresh Neo4j client to avoid event loop conflicts
-            from graph.neo4j_client import Neo4jClient
+        # Create a fresh Neo4j client to avoid event loop conflicts
+        from graph.neo4j_client import Neo4jClient
 
-            async with Neo4jClient() as fresh_neo4j:
-                # Initialize processor (v5.3: Neo4j 전용)
-                processor = PubMedBulkProcessor(
-                    neo4j_client=fresh_neo4j,
-                    vector_db=None,  # ChromaDB 제거됨
-                    pubmed_email=os.environ.get("NCBI_EMAIL"),
-                    pubmed_api_key=os.environ.get("NCBI_API_KEY"),
+        async with Neo4jClient() as fresh_neo4j:
+            # Initialize processor (v5.3: Neo4j 전용)
+            processor = PubMedBulkProcessor(
+                neo4j_client=fresh_neo4j,
+                vector_db=None,  # ChromaDB 제거됨
+                pubmed_email=os.environ.get("NCBI_EMAIL"),
+                pubmed_api_key=os.environ.get("NCBI_API_KEY"),
+            )
+
+            # Search PubMed
+            papers = await processor.search_pubmed(
+                query=query,
+                max_results=min(max_results, 500),
+                year_from=year_from,
+                year_to=year_to,
+                publication_types=publication_types,
+            )
+
+            result = {
+                "success": True,
+                "query": query,
+                "total_found": len(papers),
+                "papers": [
+                    {
+                        "pmid": p.pmid,
+                        "title": p.title,
+                        "authors": p.authors[:3],
+                        "year": p.year,
+                        "journal": p.journal,
+                        "abstract": p.abstract[:300] + "..." if len(p.abstract or "") > 300 else p.abstract,
+                        "mesh_terms": p.mesh_terms[:5],
+                        "doi": p.doi,
+                        "publication_types": p.publication_types,
+                    }
+                    for p in papers
+                ],
+            }
+
+            # Import if requested (v1.5: 멀티유저, v1.14.23: 병렬 처리)
+            if import_results and papers:
+                import_summary = await processor.import_papers(
+                    papers,
+                    skip_existing=True,
+                    owner=self.server.current_user,
+                    shared=True,
+                    max_concurrent=get_max_concurrent(),
                 )
-
-                # Search PubMed
-                papers = await processor.search_pubmed(
-                    query=query,
-                    max_results=min(max_results, 500),
-                    year_from=year_from,
-                    year_to=year_to,
-                    publication_types=publication_types,
-                )
-
-                result = {
-                    "success": True,
-                    "query": query,
-                    "total_found": len(papers),
-                    "papers": [
-                        {
-                            "pmid": p.pmid,
-                            "title": p.title,
-                            "authors": p.authors[:3],
-                            "year": p.year,
-                            "journal": p.journal,
-                            "abstract": p.abstract[:300] + "..." if len(p.abstract or "") > 300 else p.abstract,
-                            "mesh_terms": p.mesh_terms[:5],
-                            "doi": p.doi,
-                            "publication_types": p.publication_types,
-                        }
-                        for p in papers
-                    ],
+                result["import_result"] = {
+                    "imported": import_summary.imported,
+                    "skipped": import_summary.skipped,
+                    "failed": import_summary.failed,
+                    "total_chunks": import_summary.total_chunks,
                 }
 
-                # Import if requested (v1.5: 멀티유저, v1.14.23: 병렬 처리)
-                if import_results and papers:
-                    import_summary = await processor.import_papers(
-                        papers,
-                        skip_existing=True,
-                        owner=self.server.current_user,
-                        shared=True,
-                        max_concurrent=get_max_concurrent(),
-                    )
-                    result["import_result"] = {
-                        "imported": import_summary.imported,
-                        "skipped": import_summary.skipped,
-                        "failed": import_summary.failed,
-                        "total_chunks": import_summary.total_chunks,
-                    }
+            return result
 
-                return result
-
-        except Exception as e:
-            logger.exception(f"PubMed bulk search error: {e}")
-            return {"success": False, "error": str(e)}
-
+    @safe_execute
     async def pubmed_import_citations(
         self,
         paper_id: str,
@@ -359,44 +361,39 @@ class PubMedHandler:
         if not PUBMED_BULK_AVAILABLE:
             return {"success": False, "error": "PubMed Bulk Processor not available"}
 
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j client not available"}
+        self._require_neo4j()
 
-        try:
-            # Create a fresh Neo4j client to avoid event loop conflicts
-            from graph.neo4j_client import Neo4jClient
+        # Create a fresh Neo4j client to avoid event loop conflicts
+        from graph.neo4j_client import Neo4jClient
 
-            async with Neo4jClient() as fresh_neo4j:
-                processor = PubMedBulkProcessor(
-                    neo4j_client=fresh_neo4j,
-                    vector_db=None,  # v5.3: ChromaDB 제거됨
-                    pubmed_email=os.environ.get("NCBI_EMAIL"),
-                    pubmed_api_key=os.environ.get("NCBI_API_KEY"),
-                )
+        async with Neo4jClient() as fresh_neo4j:
+            processor = PubMedBulkProcessor(
+                neo4j_client=fresh_neo4j,
+                vector_db=None,  # v5.3: ChromaDB 제거됨
+                pubmed_email=os.environ.get("NCBI_EMAIL"),
+                pubmed_api_key=os.environ.get("NCBI_API_KEY"),
+            )
 
-                # v1.5: 멀티유저 지원
-                summary = await processor.import_from_citations(
-                    paper_id=paper_id,
-                    min_confidence=min_confidence,
-                    owner=self.server.current_user,
-                    shared=True,
-                )
+            # v1.5: 멀티유저 지원
+            summary = await processor.import_from_citations(
+                paper_id=paper_id,
+                min_confidence=min_confidence,
+                owner=self.server.current_user,
+                shared=True,
+            )
 
-                return {
-                    "success": True,
-                    "paper_id": paper_id,
-                    "total_citations_processed": summary.total_papers,
-                    "imported": summary.imported,
-                    "skipped": summary.skipped,
-                    "failed": summary.failed,
-                    "total_chunks": summary.total_chunks,
-                    "results": [r.to_dict() for r in summary.results[:20]],  # Max 20 results
-                }
+            return {
+                "success": True,
+                "paper_id": paper_id,
+                "total_citations_processed": summary.total_papers,
+                "imported": summary.imported,
+                "skipped": summary.skipped,
+                "failed": summary.failed,
+                "total_chunks": summary.total_chunks,
+                "results": [r.to_dict() for r in summary.results[:20]],  # Max 20 results
+            }
 
-        except Exception as e:
-            logger.exception(f"PubMed citation import error: {e}")
-            return {"success": False, "error": str(e)}
-
+    @safe_execute
     async def upgrade_paper_with_pdf(
         self,
         paper_id: str,
@@ -417,8 +414,7 @@ class PubMedHandler:
         if not PUBMED_BULK_AVAILABLE:
             return {"success": False, "error": "PubMed Bulk Processor not available"}
 
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j client not available"}
+        self._require_neo4j()
 
         if not paper_id.startswith("pubmed_"):
             return {"success": False, "error": "Paper is not a PubMed-only paper (must start with 'pubmed_')"}
@@ -428,37 +424,33 @@ class PubMedHandler:
         if not pdf_result.get("success"):
             return {"success": False, "error": f"PDF processing failed: {pdf_result.get('error')}"}
 
-        try:
-            # Create a fresh Neo4j client to avoid event loop conflicts
-            from graph.neo4j_client import Neo4jClient
+        # Create a fresh Neo4j client to avoid event loop conflicts
+        from graph.neo4j_client import Neo4jClient
 
-            async with Neo4jClient() as fresh_neo4j:
-                processor = PubMedBulkProcessor(
-                    neo4j_client=fresh_neo4j,
-                    vector_db=None,  # v5.3: ChromaDB 제거됨
-                    pubmed_email=os.environ.get("NCBI_EMAIL"),
-                    pubmed_api_key=os.environ.get("NCBI_API_KEY"),
-                )
+        async with Neo4jClient() as fresh_neo4j:
+            processor = PubMedBulkProcessor(
+                neo4j_client=fresh_neo4j,
+                vector_db=None,  # v5.3: ChromaDB 제거됨
+                pubmed_email=os.environ.get("NCBI_EMAIL"),
+                pubmed_api_key=os.environ.get("NCBI_API_KEY"),
+            )
 
-                upgrade_result = await processor.upgrade_with_pdf(
-                    paper_id=paper_id,
-                    pdf_result=pdf_result,
-                )
+            upgrade_result = await processor.upgrade_with_pdf(
+                paper_id=paper_id,
+                pdf_result=pdf_result,
+            )
 
-                return {
-                    "success": upgrade_result.get("success", False),
-                    "paper_id": paper_id,
-                    "upgraded_from": upgrade_result.get("upgraded_from"),
-                    "upgraded_to": upgrade_result.get("upgraded_to"),
-                    "preserved_pmid": upgrade_result.get("preserved_pmid"),
-                    "new_chunks": upgrade_result.get("new_chunks", 0),
-                    "error": upgrade_result.get("error"),
-                }
+            return {
+                "success": upgrade_result.get("success", False),
+                "paper_id": paper_id,
+                "upgraded_from": upgrade_result.get("upgraded_from"),
+                "upgraded_to": upgrade_result.get("upgraded_to"),
+                "preserved_pmid": upgrade_result.get("preserved_pmid"),
+                "new_chunks": upgrade_result.get("new_chunks", 0),
+                "error": upgrade_result.get("error"),
+            }
 
-        except Exception as e:
-            logger.exception(f"Paper upgrade error: {e}")
-            return {"success": False, "error": str(e)}
-
+    @safe_execute
     async def get_abstract_only_papers(
         self,
         limit: int = 50,
@@ -474,31 +466,26 @@ class PubMedHandler:
         if not PUBMED_BULK_AVAILABLE:
             return {"success": False, "error": "PubMed Bulk Processor not available"}
 
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j client not available"}
+        self._require_neo4j()
 
-        try:
-            # Create a fresh Neo4j client to avoid event loop conflicts
-            from graph.neo4j_client import Neo4jClient
+        # Create a fresh Neo4j client to avoid event loop conflicts
+        from graph.neo4j_client import Neo4jClient
 
-            async with Neo4jClient() as fresh_neo4j:
-                processor = PubMedBulkProcessor(
-                    neo4j_client=fresh_neo4j,
-                    vector_db=None,  # v5.3: ChromaDB 제거됨
-                )
+        async with Neo4jClient() as fresh_neo4j:
+            processor = PubMedBulkProcessor(
+                neo4j_client=fresh_neo4j,
+                vector_db=None,  # v5.3: ChromaDB 제거됨
+            )
 
-                papers = await processor.get_abstract_only_papers(limit=limit)
+            papers = await processor.get_abstract_only_papers(limit=limit)
 
-                return {
-                    "success": True,
-                    "count": len(papers),
-                    "papers": papers,
-                }
+            return {
+                "success": True,
+                "count": len(papers),
+                "papers": papers,
+            }
 
-        except Exception as e:
-            logger.exception(f"Get abstract-only papers error: {e}")
-            return {"success": False, "error": str(e)}
-
+    @safe_execute
     async def import_papers_by_pmids(
         self,
         pmids: list[str],
@@ -523,67 +510,62 @@ class PubMedHandler:
         if not PUBMED_BULK_AVAILABLE:
             return {"success": False, "error": "PubMed Bulk Processor not available"}
 
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j client not available"}
+        self._require_neo4j()
 
         if not pmids:
             return {"success": False, "error": "No PMIDs provided"}
 
-        try:
-            # Create a fresh Neo4j client to avoid event loop conflicts
-            # when called from Streamlit via run_async()
-            from graph.neo4j_client import Neo4jClient
+        # Create a fresh Neo4j client to avoid event loop conflicts
+        # when called from Streamlit via run_async()
+        from graph.neo4j_client import Neo4jClient
 
-            async with Neo4jClient() as fresh_neo4j:
-                processor = PubMedBulkProcessor(
-                    neo4j_client=fresh_neo4j,
-                    vector_db=None,  # v5.3: ChromaDB 제거됨
-                    pubmed_email=os.environ.get("NCBI_EMAIL"),
-                    pubmed_api_key=os.environ.get("NCBI_API_KEY"),
-                )
+        async with Neo4jClient() as fresh_neo4j:
+            processor = PubMedBulkProcessor(
+                neo4j_client=fresh_neo4j,
+                vector_db=None,  # v5.3: ChromaDB 제거됨
+                pubmed_email=os.environ.get("NCBI_EMAIL"),
+                pubmed_api_key=os.environ.get("NCBI_API_KEY"),
+            )
 
-                # Fetch paper details by PMIDs
-                papers = await processor._fetch_papers_batch(pmids)
+            # Fetch paper details by PMIDs
+            papers = await processor._fetch_papers_batch(pmids)
 
-                if not papers:
-                    return {
-                        "success": False,
-                        "error": "Could not fetch paper details from PubMed",
-                    }
-
-                # Import the fetched papers (v1.5: 멀티유저, v1.14.23: 병렬 처리)
-                # max_concurrent: None이면 환경변수에서 읽음, 아니면 1-10 범위로 제한
-                if max_concurrent is None:
-                    safe_concurrent = get_max_concurrent()
-                else:
-                    safe_concurrent = max(1, min(max_concurrent, 10))
-
-                summary = await processor.import_papers(
-                    papers,
-                    source="search",
-                    owner=self.server.current_user,
-                    shared=True,
-                    max_concurrent=safe_concurrent,
-                )
-
-                # v1.14.18: Auto-classify imported papers
-                imported_paper_ids = [f"pubmed_{pmid}" for pmid in pmids]
-                classified_count = await self._auto_classify_papers(
-                    fresh_neo4j, imported_paper_ids
-                )
-
+            if not papers:
                 return {
-                    "success": True,
-                    "total_requested": len(pmids),
-                    "total_fetched": len(papers),
-                    "auto_classified": classified_count,
-                    "import_summary": summary.to_dict(),
+                    "success": False,
+                    "error": "Could not fetch paper details from PubMed",
                 }
 
-        except Exception as e:
-            logger.exception(f"Import by PMIDs error: {e}")
-            return {"success": False, "error": str(e)}
+            # Import the fetched papers (v1.5: 멀티유저, v1.14.23: 병렬 처리)
+            # max_concurrent: None이면 환경변수에서 읽음, 아니면 1-10 범위로 제한
+            if max_concurrent is None:
+                safe_concurrent = get_max_concurrent()
+            else:
+                safe_concurrent = max(1, min(max_concurrent, 10))
 
+            summary = await processor.import_papers(
+                papers,
+                source="search",
+                owner=self.server.current_user,
+                shared=True,
+                max_concurrent=safe_concurrent,
+            )
+
+            # v1.14.18: Auto-classify imported papers
+            imported_paper_ids = [f"pubmed_{pmid}" for pmid in pmids]
+            classified_count = await self._auto_classify_papers(
+                fresh_neo4j, imported_paper_ids
+            )
+
+            return {
+                "success": True,
+                "total_requested": len(pmids),
+                "total_fetched": len(papers),
+                "auto_classified": classified_count,
+                "import_summary": summary.to_dict(),
+            }
+
+    @safe_execute
     async def get_pubmed_import_stats(self) -> dict:
         """PubMed 임포트 통계 조회.
 
@@ -593,30 +575,25 @@ class PubMedHandler:
         if not PUBMED_BULK_AVAILABLE:
             return {"success": False, "error": "PubMed Bulk Processor not available"}
 
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j client not available"}
+        self._require_neo4j()
 
-        try:
-            # Create a fresh Neo4j client to avoid event loop conflicts
-            from graph.neo4j_client import Neo4jClient
+        # Create a fresh Neo4j client to avoid event loop conflicts
+        from graph.neo4j_client import Neo4jClient
 
-            async with Neo4jClient() as fresh_neo4j:
-                processor = PubMedBulkProcessor(
-                    neo4j_client=fresh_neo4j,
-                    vector_db=None,  # v5.3: ChromaDB 제거됨
-                )
+        async with Neo4jClient() as fresh_neo4j:
+            processor = PubMedBulkProcessor(
+                neo4j_client=fresh_neo4j,
+                vector_db=None,  # v5.3: ChromaDB 제거됨
+            )
 
-                stats = await processor.get_import_statistics()
+            stats = await processor.get_import_statistics()
 
-                return {
-                    "success": True,
-                    "statistics": stats,
-                }
+            return {
+                "success": True,
+                "statistics": stats,
+            }
 
-        except Exception as e:
-            logger.exception(f"Get import stats error: {e}")
-            return {"success": False, "error": str(e)}
-
+    @safe_execute
     async def hybrid_search(
         self,
         query: str,
@@ -649,126 +626,366 @@ class PubMedHandler:
             - pubmed_results: PubMed에서 새로 찾은 결과
             - import_summary: 자동 임포트 결과 (auto_import=True 시)
         """
-        try:
-            result = {
-                "success": True,
-                "query": query,
-                "local_results": [],
-                "pubmed_results": [],
-                "search_strategy": "local_only",
-            }
+        result = {
+            "success": True,
+            "query": query,
+            "local_results": [],
+            "pubmed_results": [],
+            "search_strategy": "local_only",
+        }
 
-            # === Step 1: 로컬 검색 (Neo4j) ===
-            local_count = 0
-            if self.server.search_handler:
-                try:
-                    local_search = await self.server.search_handler.search(
-                        query=query,
-                        top_k=local_top_k,
-                        tier_strategy="tier1_then_tier2",
-                    )
-
-                    if local_search.get("success") and local_search.get("results"):
-                        local_results = local_search["results"]
-                        local_count = len(local_results)
-
-                        result["local_results"] = [
-                            {
-                                "paper_id": r.get("document_id", ""),
-                                "title": r.get("title", ""),
-                                "score": r.get("final_score", r.get("score", 0)),
-                                "evidence_level": r.get("evidence_level", ""),
-                                "section": r.get("section", ""),
-                                "snippet": (r.get("text") or "")[:300] + "..." if len(r.get("text") or "") > 300 else (r.get("text") or ""),
-                                "source": "local_db",
-                            }
-                            for r in local_results
-                        ]
-
-                        logger.info(f"Local search found {local_count} results for: {query}")
-
-                except Exception as e:
-                    logger.warning(f"Local search failed: {e}")
-
-            # === Step 2: PubMed 보완 검색 (로컬 결과 부족 시) ===
-            if local_count < min_local_results:
-                result["search_strategy"] = "local_plus_pubmed"
-                logger.info(
-                    f"Local results ({local_count}) < min ({min_local_results}), "
-                    f"searching PubMed for: {query}"
+        # === Step 1: 로컬 검색 (Neo4j) ===
+        local_count = 0
+        if self.server.search_handler:
+            try:
+                local_search = await self.server.search_handler.search(
+                    query=query,
+                    top_k=local_top_k,
+                    tier_strategy="tier1_then_tier2",
                 )
 
-                if not PUBMED_BULK_AVAILABLE:
-                    result["pubmed_error"] = "PubMed Bulk Processor not available"
-                    return result
+                if local_search.get("success") and local_search.get("results"):
+                    local_results = local_search["results"]
+                    local_count = len(local_results)
 
-                if not self.neo4j_client:
-                    result["pubmed_error"] = "Neo4j client not available"
-                    return result
+                    result["local_results"] = [
+                        {
+                            "paper_id": r.get("document_id", ""),
+                            "title": r.get("title", ""),
+                            "score": r.get("final_score", r.get("score", 0)),
+                            "evidence_level": r.get("evidence_level", ""),
+                            "section": r.get("section", ""),
+                            "snippet": (r.get("text") or "")[:300] + "..." if len(r.get("text") or "") > 300 else (r.get("text") or ""),
+                            "source": "local_db",
+                        }
+                        for r in local_results
+                    ]
 
-                from graph.neo4j_client import Neo4jClient
+                    logger.info(f"Local search found {local_count} results for: {query}")
 
-                async with Neo4jClient() as fresh_neo4j:
-                    processor = PubMedBulkProcessor(
-                        neo4j_client=fresh_neo4j,
-                        vector_db=None,
-                        pubmed_email=os.environ.get("NCBI_EMAIL"),
-                        pubmed_api_key=os.environ.get("NCBI_API_KEY"),
-                    )
+            except Exception as e:
+                logger.warning(f"Local search failed: {e}")
 
-                    # PubMed 검색
-                    papers = await processor.search_pubmed(
-                        query=query,
-                        max_results=pubmed_max_results,
-                        year_from=year_from,
-                        year_to=year_to,
-                    )
+        # === Step 2: PubMed 보완 검색 (로컬 결과 부족 시) ===
+        if local_count < min_local_results:
+            result["search_strategy"] = "local_plus_pubmed"
+            logger.info(
+                f"Local results ({local_count}) < min ({min_local_results}), "
+                f"searching PubMed for: {query}"
+            )
 
-                    if papers:
-                        result["pubmed_results"] = [
-                            {
-                                "pmid": p.pmid,
-                                "title": p.title,
-                                "authors": p.authors[:3],
-                                "year": p.year,
-                                "journal": p.journal,
-                                "abstract": p.abstract[:300] + "..." if len(p.abstract or "") > 300 else p.abstract,
-                                "doi": p.doi,
-                                "source": "pubmed",
-                            }
-                            for p in papers
-                        ]
+            if not PUBMED_BULK_AVAILABLE:
+                result["pubmed_error"] = "PubMed Bulk Processor not available"
+                return result
 
-                        logger.info(f"PubMed search found {len(papers)} papers for: {query}")
+            if not self.neo4j_client:
+                result["pubmed_error"] = "Neo4j client not available"
+                return result
 
-                        # === Step 3: 자동 임포트 (선택) ===
-                        if auto_import and papers:
-                            import_summary = await processor.import_papers(
-                                papers,
-                                skip_existing=True,
-                                owner=self.server.current_user,
-                                shared=True,
-                                max_concurrent=get_max_concurrent(),
-                            )
+            from graph.neo4j_client import Neo4jClient
 
-                            result["import_summary"] = {
-                                "imported": import_summary.imported,
-                                "skipped": import_summary.skipped,
-                                "failed": import_summary.failed,
-                                "total_chunks": import_summary.total_chunks,
-                            }
+            async with Neo4jClient() as fresh_neo4j:
+                processor = PubMedBulkProcessor(
+                    neo4j_client=fresh_neo4j,
+                    vector_db=None,
+                    pubmed_email=os.environ.get("NCBI_EMAIL"),
+                    pubmed_api_key=os.environ.get("NCBI_API_KEY"),
+                )
 
-                            logger.info(
-                                f"Auto-import: {import_summary.imported} imported, "
-                                f"{import_summary.skipped} skipped"
-                            )
-            else:
-                result["search_strategy"] = "local_only"
-                logger.info(f"Local results sufficient ({local_count} >= {min_local_results})")
+                # PubMed 검색
+                papers = await processor.search_pubmed(
+                    query=query,
+                    max_results=pubmed_max_results,
+                    year_from=year_from,
+                    year_to=year_to,
+                )
 
-            result["total_results"] = len(result["local_results"]) + len(result["pubmed_results"])
-            return result
+                if papers:
+                    result["pubmed_results"] = [
+                        {
+                            "pmid": p.pmid,
+                            "title": p.title,
+                            "authors": p.authors[:3],
+                            "year": p.year,
+                            "journal": p.journal,
+                            "abstract": p.abstract[:300] + "..." if len(p.abstract or "") > 300 else p.abstract,
+                            "doi": p.doi,
+                            "source": "pubmed",
+                        }
+                        for p in papers
+                    ]
+
+                    logger.info(f"PubMed search found {len(papers)} papers for: {query}")
+
+                    # === Step 3: 자동 임포트 (선택) ===
+                    if auto_import and papers:
+                        import_summary = await processor.import_papers(
+                            papers,
+                            skip_existing=True,
+                            owner=self.server.current_user,
+                            shared=True,
+                            max_concurrent=get_max_concurrent(),
+                        )
+
+                        result["import_summary"] = {
+                            "imported": import_summary.imported,
+                            "skipped": import_summary.skipped,
+                            "failed": import_summary.failed,
+                            "total_chunks": import_summary.total_chunks,
+                        }
+
+                        logger.info(
+                            f"Auto-import: {import_summary.imported} imported, "
+                            f"{import_summary.skipped} skipped"
+                        )
+        else:
+            result["search_strategy"] = "local_only"
+            logger.info(f"Local results sufficient ({local_count} >= {min_local_results})")
+
+        result["total_results"] = len(result["local_results"]) + len(result["pubmed_results"])
+        return result
+
+    # ========================================================================
+    # DOI Methods (v1.12.2+)
+    # ========================================================================
+
+    @staticmethod
+    def _validate_doi(doi: str) -> bool:
+        """DOI 형식 검증 (10.xxxx/... 패턴)."""
+        return bool(re.match(r'^10\.\d{4,}/.+$', str(doi).strip()))
+
+    @safe_execute
+    async def fetch_by_doi(
+        self,
+        doi: str,
+        download_pdf: bool = False,
+        import_to_graph: bool = False,
+    ) -> dict:
+        """DOI로 논문 메타데이터 및 전문 조회.
+
+        Args:
+            doi: DOI (예: "10.1016/j.spinee.2024.01.001")
+            download_pdf: PDF 다운로드 여부
+            import_to_graph: 그래프에 임포트 여부
+
+        Returns:
+            조회 결과
+        """
+        if not DOI_FETCHER_AVAILABLE:
+            return {"success": False, "error": "DOI Fulltext Fetcher not available"}
+
+        if not self._validate_doi(doi):
+            return {"success": False, "error": f"Invalid DOI format: '{doi}'. DOI must match pattern '10.xxxx/...'"}
+
+        fetcher = DOIFulltextFetcher()
+        try:
+            result = await fetcher.fetch(
+                doi=doi,
+                download_pdf=download_pdf,
+                fetch_pmc=True,
+            )
+
+            response = {
+                "success": True,
+                "doi": doi,
+                "has_metadata": result.has_metadata,
+                "has_fulltext": result.has_full_text,
+                "source": result.source,
+            }
+
+            if result.metadata:
+                response["metadata"] = {
+                    "title": result.metadata.title,
+                    "authors": result.metadata.authors,
+                    "journal": result.metadata.journal,
+                    "year": result.metadata.year,
+                    "abstract": result.metadata.abstract[:500] if result.metadata.abstract else None,
+                    "pmid": result.metadata.pmid,
+                    "pmcid": result.metadata.pmcid,
+                    "is_open_access": result.metadata.is_open_access,
+                    "oa_status": result.metadata.oa_status,
+                    "pdf_url": result.metadata.pdf_url,
+                    "cited_by_count": result.metadata.cited_by_count,
+                    "license_url": result.metadata.license_url,
+                }
+
+            if result.has_full_text:
+                response["fulltext_preview"] = result.full_text[:1000] if result.full_text else None
+                response["fulltext_length"] = len(result.full_text) if result.full_text else 0
+
+            if import_to_graph and result.metadata:
+                import_result = await self._import_doi_to_graph(result)
+                response["import_result"] = import_result
+
+            return response
+        finally:
+            await fetcher.close()
+
+    @safe_execute
+    async def get_doi_metadata(self, doi: str) -> dict:
+        """DOI 메타데이터만 조회 (전문 없이).
+
+        Args:
+            doi: DOI
+
+        Returns:
+            메타데이터
+        """
+        if not DOI_FETCHER_AVAILABLE:
+            return {"success": False, "error": "DOI Fulltext Fetcher not available"}
+
+        if not self._validate_doi(doi):
+            return {"success": False, "error": f"Invalid DOI format: '{doi}'. DOI must match pattern '10.xxxx/...'"}
+
+        fetcher = DOIFulltextFetcher()
+        try:
+            metadata = await fetcher.get_metadata_only(doi)
+
+            if not metadata:
+                return {"success": False, "error": f"No metadata found for DOI: {doi}"}
+
+            return {
+                "success": True,
+                "doi": doi,
+                "metadata": {
+                    "title": metadata.title,
+                    "authors": metadata.authors,
+                    "journal": metadata.journal,
+                    "year": metadata.year,
+                    "volume": metadata.volume,
+                    "issue": metadata.issue,
+                    "pages": metadata.pages,
+                    "abstract": metadata.abstract,
+                    "publisher": metadata.publisher,
+                    "issn": metadata.issn,
+                    "subjects": metadata.subjects,
+                    "pmid": metadata.pmid,
+                    "pmcid": metadata.pmcid,
+                    "is_open_access": metadata.is_open_access,
+                    "oa_status": metadata.oa_status,
+                    "pdf_url": metadata.pdf_url,
+                    "cited_by_count": metadata.cited_by_count,
+                    "references_count": metadata.references_count,
+                    "license_url": metadata.license_url,
+                },
+            }
+        finally:
+            await fetcher.close()
+
+    @safe_execute
+    async def import_by_doi(
+        self,
+        doi: str,
+        fetch_fulltext: bool = True,
+    ) -> dict:
+        """DOI로 논문을 그래프에 임포트.
+
+        Args:
+            doi: DOI
+            fetch_fulltext: 전문 조회 시도 여부
+
+        Returns:
+            임포트 결과
+        """
+        if not DOI_FETCHER_AVAILABLE:
+            return {"success": False, "error": "DOI Fulltext Fetcher not available"}
+
+        self._require_neo4j()
+
+        if not self._validate_doi(doi):
+            return {"success": False, "error": f"Invalid DOI format: '{doi}'. DOI must match pattern '10.xxxx/...'"}
+
+        fetcher = DOIFulltextFetcher()
+        try:
+            result = await fetcher.fetch(
+                doi=doi,
+                download_pdf=False,
+                fetch_pmc=fetch_fulltext,
+            )
+
+            if not result.metadata:
+                return {"success": False, "error": f"No metadata found for DOI: {doi}"}
+
+            import_result = await self._import_doi_to_graph(result)
+
+            return {
+                "success": True,
+                "doi": doi,
+                "import_result": import_result,
+            }
+        finally:
+            await fetcher.close()
+
+    async def _import_doi_to_graph(self, doi_result) -> dict:
+        """DOI 결과를 그래프에 임포트 (내부 메서드).
+
+        Args:
+            doi_result: DOI fetch 결과
+
+        Returns:
+            임포트 결과
+        """
+        if not doi_result.metadata:
+            return {"success": False, "error": "No metadata to import"}
+
+        meta = doi_result.metadata
+
+        # paper_id 생성 (PMID 우선, 없으면 DOI 기반)
+        if meta.pmid:
+            paper_id = f"pubmed_{meta.pmid}"
+        else:
+            safe_doi = meta.doi.replace("/", "_").replace(".", "-")
+            paper_id = f"doi_{safe_doi}"
+
+        try:
+            paper_data = {
+                "paper_id": paper_id,
+                "title": meta.title or "Unknown",
+                "authors": meta.authors or [],
+                "year": meta.year or 2024,
+                "journal": meta.journal or "Unknown",
+                "doi": meta.doi,
+                "pmid": meta.pmid,
+                "abstract": meta.abstract,
+                "source": "doi_import",
+                "is_open_access": meta.is_open_access,
+                "oa_status": meta.oa_status,
+            }
+
+            query = """
+            MERGE (p:Paper {paper_id: $paper_id})
+            SET p.title = $title,
+                p.authors = $authors,
+                p.year = $year,
+                p.journal = $journal,
+                p.doi = $doi,
+                p.pmid = $pmid,
+                p.abstract = $abstract,
+                p.source = $source,
+                p.is_open_access = $is_open_access,
+                p.oa_status = $oa_status,
+                p.created_at = datetime()
+            RETURN p.paper_id as paper_id
+            """
+            await self.neo4j_client.run_query(query, paper_data)
+
+            # Abstract 임베딩 자동 생성
+            if meta.abstract and len(meta.abstract.strip()) > 0:
+                await self.server._generate_abstract_embedding(paper_id, meta.abstract)
+
+            text_source = "none"
+            if doi_result.has_full_text and doi_result.full_text:
+                text_source = "fulltext"
+            elif meta.abstract:
+                text_source = "abstract"
+
+            return {
+                "success": True,
+                "paper_id": paper_id,
+                "text_source": text_source,
+                "method": "basic_metadata",
+            }
 
         except Exception as e:
-            logger.exception(f"Hybrid search error: {e}")
+            logger.exception(f"Graph import failed: {e}")
             return {"success": False, "error": str(e)}

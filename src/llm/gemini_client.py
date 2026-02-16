@@ -16,6 +16,7 @@ from google import genai
 from google.genai import types, errors
 from pydantic import BaseModel
 
+from core.exceptions import LLMError
 from .cache import LLMCache, generate_cache_key
 
 logger = logging.getLogger(__name__)
@@ -38,7 +39,7 @@ class GeminiConfig:
         if not self.api_key:
             self.api_key = os.environ.get("GEMINI_API_KEY", "")
         if not self.api_key:
-            raise ValueError(
+            raise LLMError(
                 "GEMINI_API_KEY 환경변수가 설정되지 않았습니다. "
                 "export GEMINI_API_KEY='your-api-key' 또는 "
                 "GeminiConfig(api_key='your-key')로 설정하세요."
@@ -544,7 +545,7 @@ class GeminiClient:
         sorted_results = []
         for r in results:
             if isinstance(r, Exception):
-                logger.error(f"배치 요청 실패: {r}")
+                logger.error(f"배치 요청 실패: {r}", exc_info=True)
                 continue
             sorted_results.append(r)
 

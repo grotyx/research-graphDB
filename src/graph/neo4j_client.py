@@ -148,13 +148,13 @@ class Neo4jClient:
                     logger.info(f"Connected to Neo4j: {self.config.uri}")
 
         except AuthError as e:
-            logger.error(f"Neo4j authentication failed: {e}")
+            logger.error(f"Neo4j authentication failed: {e}", exc_info=True)
             raise
         except ServiceUnavailable as e:
-            logger.error(f"Neo4j service unavailable: {e}")
+            logger.error(f"Neo4j service unavailable: {e}", exc_info=True)
             raise
         except Exception as e:
-            logger.error(f"Neo4j connection error: {e}")
+            logger.error(f"Neo4j connection error: {e}", exc_info=True)
             raise
 
     async def close(self) -> None:
@@ -242,7 +242,7 @@ class Neo4jClient:
                         raise Neo4jConnectionError(f"Neo4j service unavailable: {e}")
                     raise
                 except Exception as e:
-                    logger.error(f"Query execution failed: {e}")
+                    logger.error(f"Query execution failed: {e}", exc_info=True)
                     raise
 
         # Use circuit breaker if available
@@ -250,7 +250,7 @@ class Neo4jClient:
             try:
                 return await self._circuit_breaker.call(_execute_query)
             except Exception as e:
-                logger.error(f"Circuit breaker protected query failed: {e}")
+                logger.error(f"Circuit breaker protected query failed: {e}", exc_info=True)
                 raise
         else:
             return await _execute_query()
@@ -1174,7 +1174,7 @@ class Neo4jClient:
             )
             return result.get("relationships_created", 0) > 0 or result.get("properties_set", 0) > 0
         except Exception as e:
-            logger.error(f"Failed to create paper relation: {e}")
+            logger.error(f"Failed to create paper relation: {e}", exc_info=True)
             raise
 
     async def create_supports_relation(
@@ -1464,7 +1464,7 @@ class Neo4jClient:
             )
             return result.get("relationships_deleted", 0) > 0
         except Exception as e:
-            logger.error(f"Failed to delete paper relation: {e}")
+            logger.error(f"Failed to delete paper relation: {e}", exc_info=True)
             raise
 
     async def update_paper_relation_confidence(
@@ -1514,7 +1514,7 @@ class Neo4jClient:
             )
             return result.get("properties_set", 0) > 0
         except Exception as e:
-            logger.error(f"Failed to update paper relation confidence: {e}")
+            logger.error(f"Failed to update paper relation confidence: {e}", exc_info=True)
             raise
 
     # ========================================================================
@@ -1620,7 +1620,7 @@ class Neo4jClient:
             )
             return result
         except Exception as e:
-            logger.error(f"Failed to delete paper {paper_id}: {e}")
+            logger.error(f"Failed to delete paper {paper_id}: {e}", exc_info=True)
             raise
 
     async def delete_all_papers(self) -> dict:
@@ -1647,7 +1647,7 @@ class Neo4jClient:
             )
             return result
         except Exception as e:
-            logger.error(f"Failed to delete all papers: {e}")
+            logger.error(f"Failed to delete all papers: {e}", exc_info=True)
             raise
 
     async def clear_database(self) -> dict:
@@ -1680,7 +1680,7 @@ class Neo4jClient:
             )
             return result
         except Exception as e:
-            logger.error(f"Failed to clear database: {e}")
+            logger.error(f"Failed to clear database: {e}", exc_info=True)
             raise
 
     async def clear_all_including_taxonomy(self) -> dict:
@@ -1713,7 +1713,7 @@ class Neo4jClient:
             )
             return result
         except Exception as e:
-            logger.error(f"Failed to clear full database: {e}")
+            logger.error(f"Failed to clear full database: {e}", exc_info=True)
             raise
 
 

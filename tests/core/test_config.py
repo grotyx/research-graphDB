@@ -20,7 +20,6 @@ from core.config import (
     get_config,
     get_neo4j_config,
     get_llm_config,
-    get_chromadb_config,
     get_normalization_config,
     get_threshold,
     reload_config,
@@ -44,10 +43,6 @@ neo4j:
   password: ${NEO4J_PASSWORD:test_pass}
   database: test_db
   max_connection_pool_size: 25
-
-chromadb:
-  path: ./test_data/chromadb
-  collection_name: test_collection
 
 llm:
   provider: gemini
@@ -136,7 +131,6 @@ def test_config_loading_from_file(temp_config_file, reset_config):
 
     assert config.version == "3.1"
     assert config.neo4j.database == "test_db"
-    assert config.chromadb.collection_name == "test_collection"
     assert config.llm.temperature == 0.2
 
 
@@ -296,15 +290,6 @@ def test_get_llm_config_helper(temp_config_file, reset_config):
     assert llm.max_tokens == 4096
 
 
-def test_get_chromadb_config_helper(temp_config_file, reset_config):
-    """Test get_chromadb_config() helper function."""
-    manager = ConfigManager()
-    manager.load(temp_config_file)
-
-    chromadb = get_chromadb_config()
-    assert chromadb.collection_name == "test_collection"
-
-
 def test_get_normalization_config_helper(temp_config_file, reset_config):
     """Test get_normalization_config() helper function."""
     manager = ConfigManager()
@@ -413,7 +398,6 @@ neo4j:
         config = manager.load(temp_path)
 
         # Check defaults are applied
-        assert config.chromadb.collection_name == "spine_papers"
         assert config.llm.temperature == 0.1
         assert config.search.default_top_k == 10
         assert config.ranker.default_graph_weight == 0.6

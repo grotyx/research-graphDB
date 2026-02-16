@@ -1905,42 +1905,48 @@ class RelationshipBuilder:
         Returns:
             Number of relationships created
         """
-        count = 0
+        if not risk_factors:
+            return 0
 
+        items = []
         for rf_dict in risk_factors:
             name = rf_dict.get("name")
             if not name:
                 continue
+            items.append({
+                "name": name,
+                "category": rf_dict.get("category", ""),
+                "variable_type": rf_dict.get("variable_type", ""),
+                "odds_ratio": rf_dict.get("odds_ratio"),
+                "hazard_ratio": rf_dict.get("hazard_ratio"),
+                "p_value": rf_dict.get("p_value"),
+                "outcome_affected": rf_dict.get("outcome_affected", ""),
+            })
 
-            try:
-                # Create RiskFactor node
-                await self.client.run_query(
-                    CREATE_RISK_FACTOR_CYPHER,
-                    {
-                        "name": name,
-                        "category": rf_dict.get("category", ""),
-                        "variable_type": rf_dict.get("variable_type", ""),
-                    }
-                )
+        if not items:
+            return 0
 
-                # Create HAS_RISK_FACTOR relationship
-                await self.client.run_query(
-                    CREATE_HAS_RISK_FACTOR_REL_CYPHER,
-                    {
-                        "paper_id": paper_id,
-                        "risk_factor_name": name,
-                        "odds_ratio": rf_dict.get("odds_ratio"),
-                        "hazard_ratio": rf_dict.get("hazard_ratio"),
-                        "p_value": rf_dict.get("p_value"),
-                        "outcome_affected": rf_dict.get("outcome_affected", ""),
-                    }
-                )
-                count += 1
-
-            except Exception as e:
-                logger.warning(f"Failed to create risk factor {name}: {e}")
-
-        return count
+        try:
+            await self.client.run_query(
+                """
+                UNWIND $items AS item
+                MERGE (rf:RiskFactor {name: item.name})
+                ON CREATE SET rf.category = item.category, rf.variable_type = item.variable_type
+                WITH rf, item
+                MATCH (p:Paper {paper_id: $paper_id})
+                MERGE (p)-[r:HAS_RISK_FACTOR]->(rf)
+                ON CREATE SET
+                    r.odds_ratio = item.odds_ratio,
+                    r.hazard_ratio = item.hazard_ratio,
+                    r.p_value = item.p_value,
+                    r.outcome_affected = item.outcome_affected
+                """,
+                {"items": items, "paper_id": paper_id}
+            )
+            return len(items)
+        except Exception as e:
+            logger.warning(f"Failed to create risk factor relationships: {e}")
+            return 0
 
     async def _create_complication_relationships(
         self,
@@ -1962,44 +1968,45 @@ class RelationshipBuilder:
         Returns:
             Number of relationships created
         """
-        count = 0
+        if not complications:
+            return 0
 
         # Normalize intervention name
         norm_intervention = self.normalizer.normalize_intervention(intervention_name)
         intervention_name = norm_intervention.normalized
 
+        items = []
         for comp_dict in complications:
             name = comp_dict.get("name")
             if not name:
                 continue
+            items.append({
+                "name": name,
+                "category": comp_dict.get("category", ""),
+                "severity": comp_dict.get("severity", ""),
+                "incidence_rate": comp_dict.get("incidence_rate", ""),
+            })
 
-            try:
-                # Create Complication node
-                await self.client.run_query(
-                    CREATE_COMPLICATION_CYPHER,
-                    {
-                        "name": name,
-                        "category": comp_dict.get("category", ""),
-                        "severity": comp_dict.get("severity", ""),
-                    }
-                )
+        if not items:
+            return 0
 
-                # Create CAUSES relationship
-                await self.client.run_query(
-                    CREATE_CAUSES_REL_CYPHER,
-                    {
-                        "intervention_name": intervention_name,
-                        "complication_name": name,
-                        "incidence_rate": comp_dict.get("incidence_rate", ""),
-                        "source_paper_id": paper_id,
-                    }
-                )
-                count += 1
-
-            except Exception as e:
-                logger.warning(f"Failed to create complication {name}: {e}")
-
-        return count
+        try:
+            await self.client.run_query(
+                """
+                UNWIND $items AS item
+                MERGE (c:Complication {name: item.name})
+                ON CREATE SET c.category = item.category, c.severity = item.severity
+                WITH c, item
+                MATCH (i:Intervention {name: $intervention_name})
+                MERGE (i)-[r:CAUSES]->(c)
+                ON CREATE SET r.incidence_rate = item.incidence_rate, r.source_paper_id = $source_paper_id
+                """,
+                {"items": items, "intervention_name": intervention_name, "source_paper_id": paper_id}
+            )
+            return len(items)
+        except Exception as e:
+            logger.warning(f"Failed to create complication relationships: {e}")
+            return 0
 
     async def _create_radiographic_relationships(
         self,
@@ -2023,55 +2030,65 @@ class RelationshipBuilder:
         Returns:
             Number of relationships created
         """
-        count = 0
+        if not correlations:
+            return 0
 
+        items = []
         for corr_dict in correlations:
             radio_param = corr_dict.get("radio_parameter")
             outcome_measure = corr_dict.get("outcome_measure")
-
             if not radio_param or not outcome_measure:
                 continue
+            items.append({
+                "radio_param": radio_param,
+                "radio_category": corr_dict.get("radio_category", ""),
+                "radio_unit": corr_dict.get("radio_unit", ""),
+                "outcome_measure": outcome_measure,
+                "outcome_category": corr_dict.get("outcome_category", ""),
+                "outcome_unit": corr_dict.get("outcome_unit", ""),
+                "r_value": corr_dict.get("r_value"),
+                "p_value": corr_dict.get("p_value"),
+            })
 
-            try:
-                # Create RadioParameter node
-                await self.client.run_query(
-                    CREATE_RADIO_PARAMETER_CYPHER,
-                    {
-                        "name": radio_param,
-                        "category": corr_dict.get("radio_category", ""),
-                        "unit": corr_dict.get("radio_unit", ""),
-                    }
-                )
+        if not items:
+            return 0
 
-                # Create OutcomeMeasure node
-                await self.client.run_query(
-                    CREATE_OUTCOME_MEASURE_CYPHER,
-                    {
-                        "name": outcome_measure,
-                        "category": corr_dict.get("outcome_category", ""),
-                        "unit": corr_dict.get("outcome_unit", ""),
-                    }
-                )
+        try:
+            # Step 1: Create RadioParameter nodes
+            await self.client.run_query(
+                """
+                UNWIND $items AS item
+                MERGE (rp:RadioParameter {name: item.radio_param})
+                ON CREATE SET rp.category = item.radio_category, rp.unit = item.radio_unit
+                """,
+                {"items": items}
+            )
 
-                # Create CORRELATES relationship
-                await self.client.run_query(
-                    CREATE_CORRELATES_REL_CYPHER,
-                    {
-                        "radio_param_name": radio_param,
-                        "outcome_measure_name": outcome_measure,
-                        "r_value": corr_dict.get("r_value"),
-                        "p_value": corr_dict.get("p_value"),
-                        "source_paper_id": paper_id,
-                    }
-                )
-                count += 1
+            # Step 2: Create OutcomeMeasure nodes
+            await self.client.run_query(
+                """
+                UNWIND $items AS item
+                MERGE (om:OutcomeMeasure {name: item.outcome_measure})
+                ON CREATE SET om.category = item.outcome_category, om.unit = item.outcome_unit
+                """,
+                {"items": items}
+            )
 
-            except Exception as e:
-                logger.warning(
-                    f"Failed to create correlation {radio_param} → {outcome_measure}: {e}"
-                )
-
-        return count
+            # Step 3: Create CORRELATES relationships
+            await self.client.run_query(
+                """
+                UNWIND $items AS item
+                MATCH (rp:RadioParameter {name: item.radio_param})
+                MATCH (om:OutcomeMeasure {name: item.outcome_measure})
+                MERGE (rp)-[r:CORRELATES]->(om)
+                ON CREATE SET r.r_value = item.r_value, r.p_value = item.p_value, r.source_paper_id = $source_paper_id
+                """,
+                {"items": items, "source_paper_id": paper_id}
+            )
+            return len(items)
+        except Exception as e:
+            logger.warning(f"Failed to create radiographic relationships: {e}")
+            return 0
 
     async def _create_prediction_model_relationships(
         self,
@@ -2095,74 +2112,98 @@ class RelationshipBuilder:
         Returns:
             Number of models created
         """
-        count = 0
+        if not models:
+            return 0
+
+        model_items = []
+        predict_items = []
+        feature_items = []
 
         for model_dict in models:
             model_name = model_dict.get("name")
             if not model_name:
                 continue
 
-            try:
-                # Create PredictionModel node
-                features = model_dict.get("features", [])
+            features = model_dict.get("features", [])
+            model_items.append({
+                "name": model_name,
+                "model_type": model_dict.get("model_type", ""),
+                "auc": model_dict.get("auc"),
+                "accuracy": model_dict.get("accuracy"),
+                "sensitivity": model_dict.get("sensitivity"),
+                "specificity": model_dict.get("specificity"),
+                "features": features,
+            })
+
+            predicted_outcome = model_dict.get("predicted_outcome")
+            if predicted_outcome:
+                predict_items.append({
+                    "model_name": model_name,
+                    "outcome_name": predicted_outcome,
+                    "auc": model_dict.get("auc"),
+                    "accuracy": model_dict.get("accuracy"),
+                })
+
+            for feature in features:
+                if feature:
+                    feature_items.append({
+                        "model_name": model_name,
+                        "feature_name": feature,
+                    })
+
+        if not model_items:
+            return 0
+
+        try:
+            # Step 1: Create PredictionModel nodes
+            await self.client.run_query(
+                """
+                UNWIND $items AS item
+                MERGE (pm:PredictionModel {name: item.name})
+                ON CREATE SET
+                    pm.model_type = item.model_type,
+                    pm.auc = item.auc,
+                    pm.accuracy = item.accuracy,
+                    pm.sensitivity = item.sensitivity,
+                    pm.specificity = item.specificity,
+                    pm.features = item.features,
+                    pm.source_paper_id = $source_paper_id
+                """,
+                {"items": model_items, "source_paper_id": paper_id}
+            )
+
+            # Step 2: Create PREDICTS relationships
+            if predict_items:
                 await self.client.run_query(
-                    CREATE_PREDICTION_MODEL_CYPHER,
-                    {
-                        "name": model_name,
-                        "model_type": model_dict.get("model_type", ""),
-                        "auc": model_dict.get("auc"),
-                        "accuracy": model_dict.get("accuracy"),
-                        "sensitivity": model_dict.get("sensitivity"),
-                        "specificity": model_dict.get("specificity"),
-                        "features": features,
-                        "source_paper_id": paper_id,
-                    }
+                    """
+                    UNWIND $items AS item
+                    MATCH (pm:PredictionModel {name: item.model_name})
+                    MATCH (o:Outcome {name: item.outcome_name})
+                    MERGE (pm)-[r:PREDICTS]->(o)
+                    ON CREATE SET r.auc = item.auc, r.accuracy = item.accuracy
+                    """,
+                    {"items": predict_items}
                 )
 
-                # Create PREDICTS relationship to outcome
-                predicted_outcome = model_dict.get("predicted_outcome")
-                if predicted_outcome:
-                    await self.client.run_query(
-                        CREATE_PREDICTS_REL_CYPHER,
-                        {
-                            "model_name": model_name,
-                            "outcome_name": predicted_outcome,
-                            "auc": model_dict.get("auc"),
-                            "accuracy": model_dict.get("accuracy"),
-                        }
-                    )
+            # Step 3: Create RiskFactor nodes and USES_FEATURE relationships
+            if feature_items:
+                await self.client.run_query(
+                    """
+                    UNWIND $items AS item
+                    MERGE (rf:RiskFactor {name: item.feature_name})
+                    ON CREATE SET rf.category = '', rf.variable_type = ''
+                    WITH rf, item
+                    MATCH (pm:PredictionModel {name: item.model_name})
+                    MERGE (pm)-[r:USES_FEATURE]->(rf)
+                    ON CREATE SET r.importance = null
+                    """,
+                    {"items": feature_items}
+                )
 
-                # Create USES_FEATURE relationships
-                for feature in features:
-                    if not feature:
-                        continue
-
-                    # Create RiskFactor node if not exists
-                    await self.client.run_query(
-                        CREATE_RISK_FACTOR_CYPHER,
-                        {
-                            "name": feature,
-                            "category": "",
-                            "variable_type": "",
-                        }
-                    )
-
-                    # Create USES_FEATURE relationship
-                    await self.client.run_query(
-                        CREATE_USES_FEATURE_REL_CYPHER,
-                        {
-                            "model_name": model_name,
-                            "risk_factor_name": feature,
-                            "importance": None,  # Could be extracted from model if available
-                        }
-                    )
-
-                count += 1
-
-            except Exception as e:
-                logger.warning(f"Failed to create prediction model {model_name}: {e}")
-
-        return count
+            return len(model_items)
+        except Exception as e:
+            logger.warning(f"Failed to create prediction model relationships: {e}")
+            return 0
 
     async def _create_uses_device_relationships(
         self,
@@ -2182,39 +2223,41 @@ class RelationshipBuilder:
         Returns:
             Number of relationships created
         """
-        count = 0
+        if not implants:
+            return 0
 
         # Normalize intervention name
         norm_intervention = self.normalizer.normalize_intervention(intervention_name)
         intervention_name = norm_intervention.normalized
 
+        items = []
         for implant_dict in implants:
             implant_name = implant_dict.get("name")
             if not implant_name:
                 continue
+            items.append({
+                "implant_name": implant_name,
+                "frequency": implant_dict.get("frequency", ""),
+            })
 
-            try:
-                # Note: Implant node should already exist from schema initialization
-                # If not, it will fail here (by design - we want explicit implant management)
+        if not items:
+            return 0
 
-                # Create USES_DEVICE relationship
-                await self.client.run_query(
-                    CREATE_USES_DEVICE_REL_CYPHER,
-                    {
-                        "intervention_name": intervention_name,
-                        "implant_name": implant_name,
-                        "frequency": implant_dict.get("frequency", ""),
-                        "source_paper_id": paper_id,
-                    }
-                )
-                count += 1
-
-            except Exception as e:
-                logger.warning(
-                    f"Failed to create USES_DEVICE for {intervention_name} → {implant_name}: {e}"
-                )
-
-        return count
+        try:
+            await self.client.run_query(
+                """
+                UNWIND $items AS item
+                MATCH (i:Intervention {name: $intervention_name})
+                MATCH (impl:Implant {name: item.implant_name})
+                MERGE (i)-[r:USES_DEVICE]->(impl)
+                ON CREATE SET r.frequency = item.frequency, r.source_paper_id = $source_paper_id
+                """,
+                {"items": items, "intervention_name": intervention_name, "source_paper_id": paper_id}
+            )
+            return len(items)
+        except Exception as e:
+            logger.warning(f"Failed to create USES_DEVICE relationships for {intervention_name}: {e}")
+            return 0
 
     # ===== v1.2 New Relationship Methods =====
 
@@ -2240,62 +2283,89 @@ class RelationshipBuilder:
         Returns:
             Number of relationships created
         """
-        count = 0
+        if not cohorts:
+            return 0
+
+        cohort_items = []
+        treated_with_items = []
 
         for cohort_dict in cohorts:
             name = cohort_dict.get("name")
             if not name:
                 continue
 
-            try:
-                # Create PatientCohort node
+            role = cohort_dict.get("cohort_type", "")
+            is_primary = cohort_dict.get("cohort_type") == "total" or len(cohorts) == 1
+            cohort_items.append({
+                "name": name,
+                "cohort_type": role,
+                "sample_size": cohort_dict.get("sample_size", 0),
+                "mean_age": cohort_dict.get("mean_age", 0.0),
+                "age_sd": cohort_dict.get("age_sd", 0.0),
+                "female_percentage": cohort_dict.get("female_percentage", 0.0),
+                "diagnosis": cohort_dict.get("diagnosis", ""),
+                "is_primary": is_primary,
+                "role": role,
+            })
+
+            intervention_name = cohort_dict.get("intervention_name")
+            if intervention_name:
+                norm_intervention = self.normalizer.normalize_intervention(intervention_name)
+                treated_with_items.append({
+                    "cohort_name": name,
+                    "intervention_name": norm_intervention.normalized,
+                    "n_patients": cohort_dict.get("sample_size", 0),
+                })
+
+        if not cohort_items:
+            return 0
+
+        try:
+            # Step 1: Create PatientCohort nodes
+            await self.client.run_query(
+                """
+                UNWIND $items AS item
+                MERGE (pc:PatientCohort {name: item.name, source_paper_id: $paper_id})
+                ON CREATE SET
+                    pc.cohort_type = item.cohort_type,
+                    pc.sample_size = item.sample_size,
+                    pc.mean_age = item.mean_age,
+                    pc.age_sd = item.age_sd,
+                    pc.female_percentage = item.female_percentage,
+                    pc.diagnosis = item.diagnosis
+                """,
+                {"items": cohort_items, "paper_id": paper_id}
+            )
+
+            # Step 2: Create HAS_COHORT relationships
+            await self.client.run_query(
+                """
+                UNWIND $items AS item
+                MATCH (p:Paper {paper_id: $paper_id})
+                MATCH (pc:PatientCohort {name: item.name, source_paper_id: $paper_id})
+                MERGE (p)-[r:HAS_COHORT]->(pc)
+                ON CREATE SET r.is_primary = item.is_primary, r.role = item.role
+                """,
+                {"items": cohort_items, "paper_id": paper_id}
+            )
+
+            # Step 3: Create TREATED_WITH relationships
+            if treated_with_items:
                 await self.client.run_query(
-                    CREATE_PATIENT_COHORT_CYPHER,
-                    {
-                        "name": name,
-                        "source_paper_id": paper_id,
-                        "cohort_type": cohort_dict.get("cohort_type", ""),
-                        "sample_size": cohort_dict.get("sample_size", 0),
-                        "mean_age": cohort_dict.get("mean_age", 0.0),
-                        "age_sd": cohort_dict.get("age_sd", 0.0),
-                        "female_percentage": cohort_dict.get("female_percentage", 0.0),
-                        "diagnosis": cohort_dict.get("diagnosis", ""),
-                    }
+                    """
+                    UNWIND $items AS item
+                    MATCH (pc:PatientCohort {name: item.cohort_name, source_paper_id: $paper_id})
+                    MATCH (i:Intervention {name: item.intervention_name})
+                    MERGE (pc)-[r:TREATED_WITH]->(i)
+                    ON CREATE SET r.n_patients = item.n_patients, r.source_paper_id = $paper_id
+                    """,
+                    {"items": treated_with_items, "paper_id": paper_id}
                 )
 
-                # Create HAS_COHORT relationship
-                role = cohort_dict.get("cohort_type", "")
-                is_primary = cohort_dict.get("cohort_type") == "total" or len(cohorts) == 1
-                await self.client.run_query(
-                    CREATE_HAS_COHORT_REL_CYPHER,
-                    {
-                        "paper_id": paper_id,
-                        "cohort_name": name,
-                        "is_primary": is_primary,
-                        "role": role,
-                    }
-                )
-
-                # Create TREATED_WITH relationship if intervention is specified
-                intervention_name = cohort_dict.get("intervention_name")
-                if intervention_name:
-                    norm_intervention = self.normalizer.normalize_intervention(intervention_name)
-                    await self.client.run_query(
-                        CREATE_TREATED_WITH_REL_CYPHER,
-                        {
-                            "cohort_name": name,
-                            "source_paper_id": paper_id,
-                            "intervention_name": norm_intervention.normalized,
-                            "n_patients": cohort_dict.get("sample_size", 0),
-                        }
-                    )
-
-                count += 1
-
-            except Exception as e:
-                logger.warning(f"Failed to create cohort {name}: {e}")
-
-        return count
+            return len(cohort_items)
+        except Exception as e:
+            logger.warning(f"Failed to create cohort relationships: {e}")
+            return 0
 
     async def _create_followup_relationships(
         self,
@@ -2318,64 +2388,86 @@ class RelationshipBuilder:
         Returns:
             Number of relationships created
         """
-        count = 0
+        if not followups:
+            return 0
+
+        fu_items = []
+        outcome_items = []
 
         for fu_dict in followups:
             name = fu_dict.get("name")
             if not name:
                 continue
 
-            try:
-                # Create FollowUp node
+            fu_items.append({
+                "name": name,
+                "timepoint_months": fu_dict.get("timepoint_months", 0),
+                "timepoint_type": fu_dict.get("timepoint_type", ""),
+                "mean_followup_months": fu_dict.get("mean_followup_months", 0.0),
+                "completeness_rate": fu_dict.get("completeness_rate", 0.0),
+                "is_primary_endpoint": fu_dict.get("is_primary_endpoint", False),
+            })
+
+            # Flatten outcomes for this followup
+            outcomes_at_fu = fu_dict.get("outcomes", [])
+            for outcome_dict in outcomes_at_fu:
+                outcome_name = outcome_dict.get("outcome_name")
+                if not outcome_name:
+                    continue
+                outcome_items.append({
+                    "followup_name": name,
+                    "outcome_name": outcome_name,
+                    "value": outcome_dict.get("value"),
+                    "improvement": outcome_dict.get("improvement", ""),
+                })
+
+        if not fu_items:
+            return 0
+
+        try:
+            # Step 1: Create FollowUp nodes
+            await self.client.run_query(
+                """
+                UNWIND $items AS item
+                MERGE (fu:FollowUp {name: item.name, source_paper_id: $paper_id})
+                ON CREATE SET
+                    fu.timepoint_months = item.timepoint_months,
+                    fu.timepoint_type = item.timepoint_type,
+                    fu.mean_followup_months = item.mean_followup_months,
+                    fu.completeness_rate = item.completeness_rate
+                """,
+                {"items": fu_items, "paper_id": paper_id}
+            )
+
+            # Step 2: Create HAS_FOLLOWUP relationships
+            await self.client.run_query(
+                """
+                UNWIND $items AS item
+                MATCH (p:Paper {paper_id: $paper_id})
+                MATCH (fu:FollowUp {name: item.name, source_paper_id: $paper_id})
+                MERGE (p)-[r:HAS_FOLLOWUP]->(fu)
+                ON CREATE SET r.is_primary_endpoint = item.is_primary_endpoint
+                """,
+                {"items": fu_items, "paper_id": paper_id}
+            )
+
+            # Step 3: Create REPORTS_OUTCOME relationships
+            if outcome_items:
                 await self.client.run_query(
-                    CREATE_FOLLOWUP_CYPHER,
-                    {
-                        "name": name,
-                        "source_paper_id": paper_id,
-                        "timepoint_months": fu_dict.get("timepoint_months", 0),
-                        "timepoint_type": fu_dict.get("timepoint_type", ""),
-                        "mean_followup_months": fu_dict.get("mean_followup_months", 0.0),
-                        "completeness_rate": fu_dict.get("completeness_rate", 0.0),
-                    }
+                    """
+                    UNWIND $items AS item
+                    MATCH (fu:FollowUp {name: item.followup_name, source_paper_id: $paper_id})
+                    MATCH (o:Outcome {name: item.outcome_name})
+                    MERGE (fu)-[r:REPORTS_OUTCOME]->(o)
+                    ON CREATE SET r.value = item.value, r.improvement = item.improvement, r.source_paper_id = $paper_id
+                    """,
+                    {"items": outcome_items, "paper_id": paper_id}
                 )
 
-                # Create HAS_FOLLOWUP relationship
-                await self.client.run_query(
-                    CREATE_HAS_FOLLOWUP_REL_CYPHER,
-                    {
-                        "paper_id": paper_id,
-                        "followup_name": name,
-                        "is_primary_endpoint": fu_dict.get("is_primary_endpoint", False),
-                    }
-                )
-
-                # Create REPORTS_OUTCOME relationships for outcomes at this timepoint
-                outcomes_at_fu = fu_dict.get("outcomes", [])
-                for outcome_dict in outcomes_at_fu:
-                    outcome_name = outcome_dict.get("outcome_name")
-                    if not outcome_name:
-                        continue
-
-                    try:
-                        await self.client.run_query(
-                            CREATE_REPORTS_OUTCOME_REL_CYPHER,
-                            {
-                                "followup_name": name,
-                                "source_paper_id": paper_id,
-                                "outcome_name": outcome_name,
-                                "value": outcome_dict.get("value"),
-                                "improvement": outcome_dict.get("improvement", ""),
-                            }
-                        )
-                    except Exception as e:
-                        logger.warning(f"Failed to create REPORTS_OUTCOME for {name} → {outcome_name}: {e}")
-
-                count += 1
-
-            except Exception as e:
-                logger.warning(f"Failed to create followup {name}: {e}")
-
-        return count
+            return len(fu_items)
+        except Exception as e:
+            logger.warning(f"Failed to create followup relationships: {e}")
+            return 0
 
     async def _create_cost_relationships(
         self,
@@ -2399,58 +2491,84 @@ class RelationshipBuilder:
         Returns:
             Number of relationships created
         """
-        count = 0
+        if not costs:
+            return 0
+
+        cost_items = []
+        associated_items = []
 
         for cost_dict in costs:
             name = cost_dict.get("name")
             if not name:
                 continue
 
-            try:
-                # Create Cost node
+            cost_items.append({
+                "name": name,
+                "cost_type": cost_dict.get("cost_type", ""),
+                "mean_cost": cost_dict.get("mean_cost", 0.0),
+                "currency": cost_dict.get("currency", "USD"),
+                "qaly_gained": cost_dict.get("qaly_gained", 0.0),
+                "icer": cost_dict.get("icer", 0.0),
+                "is_primary_analysis": cost_dict.get("is_primary_analysis", True),
+            })
+
+            intervention_name = cost_dict.get("intervention_name")
+            if intervention_name:
+                norm_intervention = self.normalizer.normalize_intervention(intervention_name)
+                associated_items.append({
+                    "cost_name": name,
+                    "intervention_name": norm_intervention.normalized,
+                    "cost_value": cost_dict.get("mean_cost", 0.0),
+                })
+
+        if not cost_items:
+            return 0
+
+        try:
+            # Step 1: Create Cost nodes
+            await self.client.run_query(
+                """
+                UNWIND $items AS item
+                MERGE (c:Cost {name: item.name, source_paper_id: $paper_id})
+                ON CREATE SET
+                    c.cost_type = item.cost_type,
+                    c.mean_cost = item.mean_cost,
+                    c.currency = item.currency,
+                    c.qaly_gained = item.qaly_gained,
+                    c.icer = item.icer
+                """,
+                {"items": cost_items, "paper_id": paper_id}
+            )
+
+            # Step 2: Create REPORTS_COST relationships
+            await self.client.run_query(
+                """
+                UNWIND $items AS item
+                MATCH (p:Paper {paper_id: $paper_id})
+                MATCH (c:Cost {name: item.name, source_paper_id: $paper_id})
+                MERGE (p)-[r:REPORTS_COST]->(c)
+                ON CREATE SET r.is_primary_analysis = item.is_primary_analysis
+                """,
+                {"items": cost_items, "paper_id": paper_id}
+            )
+
+            # Step 3: Create ASSOCIATED_WITH relationships
+            if associated_items:
                 await self.client.run_query(
-                    CREATE_COST_CYPHER,
-                    {
-                        "name": name,
-                        "source_paper_id": paper_id,
-                        "cost_type": cost_dict.get("cost_type", ""),
-                        "mean_cost": cost_dict.get("mean_cost", 0.0),
-                        "currency": cost_dict.get("currency", "USD"),
-                        "qaly_gained": cost_dict.get("qaly_gained", 0.0),
-                        "icer": cost_dict.get("icer", 0.0),
-                    }
+                    """
+                    UNWIND $items AS item
+                    MATCH (c:Cost {name: item.cost_name, source_paper_id: $paper_id})
+                    MATCH (i:Intervention {name: item.intervention_name})
+                    MERGE (c)-[r:ASSOCIATED_WITH]->(i)
+                    ON CREATE SET r.cost_value = item.cost_value, r.source_paper_id = $paper_id
+                    """,
+                    {"items": associated_items, "paper_id": paper_id}
                 )
 
-                # Create REPORTS_COST relationship
-                await self.client.run_query(
-                    CREATE_REPORTS_COST_REL_CYPHER,
-                    {
-                        "paper_id": paper_id,
-                        "cost_name": name,
-                        "is_primary_analysis": cost_dict.get("is_primary_analysis", True),
-                    }
-                )
-
-                # Create ASSOCIATED_WITH relationship if intervention is specified
-                intervention_name = cost_dict.get("intervention_name")
-                if intervention_name:
-                    norm_intervention = self.normalizer.normalize_intervention(intervention_name)
-                    await self.client.run_query(
-                        CREATE_COST_ASSOCIATED_WITH_REL_CYPHER,
-                        {
-                            "cost_name": name,
-                            "source_paper_id": paper_id,
-                            "intervention_name": norm_intervention.normalized,
-                            "cost_value": cost_dict.get("mean_cost", 0.0),
-                        }
-                    )
-
-                count += 1
-
-            except Exception as e:
-                logger.warning(f"Failed to create cost {name}: {e}")
-
-        return count
+            return len(cost_items)
+        except Exception as e:
+            logger.warning(f"Failed to create cost relationships: {e}")
+            return 0
 
     async def _create_quality_metric_relationships(
         self,

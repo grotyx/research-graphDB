@@ -13,6 +13,7 @@ Features:
 
 import asyncio
 import logging
+import threading
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
@@ -37,7 +38,6 @@ from .exceptions import (
     ProcessingError,
     LLMError,
     Neo4jError,
-    ChromaDBError as _ChromaDBError,
     NormalizationError,
     ExtractionError,
     PubMedError,
@@ -60,11 +60,6 @@ class Neo4jConnectionError(Neo4jError):
             error_code=ErrorCode.NEO4J_CONNECTION,
             details=details
         )
-
-
-class ChromaDBError(_ChromaDBError):
-    """ChromaDB error - re-exported for backward compatibility."""
-    pass
 
 
 class LLMRateLimitError(LLMError):
@@ -165,7 +160,6 @@ class RetryConfig:
     jitter: bool = True
     retryable_exceptions: tuple = (
         Neo4jConnectionError,
-        ChromaDBError,
         LLMRateLimitError,
         LLMTimeoutError,
         ServiceUnavailableError,
@@ -400,12 +394,13 @@ def with_retry(config: RetryConfig = None):
                         await asyncio.sleep(delay)
                     else:
                         logger.error(
-                            f"{func.__name__} failed after {retry_config.max_retries + 1} attempts"
+                            f"{func.__name__} failed after {retry_config.max_retries + 1} attempts",
+                            exc_info=True
                         )
 
                 except Exception as e:
                     # Non-retryable exception, raise immediately
-                    logger.error(f"{func.__name__} failed with non-retryable error: {e}")
+                    logger.error(f"{func.__name__} failed with non-retryable error: {e}", exc_info=True)
                     raise
 
             # All retries exhausted
@@ -481,7 +476,7 @@ async def with_fallback(
             )
 
         except Exception as fallback_error:
-            logger.error(f"Fallback also failed: {fallback_error}")
+            logger.error(f"Fallback also failed: {fallback_error}", exc_info=True)
             return DegradedResponse(
                 success=False,
                 degraded=True,
@@ -600,6 +595,7 @@ class ErrorReporter:
 
 # Global error reporter instance
 _global_reporter: Optional[ErrorReporter] = None
+_reporter_lock = threading.Lock()
 
 
 def get_error_reporter() -> ErrorReporter:
@@ -610,7 +606,9 @@ def get_error_reporter() -> ErrorReporter:
     """
     global _global_reporter
     if _global_reporter is None:
-        _global_reporter = ErrorReporter()
+        with _reporter_lock:
+            if _global_reporter is None:
+                _global_reporter = ErrorReporter()
     return _global_reporter
 
 
@@ -634,7 +632,7 @@ async def example_usage():
         result = await unstable_api_call()
         logger.info(f"API call succeeded: {result}")
     except LLMRateLimitError:
-        logger.error("API call failed after all retries")
+        logger.error("API call failed after all retries", exc_info=True)
 
     # 2. Circuit breaker for external service
     breaker = CircuitBreaker("gemini_api", CircuitBreakerConfig(failure_threshold=3))

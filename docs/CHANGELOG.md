@@ -2,6 +2,204 @@
 
 ## Version History
 
+### v1.19.4 (2026-02-16): rest_api.py 속성명 오류 수정 + 핸들러 라우팅 정리 + 고립 논문 85건 복구
+
+#### rest_api.py 수정
+
+| # | 변경 | 파일 |
+|---|------|------|
+| 1 | **속성명 수정**: `kag_server.llm_enabled` → `getattr(kag_server, "enable_llm", False)` (런타임 AttributeError 방지) | `rest_api.py` |
+| 2 | **핸들러 직접 라우팅**: 삭제된 서버 메서드 8개 참조를 핸들러 호출로 수정 (list_documents, get_stats, find_conflicts 등) | `rest_api.py` |
+| 3 | **미사용 엔드포인트 제거**: `get_topic_clusters` REST 엔드포인트 삭제 | `rest_api.py` |
+
+#### 고립 논문 85건 복구 (DV Fix)
+
+PubMed 임포트 시 LLM 추출이 실행되지 않아 엔티티 관계(STUDIES/INVESTIGATES/INVOLVES)가 누락된 논문 85건을 복구.
+
+| # | 변경 | 상세 |
+|---|------|------|
+| 4 | **복구 스크립트 신규**: Claude Haiku로 abstract 재분석 → SpineMetadata 추출 → RelationshipBuilder 관계 구축 (병렬 5 concurrent) | `scripts/repair_isolated_papers.py` |
+| 5 | **85개 논문 관계 구축**: 3,057개 관계 생성 (STUDIES, INVESTIGATES, INVOLVES, TREATS, AFFECTS, CAUSES 등) | Neo4j DB |
+| 6 | **비척추 논문 1건 삭제**: pubmed_41310210 (Steel Surface Defect Detection) — 오임포트 | Neo4j DB |
+| 7 | **삭제 논문 1건 재임포트**: pubmed_40526022 (C2 Pelvic Angle) — 이전 세션 실수로 삭제 | Neo4j DB |
+| 8 | **TREATS 백필**: 복구 후 TREATS 1,516건 (repair 중 자동 생성 포함) | Neo4j DB |
+
+#### DV 결과 (복구 전 → 후)
+
+| Check | Before | After |
+|-------|--------|-------|
+| 고립 Papers (2.1) | 85 | **0 PASS** |
+| 고아 노드 (1.2) | 43 | **0 PASS** |
+| IS_A 순환 (2.2) | 5 | **0 PASS** |
+| Papers 총 수 | 419 | **418** (-1 비척추 삭제) |
+| Nodes 총 수 | ~10,200 | **~10,700** |
+| Relationships 총 수 | ~19,700 | **~22,800** |
+
+---
+
+### v1.19.3 (2026-02-16): Code Audit 미수정 4건 완료 — God Object 분해, BaseHandler 추출, 테스트 확대, 로깅 전환
+
+Code Audit(CA) 미수정 4건(D-001~D-004)을 일괄 해소. MedicalKAGServer를 7,178줄에서 3,982줄로 축소 (-45%), BaseHandler 공통 패턴 추출, 테스트 228개 추가, print→logger 전환.
+
+#### D-001: MedicalKAGServer God Object 분해 (7,178줄 → 3,982줄, -45%)
+
+| # | 변경 | 파일 |
+|---|------|------|
+| 1 | **Tool Registry 패턴**: 420줄 if/elif 체인을 10개 dispatcher 함수 + 딕셔너리 디스패치로 교체 | `medical_kag_server.py` |
+| 2 | **중복 메서드 ~50개 삭제**: 핸들러에 위임 완료된 메서드 제거 (get_patient_cohorts, store_analyzed_paper, reason, graph_search, DOI methods 등) | `medical_kag_server.py` |
+| 3 | **DOI 메서드 핸들러 이관**: fetch_by_doi, get_doi_metadata, import_by_doi → PubMedHandler | `handlers/pubmed_handler.py` |
+| 4 | **rest_api.py 핸들러 라우팅**: 제거된 서버 메서드 참조를 핸들러 직접 호출로 수정 | `rest_api.py` |
+
+#### D-002: BaseHandler 추출 (11개 핸들러 공통 패턴)
+
+| # | 변경 | 파일 |
+|---|------|------|
+| 4 | **BaseHandler 클래스 신규**: neo4j_client property, _require_neo4j(), _ensure_connected(), _format_error(), _format_success() | `handlers/base_handler.py` (신규) |
+| 5 | **safe_execute 데코레이터**: try/except + 표준 에러 응답 통합 (~45개 try/except 패턴 통일) | `handlers/base_handler.py` |
+| 6 | **11개 핸들러 BaseHandler 상속**: search, document, graph, reasoning, clinical_data, pubmed, pdf, json, citation, reference, writing_guide | `handlers/*.py` (11개) |
+
+#### D-003: 테스트 커버리지 확대 (+228개 테스트)
+
+| # | 변경 | 파일 |
+|---|------|------|
+| 7 | **reference_formatter 테스트**: 7개 스타일 포맷팅 + edge case 57개 | `tests/builder/test_reference_formatter.py` (신규) |
+| 8 | **spine_snomed_mappings 테스트**: 데이터 무결성 + SNOMED 코드 형식 44개 | `tests/ontology/test_spine_snomed_mappings.py` (신규) |
+| 9 | **core_nodes 테스트**: 생성/직렬화/검증 31개 | `tests/graph/test_core_nodes.py` (신규) |
+| 10 | **extended_nodes 테스트**: 생성/직렬화/검증 39개 | `tests/graph/test_extended_nodes.py` (신규) |
+| 11 | **clinical_reasoning_engine 테스트**: 추론 로직 + edge case 57개 | `tests/solver/test_clinical_reasoning_engine.py` (신규) |
+
+#### D-004: print(stderr) → logger 전환
+
+| # | 변경 | 파일 |
+|---|------|------|
+| 12 | **모듈 레벨 print 22건 → logger**: import fallback 시 print(stderr) → logger.warning/info 전환 | `medical_kag_server.py` |
+
+#### 추가 수정 (코드 검증)
+
+| # | 변경 | 파일 |
+|---|------|------|
+| 13 | **rest_api.py 속성명 수정**: `kag_server.llm_enabled` → `getattr(kag_server, "enable_llm", False)` (AttributeError 방지) | `rest_api.py` |
+| 14 | **rest_api.py 핸들러 라우팅**: 삭제된 서버 메서드 8개 참조를 핸들러 직접 호출로 수정 + get_topic_clusters 엔드포인트 제거 | `rest_api.py` |
+
+#### 테스트 결과
+
+- **1424 passed**, 14 skipped, 1 pre-existing failure (unrelated)
+- BaseHandler 변경에 따른 test_security.py 수정 포함
+- rest_api.py 속성명 오류 수정 포함
+
+---
+
+### v1.19.2 (2026-02-16): SNOMED-CT 매핑 대규모 확장 (315 → 414개)
+
+99개 신규 SNOMED 매핑 추가 및 EntityNormalizer SNOMED fallback 로직 개선. Neo4j 엔티티 커버리지 대폭 향상.
+
+#### SNOMED 확장 상세
+
+| 타입 | 이전 | 이후 | 신규 | DB 커버리지 |
+|------|------|------|------|-----------|
+| Intervention | 123 | 144 | +21 | 42% → 61% |
+| Pathology | 85 | 120 | +35 | 51% → 86% |
+| Outcome | 70 | 104 | +34 | 27% → 29% |
+| Anatomy | 37 | 46 | +9 | 84% → 93% |
+| **Total** | **315** | **414** | **+99** | — |
+
+#### 주요 변경
+
+| # | 변경 | 파일 |
+|---|------|------|
+| 1 | **Intervention 21개 추가**: rhBMP-2, PEID, PETD, PCO, CDA, Robot-assisted, Navigation-guided, 골이식 (자가골/동종골/DBM) 등 | `spine_snomed_mappings.py` |
+| 2 | **Pathology 35개 추가**: 공식 SNOMED 8개 (Nonunion, Neurogenic claudication, HO, LBP 등) + 확장 27개 (Cage subsidence, AARF, Cage migration, C5 palsy 등) | `spine_snomed_mappings.py` |
+| 3 | **Outcome 34개 추가**: 공식 5개 (Delirium, Radiculopathy, ROM, PE, Sepsis, BMD) + 확장 28개 (Screw Loosening, Rod Fracture, Opioid Consumption, Screw Accuracy 등) | `spine_snomed_mappings.py` |
+| 4 | **Anatomy 9개 추가**: T2-3~T9-10 흉추 디스크 레벨 8개 + Multi-level 개념 | `spine_snomed_mappings.py` |
+| 5 | **EntityNormalizer SNOMED fallback**: confidence=0 시에도 원본 텍스트로 SNOMED 직접 조회 추가 (synonym/abbreviation 매칭) | `entity_normalizer.py` |
+
+---
+
+### v1.19.1 (2026-02-16): Code Audit 전면 수정 — 보안, 에러 처리, 성능, 설계, 의존성
+
+Code Audit(CA) 6개 Phase 점검 후 20개 항목을 일괄 수정. 보안 취약점 해소, 에러 처리 강화, N+1 쿼리 최적화, LLM Provider 인터페이스 도입, 의존성 선언 정상화.
+
+#### 🔴 CRITICAL 수정
+
+| # | 변경 | 파일 |
+|---|------|------|
+| 1 | **pyproject.toml 의존성 정상화**: 8개 → 29개 (누락 21개 추가, 미사용 3개 제거, 상한 추가) | `pyproject.toml` |
+| 2 | **requirements.txt 동기화**: 누락 6개 추가, 미사용 4개 제거 | `requirements.txt` |
+| 3 | **fitz.open() 리소스 누수 수정**: 10곳에 try/finally 추가, list comprehension 내 close() 누락 2곳 수정 | `medical_kag_server.py`, `pdf_handler.py` |
+| 4 | **Silent Exception 14건 해소**: `except Exception: pass` 9건 → logger.debug 추가, silent return 5건 → logger.warning 추가 | 7개 파일 |
+| 5 | **HTTP 클라이언트 retry 추가**: 4개 클라이언트에 exponential backoff 재시도 (max 3회) | `pubmed_client.py`, `doi_fulltext_fetcher.py`, `pmc_fulltext_fetcher.py`, `snomed_api_client.py` |
+
+#### 🟡 HIGH 수정
+
+| # | 변경 | 파일 |
+|---|------|------|
+| 6 | **logger.error exc_info=True 60+건 추가**: 7개 디렉토리 43+ 파일의 except 블록 내 스택 트레이스 보존 | src/ 전역 |
+| 7 | **BaseLLMClient Protocol 도입**: Provider-agnostic LLM 인터페이스 (generate, generate_json) | `llm/base.py` (신규) |
+| 8 | **N+1 → UNWIND 배치 쿼리**: relationship_builder 8개 메서드의 루프 내 DB 호출을 Neo4j UNWIND로 전환 | `relationship_builder.py` |
+| 9 | **PMID/DOI 포맷 검증**: MCP 진입점에 regex 검증 추가 (PMID: `^\d{1,8}$`, DOI: `^10\.\d{4,}/.+$`) | `medical_kag_server.py` |
+
+#### 🟢 MEDIUM 수정
+
+| # | 변경 | 파일 |
+|---|------|------|
+| 10 | **커스텀 예외 활용**: ValueError 12건 → ValidationError, RuntimeError 2건 → ProcessingError, ValueError 2건 → LLMError 전환 | `evidence_synthesizer.py`, `raptor.py`, `claude_client.py`, `gemini_client.py`, `chain_builder.py` |
+| 11 | **OpenAI 클라이언트 재사용**: _generate_abstract_embedding 3파일에서 매 호출 생성 → 클래스 레벨 lazy 초기화 | `pubmed_bulk_processor.py`, `important_citation_processor.py`, `medical_kag_server.py` |
+| 12 | **Config __repr__ 마스킹**: Neo4jConfig.password='***', LLMConfig.api_key 첫 8자만 노출 | `config.py` |
+
+#### ℹ️ LOW 수정
+
+| # | 변경 | 파일 |
+|---|------|------|
+| 13 | **Path traversal 방어**: prepare_pdf_prompt()에 resolve() + allowed directory 검사 추가 | `medical_kag_server.py` |
+| 14 | **SemanticCache deque 전환**: list.pop(0) O(n) → deque(maxlen=) O(1) | `semantic_cache.py` |
+| 15 | **싱글톤 Lock 추가**: entity_normalizer, error_handler에 double-checked locking | `entity_normalizer.py`, `error_handler.py` |
+| 16 | **QueryCache docstring 수정**: "Thread-safe" → "Not thread-safe. Single-threaded asyncio only." | `query_cache.py` |
+| 17 | **Cypher 인젝션 위험 제거**: 미사용 generate_with_templates() 삭제 | `cypher_generator.py` |
+| 18 | **snomed_enricher 파라미터 바인딩**: f-string escaping → $param + UNWIND 변환 | `snomed_enricher.py` |
+| 19 | **동어반복 assertion 수정**: `assert x is not None or x is None` → 타입 검증 | `test_pubmed_enricher.py` |
+| 20 | **ALLOWED_LABELS 검증**: snomed_enricher에서 label 변수의 화이트리스트 검증 추가 | `snomed_enricher.py` |
+
+#### 미수정 → v1.19.3에서 완료
+
+| 항목 | 상태 | 완료 버전 |
+|------|------|----------|
+| MedicalKAGServer 분해 (7,178줄 God Object) | **완료** — 3,982줄로 축소 (-44%) | v1.19.3 |
+| BaseHandler 추출 (11개 핸들러 공통 패턴) | **완료** — base_handler.py + safe_execute | v1.19.3 |
+| 테스트 커버리지 확대 | **완료** — +228개 테스트 (5개 신규 파일) | v1.19.3 |
+| print(stderr) → logger 전환 | **완료** — 모듈 레벨 22건 전환 | v1.19.3 |
+
+#### 테스트 결과
+
+- **1424 passed**, 14 skipped, 1 pre-existing failure (unrelated)
+- graph/ 테스트 356건 전체 통과
+- solver/ 테스트 전체 통과 (ValidationError 전환 포함)
+- 신규 228개 테스트 전체 통과
+
+#### Data Validation(DV) — Neo4j 데이터 무결성 정리
+
+DV 체크리스트 신설 및 최초 실행. 10건의 데이터 무결성 이슈 일괄 수정.
+
+| # | 작업 | Before | After |
+|---|------|--------|-------|
+| 1 | DOI placeholder → NULL ("Not provided", "Unknown" 등) | 22개 | 0 |
+| 2 | 중복 DOI Paper 병합 (pubmed_*/analyzed_* 이중 임포트) | 6건 | 0 |
+| 3 | 대소문자 중복 엔티티 병합 (P:15, O:11, A:8, I:4) | 39개 | 0 |
+| 4 | 고아 Chunk 삭제 (HAS_CHUNK 없음, 테스트 잔여 포함) | 52개 | 0 |
+| 5 | 고립 Paper 삭제 (관계 0개, PubMed-only 임포트) | 11개 | 0 |
+| 6 | Junk Anatomy 삭제 (추출 오류: "2", "L", "3-level)") | 96개 | 0 |
+| 7 | Chunk Tier 정규화 (정수 1/2 → "tier1"/"tier2") | 114개 | 0 |
+| 8 | Abstract 임베딩 백필 (OpenAI 3072d) | 105 누락 | 0 (100%) |
+| 9 | DOI URL 형식 복구 (https://doi.org/10.xxx → 10.xxx) | 1개 | 복구 |
+
+정리 후 데이터: Paper 437, Chunk 7,184, 총 노드 10,568
+
+#### 신규 문서
+
+| 문서 | 역할 |
+|------|------|
+| `docs/CODE_AUDIT.md` | Code Audit(CA) 체크리스트 — 보안/성능/설계 심층 분석 (20개 체크, 6 Phase) |
+| `docs/DATA_VALIDATION.md` | Data Validation(DV) 체크리스트 — Neo4j 데이터 무결성/완전성 검증 (18개 체크, 5 Phase) |
+
 ### v1.18.0 (2026-02-15): Critical 버그 수정 — sanitize_doi, Outcome, PubMed enrichment
 
 `sanitize_doi`가 모든 DOI를 거부하던 Critical 버그 수정, store_paper의 Outcome 노드 생성 실패 수정, PubMed enrichment 누락 보완.

@@ -8,11 +8,91 @@ from dataclasses import dataclass
 from typing import Optional, List
 from datetime import datetime
 import asyncio
+import logging
 import time
 import xml.etree.ElementTree as ET
 
 import aiohttp
 import requests
+
+logger = logging.getLogger(__name__)
+
+
+def _retry_request(func, *args, max_retries=3, backoff_base=2, **kwargs):
+    """Simple retry wrapper for HTTP requests.
+
+    Args:
+        func: HTTP request function to call
+        *args: Positional arguments for func
+        max_retries: Maximum number of attempts
+        backoff_base: Base for exponential backoff
+        **kwargs: Keyword arguments for func
+
+    Returns:
+        Response from func
+
+    Raises:
+        Last exception if all retries fail
+    """
+    last_error = None
+    for attempt in range(max_retries):
+        try:
+            return func(*args, **kwargs)
+        except (requests.exceptions.ConnectionError,
+                requests.exceptions.Timeout,
+                requests.exceptions.HTTPError) as e:
+            last_error = e
+            if attempt < max_retries - 1:
+                wait = min(backoff_base ** attempt, 30)
+                logger.warning(
+                    f"Request failed (attempt {attempt + 1}/{max_retries}): {e}, "
+                    f"retrying in {wait}s"
+                )
+                time.sleep(wait)
+    raise last_error
+
+
+async def _retry_request_async(session, method, url, max_retries=3, backoff_base=2, **kwargs):
+    """Simple async retry wrapper for aiohttp requests.
+
+    Args:
+        session: aiohttp ClientSession
+        method: HTTP method name ('get', 'post', etc.)
+        url: Request URL
+        max_retries: Maximum number of attempts
+        backoff_base: Base for exponential backoff
+        **kwargs: Keyword arguments for session method
+
+    Returns:
+        aiohttp response (caller must handle context manager)
+
+    Raises:
+        Last exception if all retries fail
+    """
+    last_error = None
+    for attempt in range(max_retries):
+        try:
+            response = await getattr(session, method)(url, **kwargs)
+            if response.status >= 500:
+                raise aiohttp.ClientResponseError(
+                    request_info=response.request_info,
+                    history=response.history,
+                    status=response.status,
+                    message=f"Server error {response.status}",
+                )
+            return response
+        except (aiohttp.ClientConnectionError,
+                asyncio.TimeoutError,
+                aiohttp.ClientResponseError) as e:
+            last_error = e
+            if attempt < max_retries - 1:
+                wait = min(backoff_base ** attempt, 30)
+                logger.warning(
+                    f"Async request failed (attempt {attempt + 1}/{max_retries}): {e}, "
+                    f"retrying in {wait}s"
+                )
+                await asyncio.sleep(wait)
+    raise last_error
 
 
 class PubMedError(Exception):
@@ -130,9 +210,10 @@ class PubMedClient:
         )
 
         try:
-            response = requests.get(url, params=params, timeout=30)
+            response = _retry_request(requests.get, url, params=params, timeout=30)
             response.raise_for_status()
         except requests.exceptions.RequestException as e:
+            logger.error(f"Search request failed for query '{query}': {e}", exc_info=True)
             raise APIError(f"Search request failed: {e}")
 
         if retmode == "json":
@@ -183,9 +264,10 @@ class PubMedClient:
         )
 
         try:
-            response = requests.get(url, params=params, timeout=30)
+            response = _retry_request(requests.get, url, params=params, timeout=30)
             response.raise_for_status()
         except requests.exceptions.RequestException as e:
+            logger.error(f"Fetch request failed for PMID {pmid}: {e}", exc_info=True)
             raise APIError(f"Fetch request failed: {e}")
 
         return self._parse_pubmed_xml(response.text, pmid)
@@ -310,12 +392,19 @@ class PubMedClient:
         )
 
         async with aiohttp.ClientSession() as session:
-            async with session.get(url, params=params, timeout=30) as response:
+            try:
+                response = await _retry_request_async(
+                    session, "get", url, params=params,
+                    timeout=aiohttp.ClientTimeout(total=30),
+                )
                 if response.status != 200:
                     raise APIError(f"Search request failed with status {response.status}")
                 data = await response.json()
                 result = data.get("esearchresult", {})
                 return result.get("idlist", [])
+            except (aiohttp.ClientError, asyncio.TimeoutError) as e:
+                logger.error(f"Async search request failed for query '{query}': {e}", exc_info=True)
+                raise APIError(f"Search request failed: {e}")
 
     async def fetch_paper_details_async(self, pmid: str) -> PaperMetadata:
         """Async version of fetch_paper_details.
@@ -334,11 +423,18 @@ class PubMedClient:
         )
 
         async with aiohttp.ClientSession() as session:
-            async with session.get(url, params=params, timeout=30) as response:
+            try:
+                response = await _retry_request_async(
+                    session, "get", url, params=params,
+                    timeout=aiohttp.ClientTimeout(total=30),
+                )
                 if response.status != 200:
                     raise APIError(f"Fetch request failed with status {response.status}")
                 xml_text = await response.text()
                 return self._parse_pubmed_xml(xml_text, pmid)
+            except (aiohttp.ClientError, asyncio.TimeoutError) as e:
+                logger.error(f"Async fetch request failed for PMID {pmid}: {e}", exc_info=True)
+                raise APIError(f"Fetch request failed: {e}")
 
     async def fetch_batch_async(self, pmids: List[str]) -> List[PaperMetadata]:
         """Fetch multiple papers concurrently.
@@ -359,6 +455,6 @@ class PubMedClient:
                 papers.append(result)
             elif isinstance(result, Exception):
                 # Log error but continue
-                print(f"Error fetching paper: {result}")
+                logger.error(f"Error fetching paper: {result}", exc_info=True)
 
         return papers

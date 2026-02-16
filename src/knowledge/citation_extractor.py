@@ -3,6 +3,7 @@
 LLM-based extraction of citation information from paper text.
 """
 
+import logging
 import re
 import json
 from dataclasses import dataclass, field
@@ -10,6 +11,8 @@ from enum import Enum
 from typing import Optional
 
 from typing import Union
+
+logger = logging.getLogger(__name__)
 from llm import LLMClient, ClaudeClient, GeminiClient
 
 
@@ -105,9 +108,9 @@ class LLMCitationExtractor:
         if use_llm_now and self.gemini:
             try:
                 return await self._extract_with_llm(text)
-            except Exception:
+            except Exception as e:
+                logger.debug(f"LLM fallback failed: {e}")
                 # Fallback to rule-based
-                pass
 
         return self._extract_with_rules(text)
 

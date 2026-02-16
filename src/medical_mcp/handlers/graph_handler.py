@@ -12,11 +12,13 @@ Extracted from medical_kag_server.py to improve modularity.
 import logging
 from typing import Optional
 
+from medical_mcp.handlers.base_handler import BaseHandler, safe_execute
+
 # Configure logging
 logger = logging.getLogger("medical-kag.graph-handler")
 
 
-class GraphHandler:
+class GraphHandler(BaseHandler):
     """Handler for graph-based operations.
 
     Manages Neo4j graph queries including paper relations, evidence chains,
@@ -34,13 +36,13 @@ class GraphHandler:
                 - taxonomy_manager: Intervention taxonomy management
                 - ranker: Evidence-based ranking
         """
-        self.server = server
-        self.neo4j_client = server.neo4j_client
+        super().__init__(server)
         self.graph_searcher = server.graph_searcher
         self.cypher_generator = server.cypher_generator
         self.taxonomy_manager = server.taxonomy_manager
         self.ranker = server.ranker
 
+    @safe_execute
     async def get_paper_relations(
         self,
         paper_id: str,
@@ -55,100 +57,94 @@ class GraphHandler:
         Returns:
             관계 정보 딕셔너리
         """
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j Graph Database not available"}
+        self._require_neo4j()
 
-        try:
-            # Ensure Neo4j is connected
-            if not self.neo4j_client._driver:
-                await self.neo4j_client.connect()
+        # Ensure Neo4j is connected
+        await self._ensure_connected()
 
-            # 논문 정보 조회
-            paper_result = await self.neo4j_client.get_paper(paper_id)
-            if not paper_result:
-                return {"success": False, "error": f"Paper not found: {paper_id}"}
+        # 논문 정보 조회
+        paper_result = await self.neo4j_client.get_paper(paper_id)
+        if not paper_result:
+            return {"success": False, "error": f"Paper not found: {paper_id}"}
 
-            # Extract paper node from result
-            paper = paper_result.get("p", {})
+        # Extract paper node from result
+        paper = paper_result.get("p", {})
 
-            # 관계 조회 (relation_type 필터 적용)
-            relation_types = None
-            if relation_type:
-                # Validate and convert to uppercase
-                valid_types = {"SUPPORTS", "CONTRADICTS", "SIMILAR_TOPIC", "EXTENDS", "CITES", "REPLICATES"}
-                rel_type_upper = relation_type.upper()
-                if rel_type_upper in valid_types:
-                    relation_types = [rel_type_upper]
+        # 관계 조회 (relation_type 필터 적용)
+        relation_types = None
+        if relation_type:
+            # Validate and convert to uppercase
+            valid_types = {"SUPPORTS", "CONTRADICTS", "SIMILAR_TOPIC", "EXTENDS", "CITES", "REPLICATES"}
+            rel_type_upper = relation_type.upper()
+            if rel_type_upper in valid_types:
+                relation_types = [rel_type_upper]
 
-            relations = await self.neo4j_client.get_paper_relations(
-                paper_id,
-                relation_types=relation_types,
-                direction="both"
-            )
+        relations = await self.neo4j_client.get_paper_relations(
+            paper_id,
+            relation_types=relation_types,
+            direction="both"
+        )
 
-            # 지지/상충/유사 논문 조회 (각각 최대 5개)
-            supporting_results = await self.neo4j_client.get_supporting_papers(paper_id, limit=5)
-            contradicting_results = await self.neo4j_client.get_contradicting_papers(paper_id, limit=5)
-            similar_results = await self.neo4j_client.get_similar_papers(paper_id, limit=5)
+        # 지지/상충/유사 논문 조회 (각각 최대 5개)
+        supporting_results = await self.neo4j_client.get_supporting_papers(paper_id, limit=5)
+        contradicting_results = await self.neo4j_client.get_contradicting_papers(paper_id, limit=5)
+        similar_results = await self.neo4j_client.get_similar_papers(paper_id, limit=5)
 
-            # Format results for UI compatibility
-            supporting_papers = []
-            for result in supporting_results:
-                target = result.get("target", {})
-                supporting_papers.append({
-                    "id": target.get("paper_id", ""),
-                    "title": target.get("title", ""),
-                    "confidence": result.get("confidence", 0.0)
-                })
+        # Format results for UI compatibility
+        supporting_papers = []
+        for result in supporting_results:
+            target = result.get("target", {})
+            supporting_papers.append({
+                "id": target.get("paper_id", ""),
+                "title": target.get("title", ""),
+                "confidence": result.get("confidence", 0.0)
+            })
 
-            contradicting_papers = []
-            for result in contradicting_results:
-                target = result.get("target", {})
-                contradicting_papers.append({
-                    "id": target.get("paper_id", ""),
-                    "title": target.get("title", ""),
-                    "confidence": result.get("confidence", 0.0)
-                })
+        contradicting_papers = []
+        for result in contradicting_results:
+            target = result.get("target", {})
+            contradicting_papers.append({
+                "id": target.get("paper_id", ""),
+                "title": target.get("title", ""),
+                "confidence": result.get("confidence", 0.0)
+            })
 
-            similar_papers = []
-            for result in similar_results:
-                target = result.get("target", {})
-                similar_papers.append({
-                    "id": target.get("paper_id", ""),
-                    "title": target.get("title", ""),
-                    "similarity": result.get("confidence", 0.0)
-                })
+        similar_papers = []
+        for result in similar_results:
+            target = result.get("target", {})
+            similar_papers.append({
+                "id": target.get("paper_id", ""),
+                "title": target.get("title", ""),
+                "similarity": result.get("confidence", 0.0)
+            })
 
-            # Format relations
-            formatted_relations = []
-            for rel in relations:
-                target = rel.get("target", {})
-                formatted_relations.append({
-                    "source": paper_id,
-                    "target": target.get("paper_id", ""),
-                    "type": rel.get("relation_type", ""),
-                    "confidence": rel.get("confidence", 0.0),
-                    "evidence": rel.get("evidence", ""),
-                })
+        # Format relations
+        formatted_relations = []
+        for rel in relations:
+            target = rel.get("target", {})
+            formatted_relations.append({
+                "source": paper_id,
+                "target": target.get("paper_id", ""),
+                "type": rel.get("relation_type", ""),
+                "confidence": rel.get("confidence", 0.0),
+                "evidence": rel.get("evidence", ""),
+            })
 
-            return {
-                "success": True,
-                "paper": {
-                    "id": paper.get("paper_id", ""),
-                    "title": paper.get("title", ""),
-                    "year": paper.get("year", 0),
-                    "evidence_level": paper.get("evidence_level", ""),
-                },
-                "relations": formatted_relations,
-                "supporting_papers": supporting_papers,
-                "contradicting_papers": contradicting_papers,
-                "similar_papers": similar_papers,
-            }
+        return {
+            "success": True,
+            "paper": {
+                "id": paper.get("paper_id", ""),
+                "title": paper.get("title", ""),
+                "year": paper.get("year", 0),
+                "evidence_level": paper.get("evidence_level", ""),
+            },
+            "relations": formatted_relations,
+            "supporting_papers": supporting_papers,
+            "contradicting_papers": contradicting_papers,
+            "similar_papers": similar_papers,
+        }
 
-        except Exception as e:
-            logger.exception(f"Get paper relations error: {e}")
-            return {"success": False, "error": str(e)}
-
+    @safe_execute
     async def find_evidence_chain(
         self,
         claim: str,
@@ -166,127 +162,120 @@ class GraphHandler:
         Returns:
             증거 체인 정보
         """
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j Graph Database not available"}
+        self._require_neo4j()
+        await self._ensure_connected()
 
-        try:
-            if not self.neo4j_client._driver:
-                await self.neo4j_client.connect()
+        # 1. 먼저 텍스트 매칭으로 검색
+        search_query = """
+        MATCH (p:Paper)
+        WHERE toLower(p.title) CONTAINS toLower($claim)
+           OR toLower(p.abstract) CONTAINS toLower($claim)
+        WITH p
+        LIMIT $limit
 
-            # 1. 먼저 텍스트 매칭으로 검색
-            search_query = """
-            MATCH (p:Paper)
-            WHERE toLower(p.title) CONTAINS toLower($claim)
-               OR toLower(p.abstract) CONTAINS toLower($claim)
-            WITH p
-            LIMIT $limit
+        OPTIONAL MATCH (p)-[:INVESTIGATES]->(i:Intervention)
+        OPTIONAL MATCH (i)-[r:AFFECTS]->(o:Outcome)
+        WHERE r.source_paper_id = p.paper_id
 
-            OPTIONAL MATCH (p)-[:INVESTIGATES]->(i:Intervention)
-            OPTIONAL MATCH (i)-[r:AFFECTS]->(o:Outcome)
-            WHERE r.source_paper_id = p.paper_id
+        RETURN p.paper_id AS paper_id,
+               p.title AS title,
+               p.year AS year,
+               p.evidence_level AS evidence_level,
+               collect(DISTINCT {
+                   intervention: i.name,
+                   outcome: o.name,
+                   direction: r.direction,
+                   p_value: r.p_value,
+                   is_significant: r.is_significant
+               }) AS evidence
+        ORDER BY p.evidence_level, p.year DESC
+        """
 
-            RETURN p.paper_id AS paper_id,
-                   p.title AS title,
-                   p.year AS year,
-                   p.evidence_level AS evidence_level,
-                   collect(DISTINCT {
-                       intervention: i.name,
-                       outcome: o.name,
-                       direction: r.direction,
-                       p_value: r.p_value,
-                       is_significant: r.is_significant
-                   }) AS evidence
-            ORDER BY p.evidence_level, p.year DESC
-            """
+        results = await self.neo4j_client.run_query(
+            search_query,
+            {"claim": claim, "limit": max_papers * 2}
+        )
 
-            results = await self.neo4j_client.run_query(
-                search_query,
-                {"claim": claim, "limit": max_papers * 2}
-            )
+        # 2. 텍스트 매칭 결과가 없으면 벡터 유사도 검색 시도
+        if not results:
+            logger.info(f"Text matching found no results, trying vector search for: {claim}")
+            try:
+                from core.embedding import get_embedding_generator
+                generator = get_embedding_generator()
+                claim_embedding = generator.generate(claim)
 
-            # 2. 텍스트 매칭 결과가 없으면 벡터 유사도 검색 시도
-            if not results:
-                logger.info(f"Text matching found no results, trying vector search for: {claim}")
-                try:
-                    from core.embedding import get_embedding_generator
-                    generator = get_embedding_generator()
-                    claim_embedding = generator.generate(claim)
+                if claim_embedding:
+                    # Neo4j 벡터 검색
+                    vector_results = await self.neo4j_client.hybrid_search(
+                        embedding=claim_embedding,
+                        top_k=max_papers * 2
+                    )
 
-                    if claim_embedding:
-                        # Neo4j 벡터 검색
-                        vector_results = await self.neo4j_client.hybrid_search(
-                            embedding=claim_embedding,
-                            top_k=max_papers * 2
-                        )
+                    if vector_results:
+                        # 벡터 검색 결과에서 paper_id 추출 후 상세 정보 조회
+                        paper_ids = [r.get("paper_id") for r in vector_results if r.get("paper_id")]
+                        if paper_ids:
+                            detail_query = """
+                            UNWIND $paper_ids AS pid
+                            MATCH (p:Paper {paper_id: pid})
+                            OPTIONAL MATCH (p)-[:INVESTIGATES]->(i:Intervention)
+                            OPTIONAL MATCH (i)-[r:AFFECTS]->(o:Outcome)
+                            WHERE r.source_paper_id = p.paper_id
+                            RETURN p.paper_id AS paper_id,
+                                   p.title AS title,
+                                   p.year AS year,
+                                   p.evidence_level AS evidence_level,
+                                   collect(DISTINCT {
+                                       intervention: i.name,
+                                       outcome: o.name,
+                                       direction: r.direction,
+                                       p_value: r.p_value,
+                                       is_significant: r.is_significant
+                                   }) AS evidence
+                            ORDER BY p.evidence_level, p.year DESC
+                            """
+                            results = await self.neo4j_client.run_query(
+                                detail_query,
+                                {"paper_ids": paper_ids[:max_papers * 2]}
+                            )
+                            logger.info(f"Vector search found {len(results)} papers")
+            except Exception as vec_err:
+                logger.warning(f"Vector search fallback failed: {vec_err}")
 
-                        if vector_results:
-                            # 벡터 검색 결과에서 paper_id 추출 후 상세 정보 조회
-                            paper_ids = [r.get("paper_id") for r in vector_results if r.get("paper_id")]
-                            if paper_ids:
-                                detail_query = """
-                                UNWIND $paper_ids AS pid
-                                MATCH (p:Paper {paper_id: pid})
-                                OPTIONAL MATCH (p)-[:INVESTIGATES]->(i:Intervention)
-                                OPTIONAL MATCH (i)-[r:AFFECTS]->(o:Outcome)
-                                WHERE r.source_paper_id = p.paper_id
-                                RETURN p.paper_id AS paper_id,
-                                       p.title AS title,
-                                       p.year AS year,
-                                       p.evidence_level AS evidence_level,
-                                       collect(DISTINCT {
-                                           intervention: i.name,
-                                           outcome: o.name,
-                                           direction: r.direction,
-                                           p_value: r.p_value,
-                                           is_significant: r.is_significant
-                                       }) AS evidence
-                                ORDER BY p.evidence_level, p.year DESC
-                                """
-                                results = await self.neo4j_client.run_query(
-                                    detail_query,
-                                    {"paper_ids": paper_ids[:max_papers * 2]}
-                                )
-                                logger.info(f"Vector search found {len(results)} papers")
-                except Exception as vec_err:
-                    logger.warning(f"Vector search fallback failed: {vec_err}")
+        supporting = []
+        refuting = []
+        neutral = []
 
-            supporting = []
-            refuting = []
-            neutral = []
-
-            for result in results[:max_papers]:
-                paper_info = {
-                    "paper_id": result.get("paper_id"),
-                    "title": result.get("title"),
-                    "year": result.get("year"),
-                    "evidence_level": result.get("evidence_level"),
-                    "evidence": [e for e in (result.get("evidence") or [])
-                                if e.get("intervention")]
-                }
-
-                # 근거 분류 (direction 기반)
-                directions = [e.get("direction") for e in paper_info["evidence"]
-                             if e.get("direction")]
-                if "improved" in directions or "decreased" in directions:
-                    supporting.append(paper_info)
-                elif "worsened" in directions or "increased risk" in directions:
-                    refuting.append(paper_info)
-                else:
-                    neutral.append(paper_info)
-
-            return {
-                "success": True,
-                "claim": claim,
-                "supporting_papers": supporting,
-                "refuting_papers": refuting,
-                "neutral_papers": neutral,
-                "total_papers": len(supporting) + len(refuting) + len(neutral),
+        for result in results[:max_papers]:
+            paper_info = {
+                "paper_id": result.get("paper_id"),
+                "title": result.get("title"),
+                "year": result.get("year"),
+                "evidence_level": result.get("evidence_level"),
+                "evidence": [e for e in (result.get("evidence") or [])
+                            if e.get("intervention")]
             }
 
-        except Exception as e:
-            logger.exception(f"Find evidence chain error: {e}")
-            return {"success": False, "error": str(e)}
+            # 근거 분류 (direction 기반)
+            directions = [e.get("direction") for e in paper_info["evidence"]
+                         if e.get("direction")]
+            if "improved" in directions or "decreased" in directions:
+                supporting.append(paper_info)
+            elif "worsened" in directions or "increased risk" in directions:
+                refuting.append(paper_info)
+            else:
+                neutral.append(paper_info)
 
+        return {
+            "success": True,
+            "claim": claim,
+            "supporting_papers": supporting,
+            "refuting_papers": refuting,
+            "neutral_papers": neutral,
+            "total_papers": len(supporting) + len(refuting) + len(neutral),
+        }
+
+    @safe_execute
     async def get_topic_clusters(self) -> dict:
         """주제별 논문 클러스터 조회 (Neo4j 기반).
 
@@ -296,82 +285,74 @@ class GraphHandler:
         Returns:
             클러스터 정보
         """
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j Graph Database not available"}
+        self._require_neo4j()
+        await self._ensure_connected()
 
-        try:
-            # Ensure Neo4j is connected
-            if not self.neo4j_client._driver:
-                await self.neo4j_client.connect()
+        # 1. Sub-domain 기반 클러스터링
+        query = """
+        MATCH (p:Paper)
+        WHERE p.sub_domain IS NOT NULL AND p.sub_domain <> ''
+        WITH p.sub_domain AS topic, collect({
+            id: p.paper_id,
+            title: p.title,
+            year: p.year,
+            evidence_level: p.evidence_level
+        }) AS papers
+        RETURN topic, papers, size(papers) AS count
+        ORDER BY count DESC
+        LIMIT 20
+        """
 
-            # 1. Sub-domain 기반 클러스터링
-            query = """
-            MATCH (p:Paper)
-            WHERE p.sub_domain IS NOT NULL AND p.sub_domain <> ''
-            WITH p.sub_domain AS topic, collect({
-                id: p.paper_id,
-                title: p.title,
-                year: p.year,
-                evidence_level: p.evidence_level
-            }) AS papers
-            RETURN topic, papers, size(papers) AS count
-            ORDER BY count DESC
-            LIMIT 20
-            """
+        results = await self.neo4j_client.run_query(query)
 
-            results = await self.neo4j_client.run_query(query)
+        # 클러스터 정보 구성
+        cluster_info = {}
+        for result in results:
+            topic = result.get("topic", "Unknown")
+            papers = result.get("papers", [])
+            count = result.get("count", 0)
 
-            # 클러스터 정보 구성
-            cluster_info = {}
-            for result in results:
-                topic = result.get("topic", "Unknown")
-                papers = result.get("papers", [])
-                count = result.get("count", 0)
-
-                if topic and topic != "Unknown":
-                    cluster_info[topic] = {
-                        "count": count,
-                        "papers": papers[:10]  # 클러스터당 최대 10개 논문
-                    }
-
-            # 2. SIMILAR_TOPIC 관계 통계 추가 (있는 경우)
-            sim_query = """
-            MATCH ()-[r:SIMILAR_TOPIC]->()
-            RETURN count(r) AS similar_topic_count
-            """
-            sim_results = await self.neo4j_client.run_query(sim_query)
-            similar_topic_count = 0
-            if sim_results:
-                similar_topic_count = sim_results[0].get("similar_topic_count", 0)
-
-            # 3. Unknown sub_domain 논문 처리
-            unknown_query = """
-            MATCH (p:Paper)
-            WHERE p.sub_domain IS NULL OR p.sub_domain = ''
-            RETURN collect({
-                id: p.paper_id,
-                title: p.title,
-                year: p.year
-            })[0..10] AS papers, count(p) AS count
-            """
-            unknown_results = await self.neo4j_client.run_query(unknown_query)
-            if unknown_results and unknown_results[0].get("count", 0) > 0:
-                cluster_info["Unclassified"] = {
-                    "count": unknown_results[0].get("count", 0),
-                    "papers": unknown_results[0].get("papers", [])
+            if topic and topic != "Unknown":
+                cluster_info[topic] = {
+                    "count": count,
+                    "papers": papers[:10]  # 클러스터당 최대 10개 논문
                 }
 
-            return {
-                "success": True,
-                "cluster_count": len(cluster_info),
-                "clusters": cluster_info,
-                "similar_topic_relations": similar_topic_count,
+        # 2. SIMILAR_TOPIC 관계 통계 추가 (있는 경우)
+        sim_query = """
+        MATCH ()-[r:SIMILAR_TOPIC]->()
+        RETURN count(r) AS similar_topic_count
+        """
+        sim_results = await self.neo4j_client.run_query(sim_query)
+        similar_topic_count = 0
+        if sim_results:
+            similar_topic_count = sim_results[0].get("similar_topic_count", 0)
+
+        # 3. Unknown sub_domain 논문 처리
+        unknown_query = """
+        MATCH (p:Paper)
+        WHERE p.sub_domain IS NULL OR p.sub_domain = ''
+        RETURN collect({
+            id: p.paper_id,
+            title: p.title,
+            year: p.year
+        })[0..10] AS papers, count(p) AS count
+        """
+        unknown_results = await self.neo4j_client.run_query(unknown_query)
+        if unknown_results and unknown_results[0].get("count", 0) > 0:
+            cluster_info["Unclassified"] = {
+                "count": unknown_results[0].get("count", 0),
+                "papers": unknown_results[0].get("papers", [])
             }
 
-        except Exception as e:
-            logger.exception(f"Get topic clusters error: {e}")
-            return {"success": False, "error": str(e)}
+        return {
+            "success": True,
+            "cluster_count": len(cluster_info),
+            "clusters": cluster_info,
+            "similar_topic_relations": similar_topic_count,
+        }
 
+    @safe_execute
     async def get_intervention_hierarchy(
         self,
         intervention_name: str
@@ -391,41 +372,37 @@ class GraphHandler:
                 "error": "Neo4j Graph modules not available"
             }
 
+        # Ensure Neo4j connection is established
+        await self._ensure_connected()
+
+        hierarchy = await self.graph_searcher.get_intervention_hierarchy(intervention_name)
+
+        # Add aliases from entity normalizer
         try:
-            # Ensure Neo4j connection is established
-            if not self.neo4j_client._driver:
-                await self.neo4j_client.connect()
+            from graph.entity_normalizer import get_normalizer
+            normalizer = get_normalizer()
 
-            hierarchy = await self.graph_searcher.get_intervention_hierarchy(intervention_name)
-
-            # Add aliases from entity normalizer
-            try:
-                from graph.entity_normalizer import get_normalizer
-                normalizer = get_normalizer()
-
-                aliases = []
-                for alias, normalized in normalizer.INTERVENTION_ALIASES.items():
-                    if normalized == intervention_name or alias == intervention_name:
-                        aliases.append(alias)
-            except Exception:
-                aliases = []
-
-            return {
-                "success": True,
-                "intervention": intervention_name,
-                "full_name": hierarchy.get("full_name", ""),
-                "category": hierarchy.get("category", ""),
-                "approach": hierarchy.get("approach", ""),
-                "is_minimally_invasive": hierarchy.get("is_minimally_invasive", False),
-                "parents": hierarchy.get("parents", []),
-                "children": hierarchy.get("children", []),
-                "aliases": list(set(aliases))
-            }
-
+            aliases = []
+            for alias, normalized in normalizer.INTERVENTION_ALIASES.items():
+                if normalized == intervention_name or alias == intervention_name:
+                    aliases.append(alias)
         except Exception as e:
-            logger.exception(f"Get intervention hierarchy error: {e}")
-            return {"success": False, "error": str(e)}
+            logger.debug(f"Alias lookup failed: {e}")
+            aliases = []
 
+        return {
+            "success": True,
+            "intervention": intervention_name,
+            "full_name": hierarchy.get("full_name", ""),
+            "category": hierarchy.get("category", ""),
+            "approach": hierarchy.get("approach", ""),
+            "is_minimally_invasive": hierarchy.get("is_minimally_invasive", False),
+            "parents": hierarchy.get("parents", []),
+            "children": hierarchy.get("children", []),
+            "aliases": list(set(aliases))
+        }
+
+    @safe_execute
     async def build_paper_relations(
         self,
         paper_id: Optional[str] = None,
@@ -444,87 +421,79 @@ class GraphHandler:
         Returns:
             생성된 관계 정보
         """
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j Graph Database not available"}
+        self._require_neo4j()
+        await self._ensure_connected()
 
-        try:
-            if not self.neo4j_client._driver:
-                await self.neo4j_client.connect()
+        # 모든 논문 조회 (관계 정보 포함)
+        all_papers = await self.neo4j_client.get_all_papers_with_relations(limit=max_papers)
 
-            # 모든 논문 조회 (관계 정보 포함)
-            all_papers = await self.neo4j_client.get_all_papers_with_relations(limit=max_papers)
-
-            if not all_papers:
-                return {
-                    "success": True,
-                    "message": "No papers found in database",
-                    "relations_created": 0
-                }
-
-            # 대상 논문 결정
-            if paper_id:
-                target_papers = [p for p in all_papers if p.get("paper_id") == paper_id]
-                compare_papers = [p for p in all_papers if p.get("paper_id") != paper_id]
-            else:
-                target_papers = all_papers
-                compare_papers = all_papers
-
-            relations_created = 0
-            similar_relations = []
-            processed_pairs = set()
-
-            for target in target_papers:
-                target_id = target.get("paper_id")
-                if not target_id:
-                    continue
-
-                for other in compare_papers:
-                    other_id = other.get("paper_id")
-                    if not other_id or other_id == target_id:
-                        continue
-
-                    # 이미 처리된 쌍 건너뛰기 (양방향 중복 방지)
-                    pair_key = tuple(sorted([target_id, other_id]))
-                    if pair_key in processed_pairs:
-                        continue
-                    processed_pairs.add(pair_key)
-
-                    # 유사도 계산
-                    similarity = self._calculate_paper_similarity(target, other)
-
-                    if similarity >= min_similarity:
-                        try:
-                            # SIMILAR_TOPIC 관계 생성
-                            success = await self.neo4j_client.create_paper_relation(
-                                source_paper_id=target_id,
-                                target_paper_id=other_id,
-                                relation_type="SIMILAR_TOPIC",
-                                confidence=similarity,
-                                evidence=f"Auto-calculated similarity: {similarity:.2f}",
-                                detected_by="auto_build_relations"
-                            )
-                            if success:
-                                relations_created += 1
-                                similar_relations.append({
-                                    "source": target_id,
-                                    "target": other_id,
-                                    "similarity": round(similarity, 3)
-                                })
-                        except Exception as e:
-                            logger.warning(f"Failed to create relation {target_id} -> {other_id}: {e}")
-
+        if not all_papers:
             return {
                 "success": True,
-                "papers_processed": len(target_papers),
-                "pairs_compared": len(processed_pairs),
-                "relations_created": relations_created,
-                "similar_relations": similar_relations[:20],
-                "min_similarity_used": min_similarity
+                "message": "No papers found in database",
+                "relations_created": 0
             }
 
-        except Exception as e:
-            logger.exception(f"Build paper relations error: {e}")
-            return {"success": False, "error": str(e)}
+        # 대상 논문 결정
+        if paper_id:
+            target_papers = [p for p in all_papers if p.get("paper_id") == paper_id]
+            compare_papers = [p for p in all_papers if p.get("paper_id") != paper_id]
+        else:
+            target_papers = all_papers
+            compare_papers = all_papers
+
+        relations_created = 0
+        similar_relations = []
+        processed_pairs = set()
+
+        for target in target_papers:
+            target_id = target.get("paper_id")
+            if not target_id:
+                continue
+
+            for other in compare_papers:
+                other_id = other.get("paper_id")
+                if not other_id or other_id == target_id:
+                    continue
+
+                # 이미 처리된 쌍 건너뛰기 (양방향 중복 방지)
+                pair_key = tuple(sorted([target_id, other_id]))
+                if pair_key in processed_pairs:
+                    continue
+                processed_pairs.add(pair_key)
+
+                # 유사도 계산
+                similarity = self._calculate_paper_similarity(target, other)
+
+                if similarity >= min_similarity:
+                    try:
+                        # SIMILAR_TOPIC 관계 생성
+                        success = await self.neo4j_client.create_paper_relation(
+                            source_paper_id=target_id,
+                            target_paper_id=other_id,
+                            relation_type="SIMILAR_TOPIC",
+                            confidence=similarity,
+                            evidence=f"Auto-calculated similarity: {similarity:.2f}",
+                            detected_by="auto_build_relations"
+                        )
+                        if success:
+                            relations_created += 1
+                            similar_relations.append({
+                                "source": target_id,
+                                "target": other_id,
+                                "similarity": round(similarity, 3)
+                            })
+                    except Exception as e:
+                        logger.warning(f"Failed to create relation {target_id} -> {other_id}: {e}")
+
+        return {
+            "success": True,
+            "papers_processed": len(target_papers),
+            "pairs_compared": len(processed_pairs),
+            "relations_created": relations_created,
+            "similar_relations": similar_relations[:20],
+            "min_similarity_used": min_similarity
+        }
 
     def _calculate_paper_similarity(self, paper1: dict, paper2: dict) -> float:
         """논문 간 유사도 계산.
@@ -588,6 +557,7 @@ class GraphHandler:
 
         return round(score, 3)
 
+    @safe_execute
     async def compare_interventions(
         self,
         intervention1: str,
@@ -610,56 +580,52 @@ class GraphHandler:
                 "error": "Neo4j Graph modules not available"
             }
 
-        try:
-            # Get evidence for both interventions
-            evidence1 = await self.server.find_evidence(intervention1, outcome)
-            evidence2 = await self.server.find_evidence(intervention2, outcome)
+        # Get evidence for both interventions
+        evidence1 = await self.server.find_evidence(intervention1, outcome)
+        evidence2 = await self.server.find_evidence(intervention2, outcome)
 
-            if not evidence1.get("success") or not evidence2.get("success"):
-                return {
-                    "success": False,
-                    "error": "Failed to retrieve evidence for one or both interventions"
-                }
-
-            # Analyze comparison
-            ev1_list = evidence1.get("evidence", [])
-            ev2_list = evidence2.get("evidence", [])
-
-            comparison = {
-                "intervention1": {
-                    "name": intervention1,
-                    "evidence_count": len(ev1_list),
-                    "avg_p_value": sum(e.get("p_value", 1.0) for e in ev1_list) / len(ev1_list) if ev1_list else 1.0,
-                    "significant_studies": sum(1 for e in ev1_list if e.get("is_significant", False)),
-                    "studies": ev1_list
-                },
-                "intervention2": {
-                    "name": intervention2,
-                    "evidence_count": len(ev2_list),
-                    "avg_p_value": sum(e.get("p_value", 1.0) for e in ev2_list) / len(ev2_list) if ev2_list else 1.0,
-                    "significant_studies": sum(1 for e in ev2_list if e.get("is_significant", False)),
-                    "studies": ev2_list
-                }
-            }
-
-            # Determine which has better evidence
-            if comparison["intervention1"]["significant_studies"] > comparison["intervention2"]["significant_studies"]:
-                comparison["recommendation"] = f"{intervention1} has more significant evidence"
-            elif comparison["intervention2"]["significant_studies"] > comparison["intervention1"]["significant_studies"]:
-                comparison["recommendation"] = f"{intervention2} has more significant evidence"
-            else:
-                comparison["recommendation"] = "Both interventions have similar evidence levels"
-
+        if not evidence1.get("success") or not evidence2.get("success"):
             return {
-                "success": True,
-                "outcome": outcome,
-                "comparison": comparison
+                "success": False,
+                "error": "Failed to retrieve evidence for one or both interventions"
             }
 
-        except Exception as e:
-            logger.exception(f"Compare interventions error: {e}")
-            return {"success": False, "error": str(e)}
+        # Analyze comparison
+        ev1_list = evidence1.get("evidence", [])
+        ev2_list = evidence2.get("evidence", [])
 
+        comparison = {
+            "intervention1": {
+                "name": intervention1,
+                "evidence_count": len(ev1_list),
+                "avg_p_value": sum(e.get("p_value", 1.0) for e in ev1_list) / len(ev1_list) if ev1_list else 1.0,
+                "significant_studies": sum(1 for e in ev1_list if e.get("is_significant", False)),
+                "studies": ev1_list
+            },
+            "intervention2": {
+                "name": intervention2,
+                "evidence_count": len(ev2_list),
+                "avg_p_value": sum(e.get("p_value", 1.0) for e in ev2_list) / len(ev2_list) if ev2_list else 1.0,
+                "significant_studies": sum(1 for e in ev2_list if e.get("is_significant", False)),
+                "studies": ev2_list
+            }
+        }
+
+        # Determine which has better evidence
+        if comparison["intervention1"]["significant_studies"] > comparison["intervention2"]["significant_studies"]:
+            comparison["recommendation"] = f"{intervention1} has more significant evidence"
+        elif comparison["intervention2"]["significant_studies"] > comparison["intervention1"]["significant_studies"]:
+            comparison["recommendation"] = f"{intervention2} has more significant evidence"
+        else:
+            comparison["recommendation"] = "Both interventions have similar evidence levels"
+
+        return {
+            "success": True,
+            "outcome": outcome,
+            "comparison": comparison
+        }
+
+    @safe_execute
     async def get_comparable_interventions(
         self,
         intervention: str
@@ -672,55 +638,43 @@ class GraphHandler:
         Returns:
             같은 부모를 가진 sibling interventions
         """
-        # Check if required modules are available
-        if not self.neo4j_client:
-            return {
-                "success": False,
-                "error": "Neo4j Graph modules not available"
-            }
+        self._require_neo4j()
+        await self._ensure_connected()
 
-        try:
-            # Ensure Neo4j connection is established
-            if not self.neo4j_client._driver:
-                await self.neo4j_client.connect()
+        # Use TaxonomyManager
+        from graph.taxonomy_manager import TaxonomyManager
+        taxonomy = TaxonomyManager(self.neo4j_client)
 
-            # Use TaxonomyManager
-            from graph.taxonomy_manager import TaxonomyManager
-            taxonomy = TaxonomyManager(self.neo4j_client)
+        # Get parents
+        parents = await taxonomy.get_parent_interventions(intervention)
 
-            # Get parents
-            parents = await taxonomy.get_parent_interventions(intervention)
-
-            if not parents:
-                return {
-                    "success": True,
-                    "intervention": intervention,
-                    "comparable_interventions": [],
-                    "message": f"No parent category found for {intervention}"
-                }
-
-            # Get siblings (children of same parent)
-            immediate_parent = parents[0] if parents else None
-            if immediate_parent:
-                siblings = await taxonomy.get_child_interventions(immediate_parent)
-                # Remove the intervention itself
-                comparable = [s for s in siblings if s != intervention]
-            else:
-                comparable = []
-
+        if not parents:
             return {
                 "success": True,
                 "intervention": intervention,
-                "parent_category": immediate_parent,
-                "all_parents": parents,
-                "comparable_interventions": comparable,
-                "count": len(comparable)
+                "comparable_interventions": [],
+                "message": f"No parent category found for {intervention}"
             }
 
-        except Exception as e:
-            logger.exception(f"Get comparable interventions error: {e}")
-            return {"success": False, "error": str(e)}
+        # Get siblings (children of same parent)
+        immediate_parent = parents[0] if parents else None
+        if immediate_parent:
+            siblings = await taxonomy.get_child_interventions(immediate_parent)
+            # Remove the intervention itself
+            comparable = [s for s in siblings if s != intervention]
+        else:
+            comparable = []
 
+        return {
+            "success": True,
+            "intervention": intervention,
+            "parent_category": immediate_parent,
+            "all_parents": parents,
+            "comparable_interventions": comparable,
+            "count": len(comparable)
+        }
+
+    @safe_execute
     async def get_intervention_hierarchy_with_direction(
         self,
         intervention: str,
@@ -735,53 +689,41 @@ class GraphHandler:
         Returns:
             계층 구조 정보 (부모/자식, 거리 포함)
         """
-        # Check if required modules are available
-        if not self.neo4j_client:
-            return {
-                "success": False,
-                "error": "Neo4j Graph modules not available"
-            }
+        self._require_neo4j()
+        await self._ensure_connected()
 
+        from graph.taxonomy_manager import TaxonomyManager
+        taxonomy = TaxonomyManager(self.neo4j_client)
+
+        result = {
+            "success": True,
+            "intervention": intervention
+        }
+
+        if direction in ["ancestors", "both"]:
+            # Get all ancestors (parents)
+            parents = await taxonomy.get_parent_interventions(intervention)
+            result["ancestors"] = parents
+            result["ancestor_count"] = len(parents)
+
+        if direction in ["descendants", "both"]:
+            # Get all descendants (children)
+            children = await taxonomy.get_child_interventions(intervention)
+            result["descendants"] = children
+            result["descendant_count"] = len(children)
+
+        # Get aliases from entity normalizer
         try:
-            # Ensure Neo4j connection is established
-            if not self.neo4j_client._driver:
-                await self.neo4j_client.connect()
+            from graph.entity_normalizer import get_normalizer
+            normalizer = get_normalizer()
 
-            from graph.taxonomy_manager import TaxonomyManager
-            taxonomy = TaxonomyManager(self.neo4j_client)
-
-            result = {
-                "success": True,
-                "intervention": intervention
-            }
-
-            if direction in ["ancestors", "both"]:
-                # Get all ancestors (parents)
-                parents = await taxonomy.get_parent_interventions(intervention)
-                result["ancestors"] = parents
-                result["ancestor_count"] = len(parents)
-
-            if direction in ["descendants", "both"]:
-                # Get all descendants (children)
-                children = await taxonomy.get_child_interventions(intervention)
-                result["descendants"] = children
-                result["descendant_count"] = len(children)
-
-            # Get aliases from entity normalizer
-            try:
-                from graph.entity_normalizer import get_normalizer
-                normalizer = get_normalizer()
-
-                aliases = []
-                for alias, normalized in normalizer.INTERVENTION_ALIASES.items():
-                    if normalized == intervention or alias == intervention:
-                        aliases.append(alias)
-                result["aliases"] = list(set(aliases))
-            except Exception:
-                result["aliases"] = []
-
-            return result
-
+            aliases = []
+            for alias, normalized in normalizer.INTERVENTION_ALIASES.items():
+                if normalized == intervention or alias == intervention:
+                    aliases.append(alias)
+            result["aliases"] = list(set(aliases))
         except Exception as e:
-            logger.exception(f"Get intervention hierarchy error: {e}")
-            return {"success": False, "error": str(e)}
+            logger.debug(f"Alias lookup failed: {e}")
+            result["aliases"] = []
+
+        return result

@@ -12,6 +12,8 @@
 import logging
 from typing import Any, Optional
 
+from medical_mcp.handlers.base_handler import BaseHandler, safe_execute
+
 # Solver modules
 from solver.reasoner import ReasonerInput
 from solver.response_generator import GeneratorInput, ResponseFormat
@@ -20,7 +22,7 @@ from solver.conflict_detector import ConflictInput
 logger = logging.getLogger("medical-kag.handlers.reasoning")
 
 
-class ReasoningHandler:
+class ReasoningHandler(BaseHandler):
     """추론 관련 도구를 처리하는 핸들러."""
 
     def __init__(self, server):
@@ -29,11 +31,10 @@ class ReasoningHandler:
         Args:
             server: MedicalKAGServer 인스턴스 (reasoner, conflict_detector, search 등 접근용)
         """
-        self.server = server
+        super().__init__(server)
         self.reasoner = server.reasoner
         self.conflict_detector = server.conflict_detector
         self.response_generator = server.response_generator
-        self.neo4j_client = getattr(server, 'neo4j_client', None)
 
         # Check if Neo4j Graph modules are available
         try:
@@ -43,6 +44,7 @@ class ReasoningHandler:
             self.graph_available = False
             logger.warning("Neo4j Graph modules not available")
 
+    @safe_execute
     async def reason(
         self,
         question: str,
@@ -59,48 +61,43 @@ class ReasoningHandler:
         Returns:
             추론 결과 딕셔너리
         """
-        try:
-            # 1. 검색
-            search_result = await self.server.search(question, top_k=10)
-            if not search_result["success"]:
-                return search_result
+        # 1. 검색
+        search_result = await self.server.search(question, top_k=10)
+        if not search_result["success"]:
+            return search_result
 
-            results = search_result.get("results", [])
+        results = search_result.get("results", [])
 
-            # 2. 추론
-            reasoner_input = ReasonerInput(
-                query=question,
-                search_results=results,
-                max_hops=max_hops,
-                include_explanation=True
-            )
-            reasoning_result = self.reasoner.reason(reasoner_input)
+        # 2. 추론
+        reasoner_input = ReasonerInput(
+            query=question,
+            search_results=results,
+            max_hops=max_hops,
+            include_explanation=True
+        )
+        reasoning_result = self.reasoner.reason(reasoner_input)
 
-            # 3. 응답 생성
-            generator_input = GeneratorInput(
-                query=question,
-                ranked_results=results,
-                reasoning=reasoning_result,
-                conflicts=search_result.get("conflicts") if include_conflicts else None,
-                format=ResponseFormat.MARKDOWN
-            )
-            response = self.response_generator.generate(generator_input)
+        # 3. 응답 생성
+        generator_input = GeneratorInput(
+            query=question,
+            ranked_results=results,
+            reasoning=reasoning_result,
+            conflicts=search_result.get("conflicts") if include_conflicts else None,
+            format=ResponseFormat.MARKDOWN
+        )
+        response = self.response_generator.generate(generator_input)
 
-            return {
-                "success": True,
-                "question": question,
-                "answer": reasoning_result.answer,
-                "confidence": reasoning_result.confidence,
-                "confidence_level": reasoning_result.confidence_level.value,
-                "evidence_count": len(reasoning_result.evidence),
-                "reasoning_steps": len(reasoning_result.reasoning_path),
-                "markdown_response": response.markdown,
-                "conflicts": search_result.get("conflicts")
-            }
-
-        except Exception as e:
-            logger.exception(f"Reason error: {e}")
-            return {"success": False, "error": str(e)}
+        return {
+            "success": True,
+            "question": question,
+            "answer": reasoning_result.answer,
+            "confidence": reasoning_result.confidence,
+            "confidence_level": reasoning_result.confidence_level.value,
+            "evidence_count": len(reasoning_result.evidence),
+            "reasoning_steps": len(reasoning_result.reasoning_path),
+            "markdown_response": response.markdown,
+            "conflicts": search_result.get("conflicts")
+        }
 
     async def multi_hop_reason(
         self,
@@ -123,6 +120,7 @@ class ReasoningHandler:
         """
         return {"success": False, "error": "Deprecated: Use Neo4j-based multi-hop reasoning (src/solver/multi_hop_reasoning.py)"}
 
+    @safe_execute
     async def find_conflicts(
         self,
         topic: str,
@@ -137,74 +135,69 @@ class ReasoningHandler:
         Returns:
             상충 분석 결과
         """
-        try:
-            # Search for relevant documents
-            if document_ids:
-                # Filter by specific documents (not fully implemented yet)
-                search_result = await self.server.search(query=topic, top_k=20)
-            else:
-                search_result = await self.server.search(query=topic, top_k=20)
+        # Search for relevant documents
+        if document_ids:
+            # Filter by specific documents (not fully implemented yet)
+            search_result = await self.server.search(query=topic, top_k=20)
+        else:
+            search_result = await self.server.search(query=topic, top_k=20)
 
-            if not search_result.get("success"):
-                return search_result
+        if not search_result.get("success"):
+            return search_result
 
-            results = search_result.get("results", [])
-            if len(results) < 2:
-                return {
-                    "success": True,
-                    "topic": topic,
-                    "message": "Not enough studies found for conflict detection",
-                    "conflicts": []
-                }
-
-            # Use conflict detector
-            from solver.conflict_detector import StudyResult as CDStudyResult
-            from solver.multi_factor_ranker import EvidenceLevel
-
-            study_results = []
-            for r in results[:15]:  # Max 15 studies
-                study = CDStudyResult(
-                    study_id=r.get("document_id", "unknown"),
-                    title=r.get("content", "")[:200],
-                    evidence_level=self._parse_evidence_level(r.get("evidence_level", "5")),
-                )
-                study_results.append(study)
-
-            conflict_input = ConflictInput(
-                topic=topic,
-                studies=study_results
-            )
-            conflict_output = self.conflict_detector.detect(conflict_input)
-
-            conflicts = []
-            for c in conflict_output.conflicts:
-                conflicts.append({
-                    "study1": {
-                        "id": c.study1.study_id,
-                        "title": c.study1.title
-                    },
-                    "study2": {
-                        "id": c.study2.study_id,
-                        "title": c.study2.title
-                    },
-                    "conflict_type": c.conflict_type.value if hasattr(c.conflict_type, 'value') else str(c.conflict_type),
-                    "severity": c.severity.value if hasattr(c.severity, 'value') else str(c.severity),
-                    "description": c.description if hasattr(c, 'description') else ""
-                })
-
+        results = search_result.get("results", [])
+        if len(results) < 2:
             return {
                 "success": True,
                 "topic": topic,
-                "studies_analyzed": len(study_results),
-                "has_conflicts": conflict_output.has_conflicts,
-                "conflict_count": len(conflicts),
-                "conflicts": conflicts,
-                "summary": conflict_output.summary if hasattr(conflict_output, 'summary') else ""
+                "message": "Not enough studies found for conflict detection",
+                "conflicts": []
             }
 
-        except Exception as e:
-            logger.exception(f"Find conflicts error: {e}")
-            return {"success": False, "error": str(e)}
+        # Use conflict detector
+        from solver.conflict_detector import StudyResult as CDStudyResult
+        from solver.multi_factor_ranker import EvidenceLevel
+
+        study_results = []
+        for r in results[:15]:  # Max 15 studies
+            study = CDStudyResult(
+                study_id=r.get("document_id", "unknown"),
+                title=r.get("content", "")[:200],
+                evidence_level=self._parse_evidence_level(r.get("evidence_level", "5")),
+            )
+            study_results.append(study)
+
+        conflict_input = ConflictInput(
+            topic=topic,
+            studies=study_results
+        )
+        conflict_output = self.conflict_detector.detect(conflict_input)
+
+        conflicts = []
+        for c in conflict_output.conflicts:
+            conflicts.append({
+                "study1": {
+                    "id": c.study1.study_id,
+                    "title": c.study1.title
+                },
+                "study2": {
+                    "id": c.study2.study_id,
+                    "title": c.study2.title
+                },
+                "conflict_type": c.conflict_type.value if hasattr(c.conflict_type, 'value') else str(c.conflict_type),
+                "severity": c.severity.value if hasattr(c.severity, 'value') else str(c.severity),
+                "description": c.description if hasattr(c, 'description') else ""
+            })
+
+        return {
+            "success": True,
+            "topic": topic,
+            "studies_analyzed": len(study_results),
+            "has_conflicts": conflict_output.has_conflicts,
+            "conflict_count": len(conflicts),
+            "conflicts": conflicts,
+            "summary": conflict_output.summary if hasattr(conflict_output, 'summary') else ""
+        }
 
     def _parse_evidence_level(self, level_str: str):
         """Evidence level 문자열을 Enum으로 변환."""
@@ -222,6 +215,7 @@ class ReasoningHandler:
         }
         return mapping.get(str(level_str).lower(), EvidenceLevel.LEVEL_5)
 
+    @safe_execute
     async def detect_conflicts(
         self,
         intervention: str,
@@ -242,103 +236,98 @@ class ReasoningHandler:
                 "error": "Neo4j Graph modules not available"
             }
 
-        try:
-            # Ensure Neo4j connection is established
-            if not self.neo4j_client._driver:
-                await self.neo4j_client.connect()
+        # Ensure Neo4j connection is established
+        await self._ensure_connected()
 
-            # Use ConflictDetector from solver
-            from solver.conflict_detector import ConflictDetector
-            detector = ConflictDetector(self.neo4j_client)
+        # Use ConflictDetector from solver
+        from solver.conflict_detector import ConflictDetector
+        detector = ConflictDetector(self.neo4j_client)
 
-            if outcome:
-                # Detect conflicts for specific intervention-outcome pair
-                conflict = await detector.detect_conflicts(intervention, outcome)
+        if outcome:
+            # Detect conflicts for specific intervention-outcome pair
+            conflict = await detector.detect_conflicts(intervention, outcome)
 
-                if conflict:
-                    return {
-                        "success": True,
-                        "intervention": intervention,
-                        "outcome": outcome,
-                        "has_conflicts": True,
-                        "conflict": {
-                            "severity": conflict.severity.value,
-                            "confidence": conflict.confidence,
-                            "paper_count": conflict.total_papers,
-                            "papers_improved": [
-                                {
-                                    "paper_id": p.paper_id,
-                                    "title": p.title,
-                                    "evidence_level": p.evidence_level,
-                                    "p_value": p.p_value,
-                                    "is_significant": p.is_significant
-                                }
-                                for p in conflict.papers_improved
-                            ],
-                            "papers_worsened": [
-                                {
-                                    "paper_id": p.paper_id,
-                                    "title": p.title,
-                                    "evidence_level": p.evidence_level,
-                                    "p_value": p.p_value,
-                                    "is_significant": p.is_significant
-                                }
-                                for p in conflict.papers_worsened
-                            ],
-                            "papers_unchanged": [
-                                {
-                                    "paper_id": p.paper_id,
-                                    "title": p.title,
-                                    "evidence_level": p.evidence_level
-                                }
-                                for p in conflict.papers_unchanged
-                            ],
-                            "summary": conflict.summary
-                        }
-                    }
-                else:
-                    return {
-                        "success": True,
-                        "intervention": intervention,
-                        "outcome": outcome,
-                        "has_conflicts": False,
-                        "summary": f"No conflicts found for {intervention} → {outcome}"
-                    }
-            else:
-                # Find all conflicts for intervention (all outcomes)
-                from solver.conflict_detector import ConflictSeverity
-                all_conflicts = await detector.find_all_conflicts(
-                    min_severity=ConflictSeverity.MEDIUM
-                )
-
-                # Filter by intervention
-                intervention_conflicts = [
-                    c for c in all_conflicts
-                    if c.intervention == intervention
-                ]
-
+            if conflict:
                 return {
                     "success": True,
                     "intervention": intervention,
-                    "has_conflicts": len(intervention_conflicts) > 0,
-                    "conflict_count": len(intervention_conflicts),
-                    "conflicts": [
-                        {
-                            "outcome": c.outcome,
-                            "severity": c.severity.value,
-                            "confidence": c.confidence,
-                            "improved_count": len(c.papers_improved),
-                            "worsened_count": len(c.papers_worsened)
-                        }
-                        for c in intervention_conflicts
-                    ],
-                    "summary": f"Found {len(intervention_conflicts)} conflicting outcomes for {intervention}"
+                    "outcome": outcome,
+                    "has_conflicts": True,
+                    "conflict": {
+                        "severity": conflict.severity.value,
+                        "confidence": conflict.confidence,
+                        "paper_count": conflict.total_papers,
+                        "papers_improved": [
+                            {
+                                "paper_id": p.paper_id,
+                                "title": p.title,
+                                "evidence_level": p.evidence_level,
+                                "p_value": p.p_value,
+                                "is_significant": p.is_significant
+                            }
+                            for p in conflict.papers_improved
+                        ],
+                        "papers_worsened": [
+                            {
+                                "paper_id": p.paper_id,
+                                "title": p.title,
+                                "evidence_level": p.evidence_level,
+                                "p_value": p.p_value,
+                                "is_significant": p.is_significant
+                            }
+                            for p in conflict.papers_worsened
+                        ],
+                        "papers_unchanged": [
+                            {
+                                "paper_id": p.paper_id,
+                                "title": p.title,
+                                "evidence_level": p.evidence_level
+                            }
+                            for p in conflict.papers_unchanged
+                        ],
+                        "summary": conflict.summary
+                    }
                 }
+            else:
+                return {
+                    "success": True,
+                    "intervention": intervention,
+                    "outcome": outcome,
+                    "has_conflicts": False,
+                    "summary": f"No conflicts found for {intervention} → {outcome}"
+                }
+        else:
+            # Find all conflicts for intervention (all outcomes)
+            from solver.conflict_detector import ConflictSeverity
+            all_conflicts = await detector.find_all_conflicts(
+                min_severity=ConflictSeverity.MEDIUM
+            )
 
-        except Exception as e:
-            logger.exception(f"Detect conflicts error: {e}")
-            return {"success": False, "error": str(e)}
+            # Filter by intervention
+            intervention_conflicts = [
+                c for c in all_conflicts
+                if c.intervention == intervention
+            ]
 
+            return {
+                "success": True,
+                "intervention": intervention,
+                "has_conflicts": len(intervention_conflicts) > 0,
+                "conflict_count": len(intervention_conflicts),
+                "conflicts": [
+                    {
+                        "outcome": c.outcome,
+                        "severity": c.severity.value,
+                        "confidence": c.confidence,
+                        "improved_count": len(c.papers_improved),
+                        "worsened_count": len(c.papers_worsened)
+                    }
+                    for c in intervention_conflicts
+                ],
+                "summary": f"Found {len(intervention_conflicts)} conflicting outcomes for {intervention}"
+            }
+
+    @safe_execute
     async def compare_papers(
         self,
         paper_ids: list[str]
@@ -353,101 +342,95 @@ class ReasoningHandler:
         Returns:
             비교 분석 결과
         """
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j Graph Database not available"}
+        self._require_neo4j()
 
         if not paper_ids or len(paper_ids) < 2:
             return {"success": False, "error": "At least 2 paper IDs required for comparison"}
 
-        try:
-            if not self.neo4j_client._driver:
-                await self.neo4j_client.connect()
+        await self._ensure_connected()
 
-            # 각 논문의 상세 정보 조회
-            query = """
-            UNWIND $paper_ids AS pid
-            MATCH (p:Paper {paper_id: pid})
-            OPTIONAL MATCH (p)-[:STUDIES]->(path:Pathology)
-            OPTIONAL MATCH (p)-[:INVESTIGATES]->(i:Intervention)
-            OPTIONAL MATCH (p)-[:INVOLVES]->(a:Anatomy)
-            OPTIONAL MATCH (i)-[r:AFFECTS]->(o:Outcome)
-            WHERE r.source_paper_id = p.paper_id
+        # 각 논문의 상세 정보 조회
+        query = """
+        UNWIND $paper_ids AS pid
+        MATCH (p:Paper {paper_id: pid})
+        OPTIONAL MATCH (p)-[:STUDIES]->(path:Pathology)
+        OPTIONAL MATCH (p)-[:INVESTIGATES]->(i:Intervention)
+        OPTIONAL MATCH (p)-[:INVOLVES]->(a:Anatomy)
+        OPTIONAL MATCH (i)-[r:AFFECTS]->(o:Outcome)
+        WHERE r.source_paper_id = p.paper_id
 
-            RETURN p.paper_id AS paper_id,
-                   p.title AS title,
-                   p.year AS year,
-                   p.evidence_level AS evidence_level,
-                   p.sub_domain AS sub_domain,
-                   p.study_type AS study_type,
-                   p.sample_size AS sample_size,
-                   collect(DISTINCT path.name) AS pathologies,
-                   collect(DISTINCT i.name) AS interventions,
-                   collect(DISTINCT a.level) AS anatomy_levels,
-                   collect(DISTINCT {
-                       intervention: i.name,
-                       outcome: o.name,
-                       direction: r.direction,
-                       p_value: r.p_value,
-                       is_significant: r.is_significant,
-                       effect_size: r.effect_size
-                   }) AS outcomes
-            """
+        RETURN p.paper_id AS paper_id,
+               p.title AS title,
+               p.year AS year,
+               p.evidence_level AS evidence_level,
+               p.sub_domain AS sub_domain,
+               p.study_type AS study_type,
+               p.sample_size AS sample_size,
+               collect(DISTINCT path.name) AS pathologies,
+               collect(DISTINCT i.name) AS interventions,
+               collect(DISTINCT a.level) AS anatomy_levels,
+               collect(DISTINCT {
+                   intervention: i.name,
+                   outcome: o.name,
+                   direction: r.direction,
+                   p_value: r.p_value,
+                   is_significant: r.is_significant,
+                   effect_size: r.effect_size
+               }) AS outcomes
+        """
 
-            results = await self.neo4j_client.run_query(query, {"paper_ids": paper_ids})
+        results = await self.neo4j_client.run_query(query, {"paper_ids": paper_ids})
 
-            papers = []
-            all_interventions = set()
-            all_outcomes = set()
-            all_pathologies = set()
+        papers = []
+        all_interventions = set()
+        all_outcomes = set()
+        all_pathologies = set()
 
-            for result in results:
-                paper_info = {
-                    "paper_id": result.get("paper_id"),
-                    "title": result.get("title"),
-                    "year": result.get("year"),
-                    "evidence_level": result.get("evidence_level"),
-                    "sub_domain": result.get("sub_domain"),
-                    "study_type": result.get("study_type"),
-                    "sample_size": result.get("sample_size"),
-                    "pathologies": [p for p in (result.get("pathologies") or []) if p],
-                    "interventions": [i for i in (result.get("interventions") or []) if i],
-                    "anatomy_levels": [a for a in (result.get("anatomy_levels") or []) if a],
-                    "outcomes": [o for o in (result.get("outcomes") or [])
-                                if o.get("intervention")]
-                }
-                papers.append(paper_info)
-
-                all_interventions.update(paper_info["interventions"])
-                all_pathologies.update(paper_info["pathologies"])
-                for o in paper_info["outcomes"]:
-                    if o.get("outcome"):
-                        all_outcomes.add(o["outcome"])
-
-            # 공통점 및 차이점 분석
-            common_interventions = set(papers[0]["interventions"]) if papers else set()
-            common_pathologies = set(papers[0]["pathologies"]) if papers else set()
-
-            for paper in papers[1:]:
-                common_interventions &= set(paper["interventions"])
-                common_pathologies &= set(paper["pathologies"])
-
-            return {
-                "success": True,
-                "papers": papers,
-                "comparison": {
-                    "total_papers": len(papers),
-                    "all_interventions": list(all_interventions),
-                    "all_pathologies": list(all_pathologies),
-                    "all_outcomes": list(all_outcomes),
-                    "common_interventions": list(common_interventions),
-                    "common_pathologies": list(common_pathologies),
-                },
+        for result in results:
+            paper_info = {
+                "paper_id": result.get("paper_id"),
+                "title": result.get("title"),
+                "year": result.get("year"),
+                "evidence_level": result.get("evidence_level"),
+                "sub_domain": result.get("sub_domain"),
+                "study_type": result.get("study_type"),
+                "sample_size": result.get("sample_size"),
+                "pathologies": [p for p in (result.get("pathologies") or []) if p],
+                "interventions": [i for i in (result.get("interventions") or []) if i],
+                "anatomy_levels": [a for a in (result.get("anatomy_levels") or []) if a],
+                "outcomes": [o for o in (result.get("outcomes") or [])
+                            if o.get("intervention")]
             }
+            papers.append(paper_info)
 
-        except Exception as e:
-            logger.exception(f"Compare papers error: {e}")
-            return {"success": False, "error": str(e)}
+            all_interventions.update(paper_info["interventions"])
+            all_pathologies.update(paper_info["pathologies"])
+            for o in paper_info["outcomes"]:
+                if o.get("outcome"):
+                    all_outcomes.add(o["outcome"])
 
+        # 공통점 및 차이점 분석
+        common_interventions = set(papers[0]["interventions"]) if papers else set()
+        common_pathologies = set(papers[0]["pathologies"]) if papers else set()
+
+        for paper in papers[1:]:
+            common_interventions &= set(paper["interventions"])
+            common_pathologies &= set(paper["pathologies"])
+
+        return {
+            "success": True,
+            "papers": papers,
+            "comparison": {
+                "total_papers": len(papers),
+                "all_interventions": list(all_interventions),
+                "all_pathologies": list(all_pathologies),
+                "all_outcomes": list(all_outcomes),
+                "common_interventions": list(common_interventions),
+                "common_pathologies": list(common_pathologies),
+            },
+        }
+
+    @safe_execute
     async def synthesize_evidence(
         self,
         intervention: str,
@@ -470,37 +453,31 @@ class ReasoningHandler:
                 "error": "Neo4j Graph modules not available"
             }
 
-        try:
-            # Ensure Neo4j connection is established
-            if not self.neo4j_client._driver:
-                await self.neo4j_client.connect()
+        # Ensure Neo4j connection is established
+        await self._ensure_connected()
 
-            # Use EvidenceSynthesizer from solver
-            from solver.evidence_synthesizer import EvidenceSynthesizer
-            synthesizer = EvidenceSynthesizer(self.neo4j_client)
+        # Use EvidenceSynthesizer from solver
+        from solver.evidence_synthesizer import EvidenceSynthesizer
+        synthesizer = EvidenceSynthesizer(self.neo4j_client)
 
-            result = await synthesizer.synthesize(
-                intervention=intervention,
-                outcome=outcome,
-                min_papers=min_papers
-            )
+        result = await synthesizer.synthesize(
+            intervention=intervention,
+            outcome=outcome,
+            min_papers=min_papers
+        )
 
-            return {
-                "success": True,
-                "intervention": intervention,
-                "outcome": outcome,
-                "direction": result.direction,
-                "strength": result.strength.value,
-                "grade_rating": result.grade_rating,
-                "paper_count": result.paper_count,
-                "effect_summary": result.effect_summary,
-                "confidence_interval": result.confidence_interval,
-                "heterogeneity": result.heterogeneity,
-                "recommendation": result.recommendation,
-                "supporting_papers": result.supporting_papers,
-                "opposing_papers": result.opposing_papers
-            }
-
-        except Exception as e:
-            logger.exception(f"Synthesize evidence error: {e}")
-            return {"success": False, "error": str(e)}
+        return {
+            "success": True,
+            "intervention": intervention,
+            "outcome": outcome,
+            "direction": result.direction,
+            "strength": result.strength.value,
+            "grade_rating": result.grade_rating,
+            "paper_count": result.paper_count,
+            "effect_summary": result.effect_summary,
+            "confidence_interval": result.confidence_interval,
+            "heterogeneity": result.heterogeneity,
+            "recommendation": result.recommendation,
+            "supporting_papers": result.supporting_papers,
+            "opposing_papers": result.opposing_papers
+        }

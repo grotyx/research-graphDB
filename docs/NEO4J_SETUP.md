@@ -1,6 +1,6 @@
 # Neo4j Setup Guide for Spine GraphRAG
 
-> **Version**: 1.18.0 | **Last Updated**: 2026-02-15
+> **Version**: 1.19.4 | **Last Updated**: 2026-02-16
 
 Complete setup guide for Neo4j graph database infrastructure. Since v1.14+, Neo4j serves as the **unified storage** for both graph relationships and vector embeddings (HNSW index).
 
@@ -84,17 +84,18 @@ Open http://localhost:7474 in your web browser.
 
 **Login:**
 - Username: `neo4j`
-- Password: `spineGraph2024`
+- Password: `<.env의 NEO4J_PASSWORD>`
 
 ## Configuration
 
 ### Environment Variables (.env)
 
 ```bash
-# Neo4j Configuration
+# Neo4j Configuration — .env.example을 복사하여 사용
+# cp .env.example .env
 NEO4J_URI=bolt://localhost:7687
 NEO4J_USERNAME=neo4j
-NEO4J_PASSWORD=spineGraph2024
+NEO4J_PASSWORD=<your-password>
 NEO4J_DATABASE=neo4j
 ```
 
@@ -326,9 +327,9 @@ docker-compose logs -f neo4j
 
 **Problem:** Wrong password
 
-**Solution:** Make sure `.env` has:
+**Solution:** Make sure `.env`에 올바른 비밀번호가 설정되어 있는지 확인:
 ```
-NEO4J_PASSWORD=spineGraph2024
+NEO4J_PASSWORD=<docker-compose.yml의 NEO4J_AUTH와 동일>
 ```
 
 ### APOC Not Available

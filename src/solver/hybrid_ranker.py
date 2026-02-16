@@ -440,7 +440,7 @@ class HybridRanker:
                 logger.warning(f"Graph search unavailable: {e}. Falling back to vector-only.")
                 graph_degraded = True
             except Exception as e:
-                logger.error(f"Graph search failed: {e}. Falling back to vector-only.")
+                logger.error(f"Graph search failed: {e}. Falling back to vector-only.", exc_info=True)
                 graph_degraded = True
 
         # 2. Vector Search with error handling
@@ -462,7 +462,7 @@ class HybridRanker:
                 vector_results = self._score_vector_results(vector_search_results)
                 logger.info(f"Vector search: {len(vector_results)} results")
             except Exception as e:
-                logger.error(f"Vector search failed: {e}")
+                logger.error(f"Vector search failed: {e}", exc_info=True)
                 vector_degraded = True
 
             # If both failed, return empty results with warning
@@ -590,7 +590,7 @@ class HybridRanker:
                                     evidence_level=ev_level
                                 )
                     except Exception as e:
-                        logger.error(f"Graph query error for {intervention}->{outcome}: {e}")
+                        logger.error(f"Graph query error for {intervention}->{outcome}: {e}", exc_info=True)
 
         elif interventions:
             # Search for intervention's all outcomes
@@ -642,7 +642,7 @@ class HybridRanker:
                                 evidence_level=ev_level
                             )
                 except Exception as e:
-                    logger.error(f"Graph query error for {intervention}: {e}")
+                    logger.error(f"Graph query error for {intervention}: {e}", exc_info=True)
 
         elif outcomes:
             # Search for outcome's all interventions
@@ -692,7 +692,7 @@ class HybridRanker:
                                 evidence_level=ev_level
                             )
                 except Exception as e:
-                    logger.error(f"Graph query error for {outcome}: {e}")
+                    logger.error(f"Graph query error for {outcome}: {e}", exc_info=True)
 
         elif pathologies:
             # Search for pathology's interventions
@@ -738,7 +738,7 @@ class HybridRanker:
                                 evidence_level=row.get("evidence_level", "5") or "5"
                             )
                 except Exception as e:
-                    logger.error(f"Graph query error for {pathology}: {e}")
+                    logger.error(f"Graph query error for {pathology}: {e}", exc_info=True)
 
         else:
             # Fallback: search recent papers with outcomes
@@ -779,7 +779,7 @@ class HybridRanker:
                             evidence_level=ev_level
                         )
             except Exception as e:
-                logger.error(f"Graph fallback query error: {e}")
+                logger.error(f"Graph fallback query error: {e}", exc_info=True)
 
         paper_nodes = list(papers_dict.values())
 
@@ -1079,7 +1079,7 @@ class HybridRanker:
             return results[:top_k]
 
         except Exception as e:
-            logger.error(f"Neo4j hybrid search failed: {e}")
+            logger.error(f"Neo4j hybrid search failed: {e}", exc_info=True)
             # Fallback to traditional search
             logger.info("Falling back to traditional Graph + ChromaDB search")
             self.use_neo4j_hybrid = False  # 일시적으로 비활성화
@@ -1191,7 +1191,7 @@ class HybridRanker:
             "vector_db": self.vector_db.get_stats() if self.vector_db else None,
             "graph_db_available": self.neo4j_client is not None,
             "neo4j_hybrid_enabled": self.use_neo4j_hybrid,  # v5.3
-            "search_backend": "neo4j_hybrid" if self.use_neo4j_hybrid else "chromadb+neo4j_cypher",
+            "search_backend": "neo4j_hybrid" if self.use_neo4j_hybrid else "neo4j_cypher",
             "ranking_version": "v1.0",  # NEW
         }
 
@@ -1203,18 +1203,25 @@ class HybridRanker:
 # ============================================================================
 
 async def example_usage() -> None:
-    """Hybrid Ranker 사용 예시 (v1.0)."""
-    from ..storage.vector_db import TieredVectorDB
+    """Hybrid Ranker 사용 예시 (v1.0).
 
-    # Vector DB 초기화
-    vector_db: TieredVectorDB = TieredVectorDB(persist_directory="./data/chromadb")
+    Neo4j hybrid search를 사용합니다 (v1.14.12: ChromaDB 제거됨).
+    """
+    from ..graph.neo4j_client import Neo4jClient
 
-    # Hybrid Ranker 초기화 (Neo4j 없이)
-    ranker: HybridRanker = HybridRanker(vector_db=vector_db)
+    # Neo4j 클라이언트 초기화
+    neo4j_client = Neo4jClient()
+    await neo4j_client.connect()
 
-    # 검색 쿼리
+    # Hybrid Ranker 초기화 (Neo4j hybrid search)
+    ranker: HybridRanker = HybridRanker(
+        neo4j_client=neo4j_client,
+        use_neo4j_hybrid=True,
+    )
+
+    # 검색 쿼리 (embedding은 별도 생성 필요)
     query: str = "What are effective interventions for reducing PJK in ASD surgery?"
-    query_embedding: list[float] = vector_db.get_embedding(query)
+    query_embedding: list[float] = [0.0] * 3072  # placeholder
 
     # Hybrid 검색 (v1.0 evidence-based ranking)
     results: list[HybridResult] = await ranker.search(
@@ -1222,20 +1229,15 @@ async def example_usage() -> None:
         query_embedding=query_embedding,
         top_k=10,
         graph_weight=0.6,
-        vector_weight=0.4
+        vector_weight=0.4,
     )
 
     # 결과 출력
     for i, result in enumerate(results, 1):
         print(f"{i}. [{result.result_type}] Score: {result.score:.3f}")
-        if "ranking_version" in result.metadata:
-            print(f"   Ranking: {result.metadata['ranking_version']}")
-            if "semantic_score" in result.metadata:
-                print(f"   Semantic: {result.metadata['semantic_score']:.3f}, "
-                      f"Authority: {result.metadata['authority_score']:.3f}")
         print(f"   {result.get_evidence_text()}")
-        print(f"   {result.get_citation()}")
-        print()
+
+    await neo4j_client.close()
 
 
 if __name__ == "__main__":

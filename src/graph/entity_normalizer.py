@@ -35,6 +35,7 @@ Examples:
 
 import re
 import logging
+import threading
 from typing import Optional
 from dataclasses import dataclass, field
 from rapidfuzz import fuzz, process
@@ -2333,6 +2334,10 @@ class EntityNormalizer:
     ) -> NormalizationResult:
         """정규화 결과에 SNOMED 코드 추가.
 
+        정규화 성공 시 normalized 이름으로 SNOMED 조회.
+        정규화 실패 시(confidence=0)에도 원본 텍스트로 SNOMED 직접 조회 시도.
+        (_search_mapping은 exact/case-insensitive/synonym/abbreviation 매칭 지원)
+
         Args:
             result: 정규화 결과
             entity_type: 엔티티 유형 ("intervention", "pathology", "outcome", "anatomy")
@@ -2343,18 +2348,28 @@ class EntityNormalizer:
         if not SNOMED_AVAILABLE:
             return result
 
-        if result.confidence == 0.0 or not result.normalized:
+        if not result.normalized and not result.original:
+            return result
+
+        snomed_fn = {
+            "intervention": get_snomed_for_intervention,
+            "pathology": get_snomed_for_pathology,
+            "outcome": get_snomed_for_outcome,
+            "anatomy": get_snomed_for_anatomy,
+        }.get(entity_type)
+
+        if not snomed_fn:
             return result
 
         mapping = None
-        if entity_type == "intervention" and get_snomed_for_intervention:
-            mapping = get_snomed_for_intervention(result.normalized)
-        elif entity_type == "pathology" and get_snomed_for_pathology:
-            mapping = get_snomed_for_pathology(result.normalized)
-        elif entity_type == "outcome" and get_snomed_for_outcome:
-            mapping = get_snomed_for_outcome(result.normalized)
-        elif entity_type == "anatomy" and get_snomed_for_anatomy:
-            mapping = get_snomed_for_anatomy(result.normalized)
+
+        # 1차: normalized 이름으로 SNOMED 조회
+        if result.confidence > 0.0 and result.normalized:
+            mapping = snomed_fn(result.normalized)
+
+        # 2차: 실패 시 원본 텍스트로 직접 SNOMED 조회 (synonym/abbreviation 매칭)
+        if not mapping and result.original:
+            mapping = snomed_fn(result.original)
 
         if mapping:
             result.snomed_code = mapping.code
@@ -2465,13 +2480,16 @@ class EntityNormalizer:
 
 # 싱글톤 인스턴스
 _normalizer: Optional[EntityNormalizer] = None
+_normalizer_lock = threading.Lock()
 
 
 def get_normalizer() -> EntityNormalizer:
-    """정규화기 싱글톤 가져오기."""
+    """정규화기 싱글톤 가져오기 (thread-safe)."""
     global _normalizer
     if _normalizer is None:
-        _normalizer = EntityNormalizer()
+        with _normalizer_lock:
+            if _normalizer is None:
+                _normalizer = EntityNormalizer()
     return _normalizer
 
 

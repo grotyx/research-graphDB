@@ -59,7 +59,7 @@ def create_app() -> "FastAPI":
     app = FastAPI(
         title="Medical KAG API",
         description="Spine Surgery Knowledge Graph REST API",
-        version="7.5.0"
+        version="7.6.0"
     )
 
     # CORS 설정 (외부 접속 허용)
@@ -85,7 +85,7 @@ def create_app() -> "FastAPI":
             "status": "healthy",
             "server": "medical-kag",
             "neo4j_available": kag_server.neo4j_client is not None,
-            "llm_enabled": kag_server.llm_enabled,
+            "llm_enabled": getattr(kag_server, "enable_llm", False),
         }
 
     @app.get("/tools")
@@ -101,7 +101,6 @@ def create_app() -> "FastAPI":
             {"name": "analyze_text", "description": "텍스트 직접 분석 (text, title, pmid)"},
             {"name": "get_intervention_hierarchy", "description": "수술법 계층 조회 (intervention_name)"},
             {"name": "find_conflicts", "description": "연구 결과 충돌 탐지 (topic)"},
-            {"name": "get_topic_clusters", "description": "주제별 논문 클러스터"},
             {"name": "get_paper_relations", "description": "논문 관계 조회 (paper_id)"},
             {"name": "compare_papers", "description": "논문 비교 (paper_ids: list)"},
         ]
@@ -124,7 +123,9 @@ def create_app() -> "FastAPI":
     async def pubmed_search(request: ToolRequest):
         """PubMed 대량 검색."""
         data = request.model_dump()
-        result = await kag_server.pubmed_bulk_search(
+        if not kag_server.pubmed_handler:
+            return {"success": False, "error": "PubMed handler not available"}
+        result = await kag_server.pubmed_handler.pubmed_bulk_search(
             query=data.get("query", ""),
             max_results=data.get("max_results", 20),
             year_from=data.get("year_from"),
@@ -138,7 +139,9 @@ def create_app() -> "FastAPI":
     async def import_by_pmids(request: ToolRequest):
         """PMID로 논문 임포트."""
         data = request.model_dump()
-        result = await kag_server.import_papers_by_pmids(
+        if not kag_server.pubmed_handler:
+            return {"success": False, "error": "PubMed handler not available"}
+        result = await kag_server.pubmed_handler.import_papers_by_pmids(
             pmids=data.get("pmids", [])
         )
         return result
@@ -158,18 +161,24 @@ def create_app() -> "FastAPI":
     @app.get("/tool/list_documents")
     async def list_documents():
         """문서 목록 조회."""
-        return await kag_server.list_documents()
+        if not kag_server.document_handler:
+            return {"success": False, "error": "Document handler not available"}
+        return await kag_server.document_handler.list_documents()
 
     @app.get("/tool/get_stats")
     async def get_stats():
         """시스템 통계."""
-        return await kag_server.get_stats()
+        if not kag_server.document_handler:
+            return {"success": False, "error": "Document handler not available"}
+        return await kag_server.document_handler.get_stats()
 
     @app.post("/tool/get_intervention_hierarchy")
     async def get_intervention_hierarchy(request: ToolRequest):
         """수술법 계층 조회."""
         data = request.model_dump()
-        return await kag_server.get_intervention_hierarchy(
+        if not kag_server.graph_handler:
+            return {"success": False, "error": "Graph handler not available"}
+        return await kag_server.graph_handler.get_intervention_hierarchy(
             intervention_name=data.get("intervention_name", "")
         )
 
@@ -177,21 +186,20 @@ def create_app() -> "FastAPI":
     async def find_conflicts(request: ToolRequest):
         """연구 결과 충돌 탐지."""
         data = request.model_dump()
-        return await kag_server.find_conflicts(
+        if not kag_server.reasoning_handler:
+            return {"success": False, "error": "Reasoning handler not available"}
+        return await kag_server.reasoning_handler.find_conflicts(
             topic=data.get("topic", ""),
             document_ids=data.get("document_ids"),
         )
-
-    @app.get("/tool/get_topic_clusters")
-    async def get_topic_clusters():
-        """주제별 논문 클러스터."""
-        return await kag_server.get_topic_clusters()
 
     @app.post("/tool/get_paper_relations")
     async def get_paper_relations(request: ToolRequest):
         """논문 관계 조회."""
         data = request.model_dump()
-        return await kag_server.get_paper_relations(
+        if not kag_server.graph_handler:
+            return {"success": False, "error": "Graph handler not available"}
+        return await kag_server.graph_handler.get_paper_relations(
             paper_id=data.get("paper_id", "")
         )
 
@@ -199,7 +207,9 @@ def create_app() -> "FastAPI":
     async def compare_papers(request: ToolRequest):
         """논문 비교."""
         data = request.model_dump()
-        return await kag_server.compare_papers(
+        if not kag_server.reasoning_handler:
+            return {"success": False, "error": "Reasoning handler not available"}
+        return await kag_server.reasoning_handler.compare_papers(
             paper_ids=data.get("paper_ids", [])
         )
 

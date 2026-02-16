@@ -23,7 +23,7 @@ docker-compose up -d
 
 ### 2.3 Neo4j 상태 확인
 - 브라우저: http://localhost:7474
-- 로그인: neo4j / spineGraph2024
+- 로그인: neo4j / `<.env의 NEO4J_PASSWORD>`
 
 ---
 

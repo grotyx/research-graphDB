@@ -29,7 +29,7 @@ export GEMINI_API_KEY="your_api_key_here"
 
 # Optional (config.yaml has defaults)
 export NEO4J_URI="bolt://localhost:7687"
-export NEO4J_PASSWORD="spineGraph2024"
+export NEO4J_PASSWORD="<your-password>"
 ```
 
 ### 4. Use in Python Code

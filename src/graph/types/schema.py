@@ -696,14 +696,15 @@ class SpineGraphSchema:
         """
 
     @classmethod
-    def get_enrich_snomed_cypher(cls) -> list[str]:
-        """SNOMED 코드로 기존 노드를 보강하는 Cypher 쿼리 목록.
+    def get_enrich_snomed_cypher(cls) -> list[tuple[str, dict]]:
+        """SNOMED 코드로 기존 노드를 보강하는 Cypher (query, params) 튜플 목록.
 
-        spine_snomed_mappings.py의 315개 매핑으로부터 동적 생성합니다.
+        spine_snomed_mappings.py의 414개 매핑으로부터 동적 생성합니다.
         v1.16.3: 하드코딩 제거, snomed_enricher.py 기반 동적 생성.
+        v1.18.1: f-string → 파라미터 바인딩 전환. (query, params) 튜플 반환.
 
         Returns:
-            SNOMED 보강 쿼리 목록
+            (Cypher 쿼리, 파라미터 dict) 튜플 목록
         """
         from graph.snomed_enricher import generate_snomed_update_queries
         return generate_snomed_update_queries()

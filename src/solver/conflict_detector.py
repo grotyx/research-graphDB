@@ -312,7 +312,7 @@ class ConflictDetector:
                 {"intervention": intervention, "outcome": outcome}
             )
         except Exception as e:
-            logger.error(f"Failed to query conflicts for {intervention} → {outcome}: {e}")
+            logger.error(f"Failed to query conflicts for {intervention} → {outcome}: {e}", exc_info=True)
             return None
 
         if not results:
@@ -404,7 +404,7 @@ class ConflictDetector:
         try:
             pairs = await self.client.run_query(cypher)
         except Exception as e:
-            logger.error(f"Failed to find intervention-outcome pairs: {e}")
+            logger.error(f"Failed to find intervention-outcome pairs: {e}", exc_info=True)
             return []
 
         logger.info(f"Found {len(pairs)} intervention-outcome pairs with multiple papers")

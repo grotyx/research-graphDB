@@ -14,6 +14,7 @@ from src.llm.gemini_client import (
     RateLimiter
 )
 from src.llm.cache import LLMCache, generate_cache_key
+from src.core.exceptions import LLMError
 
 
 class TestGeminiConfig:
@@ -46,7 +47,7 @@ class TestGeminiConfig:
             import os
             if "GEMINI_API_KEY" in os.environ:
                 del os.environ["GEMINI_API_KEY"]
-            with pytest.raises(ValueError, match="GEMINI_API_KEY"):
+            with pytest.raises(LLMError, match="GEMINI_API_KEY"):
                 GeminiConfig()
 
 

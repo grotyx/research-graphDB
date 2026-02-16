@@ -1,7 +1,7 @@
 """Error handling hierarchy for Spine GraphRAG system.
 
 This module defines a comprehensive exception hierarchy with specific error codes
-for different system components (LLM, Neo4j, ChromaDB, etc.).
+for different system components (LLM, Neo4j, etc.).
 
 Example:
     ```python
@@ -52,13 +52,6 @@ class ErrorCode(Enum):
     NEO4J_CONSTRAINT_VIOLATION = "NEO4J_CONSTRAINT_VIOLATION"
     NEO4J_NODE_NOT_FOUND = "NEO4J_NODE_NOT_FOUND"
     NEO4J_SCHEMA_ERROR = "NEO4J_SCHEMA_ERROR"
-
-    # ChromaDB errors (DEPRECATED - v1.14.12: Neo4j Vector Index가 유일한 벡터 저장소)
-    CHROMA_CONNECTION = "CHROMA_CONNECTION"
-    CHROMA_COLLECTION_NOT_FOUND = "CHROMA_COLLECTION_NOT_FOUND"
-    CHROMA_INSERT_FAILED = "CHROMA_INSERT_FAILED"
-    CHROMA_QUERY_FAILED = "CHROMA_QUERY_FAILED"
-    CHROMA_DELETE_FAILED = "CHROMA_DELETE_FAILED"
 
     # Normalization errors (NORM_*)
     NORM_NO_MATCH = "NORM_NO_MATCH"
@@ -239,22 +232,6 @@ class Neo4jError(MedicalRAGError):
         self,
         message: str,
         error_code: ErrorCode = ErrorCode.NEO4J_QUERY_ERROR,
-        details: Optional[dict] = None
-    ):
-        super().__init__(message=message, error_code=error_code, details=details)
-
-
-@dataclass
-class ChromaDBError(MedicalRAGError):
-    """ChromaDB vector database errors.
-
-    DEPRECATED (v1.14.12): ChromaDB 제거됨. Neo4j Vector Index 사용.
-    하위 호환성을 위해 유지됨.
-    """
-    def __init__(
-        self,
-        message: str,
-        error_code: ErrorCode = ErrorCode.CHROMA_QUERY_FAILED,
         details: Optional[dict] = None
     ):
         super().__init__(message=message, error_code=error_code, details=details)

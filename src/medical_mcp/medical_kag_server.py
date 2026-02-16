@@ -8,7 +8,11 @@ LLM 기반 처리 및 논문 관계 그래프 지원.
 # CRITICAL: Load .env FIRST before any imports that might check environment variables
 import os
 import sys
+import logging
 from pathlib import Path
+
+# Early logger for module-level import diagnostics
+logger = logging.getLogger("medical-kag")
 
 # Load environment variables from .env file
 try:
@@ -16,16 +20,15 @@ try:
     env_path = Path(__file__).parent.parent.parent / ".env"
     if env_path.exists():
         load_dotenv(env_path)
-        print(f"[medical_kag_server] .env loaded from: {env_path}", file=sys.stderr)
-        print(f"[medical_kag_server] GEMINI_API_KEY present: {bool(os.environ.get('GEMINI_API_KEY'))}", file=sys.stderr)
-        print(f"[medical_kag_server] NEO4J_PASSWORD present: {bool(os.environ.get('NEO4J_PASSWORD'))}", file=sys.stderr)
+        logger.info(f".env loaded from: {env_path}")
+        logger.info(f"GEMINI_API_KEY present: {bool(os.environ.get('GEMINI_API_KEY'))}")
+        logger.info(f"NEO4J_PASSWORD present: {bool(os.environ.get('NEO4J_PASSWORD'))}")
     else:
-        print(f"[medical_kag_server] .env not found at: {env_path}", file=sys.stderr)
+        logger.warning(f".env not found at: {env_path}")
 except ImportError:
-    print("[medical_kag_server] python-dotenv not installed, skipping .env loading", file=sys.stderr)
+    logger.warning("python-dotenv not installed, skipping .env loading")
 
 import asyncio
-import logging
 from datetime import datetime
 from typing import Optional, Any
 
@@ -76,10 +79,10 @@ try:
     from builder.llm_semantic_chunker import LLMSemanticChunker
     from builder.llm_metadata_extractor import LLMMetadataExtractor
     LLM_AVAILABLE = True
-    print(f"[medical_kag_server] LLM modules imported successfully", file=sys.stderr)
+    logger.info("LLM modules imported successfully")
 except ImportError as e:
     LLM_AVAILABLE = False
-    print(f"[medical_kag_server] LLM import failed: {e}", file=sys.stderr)
+    logger.warning(f"LLM import failed: {e}")
 
 # Unified PDF Processor v2.0 (Claude/Gemini - configurable via .env)
 # All dataclasses are now in unified_pdf_processor (gemini_vision_processor is deprecated)
@@ -102,7 +105,7 @@ try:
     # Backward compatibility alias
     GeminiVisionProcessor = UnifiedPDFProcessor
     LEGACY_VISION_AVAILABLE = True  # unified_pdf_processor handles both
-    print(f"[medical_kag_server] Unified PDF processor v2.0 imported successfully", file=sys.stderr)
+    logger.info("Unified PDF processor v2.0 imported successfully")
 except ImportError as e:
     VISION_AVAILABLE = False
     LEGACY_VISION_AVAILABLE = False
@@ -110,7 +113,7 @@ except ImportError as e:
     ProcessorResult = None
     VisionProcessorResult = None
     GeminiVisionProcessor = None
-    print(f"[medical_kag_server] Unified PDF processor import failed: {e}", file=sys.stderr)
+    logger.warning(f"Unified PDF processor import failed: {e}")
 
 # v1.0 Simplified Processing Pipeline - REMOVED (archived to src/archive/legacy_v7/)
 # unified_pdf_processor.py가 기본 파이프라인으로 사용됨
@@ -142,23 +145,23 @@ except ImportError:
 try:
     from builder.pubmed_enricher import PubMedEnricher, BibliographicMetadata
     PUBMED_ENRICHER_AVAILABLE = True
-    print(f"[medical_kag_server] PubMed Enricher imported successfully", file=sys.stderr)
+    logger.info("PubMed Enricher imported successfully")
 except ImportError as e:
     PUBMED_ENRICHER_AVAILABLE = False
     PubMedEnricher = None
     BibliographicMetadata = None
-    print(f"[medical_kag_server] PubMed Enricher import failed: {e}", file=sys.stderr)
+    logger.warning(f"PubMed Enricher import failed: {e}")
 
 # Important Citation Processor (v3.2+)
 try:
     from builder.important_citation_processor import ImportantCitationProcessor, CitationProcessingResult
     CITATION_PROCESSOR_AVAILABLE = True
-    print(f"[medical_kag_server] Important Citation Processor imported successfully", file=sys.stderr)
+    logger.info("Important Citation Processor imported successfully")
 except ImportError as e:
     CITATION_PROCESSOR_AVAILABLE = False
     ImportantCitationProcessor = None
     CitationProcessingResult = None
-    print(f"[medical_kag_server] Important Citation Processor import failed: {e}", file=sys.stderr)
+    logger.warning(f"Important Citation Processor import failed: {e}")
 
 # PubMed Bulk Processor (v4.3+)
 try:
@@ -168,13 +171,13 @@ try:
         BulkImportSummary,
     )
     PUBMED_BULK_AVAILABLE = True
-    print(f"[medical_kag_server] PubMed Bulk Processor imported successfully", file=sys.stderr)
+    logger.info("PubMed Bulk Processor imported successfully")
 except ImportError as e:
     PUBMED_BULK_AVAILABLE = False
     PubMedBulkProcessor = None
     PubMedImportResult = None
     BulkImportSummary = None
-    print(f"[medical_kag_server] PubMed Bulk Processor import failed: {e}", file=sys.stderr)
+    logger.warning(f"PubMed Bulk Processor import failed: {e}")
 
 # DOI Fulltext Fetcher (v1.13+)
 try:
@@ -186,7 +189,7 @@ try:
         get_doi_metadata,
     )
     DOI_FETCHER_AVAILABLE = True
-    print(f"[medical_kag_server] DOI Fulltext Fetcher imported successfully", file=sys.stderr)
+    logger.info("DOI Fulltext Fetcher imported successfully")
 except ImportError as e:
     DOI_FETCHER_AVAILABLE = False
     DOIFulltextFetcher = None
@@ -194,17 +197,17 @@ except ImportError as e:
     DOIMetadata = None
     fetch_by_doi = None
     get_doi_metadata = None
-    print(f"[medical_kag_server] DOI Fulltext Fetcher import failed: {e}", file=sys.stderr)
+    logger.warning(f"DOI Fulltext Fetcher import failed: {e}")
 
 # PMC Full Text Fetcher (PMC-first optimization for PDF upload)
 try:
     from builder.pmc_fulltext_fetcher import PMCFullTextFetcher
     PMC_FETCHER_AVAILABLE = True
-    print(f"[medical_kag_server] PMC Full Text Fetcher imported successfully", file=sys.stderr)
+    logger.info("PMC Full Text Fetcher imported successfully")
 except ImportError as e:
     PMC_FETCHER_AVAILABLE = False
     PMCFullTextFetcher = None
-    print(f"[medical_kag_server] PMC Full Text Fetcher import failed: {e}", file=sys.stderr)
+    logger.warning(f"PMC Full Text Fetcher import failed: {e}")
 
 # Neo4j Graph modules (Spine GraphRAG v3)
 try:
@@ -216,7 +219,7 @@ try:
     from orchestrator.cypher_generator import CypherGenerator
     from graph.taxonomy_manager import TaxonomyManager
     GRAPH_AVAILABLE = True
-    print(f"[medical_kag_server] Neo4j Graph modules imported successfully", file=sys.stderr)
+    logger.info("Neo4j Graph modules imported successfully")
 except ImportError as e:
     GRAPH_AVAILABLE = False
     Neo4jClient = None
@@ -228,7 +231,7 @@ except ImportError as e:
     CypherGenerator = None
     ChunkNode = None  # v5.3
     TaxonomyManager = None
-    print(f"[medical_kag_server] Neo4j Graph import failed: {e}", file=sys.stderr)
+    logger.warning(f"Neo4j Graph import failed: {e}")
 
 # Handler modules (v1.7)
 try:
@@ -238,7 +241,7 @@ try:
         WritingGuideHandler
     )
     HANDLERS_AVAILABLE = True
-    print(f"[medical_kag_server] Handler modules imported successfully (v1.13)", file=sys.stderr)
+    logger.info("Handler modules imported successfully (v1.13)")
 except ImportError as e:
     HANDLERS_AVAILABLE = False
     DocumentHandler = None
@@ -251,7 +254,7 @@ except ImportError as e:
     ReasoningHandler = None
     GraphHandler = None
     WritingGuideHandler = None
-    print(f"[medical_kag_server] Handler modules import failed: {e}", file=sys.stderr)
+    logger.warning(f"Handler modules import failed: {e}")
 
 # Configure logging with file handler
 from logging.handlers import RotatingFileHandler
@@ -276,7 +279,6 @@ logging.basicConfig(
         )
     ]
 )
-logger = logging.getLogger("medical-kag")
 logger.info(f"Log file: {_log_file}")
 
 
@@ -313,6 +315,9 @@ class MedicalKAGServer:
 
         # v1.5: 멀티유저 지원
         self.current_user: str = default_user or "system"
+
+        # v1.18: OpenAI 클라이언트 lazy 초기화 (재사용)
+        self._openai_client = None
 
         # Initialize components
         self._init_components()
@@ -791,10 +796,12 @@ class MedicalKAGServer:
         try:
             import fitz
             doc = fitz.open(str(path))
-            text = ""
-            for page_num in range(min(2, len(doc))):
-                text += doc[page_num].get_text()
-            doc.close()
+            try:
+                text = ""
+                for page_num in range(min(2, len(doc))):
+                    text += doc[page_num].get_text()
+            finally:
+                doc.close()
         except Exception as e:
             logger.debug(f"[PMC-first] PDF text extraction failed: {e}")
             return result
@@ -2508,706 +2515,6 @@ class MedicalKAGServer:
 
         logger.info(f"[analyze_text] Saved extracted data to: {filepath}")
 
-    # ========================================================================
-    # v1.3 Store Pre-Analyzed Paper (Desktop/Code Analysis Support)
-    # ========================================================================
-
-    async def store_analyzed_paper(
-        self,
-        title: str,
-        abstract: str,
-        year: int,
-        interventions: list[str],
-        outcomes: list[dict],
-        pathologies: Optional[list[str]] = None,
-        anatomy_levels: Optional[list[str]] = None,
-        authors: Optional[list[str]] = None,
-        journal: Optional[str] = None,
-        doi: Optional[str] = None,
-        pmid: Optional[str] = None,
-        evidence_level: Optional[str] = None,
-        study_design: Optional[str] = None,
-        sample_size: Optional[int] = None,
-        summary: Optional[str] = None,
-        sub_domain: Optional[str] = None,
-        chunks: Optional[list[dict]] = None,
-        patient_cohorts: Optional[list[dict]] = None,
-        followups: Optional[list[dict]] = None,
-        costs: Optional[list[dict]] = None,
-        quality_metrics: Optional[list[dict]] = None,
-    ) -> dict:
-        """미리 분석된 논문 데이터를 Neo4j에 저장합니다.
-
-        Claude Desktop 또는 Claude Code에서 PDF/텍스트를 직접 분석한 후,
-        추출된 데이터를 이 도구로 전달하여 Neo4j에 저장합니다.
-        LLM API 호출 없이 저장만 수행합니다.
-
-        사용 시나리오:
-        1. Claude Desktop에서 PDF 첨부 → 분석 → 이 도구로 저장
-        2. Claude Code에서 텍스트 분석 → 이 도구로 저장
-        3. PubMed에서 가져온 데이터 분석 → 이 도구로 저장
-
-        Args:
-            title: 논문 제목 (필수)
-            abstract: 초록 또는 본문 요약 (필수)
-            year: 출판년도 (필수)
-            interventions: 수술법/중재 목록 (필수), 예: ["TLIF", "PLIF"]
-            outcomes: 결과변수 목록 (필수), 예: [{"name": "ODI", "value": "28.5", "p_value": 0.001, "direction": "improved"}]
-            pathologies: 질환 목록, 예: ["Lumbar Stenosis", "Spondylolisthesis"]
-            anatomy_levels: 해부학적 위치, 예: ["L4-L5", "L5-S1"]
-            authors: 저자 목록, 예: ["Kim J", "Park S"]
-            journal: 저널명
-            doi: DOI
-            pmid: PubMed ID
-            evidence_level: 근거 수준 ("1a", "1b", "2a", "2b", "3", "4", "5")
-            study_design: 연구 설계 ("RCT", "Cohort", "Case-Control" 등)
-            sample_size: 샘플 크기
-            summary: 700+ word 종합 요약
-            sub_domain: 척추 하위 도메인 ("Degenerative", "Deformity", "Trauma" 등)
-            chunks: 청크 목록, 예: [{"content": "...", "section_type": "results", "tier": 1}]
-            patient_cohorts: v1.2 환자 코호트 데이터
-            followups: v1.2 추적관찰 데이터
-            costs: v1.2 비용 분석 데이터
-            quality_metrics: v1.2 품질 평가 데이터
-
-        Returns:
-            저장 결과 (paper_id, nodes_created, relationships_created 등)
-        """
-        import uuid
-        from datetime import datetime
-
-        # 1. 입력 검증
-        if not title:
-            return {"success": False, "error": "title은 필수입니다."}
-        if not abstract or len(abstract) < 50:
-            return {"success": False, "error": "abstract은 최소 50자 이상 필요합니다."}
-        if not year or year < 1900 or year > 2100:
-            return {"success": False, "error": "year는 1900-2100 사이여야 합니다."}
-        if not interventions:
-            return {"success": False, "error": "interventions 목록은 필수입니다."}
-        if not outcomes:
-            return {"success": False, "error": "outcomes 목록은 필수입니다."}
-
-        # 2. Paper ID 생성
-        if pmid:
-            paper_id = f"pubmed_{pmid}"
-        else:
-            short_uuid = str(uuid.uuid4())[:8]
-            paper_id = f"analyzed_{short_uuid}"
-
-        logger.info(f"Storing pre-analyzed paper: {title[:50]}... (paper_id={paper_id})")
-
-        # 3. Neo4j 연결 확인
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j not connected"}
-
-        if not self.relationship_builder:
-            return {"success": False, "error": "RelationshipBuilder not initialized"}
-
-        # 4. PubMed enrichment (v1.18: store_paper에도 추가)
-        pubmed_metadata = None
-        pubmed_enriched = False
-        if self.pubmed_enricher and (doi or title):
-            try:
-                logger.info(f"[store_paper] Attempting PubMed enrichment for: {title[:50]}...")
-                pubmed_metadata = await self.pubmed_enricher.auto_enrich(
-                    title=title,
-                    authors=authors or [],
-                    year=year,
-                    journal=journal,
-                    doi=doi
-                )
-                if pubmed_metadata:
-                    pubmed_enriched = True
-                    logger.info(f"[store_paper] PubMed enrichment successful: PMID={pubmed_metadata.pmid}")
-
-                    # PubMed 서지 정보 병합 (기존 값 우선, 빈 값만 보강)
-                    if not pmid and pubmed_metadata.pmid:
-                        pmid = pubmed_metadata.pmid
-                    if not doi and pubmed_metadata.doi:
-                        doi = pubmed_metadata.doi
-                    if not authors and pubmed_metadata.authors:
-                        authors = pubmed_metadata.authors
-                    if (not journal or journal == "Unknown") and pubmed_metadata.journal:
-                        journal = pubmed_metadata.journal
-
-                    # 근거 수준 추론 (기존 값 없는 경우)
-                    if not evidence_level and pubmed_metadata.publication_types:
-                        inferred_level = self.pubmed_enricher.get_evidence_level_from_publication_type(
-                            pubmed_metadata.publication_types
-                        )
-                        if inferred_level:
-                            evidence_level = inferred_level
-                            logger.info(f"[store_paper] Evidence level inferred: {inferred_level}")
-                else:
-                    logger.info("[store_paper] PubMed enrichment returned no results")
-            except Exception as e:
-                logger.warning(f"[store_paper] PubMed enrichment failed: {e}")
-
-        # DOI fallback (PubMed 실패 시)
-        if not pubmed_enriched and doi and self.doi_fetcher:
-            try:
-                logger.info(f"[store_paper] Trying DOI fallback: {doi}")
-                doi_metadata = await self.doi_fetcher.get_metadata_only(doi)
-                if doi_metadata:
-                    from builder.pubmed_enricher import BibliographicMetadata as BibMeta
-                    pubmed_metadata = BibMeta.from_doi_metadata(doi_metadata, confidence=0.8)
-                    pubmed_enriched = True
-                    if not pmid and pubmed_metadata.pmid:
-                        pmid = pubmed_metadata.pmid
-                    logger.info(f"[store_paper] DOI fallback successful")
-            except Exception as e:
-                logger.warning(f"[store_paper] DOI fallback failed: {e}")
-
-        # PMID가 확보되면 paper_id 재생성
-        if pmid and paper_id.startswith("analyzed_"):
-            paper_id = f"pubmed_{pmid}"
-            logger.info(f"[store_paper] Paper ID updated with PMID: {paper_id}")
-
-        # 5. GraphSpineMetadata 생성
-        try:
-            # GraphSpineMetadata already imported at module level
-
-            # outcomes 형식 변환 (모든 필드 유지, v1.18)
-            formatted_outcomes = []
-            for o in outcomes:
-                if isinstance(o, dict):
-                    # 원본 dict 전체 복사 + name 필수 보장
-                    outcome_dict = dict(o)
-                    if not outcome_dict.get("name"):
-                        logger.warning(f"[store_paper] Outcome with empty name, skipping: {o}")
-                        continue
-                    formatted_outcomes.append(outcome_dict)
-                elif o:
-                    formatted_outcomes.append({"name": str(o)})
-
-            graph_spine_meta = GraphSpineMetadata(
-                sub_domain=sub_domain or "Unknown",
-                sub_domains=[sub_domain] if sub_domain else [],
-                anatomy_levels=anatomy_levels or [],
-                interventions=interventions,
-                pathologies=pathologies or [],
-                outcomes=formatted_outcomes,
-                surgical_approach=[],
-                pico_population=None,
-                pico_intervention=interventions[0] if interventions else None,
-                pico_comparison=interventions[1] if len(interventions) > 1 else None,
-                pico_outcome=", ".join([o.get("name", "") for o in formatted_outcomes if o.get("name")]),  # singular, not plural
-                main_conclusion=summary[:500] if summary else None,
-                summary=summary or "",
-                processing_version="v1.3_store_analyzed",
-                # v1.2 Extended entities
-                patient_cohorts=patient_cohorts or [],
-                followups=followups or [],
-                costs=costs or [],
-                quality_metrics=quality_metrics or [],
-            )
-
-            # 5. RelationshipBuilder로 Neo4j에 저장 (v1.5: 멀티유저 지원)
-            from dataclasses import dataclass, field as df
-
-            # ExtractedMetadata 호환 객체 생성
-            @dataclass
-            class ExtractedMetaCompat:
-                title: str = ""
-                authors: list = df(default_factory=list)
-                year: int = 0
-                journal: str = ""
-                doi: str = ""
-                pmid: str = ""
-                study_type: str = ""
-                study_design: str = ""
-                evidence_level: str = ""
-                sample_size: int = 0
-                centers: str = ""
-                blinding: str = ""
-                abstract: str = ""
-                spine: any = None
-
-            meta_compat = ExtractedMetaCompat(
-                title=title,
-                authors=authors or [],
-                year=year,
-                journal=journal or "Unknown",
-                doi=doi or "",  # v1.18: None 방지 (sanitize_doi가 처리하지만 방어적으로)
-                pmid=pmid or "",
-                study_design=study_design or "",
-                evidence_level=evidence_level or "unknown",
-                sample_size=sample_size or 0,
-                abstract=abstract,
-                spine=graph_spine_meta,
-            )
-
-            neo4j_result = await self.relationship_builder.build_from_paper(
-                paper_id=paper_id,
-                metadata=meta_compat,
-                spine_metadata=graph_spine_meta,
-                chunks=[],  # store_analyzed_data는 청크 별도 처리
-                owner=self.current_user,
-                shared=True
-            )
-
-            logger.info(f"Neo4j relationships built: {neo4j_result.nodes_created} nodes, {neo4j_result.relationships_created} relationships")
-
-            # v1.18: Outcome 생성 결과 로깅
-            if formatted_outcomes:
-                logger.info(f"[store_paper] Passed {len(formatted_outcomes)} outcomes to build_from_paper")
-            if neo4j_result.warnings:
-                logger.info(f"[store_paper] Build warnings: {neo4j_result.warnings}")
-
-        except Exception as e:
-            logger.exception(f"Neo4j storage failed: {e}")
-            return {"success": False, "error": f"Neo4j 저장 실패: {str(e)}"}
-
-        # 6. 청크 저장 (선택)
-        chunks_created = 0
-        if chunks and self.neo4j_client:
-            try:
-                from core.embedding import OpenAIEmbeddingGenerator
-
-                embedding_gen = OpenAIEmbeddingGenerator()
-
-                # 청크 텍스트 추출 (content/text/summary 필드 호환)
-                def _extract_chunk_text(c: dict) -> str:
-                    return c.get("content") or c.get("text") or c.get("summary") or ""
-
-                chunk_texts = [_extract_chunk_text(c) for c in chunks if _extract_chunk_text(c)]
-
-                if chunk_texts:
-                    # v1.14.3: 기존 Chunk 삭제 (중복 방지)
-                    await self._delete_existing_chunks(paper_id)
-
-                    # 임베딩 생성
-                    embeddings = embedding_gen.embed_batch(chunk_texts)
-
-                    # Neo4j에 청크 저장
-                    for i, (chunk, embedding) in enumerate(zip(chunks, embeddings)):
-                        chunk_id = f"{paper_id}_chunk_{i}"
-
-                        chunk_content = _extract_chunk_text(chunk)
-                        # tier: "tier1"/"tier2" 문자열 또는 1/2 정수 모두 호환
-                        tier_raw = chunk.get("tier", "tier2")
-                        chunk_tier = 1 if str(tier_raw) in ("tier1", "1") else 2
-                        chunk_section = chunk.get("section_type", "body")
-
-                        await self.neo4j_client.run_query(
-                            """
-                            MATCH (p:Paper {paper_id: $paper_id})
-                            CREATE (c:Chunk {
-                                chunk_id: $chunk_id,
-                                content: $content,
-                                tier: $tier,
-                                section: $section,
-                                embedding: $embedding
-                            })
-                            CREATE (p)-[:HAS_CHUNK]->(c)
-                            """,
-                            {
-                                "paper_id": paper_id,
-                                "chunk_id": chunk_id,
-                                "content": chunk_content,
-                                "tier": chunk_tier,
-                                "section": chunk_section,
-                                "embedding": embedding
-                            }
-                        )
-                        chunks_created += 1
-
-                    logger.info(f"Stored {chunks_created} chunks with embeddings to Neo4j")
-
-            except Exception as e:
-                logger.warning(f"Chunk storage failed: {e}")
-
-        # 7. 결과 반환
-        return {
-            "success": True,
-            "paper_id": paper_id,
-            "title": title,
-            "processing_method": "store_analyzed_paper",
-            "pubmed_enriched": pubmed_enriched,
-            "stored_metadata": {
-                "title": title,
-                "year": year,
-                "journal": journal,
-                "authors": authors,
-                "doi": doi,
-                "pmid": pmid,
-                "evidence_level": evidence_level,
-                "study_design": study_design,
-                "sample_size": sample_size,
-                "sub_domain": sub_domain,
-                "interventions": interventions,
-                "pathologies": pathologies,
-                "anatomy_levels": anatomy_levels,
-                "outcomes_count": len(formatted_outcomes),
-            },
-            "neo4j_result": {
-                "nodes_created": neo4j_result.nodes_created if neo4j_result else 0,
-                "relationships_created": neo4j_result.relationships_created if neo4j_result else 0,
-                "warnings": neo4j_result.warnings if neo4j_result else [],
-            },
-            "stats": {
-                "abstract_length": len(abstract),
-                "chunks_created": chunks_created,
-                "storage_backend": "neo4j",
-                "v72_entities": {
-                    "patient_cohorts": len(patient_cohorts) if patient_cohorts else 0,
-                    "followups": len(followups) if followups else 0,
-                    "costs": len(costs) if costs else 0,
-                    "quality_metrics": len(quality_metrics) if quality_metrics else 0,
-                }
-            }
-        }
-
-    # ========================================================================
-    # v1.2 Extended Entity Query Methods
-    # ========================================================================
-
-    async def get_patient_cohorts(
-        self,
-        paper_id: Optional[str] = None,
-        intervention: Optional[str] = None,
-        cohort_type: Optional[str] = None,
-        min_sample_size: Optional[int] = None
-    ) -> dict:
-        """환자 코호트 정보 조회 (v1.2)."""
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j not connected"}
-
-        try:
-            # 동적 필터 구성
-            where_clauses = []
-            params = {}
-
-            if paper_id:
-                where_clauses.append("p.paper_id = $paper_id")
-                params["paper_id"] = paper_id
-
-            if cohort_type:
-                where_clauses.append("c.cohort_type = $cohort_type")
-                params["cohort_type"] = cohort_type
-
-            if min_sample_size:
-                where_clauses.append("c.sample_size >= $min_sample_size")
-                params["min_sample_size"] = min_sample_size
-
-            where_clause = " AND ".join(where_clauses) if where_clauses else "1=1"
-
-            if intervention:
-                # 수술법으로 필터링 - TREATED_WITH 관계 사용
-                cypher = f"""
-                MATCH (p:Paper)-[:HAS_COHORT]->(c:PatientCohort)-[:TREATED_WITH]->(i:Intervention {{name: $intervention}})
-                WHERE {where_clause}
-                RETURN p.paper_id AS paper_id, p.title AS paper_title,
-                       c.name AS cohort_name, c.cohort_type AS cohort_type,
-                       c.sample_size AS sample_size, c.mean_age AS mean_age,
-                       c.female_percentage AS female_percentage, c.diagnosis AS diagnosis,
-                       c.comorbidities AS comorbidities, c.ASA_score AS asa_score,
-                       c.BMI AS bmi, i.name AS intervention
-                ORDER BY c.sample_size DESC
-                LIMIT 50
-                """
-                params["intervention"] = intervention
-            else:
-                cypher = f"""
-                MATCH (p:Paper)-[:HAS_COHORT]->(c:PatientCohort)
-                WHERE {where_clause}
-                OPTIONAL MATCH (c)-[:TREATED_WITH]->(i:Intervention)
-                RETURN p.paper_id AS paper_id, p.title AS paper_title,
-                       c.name AS cohort_name, c.cohort_type AS cohort_type,
-                       c.sample_size AS sample_size, c.mean_age AS mean_age,
-                       c.female_percentage AS female_percentage, c.diagnosis AS diagnosis,
-                       c.comorbidities AS comorbidities, c.ASA_score AS asa_score,
-                       c.BMI AS bmi, collect(i.name) AS interventions
-                ORDER BY c.sample_size DESC
-                LIMIT 50
-                """
-
-            records = await self.neo4j_client.run_query(cypher, params)
-
-            cohorts = []
-            for r in records:
-                cohorts.append({
-                    "paper_id": r.get("paper_id"),
-                    "paper_title": r.get("paper_title"),
-                    "cohort_name": r.get("cohort_name"),
-                    "cohort_type": r.get("cohort_type"),
-                    "sample_size": r.get("sample_size"),
-                    "mean_age": r.get("mean_age"),
-                    "female_percentage": r.get("female_percentage"),
-                    "diagnosis": r.get("diagnosis"),
-                    "comorbidities": r.get("comorbidities"),
-                    "asa_score": r.get("asa_score"),
-                    "bmi": r.get("bmi"),
-                    "intervention": r.get("intervention") or r.get("interventions"),
-                })
-
-            return {
-                "success": True,
-                "total_cohorts": len(cohorts),
-                "cohorts": cohorts,
-                "filters": {
-                    "paper_id": paper_id,
-                    "intervention": intervention,
-                    "cohort_type": cohort_type,
-                    "min_sample_size": min_sample_size,
-                }
-            }
-
-        except Exception as e:
-            logger.error(f"get_patient_cohorts failed: {e}")
-            return {"success": False, "error": str(e)}
-
-    async def get_followup_data(
-        self,
-        paper_id: Optional[str] = None,
-        intervention: Optional[str] = None,
-        min_months: Optional[int] = None,
-        max_months: Optional[int] = None
-    ) -> dict:
-        """추적관찰 데이터 조회 (v1.2)."""
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j not connected"}
-
-        try:
-            where_clauses = []
-            params = {}
-
-            if paper_id:
-                where_clauses.append("p.paper_id = $paper_id")
-                params["paper_id"] = paper_id
-
-            if min_months:
-                where_clauses.append("f.timepoint_months >= $min_months")
-                params["min_months"] = min_months
-
-            if max_months:
-                where_clauses.append("f.timepoint_months <= $max_months")
-                params["max_months"] = max_months
-
-            where_clause = " AND ".join(where_clauses) if where_clauses else "1=1"
-
-            if intervention:
-                cypher = f"""
-                MATCH (p:Paper)-[:INVESTIGATES]->(i:Intervention {{name: $intervention}})
-                MATCH (p)-[:HAS_FOLLOWUP]->(f:FollowUp)
-                WHERE {where_clause}
-                OPTIONAL MATCH (f)-[:REPORTS_OUTCOME]->(o:Outcome)
-                RETURN p.paper_id AS paper_id, p.title AS paper_title,
-                       f.name AS timepoint_name, f.timepoint_months AS timepoint_months,
-                       f.completeness_rate AS completeness_rate,
-                       collect(DISTINCT o.name) AS outcomes
-                ORDER BY f.timepoint_months
-                LIMIT 100
-                """
-                params["intervention"] = intervention
-            else:
-                cypher = f"""
-                MATCH (p:Paper)-[:HAS_FOLLOWUP]->(f:FollowUp)
-                WHERE {where_clause}
-                OPTIONAL MATCH (f)-[:REPORTS_OUTCOME]->(o:Outcome)
-                RETURN p.paper_id AS paper_id, p.title AS paper_title,
-                       f.name AS timepoint_name, f.timepoint_months AS timepoint_months,
-                       f.completeness_rate AS completeness_rate,
-                       collect(DISTINCT o.name) AS outcomes
-                ORDER BY f.timepoint_months
-                LIMIT 100
-                """
-
-            records = await self.neo4j_client.run_query(cypher, params)
-
-            followups = []
-            for r in records:
-                followups.append({
-                    "paper_id": r.get("paper_id"),
-                    "paper_title": r.get("paper_title"),
-                    "timepoint_name": r.get("timepoint_name"),
-                    "timepoint_months": r.get("timepoint_months"),
-                    "completeness_rate": r.get("completeness_rate"),
-                    "outcomes": r.get("outcomes") or [],
-                })
-
-            return {
-                "success": True,
-                "total_followups": len(followups),
-                "followups": followups,
-                "filters": {
-                    "paper_id": paper_id,
-                    "intervention": intervention,
-                    "min_months": min_months,
-                    "max_months": max_months,
-                }
-            }
-
-        except Exception as e:
-            logger.error(f"get_followup_data failed: {e}")
-            return {"success": False, "error": str(e)}
-
-    async def get_cost_analysis(
-        self,
-        paper_id: Optional[str] = None,
-        intervention: Optional[str] = None,
-        cost_type: Optional[str] = None
-    ) -> dict:
-        """비용 효과 분석 데이터 조회 (v1.2)."""
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j not connected"}
-
-        try:
-            where_clauses = []
-            params = {}
-
-            if paper_id:
-                where_clauses.append("p.paper_id = $paper_id")
-                params["paper_id"] = paper_id
-
-            if cost_type:
-                where_clauses.append("cost.cost_type = $cost_type")
-                params["cost_type"] = cost_type
-
-            where_clause = " AND ".join(where_clauses) if where_clauses else "1=1"
-
-            if intervention:
-                cypher = f"""
-                MATCH (p:Paper)-[:REPORTS_COST]->(cost:Cost)-[:ASSOCIATED_WITH]->(i:Intervention {{name: $intervention}})
-                WHERE {where_clause}
-                RETURN p.paper_id AS paper_id, p.title AS paper_title,
-                       cost.name AS cost_name, cost.cost_type AS cost_type,
-                       cost.mean_cost AS mean_cost, cost.currency AS currency,
-                       cost.QALY_gained AS qaly_gained, cost.ICER AS icer,
-                       cost.LOS_days AS los_days, cost.readmission_rate AS readmission_rate,
-                       i.name AS intervention
-                ORDER BY cost.mean_cost DESC
-                LIMIT 50
-                """
-                params["intervention"] = intervention
-            else:
-                cypher = f"""
-                MATCH (p:Paper)-[:REPORTS_COST]->(cost:Cost)
-                WHERE {where_clause}
-                OPTIONAL MATCH (cost)-[:ASSOCIATED_WITH]->(i:Intervention)
-                RETURN p.paper_id AS paper_id, p.title AS paper_title,
-                       cost.name AS cost_name, cost.cost_type AS cost_type,
-                       cost.mean_cost AS mean_cost, cost.currency AS currency,
-                       cost.QALY_gained AS qaly_gained, cost.ICER AS icer,
-                       cost.LOS_days AS los_days, cost.readmission_rate AS readmission_rate,
-                       collect(i.name) AS interventions
-                ORDER BY cost.mean_cost DESC
-                LIMIT 50
-                """
-
-            records = await self.neo4j_client.run_query(cypher, params)
-
-            costs = []
-            for r in records:
-                costs.append({
-                    "paper_id": r.get("paper_id"),
-                    "paper_title": r.get("paper_title"),
-                    "cost_name": r.get("cost_name"),
-                    "cost_type": r.get("cost_type"),
-                    "mean_cost": r.get("mean_cost"),
-                    "currency": r.get("currency"),
-                    "qaly_gained": r.get("qaly_gained"),
-                    "icer": r.get("icer"),
-                    "los_days": r.get("los_days"),
-                    "readmission_rate": r.get("readmission_rate"),
-                    "intervention": r.get("intervention") or r.get("interventions"),
-                })
-
-            return {
-                "success": True,
-                "total_cost_records": len(costs),
-                "costs": costs,
-                "filters": {
-                    "paper_id": paper_id,
-                    "intervention": intervention,
-                    "cost_type": cost_type,
-                }
-            }
-
-        except Exception as e:
-            logger.error(f"get_cost_analysis failed: {e}")
-            return {"success": False, "error": str(e)}
-
-    async def get_quality_metrics(
-        self,
-        paper_id: Optional[str] = None,
-        assessment_tool: Optional[str] = None,
-        min_rating: Optional[str] = None
-    ) -> dict:
-        """연구 품질 평가 지표 조회 (v1.2)."""
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j not connected"}
-
-        try:
-            where_clauses = []
-            params = {}
-
-            if paper_id:
-                where_clauses.append("p.paper_id = $paper_id")
-                params["paper_id"] = paper_id
-
-            if assessment_tool:
-                where_clauses.append("q.assessment_tool = $assessment_tool")
-                params["assessment_tool"] = assessment_tool
-
-            if min_rating:
-                # 품질 등급 필터: high > moderate > low > very low
-                rating_order = {"high": 4, "moderate": 3, "low": 2, "very low": 1}
-                min_order = rating_order.get(min_rating, 0)
-                where_clauses.append("""
-                CASE q.overall_rating
-                    WHEN 'high' THEN 4
-                    WHEN 'moderate' THEN 3
-                    WHEN 'low' THEN 2
-                    WHEN 'very low' THEN 1
-                    ELSE 0
-                END >= $min_order
-                """)
-                params["min_order"] = min_order
-
-            where_clause = " AND ".join(where_clauses) if where_clauses else "1=1"
-
-            cypher = f"""
-            MATCH (p:Paper)-[:HAS_QUALITY_METRIC]->(q:QualityMetric)
-            WHERE {where_clause}
-            RETURN p.paper_id AS paper_id, p.title AS paper_title,
-                   q.name AS metric_name, q.assessment_tool AS assessment_tool,
-                   q.overall_score AS overall_score, q.overall_rating AS overall_rating,
-                   q.domain_scores AS domain_scores
-            ORDER BY q.overall_score DESC
-            LIMIT 50
-            """
-
-            records = await self.neo4j_client.run_query(cypher, params)
-
-            metrics = []
-            for r in records:
-                metrics.append({
-                    "paper_id": r.get("paper_id"),
-                    "paper_title": r.get("paper_title"),
-                    "metric_name": r.get("metric_name"),
-                    "assessment_tool": r.get("assessment_tool"),
-                    "overall_score": r.get("overall_score"),
-                    "overall_rating": r.get("overall_rating"),
-                    "domain_scores": r.get("domain_scores"),
-                })
-
-            return {
-                "success": True,
-                "total_metrics": len(metrics),
-                "quality_metrics": metrics,
-                "filters": {
-                    "paper_id": paper_id,
-                    "assessment_tool": assessment_tool,
-                    "min_rating": min_rating,
-                }
-            }
-
-        except Exception as e:
-            logger.error(f"get_quality_metrics failed: {e}")
-            return {"success": False, "error": str(e)}
-
     async def search(
         self,
         query: str,
@@ -3238,1661 +2545,35 @@ class MedicalKAGServer:
             )
         return {"success": False, "error": "SearchHandler not initialized"}
 
-    async def reason(
-        self,
-        question: str,
-        max_hops: int = 3,
-        include_conflicts: bool = True
-    ) -> dict:
-        """추론 기반 답변 생성 (v1.14.18: ReasoningHandler로 위임).
+    # =========================================================================
+    # v1.18: 입력 검증 헬퍼 메서드
+    # =========================================================================
+
+    @staticmethod
+    def _validate_pmid(pmid: str) -> bool:
+        """PMID 형식 검증 (1-8자리 숫자).
 
         Args:
-            question: 질문
-            max_hops: 최대 추론 홉
-            include_conflicts: 상충 포함 여부
+            pmid: 검증할 PMID 문자열
 
         Returns:
-            추론 결과 딕셔너리
+            유효 여부
         """
-        if self.reasoning_handler:
-            return await self.reasoning_handler.reason(
-                question=question,
-                max_hops=max_hops,
-                include_conflicts=include_conflicts
-            )
-        return {"success": False, "error": "ReasoningHandler not initialized"}
+        import re
+        return bool(re.match(r'^\d{1,8}$', str(pmid).strip()))
 
-    async def add_json(
-        self,
-        file_path: str,
-        metadata: Optional[dict] = None
-    ) -> dict:
-        """미리 추출된 JSON 파일을 RAG 시스템에 추가합니다 (v5.3 Neo4j 전용).
-
-        LLM 호출 없이 직접 Neo4j에 저장합니다.
-        data/extracted/ 폴더의 JSON 또는 직접 만든 JSON 사용 가능.
+    @staticmethod
+    def _validate_doi(doi: str) -> bool:
+        """DOI 형식 검증 (10.xxxx/... 패턴).
 
         Args:
-            file_path: JSON 파일 경로
-            metadata: 추가 메타데이터 (덮어쓰기용)
+            doi: 검증할 DOI 문자열
 
         Returns:
-            처리 결과 딕셔너리
+            유효 여부
         """
-        import json
-        from dataclasses import dataclass, field
-
-        path = Path(file_path)
-        if not path.exists():
-            return {"success": False, "error": f"파일이 존재하지 않습니다: {file_path}"}
-
-        if path.suffix.lower() != ".json":
-            return {"success": False, "error": f"JSON 파일만 지원합니다: {path.suffix}"}
-
-        try:
-            with open(path, "r", encoding="utf-8") as f:
-                extracted_data = json.load(f)
-        except json.JSONDecodeError as e:
-            return {"success": False, "error": f"JSON 파싱 실패: {e}"}
-
-        # JSON 구조 검증
-        if "metadata" not in extracted_data or "chunks" not in extracted_data:
-            return {
-                "success": False,
-                "error": "JSON에 'metadata'와 'chunks' 필드가 필요합니다."
-            }
-
-        # v1.14.27: None 값 처리
-        meta_dict = extracted_data.get("metadata") or {}
-        spine_dict = extracted_data.get("spine_metadata") or {}
-        chunks_list = extracted_data.get("chunks") or []
-        integrated_citations = extracted_data.get("important_citations") or []
-
-        # 문서 ID 생성
-        pdf_metadata = {
-            "title": meta_dict.get("title", ""),
-            "authors": meta_dict.get("authors", []),
-            "year": meta_dict.get("year", 0),
-            "journal": meta_dict.get("journal", ""),
-            "doi": meta_dict.get("doi", ""),
-            "first_author": meta_dict.get("authors", [""])[0].split()[-1] if meta_dict.get("authors") else ""
-        }
-        doc_id = self._generate_document_id(pdf_metadata, path.stem)
-
-        # 메타데이터 병합
-        merged_metadata = {
-            **pdf_metadata,
-            **(metadata or {}),
-            "original_filename": path.name,
-            "study_type": meta_dict.get("study_type", ""),
-            "evidence_level": meta_dict.get("evidence_level", ""),
-            "processing_method": "json_import",
-            "source_json": str(path)
-        }
-
-        logger.info(f"Importing JSON: {path.name}, doc_id={doc_id}, chunks={len(chunks_list)}")
-
-        # TextChunk로 변환 및 저장 (add_pdf와 동일한 로직)
-        chunks = []
-        for i, chunk_dict in enumerate(chunks_list):
-            # v3.0 통계 형식으로 변환
-            stats_p_value = ""
-            stats_is_significant = False
-            stats_additional = ""
-            has_stats = False
-
-            if chunk_dict.get("statistics"):
-                stats = chunk_dict["statistics"]
-                # v3.0 형식 (p_value, is_significant, additional)
-                if "p_value" in stats:
-                    stats_p_value = str(stats.get("p_value", ""))
-                    stats_is_significant = bool(stats.get("is_significant", False))
-                    stats_additional = str(stats.get("additional", ""))
-                    has_stats = bool(stats_p_value)
-                # 구버전 형식 (p_values 배열) 호환
-                elif "p_values" in stats:
-                    p_values = stats.get("p_values", [])
-                    if p_values:
-                        stats_p_value = str(p_values[0]) if p_values else ""
-                        try:
-                            stats_is_significant = float(stats_p_value.replace("<", "").replace("=", "")) < 0.05
-                        except (ValueError, TypeError):
-                            stats_is_significant = False
-                    additional_parts = []
-                    if stats.get("effect_sizes"):
-                        additional_parts.append(f"Effect: {', '.join(stats['effect_sizes'])}")
-                    if stats.get("confidence_intervals"):
-                        additional_parts.append(f"CI: {', '.join(stats['confidence_intervals'])}")
-                    stats_additional = "; ".join(additional_parts)
-                    has_stats = bool(p_values or stats.get("effect_sizes"))
-
-            section_type = chunk_dict.get("section_type", "")
-            is_key_finding = chunk_dict.get("is_key_finding", False)
-            tier = "tier1" if section_type in ["abstract", "conclusion", "key_finding"] or is_key_finding else "tier2"
-
-            # v3.0 TextChunk 생성 (PICO 제거, 새 statistics 형식)
-            chunk = TextChunk(
-                chunk_id=f"{doc_id}_{i:03d}",
-                content=chunk_dict.get("content", ""),
-                document_id=doc_id,
-                tier=tier,
-                section=section_type,
-                source_type="original",
-                evidence_level=meta_dict.get("evidence_level", "5"),
-                publication_year=meta_dict.get("year", 0),
-                title=meta_dict.get("title", ""),
-                authors=meta_dict.get("authors", []),
-                metadata=merged_metadata,
-                # LLM 추출 메타데이터 (v3.0)
-                summary=chunk_dict.get("summary", "") or chunk_dict.get("topic_summary", ""),
-                keywords=chunk_dict.get("keywords", []) if isinstance(chunk_dict.get("keywords"), list) else [],
-                # PICO 제거됨 (v3.0) - Neo4j PaperNode에서 조회
-                # 통계 정보 (v3.0 간소화)
-                statistics_p_value=stats_p_value,
-                statistics_is_significant=stats_is_significant,
-                statistics_additional=stats_additional,
-                has_statistics=has_stats,
-                llm_processed=True,
-                llm_confidence=0.8,
-                is_key_finding=is_key_finding,
-            )
-            chunks.append(chunk)
-
-        # v5.3: ChromaDB 제거됨 - Neo4j만 사용
-        logger.info(f"JSON import: {len(chunks)}개 청크 준비 완료")
-
-        # Neo4j에 저장
-        neo4j_result = {"nodes_created": 0, "relationships_created": 0}
-        if self.neo4j_client:
-            try:
-                neo4j_result = await self._store_to_neo4j(
-                    doc_id=doc_id,
-                    meta_dict=meta_dict,
-                    spine_dict=spine_dict,
-                    chunks_list=chunks_list
-                )
-            except Exception as e:
-                logger.warning(f"Neo4j 저장 실패: {e}")
-
-        # 인용 처리
-        citations_result = None
-        if integrated_citations and self.citation_processor:
-            try:
-                citations_result = await self.citation_processor.process_from_integrated_citations(
-                    citing_paper_id=doc_id,
-                    citations=integrated_citations
-                )
-                logger.info(f"인용 처리: {citations_result.papers_created}개 논문, {citations_result.relationships_created}개 관계")
-            except Exception as e:
-                logger.warning(f"인용 처리 실패: {e}")
-
-        return {
-            "success": True,
-            "document_id": doc_id,
-            "title": meta_dict.get("title", "Unknown"),
-            "chunks_count": len(chunks),
-            "source": "json_import",
-            "json_file": str(path),
-            "neo4j": neo4j_result,
-            "citations": {
-                "papers_created": citations_result.papers_created if citations_result else 0,
-                "relationships_created": citations_result.relationships_created if citations_result else 0
-            } if citations_result else None
-        }
-
-    async def export_document(self, document_id: str) -> dict:
-        """저장된 문서를 JSON으로 내보냅니다 (v1.14.18: DocumentHandler로 위임).
-
-        Args:
-            document_id: 내보낼 문서 ID
-
-        Returns:
-            내보내기 결과
-        """
-        if self.document_handler:
-            return await self.document_handler.export_document(document_id)
-        return {"success": False, "error": "DocumentHandler not initialized"}
-
-    async def prepare_pdf_prompt(self, file_path: str) -> dict:
-        """PDF에서 텍스트를 추출하고 분석용 프롬프트를 반환합니다.
-
-        Claude 앱에서 직접 PDF를 분석할 수 있도록 프롬프트를 생성합니다.
-        LLM API 호출 없이 PDF 텍스트만 추출하여 반환합니다.
-
-        워크플로우:
-        1. prepare_pdf_prompt → 프롬프트 + PDF 텍스트 반환
-        2. Claude 앱에서 직접 분석 수행
-        3. add_json으로 결과 저장
-
-        Args:
-            file_path: PDF 파일의 절대 경로
-
-        Returns:
-            프롬프트와 PDF 텍스트가 포함된 딕셔너리
-        """
-        import fitz  # pymupdf
-
-        path = Path(file_path)
-
-        if not path.exists():
-            return {"success": False, "error": f"파일 없음: {file_path}"}
-
-        if not path.suffix.lower() == ".pdf":
-            return {"success": False, "error": "PDF 파일이 아닙니다"}
-
-        try:
-            # PDF 텍스트 추출
-            doc = fitz.open(str(path))
-            full_text = ""
-            for page_num, page in enumerate(doc, 1):
-                page_text = page.get_text()
-                if page_text.strip():
-                    full_text += f"\n--- PAGE {page_num} ---\n{page_text}"
-            doc.close()
-
-            if not full_text.strip():
-                return {"success": False, "error": "PDF에서 텍스트를 추출할 수 없습니다."}
-
-            # 전체 EXTRACTION_PROMPT 사용 (unified_pdf_processor.py와 동일)
-            from builder.unified_pdf_processor import EXTRACTION_PROMPT
-            extraction_prompt = EXTRACTION_PROMPT.replace(
-                "Analyze this PDF and extract ALL important information",
-                "Analyze the following medical research paper text and extract ALL important information"
-            )
-
-            # 사용자 안내 메시지
-            usage_guide = """## 사용 방법
-
-### Claude Code 병렬 처리 (권장)
-1. prepare_prompt로 추출 프롬프트 확인
-2. Claude Code에서 PDF 직접 Read
-3. 프롬프트 + PDF 내용으로 구조화 추출 (JSON)
-4. analyze(action=store_paper, chunks=[...])로 DB 저장
-   - chunks 각 항목에 반드시 "content" 필드 포함 (전문 텍스트)
-   - "text" 또는 "summary" 필드도 호환 가능
-   - chunks 포함 시 자동으로 OpenAI 임베딩 생성 + Neo4j 저장
-
-### 중요: 청크 생성 규칙 (반드시 준수)
-- **목표: 15-25개 청크** (8개 미만이면 부족!)
-- text: 8-12개 (200-500자, abstract/intro/methods/discussion/conclusion)
-- key_finding: 5-8개 (통계 포함 결과, is_key_finding=true, tier=tier1)
-- table: 2-4개 (표 내러티브 요약, tier=tier1)
-- figure: 2-3개 (그림 서술적 설명, tier=tier2)
-- 각 청크 content는 200-500자 (너무 길면 분할!)
-
-### chunk 스키마 (EXTRACTION_PROMPT 동일)
-```json
-{"chunks": [
-  {"content": "본문 텍스트 200-500자...", "content_type": "text", "section_type": "methods", "tier": "tier2", "is_key_finding": false, "summary": "한줄 요약", "keywords": ["keyword1", "keyword2"]},
-  {"content": "VAS 점수가 수술 전 6.8±1.2에서 최종 추시 시 2.1±0.9로 유의하게 감소 (p<0.001)...", "content_type": "key_finding", "section_type": "results", "tier": "tier1", "is_key_finding": true, "summary": "VAS 유의한 개선", "keywords": ["VAS", "pain"], "statistics": {"p_value": "<0.001", "is_significant": true}}
-]}
-```
-
-### Claude Desktop 수동 처리
-1. prompt + pdf_text를 Claude 앱에 붙여넣기
-2. JSON 응답을 파일로 저장
-3. add_json(file_path="파일.json")으로 저장
-
-### 프롬프트 참고
-이 프롬프트는 unified_pdf_processor.py의 EXTRACTION_PROMPT와 동일합니다.
-MCP 서버의 PDF/텍스트 처리와 100% 같은 스키마로 추출됩니다.
-"""
-
-            return {
-                "success": True,
-                "file_name": path.name,
-                "text_length": len(full_text),
-                "page_count": len([1 for _ in fitz.open(str(path))]),
-                "usage_guide": usage_guide,
-                "prompt": extraction_prompt,
-                "pdf_text": full_text,
-                "next_step": "Claude Code: PDF Read → 추출 → store_paper(chunks 포함) / Claude Desktop: add_json"
-            }
-
-        except Exception as e:
-            logger.exception(f"Error preparing PDF prompt: {e}")
-            return {"success": False, "error": str(e)}
-
-    async def list_documents(self) -> dict:
-        """저장된 문서 목록 (v1.14.18: DocumentHandler로 위임)."""
-        if self.document_handler:
-            return await self.document_handler.list_documents()
-        return {"success": False, "error": "DocumentHandler not initialized"}
-
-    async def get_stats(self) -> dict:
-        """시스템 통계 조회 (v1.14.18: DocumentHandler로 위임)."""
-        if self.document_handler:
-            return await self.document_handler.get_stats()
-        return {
-            "document_count": 0,
-            "chunk_count": 0,
-            "tier1_count": 0,
-            "tier2_count": 0,
-            "llm_enabled": self.enable_llm,
-            "neo4j_available": False,
-            "storage_backend": "neo4j"
-        }
-
-    async def delete_document(self, document_id: str) -> dict:
-        """문서 삭제 (v1.14.18: DocumentHandler로 위임).
-
-        Args:
-            document_id: 삭제할 문서 ID
-
-        Returns:
-            삭제 결과 (neo4j_nodes, neo4j_relationships, deleted_chunks)
-        """
-        if self.document_handler:
-            return await self.document_handler.delete_document(document_id)
-        return {"success": False, "error": "DocumentHandler not initialized"}
-
-    async def reset_database(self, include_taxonomy: bool = False) -> dict:
-        """전체 데이터베이스 리셋 (v1.14.18: DocumentHandler로 위임).
-
-        Args:
-            include_taxonomy: Taxonomy도 삭제할지 여부 (기본값: False)
-
-        Returns:
-            리셋 결과
-        """
-        if self.document_handler:
-            return await self.document_handler.reset_database(include_taxonomy)
-        return {"success": False, "error": "DocumentHandler not initialized"}
-
-    # ========== Knowledge Graph Tools ==========
-
-    async def get_paper_relations(
-        self,
-        paper_id: str,
-        relation_type: Optional[str] = None
-    ) -> dict:
-        """논문의 관계 정보 조회 (Neo4j 기반).
-
-        Args:
-            paper_id: 논문 ID
-            relation_type: 관계 유형 필터 (SUPPORTS, CONTRADICTS, SIMILAR_TOPIC, CITES, EXTENDS, REPLICATES)
-
-        Returns:
-            관계 정보 딕셔너리
-        """
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j Graph Database not available"}
-
-        try:
-            # Ensure Neo4j is connected
-            if not self.neo4j_client._driver:
-                await self.neo4j_client.connect()
-
-            # 논문 정보 조회
-            paper_result = await self.neo4j_client.get_paper(paper_id)
-            if not paper_result:
-                return {"success": False, "error": f"Paper not found: {paper_id}"}
-
-            # Extract paper node from result
-            paper = paper_result.get("p", {})
-
-            # 관계 조회 (relation_type 필터 적용)
-            relation_types = None
-            if relation_type:
-                # Validate and convert to uppercase
-                valid_types = {"SUPPORTS", "CONTRADICTS", "SIMILAR_TOPIC", "EXTENDS", "CITES", "REPLICATES"}
-                rel_type_upper = relation_type.upper()
-                if rel_type_upper in valid_types:
-                    relation_types = [rel_type_upper]
-
-            relations = await self.neo4j_client.get_paper_relations(
-                paper_id,
-                relation_types=relation_types,
-                direction="both"
-            )
-
-            # 지지/상충/유사 논문 조회 (각각 최대 5개)
-            supporting_results = await self.neo4j_client.get_supporting_papers(paper_id, limit=5)
-            contradicting_results = await self.neo4j_client.get_contradicting_papers(paper_id, limit=5)
-            similar_results = await self.neo4j_client.get_similar_papers(paper_id, limit=5)
-
-            # Format results for UI compatibility
-            supporting_papers = []
-            for result in supporting_results:
-                target = result.get("target", {})
-                supporting_papers.append({
-                    "id": target.get("paper_id", ""),
-                    "title": target.get("title", ""),
-                    "confidence": result.get("confidence", 0.0)
-                })
-
-            contradicting_papers = []
-            for result in contradicting_results:
-                target = result.get("target", {})
-                contradicting_papers.append({
-                    "id": target.get("paper_id", ""),
-                    "title": target.get("title", ""),
-                    "confidence": result.get("confidence", 0.0)
-                })
-
-            similar_papers = []
-            for result in similar_results:
-                target = result.get("target", {})
-                similar_papers.append({
-                    "id": target.get("paper_id", ""),
-                    "title": target.get("title", ""),
-                    "similarity": result.get("confidence", 0.0)
-                })
-
-            # Format relations
-            formatted_relations = []
-            for rel in relations:
-                target = rel.get("target", {})
-                formatted_relations.append({
-                    "source": paper_id,
-                    "target": target.get("paper_id", ""),
-                    "type": rel.get("relation_type", ""),
-                    "confidence": rel.get("confidence", 0.0),
-                    "evidence": rel.get("evidence", ""),
-                })
-
-            return {
-                "success": True,
-                "paper": {
-                    "id": paper.get("paper_id", ""),
-                    "title": paper.get("title", ""),
-                    "year": paper.get("year", 0),
-                    "evidence_level": paper.get("evidence_level", ""),
-                },
-                "relations": formatted_relations,
-                "supporting_papers": supporting_papers,
-                "contradicting_papers": contradicting_papers,
-                "similar_papers": similar_papers,
-            }
-
-        except Exception as e:
-            logger.exception(f"Get paper relations error: {e}")
-            return {"success": False, "error": str(e)}
-
-    async def find_evidence_chain(
-        self,
-        claim: str,
-        max_papers: int = 5
-    ) -> dict:
-        """주장을 뒷받침하는 논문 체인 찾기 (Neo4j 기반).
-
-        claim에서 키워드를 추출하고 관련 논문과 AFFECTS 관계를 검색.
-
-        Args:
-            claim: 검증할 주장
-            max_papers: 최대 논문 수
-
-        Returns:
-            증거 체인 정보
-        """
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j Graph Database not available"}
-
-        try:
-            if not self.neo4j_client._driver:
-                await self.neo4j_client.connect()
-
-            # 1. Claim에서 Intervention/Outcome 키워드 추출 (간단한 방식)
-            # 관련 논문 검색
-            search_query = """
-            MATCH (p:Paper)
-            WHERE toLower(p.title) CONTAINS toLower($claim)
-               OR toLower(p.abstract) CONTAINS toLower($claim)
-            WITH p
-            LIMIT $limit
-
-            OPTIONAL MATCH (p)-[:INVESTIGATES]->(i:Intervention)
-            OPTIONAL MATCH (i)-[r:AFFECTS]->(o:Outcome)
-            WHERE r.source_paper_id = p.paper_id
-
-            RETURN p.paper_id AS paper_id,
-                   p.title AS title,
-                   p.year AS year,
-                   p.evidence_level AS evidence_level,
-                   collect(DISTINCT {
-                       intervention: i.name,
-                       outcome: o.name,
-                       direction: r.direction,
-                       p_value: r.p_value,
-                       is_significant: r.is_significant
-                   }) AS evidence
-            ORDER BY p.evidence_level, p.year DESC
-            """
-
-            results = await self.neo4j_client.run_query(
-                search_query,
-                {"claim": claim, "limit": max_papers * 2}
-            )
-
-            supporting = []
-            refuting = []
-            neutral = []
-
-            for result in results[:max_papers]:
-                paper_info = {
-                    "paper_id": result.get("paper_id"),
-                    "title": result.get("title"),
-                    "year": result.get("year"),
-                    "evidence_level": result.get("evidence_level"),
-                    "evidence": [e for e in (result.get("evidence") or [])
-                                if e.get("intervention")]
-                }
-
-                # 근거 분류 (direction 기반)
-                directions = [e.get("direction") for e in paper_info["evidence"]
-                             if e.get("direction")]
-                if "improved" in directions or "decreased" in directions:
-                    supporting.append(paper_info)
-                elif "worsened" in directions or "increased risk" in directions:
-                    refuting.append(paper_info)
-                else:
-                    neutral.append(paper_info)
-
-            return {
-                "success": True,
-                "claim": claim,
-                "supporting_papers": supporting,
-                "refuting_papers": refuting,
-                "neutral_papers": neutral,
-                "total_papers": len(supporting) + len(refuting) + len(neutral),
-            }
-
-        except Exception as e:
-            logger.exception(f"Find evidence chain error: {e}")
-            return {"success": False, "error": str(e)}
-
-    async def compare_papers(
-        self,
-        paper_ids: list[str]
-    ) -> dict:
-        """여러 논문 비교 분석 (Neo4j 기반).
-
-        선택된 논문들의 메타데이터, Intervention, Outcome을 비교.
-
-        Args:
-            paper_ids: 비교할 논문 ID 목록
-
-        Returns:
-            비교 분석 결과
-        """
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j Graph Database not available"}
-
-        if not paper_ids or len(paper_ids) < 2:
-            return {"success": False, "error": "At least 2 paper IDs required for comparison"}
-
-        try:
-            if not self.neo4j_client._driver:
-                await self.neo4j_client.connect()
-
-            # 각 논문의 상세 정보 조회
-            query = """
-            UNWIND $paper_ids AS pid
-            MATCH (p:Paper {paper_id: pid})
-            OPTIONAL MATCH (p)-[:STUDIES]->(path:Pathology)
-            OPTIONAL MATCH (p)-[:INVESTIGATES]->(i:Intervention)
-            OPTIONAL MATCH (p)-[:INVOLVES]->(a:Anatomy)
-            OPTIONAL MATCH (i)-[r:AFFECTS]->(o:Outcome)
-            WHERE r.source_paper_id = p.paper_id
-
-            RETURN p.paper_id AS paper_id,
-                   p.title AS title,
-                   p.year AS year,
-                   p.evidence_level AS evidence_level,
-                   p.sub_domain AS sub_domain,
-                   p.study_type AS study_type,
-                   p.sample_size AS sample_size,
-                   collect(DISTINCT path.name) AS pathologies,
-                   collect(DISTINCT i.name) AS interventions,
-                   collect(DISTINCT a.level) AS anatomy_levels,
-                   collect(DISTINCT {
-                       intervention: i.name,
-                       outcome: o.name,
-                       direction: r.direction,
-                       p_value: r.p_value,
-                       is_significant: r.is_significant,
-                       effect_size: r.effect_size
-                   }) AS outcomes
-            """
-
-            results = await self.neo4j_client.run_query(query, {"paper_ids": paper_ids})
-
-            papers = []
-            all_interventions = set()
-            all_outcomes = set()
-            all_pathologies = set()
-
-            for result in results:
-                paper_info = {
-                    "paper_id": result.get("paper_id"),
-                    "title": result.get("title"),
-                    "year": result.get("year"),
-                    "evidence_level": result.get("evidence_level"),
-                    "sub_domain": result.get("sub_domain"),
-                    "study_type": result.get("study_type"),
-                    "sample_size": result.get("sample_size"),
-                    "pathologies": [p for p in (result.get("pathologies") or []) if p],
-                    "interventions": [i for i in (result.get("interventions") or []) if i],
-                    "anatomy_levels": [a for a in (result.get("anatomy_levels") or []) if a],
-                    "outcomes": [o for o in (result.get("outcomes") or [])
-                                if o.get("intervention")]
-                }
-                papers.append(paper_info)
-
-                all_interventions.update(paper_info["interventions"])
-                all_pathologies.update(paper_info["pathologies"])
-                for o in paper_info["outcomes"]:
-                    if o.get("outcome"):
-                        all_outcomes.add(o["outcome"])
-
-            # 공통점 및 차이점 분석
-            common_interventions = set(papers[0]["interventions"]) if papers else set()
-            common_pathologies = set(papers[0]["pathologies"]) if papers else set()
-
-            for paper in papers[1:]:
-                common_interventions &= set(paper["interventions"])
-                common_pathologies &= set(paper["pathologies"])
-
-            return {
-                "success": True,
-                "papers": papers,
-                "comparison": {
-                    "total_papers": len(papers),
-                    "all_interventions": list(all_interventions),
-                    "all_pathologies": list(all_pathologies),
-                    "all_outcomes": list(all_outcomes),
-                    "common_interventions": list(common_interventions),
-                    "common_pathologies": list(common_pathologies),
-                },
-            }
-
-        except Exception as e:
-            logger.exception(f"Compare papers error: {e}")
-            return {"success": False, "error": str(e)}
-
-    async def get_topic_clusters(self) -> dict:
-        """주제별 논문 클러스터 조회 (Neo4j 기반).
-
-        Sub-domain 기반으로 논문을 그룹화하고,
-        SIMILAR_TOPIC 관계가 있는 경우 추가 정보를 제공.
-
-        Returns:
-            클러스터 정보
-        """
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j Graph Database not available"}
-
-        try:
-            # Ensure Neo4j is connected
-            if not self.neo4j_client._driver:
-                await self.neo4j_client.connect()
-
-            # 1. Sub-domain 기반 클러스터링
-            query = """
-            MATCH (p:Paper)
-            WHERE p.sub_domain IS NOT NULL AND p.sub_domain <> ''
-            WITH p.sub_domain AS topic, collect({
-                id: p.paper_id,
-                title: p.title,
-                year: p.year,
-                evidence_level: p.evidence_level
-            }) AS papers
-            RETURN topic, papers, size(papers) AS count
-            ORDER BY count DESC
-            LIMIT 20
-            """
-
-            results = await self.neo4j_client.run_query(query)
-
-            # 클러스터 정보 구성
-            cluster_info = {}
-            for result in results:
-                topic = result.get("topic", "Unknown")
-                papers = result.get("papers", [])
-                count = result.get("count", 0)
-
-                if topic and topic != "Unknown":
-                    cluster_info[topic] = {
-                        "count": count,
-                        "papers": papers[:10]  # 클러스터당 최대 10개 논문
-                    }
-
-            # 2. SIMILAR_TOPIC 관계 통계 추가 (있는 경우)
-            sim_query = """
-            MATCH ()-[r:SIMILAR_TOPIC]->()
-            RETURN count(r) AS similar_topic_count
-            """
-            sim_results = await self.neo4j_client.run_query(sim_query)
-            similar_topic_count = 0
-            if sim_results:
-                similar_topic_count = sim_results[0].get("similar_topic_count", 0)
-
-            # 3. Unknown sub_domain 논문 처리
-            unknown_query = """
-            MATCH (p:Paper)
-            WHERE p.sub_domain IS NULL OR p.sub_domain = ''
-            RETURN collect({
-                id: p.paper_id,
-                title: p.title,
-                year: p.year
-            })[0..10] AS papers, count(p) AS count
-            """
-            unknown_results = await self.neo4j_client.run_query(unknown_query)
-            if unknown_results and unknown_results[0].get("count", 0) > 0:
-                cluster_info["Unclassified"] = {
-                    "count": unknown_results[0].get("count", 0),
-                    "papers": unknown_results[0].get("papers", [])
-                }
-
-            return {
-                "success": True,
-                "cluster_count": len(cluster_info),
-                "clusters": cluster_info,
-                "similar_topic_relations": similar_topic_count,
-            }
-
-        except Exception as e:
-            logger.exception(f"Get topic clusters error: {e}")
-            return {"success": False, "error": str(e)}
-
-    async def multi_hop_reason(
-        self,
-        question: str,
-        start_paper_id: Optional[str] = None,
-        max_hops: int = 3
-    ) -> dict:
-        """DEPRECATED: 여러 논문을 연결하는 Multi-hop 추론 (SQLite-based, removed).
-
-        This method is no longer functional. Use Neo4j-based multi-hop reasoning instead.
-        See src/solver/multi_hop_reasoning.py for Neo4j implementation.
-
-        Args:
-            question: 추론할 질문
-            start_paper_id: 시작 논문 ID (None이면 전체에서 검색)
-            max_hops: 최대 홉 수
-
-        Returns:
-            추론 결과
-        """
-        return {"success": False, "error": "Deprecated: Use Neo4j-based multi-hop reasoning (src/solver/multi_hop_reasoning.py)"}
-
-    async def draft_with_citations(
-        self,
-        topic: str,
-        section_type: str = "introduction",
-        max_citations: int = 5,
-        language: str = "korean"
-    ) -> dict:
-        """주제에 대해 자동으로 관련 논문을 검색하고 인용 가능한 형태로 반환.
-
-        논문 작성 시 자동으로 DB에서 근거를 찾아 인용문과 함께 제공합니다.
-
-        Args:
-            topic: 작성할 주제 (예: "당뇨병에서 메트포르민의 효과")
-            section_type: 섹션 유형 (introduction, methods, results, discussion, conclusion)
-            max_citations: 최대 인용 수
-            language: 출력 언어 (korean, english)
-
-        Returns:
-            인용 가능한 근거와 참고문헌 목록
-        """
-        try:
-            # 1. 관련 논문 검색
-            search_result = await self.search(
-                query=topic,
-                top_k=max_citations * 2,  # 여유있게 검색
-                tier_strategy="tier1_first",
-                prefer_original=True
-            )
-
-            if not search_result.get("success"):
-                return {"success": False, "error": "검색 실패"}
-
-            results = search_result.get("results", [])
-            if not results:
-                return {
-                    "success": True,
-                    "topic": topic,
-                    "message": "관련 논문을 찾지 못했습니다. 더 많은 PDF를 추가해주세요.",
-                    "citations": [],
-                    "references": []
-                }
-
-            # 2. 인용 정보 구성
-            citations = []
-            references = []
-            seen_docs = set()
-
-            for i, result in enumerate(results):
-                if len(citations) >= max_citations:
-                    break
-
-                doc_id = result.get("document_id", "")
-                if doc_id in seen_docs:
-                    continue
-                seen_docs.add(doc_id)
-
-                # 메타데이터에서 저자/연도 추출 (v1.14.27: None 값 처리)
-                metadata = result.get("metadata") or {}
-                authors = metadata.get("authors") or ["Unknown"]
-                year = metadata.get("year", "n.d.")
-                title = metadata.get("title", doc_id)
-
-                # 첫 번째 저자 성 추출
-                first_author = authors[0].split()[-1] if authors else "Unknown"
-                et_al = " et al." if len(authors) > 1 else ""
-
-                # 인용 키 생성
-                citation_key = f"{first_author}{et_al}, {year}"
-
-                # 관련 내용
-                content = result.get("content", "")
-                section = result.get("section", "")
-                evidence_level = result.get("evidence_level", "")
-
-                citation_entry = {
-                    "citation_key": citation_key,
-                    "citation_number": i + 1,
-                    "content_summary": content[:500] + "..." if len(content) > 500 else content,
-                    "section_type": section,
-                    "evidence_level": evidence_level,
-                    "relevance_score": result.get("score", 0),
-                    "usage_suggestion": self._suggest_citation_usage(section_type, section, content, language)
-                }
-                citations.append(citation_entry)
-
-                # 참고문헌 항목
-                ref_entry = {
-                    "number": i + 1,
-                    "authors": authors,
-                    "year": year,
-                    "title": title,
-                    "citation_key": citation_key,
-                    "document_id": doc_id
-                }
-                references.append(ref_entry)
-
-            # 3. 결과 구성
-            if language == "korean":
-                intro_text = f"'{topic}'에 대해 {len(citations)}개의 관련 논문을 찾았습니다."
-            else:
-                intro_text = f"Found {len(citations)} relevant papers for '{topic}'."
-
-            return {
-                "success": True,
-                "topic": topic,
-                "section_type": section_type,
-                "message": intro_text,
-                "citations": citations,
-                "references": references,
-                "usage_guide": self._get_citation_guide(section_type, language)
-            }
-
-        except Exception as e:
-            logger.exception(f"Draft with citations error: {e}")
-            return {"success": False, "error": str(e)}
-
-    def _suggest_citation_usage(
-        self,
-        target_section: str,
-        source_section: str,
-        content: str,
-        language: str
-    ) -> str:
-        """인용 사용 제안 생성."""
-        suggestions = {
-            "korean": {
-                "introduction": {
-                    "abstract": "배경 설명에 활용: '선행 연구에 따르면...'",
-                    "results": "연구 필요성 근거로 활용: '기존 연구에서 ...가 보고되었다'",
-                    "conclusion": "연구 동기 설명에 활용"
-                },
-                "discussion": {
-                    "results": "결과 비교에 활용: '본 연구 결과는 ...와 일치한다'",
-                    "abstract": "선행 연구와 비교: '...의 연구와 유사하게'",
-                    "conclusion": "결론 뒷받침에 활용"
-                },
-                "results": {
-                    "results": "유사 결과 참조: '이는 ...의 보고와 일치한다'",
-                    "methods": "방법론 참조에 활용"
-                }
-            },
-            "english": {
-                "introduction": {
-                    "abstract": "Use for background: 'Previous studies have shown...'",
-                    "results": "Use as rationale: 'It has been reported that...'",
-                    "conclusion": "Use to establish research motivation"
-                },
-                "discussion": {
-                    "results": "Compare results: 'Our findings are consistent with...'",
-                    "abstract": "Reference prior work: 'Similar to the findings of...'",
-                    "conclusion": "Support conclusions"
-                },
-                "results": {
-                    "results": "Reference similar findings: 'This is consistent with...'",
-                    "methods": "Reference methodology"
-                }
-            }
-        }
-
-        lang_suggestions = suggestions.get(language, suggestions["english"])
-        section_suggestions = lang_suggestions.get(target_section, {})
-        return section_suggestions.get(source_section,
-            "관련 근거로 활용 가능" if language == "korean" else "Can be used as supporting evidence")
-
-    # ========== PubMed Tools ==========
-
-    async def search_pubmed(
-        self,
-        query: str,
-        max_results: int = 10,
-        fetch_details: bool = True
-    ) -> dict:
-        """PubMed에서 논문 검색.
-
-        Args:
-            query: 검색 쿼리 (PubMed 문법 지원)
-            max_results: 최대 결과 수
-            fetch_details: 상세 정보 가져오기 여부
-
-        Returns:
-            검색 결과 딕셔너리
-        """
-        if not self.pubmed_client:
-            return {"success": False, "error": "PubMed client not available"}
-
-        try:
-            # Search for PMIDs
-            pmids = self.pubmed_client.search(query, max_results=max_results)
-
-            if not pmids:
-                return {
-                    "success": True,
-                    "query": query,
-                    "total_found": 0,
-                    "results": []
-                }
-
-            results = []
-            if fetch_details:
-                # Fetch paper details
-                for pmid in pmids:
-                    try:
-                        paper = self.pubmed_client.fetch_paper_details(pmid)
-                        results.append({
-                            "pmid": paper.pmid,
-                            "title": paper.title,
-                            "authors": paper.authors[:5],  # First 5 authors
-                            "year": paper.year,
-                            "journal": paper.journal,
-                            "abstract": paper.abstract[:500] + "..." if len(paper.abstract) > 500 else paper.abstract,
-                            "mesh_terms": paper.mesh_terms[:10],
-                            "doi": paper.doi,
-                            "publication_types": paper.publication_types
-                        })
-                    except Exception as e:
-                        logger.warning(f"Failed to fetch PMID {pmid}: {e}")
-                        results.append({"pmid": pmid, "error": str(e)})
-            else:
-                results = [{"pmid": pmid} for pmid in pmids]
-
-            return {
-                "success": True,
-                "query": query,
-                "total_found": len(pmids),
-                "results": results
-            }
-
-        except Exception as e:
-            logger.exception(f"PubMed search error: {e}")
-            return {"success": False, "error": str(e)}
-
-    # ========== PubMed Bulk Processing Tools (v4.3) ==========
-
-    async def pubmed_bulk_search(
-        self,
-        query: str,
-        max_results: int = 50,
-        import_results: bool = False,
-        year_from: Optional[int] = None,
-        year_to: Optional[int] = None,
-        publication_types: Optional[list[str]] = None,
-    ) -> dict:
-        """PubMed 대량 검색 및 선택적 임포트.
-
-        Args:
-            query: PubMed 검색 쿼리
-            max_results: 최대 결과 수 (기본 50, 최대 500)
-            import_results: True면 검색 결과를 Neo4j에 자동 임포트 (v5.3)
-            year_from: 시작 연도 필터
-            year_to: 종료 연도 필터
-            publication_types: 출판 유형 필터 (예: ["Randomized Controlled Trial", "Meta-Analysis"])
-
-        Returns:
-            검색 결과 및 임포트 결과 (선택 시)
-        """
-        if not PUBMED_BULK_AVAILABLE:
-            return {"success": False, "error": "PubMed Bulk Processor not available"}
-
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j client not available"}
-
-        try:
-            # Create a fresh Neo4j client to avoid event loop conflicts
-            from graph.neo4j_client import Neo4jClient
-
-            async with Neo4jClient() as fresh_neo4j:
-                # Initialize processor (v5.3: Neo4j 전용)
-                processor = PubMedBulkProcessor(
-                    neo4j_client=fresh_neo4j,
-                    vector_db=None,  # ChromaDB 제거됨
-                    pubmed_email=os.environ.get("NCBI_EMAIL"),
-                    pubmed_api_key=os.environ.get("NCBI_API_KEY"),
-                )
-
-                # Search PubMed
-                papers = await processor.search_pubmed(
-                    query=query,
-                    max_results=min(max_results, 500),
-                    year_from=year_from,
-                    year_to=year_to,
-                    publication_types=publication_types,
-                )
-
-                result = {
-                    "success": True,
-                    "query": query,
-                    "total_found": len(papers),
-                    "papers": [
-                        {
-                            "pmid": p.pmid,
-                            "title": p.title,
-                            "authors": p.authors[:3],
-                            "year": p.year,
-                            "journal": p.journal,
-                            "abstract": p.abstract[:300] + "..." if len(p.abstract or "") > 300 else p.abstract,
-                            "mesh_terms": p.mesh_terms[:5],
-                            "doi": p.doi,
-                            "publication_types": p.publication_types,
-                        }
-                        for p in papers
-                    ],
-                }
-
-                # Import if requested (v1.5: 멀티유저 지원)
-                if import_results and papers:
-                    import_summary = await processor.import_papers(
-                        papers,
-                        skip_existing=True,
-                        owner=self.current_user,
-                        shared=True
-                    )
-                    result["import_result"] = {
-                        "imported": import_summary.imported,
-                        "skipped": import_summary.skipped,
-                        "failed": import_summary.failed,
-                        "total_chunks": import_summary.total_chunks,
-                    }
-
-                return result
-
-        except Exception as e:
-            logger.exception(f"PubMed bulk search error: {e}")
-            return {"success": False, "error": str(e)}
-
-    async def hybrid_search(
-        self,
-        query: str,
-        local_top_k: int = 10,
-        pubmed_max_results: int = 20,
-        min_local_results: int = 5,
-        auto_import: bool = True,
-        year_from: Optional[int] = None,
-        year_to: Optional[int] = None,
-    ) -> dict:
-        """하이브리드 검색: 로컬 DB 우선 + PubMed 보완 (v1.14.24).
-
-        1. 먼저 Neo4j에서 로컬 검색 (이미 분석된 논문 활용)
-        2. 로컬 결과가 min_local_results 미만이면 PubMed에서 보완 검색
-        3. 새로 찾은 논문은 자동 임포트 (선택)
-        4. 로컬 + PubMed 결과 통합 반환
-
-        Args:
-            query: 검색 쿼리
-            local_top_k: 로컬 검색 최대 결과 수 (기본 10)
-            pubmed_max_results: PubMed 검색 최대 결과 수 (기본 20)
-            min_local_results: 이 수 미만이면 PubMed 보완 (기본 5)
-            auto_import: True면 새 논문 자동 임포트 (기본 True)
-            year_from: PubMed 검색 시작 연도
-            year_to: PubMed 검색 종료 연도
-
-        Returns:
-            통합 검색 결과
-        """
-        if self.pubmed_handler:
-            return await self.pubmed_handler.hybrid_search(
-                query=query,
-                local_top_k=local_top_k,
-                pubmed_max_results=pubmed_max_results,
-                min_local_results=min_local_results,
-                auto_import=auto_import,
-                year_from=year_from,
-                year_to=year_to,
-            )
-        return {"success": False, "error": "PubMed handler not available"}
-
-    async def pubmed_import_citations(
-        self,
-        paper_id: str,
-        min_confidence: float = 0.7,
-    ) -> dict:
-        """기존 논문의 important citations를 PubMed에서 검색하여 임포트.
-
-        Args:
-            paper_id: 원본 논문 ID (citations 추출 대상)
-            min_confidence: 최소 매칭 신뢰도 (기본 0.7)
-
-        Returns:
-            임포트 결과
-        """
-        if not PUBMED_BULK_AVAILABLE:
-            return {"success": False, "error": "PubMed Bulk Processor not available"}
-
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j client not available"}
-
-        try:
-            # Create a fresh Neo4j client to avoid event loop conflicts
-            from graph.neo4j_client import Neo4jClient
-
-            async with Neo4jClient() as fresh_neo4j:
-                processor = PubMedBulkProcessor(
-                    neo4j_client=fresh_neo4j,
-                    vector_db=None,  # v5.3: ChromaDB 제거됨
-                    pubmed_email=os.environ.get("NCBI_EMAIL"),
-                    pubmed_api_key=os.environ.get("NCBI_API_KEY"),
-                )
-
-                # v1.5: 멀티유저 지원
-                summary = await processor.import_from_citations(
-                    paper_id=paper_id,
-                    min_confidence=min_confidence,
-                    owner=self.current_user,
-                    shared=True,
-                )
-
-                return {
-                    "success": True,
-                    "paper_id": paper_id,
-                    "total_citations_processed": summary.total_papers,
-                    "imported": summary.imported,
-                    "skipped": summary.skipped,
-                    "failed": summary.failed,
-                    "total_chunks": summary.total_chunks,
-                    "results": [r.to_dict() for r in summary.results[:20]],  # Max 20 results
-                }
-
-        except Exception as e:
-            logger.exception(f"PubMed citation import error: {e}")
-            return {"success": False, "error": str(e)}
-
-    async def upgrade_paper_with_pdf(
-        self,
-        paper_id: str,
-        pdf_path: str,
-    ) -> dict:
-        """PubMed-only Paper를 PDF 데이터로 업그레이드.
-
-        기존 PubMed에서 가져온 초록 기반 데이터를
-        PDF에서 추출한 전문 데이터로 업그레이드합니다.
-
-        Args:
-            paper_id: 업그레이드할 paper ID (pubmed_xxx 형식)
-            pdf_path: PDF 파일 경로
-
-        Returns:
-            업그레이드 결과
-        """
-        if not PUBMED_BULK_AVAILABLE:
-            return {"success": False, "error": "PubMed Bulk Processor not available"}
-
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j client not available"}
-
-        if not paper_id.startswith("pubmed_"):
-            return {"success": False, "error": "Paper is not a PubMed-only paper (must start with 'pubmed_')"}
-
-        # First, process the PDF using add_pdf
-        pdf_result = await self.add_pdf(pdf_path)
-        if not pdf_result.get("success"):
-            return {"success": False, "error": f"PDF processing failed: {pdf_result.get('error')}"}
-
-        try:
-            # Create a fresh Neo4j client to avoid event loop conflicts
-            from graph.neo4j_client import Neo4jClient
-
-            async with Neo4jClient() as fresh_neo4j:
-                processor = PubMedBulkProcessor(
-                    neo4j_client=fresh_neo4j,
-                    vector_db=None,  # v5.3: ChromaDB 제거됨
-                    pubmed_email=os.environ.get("NCBI_EMAIL"),
-                    pubmed_api_key=os.environ.get("NCBI_API_KEY"),
-                )
-
-                upgrade_result = await processor.upgrade_with_pdf(
-                    paper_id=paper_id,
-                    pdf_result=pdf_result,
-                )
-
-                return {
-                    "success": upgrade_result.get("success", False),
-                    "paper_id": paper_id,
-                    "upgraded_from": upgrade_result.get("upgraded_from"),
-                    "upgraded_to": upgrade_result.get("upgraded_to"),
-                    "preserved_pmid": upgrade_result.get("preserved_pmid"),
-                    "new_chunks": upgrade_result.get("new_chunks", 0),
-                    "error": upgrade_result.get("error"),
-                }
-
-        except Exception as e:
-            logger.exception(f"Paper upgrade error: {e}")
-            return {"success": False, "error": str(e)}
-
-    async def get_abstract_only_papers(
-        self,
-        limit: int = 50,
-    ) -> dict:
-        """초록만 있는 논문(PubMed-only) 목록 조회.
-
-        Args:
-            limit: 최대 반환 수
-
-        Returns:
-            논문 목록
-        """
-        if not PUBMED_BULK_AVAILABLE:
-            return {"success": False, "error": "PubMed Bulk Processor not available"}
-
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j client not available"}
-
-        try:
-            # Create a fresh Neo4j client to avoid event loop conflicts
-            from graph.neo4j_client import Neo4jClient
-
-            async with Neo4jClient() as fresh_neo4j:
-                processor = PubMedBulkProcessor(
-                    neo4j_client=fresh_neo4j,
-                    vector_db=None,  # v5.3: ChromaDB 제거됨
-                )
-
-                papers = await processor.get_abstract_only_papers(limit=limit)
-
-                return {
-                    "success": True,
-                    "count": len(papers),
-                    "papers": papers,
-                }
-
-        except Exception as e:
-            logger.exception(f"Get abstract-only papers error: {e}")
-            return {"success": False, "error": str(e)}
-
-    async def import_papers_by_pmids(
-        self,
-        pmids: list[str],
-        max_concurrent: Optional[int] = None,
-    ) -> dict:
-        """PMID 목록으로 직접 논문 임포트.
-
-        검색 결과에서 선택된 논문들을 직접 임포트합니다.
-        재검색 없이 PMID로 직접 PubMed에서 상세 정보를 가져와 임포트합니다.
-
-        Args:
-            pmids: 임포트할 PMID 목록
-            max_concurrent: 최대 동시 처리 수 (기본값: PUBMED_MAX_CONCURRENT 환경변수)
-
-        Returns:
-            임포트 결과 요약
-        """
-        if not PUBMED_BULK_AVAILABLE:
-            return {"success": False, "error": "PubMed Bulk Processor not available"}
-
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j client not available"}
-
-        if not pmids:
-            return {"success": False, "error": "No PMIDs provided"}
-
-        try:
-            # Create a fresh Neo4j client to avoid event loop conflicts
-            # when called from Streamlit via run_async()
-            from graph.neo4j_client import Neo4jClient
-
-            async with Neo4jClient() as fresh_neo4j:
-                processor = PubMedBulkProcessor(
-                    neo4j_client=fresh_neo4j,
-                    vector_db=None,  # v5.3: ChromaDB 제거됨
-                    pubmed_email=os.environ.get("NCBI_EMAIL"),
-                    pubmed_api_key=os.environ.get("NCBI_API_KEY"),
-                )
-
-                # Fetch paper details by PMIDs
-                papers = await processor._fetch_papers_batch(pmids)
-
-                if not papers:
-                    return {
-                        "success": False,
-                        "error": "Could not fetch paper details from PubMed",
-                    }
-
-                # Import the fetched papers (v1.5: 멀티유저, v1.14.23: 병렬 처리)
-                # max_concurrent: None이면 환경변수에서 읽음
-                if max_concurrent is None:
-                    env_concurrent = int(os.environ.get("PUBMED_MAX_CONCURRENT", "5"))
-                    safe_concurrent = max(1, min(env_concurrent, 10))
-                else:
-                    safe_concurrent = max(1, min(max_concurrent, 10))
-                summary = await processor.import_papers(
-                    papers,
-                    source="search",
-                    owner=self.current_user,
-                    shared=True,
-                    max_concurrent=safe_concurrent,
-                )
-
-                return {
-                    "success": True,
-                    "total_requested": len(pmids),
-                    "total_fetched": len(papers),
-                    "import_summary": summary.to_dict(),
-                }
-
-        except Exception as e:
-            logger.exception(f"Import by PMIDs error: {e}")
-            return {"success": False, "error": str(e)}
-
-    async def get_pubmed_import_stats(self) -> dict:
-        """PubMed 임포트 통계 조회.
-
-        Returns:
-            통계 정보
-        """
-        if not PUBMED_BULK_AVAILABLE:
-            return {"success": False, "error": "PubMed Bulk Processor not available"}
-
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j client not available"}
-
-        try:
-            # Create a fresh Neo4j client to avoid event loop conflicts
-            from graph.neo4j_client import Neo4jClient
-
-            async with Neo4jClient() as fresh_neo4j:
-                processor = PubMedBulkProcessor(
-                    neo4j_client=fresh_neo4j,
-                    vector_db=None,  # v5.3: ChromaDB 제거됨
-                )
-
-                stats = await processor.get_import_statistics()
-
-                return {
-                    "success": True,
-                    "statistics": stats,
-                }
-
-        except Exception as e:
-            logger.exception(f"Get import stats error: {e}")
-            return {"success": False, "error": str(e)}
-
-    # ========================================================================
-    # DOI Fulltext Methods (v1.12.2)
-    # ========================================================================
-
-    async def fetch_by_doi(
-        self,
-        doi: str,
-        download_pdf: bool = False,
-        import_to_graph: bool = False,
-    ) -> dict:
-        """DOI로 논문 메타데이터 및 전문 조회.
-
-        Crossref/Unpaywall API를 사용하여 DOI로 논문 정보를 조회합니다.
-
-        Args:
-            doi: DOI (예: "10.1016/j.spinee.2024.01.001")
-            download_pdf: PDF 다운로드 여부 (기본 False)
-            import_to_graph: 그래프에 임포트 여부 (기본 False)
-
-        Returns:
-            조회 결과
-        """
-        if not DOI_FETCHER_AVAILABLE:
-            return {"success": False, "error": "DOI Fulltext Fetcher not available"}
-
-        try:
-            fetcher = DOIFulltextFetcher()
-            result = await fetcher.fetch(
-                doi=doi,
-                download_pdf=download_pdf,
-                fetch_pmc=True,  # PMC도 시도
-            )
-            await fetcher.close()
-
-            response = {
-                "success": True,
-                "doi": doi,
-                "has_metadata": result.has_metadata,
-                "has_fulltext": result.has_full_text,
-                "source": result.source,
-            }
-
-            if result.metadata:
-                response["metadata"] = {
-                    "title": result.metadata.title,
-                    "authors": result.metadata.authors,
-                    "journal": result.metadata.journal,
-                    "year": result.metadata.year,
-                    "abstract": result.metadata.abstract[:500] if result.metadata.abstract else None,
-                    "pmid": result.metadata.pmid,
-                    "pmcid": result.metadata.pmcid,
-                    "is_open_access": result.metadata.is_open_access,
-                    "oa_status": result.metadata.oa_status,
-                    "pdf_url": result.metadata.pdf_url,
-                    "cited_by_count": result.metadata.cited_by_count,
-                    "license_url": result.metadata.license_url,
-                }
-
-            if result.has_full_text:
-                response["fulltext_preview"] = result.full_text[:1000] if result.full_text else None
-                response["fulltext_length"] = len(result.full_text) if result.full_text else 0
-
-            # 그래프 임포트 옵션
-            if import_to_graph and result.metadata:
-                import_result = await self._import_doi_to_graph(result)
-                response["import_result"] = import_result
-
-            return response
-
-        except Exception as e:
-            logger.exception(f"DOI fetch error: {e}")
-            return {"success": False, "error": str(e), "doi": doi}
-
-    async def get_doi_metadata(self, doi: str) -> dict:
-        """DOI 메타데이터만 조회 (전문 없이).
-
-        Args:
-            doi: DOI
-
-        Returns:
-            메타데이터
-        """
-        if not DOI_FETCHER_AVAILABLE:
-            return {"success": False, "error": "DOI Fulltext Fetcher not available"}
-
-        try:
-            fetcher = DOIFulltextFetcher()
-            metadata = await fetcher.get_metadata_only(doi)
-            await fetcher.close()
-
-            if not metadata:
-                return {"success": False, "error": f"No metadata found for DOI: {doi}"}
-
-            return {
-                "success": True,
-                "doi": doi,
-                "metadata": {
-                    "title": metadata.title,
-                    "authors": metadata.authors,
-                    "journal": metadata.journal,
-                    "year": metadata.year,
-                    "volume": metadata.volume,
-                    "issue": metadata.issue,
-                    "pages": metadata.pages,
-                    "abstract": metadata.abstract,
-                    "publisher": metadata.publisher,
-                    "issn": metadata.issn,
-                    "subjects": metadata.subjects,
-                    "pmid": metadata.pmid,
-                    "pmcid": metadata.pmcid,
-                    "is_open_access": metadata.is_open_access,
-                    "oa_status": metadata.oa_status,
-                    "pdf_url": metadata.pdf_url,
-                    "cited_by_count": metadata.cited_by_count,
-                    "references_count": metadata.references_count,
-                    "license_url": metadata.license_url,
-                }
-            }
-
-        except Exception as e:
-            logger.exception(f"DOI metadata error: {e}")
-            return {"success": False, "error": str(e), "doi": doi}
-
-    async def import_by_doi(
-        self,
-        doi: str,
-        fetch_fulltext: bool = True,
-    ) -> dict:
-        """DOI로 논문을 그래프에 임포트.
-
-        Args:
-            doi: DOI
-            fetch_fulltext: 전문 조회 시도 여부
-
-        Returns:
-            임포트 결과
-        """
-        if not DOI_FETCHER_AVAILABLE:
-            return {"success": False, "error": "DOI Fulltext Fetcher not available"}
-
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j client not available"}
-
-        try:
-            fetcher = DOIFulltextFetcher()
-            result = await fetcher.fetch(
-                doi=doi,
-                download_pdf=False,
-                fetch_pmc=fetch_fulltext,
-            )
-            await fetcher.close()
-
-            if not result.metadata:
-                return {"success": False, "error": f"No metadata found for DOI: {doi}"}
-
-            # 그래프 임포트
-            import_result = await self._import_doi_to_graph(result)
-
-            return {
-                "success": True,
-                "doi": doi,
-                "import_result": import_result,
-            }
-
-        except Exception as e:
-            logger.exception(f"DOI import error: {e}")
-            return {"success": False, "error": str(e), "doi": doi}
-
-    async def _import_doi_to_graph(self, doi_result: "DOIFullText") -> dict:
-        """DOI 결과를 그래프에 임포트 (내부 메서드).
-
-        Args:
-            doi_result: DOI fetch 결과
-
-        Returns:
-            임포트 결과
-        """
-        if not doi_result.metadata:
-            return {"success": False, "error": "No metadata to import"}
-
-        meta = doi_result.metadata
-
-        # paper_id 생성 (PMID 우선, 없으면 DOI 기반)
-        if meta.pmid:
-            paper_id = f"pubmed_{meta.pmid}"
-        else:
-            # DOI를 안전한 ID로 변환
-            safe_doi = meta.doi.replace("/", "_").replace(".", "-")
-            paper_id = f"doi_{safe_doi}"
-
-        # 텍스트 결정 (전문 > 초록)
-        text_to_analyze = ""
-        text_source = "none"
-        if doi_result.has_full_text and doi_result.full_text:
-            text_to_analyze = doi_result.full_text
-            text_source = "fulltext"
-        elif meta.abstract:
-            text_to_analyze = meta.abstract
-            text_source = "abstract"
-
-        # 기본 메타데이터 저장
-        try:
-            paper_data = {
-                "paper_id": paper_id,
-                "title": meta.title or "Unknown",
-                "authors": meta.authors or [],
-                "year": meta.year or 2024,
-                "journal": meta.journal or "Unknown",
-                "doi": meta.doi,
-                "pmid": meta.pmid,
-                "abstract": meta.abstract,
-                "source": "doi_import",
-                "is_open_access": meta.is_open_access,
-                "oa_status": meta.oa_status,
-            }
-
-            # Neo4j에 Paper 노드 생성
-            query = """
-            MERGE (p:Paper {paper_id: $paper_id})
-            SET p.title = $title,
-                p.authors = $authors,
-                p.year = $year,
-                p.journal = $journal,
-                p.doi = $doi,
-                p.pmid = $pmid,
-                p.abstract = $abstract,
-                p.source = $source,
-                p.is_open_access = $is_open_access,
-                p.oa_status = $oa_status,
-                p.created_at = datetime()
-            RETURN p.paper_id as paper_id
-            """
-            await self.neo4j_client.run_query(query, paper_data)
-
-            # v1.14.12: Abstract 임베딩 자동 생성
-            if meta.abstract and len(meta.abstract.strip()) > 0:
-                await self._generate_abstract_embedding(paper_id, meta.abstract)
-
-            return {
-                "success": True,
-                "paper_id": paper_id,
-                "text_source": text_source,
-                "method": "basic_metadata",
-            }
-
-        except Exception as e:
-            logger.exception(f"Graph import failed: {e}")
-            return {"success": False, "error": str(e)}
+        import re
+        return bool(re.match(r'^10\.\d{4,}/.+$', str(doi).strip()))
 
     # =========================================================================
     # v1.14.12: Abstract 임베딩 생성 헬퍼 메서드
@@ -4916,10 +2597,12 @@ MCP 서버의 PDF/텍스트 처리와 100% 같은 스키마로 추출됩니다.
             import os
             from openai import OpenAI
 
-            openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+            # v1.18: OpenAI 클라이언트 lazy 초기화 (재사용)
+            if self._openai_client is None:
+                self._openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
             # OpenAI 임베딩 생성 (3072차원)
-            response = openai_client.embeddings.create(
+            response = self._openai_client.embeddings.create(
                 model="text-embedding-3-large",
                 input=abstract[:8000],
                 dimensions=3072
@@ -5072,736 +2755,6 @@ MCP 서버의 PDF/텍스트 처리와 100% 같은 스키마로 추출됩니다.
             logger.warning(f"Error deleting existing chunks: {e}")
             return 0
 
-    async def find_conflicts(
-        self,
-        topic: str,
-        document_ids: Optional[list[str]] = None
-    ) -> dict:
-        """특정 주제에 대한 연구 간 상충 탐지.
-
-        Args:
-            topic: 분석할 주제
-            document_ids: 분석할 문서 ID 목록 (None이면 전체 검색)
-
-        Returns:
-            상충 분석 결과
-        """
-        try:
-            # Search for relevant documents
-            if document_ids:
-                # Filter by specific documents (not fully implemented yet)
-                search_result = await self.search(query=topic, top_k=20)
-            else:
-                search_result = await self.search(query=topic, top_k=20)
-
-            if not search_result.get("success"):
-                return search_result
-
-            results = search_result.get("results", [])
-            if len(results) < 2:
-                return {
-                    "success": True,
-                    "topic": topic,
-                    "message": "Not enough studies found for conflict detection",
-                    "conflicts": []
-                }
-
-            # Use conflict detector
-            from solver.conflict_detector import StudyResult as CDStudyResult
-            from solver.multi_factor_ranker import EvidenceLevel
-
-            study_results = []
-            for r in results[:15]:  # Max 15 studies
-                study = CDStudyResult(
-                    study_id=r.get("document_id", "unknown"),
-                    title=r.get("content", "")[:200],
-                    evidence_level=self._parse_evidence_level(r.get("evidence_level", "5")),
-                )
-                study_results.append(study)
-
-            conflict_input = ConflictInput(
-                topic=topic,
-                studies=study_results
-            )
-            conflict_output = self.conflict_detector.detect(conflict_input)
-
-            conflicts = []
-            for c in conflict_output.conflicts:
-                conflicts.append({
-                    "study1": {
-                        "id": c.study1.study_id,
-                        "title": c.study1.title
-                    },
-                    "study2": {
-                        "id": c.study2.study_id,
-                        "title": c.study2.title
-                    },
-                    "conflict_type": c.conflict_type.value if hasattr(c.conflict_type, 'value') else str(c.conflict_type),
-                    "severity": c.severity.value if hasattr(c.severity, 'value') else str(c.severity),
-                    "description": c.description if hasattr(c, 'description') else ""
-                })
-
-            return {
-                "success": True,
-                "topic": topic,
-                "studies_analyzed": len(study_results),
-                "has_conflicts": conflict_output.has_conflicts,
-                "conflict_count": len(conflicts),
-                "conflicts": conflicts,
-                "summary": conflict_output.summary if hasattr(conflict_output, 'summary') else ""
-            }
-
-        except Exception as e:
-            logger.exception(f"Find conflicts error: {e}")
-            return {"success": False, "error": str(e)}
-
-    def _parse_evidence_level(self, level_str: str):
-        """Evidence level 문자열을 Enum으로 변환."""
-        from solver.multi_factor_ranker import EvidenceLevel
-        mapping = {
-            "1a": EvidenceLevel.LEVEL_1A,
-            "1b": EvidenceLevel.LEVEL_1B,
-            "2a": EvidenceLevel.LEVEL_2A,
-            "2b": EvidenceLevel.LEVEL_2B,
-            "2c": EvidenceLevel.LEVEL_2C,
-            "3a": EvidenceLevel.LEVEL_3A,
-            "3b": EvidenceLevel.LEVEL_3B,
-            "4": EvidenceLevel.LEVEL_4,
-            "5": EvidenceLevel.LEVEL_5,
-        }
-        return mapping.get(str(level_str).lower(), EvidenceLevel.LEVEL_5)
-
-    # ========== Neo4j Graph Tools (Spine GraphRAG v3) ==========
-
-    async def graph_search(
-        self,
-        query: str,
-        search_type: str = "evidence",
-        limit: int = 20
-    ) -> dict:
-        """Neo4j 그래프 기반 검색 (v1.14.18: SearchHandler로 위임).
-
-        Args:
-            query: 자연어 검색 쿼리
-            search_type: 검색 유형 (evidence|comparison|hierarchy|conflict)
-            limit: 결과 개수 제한
-
-        Returns:
-            그래프 검색 결과
-        """
-        if self.search_handler:
-            return await self.search_handler.graph_search(
-                query=query,
-                search_type=search_type,
-                limit=limit
-            )
-        return {"success": False, "error": "SearchHandler not initialized"}
-
-    async def get_intervention_hierarchy(
-        self,
-        intervention_name: str
-    ) -> dict:
-        """수술법 계층 구조 조회.
-
-        Args:
-            intervention_name: 수술법 이름 (예: "TLIF")
-
-        Returns:
-            계층 구조 정보 (부모, 자식, 동의어 포함)
-        """
-        if not GRAPH_AVAILABLE or not self.graph_searcher:
-            return {
-                "success": False,
-                "error": "Neo4j Graph modules not available"
-            }
-
-        try:
-            # Ensure Neo4j connection is established
-            if not self.neo4j_client._driver:
-                await self.neo4j_client.connect()
-
-            hierarchy = await self.graph_searcher.get_intervention_hierarchy(intervention_name)
-
-            # Add aliases from entity normalizer
-            try:
-                from graph.entity_normalizer import get_normalizer
-                normalizer = get_normalizer()
-
-                aliases = []
-                for alias, normalized in normalizer.INTERVENTION_ALIASES.items():
-                    if normalized == intervention_name or alias == intervention_name:
-                        aliases.append(alias)
-            except Exception:
-                aliases = []
-
-            return {
-                "success": True,
-                "intervention": intervention_name,
-                "full_name": hierarchy.get("full_name", ""),
-                "category": hierarchy.get("category", ""),
-                "approach": hierarchy.get("approach", ""),
-                "is_minimally_invasive": hierarchy.get("is_minimally_invasive", False),
-                "parents": hierarchy.get("parents", []),
-                "children": hierarchy.get("children", []),
-                "aliases": list(set(aliases))
-            }
-
-        except Exception as e:
-            logger.exception(f"Get intervention hierarchy error: {e}")
-            return {"success": False, "error": str(e)}
-
-    async def find_evidence(
-        self,
-        intervention: str,
-        outcome: str,
-        direction: str = "improved"
-    ) -> dict:
-        """특정 수술법과 결과변수 관계의 근거 검색.
-
-        Args:
-            intervention: 수술법 이름
-            outcome: 결과변수 이름
-            direction: 효과 방향 (improved|worsened|unchanged)
-
-        Returns:
-            근거 논문 목록 (p-value, effect size 포함)
-        """
-        if not GRAPH_AVAILABLE or not self.graph_searcher:
-            return {
-                "success": False,
-                "error": "Neo4j Graph modules not available"
-            }
-
-        try:
-            # Ensure Neo4j connection is established
-            if not self.neo4j_client._driver:
-                await self.neo4j_client.connect()
-
-            result = await self.graph_searcher.search_interventions_for_outcome(
-                outcome_name=outcome,
-                direction=direction,
-                limit=50
-            )
-
-            # Build set of matching intervention names (include taxonomy children)
-            matching_interventions = {intervention, intervention.upper(), intervention.lower()}
-
-            # Get taxonomy children if available
-            try:
-                hierarchy = await self.neo4j_client.get_intervention_hierarchy(intervention)
-                if hierarchy and hierarchy.get("children"):
-                    matching_interventions.update(hierarchy["children"])
-                # Also add aliases
-                if hierarchy and hierarchy.get("aliases"):
-                    matching_interventions.update(hierarchy["aliases"])
-            except Exception:
-                pass  # Taxonomy lookup failed, continue with exact match
-
-            # Filter for matching interventions (exact or taxonomy-related)
-            evidence = []
-            for r in result.results:
-                r_intervention = r.get("intervention", "")
-                if r_intervention in matching_interventions or intervention.lower() in r_intervention.lower():
-                    # Parse p_value safely (can be string like "<0.001" or None)
-                    p_val = r.get("p_value")
-                    is_sig = False
-                    if p_val is not None:
-                        if isinstance(p_val, (int, float)):
-                            is_sig = p_val < 0.05
-                        elif isinstance(p_val, str):
-                            # Handle "<0.001", "0.01", etc.
-                            p_str = p_val.replace("<", "").replace(">", "").strip()
-                            try:
-                                is_sig = float(p_str) < 0.05
-                            except ValueError:
-                                is_sig = "<" in p_val  # Assume "<X" means significant
-
-                    evidence.append({
-                        "intervention": r.get("intervention"),
-                        "full_name": r.get("full_name"),
-                        "outcome": outcome,
-                        "value": r.get("value"),
-                        "value_control": r.get("value_control"),
-                        "p_value": r.get("p_value"),
-                        "effect_size": r.get("effect_size"),
-                        "confidence_interval": r.get("confidence_interval"),
-                        "is_significant": is_sig,
-                        "source_paper_id": r.get("source_paper_id")
-                    })
-
-            return {
-                "success": True,
-                "intervention": intervention,
-                "outcome": outcome,
-                "direction": direction,
-                "evidence_count": len(evidence),
-                "evidence": evidence
-            }
-
-        except Exception as e:
-            logger.exception(f"Find evidence error: {e}")
-            return {"success": False, "error": str(e)}
-
-    async def compare_interventions(
-        self,
-        intervention1: str,
-        intervention2: str,
-        outcome: str
-    ) -> dict:
-        """두 수술법의 효과 비교.
-
-        Args:
-            intervention1: 첫 번째 수술법
-            intervention2: 두 번째 수술법
-            outcome: 비교할 결과변수
-
-        Returns:
-            비교 결과 (통계적 유의성 포함)
-        """
-        if not GRAPH_AVAILABLE or not self.graph_searcher:
-            return {
-                "success": False,
-                "error": "Neo4j Graph modules not available"
-            }
-
-        try:
-            # Get evidence for both interventions
-            evidence1 = await self.find_evidence(intervention1, outcome)
-            evidence2 = await self.find_evidence(intervention2, outcome)
-
-            if not evidence1.get("success") or not evidence2.get("success"):
-                return {
-                    "success": False,
-                    "error": "Failed to retrieve evidence for one or both interventions"
-                }
-
-            # Analyze comparison
-            ev1_list = evidence1.get("evidence", [])
-            ev2_list = evidence2.get("evidence", [])
-
-            def parse_p_value(p_val):
-                """Parse p_value to float, handling strings like '<0.001'."""
-                if p_val is None:
-                    return 1.0
-                if isinstance(p_val, (int, float)):
-                    return float(p_val)
-                if isinstance(p_val, str):
-                    p_str = p_val.replace("<", "").replace(">", "").strip()
-                    try:
-                        return float(p_str)
-                    except ValueError:
-                        return 0.001 if "<" in p_val else 1.0
-                return 1.0
-
-            def calc_avg_p_value(ev_list):
-                """Calculate average p-value from evidence list."""
-                if not ev_list:
-                    return 1.0
-                p_values = [parse_p_value(e.get("p_value")) for e in ev_list]
-                return sum(p_values) / len(p_values)
-
-            comparison = {
-                "intervention1": {
-                    "name": intervention1,
-                    "evidence_count": len(ev1_list),
-                    "avg_p_value": calc_avg_p_value(ev1_list),
-                    "significant_studies": sum(1 for e in ev1_list if e.get("is_significant", False)),
-                    "studies": ev1_list
-                },
-                "intervention2": {
-                    "name": intervention2,
-                    "evidence_count": len(ev2_list),
-                    "avg_p_value": calc_avg_p_value(ev2_list),
-                    "significant_studies": sum(1 for e in ev2_list if e.get("is_significant", False)),
-                    "studies": ev2_list
-                }
-            }
-
-            # Determine which has better evidence
-            if comparison["intervention1"]["significant_studies"] > comparison["intervention2"]["significant_studies"]:
-                comparison["recommendation"] = f"{intervention1} has more significant evidence"
-            elif comparison["intervention2"]["significant_studies"] > comparison["intervention1"]["significant_studies"]:
-                comparison["recommendation"] = f"{intervention2} has more significant evidence"
-            else:
-                comparison["recommendation"] = "Both interventions have similar evidence levels"
-
-            return {
-                "success": True,
-                "outcome": outcome,
-                "comparison": comparison
-            }
-
-        except Exception as e:
-            logger.exception(f"Compare interventions error: {e}")
-            return {"success": False, "error": str(e)}
-
-    async def detect_conflicts(
-        self,
-        intervention: str,
-        outcome: Optional[str] = None
-    ) -> dict:
-        """수술법의 상충 결과 탐지 (ConflictDetector 사용).
-
-        Args:
-            intervention: 수술법 이름
-            outcome: 결과변수 이름 (None이면 모든 결과변수)
-
-        Returns:
-            상충 결과 요약 (severity, papers involved, differing directions)
-        """
-        if not GRAPH_AVAILABLE or not self.neo4j_client:
-            return {
-                "success": False,
-                "error": "Neo4j Graph modules not available"
-            }
-
-        try:
-            # Ensure Neo4j connection is established
-            if not self.neo4j_client._driver:
-                await self.neo4j_client.connect()
-
-            # Use ConflictDetector from solver
-            from solver.conflict_detector import ConflictDetector
-            detector = ConflictDetector(self.neo4j_client)
-
-            if outcome:
-                # Detect conflicts for specific intervention-outcome pair
-                conflict = await detector.detect_conflicts(intervention, outcome)
-
-                if conflict:
-                    return {
-                        "success": True,
-                        "intervention": intervention,
-                        "outcome": outcome,
-                        "has_conflicts": True,
-                        "conflict": {
-                            "severity": conflict.severity.value,
-                            "confidence": conflict.confidence,
-                            "paper_count": conflict.total_papers,
-                            "papers_improved": [
-                                {
-                                    "paper_id": p.paper_id,
-                                    "title": p.title,
-                                    "evidence_level": p.evidence_level,
-                                    "p_value": p.p_value,
-                                    "is_significant": p.is_significant
-                                }
-                                for p in conflict.papers_improved
-                            ],
-                            "papers_worsened": [
-                                {
-                                    "paper_id": p.paper_id,
-                                    "title": p.title,
-                                    "evidence_level": p.evidence_level,
-                                    "p_value": p.p_value,
-                                    "is_significant": p.is_significant
-                                }
-                                for p in conflict.papers_worsened
-                            ],
-                            "papers_unchanged": [
-                                {
-                                    "paper_id": p.paper_id,
-                                    "title": p.title,
-                                    "evidence_level": p.evidence_level
-                                }
-                                for p in conflict.papers_unchanged
-                            ],
-                            "summary": conflict.summary
-                        }
-                    }
-                else:
-                    return {
-                        "success": True,
-                        "intervention": intervention,
-                        "outcome": outcome,
-                        "has_conflicts": False,
-                        "summary": f"No conflicts found for {intervention} → {outcome}"
-                    }
-            else:
-                # Find all conflicts for intervention (all outcomes)
-                from solver.conflict_detector import ConflictSeverity
-                all_conflicts = await detector.find_all_conflicts(
-                    min_severity=ConflictSeverity.MEDIUM
-                )
-
-                # Filter by intervention
-                intervention_conflicts = [
-                    c for c in all_conflicts
-                    if c.intervention == intervention
-                ]
-
-                return {
-                    "success": True,
-                    "intervention": intervention,
-                    "has_conflicts": len(intervention_conflicts) > 0,
-                    "conflict_count": len(intervention_conflicts),
-                    "conflicts": [
-                        {
-                            "outcome": c.outcome,
-                            "severity": c.severity.value,
-                            "confidence": c.confidence,
-                            "improved_count": len(c.papers_improved),
-                            "worsened_count": len(c.papers_worsened)
-                        }
-                        for c in intervention_conflicts
-                    ],
-                    "summary": f"Found {len(intervention_conflicts)} conflicting outcomes for {intervention}"
-                }
-
-        except Exception as e:
-            logger.exception(f"Detect conflicts error: {e}")
-            return {"success": False, "error": str(e)}
-
-    async def synthesize_evidence(
-        self,
-        intervention: str,
-        outcome: str,
-        min_papers: int = 2
-    ) -> dict:
-        """근거 종합 (GRADE 방법론 기반).
-
-        Args:
-            intervention: 수술법 이름
-            outcome: 결과변수 이름
-            min_papers: 최소 논문 수 (기본값: 2)
-
-        Returns:
-            GRADE rating, direction, strength, confidence interval, recommendation
-        """
-        if not GRAPH_AVAILABLE or not self.neo4j_client:
-            return {
-                "success": False,
-                "error": "Neo4j Graph modules not available"
-            }
-
-        try:
-            # Ensure Neo4j connection is established
-            if not self.neo4j_client._driver:
-                await self.neo4j_client.connect()
-
-            # Use EvidenceSynthesizer from solver
-            from solver.evidence_synthesizer import EvidenceSynthesizer
-            synthesizer = EvidenceSynthesizer(self.neo4j_client)
-
-            result = await synthesizer.synthesize(
-                intervention=intervention,
-                outcome=outcome,
-                min_papers=min_papers
-            )
-
-            return {
-                "success": True,
-                "intervention": intervention,
-                "outcome": outcome,
-                "direction": result.direction,
-                "strength": result.strength.value,
-                "grade_rating": result.grade_rating,
-                "paper_count": result.paper_count,
-                "effect_summary": result.effect_summary,
-                "confidence_interval": result.confidence_interval,
-                "heterogeneity": result.heterogeneity,
-                "recommendation": result.recommendation,
-                "supporting_papers": result.supporting_papers,
-                "opposing_papers": result.opposing_papers
-            }
-
-        except Exception as e:
-            logger.exception(f"Synthesize evidence error: {e}")
-            return {"success": False, "error": str(e)}
-
-    async def get_comparable_interventions(
-        self,
-        intervention: str
-    ) -> dict:
-        """비교 가능한 수술법 목록 조회 (Taxonomy 기반).
-
-        Args:
-            intervention: 수술법 이름
-
-        Returns:
-            같은 부모를 가진 sibling interventions
-        """
-        if not GRAPH_AVAILABLE or not self.neo4j_client or not TaxonomyManager:
-            return {
-                "success": False,
-                "error": "Neo4j Graph modules not available"
-            }
-
-        try:
-            # Ensure Neo4j connection is established
-            if not self.neo4j_client._driver:
-                await self.neo4j_client.connect()
-
-            # Use TaxonomyManager
-            taxonomy = TaxonomyManager(self.neo4j_client)
-
-            # Get parents
-            parents = await taxonomy.get_parent_interventions(intervention)
-
-            if not parents:
-                return {
-                    "success": True,
-                    "intervention": intervention,
-                    "comparable_interventions": [],
-                    "message": f"No parent category found for {intervention}"
-                }
-
-            # Get siblings (children of same parent)
-            immediate_parent = parents[0] if parents else None
-            if immediate_parent:
-                siblings = await taxonomy.get_child_interventions(immediate_parent)
-                # Remove the intervention itself
-                comparable = [s for s in siblings if s != intervention]
-            else:
-                comparable = []
-
-            return {
-                "success": True,
-                "intervention": intervention,
-                "parent_category": immediate_parent,
-                "all_parents": parents,
-                "comparable_interventions": comparable,
-                "count": len(comparable)
-            }
-
-        except Exception as e:
-            logger.exception(f"Get comparable interventions error: {e}")
-            return {"success": False, "error": str(e)}
-
-    async def get_intervention_hierarchy_with_direction(
-        self,
-        intervention: str,
-        direction: str = "both"
-    ) -> dict:
-        """수술법 계층 구조 조회 (방향 선택 가능).
-
-        Args:
-            intervention: 수술법 이름
-            direction: "ancestors", "descendants", "both"
-
-        Returns:
-            계층 구조 정보 (부모/자식, 거리 포함)
-        """
-        if not GRAPH_AVAILABLE or not self.neo4j_client or not TaxonomyManager:
-            return {
-                "success": False,
-                "error": "Neo4j Graph modules not available"
-            }
-
-        try:
-            # Ensure Neo4j connection is established
-            if not self.neo4j_client._driver:
-                await self.neo4j_client.connect()
-
-            taxonomy = TaxonomyManager(self.neo4j_client)
-
-            result = {
-                "success": True,
-                "intervention": intervention
-            }
-
-            if direction in ["ancestors", "both"]:
-                # Get all ancestors (parents)
-                parents = await taxonomy.get_parent_interventions(intervention)
-                result["ancestors"] = parents
-                result["ancestor_count"] = len(parents)
-
-            if direction in ["descendants", "both"]:
-                # Get all descendants (children)
-                children = await taxonomy.get_child_interventions(intervention)
-                result["descendants"] = children
-                result["descendant_count"] = len(children)
-
-            # Get aliases from entity normalizer
-            try:
-                from graph.entity_normalizer import get_normalizer
-                normalizer = get_normalizer()
-
-                aliases = []
-                for alias, normalized in normalizer.INTERVENTION_ALIASES.items():
-                    if normalized == intervention or alias == intervention:
-                        aliases.append(alias)
-                result["aliases"] = list(set(aliases))
-            except Exception:
-                result["aliases"] = []
-
-            return result
-
-        except Exception as e:
-            logger.exception(f"Get intervention hierarchy error: {e}")
-            return {"success": False, "error": str(e)}
-
-    async def adaptive_search(
-        self,
-        query: str,
-        top_k: int = 10,
-        include_synthesis: bool = True,
-        detect_conflicts: bool = True
-    ) -> dict:
-        """통합 검색 파이프라인 (v1.14.18: SearchHandler로 위임).
-
-        Args:
-            query: 검색 쿼리
-            top_k: 반환할 결과 수
-            include_synthesis: 근거 종합 포함 여부
-            detect_conflicts: 충돌 탐지 포함 여부
-
-        Returns:
-            Full search response with adaptive ranking, synthesis, conflicts
-        """
-        if self.search_handler:
-            return await self.search_handler.adaptive_search(
-                query=query,
-                top_k=top_k,
-                include_synthesis=include_synthesis,
-                detect_conflicts=detect_conflicts
-            )
-        return {"success": False, "error": "SearchHandler not initialized"}
-
-    def _get_citation_guide(self, section_type: str, language: str) -> str:
-        """섹션별 인용 가이드 반환."""
-        guides = {
-            "korean": {
-                "introduction": """
-## Introduction 작성 가이드
-- 연구 배경과 필요성을 설명할 때 인용
-- "...에 따르면" 또는 "...가 보고한 바와 같이" 형식 사용
-- 최신 연구부터 인용하여 현재 연구 동향 설명
-""",
-                "methods": """
-## Methods 작성 가이드
-- 방법론의 근거를 제시할 때 인용
-- "...의 방법을 참고하여" 형식 사용
-""",
-                "results": """
-## Results 작성 가이드
-- 결과 해석 시 비교 대상으로 인용
-- "이는 ...의 결과와 일치한다" 형식 사용
-""",
-                "discussion": """
-## Discussion 작성 가이드
-- 결과를 선행 연구와 비교할 때 적극 인용
-- 일치/불일치 여부와 그 이유 설명
-- "본 연구 결과는 ...와 일치하며" 형식 사용
-""",
-                "conclusion": """
-## Conclusion 작성 가이드
-- 핵심 발견의 의의를 강조할 때 인용
-- 향후 연구 방향 제시 시 참조
-"""
-            },
-            "english": {
-                "introduction": "Use citations to establish background and rationale.",
-                "methods": "Cite methodological references.",
-                "results": "Compare findings with cited studies.",
-                "discussion": "Extensively compare with prior literature.",
-                "conclusion": "Reinforce significance with key references."
-            }
-        }
-
-        lang_guides = guides.get(language, guides["english"])
-        return lang_guides.get(section_type, "")
-
     # ========== LLM Pipeline ==========
 
     async def _process_with_llm_pipeline(
@@ -5885,8 +2838,8 @@ MCP 서버의 PDF/텍스트 처리와 100% 같은 스키마로 추출됩니다.
                             stats_is_significant = bool(getattr(stats, 'is_significant', False))
                             stats_additional = str(getattr(stats, 'additional', ''))
                         has_stats = bool(stats_p_value or stats_is_significant)
-                    except Exception:
-                        pass
+                    except Exception as e:
+                        logger.debug(f"Processing failed: {e}")
 
                 # PICO 제거됨 (v3.0) - spine_metadata로 이동
 
@@ -5927,7 +2880,7 @@ MCP 서버의 PDF/텍스트 처리와 100% 같은 스키마로 추출됩니다.
             logger.info(f"LLM pipeline completed: {len(chunks)} chunks created")
 
         except Exception as e:
-            logger.error(f"LLM pipeline error: {e}")
+            logger.error(f"LLM pipeline error: {e}", exc_info=True)
             logger.info("Falling back to rule-based processing")
             # Fallback to rule-based processing
             sections = self._classify_sections(text)
@@ -5994,23 +2947,23 @@ MCP 서버의 PDF/텍스트 처리와 100% 같은 스키마로 추출됩니다.
         try:
             import fitz
             doc = fitz.open(str(path))
-
-            # 1. PDF 내장 메타데이터에서 추출 시도
-            pdf_meta = doc.metadata
-            if pdf_meta:
-                if pdf_meta.get("title"):
-                    metadata["title"] = pdf_meta["title"]
-                if pdf_meta.get("author"):
-                    authors = pdf_meta["author"].split(",")
-                    metadata["authors"] = [a.strip() for a in authors if a.strip()]
-                if pdf_meta.get("creationDate"):
-                    # D:20210315... 형식
-                    date_str = pdf_meta["creationDate"]
-                    year_match = re.search(r"D:(\d{4})", date_str)
-                    if year_match:
-                        metadata["year"] = int(year_match.group(1))
-
-            doc.close()
+            try:
+                # 1. PDF 내장 메타데이터에서 추출 시도
+                pdf_meta = doc.metadata
+                if pdf_meta:
+                    if pdf_meta.get("title"):
+                        metadata["title"] = pdf_meta["title"]
+                    if pdf_meta.get("author"):
+                        authors = pdf_meta["author"].split(",")
+                        metadata["authors"] = [a.strip() for a in authors if a.strip()]
+                    if pdf_meta.get("creationDate"):
+                        # D:20210315... 형식
+                        date_str = pdf_meta["creationDate"]
+                        year_match = re.search(r"D:(\d{4})", date_str)
+                        if year_match:
+                            metadata["year"] = int(year_match.group(1))
+            finally:
+                doc.close()
 
             # 2. 텍스트에서 연도 추출 (메타데이터에 없는 경우)
             if metadata["year"] == 0:
@@ -6134,16 +3087,18 @@ MCP 서버의 PDF/텍스트 처리와 100% 같은 스키마로 추출됩니다.
         try:
             import fitz  # PyMuPDF
             doc = fitz.open(str(path))
-            text = ""
-            for page in doc:
-                text += page.get_text()
-            doc.close()
+            try:
+                text = ""
+                for page in doc:
+                    text += page.get_text()
+            finally:
+                doc.close()
             return text
         except ImportError:
             logger.warning("PyMuPDF not available, using placeholder")
             return f"[Placeholder text from {path.name}]"
         except Exception as e:
-            logger.error(f"PDF extraction error: {e}")
+            logger.error(f"PDF extraction error: {e}", exc_info=True)
             return ""
 
     def _classify_sections(self, text: str) -> list[dict]:
@@ -6651,421 +3606,345 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
             # PMC 실패 시 DOI/Unpaywall로 자동 fallback
         ]
 
+    # ================================================================
+    # Tool Registry (v1.19.2): Dictionary-based dispatch
+    # Replaces ~420-line if/elif chain with declarative mapping
+    # Key: (tool_name, action) → async callable(arguments) → dict
+    # ================================================================
+
+    async def _dispatch_document(action: str, args: dict) -> dict:
+        """Document tool dispatcher (routes to pdf/json/document handlers)."""
+        if action == "add_pdf":
+            return await kag_server.pdf_handler.add_pdf(
+                args.get("file_path", ""), args.get("metadata"),
+                args.get("use_vision", True), args.get("use_v7", True))
+        elif action == "add_pdf_v7":
+            return await kag_server.pdf_handler.add_pdf_v7(
+                args.get("file_path", ""), args.get("metadata"),
+                args.get("document_type"))
+        elif action == "add_json":
+            return await kag_server.json_handler.add_json(
+                args.get("file_path", ""), args.get("metadata"))
+        elif action == "list":
+            return await kag_server.document_handler.list_documents()
+        elif action == "delete":
+            return await kag_server.document_handler.delete_document(
+                args.get("document_id", ""))
+        elif action == "export":
+            return await kag_server.document_handler.export_document(
+                args.get("document_id", ""))
+        elif action == "reset":
+            return await kag_server.document_handler.reset_database(
+                args.get("include_taxonomy", False))
+        elif action == "prepare_prompt":
+            return await kag_server.pdf_handler.prepare_pdf_prompt(
+                args.get("file_path", ""))
+        return {"success": False, "error": f"Unknown document action: {action}"}
+
+    async def _dispatch_search(action: str, args: dict) -> dict:
+        """Search tool dispatcher."""
+        if action == "search":
+            # v1.14.25: enable_pubmed_fallback=True → 자동 하이브리드 검색
+            if args.get("enable_pubmed_fallback", True) and kag_server.pubmed_handler:
+                return await kag_server.pubmed_handler.hybrid_search(
+                    query=args.get("query", ""),
+                    local_top_k=args.get("top_k", 10),
+                    pubmed_max_results=args.get("pubmed_max_results", 20),
+                    min_local_results=args.get("min_local_results", 5),
+                    auto_import=args.get("auto_import", True))
+            return await kag_server.search_handler.search(
+                args.get("query", ""), args.get("top_k", 5),
+                args.get("tier_strategy", "tier1_then_tier2"),
+                args.get("prefer_original", True),
+                args.get("min_evidence_level"))
+        elif action == "graph":
+            return await kag_server.search_handler.graph_search(
+                args.get("query", ""), args.get("search_type", "evidence"),
+                args.get("limit", 20))
+        elif action == "adaptive":
+            return await kag_server.search_handler.adaptive_search(
+                args.get("query", ""), args.get("top_k", 10),
+                args.get("include_synthesis", True),
+                args.get("detect_conflicts", True))
+        elif action == "evidence":
+            return await kag_server.search_handler.find_evidence(
+                args.get("intervention", ""), args.get("outcome", ""),
+                args.get("direction", "improved"))
+        elif action == "reason":
+            return await kag_server.reasoning_handler.reason(
+                args.get("question", args.get("query", "")),
+                args.get("max_hops", 3), args.get("include_conflicts", True))
+        return {"success": False, "error": f"Unknown search action: {action}"}
+
+    async def _dispatch_pubmed(action: str, args: dict) -> dict:
+        """PubMed/DOI tool dispatcher."""
+        if action == "search":
+            return await kag_server.pubmed_handler.search_pubmed(
+                args.get("query", ""), args.get("max_results", 10),
+                args.get("fetch_details", True))
+        elif action == "bulk_search":
+            return await kag_server.pubmed_handler.pubmed_bulk_search(
+                args.get("query", ""), args.get("max_results", 50),
+                args.get("import_results", False), args.get("year_from"),
+                args.get("year_to"), args.get("publication_types"))
+        elif action == "hybrid_search":
+            return await kag_server.pubmed_handler.hybrid_search(
+                query=args.get("query", ""),
+                local_top_k=args.get("local_top_k", 10),
+                pubmed_max_results=args.get("max_results", 20),
+                min_local_results=args.get("min_local_results", 5),
+                auto_import=args.get("auto_import", True),
+                year_from=args.get("year_from"),
+                year_to=args.get("year_to"))
+        elif action == "import_citations":
+            return await kag_server.pubmed_handler.pubmed_import_citations(
+                args.get("paper_id", ""), args.get("min_confidence", 0.7))
+        elif action == "import_by_pmids":
+            return await kag_server.pubmed_handler.import_papers_by_pmids(
+                args.get("pmids", []),
+                max_concurrent=args.get("max_concurrent"))
+        elif action == "upgrade_pdf":
+            return await kag_server.pubmed_handler.upgrade_paper_with_pdf(
+                args.get("paper_id", ""), args.get("pdf_path", ""))
+        elif action == "get_abstract_only":
+            return await kag_server.pubmed_handler.get_abstract_only_papers(
+                args.get("limit", 50))
+        elif action == "get_stats":
+            return await kag_server.pubmed_handler.get_pubmed_import_stats()
+        elif action == "fetch_by_doi":
+            return await kag_server.pubmed_handler.fetch_by_doi(
+                args.get("doi", ""), args.get("download_pdf", False),
+                args.get("import_to_graph", False))
+        elif action == "doi_metadata":
+            return await kag_server.pubmed_handler.get_doi_metadata(
+                args.get("doi", ""))
+        elif action == "import_by_doi":
+            return await kag_server.pubmed_handler.import_by_doi(
+                args.get("doi", ""), args.get("fetch_fulltext", True))
+        return {"success": False, "error": f"Unknown pubmed action: {action}"}
+
+    async def _dispatch_analyze(action: str, args: dict) -> dict:
+        """Analyze tool dispatcher."""
+        if action == "text":
+            return await kag_server.pdf_handler.analyze_text(
+                text=args.get("text", ""), title=args.get("title", ""),
+                pmid=args.get("pmid"), metadata=args.get("metadata"),
+                use_v7=args.get("use_v7", True))
+        elif action == "store_paper":
+            return await kag_server.pdf_handler.store_analyzed_paper(
+                title=args.get("title", ""),
+                abstract=args.get("abstract", ""),
+                year=args.get("year", 2024),
+                interventions=args.get("interventions", []),
+                outcomes=args.get("outcomes", []),
+                pathologies=args.get("pathologies"),
+                anatomy_levels=args.get("anatomy_levels"),
+                authors=args.get("authors"),
+                journal=args.get("journal"),
+                doi=args.get("doi"),
+                pmid=args.get("pmid"),
+                evidence_level=args.get("evidence_level"),
+                study_design=args.get("study_design"),
+                sample_size=args.get("sample_size"),
+                summary=args.get("summary"),
+                sub_domain=args.get("sub_domain"),
+                chunks=args.get("chunks"),
+                patient_cohorts=args.get("patient_cohorts"),
+                followups=args.get("followups"),
+                costs=args.get("costs"),
+                quality_metrics=args.get("quality_metrics"))
+        return {"success": False, "error": f"Unknown analyze action: {action}"}
+
+    async def _dispatch_graph(action: str, args: dict) -> dict:
+        """Graph exploration tool dispatcher."""
+        if action == "relations":
+            return await kag_server.graph_handler.get_paper_relations(
+                args.get("paper_id", ""), args.get("relation_type"))
+        elif action == "evidence_chain":
+            return await kag_server.graph_handler.find_evidence_chain(
+                args.get("claim", ""), args.get("max_papers", 5))
+        elif action == "compare":
+            return await kag_server.reasoning_handler.compare_papers(
+                args.get("paper_ids", []))
+        elif action == "clusters":
+            return await kag_server.graph_handler.get_topic_clusters()
+        elif action == "multi_hop":
+            return await kag_server.reasoning_handler.multi_hop_reason(
+                args.get("question", ""), args.get("start_paper_id"),
+                args.get("max_hops", 3))
+        elif action == "draft_citations":
+            return await kag_server.citation_handler.draft_with_citations(
+                args.get("topic", ""), args.get("section_type", "introduction"),
+                args.get("max_citations", 5), args.get("language", "korean"))
+        elif action == "build_relations":
+            if not kag_server.graph_handler:
+                return {"success": False, "error": "Graph handler not available"}
+            return await kag_server.graph_handler.build_paper_relations(
+                paper_id=args.get("paper_id"),
+                min_similarity=args.get("min_similarity", 0.4),
+                max_papers=args.get("max_papers", 100))
+        return {"success": False, "error": f"Unknown graph action: {action}"}
+
+    async def _dispatch_conflict(action: str, args: dict) -> dict:
+        """Conflict detection tool dispatcher."""
+        if action == "find":
+            return await kag_server.reasoning_handler.find_conflicts(
+                args.get("topic", ""), args.get("document_ids"))
+        elif action == "detect":
+            return await kag_server.reasoning_handler.detect_conflicts(
+                args.get("intervention", ""), args.get("outcome"))
+        elif action == "synthesize":
+            return await kag_server.reasoning_handler.synthesize_evidence(
+                args.get("intervention", ""), args.get("outcome", ""),
+                args.get("min_papers", 2))
+        return {"success": False, "error": f"Unknown conflict action: {action}"}
+
+    async def _dispatch_intervention(action: str, args: dict) -> dict:
+        """Intervention tool dispatcher."""
+        name = args.get("intervention") or args.get("intervention_name", "")
+        if action == "hierarchy":
+            return await kag_server.graph_handler.get_intervention_hierarchy(name)
+        elif action == "compare":
+            return await kag_server.graph_handler.compare_interventions(
+                args.get("intervention1", ""), args.get("intervention2", ""),
+                args.get("outcome", ""))
+        elif action == "comparable":
+            return await kag_server.graph_handler.get_comparable_interventions(name)
+        elif action == "hierarchy_with_direction":
+            return await kag_server.graph_handler.get_intervention_hierarchy_with_direction(
+                name, args.get("direction", "both"))
+        return {"success": False, "error": f"Unknown intervention action: {action}"}
+
+    async def _dispatch_extended(action: str, args: dict) -> dict:
+        """Extended entity tool dispatcher."""
+        if action == "patient_cohorts":
+            return await kag_server.clinical_data_handler.get_patient_cohorts(
+                paper_id=args.get("paper_id"),
+                intervention=args.get("intervention"),
+                cohort_type=args.get("cohort_type"),
+                min_sample_size=args.get("min_sample_size"))
+        elif action == "followup":
+            return await kag_server.clinical_data_handler.get_followup_data(
+                paper_id=args.get("paper_id"),
+                intervention=args.get("intervention"),
+                min_months=args.get("min_months"),
+                max_months=args.get("max_months"))
+        elif action == "cost":
+            return await kag_server.clinical_data_handler.get_cost_analysis(
+                paper_id=args.get("paper_id"),
+                intervention=args.get("intervention"),
+                cost_type=args.get("cost_type"))
+        elif action == "quality_metrics":
+            return await kag_server.clinical_data_handler.get_quality_metrics(
+                paper_id=args.get("paper_id"),
+                assessment_tool=args.get("assessment_tool"),
+                min_rating=args.get("min_rating"))
+        return {"success": False, "error": f"Unknown extended action: {action}"}
+
+    async def _dispatch_reference(action: str, args: dict) -> dict:
+        """Reference formatting tool dispatcher."""
+        if not kag_server.reference_handler:
+            return {"success": False, "error": "ReferenceHandler not available"}
+        if action == "format":
+            return await kag_server.reference_handler.format_reference(
+                paper_id=args.get("paper_id"), query=args.get("query"),
+                style=args.get("style", "vancouver"),
+                target_journal=args.get("target_journal"),
+                output_format=args.get("output_format", "text"))
+        elif action == "format_multiple":
+            return await kag_server.reference_handler.format_references(
+                paper_ids=args.get("paper_ids"), query=args.get("query"),
+                max_results=args.get("max_results", 10),
+                style=args.get("style", "vancouver"),
+                target_journal=args.get("target_journal"),
+                numbered=args.get("numbered", True),
+                start_number=args.get("start_number", 1),
+                output_format=args.get("output_format", "text"))
+        elif action == "list_styles":
+            return await kag_server.reference_handler.list_styles()
+        elif action == "set_journal_style":
+            return await kag_server.reference_handler.set_journal_style(
+                journal_name=args.get("journal_name", ""),
+                style_name=args.get("style_name", ""))
+        elif action == "add_custom_style":
+            return await kag_server.reference_handler.add_custom_style(
+                name=args.get("name", ""),
+                base_style=args.get("base_style", "vancouver"),
+                author_et_al_threshold=args.get("author_et_al_threshold", 6),
+                author_et_al_min=args.get("author_et_al_min", 3),
+                author_initials_format=args.get("author_initials_format", "no_space"),
+                include_doi=args.get("include_doi", False),
+                include_pmid=args.get("include_pmid", False),
+                journal_abbreviation=args.get("journal_abbreviation", True),
+                volume_format=args.get("volume_format", "{volume}({issue})"),
+                pages_format=args.get("pages_format", "full"))
+        elif action == "preview":
+            return await kag_server.reference_handler.preview_styles(
+                paper_id=args.get("paper_id"), query=args.get("query"),
+                styles=args.get("styles"))
+        return {"success": False, "error": f"Unknown reference action: {action}"}
+
+    async def _dispatch_writing_guide(action: str, args: dict) -> dict:
+        """Writing guide tool dispatcher."""
+        if not kag_server.writing_guide_handler:
+            return {"success": False, "error": "WritingGuideHandler not available"}
+        if action == "section_guide":
+            return await kag_server.writing_guide_handler.get_section_guide(
+                section=args.get("section", "introduction"),
+                study_type=args.get("study_type"),
+                include_examples=args.get("include_examples", True))
+        elif action == "checklist":
+            return await kag_server.writing_guide_handler.get_checklist(
+                study_type=args.get("study_type"),
+                checklist_name=args.get("checklist_name"),
+                section_filter=args.get("section_filter"))
+        elif action == "expert":
+            return await kag_server.writing_guide_handler.get_expert_info(
+                expert=args.get("expert", "editor"),
+                section=args.get("section"))
+        elif action == "response_template":
+            return await kag_server.writing_guide_handler.get_response_template(
+                response_type=args.get("response_type", "major_revision"))
+        elif action == "draft_response":
+            return await kag_server.writing_guide_handler.draft_response_letter(
+                reviewer_comments=args.get("reviewer_comments", ""))
+        elif action == "analyze_comments":
+            return await kag_server.writing_guide_handler.analyze_reviewer_comments(
+                comments=args.get("reviewer_comments", ""))
+        elif action == "all_guides":
+            return await kag_server.writing_guide_handler.get_all_guides()
+        return {"success": False, "error": f"Unknown writing_guide action: {action}"}
+
+    # Tool name → dispatcher mapping
+    _tool_dispatchers = {
+        "document": _dispatch_document,
+        "search": _dispatch_search,
+        "pubmed": _dispatch_pubmed,
+        "analyze": _dispatch_analyze,
+        "graph": _dispatch_graph,
+        "conflict": _dispatch_conflict,
+        "intervention": _dispatch_intervention,
+        "extended": _dispatch_extended,
+        "reference": _dispatch_reference,
+        "writing_guide": _dispatch_writing_guide,
+    }
+
     @server.call_tool()
     async def call_tool(name: str, arguments: dict) -> list[TextContent]:
-        """통합 도구 핸들러 (v1.4 - action 기반 라우팅)."""
+        """통합 도구 핸들러 (v1.19.2 - Tool Registry 패턴).
+
+        10개 도구 × 63개 액션을 딕셔너리 기반으로 디스패치합니다.
+        """
         action = arguments.get("action", "")
         logger.info(f"Tool called: {name}, action: {action}")
 
         try:
-            # 1. Document Tool
-            if name == "document":
-                if action == "add_pdf":
-                    result = await kag_server.add_pdf(
-                        arguments.get("file_path", ""),
-                        arguments.get("metadata"),
-                        arguments.get("use_vision", True),
-                        arguments.get("use_v7", True)
-                    )
-                elif action == "add_pdf_v7":
-                    result = await kag_server.add_pdf_v7(
-                        arguments.get("file_path", ""),
-                        arguments.get("metadata"),
-                        arguments.get("document_type")
-                    )
-                elif action == "add_json":
-                    result = await kag_server.add_json(
-                        arguments.get("file_path", ""),
-                        arguments.get("metadata")
-                    )
-                elif action == "list":
-                    result = await kag_server.list_documents()
-                elif action == "delete":
-                    result = await kag_server.delete_document(
-                        arguments.get("document_id", "")
-                    )
-                elif action == "export":
-                    result = await kag_server.export_document(
-                        arguments.get("document_id", "")
-                    )
-                elif action == "reset":
-                    result = await kag_server.reset_database(
-                        arguments.get("include_taxonomy", False)
-                    )
-                elif action == "prepare_prompt":
-                    result = await kag_server.prepare_pdf_prompt(
-                        arguments.get("file_path", "")
-                    )
-                else:
-                    result = {"success": False, "error": f"Unknown document action: {action}"}
-
-            # 2. Search Tool (v1.14.25: 자동 하이브리드 검색)
-            elif name == "search":
-                if action == "search":
-                    # v1.14.25: enable_pubmed_fallback=True 시 자동으로 하이브리드 검색
-                    enable_pubmed_fallback = arguments.get("enable_pubmed_fallback", True)
-                    if enable_pubmed_fallback and kag_server.pubmed_handler:
-                        result = await kag_server.pubmed_handler.hybrid_search(
-                            query=arguments.get("query", ""),
-                            local_top_k=arguments.get("top_k", 10),
-                            pubmed_max_results=arguments.get("pubmed_max_results", 20),
-                            min_local_results=arguments.get("min_local_results", 5),
-                            auto_import=arguments.get("auto_import", True),
-                        )
-                    else:
-                        # enable_pubmed_fallback=False 시 기존 로컬 검색만
-                        result = await kag_server.search(
-                            arguments.get("query", ""),
-                            arguments.get("top_k", 5),
-                            arguments.get("tier_strategy", "tier1_then_tier2"),
-                            arguments.get("prefer_original", True),
-                            arguments.get("min_evidence_level")
-                        )
-                elif action == "graph":
-                    result = await kag_server.graph_search(
-                        arguments.get("query", ""),
-                        arguments.get("search_type", "evidence"),
-                        arguments.get("limit", 20)
-                    )
-                elif action == "adaptive":
-                    result = await kag_server.adaptive_search(
-                        arguments.get("query", ""),
-                        arguments.get("top_k", 10),
-                        arguments.get("include_synthesis", True),
-                        arguments.get("detect_conflicts", True)
-                    )
-                elif action == "evidence":
-                    result = await kag_server.find_evidence(
-                        arguments.get("intervention", ""),
-                        arguments.get("outcome", ""),
-                        arguments.get("direction", "improved")
-                    )
-                elif action == "reason":
-                    result = await kag_server.reason(
-                        arguments.get("question", arguments.get("query", "")),
-                        arguments.get("max_hops", 3),
-                        arguments.get("include_conflicts", True)
-                    )
-                else:
-                    result = {"success": False, "error": f"Unknown search action: {action}"}
-
-            # 3. PubMed Tool
-            elif name == "pubmed":
-                if action == "search":
-                    result = await kag_server.search_pubmed(
-                        arguments.get("query", ""),
-                        arguments.get("max_results", 10),
-                        arguments.get("fetch_details", True)
-                    )
-                elif action == "bulk_search":
-                    result = await kag_server.pubmed_bulk_search(
-                        arguments.get("query", ""),
-                        arguments.get("max_results", 50),
-                        arguments.get("import_results", False),
-                        arguments.get("year_from"),
-                        arguments.get("year_to"),
-                        arguments.get("publication_types")
-                    )
-                elif action == "hybrid_search":
-                    # v1.14.24: 로컬 우선 + PubMed 보완 검색
-                    result = await kag_server.hybrid_search(
-                        query=arguments.get("query", ""),
-                        local_top_k=arguments.get("local_top_k", 10),
-                        pubmed_max_results=arguments.get("max_results", 20),
-                        min_local_results=arguments.get("min_local_results", 5),
-                        auto_import=arguments.get("auto_import", True),
-                        year_from=arguments.get("year_from"),
-                        year_to=arguments.get("year_to"),
-                    )
-                elif action == "import_citations":
-                    result = await kag_server.pubmed_import_citations(
-                        arguments.get("paper_id", ""),
-                        arguments.get("min_confidence", 0.7)
-                    )
-                elif action == "import_by_pmids":
-                    result = await kag_server.import_papers_by_pmids(
-                        arguments.get("pmids", []),
-                        max_concurrent=arguments.get("max_concurrent")  # None이면 환경변수 사용
-                    )
-                elif action == "upgrade_pdf":
-                    result = await kag_server.upgrade_paper_with_pdf(
-                        arguments.get("paper_id", ""),
-                        arguments.get("pdf_path", "")
-                    )
-                elif action == "get_abstract_only":
-                    result = await kag_server.get_abstract_only_papers(
-                        arguments.get("limit", 50)
-                    )
-                elif action == "get_stats":
-                    result = await kag_server.get_pubmed_import_stats()
-                # DOI actions (v1.12.2)
-                elif action == "fetch_by_doi":
-                    result = await kag_server.fetch_by_doi(
-                        arguments.get("doi", ""),
-                        arguments.get("download_pdf", False),
-                        arguments.get("import_to_graph", False)
-                    )
-                elif action == "doi_metadata":
-                    result = await kag_server.get_doi_metadata(
-                        arguments.get("doi", "")
-                    )
-                elif action == "import_by_doi":
-                    result = await kag_server.import_by_doi(
-                        arguments.get("doi", ""),
-                        arguments.get("fetch_fulltext", True)
-                    )
-                else:
-                    result = {"success": False, "error": f"Unknown pubmed action: {action}"}
-
-            # 4. Analyze Tool (store_analyzed_paper 포함)
-            elif name == "analyze":
-                if action == "text":
-                    result = await kag_server.analyze_text(
-                        text=arguments.get("text", ""),
-                        title=arguments.get("title", ""),
-                        pmid=arguments.get("pmid"),
-                        metadata=arguments.get("metadata"),
-                        use_v7=arguments.get("use_v7", True)  # v1.5: 기본값 True
-                    )
-                elif action == "store_paper":
-                    # store_analyzed_paper 기능 (v1.3)
-                    result = await kag_server.store_analyzed_paper(
-                        title=arguments.get("title", ""),
-                        abstract=arguments.get("abstract", ""),
-                        year=arguments.get("year", 2024),
-                        interventions=arguments.get("interventions", []),
-                        outcomes=arguments.get("outcomes", []),
-                        pathologies=arguments.get("pathologies"),
-                        anatomy_levels=arguments.get("anatomy_levels"),
-                        authors=arguments.get("authors"),
-                        journal=arguments.get("journal"),
-                        doi=arguments.get("doi"),
-                        pmid=arguments.get("pmid"),
-                        evidence_level=arguments.get("evidence_level"),
-                        study_design=arguments.get("study_design"),
-                        sample_size=arguments.get("sample_size"),
-                        summary=arguments.get("summary"),
-                        sub_domain=arguments.get("sub_domain"),
-                        chunks=arguments.get("chunks"),
-                        patient_cohorts=arguments.get("patient_cohorts"),
-                        followups=arguments.get("followups"),
-                        costs=arguments.get("costs"),
-                        quality_metrics=arguments.get("quality_metrics"),
-                    )
-                else:
-                    result = {"success": False, "error": f"Unknown analyze action: {action}"}
-
-            # 5. Graph Tool
-            elif name == "graph":
-                if action == "relations":
-                    result = await kag_server.get_paper_relations(
-                        arguments.get("paper_id", ""),
-                        arguments.get("relation_type")
-                    )
-                elif action == "evidence_chain":
-                    result = await kag_server.find_evidence_chain(
-                        arguments.get("claim", ""),
-                        arguments.get("max_papers", 5)
-                    )
-                elif action == "compare":
-                    result = await kag_server.compare_papers(
-                        arguments.get("paper_ids", [])
-                    )
-                elif action == "clusters":
-                    result = await kag_server.get_topic_clusters()
-                elif action == "multi_hop":
-                    result = await kag_server.multi_hop_reason(
-                        arguments.get("question", ""),
-                        arguments.get("start_paper_id"),
-                        arguments.get("max_hops", 3)
-                    )
-                elif action == "draft_citations":
-                    result = await kag_server.draft_with_citations(
-                        arguments.get("topic", ""),
-                        arguments.get("section_type", "introduction"),
-                        arguments.get("max_citations", 5),
-                        arguments.get("language", "korean")
-                    )
-                elif action == "build_relations":
-                    # 논문 간 SIMILAR_TOPIC 관계 자동 구축
-                    if kag_server.graph_handler:
-                        result = await kag_server.graph_handler.build_paper_relations(
-                            paper_id=arguments.get("paper_id"),
-                            min_similarity=arguments.get("min_similarity", 0.4),
-                            max_papers=arguments.get("max_papers", 100)
-                        )
-                    else:
-                        result = {"success": False, "error": "Graph handler not available"}
-                else:
-                    result = {"success": False, "error": f"Unknown graph action: {action}"}
-
-            # 6. Conflict Tool
-            elif name == "conflict":
-                if action == "find":
-                    result = await kag_server.find_conflicts(
-                        arguments.get("topic", ""),
-                        arguments.get("document_ids")
-                    )
-                elif action == "detect":
-                    result = await kag_server.detect_conflicts(
-                        arguments.get("intervention", ""),
-                        arguments.get("outcome")
-                    )
-                elif action == "synthesize":
-                    result = await kag_server.synthesize_evidence(
-                        arguments.get("intervention", ""),
-                        arguments.get("outcome", ""),
-                        arguments.get("min_papers", 2)
-                    )
-                else:
-                    result = {"success": False, "error": f"Unknown conflict action: {action}"}
-
-            # 7. Intervention Tool
-            elif name == "intervention":
-                intervention_name = arguments.get("intervention") or arguments.get("intervention_name", "")
-                if action == "hierarchy":
-                    result = await kag_server.get_intervention_hierarchy(intervention_name)
-                elif action == "compare":
-                    result = await kag_server.compare_interventions(
-                        arguments.get("intervention1", ""),
-                        arguments.get("intervention2", ""),
-                        arguments.get("outcome", "")
-                    )
-                elif action == "comparable":
-                    result = await kag_server.get_comparable_interventions(intervention_name)
-                elif action == "hierarchy_with_direction":
-                    result = await kag_server.get_intervention_hierarchy_with_direction(
-                        intervention_name,
-                        arguments.get("direction", "both")
-                    )
-                else:
-                    result = {"success": False, "error": f"Unknown intervention action: {action}"}
-
-            # 8. Extended Tool (v1.2+)
-            elif name == "extended":
-                if action == "patient_cohorts":
-                    result = await kag_server.get_patient_cohorts(
-                        paper_id=arguments.get("paper_id"),
-                        intervention=arguments.get("intervention"),
-                        cohort_type=arguments.get("cohort_type"),
-                        min_sample_size=arguments.get("min_sample_size")
-                    )
-                elif action == "followup":
-                    result = await kag_server.get_followup_data(
-                        paper_id=arguments.get("paper_id"),
-                        intervention=arguments.get("intervention"),
-                        min_months=arguments.get("min_months"),
-                        max_months=arguments.get("max_months")
-                    )
-                elif action == "cost":
-                    result = await kag_server.get_cost_analysis(
-                        paper_id=arguments.get("paper_id"),
-                        intervention=arguments.get("intervention"),
-                        cost_type=arguments.get("cost_type")
-                    )
-                elif action == "quality_metrics":
-                    result = await kag_server.get_quality_metrics(
-                        paper_id=arguments.get("paper_id"),
-                        assessment_tool=arguments.get("assessment_tool"),
-                        min_rating=arguments.get("min_rating")
-                    )
-                else:
-                    result = {"success": False, "error": f"Unknown extended action: {action}"}
-
-            # 9. Reference Tool (v1.8)
-            elif name == "reference":
-                if kag_server.reference_handler is None:
-                    result = {"success": False, "error": "ReferenceHandler not available"}
-                elif action == "format":
-                    result = await kag_server.reference_handler.format_reference(
-                        paper_id=arguments.get("paper_id"),
-                        query=arguments.get("query"),
-                        style=arguments.get("style", "vancouver"),
-                        target_journal=arguments.get("target_journal"),
-                        output_format=arguments.get("output_format", "text")
-                    )
-                elif action == "format_multiple":
-                    result = await kag_server.reference_handler.format_references(
-                        paper_ids=arguments.get("paper_ids"),
-                        query=arguments.get("query"),
-                        max_results=arguments.get("max_results", 10),
-                        style=arguments.get("style", "vancouver"),
-                        target_journal=arguments.get("target_journal"),
-                        numbered=arguments.get("numbered", True),
-                        start_number=arguments.get("start_number", 1),
-                        output_format=arguments.get("output_format", "text")
-                    )
-                elif action == "list_styles":
-                    result = await kag_server.reference_handler.list_styles()
-                elif action == "set_journal_style":
-                    result = await kag_server.reference_handler.set_journal_style(
-                        journal_name=arguments.get("journal_name", ""),
-                        style_name=arguments.get("style_name", "")
-                    )
-                elif action == "add_custom_style":
-                    result = await kag_server.reference_handler.add_custom_style(
-                        name=arguments.get("name", ""),
-                        base_style=arguments.get("base_style", "vancouver"),
-                        author_et_al_threshold=arguments.get("author_et_al_threshold", 6),
-                        author_et_al_min=arguments.get("author_et_al_min", 3),
-                        author_initials_format=arguments.get("author_initials_format", "no_space"),
-                        include_doi=arguments.get("include_doi", False),
-                        include_pmid=arguments.get("include_pmid", False),
-                        journal_abbreviation=arguments.get("journal_abbreviation", True),
-                        volume_format=arguments.get("volume_format", "{volume}({issue})"),
-                        pages_format=arguments.get("pages_format", "full")
-                    )
-                elif action == "preview":
-                    result = await kag_server.reference_handler.preview_styles(
-                        paper_id=arguments.get("paper_id"),
-                        query=arguments.get("query"),
-                        styles=arguments.get("styles")
-                    )
-                else:
-                    result = {"success": False, "error": f"Unknown reference action: {action}"}
-
-            # 10. Writing Guide Tool (v1.12)
-            elif name == "writing_guide":
-                if kag_server.writing_guide_handler is None:
-                    result = {"success": False, "error": "WritingGuideHandler not available"}
-                elif action == "section_guide":
-                    result = await kag_server.writing_guide_handler.get_section_guide(
-                        section=arguments.get("section", "introduction"),
-                        study_type=arguments.get("study_type"),
-                        include_examples=arguments.get("include_examples", True)
-                    )
-                elif action == "checklist":
-                    result = await kag_server.writing_guide_handler.get_checklist(
-                        study_type=arguments.get("study_type"),
-                        checklist_name=arguments.get("checklist_name"),
-                        section_filter=arguments.get("section_filter")
-                    )
-                elif action == "expert":
-                    result = await kag_server.writing_guide_handler.get_expert_info(
-                        expert=arguments.get("expert", "editor"),
-                        section=arguments.get("section")
-                    )
-                elif action == "response_template":
-                    result = await kag_server.writing_guide_handler.get_response_template(
-                        response_type=arguments.get("response_type", "major_revision")
-                    )
-                elif action == "draft_response":
-                    result = await kag_server.writing_guide_handler.draft_response_letter(
-                        reviewer_comments=arguments.get("reviewer_comments", "")
-                    )
-                elif action == "analyze_comments":
-                    result = await kag_server.writing_guide_handler.analyze_reviewer_comments(
-                        comments=arguments.get("reviewer_comments", "")
-                    )
-                elif action == "all_guides":
-                    result = await kag_server.writing_guide_handler.get_all_guides()
-                else:
-                    result = {"success": False, "error": f"Unknown writing_guide action: {action}"}
-
-            else:
+            dispatcher = _tool_dispatchers.get(name)
+            if not dispatcher:
                 result = {"success": False, "error": f"Unknown tool: {name}"}
+            else:
+                result = await dispatcher(action, arguments)
 
-            # Format result
             import json
             result_text = json.dumps(result, ensure_ascii=False, indent=2)
             return [TextContent(type="text", text=result_text)]

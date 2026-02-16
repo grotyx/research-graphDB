@@ -105,44 +105,51 @@ class AnatomyCleanupResult:
 # 1. Cypher 동적 생성 (schema.py 교체용)
 # =====================================================================
 
-def generate_snomed_update_queries(batch_size: int = 20) -> list[str]:
+def generate_snomed_update_queries(batch_size: int = 20) -> list[tuple[str, dict]]:
     """spine_snomed_mappings.py 기반으로 SNOMED 보강 Cypher 쿼리 동적 생성.
 
-    init_neo4j.py 호환: 파라미터 없는 자체 완결형 Cypher 문자열 반환.
+    파라미터 바인딩 기반: (query, params) 튜플 리스트 반환.
 
     Args:
         batch_size: 한 쿼리당 처리할 노드 수.
 
     Returns:
-        Cypher 쿼리 문자열 리스트.
+        (Cypher 쿼리 문자열, 파라미터 dict) 튜플 리스트.
     """
-    queries: list[str] = []
+    ALLOWED_LABELS = {"Intervention", "Pathology", "Outcome", "Anatomy"}
+    queries: list[tuple[str, dict]] = []
 
     for entity_type, (label, mapping_dict) in ENTITY_TYPE_CONFIG.items():
+        if label not in ALLOWED_LABELS:
+            raise ValueError(f"Invalid label: {label}")
+
         items = list(mapping_dict.items())
         for i in range(0, len(items), batch_size):
             batch = items[i:i + batch_size]
-            # CALL {} 서브쿼리로 각 MATCH를 독립 실행 (MATCH 실패 시 배치 전체 스킵 방지)
-            statements: list[str] = []
-
+            batch_data = []
             for name, m in batch:
-                escaped_name = name.replace("'", "\\'")
-                escaped_term = m.term.replace("'", "\\'")
-                stmt = f"CALL {{ MATCH (n:{label} {{name: '{escaped_name}'}}) "
-                stmt += f"SET n.snomed_code = '{m.code}', "
-                stmt += f"n.snomed_term = '{escaped_term}'"
-                if m.is_extension:
-                    stmt += ", n.snomed_is_extension = true"
-                else:
-                    stmt += ", n.snomed_is_extension = false"
-                stmt += " }"
-                statements.append(stmt)
+                batch_data.append({
+                    "name": name,
+                    "snomed_code": m.code,
+                    "snomed_term": m.term,
+                    "snomed_is_extension": m.is_extension,
+                })
 
             batch_num = i // batch_size + 1
             total_batches = (len(items) + batch_size - 1) // batch_size
-            query = "\n".join(statements)
-            query += f"\nRETURN '{label} SNOMED batch {batch_num}/{total_batches} applied'"
-            queries.append(query)
+
+            query = f"""
+            UNWIND $items AS item
+            CALL {{
+                WITH item
+                MATCH (n:{label} {{name: item.name}})
+                SET n.snomed_code = item.snomed_code,
+                    n.snomed_term = item.snomed_term,
+                    n.snomed_is_extension = item.snomed_is_extension
+            }}
+            RETURN '{label} SNOMED batch {batch_num}/{total_batches} applied'
+            """
+            queries.append((query, {"items": batch_data}))
 
     return queries
 
@@ -173,7 +180,10 @@ async def update_snomed_for_entity_type(
     if entity_type not in ENTITY_TYPE_CONFIG:
         raise ValueError(f"Unknown entity type: {entity_type}")
 
+    ALLOWED_LABELS = {"Intervention", "Pathology", "Outcome", "Anatomy"}
     label, _ = ENTITY_TYPE_CONFIG[entity_type]
+    if label not in ALLOWED_LABELS:
+        raise ValueError(f"Invalid label: {label}")
     result = UpdateResult(entity_type=entity_type)
 
     # 전체 노드 수

@@ -372,7 +372,7 @@ class SearchAgent(RAGAgent):
             return result
 
         except Exception as e:
-            logger.error("SearchAgent failed", error=str(e))
+            logger.error("SearchAgent failed", error=str(e), exc_info=True)
             return AgentResult(
                 success=False,
                 result=None,
@@ -511,7 +511,7 @@ class SynthesisAgent(RAGAgent):
             return result
 
         except Exception as e:
-            logger.error("SynthesisAgent failed", error=str(e))
+            logger.error("SynthesisAgent failed", error=str(e), exc_info=True)
             return AgentResult(
                 success=False,
                 result=None,
@@ -679,7 +679,7 @@ class ValidationAgent(RAGAgent):
             return result
 
         except Exception as e:
-            logger.error("ValidationAgent failed", error=str(e))
+            logger.error("ValidationAgent failed", error=str(e), exc_info=True)
             return AgentResult(
                 success=False,
                 result=None,
@@ -891,7 +891,7 @@ class PlanningAgent(RAGAgent):
             return result
 
         except Exception as e:
-            logger.error("PlanningAgent failed", error=str(e))
+            logger.error("PlanningAgent failed", error=str(e), exc_info=True)
             return AgentResult(
                 success=False,
                 result=None,
@@ -1209,7 +1209,7 @@ class AgentOrchestrator:
             return response
 
         except Exception as e:
-            logger.error("AgentOrchestrator failed", error=str(e))
+            logger.error("AgentOrchestrator failed", error=str(e), exc_info=True)
             # Return error response
             return AgentResponse(
                 final_answer=f"Failed to solve query: {str(e)}",

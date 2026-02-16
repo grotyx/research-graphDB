@@ -890,6 +890,7 @@ Return JSON:
             }
 
         except Exception as e:
+            logger.warning(f"Multi-hop reasoning failed: {e}")
             return {
                 "answer": f"Error during reasoning: {str(e)}",
                 "reasoning_chain": [],
@@ -1003,6 +1004,7 @@ Return JSON:
             }
 
         except Exception as e:
+            logger.warning(f"Evidence chain finding failed: {e}")
             return {
                 "supporting_papers": [],
                 "contradicting_papers": [],
@@ -1082,4 +1084,5 @@ Return JSON:
             }
 
         except Exception as e:
+            logger.warning(f"Paper comparison failed: {e}")
             return {"error": str(e)}

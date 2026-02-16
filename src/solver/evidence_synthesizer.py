@@ -44,6 +44,14 @@ except ImportError:
         NORMALIZER_AVAILABLE = False
         get_normalizer = None
 
+try:
+    from core.exceptions import ValidationError
+except ImportError:
+    try:
+        from ..core.exceptions import ValidationError
+    except ImportError:
+        ValidationError = ValueError  # type: ignore[misc,assignment]
+
 logger = logging.getLogger(__name__)
 
 
@@ -431,7 +439,7 @@ class EvidenceSynthesizer:
                 if value_control_str:
                     value_control = self._parse_numeric_value(value_control_str)
 
-            except (ValueError, TypeError) as e:
+            except (ValueError, TypeError, ValidationError) as e:
                 # Value parsing failed, but we can still use direction/significance
                 logger.debug(f"Could not parse value: {e}, using default 0.0")
 
@@ -467,7 +475,7 @@ class EvidenceSynthesizer:
             숫자 값
         """
         if not value_str:
-            raise ValueError("Empty value string")
+            raise ValidationError("Empty value string")
 
         # Remove common suffixes
         value_str = value_str.replace("%", "").replace("points", "").strip()
@@ -477,7 +485,7 @@ class EvidenceSynthesizer:
         if match:
             return float(match.group())
 
-        raise ValueError(f"Could not parse numeric value: {value_str}")
+        raise ValidationError(f"Could not parse numeric value: {value_str}")
 
     def _calculate_pooled_effect(self, evidence: list[EvidenceItem]) -> Optional[PooledEffect]:
         """통합 효과 계산.
@@ -919,7 +927,7 @@ def calculate_weighted_mean(values: list[float], weights: list[float]) -> float:
         가중 평균
     """
     if not values or not weights or len(values) != len(weights):
-        raise ValueError("values and weights must have same length")
+        raise ValidationError("values and weights must have same length")
 
     total_weight = sum(weights)
     if total_weight <= 0:

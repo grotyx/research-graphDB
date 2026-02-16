@@ -249,7 +249,7 @@ class PubMedBulkProcessor:
                 logger.info(f"OpenAI Embedding initialized: {self.EMBEDDING_MODEL} ({self.EMBEDDING_DIM}d)")
             except Exception as e:
                 # v1.14.26: MedTE 폴백 제거 (768d는 3072d 인덱스와 호환 불가)
-                logger.error(f"OpenAI embedding initialization failed: {e}")
+                logger.error(f"OpenAI embedding initialization failed: {e}", exc_info=True)
                 logger.error("OPENAI_API_KEY must be set - MedTE fallback removed (dimension mismatch)")
                 raise RuntimeError(f"OpenAI embedding required (3072d index): {e}")
 
@@ -266,6 +266,9 @@ class PubMedBulkProcessor:
 
         # Entity normalizer for relationship building
         self.entity_normalizer = entity_normalizer or EntityNormalizer()
+
+        # Lazy-initialized OpenAI client for abstract embedding
+        self._openai_client = None
 
         # Relationship builder for Neo4j graph
         self.relationship_builder = RelationshipBuilder(neo4j_client, self.entity_normalizer)
@@ -340,10 +343,10 @@ class PubMedBulkProcessor:
             return papers
 
         except PubMedError as e:
-            logger.error(f"PubMed search error: {e}")
+            logger.error(f"PubMed search error: {e}", exc_info=True)
             raise
         except Exception as e:
-            logger.error(f"Unexpected error in PubMed search: {e}")
+            logger.error(f"Unexpected error in PubMed search: {e}", exc_info=True)
             raise
 
     def _build_search_query(
@@ -551,7 +554,7 @@ class PubMedBulkProcessor:
                 shared=shared,
             )
         except Exception as e:
-            logger.error(f"Error importing paper {paper.pmid}: {e}")
+            logger.error(f"Error importing paper {paper.pmid}: {e}", exc_info=True)
             return PubMedImportResult(
                 paper_id="",
                 pmid=paper.pmid or "",
@@ -1374,7 +1377,7 @@ class PubMedBulkProcessor:
                     return json.loads(citations)
                 return citations
         except Exception as e:
-            logger.error(f"Error fetching citations: {e}")
+            logger.error(f"Error fetching citations: {e}", exc_info=True)
         return []
 
     # =========================================================================
@@ -1434,7 +1437,7 @@ class PubMedBulkProcessor:
 
             return True
         except Exception as e:
-            logger.error(f"Failed to create Paper node: {e}")
+            logger.error(f"Failed to create Paper node: {e}", exc_info=True)
             return False
 
     async def _generate_abstract_embedding(
@@ -1455,10 +1458,11 @@ class PubMedBulkProcessor:
             import os
             from openai import OpenAI
 
-            openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+            if self._openai_client is None:
+                self._openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
             # OpenAI 임베딩 생성 (3072차원)
-            response = openai_client.embeddings.create(
+            response = self._openai_client.embeddings.create(
                 model="text-embedding-3-large",
                 input=abstract[:8000],
                 dimensions=3072
@@ -1724,7 +1728,7 @@ class PubMedBulkProcessor:
 
             return created_count
         except Exception as e:
-            logger.error(f"Failed to store chunks in Neo4j: {e}")
+            logger.error(f"Failed to store chunks in Neo4j: {e}", exc_info=True)
             return 0
 
     def _split_section_text(self, text: str, max_chars: int = 1500) -> list[str]:
@@ -2088,7 +2092,7 @@ class PubMedBulkProcessor:
             }
 
         except Exception as e:
-            logger.error(f"Failed to upgrade paper: {e}")
+            logger.error(f"Failed to upgrade paper: {e}", exc_info=True)
             return {
                 "success": False,
                 "error": str(e),
@@ -2144,7 +2148,7 @@ class PubMedBulkProcessor:
             result = await self.neo4j.run_query(cypher, {"limit": limit})
             return result
         except Exception as e:
-            logger.error(f"Error fetching abstract-only papers: {e}")
+            logger.error(f"Error fetching abstract-only papers: {e}", exc_info=True)
             return []
 
     async def get_import_statistics(self) -> dict:
@@ -2188,5 +2192,5 @@ class PubMedBulkProcessor:
             return stats
 
         except Exception as e:
-            logger.error(f"Error fetching import statistics: {e}")
+            logger.error(f"Error fetching import statistics: {e}", exc_info=True)
             return {}

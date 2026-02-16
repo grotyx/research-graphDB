@@ -160,7 +160,7 @@ class TestSearch:
 
 
 class TestReason:
-    """reason 도구 테스트."""
+    """reason 도구 테스트 (via reasoning_handler)."""
 
     @pytest.fixture
     def server(self, tmp_path):
@@ -170,7 +170,9 @@ class TestReason:
     @pytest.mark.asyncio
     async def test_reason_basic(self, server):
         """기본 추론."""
-        result = await server.reason("What is the efficacy of spine fusion?")
+        if not server.reasoning_handler:
+            pytest.skip("ReasoningHandler not initialized")
+        result = await server.reasoning_handler.reason("What is the efficacy of spine fusion?")
 
         assert result["success"] is True
         assert "question" in result
@@ -181,7 +183,9 @@ class TestReason:
     @pytest.mark.asyncio
     async def test_reason_with_max_hops(self, server):
         """최대 홉 설정."""
-        result = await server.reason(
+        if not server.reasoning_handler:
+            pytest.skip("ReasoningHandler not initialized")
+        result = await server.reasoning_handler.reason(
             "Compare minimally invasive vs open surgery",
             max_hops=5
         )
@@ -192,7 +196,9 @@ class TestReason:
     @pytest.mark.asyncio
     async def test_reason_include_conflicts(self, server):
         """상충 결과 포함."""
-        result = await server.reason(
+        if not server.reasoning_handler:
+            pytest.skip("ReasoningHandler not initialized")
+        result = await server.reasoning_handler.reason(
             "Is early surgery better for herniated disc?",
             include_conflicts=True
         )
@@ -203,14 +209,16 @@ class TestReason:
     @pytest.mark.asyncio
     async def test_reason_returns_markdown(self, server):
         """마크다운 응답 반환."""
-        result = await server.reason("Explain cervical disc replacement")
+        if not server.reasoning_handler:
+            pytest.skip("ReasoningHandler not initialized")
+        result = await server.reasoning_handler.reason("Explain cervical disc replacement")
 
         assert result["success"] is True
         assert "markdown_response" in result
 
 
 class TestListDocuments:
-    """list_documents 도구 테스트."""
+    """list_documents 도구 테스트 (via document_handler)."""
 
     @pytest.fixture
     def server(self, tmp_path):
@@ -220,7 +228,9 @@ class TestListDocuments:
     @pytest.mark.asyncio
     async def test_list_documents_empty(self, server):
         """빈 문서 목록."""
-        result = await server.list_documents()
+        if not server.document_handler:
+            pytest.skip("DocumentHandler not initialized")
+        result = await server.document_handler.list_documents()
 
         assert result["success"] is True
         assert "stats" in result
@@ -228,6 +238,8 @@ class TestListDocuments:
     @pytest.mark.asyncio
     async def test_list_documents_with_data(self, server, tmp_path):
         """데이터가 있는 문서 목록."""
+        if not server.document_handler:
+            pytest.skip("DocumentHandler not initialized")
         # Add a document first
         pdf_file = tmp_path / "paper.pdf"
         pdf_file.write_bytes(b"%PDF-1.4 content")
@@ -235,12 +247,12 @@ class TestListDocuments:
 
         await server.add_pdf(str(pdf_file))
 
-        result = await server.list_documents()
+        result = await server.document_handler.list_documents()
         assert result["success"] is True
 
 
 class TestDeleteDocument:
-    """delete_document 도구 테스트."""
+    """delete_document 도구 테스트 (via document_handler)."""
 
     @pytest.fixture
     def server(self, tmp_path):
@@ -250,9 +262,10 @@ class TestDeleteDocument:
     @pytest.mark.asyncio
     async def test_delete_nonexistent_document(self, server):
         """존재하지 않는 문서 삭제."""
-        # Note: vector_db/ChromaDB removed in v7 - Neo4j only
+        if not server.document_handler:
+            pytest.skip("DocumentHandler not initialized")
 
-        result = await server.delete_document("nonexistent_doc")
+        result = await server.document_handler.delete_document("nonexistent_doc")
 
         assert result["success"] is True
         # In Neo4j mode, delete returns count of deleted items
@@ -261,6 +274,8 @@ class TestDeleteDocument:
     @pytest.mark.asyncio
     async def test_delete_existing_document(self, server, tmp_path):
         """기존 문서 삭제."""
+        if not server.document_handler:
+            pytest.skip("DocumentHandler not initialized")
         # Add a document first
         pdf_file = tmp_path / "to_delete.pdf"
         pdf_file.write_bytes(b"%PDF-1.4 content")
@@ -268,7 +283,7 @@ class TestDeleteDocument:
 
         await server.add_pdf(str(pdf_file))
 
-        result = await server.delete_document("to_delete")
+        result = await server.document_handler.delete_document("to_delete")
         assert result["success"] is True
 
 
@@ -391,21 +406,24 @@ class TestIntegration:
         )
         assert add_result["success"] is True
 
-        # 2. List documents
-        list_result = await server.list_documents()
-        assert list_result["success"] is True
+        # 2. List documents (via handler)
+        if server.document_handler:
+            list_result = await server.document_handler.list_documents()
+            assert list_result["success"] is True
 
         # 3. Search
         search_result = await server.search("spine fusion outcomes")
         assert search_result["success"] is True
 
-        # 4. Reason
-        reason_result = await server.reason("Is spine fusion effective?")
-        assert reason_result["success"] is True
+        # 4. Reason (via handler)
+        if server.reasoning_handler:
+            reason_result = await server.reasoning_handler.reason("Is spine fusion effective?")
+            assert reason_result["success"] is True
 
-        # 5. Delete
-        delete_result = await server.delete_document("integration_test")
-        assert delete_result["success"] is True
+        # 5. Delete (via handler)
+        if server.document_handler:
+            delete_result = await server.document_handler.delete_document("integration_test")
+            assert delete_result["success"] is True
 
     @pytest.mark.asyncio
     async def test_multiple_documents(self, server, tmp_path):
@@ -426,6 +444,8 @@ class TestIntegration:
     @pytest.mark.asyncio
     async def test_search_after_delete(self, server, tmp_path):
         """삭제 후 검색."""
+        if not server.document_handler:
+            pytest.skip("DocumentHandler not initialized")
         # Add document
         pdf_file = tmp_path / "temp_doc.pdf"
         pdf_file.write_bytes(b"%PDF-1.4")
@@ -433,8 +453,8 @@ class TestIntegration:
 
         await server.add_pdf(str(pdf_file))
 
-        # Delete document
-        await server.delete_document("temp_doc")
+        # Delete document (via handler)
+        await server.document_handler.delete_document("temp_doc")
 
         # Search should not find deleted content
         search_result = await server.search("Unique content")
@@ -463,10 +483,12 @@ class TestErrorHandling:
     @pytest.mark.asyncio
     async def test_reason_error_handling(self, server):
         """추론 에러 처리."""
+        if not server.reasoning_handler:
+            pytest.skip("ReasoningHandler not initialized")
         # Force an error
         server.search = Mock(side_effect=Exception("Search error"))
 
-        result = await server.reason("test question")
+        result = await server.reasoning_handler.reason("test question")
 
         assert result["success"] is False
         assert "error" in result

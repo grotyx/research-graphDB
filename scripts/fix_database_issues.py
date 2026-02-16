@@ -142,9 +142,9 @@ async def fix_snomed(client: Neo4jClient, dry_run: bool = False) -> dict:
     queries = SpineGraphSchema.get_enrich_snomed_cypher()
     stats["queries"] = len(queries)
 
-    for i, query in enumerate(queries, 1):
+    for i, (query, params) in enumerate(queries, 1):
         try:
-            await client.run_write_query(query)
+            await client.run_write_query(query, params)
             stats["success"] += 1
             logger.info(f"   ✅ SNOMED batch {i}/{len(queries)} 적용됨")
         except Exception as e:

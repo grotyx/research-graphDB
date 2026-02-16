@@ -7,7 +7,6 @@ from src.core.exceptions import (
     ProcessingError,
     LLMError,
     Neo4jError,
-    ChromaDBError,
     NormalizationError,
     ExtractionError,
     ErrorCode,
@@ -102,20 +101,6 @@ class TestNeo4jError:
         )
         assert isinstance(error, MedicalRAGError)
         assert error.error_code == ErrorCode.NEO4J_CONNECTION
-
-
-class TestChromaDBError:
-    """Test ChromaDB error."""
-
-    def test_chromadb_error(self):
-        """Test ChromaDBError creation."""
-        error = ChromaDBError(
-            message="Collection not found",
-            error_code=ErrorCode.CHROMA_COLLECTION_NOT_FOUND,
-            details={"collection_name": "spine_papers"}
-        )
-        assert isinstance(error, MedicalRAGError)
-        assert error.error_code == ErrorCode.CHROMA_COLLECTION_NOT_FOUND
 
 
 class TestNormalizationError:

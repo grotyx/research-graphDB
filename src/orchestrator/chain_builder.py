@@ -2,7 +2,7 @@
 
 LangChain을 활용한 하이브리드 검색 및 QA 체인 구축.
 - Graph Search (Neo4j Cypher)
-- Vector Search (ChromaDB)
+- Vector Search (Neo4j Vector Index)
 - Dual LLM Provider Support (Claude/Gemini)
 
 Environment Variables:
@@ -18,13 +18,21 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional
 
-# LangChain core imports
-from langchain_core.prompts import ChatPromptTemplate, PromptTemplate
-from langchain_core.documents import Document
-from langchain_core.runnables import RunnablePassthrough, RunnableLambda
+# LangChain core imports (optional dependency)
+try:
+    from langchain_core.prompts import ChatPromptTemplate, PromptTemplate
+    from langchain_core.documents import Document
+    from langchain_core.runnables import RunnablePassthrough, RunnableLambda
+    LANGCHAIN_AVAILABLE = True
+except ImportError:
+    LANGCHAIN_AVAILABLE = False
+    ChatPromptTemplate = None
+    PromptTemplate = None
+    Document = None
+    RunnablePassthrough = None
+    RunnableLambda = None
 
 # LangChain LLM integrations (lazy imports to avoid conflicts)
-# Note: google-genai and langchain_google_genai may have version conflicts
 ChatGoogleGenerativeAI = None
 ChatAnthropic = None
 
@@ -38,7 +46,6 @@ def _get_gemini_llm_class():
             ChatGoogleGenerativeAI = _ChatGoogleGenerativeAI
         except (ImportError, AttributeError) as e:
             logger.warning(f"langchain_google_genai import failed: {e}. Using fallback.")
-            # Fallback: use google-genai directly via custom wrapper
             ChatGoogleGenerativeAI = None
     return ChatGoogleGenerativeAI
 
@@ -47,8 +54,11 @@ def _get_claude_llm_class():
     """Lazy import for Claude LLM."""
     global ChatAnthropic
     if ChatAnthropic is None:
-        from langchain_anthropic import ChatAnthropic as _ChatAnthropic
-        ChatAnthropic = _ChatAnthropic
+        try:
+            from langchain_anthropic import ChatAnthropic as _ChatAnthropic
+            ChatAnthropic = _ChatAnthropic
+        except ImportError:
+            ChatAnthropic = None
     return ChatAnthropic
 
 
@@ -59,17 +69,10 @@ class LLMProvider(Enum):
 
 # Internal imports
 from ..graph.neo4j_client import Neo4jClient
-from ..storage import SearchResult as VectorSearchResult
-
-# TieredVectorDB is deprecated (v1.14.12), Neo4j Vector Index is used instead
-# Attempt import for backward compatibility; gracefully degrade if missing
-try:
-    from ..storage.vector_db import TieredVectorDB
-except (ImportError, ModuleNotFoundError):
-    TieredVectorDB = None  # ChromaDB removed; Neo4j Vector Index is used instead
 from ..solver.hybrid_ranker import HybridRanker, HybridResult
 from ..solver.graph_search import GraphSearch
 from .cypher_generator import CypherGenerator
+from ..core.exceptions import ValidationError
 
 logger = logging.getLogger(__name__)
 
@@ -121,7 +124,6 @@ class ChainOutput:
     sources: list[HybridResult]
     cypher_query: str = ""
     graph_results: Optional[list[dict]] = None
-    vector_results: Optional[list[VectorSearchResult]] = None
     metadata: Optional[dict] = None
 
 
@@ -204,8 +206,12 @@ class HybridRetriever:
 # Prompt Templates
 # =============================================================================
 
-RETRIEVAL_QA_PROMPT = ChatPromptTemplate.from_messages([
-    ("system", """You are a spine surgery research assistant specializing in evidence-based medicine.
+RETRIEVAL_QA_PROMPT = None
+CONFLICTING_EVIDENCE_PROMPT = None
+
+if LANGCHAIN_AVAILABLE and ChatPromptTemplate is not None:
+    RETRIEVAL_QA_PROMPT = ChatPromptTemplate.from_messages([
+        ("system", """You are a spine surgery research assistant specializing in evidence-based medicine.
 
 Your task is to answer questions based on scientific evidence from medical papers.
 
@@ -227,17 +233,16 @@ Evidence Levels:
 - 4: Expert opinion (lowest quality)
 
 Always prioritize higher evidence levels in your answer."""),
-    ("human", """Question: {question}
+        ("human", """Question: {question}
 
 Evidence:
 {context}
 
 Answer:""")
-])
+    ])
 
-
-CONFLICTING_EVIDENCE_PROMPT = ChatPromptTemplate.from_messages([
-    ("system", """You are analyzing conflicting evidence from multiple studies.
+    CONFLICTING_EVIDENCE_PROMPT = ChatPromptTemplate.from_messages([
+        ("system", """You are analyzing conflicting evidence from multiple studies.
 
 Your task is to:
 1. Identify key differences in study designs
@@ -248,13 +253,13 @@ Your task is to:
    - Sample size
    - Statistical significance (p-value)
    - Study recency"""),
-    ("human", """Question: {question}
+        ("human", """Question: {question}
 
 Conflicting Evidence:
 {context}
 
 Analysis:""")
-])
+    ])
 
 
 # =============================================================================
@@ -268,10 +273,7 @@ class SpineGraphChain:
     LLM 기반 응답 생성을 수행. Claude와 Gemini 모두 지원.
 
     사용 예:
-        chain = SpineGraphChain(
-            neo4j_client=neo4j_client,
-            vector_db=vector_db
-        )
+        chain = SpineGraphChain(neo4j_client=neo4j_client)
         result = await chain.invoke("OLIF가 VAS 개선에 효과적인가?")
         print(result.answer)
     """
@@ -279,7 +281,6 @@ class SpineGraphChain:
     def __init__(
         self,
         neo4j_client: Neo4jClient,
-        vector_db: Optional[Any] = None,
         config: Optional[ChainConfig] = None,
         api_key: Optional[str] = None,
         provider: Optional[str] = None,
@@ -288,14 +289,11 @@ class SpineGraphChain:
 
         Args:
             neo4j_client: Neo4j 클라이언트
-            vector_db: Vector DB 인스턴스 (Optional, deprecated since v1.14.12.
-                       Neo4j Vector Index is used instead when None.)
             config: 체인 설정 (None이면 기본값 사용)
             api_key: LLM API 키 (None이면 환경변수에서 로드)
             provider: LLM provider ("claude" or "gemini", overrides config)
         """
         self.neo4j_client = neo4j_client
-        self.vector_db = vector_db
         self.config = config or ChainConfig()
 
         # Override provider if specified
@@ -305,12 +303,10 @@ class SpineGraphChain:
         # Initialize LLM based on provider
         self.llm = self._create_llm(api_key)
 
-        # Hybrid Ranker
-        # When vector_db is None (ChromaDB removed), fall back to Neo4j hybrid search
+        # Hybrid Ranker (Neo4j hybrid search)
         self.hybrid_ranker = HybridRanker(
-            vector_db=vector_db,
             neo4j_client=neo4j_client,
-            use_neo4j_hybrid=(vector_db is None),
+            use_neo4j_hybrid=True,
         )
 
         # Cypher Generator
@@ -344,7 +340,7 @@ class SpineGraphChain:
             LangChain chat model (ChatAnthropic or ChatGoogleGenerativeAI)
 
         Raises:
-            ValueError: If unsupported provider or required library not available
+            ValidationError: If unsupported provider or required library not available
         """
         provider = self.config.provider.lower()
 
@@ -359,7 +355,7 @@ class SpineGraphChain:
         elif provider == "gemini":
             ChatGoogleGenerativeAIClass = _get_gemini_llm_class()
             if ChatGoogleGenerativeAIClass is None:
-                raise ValueError(
+                raise ValidationError(
                     "Gemini LLM not available. Install compatible version of "
                     "langchain_google_genai or use provider='claude' instead."
                 )
@@ -370,7 +366,7 @@ class SpineGraphChain:
                 google_api_key=api_key or os.getenv("GEMINI_API_KEY"),
             )
         else:
-            raise ValueError(f"Unsupported LLM provider: {provider}. Use 'claude' or 'gemini'.")
+            raise ValidationError(f"Unsupported LLM provider: {provider}. Use 'claude' or 'gemini'.")
 
     def build_retrieval_chain(self) -> Any:
         """하이브리드 검색 체인 구축.
@@ -446,7 +442,7 @@ class SpineGraphChain:
             ChainOutput
 
         Raises:
-            ValueError: 잘못된 mode
+            ValidationError: 잘못된 mode
         """
         logger.info(f"Invoking chain with query: {query}, mode: {mode}")
 
@@ -458,10 +454,10 @@ class SpineGraphChain:
             elif mode == "retrieval":
                 return await self._invoke_retrieval(query, **kwargs)
             else:
-                raise ValueError(f"Invalid mode: {mode}")
+                raise ValidationError(f"Invalid mode: {mode}")
 
         except Exception as e:
-            logger.error(f"Chain invocation error: {e}")
+            logger.error(f"Chain invocation error: {e}", exc_info=True)
             return ChainOutput(
                 answer=f"Error: {str(e)}",
                 sources=[],
@@ -696,12 +692,9 @@ async def create_chain(
     neo4j_uri: str = "bolt://localhost:7687",
     neo4j_username: str = "neo4j",
     neo4j_password: str = "password",
-    chromadb_path: str = "./data/chromadb",
     api_key: Optional[str] = None,
     provider: Optional[str] = None,
     config: Optional[ChainConfig] = None,
-    # Legacy parameter
-    gemini_api_key: Optional[str] = None,
 ) -> SpineGraphChain:
     """체인 생성 헬퍼 함수.
 
@@ -709,25 +702,14 @@ async def create_chain(
         neo4j_uri: Neo4j URI
         neo4j_username: Neo4j 사용자명
         neo4j_password: Neo4j 비밀번호
-        chromadb_path: ChromaDB 저장 경로
         api_key: LLM API 키 (provider에 맞는 키)
         provider: LLM provider ("claude" or "gemini")
         config: 체인 설정
-        gemini_api_key: [DEPRECATED] Use api_key and provider instead
 
     Returns:
         초기화된 SpineGraphChain
     """
     from ..graph.neo4j_client import Neo4jConfig
-
-    # Handle legacy parameter
-    if gemini_api_key and not api_key:
-        logger.warning(
-            "gemini_api_key is deprecated. Use api_key and provider='gemini' instead."
-        )
-        api_key = gemini_api_key
-        if not provider:
-            provider = "gemini"
 
     # Neo4j 클라이언트
     neo4j_config = Neo4jConfig(
@@ -738,20 +720,9 @@ async def create_chain(
     neo4j_client = Neo4jClient(config=neo4j_config)
     await neo4j_client.connect()
 
-    # Vector DB (deprecated: ChromaDB removed in v1.14.12, Neo4j Vector Index used instead)
-    vector_db = None
-    if TieredVectorDB is not None:
-        try:
-            vector_db = TieredVectorDB(persist_directory=chromadb_path)
-        except Exception as e:
-            logger.warning(f"TieredVectorDB initialization failed: {e}. Continuing without ChromaDB vector search.")
-    else:
-        logger.info("TieredVectorDB not available. Using Neo4j Vector Index for vector search.")
-
     # 체인 생성
     chain = SpineGraphChain(
         neo4j_client=neo4j_client,
-        vector_db=vector_db,
         config=config,
         api_key=api_key,
         provider=provider,

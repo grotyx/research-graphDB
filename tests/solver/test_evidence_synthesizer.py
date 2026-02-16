@@ -17,6 +17,7 @@ from src.solver.evidence_synthesizer import (
     calculate_i_squared,
     EVIDENCE_WEIGHTS,
 )
+from src.solver.evidence_synthesizer import ValidationError
 
 
 # =============================================================================
@@ -159,13 +160,13 @@ def test_calculate_weighted_mean():
 
 def test_calculate_weighted_mean_empty():
     """Test weighted mean with empty lists."""
-    with pytest.raises(ValueError):
+    with pytest.raises((ValueError, ValidationError)):
         calculate_weighted_mean([], [])
 
 
 def test_calculate_weighted_mean_mismatched():
     """Test weighted mean with mismatched lengths."""
-    with pytest.raises(ValueError):
+    with pytest.raises((ValueError, ValidationError)):
         calculate_weighted_mean([1, 2], [1])
 
 
@@ -343,10 +344,10 @@ def test_parse_numeric_value_with_std(synthesizer):
 
 def test_parse_numeric_value_invalid(synthesizer):
     """Test parsing invalid value."""
-    with pytest.raises(ValueError):
+    with pytest.raises((ValueError, ValidationError)):
         synthesizer._parse_numeric_value("")
 
-    with pytest.raises(ValueError):
+    with pytest.raises((ValueError, ValidationError)):
         synthesizer._parse_numeric_value("unknown")
 
 

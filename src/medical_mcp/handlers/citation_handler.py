@@ -12,12 +12,13 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from medical_mcp.medical_kag_server import MedicalKAGServer
 
+from medical_mcp.handlers.base_handler import BaseHandler, safe_execute
 from medical_mcp.handlers.utils import get_abstract_from_sections, determine_tier
 
 logger = logging.getLogger(__name__)
 
 
-class CitationHandler:
+class CitationHandler(BaseHandler):
     """Handles citation generation and management operations."""
 
     def __init__(self, server: "MedicalKAGServer"):
@@ -26,8 +27,9 @@ class CitationHandler:
         Args:
             server: Parent MedicalKAGServer instance for accessing clients
         """
-        self.server = server
+        super().__init__(server)
 
+    @safe_execute
     async def draft_with_citations(
         self,
         topic: str,
@@ -48,101 +50,96 @@ class CitationHandler:
         Returns:
             인용 가능한 근거와 참고문헌 목록
         """
-        try:
-            # 1. 관련 논문 검색
-            search_result = await self.server.search(
-                query=topic,
-                top_k=max_citations * 2,  # 여유있게 검색
-                tier_strategy="tier1_first",
-                prefer_original=True
-            )
+        # 1. 관련 논문 검색
+        search_result = await self.server.search(
+            query=topic,
+            top_k=max_citations * 2,  # 여유있게 검색
+            tier_strategy="tier1_first",
+            prefer_original=True
+        )
 
-            if not search_result.get("success"):
-                return {"success": False, "error": "검색 실패"}
+        if not search_result.get("success"):
+            return {"success": False, "error": "검색 실패"}
 
-            results = search_result.get("results", [])
-            if not results:
-                return {
-                    "success": True,
-                    "topic": topic,
-                    "message": "관련 논문을 찾지 못했습니다. 더 많은 PDF를 추가해주세요.",
-                    "citations": [],
-                    "references": []
-                }
-
-            # 2. 인용 정보 구성
-            citations = []
-            references = []
-            seen_docs = set()
-
-            for i, result in enumerate(results):
-                if len(citations) >= max_citations:
-                    break
-
-                doc_id = result.get("document_id", "")
-                if doc_id in seen_docs:
-                    continue
-                seen_docs.add(doc_id)
-
-                # 메타데이터에서 저자/연도 추출 (v1.14.27: None 값 처리)
-                metadata = result.get("metadata") or {}
-                authors = metadata.get("authors") or ["Unknown"]
-                year = metadata.get("year", "n.d.")
-                title = metadata.get("title", doc_id)
-
-                # 첫 번째 저자 성 추출
-                first_author = authors[0].split()[-1] if authors else "Unknown"
-                et_al = " et al." if len(authors) > 1 else ""
-
-                # 인용 키 생성
-                citation_key = f"{first_author}{et_al}, {year}"
-
-                # 관련 내용
-                content = result.get("content", "")
-                section = result.get("section", "")
-                evidence_level = result.get("evidence_level", "")
-
-                citation_entry = {
-                    "citation_key": citation_key,
-                    "citation_number": i + 1,
-                    "content_summary": content[:500] + "..." if len(content) > 500 else content,
-                    "section_type": section,
-                    "evidence_level": evidence_level,
-                    "relevance_score": result.get("score", 0),
-                    "usage_suggestion": self._suggest_citation_usage(section_type, section, content, language)
-                }
-                citations.append(citation_entry)
-
-                # 참고문헌 항목
-                ref_entry = {
-                    "number": i + 1,
-                    "authors": authors,
-                    "year": year,
-                    "title": title,
-                    "citation_key": citation_key,
-                    "document_id": doc_id
-                }
-                references.append(ref_entry)
-
-            # 3. 결과 구성
-            if language == "korean":
-                intro_text = f"'{topic}'에 대해 {len(citations)}개의 관련 논문을 찾았습니다."
-            else:
-                intro_text = f"Found {len(citations)} relevant papers for '{topic}'."
-
+        results = search_result.get("results", [])
+        if not results:
             return {
                 "success": True,
                 "topic": topic,
-                "section_type": section_type,
-                "message": intro_text,
-                "citations": citations,
-                "references": references,
-                "usage_guide": self._get_citation_guide(section_type, language)
+                "message": "관련 논문을 찾지 못했습니다. 더 많은 PDF를 추가해주세요.",
+                "citations": [],
+                "references": []
             }
 
-        except Exception as e:
-            logger.exception(f"Draft with citations error: {e}")
-            return {"success": False, "error": str(e)}
+        # 2. 인용 정보 구성
+        citations = []
+        references = []
+        seen_docs = set()
+
+        for i, result in enumerate(results):
+            if len(citations) >= max_citations:
+                break
+
+            doc_id = result.get("document_id", "")
+            if doc_id in seen_docs:
+                continue
+            seen_docs.add(doc_id)
+
+            # 메타데이터에서 저자/연도 추출 (v1.14.27: None 값 처리)
+            metadata = result.get("metadata") or {}
+            authors = metadata.get("authors") or ["Unknown"]
+            year = metadata.get("year", "n.d.")
+            title = metadata.get("title", doc_id)
+
+            # 첫 번째 저자 성 추출
+            first_author = authors[0].split()[-1] if authors else "Unknown"
+            et_al = " et al." if len(authors) > 1 else ""
+
+            # 인용 키 생성
+            citation_key = f"{first_author}{et_al}, {year}"
+
+            # 관련 내용
+            content = result.get("content", "")
+            section = result.get("section", "")
+            evidence_level = result.get("evidence_level", "")
+
+            citation_entry = {
+                "citation_key": citation_key,
+                "citation_number": i + 1,
+                "content_summary": content[:500] + "..." if len(content) > 500 else content,
+                "section_type": section,
+                "evidence_level": evidence_level,
+                "relevance_score": result.get("score", 0),
+                "usage_suggestion": self._suggest_citation_usage(section_type, section, content, language)
+            }
+            citations.append(citation_entry)
+
+            # 참고문헌 항목
+            ref_entry = {
+                "number": i + 1,
+                "authors": authors,
+                "year": year,
+                "title": title,
+                "citation_key": citation_key,
+                "document_id": doc_id
+            }
+            references.append(ref_entry)
+
+        # 3. 결과 구성
+        if language == "korean":
+            intro_text = f"'{topic}'에 대해 {len(citations)}개의 관련 논문을 찾았습니다."
+        else:
+            intro_text = f"Found {len(citations)} relevant papers for '{topic}'."
+
+        return {
+            "success": True,
+            "topic": topic,
+            "section_type": section_type,
+            "message": intro_text,
+            "citations": citations,
+            "references": references,
+            "usage_guide": self._get_citation_guide(section_type, language)
+        }
 
     def _suggest_citation_usage(
         self,

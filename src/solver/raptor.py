@@ -23,6 +23,15 @@ from typing import Union
 from ..storage import TextChunk, SearchResult
 from ..llm import LLMClient, LLMConfig, LLMResponse, ClaudeClient, GeminiClient
 
+try:
+    from ..core.exceptions import ValidationError, ProcessingError
+except ImportError:
+    try:
+        from core.exceptions import ValidationError, ProcessingError
+    except ImportError:
+        ValidationError = ValueError  # type: ignore[misc,assignment]
+        ProcessingError = RuntimeError  # type: ignore[misc,assignment]
+
 logger = logging.getLogger(__name__)
 
 
@@ -337,7 +346,7 @@ Return ONLY the summary text (2-3 paragraphs, 150-250 words)."""
             return summary
 
         except Exception as e:
-            logger.error(f"Summarization failed: {e}, using fallback")
+            logger.error(f"Summarization failed: {e}, using fallback", exc_info=True)
             return self._fallback_summary(chunks)
 
     def _fallback_summary(self, chunks: list[str]) -> str:
@@ -398,7 +407,7 @@ class RAPTORTree:
             Root node of the tree
         """
         if not chunks:
-            raise ValueError("Cannot build tree from empty chunk list")
+            raise ValidationError("Cannot build tree from empty chunk list")
 
         logger.info(f"Building RAPTOR tree from {len(chunks)} chunks (max_levels={self.max_levels})")
 
@@ -564,7 +573,7 @@ class RAPTORTree:
             except Exception as e:
                 import logging
                 logging.getLogger(__name__).error(f"Failed to init OpenAI embedding: {e}")
-                raise RuntimeError("OpenAI embedding required for RAPTOR (3072d index)")
+                raise ProcessingError("OpenAI embedding required for RAPTOR (3072d index)")
 
         return self.embedding_generator.embed(text)
 
@@ -636,7 +645,7 @@ class RAPTORRetriever:
             except Exception as e:
                 import logging
                 logging.getLogger(__name__).error(f"Failed to init OpenAI embedding: {e}")
-                raise RuntimeError("OpenAI embedding required for RAPTOR retrieval (3072d index)")
+                raise ProcessingError("OpenAI embedding required for RAPTOR retrieval (3072d index)")
 
         query_embedding = self.embedding_generator.embed(query)
 
@@ -829,7 +838,7 @@ class RAPTORPipeline:
             Document ID of the indexed tree
         """
         if not chunks:
-            raise ValueError("Cannot index empty chunk list")
+            raise ValidationError("Cannot index empty chunk list")
 
         # Build tree
         root = await self.tree.build_tree(chunks)
@@ -865,7 +874,7 @@ class RAPTORPipeline:
             Search results with metadata
         """
         if self.retriever is None:
-            raise ValueError("No documents indexed yet")
+            raise ValidationError("No documents indexed yet")
 
         # Retrieve nodes
         results = await self.retriever.retrieve(query, top_k, strategy)

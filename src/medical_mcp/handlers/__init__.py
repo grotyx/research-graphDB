@@ -17,6 +17,9 @@ Handlers:
     WritingGuideHandler: Academic writing guides, checklists, expert agents
 """
 
+# Base handler
+from .base_handler import BaseHandler, safe_execute
+
 # Handlers will be imported as they are created
 from .document_handler import DocumentHandler
 from .reference_handler import ReferenceHandler
@@ -31,6 +34,8 @@ from .graph_handler import GraphHandler
 from .writing_guide_handler import WritingGuideHandler
 
 __all__ = [
+    "BaseHandler",
+    "safe_execute",
     "DocumentHandler",
     "ClinicalDataHandler",
     "PubMedHandler",

@@ -246,8 +246,8 @@ docker-compose ps
 ```bash
 cd /Users/sangminpark/Documents/rag_research
 PYTHONPATH=./src ./.venv/bin/python -c "
-from neo4j import GraphDatabase
-driver = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', 'spineGraph2024'))
+import os; from neo4j import GraphDatabase
+driver = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', os.environ['NEO4J_PASSWORD']))
 with driver.session() as s:
     # 연결 확인
     r = s.run('RETURN 1 AS ok')

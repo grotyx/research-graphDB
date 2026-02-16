@@ -530,7 +530,8 @@ class UnifiedSearchPipeline:
                         "Evidence synthesis failed",
                         intervention=intervention,
                         outcome=outcome,
-                        error=str(e)
+                        error=str(e),
+                        exc_info=True
                     )
 
         # 4. Conflict Detection (optional)
@@ -571,7 +572,8 @@ class UnifiedSearchPipeline:
                         "Conflict detection failed",
                         intervention=intervention,
                         outcome=outcome,
-                        error=str(e)
+                        error=str(e),
+                        exc_info=True
                     )
 
         # 5. Build response

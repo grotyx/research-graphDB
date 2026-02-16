@@ -20,6 +20,7 @@ Usage:
 
 import os
 
+from .base import BaseLLMClient
 from .cache import LLMCache, generate_cache_key
 from .claude_client import ClaudeClient, ClaudeConfig, ClaudeResponse
 from .claude_client import CostTracker  # Claude에서 가져옴
@@ -41,6 +42,9 @@ else:
 
 
 __all__ = [
+    # Base Protocol
+    "BaseLLMClient",
+
     # 통합 인터페이스 (환경변수 기반)
     "LLMClient",
     "LLMConfig",

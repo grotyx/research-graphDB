@@ -17,6 +17,7 @@ from src.solver.raptor import (
 )
 from src.storage import TextChunk
 from src.llm.gemini_client import GeminiResponse
+from src.solver.raptor import ValidationError
 
 
 # Fixtures
@@ -529,7 +530,7 @@ async def test_raptor_pipeline_empty_documents(mock_gemini_client):
     sum_engine = SummarizationEngine(gemini_client=mock_gemini_client)
     pipeline = RAPTORPipeline(summarization_engine=sum_engine)
 
-    with pytest.raises(ValueError, match="Cannot index empty chunk list"):
+    with pytest.raises((ValueError, ValidationError), match="Cannot index empty chunk list"):
         await pipeline.index_documents([])
 
 
@@ -539,7 +540,7 @@ async def test_raptor_pipeline_search_before_index(mock_gemini_client):
     sum_engine = SummarizationEngine(gemini_client=mock_gemini_client)
     pipeline = RAPTORPipeline(summarization_engine=sum_engine)
 
-    with pytest.raises(ValueError, match="No documents indexed yet"):
+    with pytest.raises((ValueError, ValidationError), match="No documents indexed yet"):
         await pipeline.search("test query")
 
 

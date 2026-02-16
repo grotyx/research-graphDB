@@ -2,7 +2,7 @@
 
 > Claude Desktop/Code에서 척추 의학 논문 검색 및 분석을 위한 MCP 도구 사용법
 
-**Version**: 1.18.0 | **Last Updated**: 2026-02-15
+**Version**: 1.19.4 | **Last Updated**: 2026-02-16
 
 ---
 

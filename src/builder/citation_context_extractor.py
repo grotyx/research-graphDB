@@ -356,6 +356,7 @@ class ClaudeBackend:
             }
 
         except json.JSONDecodeError as e:
+            logger.warning(f"Claude citation extraction JSON parsing error: {e}")
             return {
                 "success": False,
                 "error": f"JSON parsing error: {e}",
@@ -363,6 +364,7 @@ class ClaudeBackend:
                 "model_used": self.model,
             }
         except Exception as e:
+            logger.warning(f"Claude citation extraction failed: {e}")
             return {
                 "success": False,
                 "error": str(e),
@@ -440,6 +442,7 @@ class GeminiBackend:
             }
 
         except json.JSONDecodeError as e:
+            logger.warning(f"Gemini citation extraction JSON parsing error: {e}")
             return {
                 "success": False,
                 "error": f"JSON parsing error: {e}",
@@ -447,6 +450,7 @@ class GeminiBackend:
                 "model_used": self.model,
             }
         except Exception as e:
+            logger.warning(f"Gemini citation extraction failed: {e}")
             return {
                 "success": False,
                 "error": str(e),
@@ -614,9 +618,9 @@ class CitationContextExtractor:
             )
 
         except json.JSONDecodeError as e:
-            logger.error(f"JSON parsing error: {e}")
+            logger.error(f"JSON parsing error: {e}", exc_info=True)
         except Exception as e:
-            logger.error(f"Citation extraction error: {e}")
+            logger.error(f"Citation extraction error: {e}", exc_info=True)
 
         return result
 

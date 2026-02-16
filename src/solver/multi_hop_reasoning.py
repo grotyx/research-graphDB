@@ -947,14 +947,12 @@ async def create_multi_hop_reasoner(
 
 async def example_usage():
     """사용 예시."""
-    from ..storage.vector_db import TieredVectorDB
     from ..llm import LLMClient, LLMConfig
 
     # 컴포넌트 초기화
-    vector_db = TieredVectorDB(persist_directory="./data/chromadb")
-    llm_client = LLMClient(config=LLMConfig())  # Claude 또는 Gemini (환경변수 기반)
+    llm_client = LLMClient(config=LLMConfig())
 
-    # Neo4j 클라이언트 (선택적)
+    # Neo4j 클라이언트
     neo4j_client = None
     if NEO4J_AVAILABLE:
         from ..graph.neo4j_client import Neo4jClient
@@ -963,7 +961,7 @@ async def example_usage():
 
     # Pipeline 생성
     from .unified_pipeline import create_pipeline
-    pipeline = create_pipeline(neo4j_client, vector_db)
+    pipeline = create_pipeline(neo4j_client)
 
     # Multi-hop Reasoner 생성
     reasoner = MultiHopReasoner(pipeline, llm_client, neo4j_client)

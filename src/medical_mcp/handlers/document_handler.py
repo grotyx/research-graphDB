@@ -6,10 +6,12 @@ Handles document listing, statistics, deletion, and database reset operations.
 import logging
 from typing import Optional, Any
 
+from medical_mcp.handlers.base_handler import BaseHandler, safe_execute
+
 logger = logging.getLogger("medical-kag")
 
 
-class DocumentHandler:
+class DocumentHandler(BaseHandler):
     """Handler for document management operations.
 
     Manages document CRUD operations, statistics retrieval, and database maintenance
@@ -17,7 +19,7 @@ class DocumentHandler:
 
     Attributes:
         server: Reference to the MedicalKAGServer instance
-        neo4j_client: Neo4j client from server
+        neo4j_client: Neo4j client property from BaseHandler (always current)
         current_user: Current user ID for access control
     """
 
@@ -27,8 +29,7 @@ class DocumentHandler:
         Args:
             server: MedicalKAGServer instance to access shared resources
         """
-        self.server = server
-        self.neo4j_client = server.neo4j_client
+        super().__init__(server)
         self.current_user = server.current_user
 
     def _get_user_filter_clause(self, alias: str = "p") -> tuple[str, dict]:
@@ -45,6 +46,7 @@ class DocumentHandler:
         """
         return self.server._get_user_filter_clause(alias)
 
+    @safe_execute
     async def list_documents(self) -> dict:
         """저장된 문서 목록 (Neo4j 전용 v5.3, 멀티유저 v1.5).
 
@@ -61,79 +63,74 @@ class DocumentHandler:
                 - tier_distribution (dict): Chunk counts by tier (tier1, tier2)
                 - error (str, optional): Error message if operation failed
         """
-        try:
-            if not self.neo4j_client:
-                return {"success": False, "error": "Neo4j client not available"}
+        self._require_neo4j()
 
-            # Neo4j에서 문서(Paper) 및 청크 정보 조회
-            documents = []
-            async with self.neo4j_client as client:
-                # v1.5: 사용자 필터링 적용, v1.15: 파라미터화
-                user_filter, filter_params = self._get_user_filter_clause("p")
+        # Neo4j에서 문서(Paper) 및 청크 정보 조회
+        documents = []
+        async with self.neo4j_client as client:
+            # v1.5: 사용자 필터링 적용, v1.15: 파라미터화
+            user_filter, filter_params = self._get_user_filter_clause("p")
 
-                # Paper 노드 조회 (청크 수 포함)
-                query = f"""
-                MATCH (p:Paper)
-                {user_filter}
-                OPTIONAL MATCH (p)-[:HAS_CHUNK]->(c:Chunk)
-                WITH p, count(c) as chunk_count,
-                     sum(CASE WHEN c.tier = 'tier1' THEN 1 ELSE 0 END) as tier1_count,
-                     sum(CASE WHEN c.tier = 'tier2' THEN 1 ELSE 0 END) as tier2_count
-                RETURN p.paper_id as document_id,
-                       p.title as title,
-                       p.year as year,
-                       p.evidence_level as evidence_level,
-                       p.source as source,
-                       p.owner as owner,
-                       p.shared as shared,
-                       chunk_count,
-                       tier1_count,
-                       tier2_count
-                ORDER BY p.created_at DESC
-                """
-                result = await client.run_query(query, filter_params)
+            # Paper 노드 조회 (청크 수 포함)
+            query = f"""
+            MATCH (p:Paper)
+            {user_filter}
+            OPTIONAL MATCH (p)-[:HAS_CHUNK]->(c:Chunk)
+            WITH p, count(c) as chunk_count,
+                 sum(CASE WHEN c.tier = 'tier1' THEN 1 ELSE 0 END) as tier1_count,
+                 sum(CASE WHEN c.tier = 'tier2' THEN 1 ELSE 0 END) as tier2_count
+            RETURN p.paper_id as document_id,
+                   p.title as title,
+                   p.year as year,
+                   p.evidence_level as evidence_level,
+                   p.source as source,
+                   p.owner as owner,
+                   p.shared as shared,
+                   chunk_count,
+                   tier1_count,
+                   tier2_count
+            ORDER BY p.created_at DESC
+            """
+            result = await client.run_query(query, filter_params)
 
-                for record in result:
-                    documents.append({
-                        "document_id": record["document_id"],
-                        "chunk_count": record["chunk_count"] or 0,
-                        "tier1_chunks": record["tier1_count"] or 0,
-                        "tier2_chunks": record["tier2_count"] or 0,
-                        "owner": record.get("owner", "system"),        # v1.5
-                        "shared": record.get("shared", True),          # v1.5
-                        "metadata": {
-                            "title": record.get("title", ""),
-                            "year": record.get("year", 0),
-                            "evidence_level": record.get("evidence_level", ""),
-                            "source": record.get("source", ""),
-                            "owner": record.get("owner", "system"),    # v1.5
-                            "shared": record.get("shared", True)       # v1.5
-                        }
-                    })
+            for record in result:
+                documents.append({
+                    "document_id": record["document_id"],
+                    "chunk_count": record["chunk_count"] or 0,
+                    "tier1_chunks": record["tier1_count"] or 0,
+                    "tier2_chunks": record["tier2_count"] or 0,
+                    "owner": record.get("owner", "system"),        # v1.5
+                    "shared": record.get("shared", True),          # v1.5
+                    "metadata": {
+                        "title": record.get("title", ""),
+                        "year": record.get("year", 0),
+                        "evidence_level": record.get("evidence_level", ""),
+                        "source": record.get("source", ""),
+                        "owner": record.get("owner", "system"),    # v1.5
+                        "shared": record.get("shared", True)       # v1.5
+                    }
+                })
 
-            # 통계 계산
-            total_chunks = sum(d.get("chunk_count", 0) for d in documents)
-            tier1_total = sum(d.get("tier1_chunks", 0) for d in documents)
-            tier2_total = sum(d.get("tier2_chunks", 0) for d in documents)
+        # 통계 계산
+        total_chunks = sum(d.get("chunk_count", 0) for d in documents)
+        tier1_total = sum(d.get("tier1_chunks", 0) for d in documents)
+        tier2_total = sum(d.get("tier2_chunks", 0) for d in documents)
 
-            return {
-                "success": True,
-                "stats": {
-                    "storage_backend": "neo4j",
-                    "document_count": len(documents),
-                    "chunk_count": total_chunks
-                },
-                "documents": documents,
-                "total_documents": len(documents),
-                "total_chunks": total_chunks,
-                "tier_distribution": {
-                    "tier1": tier1_total,
-                    "tier2": tier2_total
-                }
+        return {
+            "success": True,
+            "stats": {
+                "storage_backend": "neo4j",
+                "document_count": len(documents),
+                "chunk_count": total_chunks
+            },
+            "documents": documents,
+            "total_documents": len(documents),
+            "total_chunks": total_chunks,
+            "tier_distribution": {
+                "tier1": tier1_total,
+                "tier2": tier2_total
             }
-        except Exception as e:
-            logger.error(f"list_documents error: {e}")
-            return {"success": False, "error": str(e)}
+        }
 
     async def get_stats(self) -> dict:
         """시스템 통계 조회 (Neo4j 전용 v5.3).
@@ -209,6 +206,7 @@ class DocumentHandler:
                 "storage_backend": "neo4j"
             }
 
+    @safe_execute
     async def delete_document(self, document_id: str) -> dict:
         """문서 삭제 (Neo4j 전용 v5.3).
 
@@ -228,69 +226,65 @@ class DocumentHandler:
                 - storage_backend (str): Storage backend identifier
                 - error (str, optional): Error message if operation failed
         """
-        try:
-            logger.info(f"Deleting document: {document_id}")
+        logger.info(f"Deleting document: {document_id}")
 
-            if not self.neo4j_client:
-                return {"success": False, "error": "Neo4j client not available"}
+        self._require_neo4j()
 
-            # Authorization check: verify ownership before deletion
-            async with self.neo4j_client as client:
-                paper = await client.get_paper(document_id)
-                if paper:
-                    paper_owner = paper.get("owner", "system")
-                    current_user = self.server.current_user
-                    if current_user != "system" and paper_owner != current_user:
-                        logger.warning(
-                            f"Access denied: user '{current_user}' cannot delete "
-                            f"document '{document_id}' owned by '{paper_owner}'"
-                        )
-                        return {
-                            "success": False,
-                            "error": f"Access denied: document owned by '{paper_owner}'"
-                        }
+        # Authorization check: verify ownership before deletion
+        async with self.neo4j_client as client:
+            paper = await client.get_paper(document_id)
+            if paper:
+                paper_owner = paper.get("owner", "system")
+                current_user = self.server.current_user
+                if current_user != "system" and paper_owner != current_user:
+                    logger.warning(
+                        f"Access denied: user '{current_user}' cannot delete "
+                        f"document '{document_id}' owned by '{paper_owner}'"
+                    )
+                    return {
+                        "success": False,
+                        "error": f"Access denied: document owned by '{paper_owner}'"
+                    }
 
-            # Neo4j에서 Paper 노드, Chunk 노드 및 관계 삭제
+        # Neo4j에서 Paper 노드, Chunk 노드 및 관계 삭제
+        neo4j_result = {
+            "nodes_deleted": 0,
+            "relationships_deleted": 0,
+            "chunks_deleted": 0
+        }
+
+        async with self.neo4j_client as client:
+            # 먼저 청크 수 확인
+            chunk_query = """
+            MATCH (p:Paper {paper_id: $paper_id})-[:HAS_CHUNK]->(c:Chunk)
+            RETURN count(c) as chunk_count
+            """
+            chunk_result = await client.run_query(chunk_query, {"paper_id": document_id})
+            chunks_count = chunk_result[0].get("chunk_count", 0) if chunk_result else 0
+
+            # Paper 및 관련 노드/관계 삭제
+            delete_result = await client.delete_paper(document_id)
             neo4j_result = {
-                "nodes_deleted": 0,
-                "relationships_deleted": 0,
-                "chunks_deleted": 0
+                "nodes_deleted": delete_result.get("nodes_deleted", 0),
+                "relationships_deleted": delete_result.get("relationships_deleted", 0),
+                "chunks_deleted": chunks_count
             }
+            logger.info(
+                f"Neo4j: Deleted {neo4j_result['nodes_deleted']} nodes, "
+                f"{neo4j_result['relationships_deleted']} relationships, "
+                f"{neo4j_result['chunks_deleted']} chunks for {document_id}"
+            )
 
-            async with self.neo4j_client as client:
-                # 먼저 청크 수 확인
-                chunk_query = """
-                MATCH (p:Paper {paper_id: $paper_id})-[:HAS_CHUNK]->(c:Chunk)
-                RETURN count(c) as chunk_count
-                """
-                chunk_result = await client.run_query(chunk_query, {"paper_id": document_id})
-                chunks_count = chunk_result[0].get("chunk_count", 0) if chunk_result else 0
+        return {
+            "success": True,
+            "document_id": document_id,
+            "deleted_chunks": neo4j_result["chunks_deleted"],
+            "neo4j_nodes": neo4j_result["nodes_deleted"],
+            "neo4j_relationships": neo4j_result["relationships_deleted"],
+            "storage_backend": "neo4j"
+        }
 
-                # Paper 및 관련 노드/관계 삭제
-                delete_result = await client.delete_paper(document_id)
-                neo4j_result = {
-                    "nodes_deleted": delete_result.get("nodes_deleted", 0),
-                    "relationships_deleted": delete_result.get("relationships_deleted", 0),
-                    "chunks_deleted": chunks_count
-                }
-                logger.info(
-                    f"Neo4j: Deleted {neo4j_result['nodes_deleted']} nodes, "
-                    f"{neo4j_result['relationships_deleted']} relationships, "
-                    f"{neo4j_result['chunks_deleted']} chunks for {document_id}"
-                )
-
-            return {
-                "success": True,
-                "document_id": document_id,
-                "deleted_chunks": neo4j_result["chunks_deleted"],
-                "neo4j_nodes": neo4j_result["nodes_deleted"],
-                "neo4j_relationships": neo4j_result["relationships_deleted"],
-                "storage_backend": "neo4j"
-            }
-        except Exception as e:
-            logger.error(f"Document deletion failed: {e}")
-            return {"success": False, "error": str(e)}
-
+    @safe_execute
     async def reset_database(self, include_taxonomy: bool = False) -> dict:
         """전체 데이터베이스 리셋 (Neo4j 전용 v5.3).
 
@@ -309,49 +303,44 @@ class DocumentHandler:
                 - storage_backend (str): Storage backend identifier
                 - error (str, optional): Error message if operation failed
         """
-        try:
-            logger.warning(f"Database reset requested (include_taxonomy={include_taxonomy})")
+        logger.warning(f"Database reset requested (include_taxonomy={include_taxonomy})")
 
-            # Authorization check: only system user can reset the database
-            if self.server.current_user != "system":
-                logger.warning(
-                    f"Access denied: user '{self.server.current_user}' "
-                    f"attempted database reset"
-                )
-                return {
-                    "success": False,
-                    "error": "Access denied: only system user can reset the database"
-                }
-
-            if not self.neo4j_client:
-                return {"success": False, "error": "Neo4j client not available"}
-
-            # Neo4j 초기화
-            neo4j_result = {
-                "nodes_deleted": 0,
-                "relationships_deleted": 0
-            }
-
-            async with self.neo4j_client as client:
-                if include_taxonomy:
-                    neo4j_result = await client.clear_all_including_taxonomy()
-                    # 스키마 재초기화
-                    await client.initialize_schema()
-                    logger.info("Neo4j: Full database cleared (including taxonomy) and schema reinitialized")
-                else:
-                    neo4j_result = await client.clear_database()
-                    logger.info("Neo4j: Papers and related data cleared (taxonomy preserved)")
-
+        # Authorization check: only system user can reset the database
+        if self.server.current_user != "system":
+            logger.warning(
+                f"Access denied: user '{self.server.current_user}' "
+                f"attempted database reset"
+            )
             return {
-                "success": True,
-                "neo4j_nodes_deleted": neo4j_result.get("nodes_deleted", 0),
-                "neo4j_relationships_deleted": neo4j_result.get("relationships_deleted", 0),
-                "taxonomy_cleared": include_taxonomy,
-                "storage_backend": "neo4j"
+                "success": False,
+                "error": "Access denied: only system user can reset the database"
             }
-        except Exception as e:
-            logger.error(f"Database reset failed: {e}")
-            return {"success": False, "error": str(e)}
+
+        self._require_neo4j()
+
+        # Neo4j 초기화
+        neo4j_result = {
+            "nodes_deleted": 0,
+            "relationships_deleted": 0
+        }
+
+        async with self.neo4j_client as client:
+            if include_taxonomy:
+                neo4j_result = await client.clear_all_including_taxonomy()
+                # 스키마 재초기화
+                await client.initialize_schema()
+                logger.info("Neo4j: Full database cleared (including taxonomy) and schema reinitialized")
+            else:
+                neo4j_result = await client.clear_database()
+                logger.info("Neo4j: Papers and related data cleared (taxonomy preserved)")
+
+        return {
+            "success": True,
+            "neo4j_nodes_deleted": neo4j_result.get("nodes_deleted", 0),
+            "neo4j_relationships_deleted": neo4j_result.get("relationships_deleted", 0),
+            "taxonomy_cleared": include_taxonomy,
+            "storage_backend": "neo4j"
+        }
 
     async def export_document(self, document_id: str) -> dict:
         """저장된 문서를 JSON으로 내보냅니다 (Neo4j 전용 v5.3).
@@ -372,8 +361,7 @@ class DocumentHandler:
         if not document_id:
             return {"success": False, "error": "document_id가 필요합니다."}
 
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j client not available"}
+        self._require_neo4j()
 
         # Neo4j에서 Paper 정보 및 청크 추출
         chunks_data = []

@@ -20,6 +20,7 @@ from typing import Any, Optional, TYPE_CHECKING
 if TYPE_CHECKING:
     from medical_mcp.medical_kag_server import MedicalKAGServer
 
+from medical_mcp.handlers.base_handler import BaseHandler, safe_execute
 from medical_mcp.handlers.utils import generate_document_id, get_abstract_from_sections, determine_tier
 
 # Import SpineMetadata with alias for backward compatibility
@@ -31,7 +32,7 @@ except ImportError:
 logger = logging.getLogger(__name__)
 
 
-class PDFHandler:
+class PDFHandler(BaseHandler):
     """Handles PDF and text processing operations."""
 
     def __init__(self, server: "MedicalKAGServer"):
@@ -41,7 +42,7 @@ class PDFHandler:
             server: Reference to MedicalKAGServer instance for accessing
                    neo4j_client, relationship_builder, processors, etc.
         """
-        self.server = server
+        super().__init__(server)
 
     # ========================================================================
     # Main PDF Processing Methods
@@ -166,23 +167,23 @@ class PDFHandler:
             import fitz
 
             doc = fitz.open(str(path))
-
-            # 1. PDF 내장 메타데이터에서 추출 시도
-            pdf_meta = doc.metadata
-            if pdf_meta:
-                if pdf_meta.get("title"):
-                    metadata["title"] = pdf_meta["title"]
-                if pdf_meta.get("author"):
-                    authors = pdf_meta["author"].split(",")
-                    metadata["authors"] = [a.strip() for a in authors if a.strip()]
-                if pdf_meta.get("creationDate"):
-                    # D:20210315... 형식
-                    date_str = pdf_meta["creationDate"]
-                    year_match = re.search(r"D:(\d{4})", date_str)
-                    if year_match:
-                        metadata["year"] = int(year_match.group(1))
-
-            doc.close()
+            try:
+                # 1. PDF 내장 메타데이터에서 추출 시도
+                pdf_meta = doc.metadata
+                if pdf_meta:
+                    if pdf_meta.get("title"):
+                        metadata["title"] = pdf_meta["title"]
+                    if pdf_meta.get("author"):
+                        authors = pdf_meta["author"].split(",")
+                        metadata["authors"] = [a.strip() for a in authors if a.strip()]
+                    if pdf_meta.get("creationDate"):
+                        # D:20210315... 형식
+                        date_str = pdf_meta["creationDate"]
+                        year_match = re.search(r"D:(\d{4})", date_str)
+                        if year_match:
+                            metadata["year"] = int(year_match.group(1))
+            finally:
+                doc.close()
 
             # 2. 텍스트에서 연도 추출 (메타데이터에 없는 경우)
             if metadata["year"] == 0:
@@ -261,16 +262,18 @@ class PDFHandler:
         try:
             import fitz  # PyMuPDF
             doc = fitz.open(str(path))
-            text = ""
-            for page in doc:
-                text += page.get_text()
-            doc.close()
-            return text
+            try:
+                text = ""
+                for page in doc:
+                    text += page.get_text()
+                return text
+            finally:
+                doc.close()
         except ImportError:
             logger.warning("PyMuPDF not available, using placeholder")
             return f"[Placeholder text from {path.name}]"
         except Exception as e:
-            logger.error(f"PDF extraction error: {e}")
+            logger.error(f"PDF extraction error: {e}", exc_info=True)
             return ""
 
     def _classify_sections(self, text: str) -> list[dict]:
@@ -403,12 +406,15 @@ class PDFHandler:
         try:
             # PDF 텍스트 추출
             doc = fitz.open(str(path))
-            full_text = ""
-            for page_num, page in enumerate(doc, 1):
-                page_text = page.get_text()
-                if page_text.strip():
-                    full_text += f"\n--- PAGE {page_num} ---\n{page_text}"
-            doc.close()
+            try:
+                total_pages = len(doc)
+                full_text = ""
+                for page_num, page in enumerate(doc, 1):
+                    page_text = page.get_text()
+                    if page_text.strip():
+                        full_text += f"\n--- PAGE {page_num} ---\n{page_text}"
+            finally:
+                doc.close()
 
             if not full_text.strip():
                 return {"success": False, "error": "PDF에서 텍스트를 추출할 수 없습니다."}
@@ -545,7 +551,7 @@ Return ONLY valid JSON, no additional text.'''
                 "success": True,
                 "file_name": path.name,
                 "text_length": len(full_text),
-                "page_count": len([1 for _ in fitz.open(str(path))]),
+                "page_count": total_pages,
                 "usage_guide": usage_guide,
                 "prompt": extraction_prompt,
                 "pdf_text": full_text,

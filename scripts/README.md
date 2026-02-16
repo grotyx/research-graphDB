@@ -37,7 +37,7 @@ Open http://localhost:7474 in your browser.
 
 **Login credentials:**
 - Username: `neo4j`
-- Password: `spineGraph2024`
+- Password: `<.env의 NEO4J_PASSWORD>`
 
 ### 4. Test Queries
 
@@ -85,7 +85,7 @@ Make sure `.env` file has:
 ```bash
 NEO4J_URI=bolt://localhost:7687
 NEO4J_USERNAME=neo4j
-NEO4J_PASSWORD=spineGraph2024
+NEO4J_PASSWORD=<your-password>
 NEO4J_DATABASE=neo4j
 ```
 
@@ -105,5 +105,5 @@ docker-compose down -v
 docker-compose logs -f neo4j
 
 # Access Neo4j shell
-docker-compose exec neo4j cypher-shell -u neo4j -p spineGraph2024
+docker-compose exec neo4j cypher-shell -u neo4j -p $NEO4J_PASSWORD
 ```

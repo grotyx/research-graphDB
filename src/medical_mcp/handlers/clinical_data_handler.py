@@ -9,10 +9,12 @@ Extracted from medical_kag_server.py (v1.5) - Lines 2935-3279
 import logging
 from typing import Optional
 
+from medical_mcp.handlers.base_handler import BaseHandler, safe_execute
+
 logger = logging.getLogger(__name__)
 
 
-class ClinicalDataHandler:
+class ClinicalDataHandler(BaseHandler):
     """Handler for clinical data queries.
 
     Provides access to patient cohort information, follow-up data,
@@ -29,10 +31,10 @@ class ClinicalDataHandler:
         Args:
             server: MedicalKAGServer instance providing neo4j_client access.
         """
-        self.server = server
-        self.neo4j_client = server.neo4j_client
+        super().__init__(server)
         self.current_user = server.current_user
 
+    @safe_execute
     async def get_patient_cohorts(
         self,
         paper_id: Optional[str] = None,
@@ -66,93 +68,88 @@ class ClinicalDataHandler:
             ... )
             >>> print(f"Found {result['total_cohorts']} cohorts")
         """
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j not connected"}
+        self._require_neo4j()
 
-        try:
-            # 동적 필터 구성
-            where_clauses = []
-            params = {}
+        # 동적 필터 구성
+        where_clauses = []
+        params = {}
 
-            if paper_id:
-                where_clauses.append("p.paper_id = $paper_id")
-                params["paper_id"] = paper_id
+        if paper_id:
+            where_clauses.append("p.paper_id = $paper_id")
+            params["paper_id"] = paper_id
 
-            if cohort_type:
-                where_clauses.append("c.cohort_type = $cohort_type")
-                params["cohort_type"] = cohort_type
+        if cohort_type:
+            where_clauses.append("c.cohort_type = $cohort_type")
+            params["cohort_type"] = cohort_type
 
-            if min_sample_size:
-                where_clauses.append("c.sample_size >= $min_sample_size")
-                params["min_sample_size"] = min_sample_size
+        if min_sample_size:
+            where_clauses.append("c.sample_size >= $min_sample_size")
+            params["min_sample_size"] = min_sample_size
 
-            where_clause = " AND ".join(where_clauses) if where_clauses else "1=1"
+        where_clause = " AND ".join(where_clauses) if where_clauses else "1=1"
 
-            if intervention:
-                # 수술법으로 필터링 - TREATED_WITH 관계 사용
-                cypher = f"""
-                MATCH (p:Paper)-[:HAS_COHORT]->(c:PatientCohort)-[:TREATED_WITH]->(i:Intervention {{name: $intervention}})
-                WHERE {where_clause}
-                RETURN p.paper_id AS paper_id, p.title AS paper_title,
-                       c.name AS cohort_name, c.cohort_type AS cohort_type,
-                       c.sample_size AS sample_size, c.mean_age AS mean_age,
-                       c.female_percentage AS female_percentage, c.diagnosis AS diagnosis,
-                       c.comorbidities AS comorbidities, c.ASA_score AS asa_score,
-                       c.BMI AS bmi, i.name AS intervention
-                ORDER BY c.sample_size DESC
-                LIMIT 50
-                """
-                params["intervention"] = intervention
-            else:
-                cypher = f"""
-                MATCH (p:Paper)-[:HAS_COHORT]->(c:PatientCohort)
-                WHERE {where_clause}
-                OPTIONAL MATCH (c)-[:TREATED_WITH]->(i:Intervention)
-                RETURN p.paper_id AS paper_id, p.title AS paper_title,
-                       c.name AS cohort_name, c.cohort_type AS cohort_type,
-                       c.sample_size AS sample_size, c.mean_age AS mean_age,
-                       c.female_percentage AS female_percentage, c.diagnosis AS diagnosis,
-                       c.comorbidities AS comorbidities, c.ASA_score AS asa_score,
-                       c.BMI AS bmi, collect(i.name) AS interventions
-                ORDER BY c.sample_size DESC
-                LIMIT 50
-                """
+        if intervention:
+            # 수술법으로 필터링 - TREATED_WITH 관계 사용
+            cypher = f"""
+            MATCH (p:Paper)-[:HAS_COHORT]->(c:PatientCohort)-[:TREATED_WITH]->(i:Intervention {{name: $intervention}})
+            WHERE {where_clause}
+            RETURN p.paper_id AS paper_id, p.title AS paper_title,
+                   c.name AS cohort_name, c.cohort_type AS cohort_type,
+                   c.sample_size AS sample_size, c.mean_age AS mean_age,
+                   c.female_percentage AS female_percentage, c.diagnosis AS diagnosis,
+                   c.comorbidities AS comorbidities, c.ASA_score AS asa_score,
+                   c.BMI AS bmi, i.name AS intervention
+            ORDER BY c.sample_size DESC
+            LIMIT 50
+            """
+            params["intervention"] = intervention
+        else:
+            cypher = f"""
+            MATCH (p:Paper)-[:HAS_COHORT]->(c:PatientCohort)
+            WHERE {where_clause}
+            OPTIONAL MATCH (c)-[:TREATED_WITH]->(i:Intervention)
+            RETURN p.paper_id AS paper_id, p.title AS paper_title,
+                   c.name AS cohort_name, c.cohort_type AS cohort_type,
+                   c.sample_size AS sample_size, c.mean_age AS mean_age,
+                   c.female_percentage AS female_percentage, c.diagnosis AS diagnosis,
+                   c.comorbidities AS comorbidities, c.ASA_score AS asa_score,
+                   c.BMI AS bmi, collect(i.name) AS interventions
+            ORDER BY c.sample_size DESC
+            LIMIT 50
+            """
 
-            records = await self.neo4j_client.run_query(cypher, params)
+        records = await self.neo4j_client.run_query(cypher, params)
 
-            cohorts = []
-            for r in records:
-                cohorts.append({
-                    "paper_id": r.get("paper_id"),
-                    "paper_title": r.get("paper_title"),
-                    "cohort_name": r.get("cohort_name"),
-                    "cohort_type": r.get("cohort_type"),
-                    "sample_size": r.get("sample_size"),
-                    "mean_age": r.get("mean_age"),
-                    "female_percentage": r.get("female_percentage"),
-                    "diagnosis": r.get("diagnosis"),
-                    "comorbidities": r.get("comorbidities"),
-                    "asa_score": r.get("asa_score"),
-                    "bmi": r.get("bmi"),
-                    "intervention": r.get("intervention") or r.get("interventions"),
-                })
+        cohorts = []
+        for r in records:
+            cohorts.append({
+                "paper_id": r.get("paper_id"),
+                "paper_title": r.get("paper_title"),
+                "cohort_name": r.get("cohort_name"),
+                "cohort_type": r.get("cohort_type"),
+                "sample_size": r.get("sample_size"),
+                "mean_age": r.get("mean_age"),
+                "female_percentage": r.get("female_percentage"),
+                "diagnosis": r.get("diagnosis"),
+                "comorbidities": r.get("comorbidities"),
+                "asa_score": r.get("asa_score"),
+                "bmi": r.get("bmi"),
+                "intervention": r.get("intervention") or r.get("interventions"),
+            })
 
-            return {
-                "success": True,
-                "total_cohorts": len(cohorts),
-                "cohorts": cohorts,
-                "filters": {
-                    "paper_id": paper_id,
-                    "intervention": intervention,
-                    "cohort_type": cohort_type,
-                    "min_sample_size": min_sample_size,
-                }
+        return {
+            "success": True,
+            "total_cohorts": len(cohorts),
+            "cohorts": cohorts,
+            "filters": {
+                "paper_id": paper_id,
+                "intervention": intervention,
+                "cohort_type": cohort_type,
+                "min_sample_size": min_sample_size,
             }
+        }
 
-        except Exception as e:
-            logger.error(f"get_patient_cohorts failed: {e}")
-            return {"success": False, "error": str(e)}
-
+    @safe_execute
     async def get_followup_data(
         self,
         paper_id: Optional[str] = None,
@@ -188,83 +185,78 @@ class ClinicalDataHandler:
             >>> for fu in result['followups']:
             ...     print(f"{fu['timepoint_months']} months: {fu['outcomes']}")
         """
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j not connected"}
+        self._require_neo4j()
 
-        try:
-            where_clauses = []
-            params = {}
+        where_clauses = []
+        params = {}
 
-            if paper_id:
-                where_clauses.append("p.paper_id = $paper_id")
-                params["paper_id"] = paper_id
+        if paper_id:
+            where_clauses.append("p.paper_id = $paper_id")
+            params["paper_id"] = paper_id
 
-            if min_months:
-                where_clauses.append("f.timepoint_months >= $min_months")
-                params["min_months"] = min_months
+        if min_months:
+            where_clauses.append("f.timepoint_months >= $min_months")
+            params["min_months"] = min_months
 
-            if max_months:
-                where_clauses.append("f.timepoint_months <= $max_months")
-                params["max_months"] = max_months
+        if max_months:
+            where_clauses.append("f.timepoint_months <= $max_months")
+            params["max_months"] = max_months
 
-            where_clause = " AND ".join(where_clauses) if where_clauses else "1=1"
+        where_clause = " AND ".join(where_clauses) if where_clauses else "1=1"
 
-            if intervention:
-                cypher = f"""
-                MATCH (p:Paper)-[:INVESTIGATES]->(i:Intervention {{name: $intervention}})
-                MATCH (p)-[:HAS_FOLLOWUP]->(f:FollowUp)
-                WHERE {where_clause}
-                OPTIONAL MATCH (f)-[:REPORTS_OUTCOME]->(o:Outcome)
-                RETURN p.paper_id AS paper_id, p.title AS paper_title,
-                       f.name AS timepoint_name, f.timepoint_months AS timepoint_months,
-                       f.completeness_rate AS completeness_rate,
-                       collect(DISTINCT o.name) AS outcomes
-                ORDER BY f.timepoint_months
-                LIMIT 100
-                """
-                params["intervention"] = intervention
-            else:
-                cypher = f"""
-                MATCH (p:Paper)-[:HAS_FOLLOWUP]->(f:FollowUp)
-                WHERE {where_clause}
-                OPTIONAL MATCH (f)-[:REPORTS_OUTCOME]->(o:Outcome)
-                RETURN p.paper_id AS paper_id, p.title AS paper_title,
-                       f.name AS timepoint_name, f.timepoint_months AS timepoint_months,
-                       f.completeness_rate AS completeness_rate,
-                       collect(DISTINCT o.name) AS outcomes
-                ORDER BY f.timepoint_months
-                LIMIT 100
-                """
+        if intervention:
+            cypher = f"""
+            MATCH (p:Paper)-[:INVESTIGATES]->(i:Intervention {{name: $intervention}})
+            MATCH (p)-[:HAS_FOLLOWUP]->(f:FollowUp)
+            WHERE {where_clause}
+            OPTIONAL MATCH (f)-[:REPORTS_OUTCOME]->(o:Outcome)
+            RETURN p.paper_id AS paper_id, p.title AS paper_title,
+                   f.name AS timepoint_name, f.timepoint_months AS timepoint_months,
+                   f.completeness_rate AS completeness_rate,
+                   collect(DISTINCT o.name) AS outcomes
+            ORDER BY f.timepoint_months
+            LIMIT 100
+            """
+            params["intervention"] = intervention
+        else:
+            cypher = f"""
+            MATCH (p:Paper)-[:HAS_FOLLOWUP]->(f:FollowUp)
+            WHERE {where_clause}
+            OPTIONAL MATCH (f)-[:REPORTS_OUTCOME]->(o:Outcome)
+            RETURN p.paper_id AS paper_id, p.title AS paper_title,
+                   f.name AS timepoint_name, f.timepoint_months AS timepoint_months,
+                   f.completeness_rate AS completeness_rate,
+                   collect(DISTINCT o.name) AS outcomes
+            ORDER BY f.timepoint_months
+            LIMIT 100
+            """
 
-            records = await self.neo4j_client.run_query(cypher, params)
+        records = await self.neo4j_client.run_query(cypher, params)
 
-            followups = []
-            for r in records:
-                followups.append({
-                    "paper_id": r.get("paper_id"),
-                    "paper_title": r.get("paper_title"),
-                    "timepoint_name": r.get("timepoint_name"),
-                    "timepoint_months": r.get("timepoint_months"),
-                    "completeness_rate": r.get("completeness_rate"),
-                    "outcomes": r.get("outcomes") or [],
-                })
+        followups = []
+        for r in records:
+            followups.append({
+                "paper_id": r.get("paper_id"),
+                "paper_title": r.get("paper_title"),
+                "timepoint_name": r.get("timepoint_name"),
+                "timepoint_months": r.get("timepoint_months"),
+                "completeness_rate": r.get("completeness_rate"),
+                "outcomes": r.get("outcomes") or [],
+            })
 
-            return {
-                "success": True,
-                "total_followups": len(followups),
-                "followups": followups,
-                "filters": {
-                    "paper_id": paper_id,
-                    "intervention": intervention,
-                    "min_months": min_months,
-                    "max_months": max_months,
-                }
+        return {
+            "success": True,
+            "total_followups": len(followups),
+            "followups": followups,
+            "filters": {
+                "paper_id": paper_id,
+                "intervention": intervention,
+                "min_months": min_months,
+                "max_months": max_months,
             }
+        }
 
-        except Exception as e:
-            logger.error(f"get_followup_data failed: {e}")
-            return {"success": False, "error": str(e)}
-
+    @safe_execute
     async def get_cost_analysis(
         self,
         paper_id: Optional[str] = None,
@@ -298,85 +290,80 @@ class ClinicalDataHandler:
             >>> for cost in result['costs']:
             ...     print(f"{cost['mean_cost']} {cost['currency']}")
         """
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j not connected"}
+        self._require_neo4j()
 
-        try:
-            where_clauses = []
-            params = {}
+        where_clauses = []
+        params = {}
 
-            if paper_id:
-                where_clauses.append("p.paper_id = $paper_id")
-                params["paper_id"] = paper_id
+        if paper_id:
+            where_clauses.append("p.paper_id = $paper_id")
+            params["paper_id"] = paper_id
 
-            if cost_type:
-                where_clauses.append("cost.cost_type = $cost_type")
-                params["cost_type"] = cost_type
+        if cost_type:
+            where_clauses.append("cost.cost_type = $cost_type")
+            params["cost_type"] = cost_type
 
-            where_clause = " AND ".join(where_clauses) if where_clauses else "1=1"
+        where_clause = " AND ".join(where_clauses) if where_clauses else "1=1"
 
-            if intervention:
-                cypher = f"""
-                MATCH (p:Paper)-[:REPORTS_COST]->(cost:Cost)-[:ASSOCIATED_WITH]->(i:Intervention {{name: $intervention}})
-                WHERE {where_clause}
-                RETURN p.paper_id AS paper_id, p.title AS paper_title,
-                       cost.name AS cost_name, cost.cost_type AS cost_type,
-                       cost.mean_cost AS mean_cost, cost.currency AS currency,
-                       cost.QALY_gained AS qaly_gained, cost.ICER AS icer,
-                       cost.LOS_days AS los_days, cost.readmission_rate AS readmission_rate,
-                       i.name AS intervention
-                ORDER BY cost.mean_cost DESC
-                LIMIT 50
-                """
-                params["intervention"] = intervention
-            else:
-                cypher = f"""
-                MATCH (p:Paper)-[:REPORTS_COST]->(cost:Cost)
-                WHERE {where_clause}
-                OPTIONAL MATCH (cost)-[:ASSOCIATED_WITH]->(i:Intervention)
-                RETURN p.paper_id AS paper_id, p.title AS paper_title,
-                       cost.name AS cost_name, cost.cost_type AS cost_type,
-                       cost.mean_cost AS mean_cost, cost.currency AS currency,
-                       cost.QALY_gained AS qaly_gained, cost.ICER AS icer,
-                       cost.LOS_days AS los_days, cost.readmission_rate AS readmission_rate,
-                       collect(i.name) AS interventions
-                ORDER BY cost.mean_cost DESC
-                LIMIT 50
-                """
+        if intervention:
+            cypher = f"""
+            MATCH (p:Paper)-[:REPORTS_COST]->(cost:Cost)-[:ASSOCIATED_WITH]->(i:Intervention {{name: $intervention}})
+            WHERE {where_clause}
+            RETURN p.paper_id AS paper_id, p.title AS paper_title,
+                   cost.name AS cost_name, cost.cost_type AS cost_type,
+                   cost.mean_cost AS mean_cost, cost.currency AS currency,
+                   cost.QALY_gained AS qaly_gained, cost.ICER AS icer,
+                   cost.LOS_days AS los_days, cost.readmission_rate AS readmission_rate,
+                   i.name AS intervention
+            ORDER BY cost.mean_cost DESC
+            LIMIT 50
+            """
+            params["intervention"] = intervention
+        else:
+            cypher = f"""
+            MATCH (p:Paper)-[:REPORTS_COST]->(cost:Cost)
+            WHERE {where_clause}
+            OPTIONAL MATCH (cost)-[:ASSOCIATED_WITH]->(i:Intervention)
+            RETURN p.paper_id AS paper_id, p.title AS paper_title,
+                   cost.name AS cost_name, cost.cost_type AS cost_type,
+                   cost.mean_cost AS mean_cost, cost.currency AS currency,
+                   cost.QALY_gained AS qaly_gained, cost.ICER AS icer,
+                   cost.LOS_days AS los_days, cost.readmission_rate AS readmission_rate,
+                   collect(i.name) AS interventions
+            ORDER BY cost.mean_cost DESC
+            LIMIT 50
+            """
 
-            records = await self.neo4j_client.run_query(cypher, params)
+        records = await self.neo4j_client.run_query(cypher, params)
 
-            costs = []
-            for r in records:
-                costs.append({
-                    "paper_id": r.get("paper_id"),
-                    "paper_title": r.get("paper_title"),
-                    "cost_name": r.get("cost_name"),
-                    "cost_type": r.get("cost_type"),
-                    "mean_cost": r.get("mean_cost"),
-                    "currency": r.get("currency"),
-                    "qaly_gained": r.get("qaly_gained"),
-                    "icer": r.get("icer"),
-                    "los_days": r.get("los_days"),
-                    "readmission_rate": r.get("readmission_rate"),
-                    "intervention": r.get("intervention") or r.get("interventions"),
-                })
+        costs = []
+        for r in records:
+            costs.append({
+                "paper_id": r.get("paper_id"),
+                "paper_title": r.get("paper_title"),
+                "cost_name": r.get("cost_name"),
+                "cost_type": r.get("cost_type"),
+                "mean_cost": r.get("mean_cost"),
+                "currency": r.get("currency"),
+                "qaly_gained": r.get("qaly_gained"),
+                "icer": r.get("icer"),
+                "los_days": r.get("los_days"),
+                "readmission_rate": r.get("readmission_rate"),
+                "intervention": r.get("intervention") or r.get("interventions"),
+            })
 
-            return {
-                "success": True,
-                "total_cost_records": len(costs),
-                "costs": costs,
-                "filters": {
-                    "paper_id": paper_id,
-                    "intervention": intervention,
-                    "cost_type": cost_type,
-                }
+        return {
+            "success": True,
+            "total_cost_records": len(costs),
+            "costs": costs,
+            "filters": {
+                "paper_id": paper_id,
+                "intervention": intervention,
+                "cost_type": cost_type,
             }
+        }
 
-        except Exception as e:
-            logger.error(f"get_cost_analysis failed: {e}")
-            return {"success": False, "error": str(e)}
-
+    @safe_execute
     async def get_quality_metrics(
         self,
         paper_id: Optional[str] = None,
@@ -410,74 +397,68 @@ class ClinicalDataHandler:
             >>> for metric in result['quality_metrics']:
             ...     print(f"{metric['overall_rating']}: {metric['overall_score']}")
         """
-        if not self.neo4j_client:
-            return {"success": False, "error": "Neo4j not connected"}
+        self._require_neo4j()
 
-        try:
-            where_clauses = []
-            params = {}
+        where_clauses = []
+        params = {}
 
-            if paper_id:
-                where_clauses.append("p.paper_id = $paper_id")
-                params["paper_id"] = paper_id
+        if paper_id:
+            where_clauses.append("p.paper_id = $paper_id")
+            params["paper_id"] = paper_id
 
-            if assessment_tool:
-                where_clauses.append("q.assessment_tool = $assessment_tool")
-                params["assessment_tool"] = assessment_tool
+        if assessment_tool:
+            where_clauses.append("q.assessment_tool = $assessment_tool")
+            params["assessment_tool"] = assessment_tool
 
-            if min_rating:
-                # 품질 등급 필터: high > moderate > low > very low
-                rating_order = {"high": 4, "moderate": 3, "low": 2, "very low": 1}
-                min_order = rating_order.get(min_rating, 0)
-                where_clauses.append("""
-                CASE q.overall_rating
-                    WHEN 'high' THEN 4
-                    WHEN 'moderate' THEN 3
-                    WHEN 'low' THEN 2
-                    WHEN 'very low' THEN 1
-                    ELSE 0
-                END >= $min_order
-                """)
-                params["min_order"] = min_order
+        if min_rating:
+            # 품질 등급 필터: high > moderate > low > very low
+            rating_order = {"high": 4, "moderate": 3, "low": 2, "very low": 1}
+            min_order = rating_order.get(min_rating, 0)
+            where_clauses.append("""
+            CASE q.overall_rating
+                WHEN 'high' THEN 4
+                WHEN 'moderate' THEN 3
+                WHEN 'low' THEN 2
+                WHEN 'very low' THEN 1
+                ELSE 0
+            END >= $min_order
+            """)
+            params["min_order"] = min_order
 
-            where_clause = " AND ".join(where_clauses) if where_clauses else "1=1"
+        where_clause = " AND ".join(where_clauses) if where_clauses else "1=1"
 
-            cypher = f"""
-            MATCH (p:Paper)-[:HAS_QUALITY_METRIC]->(q:QualityMetric)
-            WHERE {where_clause}
-            RETURN p.paper_id AS paper_id, p.title AS paper_title,
-                   q.name AS metric_name, q.assessment_tool AS assessment_tool,
-                   q.overall_score AS overall_score, q.overall_rating AS overall_rating,
-                   q.domain_scores AS domain_scores
-            ORDER BY q.overall_score DESC
-            LIMIT 50
-            """
+        cypher = f"""
+        MATCH (p:Paper)-[:HAS_QUALITY_METRIC]->(q:QualityMetric)
+        WHERE {where_clause}
+        RETURN p.paper_id AS paper_id, p.title AS paper_title,
+               q.name AS metric_name, q.assessment_tool AS assessment_tool,
+               q.overall_score AS overall_score, q.overall_rating AS overall_rating,
+               q.domain_scores AS domain_scores
+        ORDER BY q.overall_score DESC
+        LIMIT 50
+        """
 
-            records = await self.neo4j_client.run_query(cypher, params)
+        records = await self.neo4j_client.run_query(cypher, params)
 
-            metrics = []
-            for r in records:
-                metrics.append({
-                    "paper_id": r.get("paper_id"),
-                    "paper_title": r.get("paper_title"),
-                    "metric_name": r.get("metric_name"),
-                    "assessment_tool": r.get("assessment_tool"),
-                    "overall_score": r.get("overall_score"),
-                    "overall_rating": r.get("overall_rating"),
-                    "domain_scores": r.get("domain_scores"),
-                })
+        metrics = []
+        for r in records:
+            metrics.append({
+                "paper_id": r.get("paper_id"),
+                "paper_title": r.get("paper_title"),
+                "metric_name": r.get("metric_name"),
+                "assessment_tool": r.get("assessment_tool"),
+                "overall_score": r.get("overall_score"),
+                "overall_rating": r.get("overall_rating"),
+                "domain_scores": r.get("domain_scores"),
+            })
 
-            return {
-                "success": True,
-                "total_metrics": len(metrics),
-                "quality_metrics": metrics,
-                "filters": {
-                    "paper_id": paper_id,
-                    "assessment_tool": assessment_tool,
-                    "min_rating": min_rating,
-                }
+        return {
+            "success": True,
+            "total_metrics": len(metrics),
+            "quality_metrics": metrics,
+            "filters": {
+                "paper_id": paper_id,
+                "assessment_tool": assessment_tool,
+                "min_rating": min_rating,
             }
-
-        except Exception as e:
-            logger.error(f"get_quality_metrics failed: {e}")
-            return {"success": False, "error": str(e)}
+        }

@@ -28,6 +28,7 @@ from typing import Optional, Any
 
 import anthropic
 
+from core.exceptions import LLMError
 from .cache import LLMCache, generate_cache_key
 
 logger = logging.getLogger(__name__)
@@ -56,7 +57,7 @@ class ClaudeConfig:
         if not self.api_key:
             self.api_key = os.environ.get("ANTHROPIC_API_KEY", "")
         if not self.api_key:
-            raise ValueError(
+            raise LLMError(
                 "ANTHROPIC_API_KEY 환경변수가 설정되지 않았습니다. "
                 "export ANTHROPIC_API_KEY='your-api-key' 또는 "
                 "ClaudeConfig(api_key='your-key')로 설정하세요."
@@ -404,7 +405,7 @@ Respond ONLY with the JSON object, no additional text or markdown formatting."""
         try:
             data = json.loads(text.strip())
         except json.JSONDecodeError as e:
-            logger.error(f"JSON parse error: {e}\nText: {text[:200]}")
+            logger.error(f"JSON parse error: {e}\nText: {text[:200]}", exc_info=True)
             data = {}
 
         # 토큰 사용량 기록
@@ -595,7 +596,7 @@ Respond ONLY with the JSON object, no additional text or markdown formatting."""
         sorted_results: list[tuple[int, Optional[ClaudeResponse]]] = []
         for r in results:
             if isinstance(r, Exception):
-                logger.error(f"배치 요청 실패: {r}")
+                logger.error(f"배치 요청 실패: {r}", exc_info=True)
                 continue
             sorted_results.append(r)
 

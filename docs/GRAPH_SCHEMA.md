@@ -159,11 +159,11 @@ final_score = 0.6 * graph_score + 0.4 * vector_score
 
 | Category | Total | Official SNOMED | Extension Codes |
 |----------|-------|-----------------|-----------------|
-| Intervention | 123 | 44 | 79 |
-| Pathology | 85 | 54 | 31 |
-| Outcome | 70 | 19 | 51 |
-| Anatomy | 37 | 24 | 13 |
-| **Total** | **315** | **141** | **174** |
+| Intervention | 144 | 47 | 97 |
+| Pathology | 120 | 62 | 58 |
+| Outcome | 104 | 24 | 80 |
+| Anatomy | 46 | 24 | 22 |
+| **Total** | **414** | **157** | **257** |
 
 ### 주요 매핑 카테고리
 

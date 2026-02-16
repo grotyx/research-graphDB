@@ -31,16 +31,6 @@ neo4j:
     success_threshold: 2
     timeout: 60
 
-chromadb:
-  # Storage path
-  path: ${CHROMADB_PATH:./data/chromadb}
-
-  # Collection settings
-  collection_name: "spine_papers"
-
-  # Distance metric: "cosine", "l2", "ip"
-  distance_metric: "cosine"
-
 # ============================================================================
 # LLM Settings
 # ============================================================================

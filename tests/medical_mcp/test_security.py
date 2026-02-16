@@ -198,7 +198,8 @@ class TestDeleteDocumentOwnership:
         )
 
         handler = DocumentHandler(server)
-        handler.neo4j_client = mock_neo4j
+        # neo4j_client is now a read-only property from BaseHandler,
+        # accessed via server.neo4j_client (already set above)
         return handler, mock_neo4j, server
 
     @pytest.mark.asyncio

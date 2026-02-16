@@ -5,6 +5,7 @@ Similar queries can retrieve cached responses even with different wording.
 """
 
 import logging
+from collections import deque
 from dataclasses import dataclass
 from typing import Optional
 
@@ -90,8 +91,8 @@ class SemanticCache:
         self.max_semantic_entries = max_semantic_entries
 
         # In-memory semantic index
-        # (operation -> list of SemanticCacheEntry)
-        self._semantic_index: dict[str, list[SemanticCacheEntry]] = {}
+        # (operation -> deque of SemanticCacheEntry)
+        self._semantic_index: dict[str, deque[SemanticCacheEntry]] = {}
 
     async def get(
         self,
@@ -243,13 +244,9 @@ class SemanticCache:
 
         # Add to index
         if operation not in self._semantic_index:
-            self._semantic_index[operation] = []
+            self._semantic_index[operation] = deque(maxlen=self.max_semantic_entries)
 
         self._semantic_index[operation].append(entry)
-
-        # Limit size (LRU-style: keep last N entries)
-        if len(self._semantic_index[operation]) > self.max_semantic_entries:
-            self._semantic_index[operation].pop(0)
 
     def _cosine_similarity(self, a: np.ndarray, b: np.ndarray) -> float:
         """Calculate cosine similarity between two vectors.

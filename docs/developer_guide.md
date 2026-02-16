@@ -1,11 +1,11 @@
-# Spine GraphRAG v1.17.0 - Developer Guide
+# Spine GraphRAG v1.19.4 - Developer Guide
 
 ## Overview
 
 This guide provides comprehensive information for developers working on or extending the Spine GraphRAG system.
 
-**Version**: 1.17.0
-**Last Updated**: 2026-02-15
+**Version**: 1.19.4
+**Last Updated**: 2026-02-16
 
 ---
 
@@ -13,11 +13,12 @@ This guide provides comprehensive information for developers working on or exten
 
 1. [Architecture Overview](#architecture-overview)
 2. [Development Setup](#development-setup)
-3. [How to Add New Interventions](#how-to-add-new-interventions)
-4. [How to Extend the Schema](#how-to-extend-the-schema)
-5. [Testing Guidelines](#testing-guidelines)
-6. [Contributing Guidelines](#contributing-guidelines)
-7. [Performance Optimization](#performance-optimization)
+3. [How to Add New MCP Tools](#how-to-add-new-mcp-tools)
+4. [How to Add New Interventions](#how-to-add-new-interventions)
+5. [How to Extend the Schema](#how-to-extend-the-schema)
+6. [Testing Guidelines](#testing-guidelines)
+7. [Contributing Guidelines](#contributing-guidelines)
+8. [Performance Optimization](#performance-optimization)
 
 ---
 
@@ -91,6 +92,40 @@ builder/
 llm/
   ├─ depends on: (anthropic SDK)
   ├─ provides: LLMClient (Claude Haiku 4.5), Cache
+
+medical_mcp/handlers/
+  ├─ depends on: graph/, solver/, builder/, llm/, external/
+  ├─ provides: 11개 도메인 핸들러 (BaseHandler 상속)
+```
+
+### Handler 상속 구조 (v1.19.3)
+
+MCP 서버의 도메인 로직은 `BaseHandler`를 상속하는 11개 핸들러로 분리됩니다.
+
+```
+BaseHandler (base_handler.py)
+├── neo4j_client @property  → server.neo4j_client 접근
+├── _require_neo4j()        → Neo4j 가용성 검증
+├── _ensure_connected()     → 연결 보장
+├── _format_error()         → 표준화된 에러 응답
+└── _format_success()       → 표준화된 성공 응답
+
+safe_execute (decorator)    → 모든 핸들러 메서드의 표준 에러 처리
+├── ValueError → warning 로그 + {"success": false, "error": ...}
+└── Exception  → exception 로그 + {"success": false, "error": ...}
+
+BaseHandler
+  ├── SearchHandler        # 하이브리드 검색, 그래프 검색, 근거 검색
+  ├── DocumentHandler      # 문서 CRUD (목록, 삭제, 통계, 리셋)
+  ├── PDFHandler           # PDF/텍스트 수집, 분석, 저장
+  ├── JSONHandler          # JSON 파일 임포트
+  ├── PubMedHandler        # PubMed 검색, 벌크 임포트, 보강
+  ├── GraphHandler         # 중재법 계층, 논문 관계, 비교
+  ├── ReasoningHandler     # 추론, 갈등 감지, 근거 합성
+  ├── CitationHandler      # 인용 초안, 인용 제안
+  ├── ClinicalDataHandler  # 환자 코호트, 추적관찰, 비용, 품질
+  ├── ReferenceHandler     # 참고문헌 포맷팅 (Vancouver, AMA, APA 등)
+  └── WritingGuideHandler  # 학술 논문 작성 가이드 (EQUATOR 체크리스트)
 ```
 
 ### Data Flow
@@ -111,10 +146,16 @@ llm/
        └─> ResponseSynthesizer (combine Graph + Vector)
            └─> GeminiClient (LLM-based answer)
 
-3. MCP Tool Call
-   └─> MedicalKAGServer (route to appropriate tool)
-       └─> graph_search / find_evidence / compare_interventions
-           └─> (same as Search Query flow)
+3. MCP Tool Call (v1.19.2 Tool Registry 패턴)
+   └─> call_tool(name, arguments)
+       └─> _tool_dispatchers[name] → _dispatch_*(action, args)
+           └─> handler.method() (BaseHandler 상속 핸들러)
+               └─> (same as Search Query flow)
+
+   예시: "search_papers" 요청
+   └─> call_tool("search", {"action": "search", "query": "TLIF outcomes"})
+       └─> _tool_dispatchers["search"] → _dispatch_search("search", args)
+           └─> search_handler.search(query="TLIF outcomes", ...)
 ```
 
 ---
@@ -192,6 +233,152 @@ pytest tests/ --cov=src --cov-report=html
 # Type checking
 mypy src/ --ignore-missing-imports
 ```
+
+---
+
+## How to Add New MCP Tools
+
+새 MCP 도구(또는 기존 도구에 새 액션)를 추가하려면 아래 단계를 따릅니다.
+
+### 1. Handler 클래스 생성
+
+`src/medical_mcp/handlers/` 에 새 핸들러 파일을 생성합니다.
+반드시 `BaseHandler`를 상속하고, 비동기 메서드에 `@safe_execute` 데코레이터를 적용합니다.
+
+```python
+# src/medical_mcp/handlers/my_new_handler.py
+from medical_mcp.handlers.base_handler import BaseHandler, safe_execute
+
+class MyNewHandler(BaseHandler):
+    """새 도메인 핸들러 설명."""
+
+    @safe_execute
+    async def my_action(self, param1: str, param2: int = 10) -> dict:
+        """액션 설명.
+
+        Args:
+            param1: 파라미터 설명
+            param2: 파라미터 설명 (기본값: 10)
+        """
+        # Neo4j 필요 시 연결 보장
+        await self._ensure_connected()
+
+        # 비즈니스 로직 구현
+        result = await self.neo4j_client.run_query(
+            "MATCH (n) WHERE n.name = $name RETURN n LIMIT $limit",
+            {"name": param1, "limit": param2}
+        )
+
+        return self._format_success({"results": result, "count": len(result)})
+```
+
+**핵심 포인트:**
+- `BaseHandler` 상속으로 `self.server`, `self.neo4j_client` 자동 접근
+- `@safe_execute` 데코레이터가 예외를 표준 에러 응답으로 변환
+- `_require_neo4j()` / `_ensure_connected()`로 Neo4j 가용성 검증
+
+### 2. `handlers/__init__.py`에 등록
+
+```python
+# src/medical_mcp/handlers/__init__.py
+from .my_new_handler import MyNewHandler
+
+__all__ = [
+    # ... 기존 핸들러 ...
+    "MyNewHandler",
+]
+```
+
+### 3. `_init_handlers()`에서 인스턴스 생성
+
+`src/medical_mcp/medical_kag_server.py`의 `_init_handlers()` 메서드에 추가:
+
+```python
+def _init_handlers(self) -> None:
+    # ... 기존 핸들러 ...
+    self.my_new_handler = MyNewHandler(self)
+```
+
+### 4. 디스패처 함수 작성
+
+`medical_kag_server.py`의 Tool Registry 영역(약 3610줄 부근)에 디스패처 추가:
+
+```python
+async def _dispatch_my_new(action: str, args: dict) -> dict:
+    """My new tool dispatcher."""
+    if action == "my_action":
+        return await kag_server.my_new_handler.my_action(
+            args.get("param1", ""), args.get("param2", 10))
+    return {"success": False, "error": f"Unknown my_new action: {action}"}
+```
+
+### 5. `_tool_dispatchers` 딕셔너리에 등록
+
+```python
+_tool_dispatchers = {
+    # ... 기존 디스패처 ...
+    "my_new": _dispatch_my_new,
+}
+```
+
+### 6. MCP Tool 스키마 정의
+
+`create_server()` 함수 내 `@server.list_tools()` 섹션에 도구 스키마를 추가합니다:
+
+```python
+Tool(
+    name="my_new",
+    description="새 도구 설명",
+    inputSchema={
+        "type": "object",
+        "properties": {
+            "action": {
+                "type": "string",
+                "enum": ["my_action"],
+                "description": "수행할 액션"
+            },
+            "param1": {"type": "string", "description": "파라미터 설명"},
+            "param2": {"type": "integer", "description": "파라미터 설명", "default": 10},
+        },
+        "required": ["action"]
+    }
+)
+```
+
+### 7. 테스트 작성
+
+```python
+# tests/test_my_new_handler.py
+import pytest
+from unittest.mock import AsyncMock, MagicMock
+
+class TestMyNewHandler:
+    @pytest.fixture
+    def handler(self):
+        from medical_mcp.handlers.my_new_handler import MyNewHandler
+        mock_server = MagicMock()
+        mock_server.neo4j_client = AsyncMock()
+        return MyNewHandler(mock_server)
+
+    @pytest.mark.asyncio
+    async def test_my_action(self, handler):
+        handler.server.neo4j_client.run_query = AsyncMock(return_value=[{"name": "test"}])
+        result = await handler.my_action("test", 5)
+        assert result["success"] is True
+```
+
+### 체크리스트
+
+새 MCP 도구 추가 시 확인사항:
+
+- [ ] `BaseHandler` 상속, `@safe_execute` 데코레이터 적용
+- [ ] `handlers/__init__.py` exports 업데이트
+- [ ] `_init_handlers()` 에 인스턴스 생성 추가
+- [ ] `_dispatch_xxx()` 디스패처 함수 작성
+- [ ] `_tool_dispatchers` 딕셔너리에 등록
+- [ ] `@server.list_tools()` 에 Tool 스키마 추가
+- [ ] 유닛 테스트 작성
+- [ ] `docs/MCP_USAGE_GUIDE.md` 에 사용법 문서화
 
 ---
 

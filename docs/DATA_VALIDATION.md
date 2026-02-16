@@ -1,0 +1,1013 @@
+# Spine GraphRAG - Data Validation (DV) 체크리스트
+
+> **목적**: Neo4j 데이터베이스의 무결성, 완전성, 품질을 검증
+> **대상**: 논문 임포트 후, 주간 정기 점검, 또는 데이터 관련 버그 수정 후
+> **실행**: Claude Code에서 프롬프트 복사 → 붙여넣기로 실행
+> **전제**: Docker Neo4j 컨테이너가 실행 중이어야 합니다 (`docker-compose ps`)
+
+---
+
+## Quick Start
+
+```
+docs/DATA_VALIDATION.md의 전체 DV를 실행해줘. 병렬로 처리 가능한 항목은 병렬로 진행해줘.
+```
+
+부분 실행:
+
+```
+docs/DATA_VALIDATION.md의 Phase 1만 실행해줘.
+docs/DATA_VALIDATION.md의 Phase 3만 실행해줘.
+```
+
+---
+
+## QC / CA / DV 관계
+
+| 체크리스트 | 대상 | 질문 | 실행 빈도 | 소요 |
+|-----------|------|------|----------|------|
+| **QC** | 문서/설정 | "문서가 코드와 맞는가?" | 매 릴리스 | 3-5분 |
+| **CA** | 소스 코드 | "코드가 건강한가?" | 분기별 | 10-20분 |
+| **DV** | Neo4j DB | "데이터가 완전한가?" | 임포트 후 / 주간 | 3-5분 |
+
+---
+
+## 공통 실행 패턴
+
+모든 DV 체크는 Neo4j에 Cypher 쿼리를 실행합니다. 아래 패턴을 기본으로 사용합니다:
+
+```bash
+cd /Users/sangminpark/Documents/rag_research
+PYTHONPATH=./src python3 -c "
+import os; from neo4j import GraphDatabase
+driver = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', os.environ['NEO4J_PASSWORD']))
+with driver.session() as s:
+    # Cypher 쿼리 실행
+    pass
+driver.close()
+"
+```
+
+---
+
+## Phase 1: 노드 무결성 (병렬 실행)
+
+> 노드의 필수 속성, 고아 노드, 중복, 전체 현황을 점검합니다.
+
+### 1.1 필수 속성 검증
+
+Paper와 Chunk 노드에 필수 속성이 모두 채워져 있는지 확인합니다.
+
+**명령어:**
+```bash
+cd /Users/sangminpark/Documents/rag_research
+PYTHONPATH=./src python3 -c "
+import os; from neo4j import GraphDatabase
+driver = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', os.environ['NEO4J_PASSWORD']))
+with driver.session() as s:
+    print('=== Paper 필수 속성 검증 ===')
+    r = s.run('''
+        MATCH (p:Paper)
+        WITH p,
+            CASE WHEN p.paper_id IS NULL OR p.paper_id = '' THEN 1 ELSE 0 END AS no_id,
+            CASE WHEN p.title IS NULL OR p.title = '' THEN 1 ELSE 0 END AS no_title
+        WITH count(p) AS total,
+            sum(no_id) AS missing_id,
+            sum(no_title) AS missing_title
+        RETURN total, missing_id, missing_title
+    ''')
+    rec = r.single()
+    print(f'  총 Paper: {rec[\"total\"]}')
+    print(f'  paper_id 누락: {rec[\"missing_id\"]} {\"✅\" if rec[\"missing_id\"]==0 else \"❌\"}')
+    print(f'  title 누락: {rec[\"missing_title\"]} {\"✅\" if rec[\"missing_title\"]==0 else \"❌\"}')
+
+    print()
+    print('=== Chunk 필수 속성 검증 ===')
+    r = s.run('''
+        MATCH (c:Chunk)
+        WITH c,
+            CASE WHEN c.chunk_id IS NULL OR c.chunk_id = '' THEN 1 ELSE 0 END AS no_id,
+            CASE WHEN c.paper_id IS NULL OR c.paper_id = '' THEN 1 ELSE 0 END AS no_paper
+        WITH count(c) AS total,
+            sum(no_id) AS missing_id,
+            sum(no_paper) AS missing_paper
+        RETURN total, missing_id, missing_paper
+    ''')
+    rec = r.single()
+    print(f'  총 Chunk: {rec[\"total\"]}')
+    print(f'  chunk_id 누락: {rec[\"missing_id\"]} {\"✅\" if rec[\"missing_id\"]==0 else \"❌\"}')
+    print(f'  paper_id 누락: {rec[\"missing_paper\"]} {\"✅\" if rec[\"missing_paper\"]==0 else \"❌\"}')
+
+    print()
+    print('=== Entity 필수 속성 (name) 검증 ===')
+    for label in ['Pathology', 'Anatomy', 'Intervention', 'Outcome']:
+        r = s.run(f'''
+            MATCH (n:{label})
+            WHERE n.name IS NULL OR n.name = ''
+            RETURN count(n) AS cnt
+        ''')
+        cnt = r.single()['cnt']
+        print(f'  {label} name 누락: {cnt} {\"✅\" if cnt==0 else \"❌\"}')
+driver.close()
+"
+```
+
+**기대 결과:** 모든 필수 속성 누락 = 0 ✅
+
+### 1.2 고아 노드 탐지
+
+어떤 Paper와도 연결되지 않은 Entity 노드를 찾습니다. 정규화 오류나 삭제 잔여물일 수 있습니다.
+
+**명령어:**
+```bash
+cd /Users/sangminpark/Documents/rag_research
+PYTHONPATH=./src python3 -c "
+import os; from neo4j import GraphDatabase
+driver = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', os.environ['NEO4J_PASSWORD']))
+with driver.session() as s:
+    print('=== 고아 노드 탐지 ===')
+
+    # Pathology: Paper에서 STUDIES 관계 없음
+    r = s.run('''
+        MATCH (n:Pathology)
+        WHERE NOT (n)<-[:STUDIES]-(:Paper)
+        RETURN n.name AS name ORDER BY name
+    ''')
+    orphans = [rec['name'] for rec in r]
+    print(f'Pathology 고아: {len(orphans)} {\"✅\" if len(orphans)==0 else \"⚠️\"}')
+    for name in orphans[:10]: print(f'  - {name}')
+
+    # Intervention: Paper에서 INVESTIGATES 관계 없음 (IS_A만 있는 taxonomy 노드 제외)
+    r = s.run('''
+        MATCH (n:Intervention)
+        WHERE NOT (n)<-[:INVESTIGATES]-(:Paper)
+          AND NOT (n)<-[:IS_A]-(:Intervention)
+          AND NOT (n)-[:IS_A]->(:Intervention)
+        RETURN n.name AS name ORDER BY name
+    ''')
+    orphans = [rec['name'] for rec in r]
+    print(f'Intervention 고아 (taxonomy 제외): {len(orphans)} {\"✅\" if len(orphans)==0 else \"⚠️\"}')
+    for name in orphans[:10]: print(f'  - {name}')
+
+    # Outcome: Paper-Intervention AFFECTS 관계 없음
+    r = s.run('''
+        MATCH (n:Outcome)
+        WHERE NOT ()-[:AFFECTS]->(n)
+        RETURN n.name AS name ORDER BY name
+    ''')
+    orphans = [rec['name'] for rec in r]
+    print(f'Outcome 고아: {len(orphans)} {\"✅\" if len(orphans)==0 else \"⚠️\"}')
+    for name in orphans[:10]: print(f'  - {name}')
+
+    # Chunk: Paper에서 HAS_CHUNK 관계 없음
+    r = s.run('''
+        MATCH (c:Chunk)
+        WHERE NOT (c)<-[:HAS_CHUNK]-(:Paper)
+        RETURN c.chunk_id AS id, c.paper_id AS paper_id
+    ''')
+    orphans = [rec for rec in r]
+    print(f'Chunk 고아: {len(orphans)} {\"✅\" if len(orphans)==0 else \"❌\"}')
+    for rec in orphans[:5]: print(f'  - chunk_id={rec[\"id\"]}, paper_id={rec[\"paper_id\"]}')
+driver.close()
+"
+```
+
+**기대 결과:**
+- Pathology/Outcome 고아: 0 (⚠️ 있으면 정리 권장)
+- Intervention 고아: taxonomy 전용 노드는 정상이므로 제외 후 0
+- Chunk 고아: 0 (❌ 있으면 데이터 오류)
+
+### 1.3 중복 노드 탐지
+
+같은 이름의 엔티티가 여러 개 존재하는지 확인합니다. UNIQUE 제약이 있으므로 같은 라벨 내 중복은 불가하지만, **다른 라벨 간** 이름 충돌이나 대소문자 변형을 확인합니다.
+
+**명령어:**
+```bash
+cd /Users/sangminpark/Documents/rag_research
+PYTHONPATH=./src python3 -c "
+import os; from neo4j import GraphDatabase
+driver = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', os.environ['NEO4J_PASSWORD']))
+with driver.session() as s:
+    print('=== 동일 라벨 내 대소문자 변형 중복 ===')
+    for label in ['Pathology', 'Anatomy', 'Intervention', 'Outcome']:
+        r = s.run(f'''
+            MATCH (n:{label})
+            WITH toLower(trim(n.name)) AS normalized, collect(n.name) AS names
+            WHERE size(names) > 1
+            RETURN normalized, names
+        ''')
+        dupes = [(rec['normalized'], rec['names']) for rec in r]
+        print(f'{label} 대소문자 중복: {len(dupes)} {\"✅\" if len(dupes)==0 else \"⚠️\"}')
+        for norm, names in dupes[:5]:
+            print(f'  - \"{norm}\": {names}')
+
+    print()
+    print('=== 라벨 간 이름 충돌 ===')
+    r = s.run('''
+        MATCH (a:Pathology), (b:Intervention)
+        WHERE toLower(a.name) = toLower(b.name)
+        RETURN a.name AS pathology, b.name AS intervention
+    ''')
+    conflicts = [(rec['pathology'], rec['intervention']) for rec in r]
+    print(f'Pathology-Intervention 이름 충돌: {len(conflicts)} {\"✅\" if len(conflicts)==0 else \"⚠️\"}')
+    for p, i in conflicts[:5]: print(f'  - Pathology=\"{p}\" vs Intervention=\"{i}\"')
+driver.close()
+"
+```
+
+**기대 결과:** 중복/충돌 = 0 ✅
+
+### 1.4 노드 수 현황 (대시보드)
+
+전체 노드/관계 수를 한눈에 확인합니다. 이전 실행 결과와 비교하여 이상 변화를 감지합니다.
+
+**명령어:**
+```bash
+cd /Users/sangminpark/Documents/rag_research
+PYTHONPATH=./src python3 -c "
+import os; from neo4j import GraphDatabase
+driver = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', os.environ['NEO4J_PASSWORD']))
+with driver.session() as s:
+    print('=== 노드 현황 ===')
+    r = s.run('''
+        MATCH (n)
+        RETURN labels(n)[0] AS label, count(n) AS cnt
+        ORDER BY cnt DESC
+    ''')
+    total = 0
+    for rec in r:
+        print(f'  {rec[\"label\"]:20s}: {rec[\"cnt\"]:>6d}')
+        total += rec['cnt']
+    print(f'  {\"TOTAL\":20s}: {total:>6d}')
+
+    print()
+    print('=== 관계 현황 ===')
+    r = s.run('''
+        MATCH ()-[r]->()
+        RETURN type(r) AS rel_type, count(r) AS cnt
+        ORDER BY cnt DESC
+    ''')
+    total = 0
+    for rec in r:
+        print(f'  {rec[\"rel_type\"]:20s}: {rec[\"cnt\"]:>6d}')
+        total += rec['cnt']
+    print(f'  {\"TOTAL\":20s}: {total:>6d}')
+driver.close()
+"
+```
+
+**기대 결과:** 숫자 확인 (이전 결과와 비교용 — 급격한 변화 시 조사 필요)
+
+---
+
+## Phase 2: 관계 무결성 (병렬 실행)
+
+> Paper-Entity 관계, Taxonomy 계층, 추론 관계의 건전성을 점검합니다.
+
+### 2.1 고립 Paper 탐지
+
+STUDIES, INVESTIGATES, HAS_CHUNK 관계가 하나도 없는 Paper를 찾습니다. 임포트 실패 또는 관계 생성 버그를 의미합니다.
+
+**명령어:**
+```bash
+cd /Users/sangminpark/Documents/rag_research
+PYTHONPATH=./src python3 -c "
+import os; from neo4j import GraphDatabase
+driver = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', os.environ['NEO4J_PASSWORD']))
+with driver.session() as s:
+    print('=== 고립 Paper 탐지 ===')
+
+    # 관계 전혀 없는 Paper
+    r = s.run('''
+        MATCH (p:Paper)
+        WHERE NOT (p)-[:STUDIES]->()
+          AND NOT (p)-[:INVESTIGATES]->()
+          AND NOT (p)-[:HAS_CHUNK]->()
+        RETURN p.paper_id AS id, p.title AS title, p.doi AS doi
+        ORDER BY p.paper_id
+    ''')
+    isolated = [rec for rec in r]
+    print(f'완전 고립 Paper (관계 0개): {len(isolated)} {\"✅\" if len(isolated)==0 else \"❌\"}')
+    for rec in isolated[:10]:
+        title = (rec['title'] or '')[:60]
+        print(f'  - {rec[\"id\"]}: {title}...')
+
+    print()
+    # STUDIES만 없는 Paper (Pathology 추출 실패)
+    r = s.run('''
+        MATCH (p:Paper)
+        WHERE NOT (p)-[:STUDIES]->()
+          AND ((p)-[:INVESTIGATES]->() OR (p)-[:HAS_CHUNK]->())
+        RETURN count(p) AS cnt
+    ''')
+    cnt = r.single()['cnt']
+    print(f'STUDIES 누락 Paper: {cnt} {\"✅\" if cnt==0 else \"⚠️\"}')
+
+    # HAS_CHUNK 없는 Paper (Chunk 생성 실패)
+    r = s.run('''
+        MATCH (p:Paper)
+        WHERE NOT (p)-[:HAS_CHUNK]->()
+        RETURN count(p) AS cnt
+    ''')
+    cnt = r.single()['cnt']
+    print(f'HAS_CHUNK 누락 Paper: {cnt} {\"✅\" if cnt==0 else \"⚠️\"}')
+driver.close()
+"
+```
+
+**기대 결과:** 완전 고립 Paper = 0 ❌ (있으면 즉시 조사)
+
+**복구 방법:** 고립 논문이 발견되면 `repair_isolated_papers.py` 스크립트로 복구:
+```bash
+# 전체 고립 논문 복구 (LLM으로 abstract 재분석 → 관계 구축)
+PYTHONPATH=./src python3 scripts/repair_isolated_papers.py --max-concurrent 5
+
+# 특정 논문만 복구
+PYTHONPATH=./src python3 scripts/repair_isolated_papers.py --paper-ids "pubmed_12345,pubmed_67890"
+
+# Dry-run (실제 DB 변경 없이 추출 결과만 확인)
+PYTHONPATH=./src python3 scripts/repair_isolated_papers.py --dry-run
+```
+
+### 2.2 IS_A 계층 무결성
+
+Intervention taxonomy의 IS_A 관계에 순환 참조가 없고, 루트 노드가 올바른지 확인합니다.
+
+**명령어:**
+```bash
+cd /Users/sangminpark/Documents/rag_research
+PYTHONPATH=./src python3 -c "
+import os; from neo4j import GraphDatabase
+driver = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', os.environ['NEO4J_PASSWORD']))
+with driver.session() as s:
+    print('=== IS_A 계층 무결성 ===')
+
+    # 순환 참조 탐지
+    r = s.run('''
+        MATCH path = (a:Intervention)-[:IS_A*2..10]->(b:Intervention)
+        WHERE a = b
+        RETURN a.name AS name, length(path) AS cycle_length
+        LIMIT 10
+    ''')
+    cycles = [rec for rec in r]
+    print(f'순환 참조: {len(cycles)} {\"✅\" if len(cycles)==0 else \"❌\"}')
+    for rec in cycles: print(f'  - {rec[\"name\"]} (cycle length: {rec[\"cycle_length\"]})')
+
+    # 루트 노드 확인 (IS_A 부모가 없는 최상위 노드)
+    r = s.run('''
+        MATCH (n:Intervention)
+        WHERE NOT (n)-[:IS_A]->(:Intervention)
+          AND (n)<-[:IS_A]-(:Intervention)
+        RETURN n.name AS name ORDER BY name
+    ''')
+    roots = [rec['name'] for rec in r]
+    print(f'IS_A 루트 노드: {len(roots)}')
+    for name in roots: print(f'  - {name}')
+    expected_roots = ['Spine Surgery']
+    if roots == expected_roots:
+        print('  루트 정상 ✅')
+    else:
+        print(f'  기대 루트: {expected_roots} ⚠️')
+
+    # 계층 깊이 분포
+    r = s.run('''
+        MATCH path = (child:Intervention)-[:IS_A*1..10]->(root:Intervention)
+        WHERE NOT (root)-[:IS_A]->(:Intervention)
+        RETURN length(path) AS depth, count(*) AS cnt
+        ORDER BY depth
+    ''')
+    print('IS_A 깊이 분포:')
+    for rec in r:
+        print(f'  depth {rec[\"depth\"]}: {rec[\"cnt\"]}개')
+driver.close()
+"
+```
+
+**기대 결과:** 순환 참조 = 0, 루트 = "Spine Surgery" 단일 노드
+
+### 2.3 TREATS 백필 상태
+
+Intervention→Pathology TREATS 관계가 적절히 생성되었는지 확인합니다. Paper가 Intervention을 INVESTIGATES하고 Pathology를 STUDIES하면, 해당 Intervention→Pathology에 TREATS가 있어야 합니다.
+
+**명령어:**
+```bash
+cd /Users/sangminpark/Documents/rag_research
+PYTHONPATH=./src python3 -c "
+import os; from neo4j import GraphDatabase
+driver = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', os.environ['NEO4J_PASSWORD']))
+with driver.session() as s:
+    print('=== TREATS 백필 상태 ===')
+
+    # 현재 TREATS 관계 수
+    r = s.run('MATCH ()-[r:TREATS]->() RETURN count(r) AS cnt')
+    treats_cnt = r.single()['cnt']
+    print(f'현재 TREATS 관계: {treats_cnt}')
+
+    # 백필 가능한 (아직 TREATS 없는) 조합
+    r = s.run('''
+        MATCH (p:Paper)-[:INVESTIGATES]->(i:Intervention),
+              (p)-[:STUDIES]->(path:Pathology)
+        WHERE NOT (i)-[:TREATS]->(path)
+        RETURN i.name AS intervention, path.name AS pathology, count(p) AS paper_count
+        ORDER BY paper_count DESC
+        LIMIT 15
+    ''')
+    missing = [rec for rec in r]
+    print(f'TREATS 미생성 조합: {len(missing)} {\"✅\" if len(missing)==0 else \"⚠️\"}')
+    for rec in missing[:10]:
+        print(f'  - {rec[\"intervention\"]} → {rec[\"pathology\"]} ({rec[\"paper_count\"]}편)')
+
+    # TREATS paper_count 속성 정합성
+    r = s.run('''
+        MATCH (i:Intervention)-[t:TREATS]->(path:Pathology)
+        OPTIONAL MATCH (p:Paper)-[:INVESTIGATES]->(i), (p)-[:STUDIES]->(path)
+        WITH i, path, t, count(p) AS actual_count
+        WHERE t.paper_count <> actual_count
+        RETURN i.name AS intervention, path.name AS pathology,
+               t.paper_count AS recorded, actual_count
+        LIMIT 10
+    ''')
+    mismatches = [rec for rec in r]
+    print(f'TREATS paper_count 불일치: {len(mismatches)} {\"✅\" if len(mismatches)==0 else \"⚠️\"}')
+driver.close()
+"
+```
+
+**기대 결과:** 미생성 조합 = 0, paper_count 불일치 = 0
+
+### 2.4 AFFECTS 속성 완전성
+
+Intervention→Outcome AFFECTS 관계에 근거 데이터(p_value, direction, effect_size)가 채워져 있는지 확인합니다.
+
+**명령어:**
+```bash
+cd /Users/sangminpark/Documents/rag_research
+PYTHONPATH=./src python3 -c "
+import os; from neo4j import GraphDatabase
+driver = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', os.environ['NEO4J_PASSWORD']))
+with driver.session() as s:
+    print('=== AFFECTS 속성 완전성 ===')
+
+    r = s.run('''
+        MATCH (i:Intervention)-[r:AFFECTS]->(o:Outcome)
+        WITH count(r) AS total,
+            sum(CASE WHEN r.p_value IS NOT NULL THEN 1 ELSE 0 END) AS has_pvalue,
+            sum(CASE WHEN r.direction IS NOT NULL THEN 1 ELSE 0 END) AS has_direction,
+            sum(CASE WHEN r.effect_size IS NOT NULL THEN 1 ELSE 0 END) AS has_effect,
+            sum(CASE WHEN r.is_significant IS NOT NULL THEN 1 ELSE 0 END) AS has_sig
+        RETURN total, has_pvalue, has_direction, has_effect, has_sig
+    ''')
+    rec = r.single()
+    total = rec['total']
+    if total > 0:
+        print(f'총 AFFECTS 관계: {total}')
+        print(f'  p_value 있음: {rec[\"has_pvalue\"]}/{total} ({rec[\"has_pvalue\"]*100//total}%)')
+        print(f'  direction 있음: {rec[\"has_direction\"]}/{total} ({rec[\"has_direction\"]*100//total}%)')
+        print(f'  effect_size 있음: {rec[\"has_effect\"]}/{total} ({rec[\"has_effect\"]*100//total}%)')
+        print(f'  is_significant 있음: {rec[\"has_sig\"]}/{total} ({rec[\"has_sig\"]*100//total}%)')
+    else:
+        print('AFFECTS 관계 없음 ⚠️')
+driver.close()
+"
+```
+
+**기대 결과:** p_value, direction 비율이 높을수록 좋음 (100%는 비현실적, 50%+ 권장)
+
+---
+
+## Phase 3: 임베딩 & 검색 품질 (병렬 실행)
+
+> 벡터 인덱스와 임베딩 완전성을 점검합니다. 누락된 임베딩은 하이브리드 검색의 사각지대입니다.
+
+### 3.1 Chunk 임베딩 완전성
+
+모든 Chunk에 3072차원 임베딩이 있는지 확인합니다.
+
+**명령어:**
+```bash
+cd /Users/sangminpark/Documents/rag_research
+PYTHONPATH=./src python3 -c "
+import os; from neo4j import GraphDatabase
+driver = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', os.environ['NEO4J_PASSWORD']))
+with driver.session() as s:
+    print('=== Chunk 임베딩 완전성 ===')
+
+    r = s.run('''
+        MATCH (c:Chunk)
+        WITH count(c) AS total,
+            sum(CASE WHEN c.embedding IS NOT NULL THEN 1 ELSE 0 END) AS has_embedding
+        RETURN total, has_embedding, total - has_embedding AS missing
+    ''')
+    rec = r.single()
+    total = rec['total']
+    missing = rec['missing']
+    pct = rec['has_embedding']*100//total if total > 0 else 0
+    print(f'총 Chunk: {total}')
+    print(f'임베딩 있음: {rec[\"has_embedding\"]} ({pct}%)')
+    print(f'임베딩 누락: {missing} {\"✅\" if missing==0 else \"❌\"}')
+
+    if missing > 0:
+        r = s.run('''
+            MATCH (c:Chunk)
+            WHERE c.embedding IS NULL
+            RETURN c.chunk_id AS id, c.paper_id AS paper_id, c.section AS section
+            LIMIT 10
+        ''')
+        print('누락 Chunk 샘플:')
+        for rec in r:
+            print(f'  - {rec[\"id\"]} (paper: {rec[\"paper_id\"]}, section: {rec[\"section\"]})')
+driver.close()
+"
+```
+
+**기대 결과:** 임베딩 누락 = 0 ✅
+
+### 3.2 Paper Abstract 임베딩 완전성
+
+Abstract가 있는 Paper에 abstract_embedding이 있는지 확인합니다.
+
+**명령어:**
+```bash
+cd /Users/sangminpark/Documents/rag_research
+PYTHONPATH=./src python3 -c "
+import os; from neo4j import GraphDatabase
+driver = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', os.environ['NEO4J_PASSWORD']))
+with driver.session() as s:
+    print('=== Paper Abstract 임베딩 완전성 ===')
+
+    r = s.run('''
+        MATCH (p:Paper)
+        WHERE p.abstract IS NOT NULL AND p.abstract <> ''
+        WITH count(p) AS has_abstract,
+            sum(CASE WHEN p.abstract_embedding IS NOT NULL THEN 1 ELSE 0 END) AS has_embedding
+        RETURN has_abstract, has_embedding, has_abstract - has_embedding AS missing
+    ''')
+    rec = r.single()
+    has_abstract = rec['has_abstract']
+    missing = rec['missing']
+    pct = rec['has_embedding']*100//has_abstract if has_abstract > 0 else 0
+    print(f'Abstract 있는 Paper: {has_abstract}')
+    print(f'Abstract 임베딩 있음: {rec[\"has_embedding\"]} ({pct}%)')
+    print(f'Abstract 임베딩 누락: {missing} {\"✅\" if missing==0 else \"⚠️\"}')
+driver.close()
+"
+```
+
+**기대 결과:** 누락 = 0 ✅ (⚠️ 있으면 재임베딩 권장)
+
+### 3.3 벡터 인덱스 상태
+
+Neo4j 벡터 인덱스가 정상 동작하는지 확인합니다.
+
+**명령어:**
+```bash
+cd /Users/sangminpark/Documents/rag_research
+PYTHONPATH=./src python3 -c "
+import os; from neo4j import GraphDatabase
+driver = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', os.environ['NEO4J_PASSWORD']))
+with driver.session() as s:
+    print('=== 벡터 인덱스 상태 ===')
+
+    r = s.run('''
+        SHOW INDEXES
+        YIELD name, type, state, populationPercent, entityType, labelsOrTypes, properties
+        WHERE type = 'VECTOR'
+        RETURN name, state, populationPercent, labelsOrTypes, properties
+    ''')
+    indexes = [rec for rec in r]
+    if not indexes:
+        print('벡터 인덱스 없음 ❌')
+    else:
+        for idx in indexes:
+            state_ok = idx['state'] == 'ONLINE'
+            pop_ok = idx['populationPercent'] == 100.0
+            print(f'{idx[\"name\"]}:')
+            print(f'  상태: {idx[\"state\"]} {\"✅\" if state_ok else \"❌\"}')
+            print(f'  인덱싱: {idx[\"populationPercent\"]}% {\"✅\" if pop_ok else \"⚠️\"}')
+            print(f'  대상: {idx[\"labelsOrTypes\"]}.{idx[\"properties\"]}')
+
+    expected = ['chunk_embedding_index', 'paper_abstract_index']
+    found = [idx['name'] for idx in indexes]
+    for name in expected:
+        if name not in found:
+            print(f'{name} 인덱스 누락 ❌')
+driver.close()
+"
+```
+
+**기대 결과:** 2개 벡터 인덱스 ONLINE, populationPercent = 100%
+
+---
+
+## Phase 4: 식별자 & SNOMED (병렬 실행)
+
+> 외부 식별자(DOI, PMID)와 SNOMED 매핑의 완전성을 점검합니다.
+
+### 4.1 DOI / PMID 완전성
+
+v1.18.0에서 수정된 DOI NULL 버그의 재발을 감시합니다.
+
+**명령어:**
+```bash
+cd /Users/sangminpark/Documents/rag_research
+PYTHONPATH=./src python3 -c "
+import os; from neo4j import GraphDatabase
+driver = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', os.environ['NEO4J_PASSWORD']))
+with driver.session() as s:
+    print('=== DOI / PMID 완전성 ===')
+
+    r = s.run('''
+        MATCH (p:Paper)
+        WITH count(p) AS total,
+            sum(CASE WHEN p.doi IS NOT NULL AND p.doi <> '' THEN 1 ELSE 0 END) AS has_doi,
+            sum(CASE WHEN p.pmid IS NOT NULL AND p.pmid <> '' THEN 1 ELSE 0 END) AS has_pmid,
+            sum(CASE WHEN p.pmc_id IS NOT NULL AND p.pmc_id <> '' THEN 1 ELSE 0 END) AS has_pmc
+        RETURN total, has_doi, has_pmid, has_pmc
+    ''')
+    rec = r.single()
+    total = rec['total']
+    print(f'총 Paper: {total}')
+    if total > 0:
+        print(f'  DOI 있음: {rec[\"has_doi\"]}/{total} ({rec[\"has_doi\"]*100//total}%)')
+        print(f'  PMID 있음: {rec[\"has_pmid\"]}/{total} ({rec[\"has_pmid\"]*100//total}%)')
+        print(f'  PMC ID 있음: {rec[\"has_pmc\"]}/{total} ({rec[\"has_pmc\"]*100//total}%)')
+
+    # DOI NULL인 Paper 목록
+    r = s.run('''
+        MATCH (p:Paper)
+        WHERE p.doi IS NULL OR p.doi = ''
+        RETURN p.paper_id AS id, p.title AS title, p.pmid AS pmid
+        ORDER BY p.paper_id
+    ''')
+    no_doi = [rec for rec in r]
+    print(f'  DOI 누락 Paper: {len(no_doi)} {\"✅\" if len(no_doi)==0 else \"⚠️\"}')
+    for rec in no_doi[:10]:
+        title = (rec['title'] or '')[:50]
+        print(f'    - {rec[\"id\"]}: {title}... (PMID: {rec[\"pmid\"]})')
+driver.close()
+"
+```
+
+**기대 결과:** DOI 비율 90%+, PMID 비율 90%+ (일부 preprint/thesis는 없을 수 있음)
+
+### 4.2 SNOMED 매핑 커버리지
+
+각 엔티티 타입별 SNOMED 코드 매핑 비율을 확인합니다.
+
+**명령어:**
+```bash
+cd /Users/sangminpark/Documents/rag_research
+PYTHONPATH=./src python3 -c "
+import os; from neo4j import GraphDatabase
+driver = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', os.environ['NEO4J_PASSWORD']))
+with driver.session() as s:
+    print('=== SNOMED 매핑 커버리지 ===')
+
+    for label in ['Intervention', 'Pathology', 'Outcome', 'Anatomy']:
+        r = s.run(f'''
+            MATCH (n:{label})
+            WITH count(n) AS total,
+                sum(CASE WHEN n.snomed_code IS NOT NULL AND n.snomed_code <> '' THEN 1 ELSE 0 END) AS mapped,
+                sum(CASE WHEN n.snomed_is_extension = true THEN 1 ELSE 0 END) AS extension
+            RETURN total, mapped, extension
+        ''')
+        rec = r.single()
+        total = rec['total']
+        mapped = rec['mapped']
+        pct = mapped*100//total if total > 0 else 0
+        print(f'{label}: {mapped}/{total} ({pct}%) mapped, {rec[\"extension\"]} extension')
+
+        # 매핑 안 된 것 목록
+        if total > mapped:
+            r = s.run(f'''
+                MATCH (n:{label})
+                WHERE n.snomed_code IS NULL OR n.snomed_code = ''
+                RETURN n.name AS name ORDER BY name LIMIT 10
+            ''')
+            unmapped = [rec['name'] for rec in r]
+            for name in unmapped:
+                print(f'  미매핑: {name}')
+driver.close()
+"
+```
+
+**기대 결과:** 매핑 비율 높을수록 좋음 (신규 엔티티는 미매핑 가능)
+
+### 4.3 SNOMED 코드 유효성
+
+SNOMED 코드가 올바른 형식(숫자만, 적절한 길이)인지 확인합니다.
+
+**명령어:**
+```bash
+cd /Users/sangminpark/Documents/rag_research
+PYTHONPATH=./src python3 -c "
+from neo4j import GraphDatabase
+import re
+driver = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', os.environ['NEO4J_PASSWORD']))
+with driver.session() as s:
+    print('=== SNOMED 코드 유효성 ===')
+
+    for label in ['Intervention', 'Pathology', 'Outcome', 'Anatomy']:
+        r = s.run(f'''
+            MATCH (n:{label})
+            WHERE n.snomed_code IS NOT NULL AND n.snomed_code <> ''
+            RETURN n.name AS name, n.snomed_code AS code
+        ''')
+        invalid = []
+        for rec in r:
+            code = str(rec['code'])
+            # SNOMED 코드는 숫자만, 6-18자리
+            if not re.match(r'^\d{6,18}$', code):
+                invalid.append((rec['name'], code))
+        print(f'{label} 유효하지 않은 코드: {len(invalid)} {\"✅\" if len(invalid)==0 else \"⚠️\"}')
+        for name, code in invalid[:5]:
+            print(f'  - {name}: \"{code}\"')
+driver.close()
+"
+```
+
+**기대 결과:** 유효하지 않은 코드 = 0 ✅
+
+---
+
+## Phase 5: 데이터 품질 (병렬 실행)
+
+> 콘텐츠 품질, 분포 이상, 중복을 점검합니다.
+
+### 5.1 콘텐츠 품질
+
+Paper의 주요 텍스트 필드가 적절하게 채워져 있는지 확인합니다.
+
+**명령어:**
+```bash
+cd /Users/sangminpark/Documents/rag_research
+PYTHONPATH=./src python3 -c "
+import os; from neo4j import GraphDatabase
+driver = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', os.environ['NEO4J_PASSWORD']))
+with driver.session() as s:
+    print('=== Paper 콘텐츠 품질 ===')
+
+    r = s.run('''
+        MATCH (p:Paper)
+        WITH count(p) AS total,
+            sum(CASE WHEN p.abstract IS NOT NULL AND size(p.abstract) > 50 THEN 1 ELSE 0 END) AS has_abstract,
+            sum(CASE WHEN p.year IS NOT NULL THEN 1 ELSE 0 END) AS has_year,
+            sum(CASE WHEN p.evidence_level IS NOT NULL AND p.evidence_level <> '' THEN 1 ELSE 0 END) AS has_evidence,
+            sum(CASE WHEN p.study_design IS NOT NULL AND p.study_design <> '' THEN 1 ELSE 0 END) AS has_design,
+            sum(CASE WHEN p.authors IS NOT NULL THEN 1 ELSE 0 END) AS has_authors,
+            sum(CASE WHEN p.summary IS NOT NULL AND size(p.summary) > 100 THEN 1 ELSE 0 END) AS has_summary
+        RETURN total, has_abstract, has_year, has_evidence, has_design, has_authors, has_summary
+    ''')
+    rec = r.single()
+    total = rec['total']
+    print(f'총 Paper: {total}')
+    if total > 0:
+        for field, key in [('Abstract (50자+)', 'has_abstract'), ('Year', 'has_year'),
+                           ('Evidence Level', 'has_evidence'), ('Study Design', 'has_design'),
+                           ('Authors', 'has_authors'), ('Summary (100자+)', 'has_summary')]:
+            val = rec[key]
+            pct = val*100//total
+            status = '✅' if pct >= 80 else '⚠️' if pct >= 50 else '❌'
+            print(f'  {field:25s}: {val}/{total} ({pct}%) {status}')
+driver.close()
+"
+```
+
+**기대 결과:** Abstract, Year, Authors = 80%+ ✅
+
+### 5.2 분포 이상 탐지
+
+Evidence level, year, study_design의 분포를 확인합니다. 편향이나 이상값을 발견합니다.
+
+**명령어:**
+```bash
+cd /Users/sangminpark/Documents/rag_research
+PYTHONPATH=./src python3 -c "
+import os; from neo4j import GraphDatabase
+driver = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', os.environ['NEO4J_PASSWORD']))
+with driver.session() as s:
+    print('=== Evidence Level 분포 ===')
+    r = s.run('''
+        MATCH (p:Paper)
+        WHERE p.evidence_level IS NOT NULL AND p.evidence_level <> ''
+        RETURN p.evidence_level AS level, count(p) AS cnt
+        ORDER BY level
+    ''')
+    for rec in r:
+        print(f'  {rec[\"level\"]:10s}: {rec[\"cnt\"]}')
+
+    print()
+    print('=== Year 분포 ===')
+    r = s.run('''
+        MATCH (p:Paper)
+        WHERE p.year IS NOT NULL
+        RETURN p.year AS year, count(p) AS cnt
+        ORDER BY year DESC
+        LIMIT 15
+    ''')
+    for rec in r:
+        print(f'  {rec[\"year\"]}: {rec[\"cnt\"]}')
+
+    print()
+    print('=== Study Design 분포 ===')
+    r = s.run('''
+        MATCH (p:Paper)
+        WHERE p.study_design IS NOT NULL AND p.study_design <> ''
+        RETURN p.study_design AS design, count(p) AS cnt
+        ORDER BY cnt DESC
+        LIMIT 15
+    ''')
+    for rec in r:
+        print(f'  {rec[\"design\"]:30s}: {rec[\"cnt\"]}')
+driver.close()
+"
+```
+
+**기대 결과:** 분포 확인 (특정 level에 극단적 편중 시 임포트 편향 의심)
+
+### 5.3 중복 논문 탐지
+
+같은 DOI 또는 매우 유사한 제목을 가진 Paper가 있는지 확인합니다.
+
+**명령어:**
+```bash
+cd /Users/sangminpark/Documents/rag_research
+PYTHONPATH=./src python3 -c "
+import os; from neo4j import GraphDatabase
+driver = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', os.environ['NEO4J_PASSWORD']))
+with driver.session() as s:
+    print('=== 중복 DOI 탐지 ===')
+    r = s.run('''
+        MATCH (p:Paper)
+        WHERE p.doi IS NOT NULL AND p.doi <> ''
+        WITH p.doi AS doi, collect(p.paper_id) AS paper_ids
+        WHERE size(paper_ids) > 1
+        RETURN doi, paper_ids
+    ''')
+    dupes = [rec for rec in r]
+    print(f'중복 DOI: {len(dupes)} {\"✅\" if len(dupes)==0 else \"❌\"}')
+    for rec in dupes[:5]:
+        print(f'  - DOI: {rec[\"doi\"]} → papers: {rec[\"paper_ids\"]}')
+
+    print()
+    print('=== 유사 제목 탐지 ===')
+    r = s.run('''
+        MATCH (a:Paper), (b:Paper)
+        WHERE id(a) < id(b)
+          AND a.title IS NOT NULL AND b.title IS NOT NULL
+          AND toLower(a.title) = toLower(b.title)
+        RETURN a.paper_id AS id_a, b.paper_id AS id_b,
+               a.title AS title
+        LIMIT 10
+    ''')
+    similar = [rec for rec in r]
+    print(f'동일 제목 (대소문자 무시): {len(similar)} {\"✅\" if len(similar)==0 else \"⚠️\"}')
+    for rec in similar[:5]:
+        print(f'  - {rec[\"id_a\"]} vs {rec[\"id_b\"]}: {(rec[\"title\"] or \"\")[:60]}')
+driver.close()
+"
+```
+
+**기대 결과:** 중복 DOI = 0, 동일 제목 = 0
+
+### 5.4 Chunk 품질
+
+Chunk의 tier 분포, content 품질, paper_id 정합성을 확인합니다.
+
+**명령어:**
+```bash
+cd /Users/sangminpark/Documents/rag_research
+PYTHONPATH=./src python3 -c "
+import os; from neo4j import GraphDatabase
+driver = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', os.environ['NEO4J_PASSWORD']))
+with driver.session() as s:
+    print('=== Chunk Tier 분포 ===')
+    r = s.run('''
+        MATCH (c:Chunk)
+        RETURN c.tier AS tier, count(c) AS cnt
+        ORDER BY tier
+    ''')
+    for rec in r:
+        print(f'  Tier {rec[\"tier\"]}: {rec[\"cnt\"]}')
+
+    print()
+    print('=== Chunk Section 분포 ===')
+    r = s.run('''
+        MATCH (c:Chunk)
+        RETURN c.section AS section, count(c) AS cnt
+        ORDER BY cnt DESC
+        LIMIT 10
+    ''')
+    for rec in r:
+        print(f'  {str(rec[\"section\"]):20s}: {rec[\"cnt\"]}')
+
+    print()
+    print('=== 빈 Chunk Content 탐지 ===')
+    r = s.run('''
+        MATCH (c:Chunk)
+        WHERE c.content IS NULL OR c.content = ''
+        RETURN count(c) AS cnt
+    ''')
+    cnt = r.single()['cnt']
+    print(f'빈 content Chunk: {cnt} {\"✅\" if cnt==0 else \"❌\"}')
+
+    print()
+    print('=== Chunk paper_id ↔ Paper 정합성 ===')
+    r = s.run('''
+        MATCH (c:Chunk)
+        WHERE NOT exists {
+            MATCH (p:Paper {paper_id: c.paper_id})
+        }
+        RETURN count(c) AS cnt
+    ''')
+    cnt = r.single()['cnt']
+    print(f'존재하지 않는 paper_id 참조: {cnt} {\"✅\" if cnt==0 else \"❌\"}')
+driver.close()
+"
+```
+
+**기대 결과:** 빈 content = 0, paper_id 불일치 = 0
+
+---
+
+## DV 결과 보고 템플릿
+
+```markdown
+# Data Validation Report - vX.Y.Z (YYYY-MM-DD)
+
+## 데이터 현황
+- Paper: X개 | Chunk: X개
+- Pathology: X | Intervention: X | Outcome: X | Anatomy: X
+
+## Phase 1: 노드 무결성
+| 항목 | 상태 | 발견 사항 |
+|------|------|----------|
+| 1.1 필수 속성 | ✅/❌ | |
+| 1.2 고아 노드 | ✅/⚠️ | 개수: |
+| 1.3 중복 노드 | ✅/⚠️ | |
+| 1.4 노드 현황 | ℹ️ | Paper: X, Chunk: X |
+
+## Phase 2: 관계 무결성
+| 항목 | 상태 | 발견 사항 |
+|------|------|----------|
+| 2.1 고립 Paper | ✅/❌ | 개수: |
+| 2.2 IS_A 계층 | ✅/❌ | 순환: |
+| 2.3 TREATS 백필 | ✅/⚠️ | 미생성: |
+| 2.4 AFFECTS 속성 | ✅/⚠️ | p_value 비율: X% |
+
+## Phase 3: 임베딩 & 검색 품질
+| 항목 | 상태 | 발견 사항 |
+|------|------|----------|
+| 3.1 Chunk 임베딩 | ✅/❌ | 누락: |
+| 3.2 Paper 임베딩 | ✅/⚠️ | 누락: |
+| 3.3 벡터 인덱스 | ✅/❌ | |
+
+## Phase 4: 식별자 & SNOMED
+| 항목 | 상태 | 발견 사항 |
+|------|------|----------|
+| 4.1 DOI/PMID | ✅/⚠️ | DOI: X%, PMID: X% |
+| 4.2 SNOMED 커버리지 | ✅/⚠️ | 미매핑: |
+| 4.3 SNOMED 유효성 | ✅/⚠️ | |
+
+## Phase 5: 데이터 품질
+| 항목 | 상태 | 발견 사항 |
+|------|------|----------|
+| 5.1 콘텐츠 품질 | ✅/⚠️ | Abstract: X% |
+| 5.2 분포 이상 | ✅/⚠️ | |
+| 5.3 중복 논문 | ✅/❌ | |
+| 5.4 Chunk 품질 | ✅/❌ | |
+
+## 조치 사항
+- [ ] (수정 필요한 항목 나열)
+```
+
+---
+
+## 부록: 병렬 실행 구조
+
+```
+Phase 1 (병렬 4개)     Phase 2 (병렬 4개)     Phase 3 (병렬 3개)
+├─ 1.1 필수 속성       ├─ 2.1 고립 Paper       ├─ 3.1 Chunk 임베딩
+├─ 1.2 고아 노드       ├─ 2.2 IS_A 계층        ├─ 3.2 Paper 임베딩
+├─ 1.3 중복 노드       ├─ 2.3 TREATS 백필      └─ 3.3 벡터 인덱스
+└─ 1.4 노드 현황       └─ 2.4 AFFECTS 속성
+
+Phase 4 (병렬 3개)     Phase 5 (병렬 4개)
+├─ 4.1 DOI/PMID        ├─ 5.1 콘텐츠 품질
+├─ 4.2 SNOMED 커버리지 ├─ 5.2 분포 이상
+└─ 4.3 SNOMED 유효성   ├─ 5.3 중복 논문
+                       └─ 5.4 Chunk 품질
+```
+
+**예상 소요 시간:** 전체 약 3-5분 (병렬 실행 시)
+
+---
+
+## 부록: 관련 문서
+
+| 문서 | 역할 |
+|------|------|
+| [QC_CHECKLIST.md](QC_CHECKLIST.md) | 문서/설정 일관성 점검 (17개 체크) |
+| [CODE_AUDIT.md](CODE_AUDIT.md) | 코드 보안/성능/설계 심층 분석 (20개 체크) |
+| [GRAPH_SCHEMA.md](GRAPH_SCHEMA.md) | Neo4j 노드/관계 스키마 정의 |
+| [TERMINOLOGY_ONTOLOGY.md](TERMINOLOGY_ONTOLOGY.md) | SNOMED 매핑, Taxonomy 정의 |

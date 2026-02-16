@@ -16,13 +16,14 @@ from typing import TYPE_CHECKING, Optional
 if TYPE_CHECKING:
     from medical_mcp.medical_kag_server import MedicalKAGServer
 
+from medical_mcp.handlers.base_handler import BaseHandler, safe_execute
 from medical_mcp.handlers.utils import generate_document_id
 from storage import TextChunk
 
 logger = logging.getLogger(__name__)
 
 
-class JSONHandler:
+class JSONHandler(BaseHandler):
     """Handles JSON file import and processing operations."""
 
     def __init__(self, server: "MedicalKAGServer"):
@@ -31,8 +32,7 @@ class JSONHandler:
         Args:
             server: Parent MedicalKAGServer instance for accessing clients
         """
-        self.server = server
-        self.neo4j_client = server.neo4j_client
+        super().__init__(server)
         self.relationship_builder = server.relationship_builder
         self.citation_processor = server.citation_processor
 

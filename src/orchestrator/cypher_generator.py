@@ -441,36 +441,6 @@ class CypherGenerator:
         else:
             return ("MATCH (n) RETURN n LIMIT 0", {})
 
-    def generate_with_templates(
-        self,
-        template_name: str,
-        params: dict
-    ) -> str:
-        """템플릿 기반 Cypher 생성.
-
-        Args:
-            template_name: CypherTemplates의 템플릿 이름
-            params: 파라미터 딕셔너리
-
-        Returns:
-            완성된 Cypher 쿼리
-        """
-        template = getattr(CypherTemplates, template_name, None)
-        if not template:
-            logger.error(f"Template not found: {template_name}")
-            return ""
-
-        # 파라미터 치환
-        cypher = template
-        for key, value in params.items():
-            placeholder = f"${key}"
-            # 문자열 값은 따옴표 추가
-            if isinstance(value, str):
-                cypher = cypher.replace(placeholder, f"'{value}'")
-            else:
-                cypher = cypher.replace(placeholder, str(value))
-
-        return cypher
 
 
 # 사용 예시

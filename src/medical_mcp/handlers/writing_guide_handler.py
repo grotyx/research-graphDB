@@ -15,6 +15,8 @@ from enum import Enum
 if TYPE_CHECKING:
     from medical_mcp.medical_kag_server import MedicalKAGServer
 
+from medical_mcp.handlers.base_handler import BaseHandler, safe_execute
+
 logger = logging.getLogger(__name__)
 
 
@@ -850,7 +852,7 @@ RESPONSE_TEMPLATES: Dict[str, str] = {
 }
 
 
-class WritingGuideHandler:
+class WritingGuideHandler(BaseHandler):
     """Handles academic paper writing guidance and assistance."""
 
     def __init__(self, server: "MedicalKAGServer"):
@@ -859,7 +861,7 @@ class WritingGuideHandler:
         Args:
             server: Parent MedicalKAGServer instance for accessing clients
         """
-        self.server = server
+        super().__init__(server)
 
     async def get_section_guide(
         self,

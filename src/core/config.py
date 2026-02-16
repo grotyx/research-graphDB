@@ -68,18 +68,9 @@ class Neo4jConfig:
     max_transaction_retry_time: int = 15
     circuit_breaker: dict = field(default_factory=dict)
 
-
-@dataclass
-class ChromaDBConfig:
-    """ChromaDB vector database configuration.
-
-    DEPRECATED (v1.14.12): ChromaDB 제거됨. Neo4j Vector Index 사용.
-    하위 호환성을 위해 유지됨.
-    """
-
-    path: str = "./data/chromadb"
-    collection_name: str = "spine_papers"
-    distance_metric: str = "cosine"
+    def __repr__(self) -> str:
+        return (f"Neo4jConfig(uri={self.uri!r}, username={self.username!r}, "
+                f"password='***', database={self.database!r})")
 
 
 @dataclass
@@ -122,6 +113,11 @@ class LLMConfig:
     max_retries: int = 3
     retry_delay: float = 1.0
     vision: LLMVisionConfig = field(default_factory=LLMVisionConfig)
+
+    def __repr__(self) -> str:
+        masked_key = f"{self.api_key[:8]}..." if self.api_key and len(self.api_key) > 8 else "***"
+        return (f"LLMConfig(provider={self.provider!r}, model={self.model!r}, "
+                f"api_key='{masked_key}')")
 
 
 @dataclass
@@ -358,7 +354,6 @@ class Config:
     Attributes:
         version: Configuration version
         neo4j: Neo4j configuration
-        chromadb: ChromaDB configuration
         llm: LLM configuration
         normalization: Entity normalization configuration
         search: Search configuration
@@ -375,7 +370,6 @@ class Config:
 
     version: str = "3.1"
     neo4j: Neo4jConfig = field(default_factory=Neo4jConfig)
-    chromadb: ChromaDBConfig = field(default_factory=ChromaDBConfig)
     llm: LLMConfig = field(default_factory=LLMConfig)
     normalization: NormalizationConfig = field(default_factory=NormalizationConfig)
     search: SearchConfig = field(default_factory=SearchConfig)
@@ -601,14 +595,6 @@ class ConfigManager:
             circuit_breaker=neo4j_data.get("circuit_breaker", {}),
         )
 
-        # Parse ChromaDB config
-        chromadb_data = data.get("chromadb", {})
-        chromadb = ChromaDBConfig(
-            path=chromadb_data.get("path", "./data/chromadb"),
-            collection_name=chromadb_data.get("collection_name", "spine_papers"),
-            distance_metric=chromadb_data.get("distance_metric", "cosine"),
-        )
-
         # Parse LLM config
         llm_data = data.get("llm", {})
         vision_data = llm_data.get("vision", {})
@@ -749,7 +735,6 @@ class ConfigManager:
         return Config(
             version=data.get("version", "3.1"),
             neo4j=neo4j,
-            chromadb=chromadb,
             llm=llm,
             normalization=normalization,
             search=search,
@@ -818,15 +803,6 @@ def get_llm_config() -> LLMConfig:
         print(llm.model)
     """
     return get_config().llm
-
-
-def get_chromadb_config() -> ChromaDBConfig:
-    """Get ChromaDB configuration.
-
-    Returns:
-        ChromaDB configuration
-    """
-    return get_config().chromadb
 
 
 def get_normalization_config() -> NormalizationConfig:

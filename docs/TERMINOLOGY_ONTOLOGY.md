@@ -1,6 +1,6 @@
 # Spine GraphRAG 용어체계 및 온톨로지 가이드
 
-> **Version**: 1.18.0
+> **Version**: 1.19.4
 > **Last Updated**: 2026-02-15
 > **Maintainer**: Spine GraphRAG Development Team
 
@@ -627,11 +627,11 @@ RELATED_TERMS = {
 
 | 카테고리 | 전체 | 공식 SNOMED | 확장 코드 | 커버리지 |
 |----------|------|-------------|-----------|----------|
-| Interventions | 123 | 44 | 79 | 35.8% |
-| Pathologies | 85 | 54 | 31 | 63.5% |
-| Outcomes | 70 | 19 | 51 | 27.1% |
-| Anatomy | 37 | 24 | 13 | 64.9% |
-| **Total** | **315** | **141** | **174** | **44.8%** |
+| Interventions | 144 | 47 | 97 | 32.6% |
+| Pathologies | 120 | 62 | 58 | 51.7% |
+| Outcomes | 104 | 24 | 80 | 23.1% |
+| Anatomy | 46 | 24 | 22 | 52.2% |
+| **Total** | **414** | **157** | **257** | **37.9%** |
 
 > **v1.14.15 변경사항**: SNOMED 중복 제거 및 정리, 공식 코드 전환 (Wound Dehiscence → 225553008)
 >

@@ -14,7 +14,7 @@ docker logs spine_graphrag_neo4j
 
 # Access browser (after 30 seconds)
 open http://localhost:7474
-# Credentials: neo4j / spine_graph_2024
+# Credentials: neo4j / <see .env NEO4J_PASSWORD>
 ```
 
 ## Common Errors
@@ -122,6 +122,24 @@ MATCH (p:Paper) WHERE p.doi IS NULL OR p.doi = '' RETURN p.paper_id, p.title
 **원인:** `store_paper`에서 outcome dict를 5개 필드만 복사하여 나머지 데이터 손실 + `pdf_handler.py`에서 `pico_outcomes` 오타 (올바른 필드: `pico_outcome`)
 
 **해결:** v1.18.0으로 업데이트 + MCP 서버 재시작
+
+### 14. 고립 Paper — 관계(STUDIES/INVESTIGATES/INVOLVES) 누락 (v1.19.4에서 복구 스크립트 추가)
+
+**증상:** DV 체크 2.1에서 고립 Paper 발견. 논문에 Chunk/임베딩은 있지만 엔티티 관계가 없음.
+
+**원인:** PubMed 임포트 시 LLM 추출 단계가 실패/스킵되어 SpineMetadata가 생성되지 않음. RelationshipBuilder가 호출되지 않아 STUDIES, INVESTIGATES, INVOLVES 관계 미생성.
+
+**해결:**
+```bash
+# 전체 고립 논문 자동 복구 (Claude Haiku로 abstract 재분석)
+PYTHONPATH=./src python3 scripts/repair_isolated_papers.py --max-concurrent 5
+
+# 특정 논문만 복구
+PYTHONPATH=./src python3 scripts/repair_isolated_papers.py --paper-ids "pubmed_12345"
+
+# Dry-run (DB 변경 없이 추출 결과만 확인)
+PYTHONPATH=./src python3 scripts/repair_isolated_papers.py --dry-run
+```
 
 ## Testing
 

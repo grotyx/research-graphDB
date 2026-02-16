@@ -78,7 +78,7 @@ class QueryCache:
     - LRU eviction policy
     - TTL-based expiration
     - Cache statistics tracking
-    - Thread-safe operations (for async compatibility)
+    - Note: Not thread-safe. Safe for single-threaded asyncio usage only.
 
     Usage:
         cache = QueryCache(max_size=1000, ttl_seconds=3600)

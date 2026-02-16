@@ -801,8 +801,8 @@ def _repair_json(text: str) -> str:
             try:
                 json.loads(text)
                 return text
-            except Exception:
-                pass
+            except Exception as e:
+                logger.debug(f"JSON repair failed: {e}")
 
         # Fix: control character errors - remove problematic control chars
         if "Invalid control character" in error_msg:
@@ -811,8 +811,8 @@ def _repair_json(text: str) -> str:
             try:
                 json.loads(text)
                 return text
-            except Exception:
-                pass
+            except Exception as e:
+                logger.debug(f"Control char fix failed: {e}")
 
         # Return text as-is if all fixes fail
         return text
@@ -960,7 +960,7 @@ class ClaudeBackend:
             }
 
         except json.JSONDecodeError as e:
-            logger.error(f"JSON parsing error at position {e.pos}: {e.msg}")
+            logger.error(f"JSON parsing error at position {e.pos}: {e.msg}", exc_info=True)
             # Log context around error for debugging
             raw_text = collected_text if 'collected_text' in locals() else ''
             if hasattr(e, 'pos') and e.pos > 0 and raw_text:
@@ -1081,7 +1081,7 @@ class ClaudeBackend:
             }
 
         except json.JSONDecodeError as e:
-            logger.error(f"JSON parsing error: {e}")
+            logger.error(f"JSON parsing error: {e}", exc_info=True)
             return {
                 "success": False,
                 "error": f"JSON parsing error: {e}",
@@ -1157,8 +1157,8 @@ class GeminiBackend:
                     None,
                     lambda: self.client.files.delete(name=uploaded_file.name)
                 )
-            except Exception:
-                pass
+            except Exception as e:
+                logger.debug(f"Response parsing failed: {e}")
 
             # 응답 파싱 (with repair attempt)
             repaired_text = _repair_json(response.text)
@@ -1190,7 +1190,7 @@ class GeminiBackend:
             }
 
         except json.JSONDecodeError as e:
-            logger.error(f"JSON parsing error at position {e.pos}: {e.msg}")
+            logger.error(f"JSON parsing error at position {e.pos}: {e.msg}", exc_info=True)
             return {
                 "success": False,
                 "error": f"JSON parsing error: {e}",

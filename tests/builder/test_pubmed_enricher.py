@@ -460,7 +460,9 @@ class TestConvenienceFunction:
                 doi="10.1097/BRS.0000000000001234"
             )
 
-        assert result is not None or result is None  # 실제 API 호출 없이는 None 가능
+        # API mock 환경에서는 결과가 None일 수 있으므로 타입만 체크
+        from builder.pubmed_enricher import BibliographicMetadata
+        assert result is None or isinstance(result, (dict, BibliographicMetadata)), f"Unexpected result type: {type(result)}"
 
 
 # ===========================================================================

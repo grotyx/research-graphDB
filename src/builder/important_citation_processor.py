@@ -202,6 +202,9 @@ class ImportantCitationProcessor:
         # v1.16: DOI/Crossref fallback for citations when PubMed fails
         self.doi_fetcher = doi_fetcher
 
+        # Lazy-initialized OpenAI client for abstract embedding
+        self._openai_client = None
+
     async def process_paper_citations(
         self,
         citing_paper_id: str,
@@ -322,7 +325,7 @@ class ImportantCitationProcessor:
 
         except Exception as e:
             error_msg = f"Citation processing error: {e}"
-            logger.error(error_msg)
+            logger.error(error_msg, exc_info=True)
             result.errors.append(error_msg)
 
         return result
@@ -754,10 +757,11 @@ class ImportantCitationProcessor:
             import os
             from openai import OpenAI
 
-            openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+            if self._openai_client is None:
+                self._openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
             # OpenAI 임베딩 생성 (3072차원)
-            response = openai_client.embeddings.create(
+            response = self._openai_client.embeddings.create(
                 model="text-embedding-3-large",
                 input=abstract[:8000],
                 dimensions=3072

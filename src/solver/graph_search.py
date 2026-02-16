@@ -244,7 +244,7 @@ class GraphSearch:
             )
 
         except Exception as e:
-            logger.error(f"Graph search error: {e}")
+            logger.error(f"Graph search error: {e}", exc_info=True)
             return GraphSearchResult(
                 query=f"interventions_for_outcome({outcome_name}, {direction})",
                 results=[],
@@ -304,7 +304,7 @@ class GraphSearch:
             )
 
         except Exception as e:
-            logger.error(f"Graph search error: {e}")
+            logger.error(f"Graph search error: {e}", exc_info=True)
             return GraphSearchResult(
                 query=f"interventions_for_pathology({pathology_name})",
                 results=[],
@@ -386,7 +386,7 @@ class GraphSearch:
             }
 
         except Exception as e:
-            logger.error(f"Error getting intervention hierarchy: {e}")
+            logger.error(f"Error getting intervention hierarchy: {e}", exc_info=True)
             return {
                 "name": intervention_name,
                 "full_name": "",
@@ -487,7 +487,7 @@ class GraphSearch:
             )
 
         except Exception as e:
-            logger.error(f"Graph search error: {e}")
+            logger.error(f"Graph search error: {e}", exc_info=True)
             return GraphSearchResult(
                 query=f"conflicting_results({intervention_name}, {outcome_name})",
                 results=[],
@@ -556,7 +556,7 @@ class GraphSearch:
             }
 
         except Exception as e:
-            logger.error(f"Error getting paper evidence: {e}")
+            logger.error(f"Error getting paper evidence: {e}", exc_info=True)
             return {
                 "paper": None,
                 "pathologies": [],
@@ -624,7 +624,7 @@ class GraphSearch:
             )
 
         except Exception as e:
-            logger.error(f"Graph search error: {e}")
+            logger.error(f"Graph search error: {e}", exc_info=True)
             return GraphSearchResult(
                 query=f"papers_by_evidence_level({evidence_level}, {sub_domain})",
                 results=[],

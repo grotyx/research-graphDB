@@ -478,7 +478,7 @@ class TieredHybridSearch:
             query_embedding = response.data[0].embedding
             logger.debug(f"Generated OpenAI embedding ({len(query_embedding)} dims) for query")
         except Exception as e:
-            logger.error(f"Failed to generate OpenAI embedding: {e}. Vector search disabled.")
+            logger.error(f"Failed to generate OpenAI embedding: {e}. Vector search disabled.", exc_info=True)
             return []
 
         # 필터 구성
@@ -520,7 +520,7 @@ class TieredHybridSearch:
                     )
                 )
         except Exception as e:
-            logger.error(f"Neo4j vector search failed: {e}")
+            logger.error(f"Neo4j vector search failed: {e}", exc_info=True)
             return []
 
         # 결과 변환
@@ -594,7 +594,7 @@ class TieredHybridSearch:
             query_embedding = response.data[0].embedding
             logger.debug(f"Generated OpenAI embedding ({len(query_embedding)} dims) for hybrid search")
         except Exception as e:
-            logger.error(f"Failed to generate OpenAI embedding for hybrid search: {e}")
+            logger.error(f"Failed to generate OpenAI embedding for hybrid search: {e}", exc_info=True)
             return []
 
         # 그래프 필터 구성
@@ -645,7 +645,7 @@ class TieredHybridSearch:
                     )
                 )
         except Exception as e:
-            logger.error(f"Neo4j hybrid search failed: {e}")
+            logger.error(f"Neo4j hybrid search failed: {e}", exc_info=True)
             return []
 
         # 결과 변환

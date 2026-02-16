@@ -82,9 +82,9 @@ async def init_neo4j(skip_taxonomy: bool = False, enrich_snomed: bool = True) ->
             if enrich_snomed:
                 logger.info("\n[4/5] Enriching with SNOMED codes...")
                 snomed_queries = SpineGraphSchema.get_enrich_snomed_cypher()
-                for i, query in enumerate(snomed_queries, 1):
+                for i, (query, params) in enumerate(snomed_queries, 1):
                     try:
-                        await client.run_write_query(query)
+                        await client.run_write_query(query, params)
                         logger.info(f"   - SNOMED batch {i}/{len(snomed_queries)} applied")
                     except Exception as e:
                         logger.warning(f"   - SNOMED batch {i} skipped: {e}")

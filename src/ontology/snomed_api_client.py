@@ -35,6 +35,48 @@ except ImportError:
 logger = logging.getLogger(__name__)
 
 
+async def _async_request_with_retry(
+    client: httpx.AsyncClient,
+    method: str,
+    url: str,
+    max_retries: int = 3,
+    backoff_base: int = 2,
+    **kwargs,
+) -> httpx.Response:
+    """Async retry wrapper for httpx requests.
+
+    Args:
+        client: httpx AsyncClient instance
+        method: HTTP method ('get', 'post', etc.)
+        url: Request URL
+        max_retries: Maximum number of attempts
+        backoff_base: Base for exponential backoff
+        **kwargs: Additional arguments passed to the request method
+
+    Returns:
+        httpx.Response
+
+    Raises:
+        Last exception if all retries fail
+    """
+    last_error = None
+    for attempt in range(max_retries):
+        try:
+            response = await getattr(client, method)(url, **kwargs)
+            response.raise_for_status()
+            return response
+        except (httpx.ConnectError, httpx.TimeoutException, httpx.HTTPStatusError) as e:
+            last_error = e
+            if attempt < max_retries - 1:
+                wait = min(backoff_base ** attempt, 30)
+                logger.warning(
+                    f"HTTP request failed (attempt {attempt + 1}/{max_retries}): {e}, "
+                    f"retrying in {wait}s"
+                )
+                await asyncio.sleep(wait)
+    raise last_error
+
+
 class SNOMEDEdition(Enum):
     """SNOMED CT Edition identifiers."""
     INTERNATIONAL = "MAIN"  # International Edition
@@ -260,11 +302,11 @@ class SNOMEDAPIClient:
             params["semanticFilter"] = semantic_filter
 
         try:
-            response = await self._client.get(
+            response = await _async_request_with_retry(
+                self._client, "get",
                 f"/{branch}/concepts",
                 params=params,
             )
-            response.raise_for_status()
             data = response.json()
 
             concepts = []
@@ -294,10 +336,10 @@ class SNOMEDAPIClient:
             return result
 
         except httpx.HTTPStatusError as e:
-            logger.error(f"SNOMED API error: {e.response.status_code} - {e.response.text}")
+            logger.error(f"SNOMED API error: {e.response.status_code} - {e.response.text}", exc_info=True)
             raise
         except Exception as e:
-            logger.error(f"SNOMED API request failed: {e}")
+            logger.error(f"SNOMED API request failed: {e}", exc_info=True)
             raise
 
     async def get_concept(self, concept_id: str) -> Optional[SNOMEDConcept]:
@@ -323,14 +365,10 @@ class SNOMEDAPIClient:
         branch = self._get_branch_path()
 
         try:
-            response = await self._client.get(
+            response = await _async_request_with_retry(
+                self._client, "get",
                 f"/{branch}/concepts/{concept_id}",
             )
-
-            if response.status_code == 404:
-                return None
-
-            response.raise_for_status()
             data = response.json()
 
             concept = SNOMEDConcept(
@@ -349,7 +387,7 @@ class SNOMEDAPIClient:
         except httpx.HTTPStatusError as e:
             if e.response.status_code == 404:
                 return None
-            logger.error(f"SNOMED API error: {e.response.status_code}")
+            logger.error(f"SNOMED API error: {e.response.status_code}", exc_info=True)
             raise
 
     async def get_concept_with_descriptions(
@@ -370,10 +408,10 @@ class SNOMEDAPIClient:
         branch = self._get_branch_path()
 
         try:
-            response = await self._client.get(
+            response = await _async_request_with_retry(
+                self._client, "get",
                 f"/{branch}/concepts/{concept_id}/descriptions",
             )
-            response.raise_for_status()
             data = response.json()
 
             synonyms = []
@@ -390,7 +428,7 @@ class SNOMEDAPIClient:
             return concept
 
         except Exception as e:
-            logger.warning(f"Failed to get descriptions for {concept_id}: {e}")
+            logger.warning(f"Failed to get descriptions for {concept_id}: {e}", exc_info=True)
             return concept
 
     async def get_parents(
@@ -410,16 +448,17 @@ class SNOMEDAPIClient:
         try:
             if direct_only:
                 # Get stated parents
-                response = await self._client.get(
+                response = await _async_request_with_retry(
+                    self._client, "get",
                     f"/{branch}/concepts/{concept_id}/parents",
                 )
             else:
                 # Get all ancestors
-                response = await self._client.get(
+                response = await _async_request_with_retry(
+                    self._client, "get",
                     f"/{branch}/concepts/{concept_id}/ancestors",
                 )
 
-            response.raise_for_status()
             data = response.json()
 
             parents = []
@@ -437,7 +476,7 @@ class SNOMEDAPIClient:
             return parents
 
         except Exception as e:
-            logger.error(f"Failed to get parents for {concept_id}: {e}")
+            logger.error(f"Failed to get parents for {concept_id}: {e}", exc_info=True)
             return []
 
     async def get_children(
@@ -456,16 +495,17 @@ class SNOMEDAPIClient:
 
         try:
             if direct_only:
-                response = await self._client.get(
+                response = await _async_request_with_retry(
+                    self._client, "get",
                     f"/{branch}/concepts/{concept_id}/children",
                 )
             else:
-                response = await self._client.get(
+                response = await _async_request_with_retry(
+                    self._client, "get",
                     f"/{branch}/concepts/{concept_id}/descendants",
                     params={"limit": 100},
                 )
 
-            response.raise_for_status()
             data = response.json()
 
             children = []
@@ -483,7 +523,7 @@ class SNOMEDAPIClient:
             return children
 
         except Exception as e:
-            logger.error(f"Failed to get children for {concept_id}: {e}")
+            logger.error(f"Failed to get children for {concept_id}: {e}", exc_info=True)
             return []
 
     async def find_exact_match(self, term: str) -> Optional[SNOMEDConcept]:
