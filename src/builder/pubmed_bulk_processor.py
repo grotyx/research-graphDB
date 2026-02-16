@@ -786,6 +786,10 @@ class PubMedBulkProcessor:
             # anatomy_level을 list로 변환
             anatomy_level = spine_meta.get("anatomy_level", "")
             anatomy_levels = [anatomy_level] if anatomy_level else []
+            if not anatomy_levels:
+                anatomy_region = spine_meta.get("anatomy_region", "")
+                if anatomy_region:
+                    anatomy_levels = [anatomy_region]
 
             # pathology를 pathologies로 변환 (list 형식)
             pathology = spine_meta.get("pathology", [])
@@ -822,6 +826,7 @@ class PubMedBulkProcessor:
                 interventions=spine_meta.get("interventions", []),
                 outcomes=all_outcomes,
                 main_conclusion=spine_meta.get("main_conclusion", ""),
+                summary=spine_meta.get("summary", ""),
                 pico_population=pico_population,
                 pico_intervention=pico_intervention,
                 pico_comparison=pico_comparison,
@@ -936,6 +941,10 @@ class PubMedBulkProcessor:
             # anatomy_level을 list로 변환
             anatomy_level = spine_meta.get("anatomy_level", "")
             anatomy_levels = [anatomy_level] if anatomy_level else []
+            if not anatomy_levels:
+                anatomy_region = spine_meta.get("anatomy_region", "")
+                if anatomy_region:
+                    anatomy_levels = [anatomy_region]
 
             # pathology를 pathologies로 변환
             pathology = spine_meta.get("pathology", [])
@@ -972,6 +981,7 @@ class PubMedBulkProcessor:
                 interventions=spine_meta.get("interventions", []),
                 outcomes=all_outcomes,
                 main_conclusion=spine_meta.get("main_conclusion", ""),
+                summary=spine_meta.get("summary", ""),
                 pico_population=pico_population,
                 pico_intervention=pico_intervention,
                 pico_comparison=pico_comparison,

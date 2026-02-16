@@ -430,7 +430,7 @@ class DocumentHandler(BaseHandler):
         except ImportError as e:
             return {"success": False, "error": f"SummaryGenerator not available: {e}"}
         except Exception as e:
-            logger.error(f"Summary generation failed for {paper_id}: {e}")
+            logger.error(f"Summary generation failed for {paper_id}: {e}", exc_info=True)
             return {"success": False, "error": f"Summary generation failed: {e}"}
 
     async def export_document(self, document_id: str) -> dict:
@@ -531,7 +531,7 @@ class DocumentHandler(BaseHandler):
                         })
 
         except Exception as e:
-            logger.error(f"Neo4j 추출 실패: {e}")
+            logger.error(f"Neo4j 추출 실패: {e}", exc_info=True)
             return {"success": False, "error": f"Neo4j 추출 실패: {e}"}
 
         # JSON 구조 생성

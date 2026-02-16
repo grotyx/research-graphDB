@@ -1,7 +1,7 @@
 # Spine GraphRAG 용어체계 및 온톨로지 가이드
 
-> **Version**: 1.19.4
-> **Last Updated**: 2026-02-15
+> **Version**: 1.21.0
+> **Last Updated**: 2026-02-16
 > **Maintainer**: Spine GraphRAG Development Team
 
 ## 목차
@@ -65,7 +65,7 @@ User Query (자연어)
 
 | 노드 | 주요 속성 | 설명 |
 |------|-----------|------|
-| **Paper** | paper_id, title, year, evidence_level, sub_domain, study_design | 논문 메타데이터 |
+| **Paper** | paper_id, title, year, evidence_level, sub_domain, study_design, summary | 논문 메타데이터 |
 | **Pathology** | name, category, snomed_code, snomed_term, aliases | 질환/병리 |
 | **Anatomy** | name, region, level, snomed_code, snomed_term | 해부학적 위치 |
 | **Intervention** | name, full_name, category, approach, is_minimally_invasive, snomed_code | 수술법/시술 |
@@ -209,67 +209,70 @@ Level 0 (Root)
 ### 3.2 완전한 Taxonomy 트리
 
 ```text
-FUSION SURGERY
-├── Interbody Fusion
-│   ├── TLIF (Transforaminal Lumbar Interbody Fusion)
-│   │   ├── MIS-TLIF (Minimally Invasive TLIF)
-│   │   └── BELIF (Biportal Endoscopic Lumbar Interbody Fusion)
-│   ├── PLIF (Posterior Lumbar Interbody Fusion)
-│   ├── ALIF (Anterior Lumbar Interbody Fusion)
-│   ├── OLIF (Oblique Lumbar Interbody Fusion)
-│   │   └── OLIF51, OLIF25, ATP
-│   ├── LLIF (Lateral Lumbar Interbody Fusion)
-│   │   └── XLIF, DLIF
-│   ├── ACDF (Anterior Cervical Discectomy and Fusion)
-│   └── MIDLF (Midline Lumbar Interbody Fusion)
-├── Posterolateral Fusion (PLF)
-│   └── CBT Fusion (Cortical Bone Trajectory)
-└── Posterior Cervical Fusion (PCF)
-    ├── C1-C2 Fusion (Atlantoaxial Fusion)
-    └── Occipitocervical Fusion
-
-DECOMPRESSION SURGERY
-├── Endoscopic Surgery
-│   ├── UBE (Unilateral Biportal Endoscopic)
-│   │   └── BESS, BED, Biportal
-│   ├── FELD (Full-Endoscopic Lumbar Discectomy)
-│   ├── PELD (Percutaneous Endoscopic Lumbar Discectomy)
-│   ├── FESS (Full Endoscopic Spinal Surgery)
-│   └── PSLD (Percutaneous Stenoscopic Lumbar Decompression)
-├── Microscopic Surgery
-│   ├── MED (Microendoscopic Discectomy)
-│   └── Microdecompression
-└── Open Decompression
-    ├── Laminectomy
-    ├── Laminotomy
-    ├── Foraminotomy
-    ├── UBD (Unilateral Bilateral Decompression)
-    ├── Over-the-top Decompression
-    └── Facetectomy
-
-MOTION PRESERVATION
-├── ADR (Artificial Disc Replacement)
-│   └── TDR, cTDR, lTDR
-├── Dynamic Stabilization
-└── Interspinous Device
-    └── IPD, ISD, X-STOP
-
-OSTEOTOMY
-├── SPO (Smith-Petersen Osteotomy)
-│   └── Ponte Osteotomy
-├── PSO (Pedicle Subtraction Osteotomy)
-├── VCR (Vertebral Column Resection)
-└── COWO (Three-Column Osteotomy)
-
-FIXATION
-├── Pedicle Screw Fixation
-├── Lateral Mass Screw Fixation
-└── Stereotactic Navigation
-
-VERTEBRAL AUGMENTATION
-├── PVP (Percutaneous Vertebroplasty)
-└── PKP (Percutaneous Kyphoplasty)
+SPINE SURGERY (Root - v1.21.0)
+├── ├── FUSION SURGERY
+│   ├── Interbody Fusion
+│   │   ├── TLIF (Transforaminal Lumbar Interbody Fusion)
+│   │   │   ├── MIS-TLIF (Minimally Invasive TLIF)
+│   │   │   └── BELIF (Biportal Endoscopic Lumbar Interbody Fusion)
+│   │   ├── PLIF (Posterior Lumbar Interbody Fusion)
+│   │   ├── ALIF (Anterior Lumbar Interbody Fusion)
+│   │   ├── OLIF (Oblique Lumbar Interbody Fusion)
+│   │   │   └── OLIF51, OLIF25, ATP
+│   │   ├── LLIF (Lateral Lumbar Interbody Fusion)
+│   │   │   └── XLIF, DLIF
+│   │   ├── ACDF (Anterior Cervical Discectomy and Fusion)
+│   │   └── MIDLF (Midline Lumbar Interbody Fusion)
+│   ├── Posterolateral Fusion (PLF)
+│   │   └── CBT Fusion (Cortical Bone Trajectory)
+│   └── Posterior Cervical Fusion (PCF)
+│       ├── C1-C2 Fusion (Atlantoaxial Fusion)
+│       └── Occipitocervical Fusion
+│
+├── DECOMPRESSION SURGERY
+│   ├── Endoscopic Surgery
+│   │   ├── UBE (Unilateral Biportal Endoscopic)
+│   │   │   └── BESS, BED, Biportal
+│   │   ├── FELD (Full-Endoscopic Lumbar Discectomy)
+│   │   ├── PELD (Percutaneous Endoscopic Lumbar Discectomy)
+│   │   ├── FESS (Full Endoscopic Spinal Surgery)
+│   │   └── PSLD (Percutaneous Stenoscopic Lumbar Decompression)
+│   ├── Microscopic Surgery
+│   │   ├── MED (Microendoscopic Discectomy)
+│   │   └── Microdecompression
+│   └── Open Decompression
+│       ├── Laminectomy
+│       ├── Laminotomy
+│       ├── Foraminotomy
+│       ├── UBD (Unilateral Bilateral Decompression)
+│       ├── Over-the-top Decompression
+│       └── Facetectomy
+│
+├── MOTION PRESERVATION
+│   ├── ADR (Artificial Disc Replacement)
+│   │   └── TDR, cTDR, lTDR
+│   ├── Dynamic Stabilization
+│   └── Interspinous Device
+│       └── IPD, ISD, X-STOP
+│
+├── OSTEOTOMY
+│   ├── SPO (Smith-Petersen Osteotomy)
+│   │   └── Ponte Osteotomy
+│   ├── PSO (Pedicle Subtraction Osteotomy)
+│   ├── VCR (Vertebral Column Resection)
+│   └── COWO (Three-Column Osteotomy)
+│
+├── FIXATION
+│   ├── Pedicle Screw Fixation
+│   ├── Lateral Mass Screw Fixation
+│   └── Stereotactic Navigation
+│
+└── VERTEBRAL AUGMENTATION
+    ├── PVP (Percutaneous Vertebroplasty)
+    └── PKP (Percutaneous Kyphoplasty)
 ```
+
+> **v1.21.0**: "Spine Surgery" (SNOMED: 122465003) 노드를 단일 루트로 추가. 기존 22개 카테고리가 모두 IS_A → Spine Surgery 관계를 형성.
 
 ### 3.3 Taxonomy Manager 사용법
 
@@ -332,12 +335,15 @@ SNOMED-CT에 아직 등록되지 않은 최신 척추 수술법은 확장 코드
 
 ```text
 Extension Namespace: 900000000000
-├── 900000000001xx: Procedures (수술법)
-├── 900000000002xx: Disorders (질환)
-├── 900000000003xx: Observable Entities (측정값)
-├── 900000000004xx: Body Structures (해부학)
-└── 900000000005xx: Findings (소견)
+├── 900000000001xx: Procedures (수술법, 100-199)
+├── 900000000002xx: Disorders (질환, 200-299)
+├── 900000000003xx: Observable Entities (측정값, 300-399)
+├── 900000000004xx: Body Structures (해부학, 400-499)
+├── 900000000005xx: Findings (소견, 500-599)
+└── 900000000006xx: Procedures Extended (수술법 확장, 600-699) ← v1.21.0 추가
 ```
+
+> **v1.21.0 추가**: `procedure_ext` 범위(600-699)는 기존 procedure(100-199) 범위가 고갈됨에 따라 도입되었습니다. 주로 Fixation, Osteotomy 하위 기법의 세분화된 변형에 사용됩니다.
 
 ### 4.4 주요 SNOMED 매핑
 
@@ -345,7 +351,8 @@ Extension Namespace: 900000000000
 
 | 수술법 | SNOMED Code | 공식/확장 |
 |--------|-------------|-----------|
-| Fusion Surgery | 122465003 | Official |
+| **Spine Surgery** (Root) | 122465003 | Official |
+| Fusion Surgery | 174765004 | Official |
 | TLIF | 447764006 | Official |
 | PLIF | 87031008 | Official |
 | ALIF | 426294006 | Official |
@@ -592,7 +599,12 @@ SYNONYM_GROUPS = [
 
     # 합병증 동의어
     {"ASD", "ASDis", "ASDeg", "Adjacent Segment Disease", "Adjacent Level Disease"},
-    {"PJK", "PJF", "Proximal Junctional Kyphosis", "Proximal Junctional Failure"},
+
+    # v1.21.0: PJK/PJF를 별도 개념으로 분리
+    # PJK (Proximal Junctional Kyphosis): Outcome/방사선 측정값 (900000000000205)
+    # PJF (Proximal Junctional Failure): Pathology/임상 실패 (900000000000234)
+    {"PJK", "Proximal Junctional Kyphosis"},
+    {"PJF", "Proximal Junctional Failure"},
 ]
 ```
 
@@ -623,15 +635,15 @@ RELATED_TERMS = {
 
 ## 7. 통계 및 커버리지
 
-### 7.1 전체 매핑 통계 (v1.16.4)
+### 7.1 전체 매핑 통계 (v1.21.0)
 
 | 카테고리 | 전체 | 공식 SNOMED | 확장 코드 | 커버리지 |
 |----------|------|-------------|-----------|----------|
-| Interventions | 144 | 47 | 97 | 32.6% |
-| Pathologies | 120 | 62 | 58 | 51.7% |
-| Outcomes | 104 | 24 | 80 | 23.1% |
+| Interventions | 167 | 48 | 119 | 28.7% |
+| Pathologies | 121 | 62 | 59 | 51.2% |
+| Outcomes | 104 | 25 | 79 | 24.0% |
 | Anatomy | 46 | 24 | 22 | 52.2% |
-| **Total** | **414** | **157** | **257** | **37.9%** |
+| **Total** | **438** | **159** | **279** | **36.3%** |
 
 > **v1.14.15 변경사항**: SNOMED 중복 제거 및 정리, 공식 코드 전환 (Wound Dehiscence → 225553008)
 >
@@ -650,6 +662,16 @@ RELATED_TERMS = {
 > - entity_normalizer.py 16개 alias 갭 수정 (CES, DM, SSI 등)
 > - 공식 SNOMED 코드 49건 추가 (Laminoplasty, OPLL, ESI, Schwannoma 등)
 > - 확장 코드 108건 추가 (척추 수술 특화 용어)
+>
+> **v1.21.0 변경사항**:
+> - SNOMED 매핑 확장: 414 → 438개 (I:+23, P:+1)
+> - Extension Code 범위 추가: `procedure_ext` (600-699)
+> - **SNOMED 중복 전면 해결**: Intervention 29→0, Pathology 3→0, Anatomy 23→0
+> - IS_A 루트 단일화: "Spine Surgery" (122465003) 추가, 22개 카테고리 → IS_A → Spine Surgery
+> - Fusion Surgery 코드 변경: 122465003 → 174765004 (Spine Surgery에 122465003 할당)
+> - PJK/PJF 분리: PJK = Outcome (900000000000205), PJF = Pathology (900000000000234)
+> - Entity Normalizer 4개 카테고리 별칭 대폭 확대
+> - Summary 필드 추가 (Paper 노드, LLM 생성 700자 요약)
 
 ### 7.2 확장 코드 필요 항목
 
@@ -696,14 +718,14 @@ from src.ontology.spine_snomed_mappings import get_mapping_statistics, get_cover
 
 stats = get_mapping_statistics()
 # → {
-#     "total_mappings": 304,
-#     "interventions": 122,
-#     "pathologies": 84,
-#     "outcomes": 68,
-#     "anatomy": 30,
-#     "official_snomed_codes": 142,
-#     "extension_codes_needed": 162,
-#     "coverage_percent": 46.7
+#     "total_mappings": 438,
+#     "interventions": 167,
+#     "pathologies": 121,
+#     "outcomes": 104,
+#     "anatomy": 46,
+#     "official_snomed_codes": 159,
+#     "extension_codes_needed": 279,
+#     "coverage_percent": 36.3
 # }
 
 report = get_coverage_report()
@@ -804,8 +826,8 @@ SNOMED-CT에 새 코드가 등록되면:
 | [src/graph/types/relationships.py](../src/graph/types/relationships.py) | ~300 | 관계 정의 |
 | [src/graph/types/enums.py](../src/graph/types/enums.py) | ~200 | Enum 정의 |
 | [src/graph/taxonomy_manager.py](../src/graph/taxonomy_manager.py) | ~440 | Taxonomy 관리 |
-| [src/ontology/spine_snomed_mappings.py](../src/ontology/spine_snomed_mappings.py) | ~2,160 | SNOMED 매핑 |
-| [src/graph/entity_normalizer.py](../src/graph/entity_normalizer.py) | ~800+ | 용어 정규화 |
+| [src/ontology/spine_snomed_mappings.py](../src/ontology/spine_snomed_mappings.py) | ~5,190 | SNOMED 매핑 |
+| [src/graph/entity_normalizer.py](../src/graph/entity_normalizer.py) | ~3,450 | 용어 정규화 |
 
 ---
 
@@ -813,6 +835,7 @@ SNOMED-CT에 새 코드가 등록되면:
 
 | 버전 | 날짜 | 변경 내용 |
 |------|------|----------|
+| 1.21.0 | 2026-02-16 | IS_A 루트 단일화 (Spine Surgery), SNOMED 중복 전면 해결 (I:29→0, P:3→0, A:23→0), Extension range 추가 (procedure_ext 600-699), PJK/PJF 분리, Normalizer 4개 카테고리 대폭 확대, Summary 필드 추가, TREATS paper_count 재계산 |
 | 1.14.1 | 2025-01-01 | 최초 문서 작성, 전체 시스템 분석 |
 | 7.14 | 2024-12 | BELIF, BED, Stereotactic Navigation 추가 |
 | 7.11 | 2024-11 | SSI 분류 (Superficial/Deep) 추가 |

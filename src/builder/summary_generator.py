@@ -237,7 +237,7 @@ class SummaryGenerator:
             )
 
         except Exception as e:
-            logger.error(f"Summary generation failed: {e}")
+            logger.error(f"Summary generation failed: {e}", exc_info=True)
             raise RuntimeError(f"Failed to generate summary: {e}") from e
 
     async def validate(self, summary: str) -> SummaryQuality:
@@ -349,7 +349,7 @@ class SummaryGenerator:
             return enhanced.strip()
 
         except Exception as e:
-            logger.error(f"Enhancement failed: {e}")
+            logger.error(f"Enhancement failed: {e}", exc_info=True)
             # 원본 반환 (실패 시)
             return summary
 

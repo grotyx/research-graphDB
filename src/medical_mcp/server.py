@@ -177,7 +177,7 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
         return [TextContent(type="text", text=result)]
 
     except Exception as e:
-        logger.error(f"Error in tool {name}: {e}")
+        logger.error(f"Error in tool {name}: {e}", exc_info=True)
         return [TextContent(type="text", text=f"오류: {str(e)}")]
 
 

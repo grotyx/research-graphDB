@@ -61,6 +61,11 @@ class SearchHandler(BaseHandler):
         Returns:
             검색 결과 딕셔너리
         """
+        # Input bounds
+        top_k = min(top_k, 100)
+        if len(query) > 10000:
+            query = query[:10000]
+
         # 0. Query expansion using SNOMED-CT concept hierarchy
         expanded_query = query
         expansion_terms = []

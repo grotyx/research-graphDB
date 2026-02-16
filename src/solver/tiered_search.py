@@ -6,6 +6,7 @@ v1.14.17: Neo4j hybrid_search 통합 - 그래프 필터링 + 벡터 검색 단�
 """
 
 import logging
+import os
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Optional, Protocol, Any, TYPE_CHECKING
@@ -44,6 +45,13 @@ except ImportError:
         LEVEL_3B = "3b"
         LEVEL_4 = "4"
         LEVEL_5 = "5"
+try:
+    import openai
+    OPENAI_AVAILABLE = True
+except ImportError:
+    OPENAI_AVAILABLE = False
+    openai = None  # type: ignore
+
 from .query_parser import MedicalEntity, ParsedQuery
 
 logger = logging.getLogger(__name__)
@@ -218,6 +226,9 @@ class TieredHybridSearch:
         self.graph_weight: float = self.config.get("graph_weight", 0.3)
         self.tier1_min_results: int = self.config.get("tier1_min_results", 3)
 
+        # Lazy-initialized OpenAI client for embedding generation
+        self._openai_client = None
+
         # v5.3: 백엔드 상태 로깅
         if self.use_neo4j_vector:
             if self.neo4j_client:
@@ -226,11 +237,11 @@ class TieredHybridSearch:
                 else:
                     logger.info("TieredHybridSearch: Using Neo4j Vector Index backend")
             else:
-                logger.warning("TieredHybridSearch: Neo4j Vector requested but client not provided, falling back to ChromaDB")
+                logger.warning("TieredHybridSearch: Neo4j Vector requested but client not provided, vector search disabled")
                 self.use_neo4j_vector = False
                 self.use_neo4j_hybrid = False
         else:
-            logger.info("TieredHybridSearch: Using ChromaDB backend")
+            logger.info("TieredHybridSearch: Neo4j Vector not enabled")
 
     def search(self, input_data: SearchInput) -> SearchOutput:
         """계층적 하이브리드 검색 수행.
@@ -463,14 +474,16 @@ class TieredHybridSearch:
         # (기존 MedTE 768차원에서 변경됨 - 저장된 임베딩과 일치시키기 위해)
         # v1.14.26: OpenAI 임베딩 필수 (Neo4j 인덱스가 3072d이므로 MedTE 768d는 사용 불가)
         try:
-            import openai
-            import os
-            api_key = os.environ.get("OPENAI_API_KEY")
-            if not api_key:
-                logger.error("OPENAI_API_KEY not set - required for vector search (3072d index)")
+            if not OPENAI_AVAILABLE:
+                logger.error("openai package not installed - required for vector search (3072d index)")
                 return []
-            client = openai.OpenAI(api_key=api_key)
-            response = client.embeddings.create(
+            if self._openai_client is None:
+                api_key = os.environ.get("OPENAI_API_KEY")
+                if not api_key:
+                    logger.error("OPENAI_API_KEY not set - required for vector search (3072d index)")
+                    return []
+                self._openai_client = openai.OpenAI(api_key=api_key)
+            response = self._openai_client.embeddings.create(
                 model="text-embedding-3-large",
                 input=input_data.query,
                 dimensions=3072
@@ -583,10 +596,16 @@ class TieredHybridSearch:
 
         # 쿼리 임베딩 생성
         try:
-            import openai
-            import os
-            client = openai.OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
-            response = client.embeddings.create(
+            if not OPENAI_AVAILABLE:
+                logger.error("openai package not installed - required for hybrid search (3072d index)")
+                return []
+            if self._openai_client is None:
+                api_key = os.environ.get("OPENAI_API_KEY")
+                if not api_key:
+                    logger.error("OPENAI_API_KEY not set - required for hybrid search (3072d index)")
+                    return []
+                self._openai_client = openai.OpenAI(api_key=api_key)
+            response = self._openai_client.embeddings.create(
                 model="text-embedding-3-large",
                 input=input_data.query,
                 dimensions=3072

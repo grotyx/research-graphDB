@@ -66,7 +66,7 @@ class TaxonomyManager:
                 return []
 
         except Exception as e:
-            logger.error(f"Failed to get parents for {intervention_name}: {e}")
+            logger.error(f"Failed to get parents for {intervention_name}: {e}", exc_info=True)
             return []
 
     async def get_child_interventions(self, intervention_name: str) -> list[str]:
@@ -85,7 +85,7 @@ class TaxonomyManager:
             return [r["name"] for r in results]
 
         except Exception as e:
-            logger.error(f"Failed to get children for {intervention_name}: {e}")
+            logger.error(f"Failed to get children for {intervention_name}: {e}", exc_info=True)
             return []
 
     async def find_common_ancestor(
@@ -157,7 +157,7 @@ class TaxonomyManager:
                 return None
 
         except Exception as e:
-            logger.error(f"Failed to find common ancestor: {e}")
+            logger.error(f"Failed to find common ancestor: {e}", exc_info=True)
             return None
 
     async def add_intervention_to_taxonomy(
@@ -193,7 +193,7 @@ class TaxonomyManager:
             return True
 
         except Exception as e:
-            logger.error(f"Failed to add {intervention} to taxonomy: {e}")
+            logger.error(f"Failed to add {intervention} to taxonomy: {e}", exc_info=True)
             return False
 
     async def get_full_taxonomy_tree(self) -> dict:
@@ -248,7 +248,7 @@ class TaxonomyManager:
             return tree
 
         except Exception as e:
-            logger.error(f"Failed to get taxonomy tree: {e}")
+            logger.error(f"Failed to get taxonomy tree: {e}", exc_info=True)
             return {}
 
     async def get_intervention_level(self, intervention_name: str) -> int:
@@ -281,7 +281,7 @@ class TaxonomyManager:
                 return 0
 
         except Exception as e:
-            logger.error(f"Failed to get level for {intervention_name}: {e}")
+            logger.error(f"Failed to get level for {intervention_name}: {e}", exc_info=True)
             return 0
 
     async def get_similar_interventions(
@@ -343,7 +343,7 @@ class TaxonomyManager:
             return similar
 
         except Exception as e:
-            logger.error(f"Failed to find similar interventions: {e}")
+            logger.error(f"Failed to find similar interventions: {e}", exc_info=True)
             return []
 
     async def validate_taxonomy(self) -> dict[str, list[str]]:
@@ -404,7 +404,7 @@ class TaxonomyManager:
                 logger.error(f"Found {len(issues['cycles'])} cycles in taxonomy!")
 
         except Exception as e:
-            logger.error(f"Taxonomy validation failed: {e}")
+            logger.error(f"Taxonomy validation failed: {e}", exc_info=True)
             issues["warnings"].append(f"Validation error: {e}")
 
         return issues

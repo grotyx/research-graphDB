@@ -67,7 +67,7 @@ def test_new_interventions():
         print(f"{status} '{input_text}' → '{result.normalized}' (expected: '{expected}', conf: {result.confidence:.2f})")
 
     print(f"\nIntervention Tests: {passed} passed, {failed} failed")
-    return failed == 0
+    assert failed == 0, f"{failed} intervention test cases failed"
 
 
 def test_new_outcomes():
@@ -94,7 +94,7 @@ def test_new_outcomes():
         ("mJOA score", "mJOA"),
 
         # Radiological Outcomes
-        ("Cage migration", "Cage Subsidence"),
+        ("Cage migration", "Cage Migration"),
         ("Subsidence", "Cage Subsidence"),
         ("Lumbar lordosis", "Lordosis"),
         ("LL", "Lordosis"),
@@ -126,7 +126,7 @@ def test_new_outcomes():
         print(f"{status} '{input_text}' → '{result.normalized}' (expected: '{expected}', conf: {result.confidence:.2f})")
 
     print(f"\nOutcome Tests: {passed} passed, {failed} failed")
-    return failed == 0
+    assert failed == 0, f"{failed} outcome test cases failed"
 
 
 def test_new_pathologies():
@@ -166,7 +166,7 @@ def test_new_pathologies():
 
         # Infection
         ("Discitis", "Spondylodiscitis"),
-        ("Vertebral osteomyelitis", "Spondylodiscitis"),
+        ("Vertebral osteomyelitis", "Vertebral Osteomyelitis"),
         ("Spinal Epidural Abscess", "Epidural Abscess"),
         ("SEA", "Epidural Abscess"),
         ("Pott Disease", "Spinal TB"),
@@ -188,7 +188,7 @@ def test_new_pathologies():
         print(f"{status} '{input_text}' → '{result.normalized}' (expected: '{expected}', conf: {result.confidence:.2f})")
 
     print(f"\nPathology Tests: {passed} passed, {failed} failed")
-    return failed == 0
+    assert failed == 0, f"{failed} pathology test cases failed"
 
 
 def test_extraction():
@@ -236,7 +236,7 @@ def test_extraction():
         if not check:
             all_passed = False
 
-    return all_passed
+    assert all_passed, "One or more extraction checks failed"
 
 
 def main():

@@ -526,7 +526,7 @@ class EmbeddingCache:
                 logger.debug(f"Warmed up {count}/{len(uncached_terms)} terms")
 
             except Exception as e:
-                logger.error(f"Warmup batch failed: {e}")
+                logger.error(f"Warmup batch failed: {e}", exc_info=True)
 
         logger.info(f"Cache warmed up with {count} terms")
         return count

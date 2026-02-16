@@ -750,6 +750,130 @@ class EntityNormalizer:
             "Motion preservation surgery", "Non-fusion surgery",
             "Dynamic surgery", "운동 보존 수술",
         ],
+
+        # ========================================
+        # v1.20.2: Additional Intervention Aliases (coverage expansion)
+        # ========================================
+
+        # Spine surgery general terms
+        "Spine Surgery": [
+            "Spinal surgery", "spinal surgery", "Back surgery",
+            "Spine operation", "척추 수술",
+        ],
+
+        # MIS general
+        "Minimally Invasive Surgery": [
+            "MIS", "Minimally invasive spine surgery", "MISS",
+            "Minimally invasive procedure", "최소침습 수술",
+            "minimally invasive surgery",
+        ],
+
+        # Standalone procedures often seen
+        "Hemilaminectomy": [
+            "hemilaminectomy", "Hemi-laminectomy",
+            "Unilateral laminectomy", "편측 후궁 절제",
+        ],
+        "Posterior Decompression": [
+            "posterior decompression", "Posterior spinal decompression",
+            "후방 감압술",
+        ],
+        "Anterior Decompression": [
+            "anterior decompression", "Anterior spinal decompression",
+            "전방 감압술",
+        ],
+        "Circumferential Fusion": [
+            "circumferential fusion", "360 fusion",
+            "Combined anterior-posterior fusion",
+            "360-degree fusion", "전후방 동시 유합술",
+        ],
+        "Posterior Column Osteotomy": [
+            "PCO", "posterior column osteotomy",
+            "Chevron osteotomy",
+        ],
+        "Asymmetric PSO": [
+            "asymmetric PSO", "Asymmetric pedicle subtraction osteotomy",
+        ],
+
+        # Bone graft
+        "Bone Graft": [
+            "bone graft", "Autograft", "Allograft",
+            "Bone grafting", "자가골 이식", "동종골 이식",
+        ],
+        "BMP": [
+            "Bone Morphogenetic Protein", "rhBMP-2", "BMP-2",
+            "Infuse", "bone morphogenetic protein",
+        ],
+        "DBM": [
+            "Demineralized Bone Matrix", "demineralized bone matrix",
+        ],
+
+        # Cement / Augmentation
+        "Cement Augmented Screw": [
+            "Cement augmented pedicle screw",
+            "PMMA augmented screw", "Fenestrated screw",
+            "시멘트 보강 나사",
+        ],
+
+        # Rehabilitation
+        "Rehabilitation": [
+            "rehabilitation", "Postoperative rehabilitation",
+            "Spine rehabilitation", "재활",
+        ],
+        "Exercise Therapy": [
+            "exercise therapy", "Therapeutic exercise",
+            "Core strengthening", "Stabilization exercise",
+            "운동 치료",
+        ],
+
+        # Interventional pain
+        "Prolotherapy": [
+            "prolotherapy", "Dextrose prolotherapy",
+            "프롤로 치료",
+        ],
+        "Percutaneous Disc Decompression": [
+            "percutaneous disc decompression",
+            "Nucleoplasty", "Disc-FX", "IDET",
+            "Intradiscal electrothermal therapy",
+        ],
+        "Endoscopic Foraminotomy": [
+            "endoscopic foraminotomy",
+            "Percutaneous endoscopic foraminotomy",
+            "Full-endoscopic foraminotomy",
+        ],
+
+        # Monitoring
+        "Intraoperative Neuromonitoring": [
+            "IONM", "IOM", "Neuromonitoring",
+            "Intraoperative monitoring", "수술중 신경 모니터링",
+            "Electrophysiological monitoring",
+        ],
+
+        # Blood management
+        "Cell Saver": [
+            "cell saver", "Intraoperative cell salvage",
+            "Autologous blood transfusion",
+        ],
+        "TXA": [
+            "Tranexamic acid", "tranexamic acid",
+            "TXA administration",
+        ],
+
+        # Emerging techniques
+        "Endoscopic ACDF": [
+            "endoscopic ACDF", "Endoscopic anterior cervical discectomy",
+        ],
+        "Oblique Corpectomy": [
+            "oblique corpectomy", "Oblique lateral corpectomy",
+        ],
+        "Lateral Corpectomy": [
+            "lateral corpectomy", "Mini-open corpectomy",
+        ],
+
+        # Wound management
+        "Wound VAC": [
+            "wound VAC", "Vacuum-assisted closure",
+            "Negative pressure wound therapy", "NPWT",
+        ],
     }
 
     # 수술법 카테고리 매핑 (정규화된 이름 → 카테고리)
@@ -900,6 +1024,31 @@ class EntityNormalizer:
         "Transnasal odontoidectomy": "Decompression Surgery",
         "Transoral Approach": "Decompression Surgery",
         "Transoral odontoidectomy": "Decompression Surgery",
+        # v1.20.2: New intervention categories
+        "Spine Surgery": "Fusion Surgery",
+        "Minimally Invasive Surgery": "Endoscopic Surgery",
+        "Hemilaminectomy": "Decompression Surgery",
+        "Posterior Decompression": "Decompression Surgery",
+        "Anterior Decompression": "Decompression Surgery",
+        "Circumferential Fusion": "Fusion Surgery",
+        "Posterior Column Osteotomy": "Osteotomy",
+        "Asymmetric PSO": "Osteotomy",
+        "Bone Graft": "Other Surgical",
+        "BMP": "Other Surgical",
+        "DBM": "Other Surgical",
+        "Cement Augmented Screw": "Fixation",
+        "Rehabilitation": "Conservative Treatment",
+        "Exercise Therapy": "Conservative Treatment",
+        "Prolotherapy": "Injection/Pain Management",
+        "Percutaneous Disc Decompression": "Injection/Pain Management",
+        "Endoscopic Foraminotomy": "Endoscopic Surgery",
+        "Intraoperative Neuromonitoring": "Diagnostic",
+        "Cell Saver": "Other Surgical",
+        "TXA": "Other Surgical",
+        "Endoscopic ACDF": "Endoscopic Surgery",
+        "Oblique Corpectomy": "Tumor Surgery",
+        "Lateral Corpectomy": "Tumor Surgery",
+        "Wound VAC": "Other Surgical",
     }
 
     # 결과변수 별칭 매핑
@@ -913,6 +1062,11 @@ class EntityNormalizer:
             "visual analog scale", "VAS pain", "Pain VAS",
             # v1.14.11: 일반 통증 용어 추가
             "pain level", "pain intensity", "pain severity",
+            # v1.20.2: 시점 변형 → base term으로 정규화
+            "VAS at 6 months", "VAS at 12 months", "VAS at 1 year",
+            "VAS at 2 years", "VAS at final follow-up",
+            "VAS at 3 months", "VAS at 24 months",
+            "Final VAS", "Postoperative VAS", "Preoperative VAS",
         ],
         "VAS Back": [
             "VAS-back", "VAS back pain", "Back VAS",
@@ -950,6 +1104,11 @@ class EntityNormalizer:
             "Oswestry Disability Index (ODI)", "ODI (Oswestry Disability Index)",
             "oswestry disability index", "Oswestry disability index",
             "Oswestry Low Back Pain Disability Questionnaire",
+            # v1.20.2: 시점 변형 → base term으로 정규화
+            "ODI at 6 months", "ODI at 12 months", "ODI at 1 year",
+            "ODI at 2 years", "ODI at final follow-up",
+            "ODI at 3 months", "ODI at 24 months",
+            "Final ODI", "Postoperative ODI", "Preoperative ODI",
         ],
         "NDI": [
             "Neck Disability Index", "NDI score",
@@ -1044,7 +1203,11 @@ class EntityNormalizer:
         ],
         "Dural Tear": [
             "Durotomy", "Incidental durotomy", "Dural tear rate",
-            "CSF leak"
+            "CSF leak",
+            # v1.20.2: 추가 변형
+            "Dural tear incidence", "dural tear", "Dural injury",
+            "CSF leakage", "Cerebrospinal fluid leak",
+            "Incidental dural tear", "경막 손상",
         ],
         "Nerve Injury": [
             "Nerve root injury", "Neurological injury",
@@ -1091,6 +1254,9 @@ class EntityNormalizer:
             "operative time", "Operative Time", "Operating time",
             "Total operative time", "total operative time",
             "Surgical time", "surgical time",
+            # v1.20.2: 추가 변형
+            "Procedure time", "Procedure duration",
+            "Procedure elapsed minutes", "Operating room time",
         ],
         "Blood Loss": [
             "EBL", "Estimated blood loss", "Intraoperative blood loss",
@@ -1099,6 +1265,9 @@ class EntityNormalizer:
             "Intraoperative Blood Loss", "intraoperative blood loss",
             "Total Blood Loss", "total blood loss",
             "estimated blood loss", "Blood loss",
+            # v1.20.2: 추가 변형
+            "Estimated Blood Loss", "Intraoperative EBL",
+            "Total EBL", "추정 출혈량",
         ],
         "Hospital Stay": [
             "Length of stay", "LOS", "Hospital length of stay",
@@ -1117,7 +1286,10 @@ class EntityNormalizer:
         ],
         "Cost": [
             "Hospital cost", "Total cost", "Treatment cost",
-            "비용"
+            "비용",
+            # v1.20.2: 추가 변형
+            "Direct cost", "Indirect cost", "Total hospital cost",
+            "Economic cost", "Medical cost", "총 비용",
         ],
 
         # ========================================
@@ -1283,6 +1455,10 @@ class EntityNormalizer:
             "readmission rate", "30-day readmission",
             "Readmission", "Hospital readmission",
             "30-Day Readmission Rate", "재입원율",
+            # v1.20.2: 추가 변형
+            "30-day readmission rate", "90-day readmission",
+            "90-Day Readmission Rate", "Unplanned readmission",
+            "30 day readmission", "readmission",
         ],
         "RBC Transfusion": [
             "RBC Transfusion Requirement", "Blood transfusion",
@@ -1311,6 +1487,245 @@ class EntityNormalizer:
         "Radiculopathy": [
             "radiculopathy", "Postoperative radiculopathy",
             "BMP-related radiculitis", "New radiculopathy",
+        ],
+
+        # ========================================
+        # v1.20.2: Additional Outcome Aliases (coverage expansion)
+        # ========================================
+
+
+        # Perioperative metrics
+        "Fluoroscopy Dose": [
+            "fluoroscopy dose", "Radiation dose",
+            "Cumulative radiation dose", "방사선 노출량",
+        ],
+        "Drain Duration": [
+            "drain duration", "Drainage duration",
+            "Duration of drainage", "배액 기간",
+        ],
+
+        # Mortality
+        "Mortality": [
+            "mortality", "In-hospital mortality",
+            "30-day mortality", "90-day mortality",
+            "Perioperative mortality", "Postoperative mortality",
+            "사망률",
+        ],
+
+        # Specific complication outcomes
+        "Urinary Tract Infection": [
+            "UTI", "urinary tract infection",
+            "Postoperative UTI", "요로 감염",
+        ],
+        "Pneumonia": [
+            "pneumonia", "Postoperative pneumonia",
+            "Aspiration pneumonia", "폐렴",
+        ],
+        "Deep Vein Thrombosis": [
+            "DVT", "deep vein thrombosis",
+            "Postoperative DVT", "심부정맥혈전증",
+        ],
+        "Delirium": [
+            "delirium", "Postoperative delirium",
+            "POD", "수술후 섬망",
+        ],
+        "Dysphagia": [
+            "dysphagia", "Postoperative dysphagia",
+            "Swallowing difficulty", "연하곤란",
+        ],
+        "Dysphonia": [
+            "dysphonia", "Hoarseness", "Voice change",
+            "Recurrent laryngeal nerve palsy", "목소리 변화",
+        ],
+        "Hardware Failure": [
+            "hardware failure", "Implant failure",
+            "Instrumentation failure", "기기 실패",
+        ],
+        "Screw Misplacement": [
+            "screw misplacement", "Screw malpositioning",
+            "Pedicle breach", "Cortical breach",
+        ],
+        "Cage Migration": [
+            "cage migration", "Cage retropulsion",
+            "Cage displacement", "케이지 이동",
+        ],
+        "Wound Complication": [
+            "wound complication", "Wound healing complication",
+            "Wound problem", "창상 합병증",
+        ],
+        "Ileus": [
+            "ileus", "Postoperative ileus",
+            "Paralytic ileus", "장마비",
+        ],
+        "Vascular Injury": [
+            "vascular injury", "Great vessel injury",
+            "Arterial injury", "Venous injury",
+            "혈관 손상",
+        ],
+        "Sympathetic Dysfunction": [
+            "sympathetic dysfunction",
+            "Sympathetic chain injury", "Retrograde ejaculation",
+            "교감신경 손상",
+        ],
+        "Vertebral Endplate Fracture": [
+            "endplate fracture", "Vertebral endplate fracture",
+            "Endplate violation", "종판 골절",
+        ],
+
+        # Neurological function outcomes
+        "Neurological Recovery": [
+            "neurological recovery", "Neurological improvement",
+            "Neurologic recovery", "신경학적 회복",
+        ],
+        "Neurological Deficit": [
+            "neurological deficit", "Neurologic deficit",
+            "New neurological deficit", "Postoperative deficit",
+            "신경학적 결손",
+        ],
+        "Bowel/Bladder Function": [
+            "bowel bladder function", "Bladder function",
+            "Bowel function", "CES recovery",
+            "Sphincter function", "배변/배뇨 기능",
+        ],
+        "Grip Strength": [
+            "grip strength", "Hand grip strength",
+            "Handgrip strength", "악력",
+        ],
+        "Walking Ability": [
+            "walking ability", "Ambulation status",
+            "Gait improvement", "Walking distance",
+            "보행 능력",
+        ],
+
+        # Deformity correction outcomes
+        "Coronal Correction": [
+            "coronal correction", "Coronal Cobb correction",
+            "Scoliosis correction", "Curve correction",
+        ],
+        "Sagittal Correction": [
+            "sagittal correction", "Lordosis restoration",
+            "Sagittal balance correction", "SVA correction",
+        ],
+        "Pelvic Incidence": [
+            "pelvic incidence", "PI", "PI angle",
+        ],
+        "T1 Pelvic Angle": [
+            "T1 pelvic angle", "TPA", "T1PA",
+        ],
+        "Global Tilt": [
+            "global tilt", "GT", "Global tilt angle",
+        ],
+        "Pelvic Obliquity": [
+            "pelvic obliquity", "Pelvic tilt asymmetry",
+        ],
+        "Thoracic Kyphosis": [
+            "thoracic kyphosis", "TK", "T4-T12 kyphosis",
+            "T5-T12 kyphosis",
+        ],
+
+        # Length/size measurements
+        "Fusion Segment Length": [
+            "fusion segment length", "Number of fused levels",
+            "Fusion extent", "유합 분절 수",
+        ],
+        "Cage Height": [
+            "cage height", "Interbody cage height",
+            "Cage size", "케이지 높이",
+        ],
+        "Screw Length": [
+            "screw length", "Pedicle screw length",
+            "나사 길이",
+        ],
+        "Screw Diameter": [
+            "screw diameter", "Pedicle screw diameter",
+            "나사 직경",
+        ],
+
+        # Patient-reported outcomes (additional)
+        "RMDQ": [
+            "Roland-Morris Disability Questionnaire",
+            "Roland Morris", "RMDQ score",
+        ],
+        "DASH": [
+            "Disabilities of the Arm, Shoulder and Hand",
+            "DASH score", "QuickDASH",
+        ],
+        "PHQ-9": [
+            "Patient Health Questionnaire", "PHQ9",
+            "PHQ-9 score", "Depression score",
+        ],
+        "GAD-7": [
+            "Generalized Anxiety Disorder 7", "GAD7",
+            "GAD-7 score", "Anxiety score",
+        ],
+        "Brief Pain Inventory": [
+            "BPI", "Brief Pain Inventory score",
+            "BPI score",
+        ],
+        "Pain DETECT": [
+            "PainDETECT", "painDETECT", "PD-Q",
+            "Pain DETECT questionnaire",
+        ],
+        "JOABPEQ": [
+            "JOA Back Pain Evaluation Questionnaire",
+            "JOABPEQ score",
+        ],
+
+        # Spine-specific imaging outcomes
+        "Adjacent Disc Degeneration": [
+            "adjacent disc degeneration",
+            "Proximal disc degeneration", "Distal disc degeneration",
+            "인접분절 디스크 퇴행",
+        ],
+        "Bone Mineral Density": [
+            "BMD", "bone mineral density", "T-score",
+            "DEXA", "DXA", "Bone density",
+            "골밀도",
+        ],
+        "Cross-Sectional Area": [
+            "CSA", "cross-sectional area",
+            "Muscle CSA", "Multifidus CSA",
+            "Paraspinal CSA",
+        ],
+        "Fatty Infiltration": [
+            "fatty infiltration", "Fat infiltration",
+            "Muscle fat infiltration",
+            "Paraspinal fatty infiltration",
+        ],
+
+        # Lab / blood outcomes
+        "CRP": [
+            "C-reactive protein", "CRP level",
+            "Serum CRP",
+        ],
+        "ESR": [
+            "Erythrocyte sedimentation rate",
+            "ESR level", "Sed rate",
+        ],
+        "Hemoglobin": [
+            "hemoglobin", "Hb", "Hgb",
+            "Hemoglobin level", "혈색소",
+        ],
+        "Albumin": [
+            "albumin", "Serum albumin",
+            "Albumin level", "알부민",
+        ],
+        "Vitamin D": [
+            "vitamin D", "25-OH vitamin D",
+            "25-hydroxyvitamin D", "Serum vitamin D",
+            "비타민 D",
+        ],
+
+        # Resource utilization
+        "ICU Stay": [
+            "ICU stay", "ICU length of stay",
+            "Intensive care stay", "ICU days",
+            "중환자실 재원일",
+        ],
+        "Opioid Consumption": [
+            "opioid consumption", "Narcotic use",
+            "Opioid use", "Morphine equivalent",
+            "MED (morphine equivalent dose)",
         ],
     }
 
@@ -1382,6 +1797,9 @@ class EntityNormalizer:
             "cervical myelopathy", "Myelopathy",
             "CSM", "Cervical Spondylotic Myelopathy",
             "Cervical cord compression", "경추 척수병증",
+            # v1.20.2: 추가 변형
+            "myelopathy", "Compressive myelopathy",
+            "Spinal cord myelopathy", "척수병증",
         ],
         # v1.14.1: Cervical Radiculopathy 신규 추가
         "Cervical Radiculopathy": [
@@ -1477,6 +1895,10 @@ class EntityNormalizer:
             "Adjacent segment degeneration", "adjacent segment degeneration",
             "Adjacent level disease", "Radiographic ASD",
             "ASDis", "인접분절 퇴행",
+            # v1.20.2: 추가 변형
+            "Adjacent segment pathology", "ASP",
+            "Radiographic adjacent segment degeneration",
+            "Adjacent level degeneration",
         ],
 
         # Trauma Pathologies
@@ -1525,7 +1947,10 @@ class EntityNormalizer:
         ],
         "Epidural Abscess": [
             "Spinal Epidural Abscess", "SEA",
-            "경막외 농양"
+            "경막외 농양",
+            # v1.20.2: 소문자/변형 추가
+            "spinal epidural abscess", "epidural abscess",
+            "Cervical epidural abscess", "Lumbar epidural abscess",
         ],
         "Spinal TB": [
             "Spinal Tuberculosis", "Pott Disease", "Pott's disease",
@@ -1552,10 +1977,18 @@ class EntityNormalizer:
         ],
         "OPLL": [
             "Ossification of Posterior Longitudinal Ligament",
-            "후종인대 골화증"
+            "후종인대 골화증",
+            # v1.20.2: 소문자/변형 추가
+            "ossification of posterior longitudinal ligament",
+            "Ossification of the posterior longitudinal ligament",
+            "Cervical OPLL", "Thoracic OPLL",
         ],
         "OLF": [
-            "Ossification of Ligamentum Flavum", "황색인대 골화증"
+            "Ossification of Ligamentum Flavum", "황색인대 골화증",
+            # v1.20.2: 소문자/변형 추가
+            "ossification of ligamentum flavum",
+            "Ossification of the ligamentum flavum",
+            "OYL", "Thoracic OLF",
         ],
         "Atlantoaxial Instability": [
             "C1-C2 instability", "AAI", "환축추 불안정"
@@ -1746,6 +2179,186 @@ class EntityNormalizer:
             "Type 2 diabetes", "Type 1 diabetes", "Type II DM",
             "IDDM", "NIDDM", "당뇨병", "당뇨",
         ],
+
+        # ========================================
+        # v1.20.2: Additional Pathology Aliases (coverage expansion)
+        # ========================================
+
+        # Degenerative - additional terms
+        "Neurogenic Claudication": [
+            "neurogenic claudication", "Spinal claudication",
+            "Neurogenic intermittent claudication", "NIC",
+            "신경인성 파행",
+        ],
+        "Lumbar Spondylosis": [
+            "lumbar spondylosis", "Lumbar degenerative changes",
+            "Degenerative lumbar spine", "요추 퇴행성 변화",
+        ],
+        "Thoracic Disc Herniation": [
+            "thoracic disc herniation", "Thoracic HNP",
+            "Thoracic disc prolapse", "흉추 디스크 탈출증",
+        ],
+        "Spinal Cord Injury": [
+            "SCI", "spinal cord injury", "Traumatic spinal cord injury",
+            "TSCI", "Acute spinal cord injury", "척수 손상",
+        ],
+        "Spinal Cord Compression": [
+            "spinal cord compression", "Cord compression",
+            "Thoracic cord compression", "척수 압박",
+        ],
+        "Central Canal Stenosis": [
+            "central canal stenosis", "Central stenosis",
+            "central canal narrowing",
+        ],
+        "Lateral Recess Stenosis": [
+            "lateral recess stenosis", "Lateral recess narrowing",
+            "Subarticular stenosis", "측방 함요 협착",
+        ],
+
+        # Deformity - additional terms
+        "Scoliosis": [
+            "scoliosis", "Spinal scoliosis", "척추 측만증",
+            "측만증",
+        ],
+        "Coronal Imbalance": [
+            "coronal imbalance", "Coronal malalignment",
+            "Coronal decompensation", "관상면 불균형",
+        ],
+        "Fixed Sagittal Imbalance": [
+            "fixed sagittal imbalance", "FSI",
+            "Positive sagittal balance",
+        ],
+        "Iatrogenic Flat Back": [
+            "iatrogenic flat back", "Iatrogenic flatback",
+            "Post-fusion flat back",
+        ],
+        "Rotatory Subluxation": [
+            "rotatory subluxation", "Atlantoaxial rotatory subluxation",
+            "AARS",
+        ],
+        "Cervical Kyphosis": [
+            "cervical kyphosis", "Cervical kyphotic deformity",
+            "Post-laminectomy cervical kyphosis", "경추 후만",
+        ],
+
+        # Trauma - additional terms
+        "Vertebral Fracture": [
+            "vertebral fracture", "Spine fracture",
+            "Spinal fracture", "척추 골절",
+        ],
+        "Osteoporotic Vertebral Fracture": [
+            "osteoporotic vertebral fracture", "OVF", "OVCF",
+            "Osteoporotic vertebral compression fracture",
+            "Osteoporotic fracture", "골다공증성 척추 골절",
+        ],
+        "Pathological Fracture": [
+            "pathological fracture", "Pathologic fracture",
+            "Metastatic fracture", "병적 골절",
+        ],
+        "Subaxial Cervical Spine Injury": [
+            "Subaxial cervical injury", "subaxial cervical spine injury",
+            "SLIC", "Cervical spine trauma",
+        ],
+        "Facet Dislocation": [
+            "facet dislocation", "Unilateral facet dislocation",
+            "Bilateral facet dislocation", "Facet joint dislocation",
+            "Jumped facet",
+        ],
+
+        # Infection - additional terms
+        "Vertebral Osteomyelitis": [
+            "vertebral osteomyelitis", "Spinal osteomyelitis",
+            "척추 골수염",
+        ],
+
+        # Vascular
+        "Spinal AVM": [
+            "spinal AVM", "Spinal arteriovenous malformation",
+            "Spinal dural AV fistula", "SDAVF",
+            "척추 동정맥 기형",
+        ],
+
+        # Metabolic / Bone quality
+        "Osteoporosis": [
+            "osteoporosis", "Spinal osteoporosis",
+            "Osteopenia", "Low bone density",
+            "Low bone mineral density", "골다공증",
+        ],
+        "Osteopenia": [
+            "osteopenia", "Low bone mass",
+            "Reduced bone density", "골감소증",
+        ],
+
+        # Pain conditions
+        "Axial Low Back Pain": [
+            "axial low back pain", "Axial LBP",
+            "Mechanical low back pain", "축성 요통",
+        ],
+        "Low Back Pain": [
+            "LBP", "low back pain", "Chronic low back pain",
+            "CLBP", "Acute low back pain", "요통",
+        ],
+        "Neck Pain": [
+            "neck pain", "Cervical pain", "Cervicalgia",
+            "Axial neck pain", "경부통",
+        ],
+        "Neuropathic Pain": [
+            "neuropathic pain", "Nerve pain",
+            "신경병성 통증",
+        ],
+        "Radicular Pain": [
+            "radicular pain", "Root pain", "Nerve root pain",
+            "신경근통",
+        ],
+
+        # Developmental / Congenital
+        "Spinal Dysraphism": [
+            "spinal dysraphism", "Spina bifida",
+            "Neural tube defect", "이분 척추",
+        ],
+        "Chiari Malformation": [
+            "Chiari malformation", "Chiari I malformation",
+            "Arnold-Chiari malformation", "키아리 기형",
+        ],
+        "Syringomyelia": [
+            "syringomyelia", "Syrinx", "척수공동증",
+        ],
+
+        # Postoperative conditions
+        "Pseudarthrosis": [
+            "pseudarthrosis", "Pseudoarthrosis", "Nonunion",
+            "Non-union", "Fusion failure", "가관절증",
+        ],
+        "Post-laminectomy Syndrome": [
+            "post-laminectomy syndrome", "Failed back surgery",
+            "Post-surgical pain syndrome",
+            "수술후 통증 증후군",
+        ],
+        "Epidural Fibrosis": [
+            "epidural fibrosis", "Peridural fibrosis",
+            "Post-surgical epidural fibrosis",
+            "경막외 섬유화",
+        ],
+
+        # Miscellaneous
+        "Spinal Cord Tumor": [
+            "spinal cord tumor", "Intramedullary tumor",
+            "Intramedullary spinal cord tumor", "IMSCT",
+            "척수 종양",
+        ],
+        "Sacroiliac Joint Dysfunction": [
+            "SI joint dysfunction", "SIJ dysfunction",
+            "Sacroiliac joint pain", "SI joint pain",
+            "천장관절 기능장애",
+        ],
+        "Coccygodynia": [
+            "coccygodynia", "Coccydynia", "Tailbone pain",
+            "Coccyx pain", "미골통",
+        ],
+        "Tandem Stenosis": [
+            "tandem stenosis", "Tandem spinal stenosis",
+            "Coexisting cervical and lumbar stenosis",
+        ],
     }
 
     # v1.16.1: 해부학 위치 별칭 (Anatomy Aliases)
@@ -1793,8 +2406,40 @@ class EntityNormalizer:
         "C7-T1": ["C7-T1 disc", "cervicothoracic disc"],
         "T11-12": ["T11-T12", "T11/12", "T11/T12"],
         "T12-L1": ["T12-L1 disc", "thoracolumbar disc"],
+        # Missing thoracic levels
+        "T2": ["T2 vertebra", "second thoracic vertebra", "D2", "D2 (T2)"],
+        "T3": ["T3 vertebra", "third thoracic vertebra"],
+        "T4": ["T4 vertebra", "fourth thoracic vertebra"],
+        "T5": ["T5 vertebra", "fifth thoracic vertebra"],
+        "T6": ["T6 vertebra", "sixth thoracic vertebra"],
+        "T7": ["T7 vertebra", "seventh thoracic vertebra"],
+        "T8": ["T8 vertebra", "eighth thoracic vertebra"],
+        "T9": ["T9 vertebra", "ninth thoracic vertebra"],
+        # Missing segments
+        "C2-3": ["C2-C3", "C2/3", "C2/C3", "C2-C3 disc"],
+        "T10-11": ["T10-T11", "T10/11", "T10/T11"],
+        "T9-10": ["T9-T10", "T9/10", "T9/T10"],
+        "L3-5": ["L3-L5", "L3/5", "L3-L4-L5"],
+        "L4-S1": ["L4-L5-S1", "L4/S1", "L4-5-S1"],
         # Non-specific anatomy (인식하되 quality_flag 설정 대상)
-        "Multi-level": ["Multiple levels", "Multilevel", "Multisegmental", "multi-level"],
+        "Multi-level": [
+            "Multiple levels", "Multilevel", "Multisegmental", "multi-level",
+            # v1.20.2: "Mixed" and multi-segment variants
+            "Mixed (not specified)", "Mixed/Multiple levels",
+            "Multi-segmental (exact levels not specified)",
+            "Multiple levels (not specified)", "Mixed levels",
+            "C-spine and L-spine (multiple levels)",
+            "Multiple spinal levels", "Various levels",
+        ],
+    }
+
+    # v1.20.2: Anatomy terms that indicate non-specified/vague location
+    # These return low confidence (0.1) to signal the caller
+    _ANATOMY_VAGUE_TERMS = {
+        "not specified", "not applicable", "not specifically specified",
+        "not specifically stated", "not explicitly specified in provided text",
+        "not explicitly specified", "not mentioned", "not reported",
+        "unspecified", "n/a", "na", "none", "unknown",
     }
 
     # 한국어 조사 (Korean particles) - 정규화 시 제거할 조사들
@@ -2215,6 +2860,7 @@ class EntityNormalizer:
         """해부학 위치 정규화 (SNOMED 코드 포함).
 
         v1.16.1: ANATOMY_ALIASES 기반 정규화 추가.
+        v1.20.2: vague/non-specified anatomy terms → low confidence.
 
         Args:
             text: 입력 텍스트 (예: "L-spine", "C5-C6", "요추")
@@ -2224,6 +2870,16 @@ class EntityNormalizer:
         """
         # 한국어 해부학 용어 변환 (우선)
         stripped = text.strip()
+
+        # v1.20.2: Vague/non-specified terms → low confidence
+        if stripped.lower() in self._ANATOMY_VAGUE_TERMS:
+            return NormalizationResult(
+                original=text,
+                normalized=text,
+                confidence=0.1,
+                method="vague_term"
+            )
+
         if stripped in self.ANATOMY_KOREAN:
             stripped = self.ANATOMY_KOREAN[stripped]
 

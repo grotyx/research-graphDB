@@ -346,10 +346,8 @@ class PDFHandler(BaseHandler):
                 try:
                     result = self.server.study_classifier.classify(StudyInput(text=text))
                     return {
-                        "study_design": result.study_design.value if hasattr(result.study_design, 'value') else str(result.study_design),
-                        "evidence_level": result.evidence_level.value if hasattr(result.evidence_level, 'value') else str(result.evidence_level),
-                        "confidence": result.confidence,
-                        "reasoning": result.reasoning
+                        "design": result.study_type.value if hasattr(result, 'study_type') else "unknown",
+                        "evidence_level": result.evidence_level.value if hasattr(result, 'evidence_level') else "5"
                     }
                 except Exception as e:
                     logger.warning(f"Study classification error: {e}")
@@ -690,7 +688,7 @@ Return ONLY valid JSON, no additional text.'''
             graph_spine_meta = GraphSpineMetadata(
                 sub_domain=sub_domain or "Unknown",
                 sub_domains=[sub_domain] if sub_domain else [],
-                anatomy_levels=anatomy_levels or [],
+                anatomy_levels=anatomy_levels if anatomy_levels is not None else [],
                 interventions=interventions,
                 pathologies=pathologies or [],
                 outcomes=formatted_outcomes,

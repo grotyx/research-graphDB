@@ -268,9 +268,9 @@ class TestNormalizeWithFallback:
             "confidence": 0.92,
             "reason": "synonym",
         }
-        # "Procedure elapsed minutes"는 표준 정규화에서 매칭 실패하므로 LLM 폴백
+        # "Knife-to-close interval"는 표준 정규화에서 매칭 실패하므로 LLM 폴백
         result = await builder._normalize_with_fallback(
-            "Procedure elapsed minutes", "outcome"
+            "Knife-to-close interval", "outcome"
         )
         assert result.normalized == "Operation Time"
         assert "llm_classified" in result.method

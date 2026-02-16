@@ -624,7 +624,49 @@ Phase 4 (병렬)         Phase 5 (병렬)         Phase 6 (병렬)
 
 ### 현재 미수정 항목
 
-없음 — D-001~D-004 v1.19.3에서 해소. v1.20.0에서 추가 CA 수정 완료 (무제한 캐시 LRU 적용, SNOMED N+1 배치 처리, 죽은 코드 정리).
+#### D-005: Neo4jClient God Object (52 메서드)
+
+| 항목 | 내용 |
+|------|------|
+| **발견 버전** | v1.21.0 (CA 2026-02-16) |
+| **Phase** | 4.1 God Object |
+| **심각도** | Medium |
+| **상태** | 🟡 미수정 |
+| **설명** | `Neo4jClient` 클래스가 52 메서드 보유. CRUD, 검색, 스키마, 임베딩, 통계를 모두 담당. Relationship 메서드를 `RelationshipDAO`로 분리 권장. |
+| **예상 규모** | Large (20+ 파일 참조) |
+
+#### D-006: core/text_chunker.py 계층 위반
+
+| 항목 | 내용 |
+|------|------|
+| **발견 버전** | v1.21.0 (CA 2026-02-16) |
+| **Phase** | 4.3 의존성 방향 |
+| **심각도** | Low |
+| **상태** | 🟡 미수정 |
+| **설명** | `core/text_chunker.py`가 `builder/section_classifier`, `builder/citation_detector`를 lazy import. core → builder 계층 위반. `builder/`로 이동 또는 DI 패턴 적용 권장. |
+| **예상 규모** | Medium |
+
+#### D-007: 테스트 커버리지 확장 (37.9% → 60%+)
+
+| 항목 | 내용 |
+|------|------|
+| **발견 버전** | v1.21.0 (CA 2026-02-16) |
+| **Phase** | 5.1 커버리지 |
+| **심각도** | Medium |
+| **상태** | 🟡 미수정 |
+| **설명** | 39/103 모듈에만 테스트 존재. 500줄+ 테스트 없는 파일 37개. 우선: `unified_pdf_processor`, `metadata_extractor`, `writing_guide_handler`, `pubmed_handler`, MCP 핸들러 전반. |
+| **예상 규모** | Large |
+
+#### D-008: ValueError → 커스텀 예외 전환 (~30건)
+
+| 항목 | 내용 |
+|------|------|
+| **발견 버전** | v1.21.0 (CA 2026-02-16) |
+| **Phase** | 2.2 예외 일관성 |
+| **심각도** | Low |
+| **상태** | 🟡 미수정 |
+| **설명** | ~30개 `ValueError` + 3개 `RuntimeError`를 커스텀 예외(`ValidationError`, `ProcessingError`, `LLMError`)로 전환 권장. `NormalizationError`, `ExtractionError` 미사용. |
+| **예상 규모** | Medium |
 
 ### 해소 완료 항목
 

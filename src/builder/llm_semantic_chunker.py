@@ -82,8 +82,6 @@ class LLMSemanticChunker:
         if client is None:
             client = LLMClient()
         self.llm = client
-        # 하위 호환성 속성
-        self.gemini = self.llm
         self.config = config or ChunkingConfig()
         self.fallback = fallback_chunker
 
@@ -262,7 +260,7 @@ Important:
             "required": ["chunks", "total_chunks"]
         }
 
-        result = await self.gemini.generate_json(
+        result = await self.llm.generate_json(
             prompt=prompt,
             schema=schema,
             system=SEMANTIC_CHUNKER_SYSTEM

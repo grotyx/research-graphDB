@@ -134,8 +134,6 @@ class LLMMetadataExtractor:
         if client is None:
             client = LLMClient()
         self.llm = client
-        # 하위 호환성 속성
-        self.gemini = self.llm
         self.config = config or {}
         self.extract_pico = self.config.get("extract_pico", True)
         self.extract_stats = self.config.get("extract_stats", True)
@@ -261,7 +259,7 @@ Return as JSON."""
         }
 
         try:
-            result = await self.gemini.generate_json(
+            result = await self.llm.generate_json(
                 prompt=prompt,
                 schema=schema,
                 system=METADATA_EXTRACTOR_SYSTEM
@@ -382,7 +380,7 @@ Extract:
             "required": ["summary", "keywords", "content_type", "is_key_finding"]
         }
 
-        result = await self.gemini.generate_json(
+        result = await self.llm.generate_json(
             prompt=prompt,
             schema=schema,
             system=METADATA_EXTRACTOR_SYSTEM

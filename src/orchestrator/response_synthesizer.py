@@ -513,7 +513,7 @@ Answer:"""
             return response.text.strip()
 
         except Exception as e:
-            logger.error(f"LLM synthesis failed: {e}")
+            logger.error(f"LLM synthesis failed: {e}", exc_info=True)
             # Fallback to template
             return self._template_answer(query, graph_evidences, vector_contexts)
 

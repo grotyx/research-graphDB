@@ -815,7 +815,7 @@ class RelationshipBuilder:
                     result.warnings.append(f"Paper relations error: {str(e)}")
 
         except Exception as e:
-            logger.error(f"Build error for {paper_id}: {e}")
+            logger.error(f"Build error for {paper_id}: {e}", exc_info=True)
             result.errors.append(str(e))
 
         return result
@@ -1233,7 +1233,7 @@ class RelationshipBuilder:
             return False
 
         except Exception as e:
-            logger.error(f"Failed to link {intervention_name} to taxonomy: {e}")
+            logger.error(f"Failed to link {intervention_name} to taxonomy: {e}", exc_info=True)
             return False
 
     def _determine_parent_intervention(self, intervention_name: str, norm_result) -> Optional[str]:

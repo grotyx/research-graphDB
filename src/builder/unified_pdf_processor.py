@@ -266,6 +266,9 @@ class SpineMetadata:
     # 핵심 결론
     main_conclusion: str = ""
 
+    # 논문 요약 (2-3문장)
+    summary: str = ""
+
 
 @dataclass
 class ExtractedMetadata:
@@ -431,6 +434,7 @@ Analyze this PDF and extract ALL important information in a structured format.
     "comparison_type": "vs_conventional/vs_other_mis/vs_conservative/single_arm",
     "follow_up_months": 24,
     "main_conclusion": "Brief conclusion in 1-2 sentences",
+    "summary": "A comprehensive 2-3 sentence summary of the paper's key findings and conclusions",
     "pico": {
       "population": "Adults 50-80 years with lumbar stenosis",
       "intervention": "UBE decompression",
@@ -641,7 +645,7 @@ Examples:
 - Oncology: survival rate, recurrence, SINS score
 
 **Complications**: Types, incidence rates, severity
-**Follow-up period** and **Main conclusion**
+**Follow-up period**, **Main conclusion**, and **Summary** (2-3 sentence comprehensive summary of key findings)
 
 ### 3. CHUNK EXTRACTION (Target: 15-25 chunks)
 
@@ -1655,6 +1659,7 @@ class UnifiedPDFProcessor:
             follow_up_period=str(spine_dict.get("follow_up_period", spine_dict.get("follow_up_months", ""))),
             sample_size=int(spine_dict.get("sample_size", 0) or 0),
             main_conclusion=spine_dict.get("main_conclusion", ""),
+            summary=spine_dict.get("summary", ""),
         )
 
         metadata = ExtractedMetadata(

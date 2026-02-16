@@ -871,6 +871,8 @@ driver.close()
 
 **기대 결과:** 같은 라벨 내 중복 = 0, 라벨 간 중복 = 0
 
+> **참고 (v1.21.0)**: Outcome 카테고리에서 시점/기법별 변형이 동일 SNOMED 코드를 공유하는 것은 **의도된 설계**입니다 (예: VAS Back preop / VAS Back 6mo / VAS Back final → 모두 같은 VAS Back 코드). 이는 시간 경과에 따른 동일 측정값의 변형으로, 의학적으로 별도 개념이 아닙니다.
+
 ### 4.5 Neo4j ↔ SNOMED 매핑 소스 동기화
 
 Neo4j의 SNOMED 코드가 `spine_snomed_mappings.py` (Single Source of Truth)와 일치하는지 검증합니다. 불일치는 매핑 업데이트 후 Neo4j 반영 누락을 의미합니다.

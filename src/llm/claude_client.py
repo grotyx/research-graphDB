@@ -23,7 +23,7 @@ import os
 import time
 import logging
 from collections import deque
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional, Any
 
 import anthropic
@@ -41,7 +41,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class ClaudeConfig:
     """Claude API 설정."""
-    api_key: str = ""
+    api_key: str = field(default="", repr=False)
     model: str = "claude-haiku-4-5-20251001"
     fallback_model: str = "claude-sonnet-4-5-20250929"
     auto_fallback: bool = True

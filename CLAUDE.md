@@ -5,7 +5,7 @@
 Spine GraphRAG는 Neo4j 그래프 데이터베이스를 사용한 단일 저장소 시스템입니다.
 척추 수술 분야의 의학 논문을 처리하여 구조화된 지식 그래프를 구축하고, 근거 기반 검색을 지원합니다.
 
-**Version**: 1.20.1 | **Status**: Production Ready
+**Version**: 1.21.0 | **Status**: Production Ready
 **Docs**: [PRD](docs/PRD.md) | [TRD](docs/TRD_v3_GraphRAG.md) | [Changelog](docs/CHANGELOG.md)
 
 ### Architecture (Single-Store: Neo4j Only)
@@ -212,7 +212,7 @@ rag_research/
 │   ├── llm/             # LLM 클라이언트 (claude_client, gemini_client)
 │   ├── medical_mcp/     # MCP 서버 Facade + 11개 도메인 핸들러 (BaseHandler 상속)
 │   ├── core/            # 설정/로깅/예외 (config, exceptions, embedding, text_chunker, bounded_cache)
-│   ├── cache/           # 캐싱 (llm_cache, query_cache, embedding_cache, semantic_cache)
+│   ├── cache/           # 캐싱 (cache_manager, query_cache, embedding_cache, semantic_cache)
 │   ├── knowledge/       # 지식 처리 (v1.20.0: 레거시 모듈 archive/로 이동)
 │   ├── ontology/        # 온톨로지 (concept_hierarchy, snomed_linker, spine_snomed_mappings)
 │   ├── orchestrator/    # 쿼리 라우팅 (query_pattern_router, cypher_generator)
@@ -231,7 +231,7 @@ rag_research/
 | `relationship_builder.py` | Paper → Graph 구축 |
 | `entity_normalizer.py` | 용어 정규화 (UBE↔BESS), SNOMED 자동 링크 |
 | `taxonomy_manager.py` | Intervention IS_A 계층 관리 |
-| `spine_snomed_mappings.py` | SNOMED-CT 매핑 (414개: I:144, P:120, O:104, A:46) — Single Source of Truth |
+| `spine_snomed_mappings.py` | SNOMED-CT 매핑 (438개: I:167, P:121, O:104, A:46) — Single Source of Truth |
 | `snomed_enricher.py` | SNOMED 업데이트, TREATS 백필, Anatomy 정리 통합 모듈 |
 | `schema.py` | Neo4j 스키마, 인덱스, Cypher 템플릿 |
 | `medical_kag_server.py` | MCP 서버 Facade (10개 도구, Tool Registry 디스패치 → 11개 핸들러) |
@@ -250,6 +250,7 @@ rag_research/
 | `scripts/repair_isolated_papers.py` | 고립 논문 복구 (LLM 재분석 → 관계 구축, `--dry-run`, `--max-concurrent`, `--paper-ids` 지원) |
 | `scripts/init_neo4j.py` | Neo4j 스키마/인덱스 초기화 |
 | `scripts/enrich_graph_snomed.py` | SNOMED 코드 일괄 적용 + TREATS 백필 |
+| `scripts/backfill_summary.py` | 기존 Paper에 LLM 생성 summary 소급 적용 |
 
 ## Documentation
 

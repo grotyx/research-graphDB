@@ -11,7 +11,7 @@ Neo4j 데이터베이스 연결 및 쿼리 관리.
 import asyncio
 import logging
 import os
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any, Optional
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -39,6 +39,13 @@ except ImportError:
     AsyncDriver = None
     AsyncSession = None
 
+try:
+    from openai import OpenAI as _OpenAI
+    OPENAI_AVAILABLE = True
+except ImportError:
+    OPENAI_AVAILABLE = False
+    _OpenAI = None  # type: ignore
+
 from .spine_schema import SpineGraphSchema, PaperNode, ChunkNode, CypherTemplates
 
 # Import error handling
@@ -64,7 +71,7 @@ class Neo4jConfig:
     """Neo4j 연결 설정."""
     uri: str = "bolt://localhost:7687"
     username: str = "neo4j"
-    password: str = "password"
+    password: str = field(default="password", repr=False)
     database: str = "neo4j"
     max_connection_lifetime: int = 3600
     max_connection_pool_size: int = 50
@@ -102,12 +109,14 @@ class Neo4jClient:
             self._driver = None
             self.config = config or Neo4jConfig()
             self._circuit_breaker = None
+            self._openai_client = None
             return
 
         self._mock_mode = False
         self.config = config or Neo4jConfig.from_env()
         self._driver: Optional[AsyncDriver] = None
         self._initialized = False
+        self._openai_client = None  # Lazy-initialized OpenAI client for embeddings
 
         # Initialize circuit breaker if available
         if ERROR_HANDLER_AVAILABLE:
@@ -417,13 +426,15 @@ class Neo4jClient:
             성공 여부
         """
         try:
-            import os
-            from openai import OpenAI
+            if not OPENAI_AVAILABLE:
+                logger.warning("OpenAI package not installed, skipping abstract embedding")
+                return False
 
-            openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+            if self._openai_client is None:
+                self._openai_client = _OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
             # OpenAI 임베딩 생성 (3072차원)
-            response = openai_client.embeddings.create(
+            response = self._openai_client.embeddings.create(
                 model="text-embedding-3-large",
                 input=abstract[:8000],  # 최대 길이 제한
                 dimensions=3072
@@ -442,10 +453,6 @@ class Neo4jClient:
 
             logger.debug(f"Abstract embedding generated for {paper_id}")
             return True
-
-        except ImportError:
-            logger.warning("OpenAI package not installed, skipping abstract embedding")
-            return False
         except Exception as e:
             logger.warning(f"Failed to generate abstract embedding for {paper_id}: {e}")
             return False

@@ -1079,7 +1079,7 @@ class HybridRanker:
         except Exception as e:
             logger.error(f"Neo4j hybrid search failed: {e}", exc_info=True)
             # Fallback to traditional search
-            logger.info("Falling back to traditional Graph + ChromaDB search")
+            logger.info("Falling back to traditional Graph search")
             self.use_neo4j_hybrid = False  # 일시적으로 비활성화
 
             # 기존 방식으로 재시도

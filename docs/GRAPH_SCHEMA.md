@@ -6,7 +6,7 @@
 
 | Node | Key Properties | Description |
 |------|----------------|-------------|
-| Paper | paper_id, title, year, evidence_level, sub_domain | 논문 |
+| Paper | paper_id, title, year, evidence_level, sub_domain, summary | 논문 |
 | Pathology | name, category, snomed_code, snomed_term | 질환 |
 | Anatomy | level, region, snomed_code, snomed_term | 해부학적 위치 |
 | Intervention | name, category, aliases, snomed_code, snomed_term | 수술법 |
@@ -159,11 +159,11 @@ final_score = 0.6 * graph_score + 0.4 * vector_score
 
 | Category | Total | Official SNOMED | Extension Codes |
 |----------|-------|-----------------|-----------------|
-| Intervention | 144 | 47 | 97 |
-| Pathology | 120 | 62 | 58 |
-| Outcome | 104 | 24 | 80 |
+| Intervention | 167 | 48 | 119 |
+| Pathology | 121 | 62 | 59 |
+| Outcome | 104 | 25 | 79 |
 | Anatomy | 46 | 24 | 22 |
-| **Total** | **414** | **157** | **257** |
+| **Total** | **438** | **159** | **279** |
 
 ### 주요 매핑 카테고리
 
@@ -212,10 +212,15 @@ BELIF (Biportal Endoscopic LIF): 900000000000119
 Stereotactic Navigation: 900000000000120
 Facetectomy: 900000000000121 (v1.14.2)
 
+# Interventions Extended (900000000006xx) ← v1.21.0
+# 기존 1xx 범위 고갈에 따른 확장 범위
+
 # Pathologies (900000000002xx)
 Adjacent Segment Disease: 900000000000208
 Segmental Instability: 900000000000206
 DJK (Distal Junctional Kyphosis): 900000000000207
+PJF (Proximal Junctional Failure): 900000000000234 (v1.21.0)
+Proximal Junctional Kyphosis: 900000000000233 (v1.21.0, 기존 PJK에서 분리)
 
 # Outcomes (900000000003xx)
 VAS Leg: 900000000000302
@@ -240,4 +245,4 @@ Epidural Hematoma: 900000000000505
 ### 소스 파일
 
 - `src/ontology/spine_snomed_mappings.py`: 전체 매핑 정의
-- `src/ontology/entity_normalizer.py`: 정규화 및 SNOMED 코드 조회
+- `src/graph/entity_normalizer.py`: 정규화 및 SNOMED 코드 조회

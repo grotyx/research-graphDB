@@ -1006,6 +1006,7 @@ class MedicalKAGServer:
                 complications: list = field(default_factory=list)
                 follow_up_months: int = 0
                 main_conclusion: str = ""
+                summary: str = ""
                 # PICO (v3.0 - spine_metadata에 추가)
                 pico_population: str = ""
                 pico_intervention: str = ""
@@ -1024,6 +1025,7 @@ class MedicalKAGServer:
                 complications=spine_dict.get("complications", []),
                 follow_up_months=spine_dict.get("follow_up_months", 0),
                 main_conclusion=spine_dict.get("main_conclusion", ""),
+                summary=spine_dict.get("summary", ""),
                 # PICO (v3.0)
                 pico_population=pico_dict.get("population", "") if pico_dict else "",
                 pico_intervention=pico_dict.get("intervention", "") if pico_dict else "",
@@ -1736,12 +1738,12 @@ class MedicalKAGServer:
             처리 결과 딕셔너리
         """
         # 1. PDF 파싱 (기본 텍스트 추출)
-        text = self._extract_pdf_text(path)
+        text = self.pdf_handler._extract_pdf_text(path)
         if not text:
             return {"success": False, "error": "텍스트 추출 실패"}
 
         # 2. 메타데이터 추출 및 문서 ID 생성 (Author_Year_Title 형식)
-        pdf_metadata = self._extract_pdf_metadata(path, text)
+        pdf_metadata = self.pdf_handler._extract_pdf_metadata(path, text)
         doc_id = self._generate_document_id(pdf_metadata, path.stem)
 
         # 사용자 메타데이터와 병합
@@ -1773,9 +1775,9 @@ class MedicalKAGServer:
         else:
             logger.info("Using rule-based pipeline for processing")
             # 기존 규칙 기반 처리
-            sections = self._classify_sections(text)
-            citation_info = self._detect_citations(text)
-            study_info = self._classify_study(text)
+            sections = self.pdf_handler._classify_sections(text)
+            citation_info = self.pdf_handler._detect_citations(text)
+            study_info = self.pdf_handler._classify_study(text)
 
             chunks = self._create_chunks(
                 text=text,
@@ -1788,7 +1790,7 @@ class MedicalKAGServer:
             )
 
         # 연구 설계 분류 (통계용)
-        study_info = self._classify_study(text)
+        study_info = self.pdf_handler._classify_study(text)
 
         # 임베딩 생성 (OpenAI)
         embeddings = self._generate_embeddings(chunks)
@@ -2064,7 +2066,14 @@ class MedicalKAGServer:
         if _spine_dict:
             spine_meta = MinimalSpineMeta()
             spine_meta.sub_domain = _spine_dict.get("sub_domain", "Unknown")
-            spine_meta.anatomy_levels = _spine_dict.get("anatomy_levels", [])
+            _anatomy_level = _spine_dict.get("anatomy_level", "")
+            _anatomy_region = _spine_dict.get("anatomy_region", "")
+            _anatomy_levels = []
+            if _anatomy_level:
+                _anatomy_levels.append(_anatomy_level)
+            if _anatomy_region and _anatomy_region != _anatomy_level:
+                _anatomy_levels.append(_anatomy_region)
+            spine_meta.anatomy_levels = _anatomy_levels
             spine_meta.interventions = _spine_dict.get("interventions", [])
             spine_meta.pathologies = _spine_dict.get("pathologies", [])
             spine_meta.outcomes = _spine_dict.get("outcomes", [])
@@ -2875,9 +2884,9 @@ class MedicalKAGServer:
             logger.error(f"LLM pipeline error: {e}", exc_info=True)
             logger.info("Falling back to rule-based processing")
             # Fallback to rule-based processing
-            sections = self._classify_sections(text)
-            citation_info = self._detect_citations(text)
-            study_info = self._classify_study(text)
+            sections = self.pdf_handler._classify_sections(text)
+            citation_info = self.pdf_handler._detect_citations(text)
+            study_info = self.pdf_handler._classify_study(text)
             chunks = self._create_chunks(
                 text=text,
                 file_path="",
@@ -2915,112 +2924,6 @@ class MedicalKAGServer:
         return "tier1"
 
     # ========== Helper Methods ==========
-
-    def _extract_pdf_metadata(self, path: Path, text: str) -> dict:
-        """PDF에서 메타데이터 추출 (저자, 연도, 제목, 저널).
-
-        Args:
-            path: PDF 파일 경로
-            text: 추출된 텍스트
-
-        Returns:
-            메타데이터 딕셔너리 (authors, year, title, journal)
-        """
-        import re
-
-        metadata = {
-            "authors": [],
-            "year": 0,
-            "title": "",
-            "journal": "",
-            "first_author": ""
-        }
-
-        try:
-            import fitz
-            doc = fitz.open(str(path))
-            try:
-                # 1. PDF 내장 메타데이터에서 추출 시도
-                pdf_meta = doc.metadata
-                if pdf_meta:
-                    if pdf_meta.get("title"):
-                        metadata["title"] = pdf_meta["title"]
-                    if pdf_meta.get("author"):
-                        authors = pdf_meta["author"].split(",")
-                        metadata["authors"] = [a.strip() for a in authors if a.strip()]
-                    if pdf_meta.get("creationDate"):
-                        # D:20210315... 형식
-                        date_str = pdf_meta["creationDate"]
-                        year_match = re.search(r"D:(\d{4})", date_str)
-                        if year_match:
-                            metadata["year"] = int(year_match.group(1))
-            finally:
-                doc.close()
-
-            # 2. 텍스트에서 연도 추출 (메타데이터에 없는 경우)
-            if metadata["year"] == 0:
-                # 일반적인 논문 연도 패턴: (2020), 2020;, Published: 2020
-                year_patterns = [
-                    r'(?:published|received|accepted)[:\s]*(?:\w+\s+)?(\d{4})',
-                    r'©?\s*(\d{4})\s+(?:Elsevier|Springer|Wiley|BMJ|JAMA)',
-                    r'\b(20[0-2]\d)\b',  # 2000-2029
-                    r'\b(19[89]\d)\b',   # 1980-1999
-                ]
-                for pattern in year_patterns:
-                    match = re.search(pattern, text[:3000], re.IGNORECASE)
-                    if match:
-                        metadata["year"] = int(match.group(1))
-                        break
-
-            # 3. 텍스트에서 저자 추출 (첫 페이지에서)
-            if not metadata["authors"]:
-                first_page = text[:2000]
-                # 일반적인 저자 패턴: Name1, Name2, and Name3
-                # Kim JS, Park SM, Lee JH
-                author_patterns = [
-                    r'^([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?(?:\s+[A-Z]\.?)?(?:\s*,\s*[A-Z][a-z]+(?:\s+[A-Z][a-z]+)?(?:\s+[A-Z]\.?)?){0,5})',
-                    r'([A-Z][a-z]+\s+[A-Z]{1,2}(?:\s*,\s*[A-Z][a-z]+\s+[A-Z]{1,2}){0,5})',
-                ]
-                for pattern in author_patterns:
-                    match = re.search(pattern, first_page, re.MULTILINE)
-                    if match:
-                        author_str = match.group(1)
-                        authors = re.split(r',\s*|\s+and\s+', author_str)
-                        metadata["authors"] = [a.strip() for a in authors if a.strip() and len(a.strip()) > 2]
-                        break
-
-            # 4. 텍스트에서 제목 추출 (없는 경우)
-            if not metadata["title"]:
-                # 첫 줄들에서 긴 문장을 제목으로 간주
-                lines = text[:1500].split('\n')
-                for line in lines[:10]:
-                    line = line.strip()
-                    # 제목 특성: 10-200자, 숫자로 시작하지 않음, 특수문자 적음
-                    if 10 < len(line) < 200 and not line[0].isdigit():
-                        if not re.search(r'[©®™]|Vol\.|Issue|doi:', line, re.IGNORECASE):
-                            metadata["title"] = line
-                            break
-
-            # 5. 첫 번째 저자 추출
-            if metadata["authors"]:
-                first = metadata["authors"][0]
-                # "Kim JS" -> "Kim", "John Smith" -> "Smith"
-                parts = first.split()
-                if len(parts) >= 1:
-                    # 한국식: 성이 앞, 서양식: 성이 뒤
-                    if len(parts[0]) <= 3:  # 짧으면 성
-                        metadata["first_author"] = parts[0]
-                    else:
-                        metadata["first_author"] = parts[-1]
-
-        except Exception as e:
-            logger.warning(f"Metadata extraction error: {e}")
-
-        # Fallback: 파일명에서 정보 추출
-        if not metadata["title"]:
-            metadata["title"] = path.stem
-
-        return metadata
 
     def _generate_document_id(self, metadata: dict, fallback_name: str) -> str:
         """메타데이터에서 document_id 생성.
@@ -3073,83 +2976,6 @@ class MedicalKAGServer:
         doc_id = doc_id[:80]  # 최대 80자
 
         return doc_id
-
-    def _extract_pdf_text(self, path: Path) -> str:
-        """PDF에서 텍스트 추출."""
-        try:
-            import fitz  # PyMuPDF
-            doc = fitz.open(str(path))
-            try:
-                text = ""
-                for page in doc:
-                    text += page.get_text()
-            finally:
-                doc.close()
-            return text
-        except ImportError:
-            logger.warning("PyMuPDF not available, using placeholder")
-            return f"[Placeholder text from {path.name}]"
-        except Exception as e:
-            logger.error(f"PDF extraction error: {e}", exc_info=True)
-            return ""
-
-    def _classify_sections(self, text: str) -> list[dict]:
-        """섹션 분류."""
-        if BUILDER_AVAILABLE and hasattr(self, 'section_classifier'):
-            try:
-                from builder.section_classifier import SectionInput
-                result = self.section_classifier.classify(SectionInput(text=text))
-                return [{
-                    "section": result.section,
-                    "tier": f"tier{result.tier}",
-                    "content": text,
-                    "confidence": result.confidence,
-                    "evidence": result.evidence
-                }]
-            except Exception as e:
-                logger.warning(f"Section classification error: {e}")
-
-        # Default sections
-        return [{"section": "full_text", "tier": "tier1", "content": text}]
-
-    def _detect_citations(self, text: str) -> list[dict]:
-        """인용 감지."""
-        if BUILDER_AVAILABLE and hasattr(self, 'citation_detector'):
-            try:
-                from builder.citation_detector import CitationInput
-                result = self.citation_detector.detect(CitationInput(text=text))
-                return [{
-                    "source_type": result.source_type.value if hasattr(result.source_type, 'value') else str(result.source_type),
-                    "confidence": result.confidence,
-                    "original_ratio": result.original_ratio,
-                    "citations": [
-                        {
-                            "marker": c.citation_marker,
-                            "authors": c.authors,
-                            "year": c.year
-                        }
-                        for c in result.citations
-                    ]
-                }]
-            except Exception as e:
-                logger.warning(f"Citation detection error: {e}")
-
-        return [{"source_type": "original", "content": text}]
-
-    def _classify_study(self, text: str) -> Optional[dict]:
-        """연구 설계 분류."""
-        if BUILDER_AVAILABLE and hasattr(self, 'study_classifier'):
-            try:
-                from builder.study_classifier import StudyInput
-                result = self.study_classifier.classify(StudyInput(text=text))
-                return {
-                    "design": result.study_type.value if hasattr(result, 'study_type') else "unknown",
-                    "evidence_level": result.evidence_level.value if hasattr(result, 'evidence_level') else "5"
-                }
-            except Exception as e:
-                logger.warning(f"Study classification error: {e}")
-
-        return None
 
     def _create_chunks(
         self,
@@ -3965,7 +3791,7 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
                 )
             return resources
         except Exception as e:
-            logger.error(f"list_resources failed: {e}")
+            logger.error(f"list_resources failed: {e}", exc_info=True)
             return []
 
     @server.read_resource()

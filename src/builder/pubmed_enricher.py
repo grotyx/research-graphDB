@@ -339,7 +339,7 @@ class PubMedEnricher:
             logger.warning(f"PubMed DOI search failed: {e}")
             return None
         except Exception as e:
-            logger.error(f"Unexpected error in DOI search: {e}")
+            logger.error(f"Unexpected error in DOI search: {e}", exc_info=True)
             return None
 
     async def enrich_by_pmid(self, pmid: str) -> Optional[BibliographicMetadata]:
@@ -375,7 +375,7 @@ class PubMedEnricher:
             logger.warning(f"PubMed PMID fetch failed: {e}")
             return None
         except Exception as e:
-            logger.error(f"Unexpected error in PMID fetch: {e}")
+            logger.error(f"Unexpected error in PMID fetch: {e}", exc_info=True)
             return None
 
     async def enrich_by_title(
@@ -483,7 +483,7 @@ class PubMedEnricher:
             logger.warning(f"PubMed title search failed: {e}")
             return None
         except Exception as e:
-            logger.error(f"Unexpected error in title search: {e}")
+            logger.error(f"Unexpected error in title search: {e}", exc_info=True)
             return None
 
     async def auto_enrich(
@@ -805,7 +805,7 @@ class PubMedEnricher:
             logger.warning(f"Citation search timed out after {self.timeout}s")
             return []
         except Exception as e:
-            logger.error(f"Citation search error: {e}")
+            logger.error(f"Citation search error: {e}", exc_info=True)
             return []
 
     async def search_and_enrich_citation(

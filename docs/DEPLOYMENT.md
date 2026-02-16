@@ -1,4 +1,4 @@
-# Spine GraphRAG v1.19.4 - Deployment Guide
+# Spine GraphRAG v1.20.1 - Deployment Guide
 
 다른 컴퓨터로 프로젝트를 이전하기 위한 가이드입니다.
 
@@ -6,20 +6,22 @@
 
 | 항목 | 값 |
 |------|-----|
-| **Version** | 1.19.4 |
+| **Version** | 1.20.1 |
 | **Date** | 2026-02-16 |
 | **SNOMED Mappings** | 414개 (I:144, P:120, O:104, A:46) + 패턴 매핑 |
 | **Storage** | Neo4j (Graph + Vector 통합, ChromaDB 완전 제거) |
 
-### v1.16 주요 기능
+### 주요 기능
 
 - **PubMed + DOI 3단계 Fallback**: PubMed → Crossref/DOI → Basic 순서로 항상 서지 보강
 - **Crossref 서지 검색**: DOI 없이 제목+저자로 논문 검색
 - **인용 논문 항상 저장**: 모든 enrichment 실패 시에도 Paper 노드 생성
-- **SNOMED-CT 패턴 매핑**: 패턴 기반 자동 매칭으로 60.6% 커버리지 달성
+- **SNOMED-CT 매핑**: 414개 매핑 (I:144, P:120, O:104, A:46)
 - **Neo4j Vector Index**: HNSW 3072d 통합 그래프+벡터 검색
 - **Academic Writing Guide**: 9개 EQUATOR 체크리스트 지원
 - **DOI Fulltext Fetcher**: Crossref + Unpaywall API로 전문 자동 조회
+- **Auto Normalizer Expansion**: 3계층 자동 별칭 확장 (v1.20.0)
+- **Clinical Recommend**: 환자 맥락 기반 치료 추천 (v1.20.0)
 
 ## 필수 요구사항
 
@@ -84,13 +86,13 @@ rsync -avz --progress \
 # 방법 2: tar 압축 후 전송
 cd /path/to
 tar --exclude='.venv' --exclude='__pycache__' --exclude='.git' \
-    --exclude='logs' --exclude='data/chromadb' \
-    -czvf rag_research_v1.16.tar.gz rag_research/
+    --exclude='logs' \
+    -czvf rag_research_v1.20.1.tar.gz rag_research/
 
-scp rag_research_v1.16.tar.gz user@newserver:~/
+scp rag_research_v1.20.1.tar.gz user@newserver:~/
 
 # 새 서버에서 압축 해제
-ssh user@newserver "cd ~ && tar -xzvf rag_research_v1.16.tar.gz"
+ssh user@newserver "cd ~ && tar -xzvf rag_research_v1.20.1.tar.gz"
 ```
 
 ### Step 2: Python 환경 설정
@@ -205,7 +207,7 @@ streamlit run web/app.py --server.address 0.0.0.0
 # 저장: verify_deployment.sh
 # 실행: bash verify_deployment.sh
 
-echo "=== Spine GraphRAG v1.16.0 Deployment Verification ==="
+echo "=== Spine GraphRAG v1.20.1 Deployment Verification ==="
 
 # 1. Python 환경
 echo -e "\n[1/5] Python Environment"
@@ -235,14 +237,14 @@ print(f'Anatomy: {len(SPINE_ANATOMY_SNOMED)}')
 total = len(SPINE_INTERVENTION_SNOMED) + len(SPINE_PATHOLOGY_SNOMED) + len(SPINE_OUTCOME_SNOMED) + len(SPINE_ANATOMY_SNOMED)
 print(f'Total: {total}')
 
-# v1.16 entries
+# v1.20 entries
 dm = SPINE_PATHOLOGY_SNOMED.get('Diabetes Mellitus')
 ssi_s = SPINE_OUTCOME_SNOMED.get('Superficial Surgical Site Infection')
 ssi_d = SPINE_OUTCOME_SNOMED.get('Deep Surgical Site Infection')
 if dm and ssi_s and ssi_d:
-    print('✅ v1.16 entries OK')
+    print('✅ v1.20 entries OK')
 else:
-    print('❌ v1.16 entries MISSING')
+    print('❌ v1.20 entries MISSING')
 "
 
 # 4. LLM 연결

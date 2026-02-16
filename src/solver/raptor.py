@@ -300,7 +300,6 @@ Return ONLY the summary text (2-3 paragraphs, 150-250 words)."""
                 )
             )
         self.llm = client
-        self.gemini_client = self.llm  # 하위 호환성 속성
 
     async def summarize_cluster(self, chunks: list[str]) -> str:
         """Summarize a cluster of text chunks.
@@ -331,7 +330,7 @@ Return ONLY the summary text (2-3 paragraphs, 150-250 words)."""
         prompt = self.SUMMARIZATION_PROMPT.format(content=combined)
 
         try:
-            response = await self.gemini_client.generate_text(
+            response = await self.llm.generate_text(
                 prompt=prompt,
                 system_instruction="You are a medical knowledge summarization expert specializing in spine surgery literature."
             )

@@ -33,6 +33,7 @@ EXTENSION_RANGES = {
     "observable": (300, 399),    # 900000000003xx
     "body_structure": (400, 499),  # 900000000004xx
     "finding": (500, 599),       # 900000000005xx
+    "procedure_ext": (600, 699),  # 900000000006xx (v1.21: Fixation/Osteotomy variants)
 }
 
 
@@ -168,7 +169,7 @@ SYNONYM_GROUPS: list[set[str]] = [
      "Adjacent Segment Degeneration", "Adjacent Level Disease"},
 
     # Proximal Junctional Kyphosis
-    {"PJK", "PJF", "Proximal Junctional Kyphosis", "Proximal Junctional Failure"},
+    {"PJK", "Proximal Junctional Kyphosis"},
 ]
 
 
@@ -207,8 +208,8 @@ RELATED_TERMS: dict[str, list[str]] = {
 SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
     # === FUSION SURGERY ===
     "Fusion Surgery": SNOMEDMapping(
-        code="122465003",
-        term="Fusion of spine",
+        code="174765004",
+        term="Spinal fusion operation",
         semantic_type=SNOMEDSemanticType.PROCEDURE,
         synonyms=["Spinal fusion", "Spondylodesis", "Arthrodesis of spine"],
     ),
@@ -1681,6 +1682,187 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         synonyms=["Open fracture reduction"],
         korean_term="관혈적 정복술",
     ),
+
+    # === FIXATION VARIANTS (v1.21: procedure_ext range 600-699) ===
+    "Pelvic fixation": SNOMEDMapping(
+        code="900000000000600",
+        term="Pelvic fixation",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="33620004",
+        is_extension=True,
+        synonyms=["Iliac fixation", "Spinopelvic fixation"],
+    ),
+    "Dynamic rod fixation": SNOMEDMapping(
+        code="900000000000601",
+        term="Dynamic rod fixation",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="33620004",
+        is_extension=True,
+        synonyms=["Dynamic stabilization rod"],
+    ),
+    "Rigid rod fixation": SNOMEDMapping(
+        code="900000000000602",
+        term="Rigid rod fixation",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="33620004",
+        is_extension=True,
+    ),
+    "Plate fixation": SNOMEDMapping(
+        code="900000000000603",
+        term="Plate fixation of spine",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="33620004",
+        is_extension=True,
+        synonyms=["plate fixation", "Spinal plate fixation"],
+    ),
+    "Posterior fixation": SNOMEDMapping(
+        code="900000000000604",
+        term="Posterior spinal fixation",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="33620004",
+        is_extension=True,
+        synonyms=["posterior fixation with pedicle screws"],
+    ),
+    "Percutaneous posterior fixation": SNOMEDMapping(
+        code="900000000000605",
+        term="Percutaneous posterior spinal fixation",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="33620004",
+        is_extension=True,
+        synonyms=["percutaneous posterior fixation"],
+    ),
+    "Navigation-guided fixation": SNOMEDMapping(
+        code="900000000000606",
+        term="Navigation-guided spinal fixation",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="33620004",
+        is_extension=True,
+    ),
+    "Anterior fixation": SNOMEDMapping(
+        code="900000000000607",
+        term="Anterior spinal fixation",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="33620004",
+        is_extension=True,
+        synonyms=["anterior titanium plate fixation"],
+    ),
+    "Transpedicular fixation": SNOMEDMapping(
+        code="900000000000608",
+        term="Transpedicular fixation",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="33620004",
+        is_extension=True,
+    ),
+    "Robot-assisted fixation": SNOMEDMapping(
+        code="900000000000609",
+        term="Robot-assisted spinal fixation",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="33620004",
+        is_extension=True,
+        synonyms=["robot-assisted transfacet screw fixation"],
+    ),
+    "Internal fixation": SNOMEDMapping(
+        code="900000000000610",
+        term="Internal fixation of spine",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="33620004",
+        is_extension=True,
+        synonyms=["internal fixation", "hybrid internal fixation"],
+    ),
+    "Lateral plate fixation": SNOMEDMapping(
+        code="900000000000611",
+        term="Lateral plate fixation of spine",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="33620004",
+        is_extension=True,
+    ),
+    "Translaminar facet screw fixation": SNOMEDMapping(
+        code="900000000000612",
+        term="Translaminar facet screw fixation",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="33620004",
+        is_extension=True,
+    ),
+    "TT fixation": SNOMEDMapping(
+        code="900000000000613",
+        term="Traditional trajectory fixation",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="33620004",
+        is_extension=True,
+        synonyms=["Traditional trajectory"],
+        abbreviations=["TT"],
+    ),
+    "CBT fixation": SNOMEDMapping(
+        code="900000000000614",
+        term="Cortical bone trajectory fixation",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="33620004",
+        is_extension=True,
+    ),
+    "Hybrid CBT-TT fixation": SNOMEDMapping(
+        code="900000000000615",
+        term="Hybrid cortical bone trajectory and traditional trajectory fixation",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="33620004",
+        is_extension=True,
+        synonyms=["hybrid CBT-TT fixation"],
+    ),
+
+    # === OSTEOTOMY VARIANTS (v1.21) ===
+    "Facet joint osteotomy": SNOMEDMapping(
+        code="900000000000616",
+        term="Facet joint osteotomy",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="179097009",
+        is_extension=True,
+    ),
+    "Posterior osteotomy": SNOMEDMapping(
+        code="900000000000617",
+        term="Posterior spinal osteotomy",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="179097009",
+        is_extension=True,
+    ),
+    "Transoral osteotomy": SNOMEDMapping(
+        code="900000000000618",
+        term="Transoral osteotomy of spine",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="179097009",
+        is_extension=True,
+    ),
+
+    # === ADDITIONAL INTERVENTION VARIANTS (v1.21) ===
+    "C1/2 posterior fusion": SNOMEDMapping(
+        code="900000000000619",
+        term="C1-C2 posterior fusion",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="174765004",
+        is_extension=True,
+        synonyms=["C1-2 posterior fusion", "Atlantoaxial posterior fusion"],
+    ),
+    "Bilateral facetectomy": SNOMEDMapping(
+        code="900000000000620",
+        term="Bilateral facetectomy",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="900000000000121",
+        is_extension=True,
+    ),
+    "LE-ULBD": SNOMEDMapping(
+        code="900000000000621",
+        term="Lateral endoscopic unilateral laminotomy for bilateral decompression",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="5765005",
+        is_extension=True,
+        synonyms=["Lateral endoscopic ULBD"],
+        abbreviations=["LE-ULBD"],
+    ),
+    "Spine Surgery": SNOMEDMapping(
+        code="122465003",
+        term="Spinal surgery procedure",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        synonyms=["Spinal surgery", "Spine operation"],
+        notes="Root node for IS_A taxonomy",
+    ),
 }
 
 
@@ -1922,10 +2104,21 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Proximal junctional kyphosis",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
-        synonyms=["PJK", "Proximal junctional failure", "PJF", "Junctional kyphosis"],
-        abbreviations=["PJK", "PJF"],
+        synonyms=["PJK", "Junctional kyphosis"],
+        abbreviations=["PJK"],
         korean_term="근위부 경계부 후만",
-        notes="Pathology entry. >10° increase in kyphosis at UIV. Also in OUTCOME_SNOMED as measurable outcome.",
+        notes="Pathology entry. >10° increase in kyphosis at UIV. PJF is a separate, more severe condition.",
+    ),
+    # v1.21: PJF separated from PJK (clinically distinct: PJF includes fracture/implant failure)
+    "PJF": SNOMEDMapping(
+        code="900000000000234",
+        term="Proximal junctional failure",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        is_extension=True,
+        synonyms=["Proximal junctional failure"],
+        abbreviations=["PJF"],
+        korean_term="근위부 경계부 부전",
+        notes="Distinct from PJK. Includes fracture, implant pullout, structural failure at UIV.",
     ),
 
     # v1.14.1: Adjacent Segment Disease 추가
@@ -3045,10 +3238,10 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Proximal junctional kyphosis",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
-        synonyms=["Proximal junctional failure", "PJF", "Junctional kyphosis"],
-        abbreviations=["PJK", "PJF"],
+        synonyms=["Junctional kyphosis"],
+        abbreviations=["PJK"],
         korean_term="근위부 경계부 후만",
-        notes=">10° increase in kyphosis at UIV defines PJK",
+        notes=">10° increase in kyphosis at UIV defines PJK. PJF is a separate condition.",
     ),
 
     # v1.14 추가: Serum CPK (근육 손상 지표)
@@ -4284,6 +4477,9 @@ def get_mapping_statistics() -> dict:
             extension_by_category["body_structure"] += 1
         elif code.startswith("9000000000005"):
             extension_by_category["finding"] += 1
+        elif code.startswith("9000000000006"):
+            extension_by_category.setdefault("procedure_ext", 0)
+            extension_by_category["procedure_ext"] += 1
 
     return {
         "total_mappings": intervention_count + pathology_count + outcome_count + anatomy_count,

@@ -9,7 +9,7 @@ import os
 import time
 import logging
 from collections import deque
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional, Any, Type
 
 from google import genai
@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class GeminiConfig:
     """Gemini API 설정."""
-    api_key: str = ""
+    api_key: str = field(default="", repr=False)
     model: str = "gemini-2.5-flash"
     max_retries: int = 3
     requests_per_minute: int = 2000

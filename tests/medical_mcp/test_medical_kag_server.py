@@ -76,7 +76,7 @@ class TestAddPdf:
         pdf_file.write_bytes(b"%PDF-1.4 sample content")
 
         # Mock _extract_pdf_text to return valid text
-        server._extract_pdf_text = Mock(return_value="This is a sample medical paper about spine surgery.")
+        server.pdf_handler._extract_pdf_text = Mock(return_value="This is a sample medical paper about spine surgery.")
 
         result = await server.add_pdf(
             str(pdf_file),
@@ -94,7 +94,7 @@ class TestAddPdf:
         pdf_file = tmp_path / "study.pdf"
         pdf_file.write_bytes(b"%PDF-1.4 content")
 
-        server._extract_pdf_text = Mock(return_value="RCT study content " * 100)
+        server.pdf_handler._extract_pdf_text = Mock(return_value="RCT study content " * 100)
 
         result = await server.add_pdf(
             str(pdf_file),
@@ -243,7 +243,7 @@ class TestListDocuments:
         # Add a document first
         pdf_file = tmp_path / "paper.pdf"
         pdf_file.write_bytes(b"%PDF-1.4 content")
-        server._extract_pdf_text = Mock(return_value="Test content " * 50)
+        server.pdf_handler._extract_pdf_text = Mock(return_value="Test content " * 50)
 
         await server.add_pdf(str(pdf_file))
 
@@ -279,7 +279,7 @@ class TestDeleteDocument:
         # Add a document first
         pdf_file = tmp_path / "to_delete.pdf"
         pdf_file.write_bytes(b"%PDF-1.4 content")
-        server._extract_pdf_text = Mock(return_value="Test content " * 50)
+        server.pdf_handler._extract_pdf_text = Mock(return_value="Test content " * 50)
 
         await server.add_pdf(str(pdf_file))
 
@@ -301,14 +301,14 @@ class TestHelperMethods:
         pdf_file.write_bytes(b"%PDF-1.4 content")
 
         # Without PyMuPDF, should return placeholder
-        text = server._extract_pdf_text(pdf_file)
+        text = server.pdf_handler._extract_pdf_text(pdf_file)
         # Either real extraction or placeholder
         assert isinstance(text, str)
 
     def test_classify_sections_with_builder(self, server):
         """Builder로 섹션 분류 - 키워드가 없는 텍스트는 'other'로 분류."""
         text = "This is a medical paper about spine surgery."
-        sections = server._classify_sections(text)
+        sections = server.pdf_handler._classify_sections(text)
 
         assert len(sections) == 1
         # Builder가 있으면 키워드 없는 텍스트는 "other"로 분류됨
@@ -318,7 +318,7 @@ class TestHelperMethods:
     def test_detect_citations_with_builder(self, server):
         """Builder로 인용 감지 - 인용이 있는 텍스트는 'citation'으로 분류."""
         text = "This study (Smith et al., 2020) shows..."
-        citations = server._detect_citations(text)
+        citations = server.pdf_handler._detect_citations(text)
 
         assert len(citations) == 1
         # 텍스트에 인용이 있으므로 "citation"으로 분류됨
@@ -327,7 +327,7 @@ class TestHelperMethods:
     def test_classify_study_with_builder(self, server):
         """Builder로 연구 분류 - RCT 키워드가 있으면 분류됨."""
         text = "We conducted a randomized controlled trial..."
-        result = server._classify_study(text)
+        result = server.pdf_handler._classify_study(text)
 
         # Builder가 있으면 RCT를 감지하여 결과 반환
         assert result is not None
@@ -394,7 +394,7 @@ class TestIntegration:
         # 1. Add PDF
         pdf_file = tmp_path / "integration_test.pdf"
         pdf_file.write_bytes(b"%PDF-1.4")
-        server._extract_pdf_text = Mock(return_value="""
+        server.pdf_handler._extract_pdf_text = Mock(return_value="""
         Abstract: This RCT study evaluates spine fusion outcomes.
         Results: The success rate was 85% in the intervention group.
         Conclusion: Spine fusion is effective for lumbar stenosis.
@@ -432,7 +432,7 @@ class TestIntegration:
         for i in range(3):
             pdf_file = tmp_path / f"paper_{i}.pdf"
             pdf_file.write_bytes(b"%PDF-1.4")
-            server._extract_pdf_text = Mock(return_value=f"Content for paper {i} " * 30)
+            server.pdf_handler._extract_pdf_text = Mock(return_value=f"Content for paper {i} " * 30)
 
             result = await server.add_pdf(str(pdf_file))
             assert result["success"] is True
@@ -449,7 +449,7 @@ class TestIntegration:
         # Add document
         pdf_file = tmp_path / "temp_doc.pdf"
         pdf_file.write_bytes(b"%PDF-1.4")
-        server._extract_pdf_text = Mock(return_value="Unique content for test")
+        server.pdf_handler._extract_pdf_text = Mock(return_value="Unique content for test")
 
         await server.add_pdf(str(pdf_file))
 
@@ -500,7 +500,7 @@ class TestErrorHandling:
         pdf_file.write_bytes(b"%PDF-1.4")
 
         # Mock extraction to return empty
-        server._extract_pdf_text = Mock(return_value="")
+        server.pdf_handler._extract_pdf_text = Mock(return_value="")
 
         result = await server.add_pdf(str(pdf_file))
 

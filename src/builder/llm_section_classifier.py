@@ -90,8 +90,6 @@ class LLMSectionClassifier:
         if client is None:
             client = LLMClient()
         self.llm = client
-        # 하위 호환성 속성
-        self.gemini = self.llm
         self.fallback = fallback_classifier or SectionClassifier()
         self.config = config or {}
         self.min_confidence = self.config.get("min_confidence", 0.7)
@@ -203,7 +201,7 @@ Return the results as a JSON object with a "sections" array sorted by start posi
             "required": ["sections"]
         }
 
-        result = await self.gemini.generate_json(
+        result = await self.llm.generate_json(
             prompt=prompt,
             schema=schema,
             system=SECTION_CLASSIFIER_SYSTEM

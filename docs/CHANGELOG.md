@@ -2,6 +2,76 @@
 
 ## Version History
 
+### v1.21.0 (2026-02-16): Data Validation 후속 조치 — SNOMED 정리 + Summary 백필 + 계층 구조 개선
+
+DV v1.20.1 결과 발견된 다수 이슈의 전체 후속 조치 실행.
+
+#### Neo4j 데이터 정리
+
+| # | 변경 | 영향 |
+|---|------|------|
+| 1 | **테스트 Chunk 고아 삭제**: HAS_CHUNK 없는 10개 Chunk (test, study, paper 등) 삭제 | Chunk 무결성 ✅ |
+| 2 | **IS_A 루트 단일화**: "Spine Surgery" 노드 생성 → 22개 카테고리 루트 연결 | 단일 루트 계층 |
+| 3 | **TREATS paper_count 재계산**: 전체 2,245개 관계 paper_count 재산출 | 0 mismatches |
+| 4 | **51개 Paper INVOLVES 복구**: 제목/abstract 키워드 매칭으로 54개 INVOLVES 관계 생성 | 48개 Paper 연결 복원 |
+
+#### SNOMED 중복 해결
+
+| 카테고리 | 이전 | 이후 | 방법 |
+|----------|------|------|------|
+| Intervention | 29 중복 코드 | **0** | IS_A 자식 코드 제거(8), 동의어 엔티티 병합(8), 대규모 그룹 코드 정리(54) |
+| Pathology | 3 중복 코드 | **0** | ASD/Adjacent level disease 병합, Lumbar/Segmental instability 병합, PJF 코드 오류 수정 |
+| Anatomy | 23 중복 코드 | **0** | 복합 레벨 문자열(103개)에서 코드 제거, 정규 엔티티만 유지 |
+| Outcome | 25 중복 코드 | 25 (의도적) | 시점/측정 변형은 동일 코드 유지 (설계 의도) |
+
+#### SNOMED 매핑 확장
+
+| # | 변경 | 파일 |
+|---|------|------|
+| 5 | **procedure_ext 범위 추가** (600-699): Fixation 변형 16개, Osteotomy 변형 3개, C1/2 융합 등 22개 신규 매핑 | `spine_snomed_mappings.py` |
+| 6 | **PJK/PJF 분리**: PJF에 독립 extension code(900000000000234) 부여 | `spine_snomed_mappings.py` |
+| 7 | **Fusion Surgery 코드 변경**: 122465003 → 174765004 (Spine Surgery 루트와 구분) | `spine_snomed_mappings.py` |
+
+#### Normalizer 커버리지 확대
+
+| 카테고리 | Canonical 이전→이후 | Alias 이전→이후 |
+|----------|---------------------|-----------------|
+| Anatomy | 38 → 51 (+13) | — → +vague term 처리 |
+| Pathology | 62 → 122 (+60) | 295 → 532 (+237) |
+| Intervention | 120 → 146 (+26) | 570 → 680 (+110) |
+| Outcome | 80 → 133 (+53) | 430 → 659 (+229) |
+
+#### Anatomy 추출 버그 수정 (3건)
+
+| # | 변경 | 파일 |
+|---|------|------|
+| 8 | `anatomy_region` 폴백: anatomy_level 비어있을 때 anatomy_region 사용 | `pubmed_bulk_processor.py` |
+| 9 | `anatomy_levels` → `anatomy_level` 키 수정 | `medical_kag_server.py` |
+| 10 | `anatomy_levels` None 처리 수정 | `handlers/pdf_handler.py` |
+
+#### Summary 기능 추가
+
+| # | 변경 | 파일 |
+|---|------|------|
+| 11 | LLM 추출 JSON 스키마에 `summary` 필드 추가 | `unified_pdf_processor.py` |
+| 12 | SpineMetadata, SpineMetadataCompat에 summary 필드 추가 | 3개 파일 |
+| 13 | **소급 적용 스크립트**: Claude Haiku로 418개 Paper summary 생성 | `scripts/backfill_summary.py` (신규) |
+
+#### Code Audit (CA) 수정
+
+| # | 항목 | 변경 | 파일 |
+|---|------|------|------|
+| 14 | **C-1: 의존성 버전 제약 불일치 수정** | neo4j `<6.0.0`→`<7.0.0`, openai `<2.0.0`→`<3.0.0` | `pyproject.toml` |
+| 15 | **C-2: OpenAI 클라이언트 lazy-init** | 매 호출 재생성 → 클래스 레벨 lazy 초기화 (3곳) | `tiered_search.py`, `neo4j_client.py` |
+| 16 | **C-3: 중복 임베딩 메서드 정리** | `_generate_abstract_embedding` 4중 복사 → lazy-init 통일 | `pubmed_bulk_processor.py`, `important_citation_processor.py` |
+| 17 | **H-1: Server 중복 메서드 제거** | pdf_handler와 중복 5개 메서드 삭제 (~178줄), 호출 리다이렉트 | `medical_kag_server.py`, `pdf_handler.py` |
+| 18 | **H-2: logger.error exc_info 누락 수정** | 21곳 `exc_info=True` 추가 | 9개 파일 |
+| 19 | **H-3: Config repr 마스킹** | API 키/패스워드 `field(repr=False)` 적용 | `claude_client.py`, `gemini_client.py`, `neo4j_client.py` |
+| 20 | **H-4: test_expanded_taxonomy 수정** | `return failed == 0` → `assert` 전환 (4곳) | `test_expanded_taxonomy.py` |
+| 21 | **M-2: MCP 입력 상한 추가** | `top_k ≤100`, `query ≤10000` | `search_handler.py` |
+
+---
+
 ### v1.20.1 (2026-02-16): Auto Normalizer Expansion — 3-Layer 방어 체계
 
 엔티티 정규화 실패 시 무한 노드 생성 문제를 해결하는 3단계 방어 체계 구현.
