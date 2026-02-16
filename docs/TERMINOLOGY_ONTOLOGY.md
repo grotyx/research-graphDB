@@ -1,6 +1,6 @@
 # Spine GraphRAG 용어체계 및 온톨로지 가이드
 
-> **Version**: 1.21.0
+> **Version**: 1.21.2
 > **Last Updated**: 2026-02-16
 > **Maintainer**: Spine GraphRAG Development Team
 
@@ -635,15 +635,26 @@ RELATED_TERMS = {
 
 ## 7. 통계 및 커버리지
 
-### 7.1 전체 매핑 통계 (v1.21.0)
+### 7.1 전체 매핑 통계 (v1.21.2)
+
+#### 소스 매핑 (spine_snomed_mappings.py)
 
 | 카테고리 | 전체 | 공식 SNOMED | 확장 코드 | 커버리지 |
 |----------|------|-------------|-----------|----------|
-| Interventions | 167 | 48 | 119 | 28.7% |
-| Pathologies | 121 | 62 | 59 | 51.2% |
-| Outcomes | 104 | 25 | 79 | 24.0% |
+| Interventions | 168 | 49 | 119 | 29.2% |
+| Pathologies | 125 | 65 | 60 | 52.0% |
+| Outcomes | 108 | 26 | 82 | 24.1% |
 | Anatomy | 46 | 24 | 22 | 52.2% |
-| **Total** | **438** | **159** | **279** | **36.3%** |
+| **Total** | **447** | **164** | **283** | **36.7%** |
+
+#### Neo4j 실제 커버리지
+
+| 카테고리 | 매핑/전체 | 커버리지 |
+|----------|-----------|----------|
+| Intervention | 190/466 | 40.8% |
+| Pathology | 115/294 | 39.1% |
+| Outcome | 385/1874 | 20.5% |
+| Anatomy | 163/183 | 89.1% |
 
 > **v1.14.15 변경사항**: SNOMED 중복 제거 및 정리, 공식 코드 전환 (Wound Dehiscence → 225553008)
 >
@@ -672,6 +683,14 @@ RELATED_TERMS = {
 > - PJK/PJF 분리: PJK = Outcome (900000000000205), PJF = Pathology (900000000000234)
 > - Entity Normalizer 4개 카테고리 별칭 대폭 확대
 > - Summary 필드 추가 (Paper 노드, LLM 생성 700자 요약)
+>
+> **v1.21.2 변경사항**:
+> - SNOMED 매핑 확장: 438 → 447개 (I:+1, P:+4, O:+4)
+> - Neo4j 고빈도 미매핑 엔티티 별칭 추가: Intervention 9개, Pathology 11개, Outcome 17개 canonical 확장
+> - 신규 Outcome canonical 3개: ROM, Functional Recovery, PROMs
+> - 공식 SNOMED 5건 추가 (Pseudarthrosis, Low Back Pain, Spinal Cord Compression, Bone Graft, Heterotopic Ossification)
+> - 확장 코드 4건 추가 (Central Canal Stenosis, Mortality, Functional Recovery, PROMs)
+> - Neo4j SNOMED 커버리지: I 40.8%, P 39.1%, O 20.5%, A 89.1%
 
 ### 7.2 확장 코드 필요 항목
 

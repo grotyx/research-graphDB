@@ -20,6 +20,22 @@ docs/CODE_AUDIT.md의 Phase 1만 실행해줘.
 docs/CODE_AUDIT.md의 Phase 3만 실행해줘.
 ```
 
+## Scan Mode (기본)
+
+스캔은 **보고 전용(Report-Only)** 모드로 실행됩니다:
+1. 모든 체크를 실행하고 결과를 보고 템플릿으로 출력
+2. "Known Accepted Issues" 목록에 있는 항목은 ✅(억제)로 표시하고 건너뜀
+3. 신규 발견 항목은 "CA Deferred Items" 또는 즉시 수정 대상으로 분류
+4. **어떤 파일도 수정하지 않음** — 수정은 별도 "Fix" 단계에서 수행
+
+**수정 워크플로우** (4단계):
+```
+Step 1: SCAN   → "CA 스캔해줘" (보고만, 수정 없음)
+Step 2: TRIAGE → 사용자가 각 이슈를 즉시수정/deferred/허용으로 분류
+Step 3: FIX    → "CA Phase 2의 print 이슈를 수정해줘" (지정된 항목만)
+Step 4: VERIFY → "CA Phase 2만 재스캔해줘" (수정 확인)
+```
+
 ---
 
 ## QC vs CA 비교
@@ -611,6 +627,28 @@ Phase 4 (병렬)         Phase 5 (병렬)         Phase 6 (병렬)
 
 ---
 
+## CA Known Accepted Issues (억제 목록)
+
+> 설계 의도이거나 현재 허용하기로 결정한 항목. 스캔 시 이 항목은 ✅(억제)로 표시합니다.
+> 항목 추가/제거 시 날짜와 사유를 기록하세요.
+
+| ID | Check | 설명 | 허용 사유 | 등록일 |
+|----|-------|------|----------|--------|
+| CA-A-001 | 2.1 | cleanup/fallback 코드의 silent exception | 의도적 fallback 패턴, WARNING 로깅됨 | 2026-02-16 |
+| CA-A-002 | 2.3 | `scripts/`, `__main__` 블록 내 print() (~110건) | 의도적: CLI 도구의 stdout 출력 | 2026-02-16 |
+| CA-A-003 | 3.1 | LLM 호출 루프 (asyncio.gather 사용 불가한 순차 의존 케이스) | 각 호출이 이전 결과에 의존하여 병렬화 불가 | 2026-02-16 |
+
+---
+
+## CA Scan History (실행 이력)
+
+| 일자 | 버전 | 신규 발견 | 해소 | 잔여 Deferred | 잔여 Accepted | 비고 |
+|------|------|----------|------|--------------|--------------|------|
+| 2026-02-16 | v1.21.0 | 8 | 4 | 4 | 3 | D-001~D-004 해소, D-005~D-008 잔여 |
+| 2026-02-16 | v1.22.0 | 0 | 4 | 0 | 3 | D-005~D-008 전체 해소 (팀에이전트 실행) |
+
+---
+
 ## CA Deferred Items (미수정 항목 추적)
 
 > CA 실행 후 즉시 수정하지 못하는 대규모 아키텍처 변경, 설계 리팩토링 등을 여기에 기록합니다.
@@ -624,51 +662,49 @@ Phase 4 (병렬)         Phase 5 (병렬)         Phase 6 (병렬)
 
 ### 현재 미수정 항목
 
-#### D-005: Neo4jClient God Object (52 메서드)
+(없음 — D-005~D-008 모두 v1.22.0에서 해소)
+
+### 해소 완료 항목
+
+#### D-005: Neo4jClient God Object 분리
 
 | 항목 | 내용 |
 |------|------|
 | **발견 버전** | v1.21.0 (CA 2026-02-16) |
+| **해소 버전** | v1.22.0 (2026-02-16) |
 | **Phase** | 4.1 God Object |
-| **심각도** | Medium |
-| **상태** | 🟡 미수정 |
-| **설명** | `Neo4jClient` 클래스가 52 메서드 보유. CRUD, 검색, 스키마, 임베딩, 통계를 모두 담당. Relationship 메서드를 `RelationshipDAO`로 분리 권장. |
-| **예상 규모** | Large (20+ 파일 참조) |
+| **상태** | ✅ 해소 |
+| **결과** | Composition + Delegation 패턴으로 3개 DAO 추출: `RelationshipDAO`(17 methods), `SearchDAO`(7 methods), `SchemaManager`(4 methods). Neo4jClient에 backward-compatible delegation 유지. |
 
 #### D-006: core/text_chunker.py 계층 위반
 
 | 항목 | 내용 |
 |------|------|
 | **발견 버전** | v1.21.0 (CA 2026-02-16) |
+| **해소 버전** | v1.22.0 (2026-02-16) |
 | **Phase** | 4.3 의존성 방향 |
-| **심각도** | Low |
-| **상태** | 🟡 미수정 |
-| **설명** | `core/text_chunker.py`가 `builder/section_classifier`, `builder/citation_detector`를 lazy import. core → builder 계층 위반. `builder/`로 이동 또는 DI 패턴 적용 권장. |
-| **예상 규모** | Medium |
+| **상태** | ✅ 해소 |
+| **결과** | `TieredTextChunker`를 `core/text_chunker.py` → `builder/tiered_text_chunker.py`로 이동. core→builder lazy import 제거, top-level import 전환. |
 
 #### D-007: 테스트 커버리지 확장 (37.9% → 60%+)
 
 | 항목 | 내용 |
 |------|------|
 | **발견 버전** | v1.21.0 (CA 2026-02-16) |
+| **해소 버전** | v1.22.0 (2026-02-16) |
 | **Phase** | 5.1 커버리지 |
-| **심각도** | Medium |
-| **상태** | 🟡 미수정 |
-| **설명** | 39/103 모듈에만 테스트 존재. 500줄+ 테스트 없는 파일 37개. 우선: `unified_pdf_processor`, `metadata_extractor`, `writing_guide_handler`, `pubmed_handler`, MCP 핸들러 전반. |
-| **예상 규모** | Large |
+| **상태** | ✅ 해소 |
+| **결과** | +530 tests (1830→2360). 20개 신규 테스트 파일: Phase 1(schema, relationships, text_chunker, error_handler, enums, bounded_cache), Phase 2(writing_guide, metadata_extractor, entity_extractor, snomed_api_client, stats_parser, graph_search, section_chunker, citation_context), Phase 3(pdf_processor, citation_processor, multi_hop_reasoning, pubmed_handler, pdf_handler, graph_handler). |
 
-#### D-008: ValueError → 커스텀 예외 전환 (~30건)
+#### D-008: ValueError → 커스텀 예외 전환
 
 | 항목 | 내용 |
 |------|------|
 | **발견 버전** | v1.21.0 (CA 2026-02-16) |
+| **해소 버전** | v1.22.0 (2026-02-16) |
 | **Phase** | 2.2 예외 일관성 |
-| **심각도** | Low |
-| **상태** | 🟡 미수정 |
-| **설명** | ~30개 `ValueError` + 3개 `RuntimeError`를 커스텀 예외(`ValidationError`, `ProcessingError`, `LLMError`)로 전환 권장. `NormalizationError`, `ExtractionError` 미사용. |
-| **예상 규모** | Medium |
-
-### 해소 완료 항목
+| **상태** | ✅ 해소 |
+| **결과** | 36건 `raise ValueError/RuntimeError` → `ValidationError`(18), `ProcessingError`(8), `LLMError`(5), `Neo4jError`(1) 전환. `except` 사이트 5곳 업데이트. graph/, builder/, solver/, ontology/, core/, medical_mcp/ 전체 적용. |
 
 #### D-001: MedicalKAGServer God Object 분해
 

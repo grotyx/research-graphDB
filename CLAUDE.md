@@ -206,7 +206,7 @@ git push origin main
 ```text
 rag_research/
 ├── src/
-│   ├── graph/           # Neo4j 그래프 레이어 (neo4j_client, relationship_builder, taxonomy_manager)
+│   ├── graph/           # Neo4j 그래프 레이어 (neo4j_client, relationship_dao, search_dao, schema_manager, relationship_builder, taxonomy_manager)
 │   ├── builder/         # PDF/PubMed 처리 (unified_pdf_processor, reference_formatter)
 │   ├── solver/          # 검색/추론 모듈 (tiered_search, hybrid_ranker, conflict_detector)
 │   ├── llm/             # LLM 클라이언트 (claude_client, gemini_client)
@@ -227,6 +227,10 @@ rag_research/
 
 | Module | Description |
 |--------|-------------|
+| `neo4j_client.py` | Neo4j 연결 관리 + DAO 위임 (v1.22.0: 3 DAO 분리) |
+| `relationship_dao.py` | v1.22.0: 관계 CRUD 17 methods (Neo4jClient에서 추출) |
+| `search_dao.py` | v1.22.0: Vector/Hybrid 검색 7 methods |
+| `schema_manager.py` | v1.22.0: 스키마 초기화/통계/클리어 4 methods |
 | `unified_pdf_processor.py` | PDF/텍스트 통합 처리 |
 | `relationship_builder.py` | Paper → Graph 구축 |
 | `entity_normalizer.py` | 용어 정규화 (UBE↔BESS), SNOMED 자동 링크 |

@@ -155,15 +155,15 @@ final_score = 0.6 * graph_score + 0.4 * vector_score
 
 모든 엔티티 노드 (Intervention, Pathology, Outcome, Anatomy)에 SNOMED-CT 코드가 자동으로 부여됩니다.
 
-### 매핑 통계
+### 매핑 통계 (v1.21.2)
 
 | Category | Total | Official SNOMED | Extension Codes |
 |----------|-------|-----------------|-----------------|
-| Intervention | 167 | 48 | 119 |
-| Pathology | 121 | 62 | 59 |
-| Outcome | 104 | 25 | 79 |
+| Intervention | 168 | 49 | 119 |
+| Pathology | 125 | 65 | 60 |
+| Outcome | 108 | 26 | 82 |
 | Anatomy | 46 | 24 | 22 |
-| **Total** | **438** | **159** | **279** |
+| **Total** | **447** | **164** | **283** |
 
 ### 주요 매핑 카테고리
 
@@ -221,12 +221,16 @@ Segmental Instability: 900000000000206
 DJK (Distal Junctional Kyphosis): 900000000000207
 PJF (Proximal Junctional Failure): 900000000000234 (v1.21.0)
 Proximal Junctional Kyphosis: 900000000000233 (v1.21.0, 기존 PJK에서 분리)
+Central Canal Stenosis: 900000000000261 (v1.21.2)
 
 # Outcomes (900000000003xx)
 VAS Leg: 900000000000302
 Serum CPK: 900000000000311
 Scar Quality: 900000000000312
 Postoperative Drainage: 900000000000313
+Mortality: 900000000000371 (v1.21.2)
+Functional Recovery: 900000000000372 (v1.21.2)
+PROMs: 900000000000373 (v1.21.2)
 
 # Findings (900000000005xx)
 Wound Dehiscence: 900000000000503
