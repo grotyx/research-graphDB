@@ -32,6 +32,7 @@ import networkx as nx
 
 from typing import Union
 from llm import LLMClient, ClaudeClient, GeminiClient
+from core.bounded_cache import BoundedCache
 from core.embedding import EmbeddingGenerator, cosine_similarity
 from .paper_graph import PaperGraph, PaperNode, PaperRelation, RelationType, PICOSummary
 
@@ -81,8 +82,8 @@ class PageRankScorer:
 
     def __init__(self):
         self._graph: Optional[nx.DiGraph] = None
-        self._pagerank_cache: dict[str, float] = {}
-        self._centrality_cache: dict[str, GraphCentralityScore] = {}
+        self._pagerank_cache = BoundedCache(maxsize=200)
+        self._centrality_cache = BoundedCache(maxsize=200)
         self._is_dirty: bool = True
 
     def build_graph(self, papers: list[PaperNode], relations: list[PaperRelation]) -> None:
@@ -136,7 +137,9 @@ class PageRankScorer:
         try:
             # PageRank 계산
             pagerank = nx.pagerank(self._graph, weight='weight', alpha=0.85)
-            self._pagerank_cache = pagerank
+            self._pagerank_cache.clear()
+            for nid, score in pagerank.items():
+                self._pagerank_cache.set(nid, score)
 
             # Degree Centrality (undirected로 변환해서 계산)
             undirected = self._graph.to_undirected()
@@ -158,12 +161,12 @@ class PageRankScorer:
                 # Combined: PageRank 50%, Degree 30%, Betweenness 20%
                 combined = (pr * 0.5) + (dc * 0.3) + (bt * 0.2)
 
-                self._centrality_cache[node_id] = GraphCentralityScore(
+                self._centrality_cache.set(node_id, GraphCentralityScore(
                     pagerank=pr,
                     degree_centrality=dc,
                     betweenness=bt,
                     combined=combined
-                )
+                ))
 
             self._is_dirty = False
 
@@ -276,7 +279,7 @@ class RelationshipReasoner:
         self.gemini = self.llm  # 하위 호환성 속성
         self.graph = paper_graph
         self._embedder = embedding_generator
-        self._embedding_cache: dict[str, list[float]] = {}
+        self._embedding_cache = BoundedCache(maxsize=1000)
         self._pagerank_scorer = pagerank_scorer or PageRankScorer()
         self._graph_initialized = False
 
@@ -336,9 +339,11 @@ class RelationshipReasoner:
             return []
 
         cache_key = text[:200]  # 캐시 키는 앞부분만
-        if cache_key not in self._embedding_cache:
-            self._embedding_cache[cache_key] = self.embedder.embed(text)
-        return self._embedding_cache[cache_key]
+        cached = self._embedding_cache.get(cache_key)
+        if cached is None:
+            cached = self.embedder.embed(text)
+            self._embedding_cache.set(cache_key, cached)
+        return cached
 
     async def analyze_support_conflict(
         self,

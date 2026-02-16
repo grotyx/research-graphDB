@@ -92,6 +92,13 @@ except ImportError as e:
     SSE_AVAILABLE = False
     IMPORT_ERROR = str(e)
 
+# v1.20: Streamable HTTP transport (MCP SDK >= 1.8)
+try:
+    from mcp.server.streamable_http import StreamableHTTPServerTransport
+    STREAMABLE_HTTP_AVAILABLE = True
+except ImportError:
+    STREAMABLE_HTTP_AVAILABLE = False
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -565,47 +572,172 @@ def create_app():
     return Starlette(routes=routes, middleware=middleware, lifespan=lifespan)
 
 
+def create_streamable_http_app():
+    """Create Starlette app with Streamable HTTP transport (MCP SDK >= 1.8).
+
+    Streamable HTTP replaces SSE with a simpler, more reliable protocol:
+    - Single /mcp endpoint for all communication (POST, GET, DELETE)
+    - Session management via Mcp-Session-Id header
+    - No long-lived SSE connections needed
+    """
+    import uuid
+
+    # Session state: session_id -> (transport, task_group, mcp_server)
+    _sessions: Dict[str, dict] = {}
+
+    kag_server = MedicalKAGServer(default_user="system")
+    mcp_server = create_mcp_server(kag_server)
+
+    async def handle_mcp(request: Request):
+        """Streamable HTTP endpoint - handles all MCP communication."""
+        # Get or create session
+        session_id = request.headers.get("mcp-session-id")
+
+        if request.method == "POST" and session_id is None:
+            # New session - create transport
+            session_id = str(uuid.uuid4())
+            transport = StreamableHTTPServerTransport(
+                mcp_session_id=session_id,
+                is_json_response_enabled=True,
+            )
+            _sessions[session_id] = {"transport": transport}
+
+            # Start serving in background
+            async def serve_session():
+                async with transport.connect() as (read_stream, write_stream):
+                    await mcp_server.run(
+                        read_stream, write_stream,
+                        mcp_server.create_initialization_options(),
+                    )
+
+            import anyio
+            task_group = anyio.create_task_group()
+            _sessions[session_id]["task_group"] = task_group
+
+            # We need to handle the request through the transport
+            # The transport is an ASGI app itself
+            await transport.handle_request(request.scope, request.receive, request._send)
+            return Response(status_code=200)
+
+        elif session_id and session_id in _sessions:
+            transport = _sessions[session_id]["transport"]
+            await transport.handle_request(request.scope, request.receive, request._send)
+            return Response(status_code=200)
+        else:
+            return JSONResponse(
+                {"error": "Invalid or missing session"},
+                status_code=400,
+            )
+
+    async def health_check(request: Request):
+        """Health check endpoint."""
+        return JSONResponse({
+            "status": "healthy",
+            "server": "medical-kag",
+            "version": __version__,
+            "transport": "streamable-http",
+            "active_sessions": len(_sessions),
+        })
+
+    async def ping(request: Request):
+        """Simple ping endpoint."""
+        return JSONResponse({
+            "pong": True,
+            "timestamp": time.time(),
+            "transport": "streamable-http",
+        })
+
+    @asynccontextmanager
+    async def lifespan(app):
+        logger.info("Streamable HTTP server started")
+        yield
+        # Cleanup sessions
+        for sid, session in _sessions.items():
+            transport = session.get("transport")
+            if transport and not transport.is_terminated():
+                transport.terminate()
+        _sessions.clear()
+        logger.info("Streamable HTTP server stopped")
+
+    routes = [
+        Route("/mcp", endpoint=handle_mcp, methods=["POST", "GET", "DELETE"]),
+        Route("/health", endpoint=health_check),
+        Route("/ping", endpoint=ping),
+    ]
+
+    middleware = [
+        Middleware(
+            CORSMiddleware,
+            allow_origins=["*"],
+            allow_credentials=True,
+            allow_methods=["*"],
+            allow_headers=["*"],
+        )
+    ]
+
+    return Starlette(routes=routes, middleware=middleware, lifespan=lifespan)
+
+
 async def main():
-    parser = argparse.ArgumentParser(description="Medical KAG MCP Server (SSE)")
+    parser = argparse.ArgumentParser(description="Medical KAG MCP Server (SSE/Streamable HTTP)")
     parser.add_argument("--host", default="0.0.0.0", help="Host to bind to")
     parser.add_argument("--port", type=int, default=8000, help="Port to bind to")
     parser.add_argument("--heartbeat", type=int, default=30, help="Heartbeat interval (seconds)")
     parser.add_argument("--timeout", type=int, default=300, help="Connection timeout (seconds)")
+    parser.add_argument(
+        "--transport", choices=["sse", "streamable-http"], default="sse",
+        help="Transport protocol: sse (default, legacy) or streamable-http (MCP SDK >= 1.8)",
+    )
     args = parser.parse_args()
 
-    if not SSE_AVAILABLE:
-        print(f"Error: SSE transport not available. Install dependencies:")
-        print(f"  pip install 'mcp[sse]' starlette uvicorn")
-        print(f"Import error: {IMPORT_ERROR}")
-        sys.exit(1)
+    use_streamable = args.transport == "streamable-http"
+
+    if use_streamable:
+        if not STREAMABLE_HTTP_AVAILABLE:
+            print("Error: Streamable HTTP transport not available.")
+            print("  Upgrade MCP SDK: pip install 'mcp>=1.8.0'")
+            sys.exit(1)
+    else:
+        if not SSE_AVAILABLE:
+            print(f"Error: SSE transport not available. Install dependencies:")
+            print(f"  pip install 'mcp[sse]' starlette uvicorn")
+            print(f"Import error: {IMPORT_ERROR}")
+            sys.exit(1)
 
     # 설정 적용
     global HEARTBEAT_INTERVAL, CONNECTION_TIMEOUT
     HEARTBEAT_INTERVAL = args.heartbeat
     CONNECTION_TIMEOUT = args.timeout
 
+    transport_label = "Streamable HTTP" if use_streamable else "Multi-User SSE"
     logger.info("=" * 60)
-    logger.info(f"Medical KAG MCP Server (Multi-User SSE) v{__version__}")
+    logger.info(f"Medical KAG MCP Server ({transport_label}) v{__version__}")
     logger.info("=" * 60)
     logger.info(f"Server URL: http://{args.host}:{args.port}")
-    logger.info(f"SSE endpoint: http://{args.host}:{args.port}/sse?user=<user_id>")
+    if use_streamable:
+        logger.info(f"MCP endpoint: http://{args.host}:{args.port}/mcp")
+    else:
+        logger.info(f"SSE endpoint: http://{args.host}:{args.port}/sse?user=<user_id>")
     logger.info(f"Health check: http://{args.host}:{args.port}/health")
     logger.info(f"Ping:         http://{args.host}:{args.port}/ping")
-    logger.info(f"List tools:   http://{args.host}:{args.port}/tools")
-    logger.info(f"List users:   http://{args.host}:{args.port}/users")
-    logger.info(f"Connections:  http://{args.host}:{args.port}/connections")
-    logger.info(f"Reset:        curl -X POST http://{args.host}:{args.port}/reset")
-    logger.info(f"Restart Neo4j: curl -X POST http://{args.host}:{args.port}/restart")
+    if not use_streamable:
+        logger.info(f"List tools:   http://{args.host}:{args.port}/tools")
+        logger.info(f"List users:   http://{args.host}:{args.port}/users")
+        logger.info(f"Connections:  http://{args.host}:{args.port}/connections")
+        logger.info(f"Reset:        curl -X POST http://{args.host}:{args.port}/reset")
+        logger.info(f"Restart Neo4j: curl -X POST http://{args.host}:{args.port}/restart")
     logger.info("-" * 60)
+    logger.info(f"Transport: {args.transport}")
     logger.info(f"Heartbeat interval: {HEARTBEAT_INTERVAL}s")
     logger.info(f"Connection timeout: {CONNECTION_TIMEOUT}s")
-    logger.info("-" * 60)
-    logger.info("Registered users:")
-    for uid, info in REGISTERED_USERS.items():
-        logger.info(f"  - {uid}: {info['name']} ({info['role']})")
+    if not use_streamable:
+        logger.info("-" * 60)
+        logger.info("Registered users:")
+        for uid, info in REGISTERED_USERS.items():
+            logger.info(f"  - {uid}: {info['name']} ({info['role']})")
     logger.info("=" * 60)
 
-    app = create_app()
+    app = create_streamable_http_app() if use_streamable else create_app()
 
     config = uvicorn.Config(
         app,

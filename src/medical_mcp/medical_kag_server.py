@@ -29,6 +29,7 @@ except ImportError:
     logger.warning("python-dotenv not installed, skipping .env loading")
 
 import asyncio
+import json
 from datetime import datetime
 from typing import Optional, Any
 
@@ -42,7 +43,11 @@ sys.path.insert(0, str(src_dir))       # For 'from module' imports
 try:
     from mcp.server import Server
     from mcp.server.stdio import stdio_server
-    from mcp.types import Tool, TextContent
+    from mcp.types import (
+        Tool, TextContent, ToolAnnotations,
+        Resource, Prompt, PromptArgument, PromptMessage,
+        GetPromptResult,
+    )
     MCP_AVAILABLE = True
 except ImportError:
     MCP_AVAILABLE = False
@@ -543,7 +548,8 @@ class MedicalKAGServer:
                 self.entity_normalizer = EntityNormalizer()
                 self.relationship_builder = RelationshipBuilder(
                     neo4j_client=self.neo4j_client,
-                    normalizer=self.entity_normalizer
+                    normalizer=self.entity_normalizer,
+                    llm_client=self.llm_client,
                 )
 
                 logger.info("Neo4j Graph modules initialized (Spine GraphRAG v3)")
@@ -729,8 +735,7 @@ class MedicalKAGServer:
         self,
         file_path: str,
         metadata: Optional[dict] = None,
-        use_vision: bool = True,
-        use_v7: bool = True
+        use_vision: bool = True
     ) -> dict:
         """PDF 논문 추가.
 
@@ -744,7 +749,6 @@ class MedicalKAGServer:
             file_path: PDF 파일 경로
             metadata: 추가 메타데이터
             use_vision: 통합 PDF 프로세서 사용 여부 (레거시, True: 권장)
-            use_v7: v1.0 프로세서 사용 여부 (기본값: True, 권장)
 
         Returns:
             처리 결과 딕셔너리
@@ -770,16 +774,6 @@ class MedicalKAGServer:
         except Exception as e:
             logger.exception(f"Error adding PDF: {e}")
             return {"success": False, "error": str(e)}
-
-    async def add_pdf_v7(
-        self,
-        file_path: str,
-        metadata: Optional[dict] = None,
-        document_type: Optional[str] = None
-    ) -> dict:
-        """PDF 논문 추가 - add_pdf()로 리다이렉트 (v7 파이프라인 아카이브됨)."""
-        logger.info("add_pdf_v7 called, redirecting to add_pdf()")
-        return await self.add_pdf(file_path, metadata)
 
     def _extract_identifiers_from_pdf(self, path: Path) -> dict[str, str]:
         """PDF 첫 2페이지에서 DOI/PMID를 경량 추출 (regex, LLM 호출 없음).
@@ -1858,8 +1852,7 @@ class MedicalKAGServer:
         text: str,
         title: str,
         pmid: Optional[str] = None,
-        metadata: Optional[dict] = None,
-        use_v7: bool = True
+        metadata: Optional[dict] = None
     ) -> dict:
         """텍스트(논문 초록/본문)를 직접 분석하여 Neo4j에 저장.
 
@@ -1877,7 +1870,6 @@ class MedicalKAGServer:
             title: 논문 제목
             pmid: PubMed ID (선택, 없으면 자동 생성)
             metadata: 추가 메타데이터 (year, journal, authors, doi 등)
-            use_v7: v1.5 Simplified Pipeline 사용 여부 (기본값: True)
 
         Returns:
             분석 결과 및 저장 통계
@@ -3266,25 +3258,21 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
             Tool(
                 name="document",
                 description="문서 관리: PDF/JSON 추가, 목록 조회, 삭제, 내보내기, 데이터베이스 리셋. action으로 기능 선택.",
+                annotations=ToolAnnotations(readOnlyHint=False, destructiveHint=True, idempotentHint=False, openWorldHint=True),
                 inputSchema={
                     "type": "object",
                     "properties": {
                         "action": {
                             "type": "string",
-                            "enum": ["add_pdf", "add_pdf_v7", "add_json", "list", "delete", "export", "reset", "prepare_prompt"],
-                            "description": "수행할 작업: add_pdf(PDF 추가), add_pdf_v7(v7 파이프라인), add_json(JSON 추가), list(목록), delete(삭제), export(내보내기), reset(리셋), prepare_prompt(프롬프트 생성)"
+                            "enum": ["add_pdf", "add_json", "list", "delete", "export", "reset", "prepare_prompt", "stats", "summarize"],
+                            "description": "수행할 작업: add_pdf(PDF 추가), add_json(JSON 추가), list(목록), delete(삭제), export(내보내기), reset(리셋), prepare_prompt(프롬프트 생성), stats(시스템 통계), summarize(논문 요약)"
                         },
-                        "file_path": {"type": "string", "description": "파일 경로 (add_pdf, add_pdf_v7, add_json, prepare_prompt)"},
+                        "file_path": {"type": "string", "description": "파일 경로 (add_pdf, add_json, prepare_prompt)"},
                         "document_id": {"type": "string", "description": "문서 ID (delete, export)"},
                         "metadata": {"type": "object", "description": "추가 메타데이터"},
                         "use_vision": {"type": "boolean", "default": True, "description": "레거시 PDF 프로세서 사용 (add_pdf, v1.5에서는 fallback)"},
-                        "use_v7": {"type": "boolean", "default": True, "description": "v1.5 Simplified Pipeline 사용 (add_pdf, 권장)"},
-                        "document_type": {
-                            "type": "string",
-                            "enum": ["journal-article", "book", "book-section", "conference-paper", "thesis", "report", "preprint", "newspaper-article", "magazine-article", "blog-post", "webpage", "dataset", "software", "patent", "standard", "presentation", "video", "interview", "letter", "manuscript", "document"],
-                            "description": "문서 유형 (add_pdf_v7, None=자동감지)"
-                        },
-                        "include_taxonomy": {"type": "boolean", "default": False, "description": "Taxonomy 삭제 여부 (reset)"}
+                        "include_taxonomy": {"type": "boolean", "default": False, "description": "Taxonomy 삭제 여부 (reset)"},
+                        "style": {"type": "string", "enum": ["brief", "detailed", "clinical"], "default": "brief", "description": "요약 스타일 (summarize)"}
                     },
                     "required": ["action"]
                 }
@@ -3293,18 +3281,20 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
             Tool(
                 name="search",
                 description="검색 및 추론: 벡터 검색(+PubMed 자동 보완), 그래프 검색, 적응형 검색, 근거 검색, 추론. action으로 검색 유형 선택.",
+                annotations=ToolAnnotations(readOnlyHint=True, destructiveHint=False, idempotentHint=True, openWorldHint=True),
                 inputSchema={
                     "type": "object",
                     "properties": {
                         "action": {
                             "type": "string",
-                            "enum": ["search", "graph", "adaptive", "evidence", "reason"],
-                            "description": "검색 유형: search(벡터+PubMed 자동), graph(그래프), adaptive(통합), evidence(근거), reason(추론)"
+                            "enum": ["search", "graph", "adaptive", "evidence", "reason", "clinical_recommend"],
+                            "description": "검색 유형: search(벡터+PubMed 자동), graph(그래프), adaptive(통합), evidence(근거), reason(추론), clinical_recommend(임상 치료 추천)"
                         },
                         "query": {"type": "string", "description": "검색 쿼리"},
                         "question": {"type": "string", "description": "질문 (reason)"},
-                        "intervention": {"type": "string", "description": "수술법 (evidence)"},
+                        "intervention": {"type": "string", "description": "수술법 (evidence, clinical_recommend)"},
                         "outcome": {"type": "string", "description": "결과변수 (evidence)"},
+                        "patient_context": {"type": "string", "description": "환자 정보 텍스트 (clinical_recommend, 예: '65세 남성, 당뇨, L4-5 Stenosis')"},
                         "top_k": {"type": "integer", "default": 10, "description": "결과 수"},
                         "tier_strategy": {"type": "string", "enum": ["tier1_only", "tier1_then_tier2", "all_tiers"], "default": "tier1_then_tier2"},
                         "prefer_original": {"type": "boolean", "default": True},
@@ -3328,6 +3318,7 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
             Tool(
                 name="pubmed",
                 description="PubMed/DOI 연동: 검색, 대량 검색, 인용 임포트, PMID 임포트, DOI 조회/임포트, PDF 업그레이드, 통계. action으로 기능 선택.",
+                annotations=ToolAnnotations(readOnlyHint=False, destructiveHint=False, idempotentHint=False, openWorldHint=True),
                 inputSchema={
                     "type": "object",
                     "properties": {
@@ -3362,6 +3353,7 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
             Tool(
                 name="analyze",
                 description="텍스트 분석 및 사전 분석된 논문 저장. action=text(LLM 분석, v1.5 파이프라인 기본), action=store_paper(사전 분석 데이터 저장, store_analyzed_paper).",
+                annotations=ToolAnnotations(readOnlyHint=False, destructiveHint=False, idempotentHint=False, openWorldHint=True),
                 inputSchema={
                     "type": "object",
                     "properties": {
@@ -3372,7 +3364,6 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
                         },
                         # text action용
                         "text": {"type": "string", "description": "분석할 텍스트 (text)"},
-                        "use_v7": {"type": "boolean", "default": True, "description": "v1.5 Simplified Pipeline 사용 (text action, 권장)"},
                         # 공통
                         "title": {"type": "string", "description": "논문 제목"},
                         "abstract": {"type": "string", "description": "논문 초록 (store_paper 필수)"},
@@ -3422,13 +3413,14 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
             Tool(
                 name="graph",
                 description="그래프 탐색: 논문 관계, 근거 체인, 비교, 클러스터, 멀티홉 추론, 인용 초안. action으로 기능 선택.",
+                annotations=ToolAnnotations(readOnlyHint=False, destructiveHint=False, idempotentHint=False, openWorldHint=True),
                 inputSchema={
                     "type": "object",
                     "properties": {
                         "action": {
                             "type": "string",
-                            "enum": ["relations", "evidence_chain", "compare", "clusters", "multi_hop", "draft_citations", "build_relations"],
-                            "description": "그래프 작업: relations, evidence_chain, compare, clusters, multi_hop, draft_citations, build_relations(논문간 관계 자동 구축)"
+                            "enum": ["relations", "evidence_chain", "compare", "clusters", "multi_hop", "draft_citations", "build_relations", "infer_relations"],
+                            "description": "그래프 작업: relations, evidence_chain, compare, clusters, multi_hop, draft_citations, build_relations(논문간 관계 자동 구축), infer_relations(추론 기반 관계 탐색)"
                         },
                         "paper_id": {"type": "string", "description": "논문 ID"},
                         "paper_ids": {"type": "array", "items": {"type": "string"}, "description": "논문 ID 목록 (compare)"},
@@ -3442,7 +3434,11 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
                         "start_paper_id": {"type": "string"},
                         "section_type": {"type": "string", "enum": ["introduction", "methods", "results", "discussion", "conclusion"], "default": "introduction"},
                         "max_citations": {"type": "integer", "default": 5},
-                        "language": {"type": "string", "enum": ["korean", "english"], "default": "korean"}
+                        "language": {"type": "string", "enum": ["korean", "english"], "default": "korean"},
+                        "rule_name": {"type": "string", "description": "추론 규칙 (infer_relations: transitive_hierarchy, comparable_siblings, aggregate_evidence 등)"},
+                        "intervention": {"type": "string", "description": "수술법 (infer_relations)"},
+                        "outcome": {"type": "string", "description": "결과변수 (infer_relations)"},
+                        "pathology": {"type": "string", "description": "질환명 (infer_relations)"}
                     },
                     "required": ["action"]
                 }
@@ -3451,6 +3447,7 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
             Tool(
                 name="conflict",
                 description="충돌 탐지 및 근거 합성: 주제/수술법별 상충 연구 탐지, GRADE 기반 근거 종합. action으로 기능 선택.",
+                annotations=ToolAnnotations(readOnlyHint=True, destructiveHint=False, idempotentHint=True, openWorldHint=True),
                 inputSchema={
                     "type": "object",
                     "properties": {
@@ -3472,6 +3469,7 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
             Tool(
                 name="intervention",
                 description="수술법 분석: 계층 구조, 비교, 비교 가능 목록. action으로 기능 선택.",
+                annotations=ToolAnnotations(readOnlyHint=True, destructiveHint=False, idempotentHint=True, openWorldHint=True),
                 inputSchema={
                     "type": "object",
                     "properties": {
@@ -3494,6 +3492,7 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
             Tool(
                 name="extended",
                 description="확장 엔티티 조회 (v1.2+): 환자 코호트, 추적관찰, 비용 분석, 품질 지표. action으로 조회 유형 선택.",
+                annotations=ToolAnnotations(readOnlyHint=True, destructiveHint=False, idempotentHint=True, openWorldHint=True),
                 inputSchema={
                     "type": "object",
                     "properties": {
@@ -3519,6 +3518,7 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
             Tool(
                 name="reference",
                 description="참고문헌 포맷팅: 다양한 저널 스타일(Vancouver, AMA, APA, JBJS, Spine 등)로 참고문헌 생성. 저널별 커스텀 스타일 저장 및 BibTeX/RIS 내보내기 지원.",
+                annotations=ToolAnnotations(readOnlyHint=True, destructiveHint=False, idempotentHint=True, openWorldHint=False),
                 inputSchema={
                     "type": "object",
                     "properties": {
@@ -3562,6 +3562,7 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
             Tool(
                 name="writing_guide",
                 description="학술 논문 작성 가이드: 섹션별 작성 지침, 연구 유형별 체크리스트(STROBE, CONSORT, PRISMA, CARE), 전문가 에이전트, 리비전 응답 템플릿.",
+                annotations=ToolAnnotations(readOnlyHint=True, destructiveHint=False, idempotentHint=True, openWorldHint=False),
                 inputSchema={
                     "type": "object",
                     "properties": {
@@ -3617,11 +3618,7 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
         if action == "add_pdf":
             return await kag_server.pdf_handler.add_pdf(
                 args.get("file_path", ""), args.get("metadata"),
-                args.get("use_vision", True), args.get("use_v7", True))
-        elif action == "add_pdf_v7":
-            return await kag_server.pdf_handler.add_pdf_v7(
-                args.get("file_path", ""), args.get("metadata"),
-                args.get("document_type"))
+                args.get("use_vision", True))
         elif action == "add_json":
             return await kag_server.json_handler.add_json(
                 args.get("file_path", ""), args.get("metadata"))
@@ -3639,6 +3636,12 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
         elif action == "prepare_prompt":
             return await kag_server.pdf_handler.prepare_pdf_prompt(
                 args.get("file_path", ""))
+        elif action == "stats":
+            return await kag_server.document_handler.get_stats()
+        elif action == "summarize":
+            return await kag_server.document_handler.summarize_paper(
+                args.get("paper_id", args.get("document_id", "")),
+                args.get("style", "brief"))
         return {"success": False, "error": f"Unknown document action: {action}"}
 
     async def _dispatch_search(action: str, args: dict) -> dict:
@@ -3674,6 +3677,10 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
             return await kag_server.reasoning_handler.reason(
                 args.get("question", args.get("query", "")),
                 args.get("max_hops", 3), args.get("include_conflicts", True))
+        elif action == "clinical_recommend":
+            return await kag_server.reasoning_handler.clinical_recommend(
+                args.get("patient_context", ""),
+                args.get("intervention"))
         return {"success": False, "error": f"Unknown search action: {action}"}
 
     async def _dispatch_pubmed(action: str, args: dict) -> dict:
@@ -3728,8 +3735,7 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
         if action == "text":
             return await kag_server.pdf_handler.analyze_text(
                 text=args.get("text", ""), title=args.get("title", ""),
-                pmid=args.get("pmid"), metadata=args.get("metadata"),
-                use_v7=args.get("use_v7", True))
+                pmid=args.get("pmid"), metadata=args.get("metadata"))
         elif action == "store_paper":
             return await kag_server.pdf_handler.store_analyzed_paper(
                 title=args.get("title", ""),
@@ -3783,6 +3789,13 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
                 paper_id=args.get("paper_id"),
                 min_similarity=args.get("min_similarity", 0.4),
                 max_papers=args.get("max_papers", 100))
+        elif action == "infer_relations":
+            return await kag_server.graph_handler.infer_relations(
+                rule_name=args.get("rule_name"),
+                intervention=args.get("intervention"),
+                outcome=args.get("outcome"),
+                pathology=args.get("pathology"),
+                paper_id=args.get("paper_id"))
         return {"success": False, "error": f"Unknown graph action: {action}"}
 
     async def _dispatch_conflict(action: str, args: dict) -> dict:
@@ -3928,6 +3941,140 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
         "reference": _dispatch_reference,
         "writing_guide": _dispatch_writing_guide,
     }
+
+    # ================================================================
+    # MCP Resources (v1.20): 논문 목록/메타데이터를 Resource로 노출
+    # ================================================================
+
+    @server.list_resources()
+    async def list_resources():
+        """논문 목록을 MCP Resource로 노출."""
+        try:
+            papers = await kag_server.document_handler.list_documents()
+            resources = []
+            for p in papers.get("documents", []):
+                doc_id = p.get("document_id", "unknown")
+                meta = p.get("metadata", {})
+                resources.append(
+                    Resource(
+                        uri=f"paper://{doc_id}",
+                        name=meta.get("title", doc_id)[:100],
+                        description=f"({meta.get('year', '')})",
+                        mimeType="application/json",
+                    )
+                )
+            return resources
+        except Exception as e:
+            logger.error(f"list_resources failed: {e}")
+            return []
+
+    @server.read_resource()
+    async def read_resource(uri):
+        """개별 논문 메타데이터 반환."""
+        uri_str = str(uri)
+        paper_id = uri_str.replace("paper://", "")
+        try:
+            result = await kag_server.document_handler.export_document(paper_id)
+            return json.dumps(result, ensure_ascii=False, indent=2)
+        except Exception as e:
+            return json.dumps({"error": str(e)})
+
+    # ================================================================
+    # MCP Prompts (v1.20): 검색/분석 템플릿
+    # ================================================================
+
+    @server.list_prompts()
+    async def list_prompts():
+        """검색/분석 템플릿을 MCP Prompt로 노출."""
+        return [
+            Prompt(
+                name="compare_interventions",
+                description="두 수술법 비교 분석",
+                arguments=[
+                    PromptArgument(name="intervention_a", description="수술법 A", required=True),
+                    PromptArgument(name="intervention_b", description="수술법 B", required=True),
+                ],
+            ),
+            Prompt(
+                name="evidence_summary",
+                description="특정 수술법의 근거 요약",
+                arguments=[
+                    PromptArgument(name="intervention", description="수술법", required=True),
+                    PromptArgument(name="outcome", description="결과변수", required=False),
+                ],
+            ),
+            Prompt(
+                name="paper_review",
+                description="논문 비평적 분석",
+                arguments=[
+                    PromptArgument(name="paper_id", description="논문 ID", required=True),
+                ],
+            ),
+        ]
+
+    @server.get_prompt()
+    async def get_prompt(name: str, arguments: dict = None) -> GetPromptResult:
+        """프롬프트 템플릿 반환."""
+        args = arguments or {}
+
+        if name == "compare_interventions":
+            return GetPromptResult(
+                description="두 수술법 비교 분석",
+                messages=[
+                    PromptMessage(
+                        role="user",
+                        content=TextContent(
+                            type="text",
+                            text=(
+                                f"다음 두 수술법을 비교 분석해주세요:\n\n"
+                                f"수술법 A: {args.get('intervention_a', '')}\n"
+                                f"수술법 B: {args.get('intervention_b', '')}\n\n"
+                                f"각 수술법의 적응증, 합병증, 임상 결과를 근거 기반으로 비교해주세요."
+                            ),
+                        ),
+                    )
+                ],
+            )
+        elif name == "evidence_summary":
+            outcome_text = f"\n결과변수: {args['outcome']}" if args.get("outcome") else ""
+            return GetPromptResult(
+                description="근거 요약",
+                messages=[
+                    PromptMessage(
+                        role="user",
+                        content=TextContent(
+                            type="text",
+                            text=(
+                                f"다음 수술법의 근거를 요약해주세요:\n\n"
+                                f"수술법: {args.get('intervention', '')}{outcome_text}\n\n"
+                                f"근거 수준, 주요 연구 결과, 권고사항을 포함해주세요."
+                            ),
+                        ),
+                    )
+                ],
+            )
+        elif name == "paper_review":
+            return GetPromptResult(
+                description="논문 리뷰",
+                messages=[
+                    PromptMessage(
+                        role="user",
+                        content=TextContent(
+                            type="text",
+                            text=(
+                                f"논문 ID: {args.get('paper_id', '')}의 비평적 분석을 해주세요.\n\n"
+                                f"연구 설계, 방법론, 결과의 타당성, 제한점을 평가해주세요."
+                            ),
+                        ),
+                    )
+                ],
+            )
+        else:
+            raise ValueError(f"Unknown prompt: {name}")
+
+    # ================================================================
+    # Tool Call Handler
+    # ================================================================
 
     @server.call_tool()
     async def call_tool(name: str, arguments: dict) -> list[TextContent]:

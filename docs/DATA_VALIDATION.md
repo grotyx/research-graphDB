@@ -168,6 +168,16 @@ with driver.session() as s:
     orphans = [rec for rec in r]
     print(f'Chunk 고아: {len(orphans)} {\"✅\" if len(orphans)==0 else \"❌\"}')
     for rec in orphans[:5]: print(f'  - chunk_id={rec[\"id\"]}, paper_id={rec[\"paper_id\"]}')
+
+    # Anatomy: Paper에서 INVOLVES 관계 없음
+    r = s.run('''
+        MATCH (n:Anatomy)
+        WHERE NOT (n)<-[:INVOLVES]-(:Paper)
+        RETURN n.name AS name ORDER BY name
+    ''')
+    orphans = [rec['name'] for rec in r]
+    print(f'Anatomy 고아: {len(orphans)} {\"✅\" if len(orphans)==0 else \"⚠️\"}')
+    for name in orphans[:10]: print(f'  - {name}')
 driver.close()
 "
 ```
@@ -176,6 +186,7 @@ driver.close()
 - Pathology/Outcome 고아: 0 (⚠️ 있으면 정리 권장)
 - Intervention 고아: taxonomy 전용 노드는 정상이므로 제외 후 0
 - Chunk 고아: 0 (❌ 있으면 데이터 오류)
+- Anatomy 고아: 0 (⚠️ INVOLVES 관계 없으면 해부학 검색 사각지대)
 
 ### 1.3 중복 노드 탐지
 
@@ -473,6 +484,87 @@ driver.close()
 
 **기대 결과:** p_value, direction 비율이 높을수록 좋음 (100%는 비현실적, 50%+ 권장)
 
+### 2.5 Taxonomy 리프 노드 Paper 연결
+
+IS_A 계층의 리프 노드(하위 Intervention이 없는)가 실제 Paper와 연결되어 있는지 확인합니다. 연결 없는 리프 노드는 taxonomy만 있고 데이터 없는 빈 껍데기입니다.
+
+**명령어:**
+```bash
+cd /Users/sangminpark/Documents/rag_research
+PYTHONPATH=./src python3 -c "
+import os; from neo4j import GraphDatabase
+driver = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', os.environ['NEO4J_PASSWORD']))
+with driver.session() as s:
+    print('=== Taxonomy 리프 노드 Paper 연결 ===')
+
+    r = s.run('''
+        MATCH (leaf:Intervention)-[:IS_A]->(:Intervention)
+        WHERE NOT (leaf)<-[:IS_A]-(:Intervention)
+          AND NOT (leaf)<-[:INVESTIGATES]-(:Paper)
+        RETURN leaf.name AS name ORDER BY name
+    ''')
+    orphan_leaves = [rec['name'] for rec in r]
+    print(f'Paper 미연결 리프 노드: {len(orphan_leaves)} {\"✅\" if len(orphan_leaves)==0 else \"⚠️\"}')
+    for name in orphan_leaves: print(f'  - {name}')
+
+    # 전체 리프 대비 비율
+    r = s.run('''
+        MATCH (leaf:Intervention)-[:IS_A]->(:Intervention)
+        WHERE NOT (leaf)<-[:IS_A]-(:Intervention)
+        RETURN count(leaf) AS total
+    ''')
+    total_leaves = r.single()['total']
+    connected = total_leaves - len(orphan_leaves)
+    pct = connected*100//total_leaves if total_leaves > 0 else 0
+    print(f'리프 노드 Paper 연결률: {connected}/{total_leaves} ({pct}%)')
+driver.close()
+"
+```
+
+**기대 결과:** Paper 미연결 리프 노드 = 0 (⚠️ 있으면 해당 수술법 논문 임포트 권장)
+
+### 2.6 INVOLVES (Anatomy) 관계 완전성
+
+STUDIES/INVESTIGATES 관계는 있지만 INVOLVES (Anatomy) 관계가 없는 Paper를 찾습니다. Anatomy 연결 누락은 해부학 기반 검색의 사각지대가 됩니다.
+
+**명령어:**
+```bash
+cd /Users/sangminpark/Documents/rag_research
+PYTHONPATH=./src python3 -c "
+import os; from neo4j import GraphDatabase
+driver = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', os.environ['NEO4J_PASSWORD']))
+with driver.session() as s:
+    print('=== INVOLVES (Anatomy) 관계 완전성 ===')
+
+    r = s.run('''
+        MATCH (p:Paper)
+        WHERE ((p)-[:STUDIES]->() OR (p)-[:INVESTIGATES]->())
+          AND NOT (p)-[:INVOLVES]->(:Anatomy)
+        RETURN p.paper_id AS id, p.title AS title
+        ORDER BY p.paper_id
+    ''')
+    missing = [rec for rec in r]
+    print(f'Anatomy 연결 누락 Paper: {len(missing)} {\"⚠️\" if len(missing) > 0 else \"✅\"}')
+    for rec in missing[:10]:
+        title = (rec['title'] or '')[:60]
+        print(f'  - {rec[\"id\"]}: {title}...')
+
+    # 전체 대비 비율
+    r = s.run('''
+        MATCH (p:Paper)
+        WHERE (p)-[:STUDIES]->() OR (p)-[:INVESTIGATES]->()
+        RETURN count(p) AS total
+    ''')
+    total = r.single()['total']
+    connected = total - len(missing)
+    pct = connected*100//total if total > 0 else 0
+    print(f'Anatomy 연결률: {connected}/{total} ({pct}%)')
+driver.close()
+"
+```
+
+**기대 결과:** Anatomy 연결률 80%+ (일부 Basic Science 논문은 특정 해부학 위치 없을 수 있음)
+
 ---
 
 ## Phase 3: 임베딩 & 검색 품질 (병렬 실행)
@@ -599,9 +691,9 @@ driver.close()
 
 ---
 
-## Phase 4: 식별자 & SNOMED (병렬 실행)
+## Phase 4: 식별자 & SNOMED & 온톨로지 (병렬 실행)
 
-> 외부 식별자(DOI, PMID)와 SNOMED 매핑의 완전성을 점검합니다.
+> 외부 식별자(DOI, PMID), SNOMED 매핑, 온톨로지 동기화를 점검합니다.
 
 ### 4.1 DOI / PMID 완전성
 
@@ -727,6 +819,176 @@ driver.close()
 ```
 
 **기대 결과:** 유효하지 않은 코드 = 0 ✅
+
+### 4.4 SNOMED 코드 중복 탐지
+
+서로 다른 엔티티에 같은 SNOMED 코드가 할당되었는지 확인합니다. 같은 라벨 내 또는 라벨 간 중복 모두 점검합니다.
+
+**명령어:**
+```bash
+cd /Users/sangminpark/Documents/rag_research
+PYTHONPATH=./src python3 -c "
+import os; from neo4j import GraphDatabase
+driver = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', os.environ['NEO4J_PASSWORD']))
+with driver.session() as s:
+    print('=== SNOMED 코드 중복 탐지 ===')
+
+    # 같은 라벨 내 중복
+    for label in ['Intervention', 'Pathology', 'Outcome', 'Anatomy']:
+        r = s.run(f'''
+            MATCH (a:{label}), (b:{label})
+            WHERE id(a) < id(b)
+              AND a.snomed_code IS NOT NULL AND a.snomed_code <> ''
+              AND a.snomed_code = b.snomed_code
+            RETURN a.name AS name_a, b.name AS name_b, a.snomed_code AS code
+        ''')
+        dupes = [rec for rec in r]
+        print(f'{label} 내 SNOMED 중복: {len(dupes)} {\"✅\" if len(dupes)==0 else \"❌\"}')
+        for rec in dupes[:5]:
+            print(f'  - \"{rec[\"name_a\"]}\" vs \"{rec[\"name_b\"]}\" (code: {rec[\"code\"]})')
+
+    # 라벨 간 중복
+    print()
+    r = s.run('''
+        MATCH (a), (b)
+        WHERE id(a) < id(b)
+          AND a.snomed_code IS NOT NULL AND a.snomed_code <> ''
+          AND a.snomed_code = b.snomed_code
+          AND any(la IN labels(a) WHERE la IN ['Intervention','Pathology','Outcome','Anatomy'])
+          AND any(lb IN labels(b) WHERE lb IN ['Intervention','Pathology','Outcome','Anatomy'])
+          AND labels(a)[0] <> labels(b)[0]
+        RETURN labels(a)[0] AS label_a, a.name AS name_a,
+               labels(b)[0] AS label_b, b.name AS name_b,
+               a.snomed_code AS code
+    ''')
+    cross = [rec for rec in r]
+    print(f'라벨 간 SNOMED 중복: {len(cross)} {\"✅\" if len(cross)==0 else \"⚠️\"}')
+    for rec in cross[:10]:
+        print(f'  - {rec[\"label_a\"]}:\"{rec[\"name_a\"]}\" vs {rec[\"label_b\"]}:\"{rec[\"name_b\"]}\" (code: {rec[\"code\"]})')
+driver.close()
+"
+```
+
+**기대 결과:** 같은 라벨 내 중복 = 0, 라벨 간 중복 = 0
+
+### 4.5 Neo4j ↔ SNOMED 매핑 소스 동기화
+
+Neo4j의 SNOMED 코드가 `spine_snomed_mappings.py` (Single Source of Truth)와 일치하는지 검증합니다. 불일치는 매핑 업데이트 후 Neo4j 반영 누락을 의미합니다.
+
+**명령어:**
+```bash
+cd /Users/sangminpark/Documents/rag_research
+PYTHONPATH=./src python3 -c "
+import os, sys
+sys.path.insert(0, 'src')
+from neo4j import GraphDatabase
+from ontology.spine_snomed_mappings import (
+    SPINE_INTERVENTION_SNOMED, SPINE_PATHOLOGY_SNOMED,
+    SPINE_OUTCOME_SNOMED, SPINE_ANATOMY_SNOMED
+)
+
+driver = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', os.environ['NEO4J_PASSWORD']))
+with driver.session() as s:
+    print('=== Neo4j ↔ SNOMED 매핑 소스 동기화 ===')
+
+    mapping_sources = {
+        'Intervention': SPINE_INTERVENTION_SNOMED,
+        'Pathology': SPINE_PATHOLOGY_SNOMED,
+        'Outcome': SPINE_OUTCOME_SNOMED,
+        'Anatomy': SPINE_ANATOMY_SNOMED,
+    }
+
+    for label, source_dict in mapping_sources.items():
+        r = s.run(f'''
+            MATCH (n:{label})
+            WHERE n.snomed_code IS NOT NULL AND n.snomed_code <> ''
+            RETURN n.name AS name, n.snomed_code AS code
+        ''')
+        neo4j_mappings = {rec['name']: str(rec['code']) for rec in r}
+
+        # Source와 Neo4j 코드 불일치
+        mismatches = []
+        for name, mapping in source_dict.items():
+            src_code = str(mapping.code)
+            if name in neo4j_mappings and neo4j_mappings[name] != src_code:
+                mismatches.append((name, src_code, neo4j_mappings[name]))
+
+        # Neo4j에 있지만 Source에 없는 매핑
+        neo4j_only = []
+        for name, code in neo4j_mappings.items():
+            if name not in source_dict:
+                neo4j_only.append((name, code))
+
+        print(f'{label}:')
+        print(f'  코드 불일치: {len(mismatches)} {\"✅\" if len(mismatches)==0 else \"❌\"}')
+        for name, src, neo in mismatches[:5]:
+            print(f'    - {name}: source={src} vs neo4j={neo}')
+        print(f'  Neo4j에만 있는 매핑: {len(neo4j_only)} {\"✅\" if len(neo4j_only)==0 else \"⚠️\"}')
+        for name, code in neo4j_only[:5]:
+            print(f'    - {name}: {code}')
+driver.close()
+"
+```
+
+**기대 결과:** 코드 불일치 = 0, Neo4j 전용 매핑 = 0 (있으면 source 동기화 필요)
+
+### 4.6 Entity Normalizer 커버리지
+
+Neo4j에 존재하는 엔티티 이름이 `entity_normalizer.py` 별칭 사전에 포함되어 있는지 확인합니다. 누락된 엔티티는 검색 시 정규화되지 않아 "투명인간"이 됩니다.
+
+**명령어:**
+```bash
+cd /Users/sangminpark/Documents/rag_research
+PYTHONPATH=./src python3 -c "
+import os, sys
+sys.path.insert(0, 'src')
+from neo4j import GraphDatabase
+from graph.entity_normalizer import EntityNormalizer
+
+normalizer = EntityNormalizer()
+driver = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', os.environ['NEO4J_PASSWORD']))
+with driver.session() as s:
+    print('=== Entity Normalizer 커버리지 ===')
+
+    checks = [
+        ('Intervention', 'normalize_intervention'),
+        ('Pathology', 'normalize_pathology'),
+        ('Outcome', 'normalize_outcome'),
+        ('Anatomy', 'normalize_anatomy'),
+    ]
+
+    for label, method_name in checks:
+        r = s.run(f'MATCH (n:{label}) RETURN n.name AS name ORDER BY name')
+        names = [rec['name'] for rec in r]
+
+        method = getattr(normalizer, method_name, None)
+        if method is None:
+            print(f'{label}: normalize 메서드 없음 ⚠️')
+            continue
+
+        uncovered = []
+        for name in names:
+            try:
+                result = method(name)
+                if result is None or (hasattr(result, 'confidence') and result.confidence < 0.5):
+                    uncovered.append(name)
+            except Exception:
+                uncovered.append(name)
+
+        covered = len(names) - len(uncovered)
+        pct = covered*100//len(names) if len(names) > 0 else 0
+        print(f'{label}: {covered}/{len(names)} ({pct}%) 커버')
+        if uncovered:
+            print(f'  미커버 ({len(uncovered)}개):')
+            for name in uncovered[:10]:
+                print(f'    - {name}')
+            if len(uncovered) > 10:
+                print(f'    ... 외 {len(uncovered)-10}개')
+driver.close()
+"
+```
+
+**기대 결과:** 커버리지 90%+ (신규 임포트 엔티티는 미커버 가능, 별칭 추가 권장)
 
 ---
 
@@ -954,6 +1216,8 @@ driver.close()
 | 2.2 IS_A 계층 | ✅/❌ | 순환: |
 | 2.3 TREATS 백필 | ✅/⚠️ | 미생성: |
 | 2.4 AFFECTS 속성 | ✅/⚠️ | p_value 비율: X% |
+| 2.5 Taxonomy 리프 | ✅/⚠️ | 미연결 리프: |
+| 2.6 INVOLVES 완전성 | ✅/⚠️ | Anatomy 연결률: X% |
 
 ## Phase 3: 임베딩 & 검색 품질
 | 항목 | 상태 | 발견 사항 |
@@ -962,12 +1226,15 @@ driver.close()
 | 3.2 Paper 임베딩 | ✅/⚠️ | 누락: |
 | 3.3 벡터 인덱스 | ✅/❌ | |
 
-## Phase 4: 식별자 & SNOMED
+## Phase 4: 식별자 & SNOMED & 온톨로지
 | 항목 | 상태 | 발견 사항 |
 |------|------|----------|
 | 4.1 DOI/PMID | ✅/⚠️ | DOI: X%, PMID: X% |
 | 4.2 SNOMED 커버리지 | ✅/⚠️ | 미매핑: |
 | 4.3 SNOMED 유효성 | ✅/⚠️ | |
+| 4.4 SNOMED 중복 | ✅/❌ | 라벨 내: X, 라벨 간: X |
+| 4.5 SNOMED 소스 동기화 | ✅/❌ | 불일치: |
+| 4.6 Normalizer 커버리지 | ✅/⚠️ | 미커버: |
 
 ## Phase 5: 데이터 품질
 | 항목 | 상태 | 발견 사항 |
@@ -986,17 +1253,19 @@ driver.close()
 ## 부록: 병렬 실행 구조
 
 ```
-Phase 1 (병렬 4개)     Phase 2 (병렬 4개)     Phase 3 (병렬 3개)
+Phase 1 (병렬 4개)     Phase 2 (병렬 6개)     Phase 3 (병렬 3개)
 ├─ 1.1 필수 속성       ├─ 2.1 고립 Paper       ├─ 3.1 Chunk 임베딩
 ├─ 1.2 고아 노드       ├─ 2.2 IS_A 계층        ├─ 3.2 Paper 임베딩
 ├─ 1.3 중복 노드       ├─ 2.3 TREATS 백필      └─ 3.3 벡터 인덱스
-└─ 1.4 노드 현황       └─ 2.4 AFFECTS 속성
-
-Phase 4 (병렬 3개)     Phase 5 (병렬 4개)
-├─ 4.1 DOI/PMID        ├─ 5.1 콘텐츠 품질
-├─ 4.2 SNOMED 커버리지 ├─ 5.2 분포 이상
-└─ 4.3 SNOMED 유효성   ├─ 5.3 중복 논문
-                       └─ 5.4 Chunk 품질
+└─ 1.4 노드 현황       ├─ 2.4 AFFECTS 속성
+                       ├─ 2.5 Taxonomy 리프     Phase 5 (병렬 4개)
+Phase 4 (병렬 6개)     └─ 2.6 INVOLVES 완전성   ├─ 5.1 콘텐츠 품질
+├─ 4.1 DOI/PMID                                ├─ 5.2 분포 이상
+├─ 4.2 SNOMED 커버리지                         ├─ 5.3 중복 논문
+├─ 4.3 SNOMED 유효성                           └─ 5.4 Chunk 품질
+├─ 4.4 SNOMED 중복
+├─ 4.5 SNOMED 소스 동기화
+└─ 4.6 Normalizer 커버리지
 ```
 
 **예상 소요 시간:** 전체 약 3-5분 (병렬 실행 시)

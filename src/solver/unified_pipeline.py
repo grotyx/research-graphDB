@@ -83,12 +83,6 @@ except ImportError:
     NEO4J_AVAILABLE = False
     Neo4jClient = None
 
-try:
-    from ..storage.vector_db import TieredVectorDB
-    VECTOR_DB_AVAILABLE = True
-except ImportError:
-    VECTOR_DB_AVAILABLE = False
-    TieredVectorDB = None
 
 # Logging
 try:
@@ -268,14 +262,14 @@ class UnifiedSearchPipeline:
     def __init__(
         self,
         neo4j_client: Optional["Neo4jClient"] = None,
-        vector_db: Optional["TieredVectorDB"] = None,
+        vector_db: Optional[object] = None,  # deprecated (ChromaDB removed in v1.14.12)
         config: Optional[dict] = None
     ):
         """초기화.
 
         Args:
             neo4j_client: Neo4j 클라이언트 (선택적)
-            vector_db: Vector 데이터베이스 (선택적)
+            vector_db: deprecated (ChromaDB removed in v1.14.12)
             config: 설정 딕셔너리 (선택적)
         """
         self.neo4j_client = neo4j_client
@@ -670,14 +664,14 @@ class UnifiedSearchPipeline:
 
 def create_pipeline(
     neo4j_client: Optional["Neo4jClient"] = None,
-    vector_db: Optional["TieredVectorDB"] = None,
+    vector_db: Optional[object] = None,  # deprecated
     config: Optional[dict] = None
 ) -> UnifiedSearchPipeline:
     """파이프라인 생성 헬퍼 함수.
 
     Args:
         neo4j_client: Neo4j 클라이언트 (선택적)
-        vector_db: Vector 데이터베이스 (선택적)
+        vector_db: deprecated (ChromaDB removed in v1.14.12)
         config: 설정 딕셔너리 (선택적)
 
     Returns:
@@ -685,11 +679,9 @@ def create_pipeline(
 
     Example:
         >>> from src.graph.neo4j_client import Neo4jClient
-        >>> from src.storage.vector_db import TieredVectorDB
         >>>
         >>> async with Neo4jClient() as client:
-        ...     vector_db = TieredVectorDB(persist_directory="./data/chromadb")
-        ...     pipeline = create_pipeline(client, vector_db)
+        ...     pipeline = create_pipeline(client)
         ...     response = await pipeline.search("TLIF vs OLIF")
     """
     return UnifiedSearchPipeline(neo4j_client, vector_db, config)
@@ -698,7 +690,7 @@ def create_pipeline(
 async def quick_search(
     query: str,
     neo4j_client: Optional["Neo4jClient"] = None,
-    vector_db: Optional["TieredVectorDB"] = None,
+    vector_db: Optional[object] = None,  # deprecated
     top_k: int = 10
 ) -> SearchResponse:
     """빠른 검색 헬퍼 함수 (기본 설정).
@@ -706,7 +698,7 @@ async def quick_search(
     Args:
         query: 검색 쿼리
         neo4j_client: Neo4j 클라이언트 (선택적)
-        vector_db: Vector 데이터베이스 (선택적)
+        vector_db: deprecated (ChromaDB removed in v1.14.12)
         top_k: 반환할 결과 수
 
     Returns:
@@ -741,7 +733,7 @@ async def example_usage():
 
     # Mock clients (실제로는 실제 클라이언트 사용)
     neo4j_client = None  # await Neo4jClient().__aenter__()
-    vector_db = None  # TieredVectorDB(persist_directory="./data/chromadb")
+    vector_db = None  # deprecated (ChromaDB removed in v1.14.12)
 
     # Create pipeline
     pipeline = create_pipeline(neo4j_client, vector_db)

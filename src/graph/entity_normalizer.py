@@ -975,6 +975,7 @@ class EntityNormalizer:
         ],
         "EQ-5D": [
             "EuroQol 5D", "EQ5D", "EQ-5D-5L", "EuroQol-5D",
+            "EuroQol-5-Dimensions-5-Level", "EQ-5D-3L",
             # v1.14.11: QOL 변형 추가
             "QOL", "quality of life score",
             # 정규화된 이름의 대소문자 변형
@@ -1255,6 +1256,61 @@ class EntityNormalizer:
             "ASD reoperation", "Adjacent segment reoperation",
             "Junctional reoperation", "ASD-RR",
             "인접분절 재수술률",
+        ],
+
+        # v1.19.5: 추가 aliases — Neo4j 상위 빈도 미매핑 Outcomes
+        "Pulmonary Embolism": [
+            "PE", "pulmonary embolism", "Pulmonary thromboembolism",
+            "Venous thromboembolism", "VTE",
+        ],
+        "Sepsis": [
+            "sepsis", "Postoperative sepsis", "Surgical sepsis",
+        ],
+        "Rod Fracture": [
+            "Rod fracture", "rod fracture", "Rod breakage",
+            "Instrumentation failure",
+        ],
+        "Screw Loosening": [
+            "screw loosening", "Pedicle screw loosening",
+            "Screw pullout", "screw pullout",
+        ],
+        "Screw Accuracy": [
+            "screw accuracy", "Screw placement accuracy",
+            "Pedicle screw accuracy", "Screw malposition",
+            "screw malposition",
+        ],
+        "Readmission Rate": [
+            "readmission rate", "30-day readmission",
+            "Readmission", "Hospital readmission",
+            "30-Day Readmission Rate", "재입원율",
+        ],
+        "RBC Transfusion": [
+            "RBC Transfusion Requirement", "Blood transfusion",
+            "Transfusion rate", "Packed RBC",
+        ],
+        "Heterotopic Ossification": [
+            "heterotopic ossification", "HO",
+            "Ectopic bone formation",
+        ],
+        "Osteolysis": [
+            "osteolysis", "Endplate resorption",
+            "Bone resorption", "Endplate Resorption",
+        ],
+        "Facet Joint Violation": [
+            "facet joint violation", "Facet violation",
+            "FJV", "Facet breach",
+        ],
+        "Fluoroscopy Time": [
+            "Fluoroscopic time", "Radiation exposure",
+            "Fluoroscopy dose", "Fluoroscopic Scan Number",
+        ],
+        "Learning Curve": [
+            "learning curve", "Surgical learning curve",
+            "Case volume effect", "Proficiency curve",
+        ],
+        "Radiculopathy": [
+            "radiculopathy", "Postoperative radiculopathy",
+            "BMP-related radiculitis", "New radiculopathy",
         ],
     }
 
@@ -1795,6 +1851,92 @@ class EntityNormalizer:
         self.enable_korean_normalization = True
         self.strip_particles = True
 
+    def register_dynamic_alias(
+        self,
+        entity_type: str,
+        alias: str,
+        canonical: str,
+    ) -> bool:
+        """런타임에 새 alias를 reverse_map에 등록 (thread-safe).
+
+        메모리 전용 — 재시작 시 초기화됨.
+        canonical이 기존 ALIASES 딕셔너리에 존재해야만 등록 가능.
+
+        Args:
+            entity_type: "intervention" | "outcome" | "pathology" | "anatomy"
+            alias: 새로 등록할 alias 문자열
+            canonical: 매핑 대상 canonical 이름 (ALIASES에 존재해야 함)
+
+        Returns:
+            True if registered, False if rejected (중복/invalid canonical)
+        """
+        reverse_map_key = f"_{entity_type}_reverse"
+        aliases_dict_key = f"{entity_type.upper()}_ALIASES"
+
+        reverse_map = getattr(self, reverse_map_key, None)
+        aliases_dict = getattr(self, aliases_dict_key, None)
+
+        if reverse_map is None or aliases_dict is None:
+            return False
+
+        alias_lower = alias.lower().strip()
+
+        # 이미 등록된 alias
+        if alias_lower in reverse_map:
+            return False
+
+        # canonical이 ALIASES에 없으면 거부 (안전장치)
+        if canonical not in aliases_dict:
+            logger.warning(
+                f"Dynamic alias rejected: '{canonical}' not in {entity_type} ALIASES"
+            )
+            return False
+
+        # thread-safe 등록 (dict assignment는 Python GIL 하에서 atomic)
+        reverse_map[alias_lower] = canonical
+        logger.info(f"Dynamic alias: '{alias}' → '{canonical}' ({entity_type})")
+        return True
+
+    def _get_candidate_canonicals(
+        self,
+        text: str,
+        entity_type: str,
+        top_k: int = 30,
+    ) -> list[str]:
+        """rapidfuzz로 상위 top_k 후보 canonical names 빠르게 필터링.
+
+        LLM 프롬프트에 포함할 후보 목록을 최소화하여 비용/정확도 최적화.
+
+        Args:
+            text: 매칭 실패한 원본 텍스트
+            entity_type: "intervention" | "outcome" | "pathology" | "anatomy"
+            top_k: 반환할 최대 후보 수
+
+        Returns:
+            similarity 순 정렬된 canonical name 목록
+        """
+        aliases_dict = {
+            "intervention": self.INTERVENTION_ALIASES,
+            "outcome": self.OUTCOME_ALIASES,
+            "pathology": self.PATHOLOGY_ALIASES,
+            "anatomy": self.ANATOMY_ALIASES,
+        }.get(entity_type, {})
+
+        canonicals = list(aliases_dict.keys())
+        if not canonicals:
+            return []
+
+        # rapidfuzz WRatio: 다양한 비율 메트릭 중 최선 자동 선택
+        lower_to_original = {c.lower(): c for c in canonicals}
+        results = process.extract(
+            text.lower(),
+            list(lower_to_original.keys()),
+            scorer=fuzz.WRatio,
+            limit=top_k,
+        )
+
+        return [lower_to_original[r[0]] for r in results if r[1] > 30]
+
     def _build_reverse_map(self, aliases: dict[str, list[str]]) -> dict[str, str]:
         """역방향 매핑 구축."""
         reverse = {}
@@ -1989,15 +2131,75 @@ class EntityNormalizer:
         # SNOMED 코드 추가
         return self._enrich_with_snomed(result, "intervention")
 
+    # v1.19.5: Outcome 한정어 패턴 (비교군, 저자명, 서브그룹 등)
+    _OUTCOME_QUALIFIER_RE = re.compile(
+        r'\s*\([^)]*\)\s*$',
+        re.IGNORECASE
+    )
+    _OUTCOME_DASH_QUALIFIER_RE = re.compile(
+        r'\s+[-–—]\s+.+$',
+        re.IGNORECASE
+    )
+    _OUTCOME_TRAILING_GENERIC_RE = re.compile(
+        r'\s+(?:incidence|prevalence|occurrence)\s*$|'
+        r'\s+(?:for|in|during|after|following|reduction)\s+\w.*$',
+        re.IGNORECASE
+    )
+
+    def _strip_outcome_qualifiers(self, text: str) -> str:
+        """Outcome 이름에서 비교군/저자/서브그룹 한정어 제거.
+
+        Examples:
+            "Blood loss (XLIF vs TLIF)" → "Blood loss"
+            "Complication rate - UBE-TLIF mastery phase" → "Complication rate"
+            "Rod Fracture incidence" → "Rod Fracture"
+        """
+        stripped = text.strip()
+        # 1) 괄호 한정어: "(XLIF vs TLIF)", "(CKD vs Non-CKD)"
+        stripped = self._OUTCOME_QUALIFIER_RE.sub('', stripped).strip()
+        # 2) 대시 한정어: "- Kim et al.", "- mastery phase"
+        stripped = self._OUTCOME_DASH_QUALIFIER_RE.sub('', stripped).strip()
+        # 3) 후행 generic 용어: "incidence", "prevalence"
+        stripped = self._OUTCOME_TRAILING_GENERIC_RE.sub('', stripped).strip()
+        return stripped if stripped else text
+
     def normalize_outcome(self, text: str) -> NormalizationResult:
-        """결과변수 정규화 (SNOMED 코드 포함)."""
+        """결과변수 정규화 (SNOMED 코드 포함).
+
+        v1.19.5: 한정어 스트리핑 전처리 추가 — 원본 매칭 실패 시
+        한정어를 제거한 텍스트로 재시도.
+        """
+        # 1차: 원본 텍스트로 정규화 시도
         result = self._normalize(
             text,
             self._outcome_reverse,
             "outcome",
             self.OUTCOME_ALIASES
         )
-        return self._enrich_with_snomed(result, "outcome")
+        if result.confidence > 0:
+            return self._enrich_with_snomed(result, "outcome")
+
+        # 2차: 한정어 스트리핑 후 재시도
+        stripped = self._strip_outcome_qualifiers(text)
+        if stripped != text:
+            result = self._normalize(
+                stripped,
+                self._outcome_reverse,
+                "outcome",
+                self.OUTCOME_ALIASES
+            )
+            if result.confidence > 0:
+                # 원본 텍스트 기록, confidence 약간 감소
+                result.original = text
+                result.confidence = max(result.confidence * 0.9, 0.5)
+                result.method = f"qualifier_stripped+{result.method}"
+                return self._enrich_with_snomed(result, "outcome")
+
+        # 매칭 실패 → 원본 반환
+        return self._enrich_with_snomed(
+            NormalizationResult(original=text, normalized=text, confidence=0.0, method="none"),
+            "outcome"
+        )
 
     def normalize_pathology(self, text: str) -> NormalizationResult:
         """질환명 정규화 (SNOMED 코드 포함)."""

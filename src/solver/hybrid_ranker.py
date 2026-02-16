@@ -25,10 +25,8 @@ from datetime import datetime
 
 from .graph_result import GraphEvidence, GraphSearchResult, PaperNode
 
-# Vector DB (DEPRECATED - ChromaDB removed in v1.14.12)
-# Neo4j Vector Index is now the only vector store
+# ChromaDB removed in v1.14.12 — Neo4j Vector Index is the only vector store
 VectorSearchResult = None  # type: ignore
-TieredVectorDB = None  # type: ignore
 
 # Optional Neo4j import (graceful fallback)
 try:
@@ -358,18 +356,18 @@ class HybridRanker:
 
     def __init__(
         self,
-        vector_db: Optional[TieredVectorDB] = None,
+        vector_db: Optional[object] = None,  # deprecated (ChromaDB removed in v1.14.12)
         neo4j_client: Optional["Neo4jClient"] = None,
         use_neo4j_hybrid: bool = False
     ) -> None:
         """초기화.
 
         Args:
-            vector_db: ChromaDB Vector DB 인스턴스 (선택적 - Neo4j hybrid 사용시 불필요)
+            vector_db: deprecated (ChromaDB removed in v1.14.12)
             neo4j_client: Neo4j 클라이언트 (선택적)
             use_neo4j_hybrid: Neo4j 통합 hybrid_search 사용 여부 (v5.3)
         """
-        self.vector_db: Optional[TieredVectorDB] = vector_db
+        self.vector_db = vector_db
         self.neo4j_client: Optional["Neo4jClient"] = neo4j_client
         self.use_neo4j_hybrid: bool = use_neo4j_hybrid and neo4j_client is not None
 

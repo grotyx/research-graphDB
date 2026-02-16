@@ -342,6 +342,97 @@ class DocumentHandler(BaseHandler):
             "storage_backend": "neo4j"
         }
 
+    @safe_execute
+    async def summarize_paper(self, paper_id: str, style: str = "brief") -> dict:
+        """논문 요약 생성.
+
+        Neo4j에서 논문 텍스트를 가져와 LLM 기반 요약을 생성합니다.
+
+        Args:
+            paper_id: 논문 ID
+            style: 요약 스타일 ("brief", "detailed", "clinical")
+
+        Returns:
+            요약 결과 딕셔너리
+        """
+        if not paper_id:
+            return {"success": False, "error": "paper_id is required"}
+
+        self._require_neo4j()
+
+        # 1. Neo4j에서 논문 텍스트 가져오기
+        async with self.neo4j_client as client:
+            query = """
+            MATCH (p:Paper {paper_id: $paper_id})
+            OPTIONAL MATCH (p)-[:HAS_CHUNK]->(c:Chunk)
+            RETURN p.title as title,
+                   p.year as year,
+                   p.study_type as study_type,
+                   p.evidence_level as evidence_level,
+                   p.summary as existing_summary,
+                   collect(c.content ORDER BY c.chunk_index) as chunk_texts
+            """
+            result = await client.run_query(query, {"paper_id": paper_id})
+
+            if not result:
+                return {"success": False, "error": f"Paper not found: {paper_id}"}
+
+            record = result[0]
+            title = record.get("title", "")
+            existing_summary = record.get("existing_summary", "")
+            chunk_texts = [t for t in (record.get("chunk_texts") or []) if t]
+
+        # 2. If brief style and existing summary exists, return it
+        if style == "brief" and existing_summary:
+            return {
+                "success": True,
+                "paper_id": paper_id,
+                "title": title,
+                "summary": existing_summary,
+                "style": style,
+                "source": "existing",
+            }
+
+        # 3. Generate summary with LLM
+        if not chunk_texts:
+            return {
+                "success": False,
+                "error": f"No text content available for paper: {paper_id}"
+            }
+
+        full_text = "\n\n".join(chunk_texts)
+
+        try:
+            from builder.summary_generator import SummaryGenerator
+            from builder.document_type_detector import DocumentType
+
+            generator = SummaryGenerator()
+
+            # Map study_type to DocumentType
+            study_type = record.get("study_type", "")
+            doc_type = DocumentType.JOURNAL_ARTICLE  # default
+
+            summary_result = await generator.generate(
+                text=full_text,
+                document_type=doc_type
+            )
+
+            return {
+                "success": True,
+                "paper_id": paper_id,
+                "title": title,
+                "summary": summary_result.text,
+                "word_count": summary_result.word_count,
+                "sections": summary_result.sections,
+                "style": style,
+                "source": "generated",
+            }
+        except ImportError as e:
+            return {"success": False, "error": f"SummaryGenerator not available: {e}"}
+        except Exception as e:
+            logger.error(f"Summary generation failed for {paper_id}: {e}")
+            return {"success": False, "error": f"Summary generation failed: {e}"}
+
     async def export_document(self, document_id: str) -> dict:
         """저장된 문서를 JSON으로 내보냅니다 (Neo4j 전용 v5.3).
 

@@ -1679,6 +1679,8 @@ class CypherTemplates:
     MATCH (p:Paper {paper_id: $paper_id})
     MERGE (a:Anatomy {name: $anatomy_name})
     ON CREATE SET a.level = $level, a.region = $region
+    SET a.snomed_code = COALESCE($snomed_code, a.snomed_code),
+        a.snomed_term = COALESCE($snomed_term, a.snomed_term)
     MERGE (p)-[r:INVOLVES]->(a)
     RETURN p, r, a
     """

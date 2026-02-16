@@ -2,7 +2,7 @@
 
 추론(reasoning) 관련 MCP 도구 핸들러.
 - reason(): 추론 기반 답변 생성
-- multi_hop_reason(): Multi-hop 추론 (deprecated)
+- multi_hop_reason(): Neo4j 기반 멀티홉 추론
 - find_conflicts(): 연구 간 상충 탐지
 - detect_conflicts(): 수술법의 상충 결과 탐지
 - compare_papers(): 논문 비교 분석
@@ -99,16 +99,16 @@ class ReasoningHandler(BaseHandler):
             "conflicts": search_result.get("conflicts")
         }
 
+    @safe_execute
     async def multi_hop_reason(
         self,
         question: str,
         start_paper_id: Optional[str] = None,
         max_hops: int = 3
     ) -> dict:
-        """DEPRECATED: 여러 논문을 연결하는 Multi-hop 추론 (SQLite-based, removed).
+        """Neo4j 기반 멀티홉 추론.
 
-        This method is no longer functional. Use Neo4j-based multi-hop reasoning instead.
-        See src/solver/multi_hop_reasoning.py for Neo4j implementation.
+        복잡한 질문을 하위 질문으로 분해하고, 각 단계에서 검색 및 추론을 수행.
 
         Args:
             question: 추론할 질문
@@ -116,9 +116,65 @@ class ReasoningHandler(BaseHandler):
             max_hops: 최대 홉 수
 
         Returns:
-            추론 결과
+            추론 결과 딕셔너리
         """
-        return {"success": False, "error": "Deprecated: Use Neo4j-based multi-hop reasoning (src/solver/multi_hop_reasoning.py)"}
+        try:
+            from solver.multi_hop_reasoning import MultiHopReasoner
+            from solver.unified_pipeline import UnifiedSearchPipeline
+        except ImportError as e:
+            return {"success": False, "error": f"MultiHopReasoner not available: {e}"}
+
+        if not self.neo4j_client:
+            return {"success": False, "error": "Neo4j client not available"}
+
+        # LLM client from server
+        llm_client = getattr(self.server, 'llm_client', None)
+        if not llm_client:
+            try:
+                from llm import LLMClient, LLMConfig
+                llm_client = LLMClient(config=LLMConfig(temperature=0.1))
+            except ImportError:
+                return {"success": False, "error": "LLM client not available"}
+
+        # Search pipeline from server
+        search_pipeline = getattr(self.server, 'search_pipeline', None)
+        if not search_pipeline:
+            try:
+                search_pipeline = UnifiedSearchPipeline(neo4j_client=self.neo4j_client)
+            except Exception as e:
+                return {"success": False, "error": f"Search pipeline initialization failed: {e}"}
+
+        reasoner = MultiHopReasoner(
+            search_pipeline=search_pipeline,
+            llm_client=llm_client,
+            neo4j_client=self.neo4j_client
+        )
+        result = await reasoner.reason(query=question, max_hops=max_hops)
+
+        return {
+            "success": True,
+            "question": question,
+            "final_answer": result.final_answer,
+            "hops_used": result.hops_used,
+            "confidence": result.confidence,
+            "execution_time_ms": result.execution_time_ms,
+            "evidence_count": len(result.all_evidence),
+            "reasoning_chain": {
+                "total_hops": result.reasoning_chain.total_hops,
+                "avg_confidence": result.reasoning_chain.avg_confidence,
+                "steps": [
+                    {
+                        "hop_number": step.hop_number,
+                        "query": step.query,
+                        "answer": step.answer,
+                        "confidence": step.confidence,
+                        "evidence_count": step.evidence_count,
+                    }
+                    for step in result.reasoning_chain.steps
+                ]
+            },
+            "explanation": result.get_explanation()
+        }
 
     @safe_execute
     async def find_conflicts(
@@ -480,4 +536,112 @@ class ReasoningHandler(BaseHandler):
             "recommendation": result.recommendation,
             "supporting_papers": result.supporting_papers,
             "opposing_papers": result.opposing_papers
+        }
+
+    @safe_execute
+    async def clinical_recommend(
+        self,
+        patient_context: str,
+        intervention: Optional[str] = None
+    ) -> dict:
+        """임상 치료 추천 with evidence.
+
+        환자 정보를 파싱하고, 그래프에서 관련 근거를 검색하여
+        ClinicalReasoningEngine으로 치료 추천을 생성.
+
+        Args:
+            patient_context: 환자 정보 텍스트 (예: '65세 남성, 당뇨, L4-5 Stenosis')
+            intervention: 특정 수술법 필터 (None이면 전체 후보)
+
+        Returns:
+            치료 추천 결과 딕셔너리
+        """
+        if not patient_context:
+            return {"success": False, "error": "patient_context is required"}
+
+        try:
+            from solver.patient_context_parser import PatientContextParser
+            from solver.clinical_reasoning_engine import ClinicalReasoningEngine
+        except ImportError as e:
+            return {"success": False, "error": f"Clinical reasoning modules not available: {e}"}
+
+        # 1. Parse patient context
+        parser = PatientContextParser()
+        patient = parser.parse(patient_context)
+
+        # 2. Search for relevant evidence from Neo4j
+        available_evidence = []
+        if self.neo4j_client:
+            try:
+                await self._ensure_connected()
+                # Search evidence by pathology
+                if patient.pathology:
+                    query = """
+                    MATCH (p:Paper)-[:INVESTIGATES]->(i:Intervention)-[a:AFFECTS]->(o:Outcome)
+                    MATCH (p)-[:STUDIES]->(path:Pathology)
+                    WHERE toLower(path.name) CONTAINS toLower($pathology)
+                    RETURN i.name as intervention, o.name as outcome,
+                           a.direction as direction, a.p_value as p_value,
+                           a.is_significant as is_significant, a.effect_size as effect_size,
+                           p.evidence_level as evidence_level,
+                           p.paper_id as paper_id, p.title as title
+                    LIMIT 50
+                    """
+                    results = await self.neo4j_client.run_query(
+                        query, {"pathology": patient.pathology}
+                    )
+                    available_evidence = [dict(r) for r in results] if results else []
+            except Exception as e:
+                logger.warning(f"Evidence search failed: {e}")
+
+        # 3. Run clinical reasoning engine
+        engine = ClinicalReasoningEngine()
+        recommendation = engine.recommend_treatment(
+            patient=patient,
+            available_evidence=available_evidence
+        )
+
+        # 4. Format response
+        return {
+            "success": True,
+            "patient_summary": recommendation.patient_summary,
+            "confidence": recommendation.confidence.value,
+            "confidence_reasons": recommendation.confidence_reasons,
+            "recommended": [
+                {
+                    "intervention": r.intervention,
+                    "total_score": round(r.total_score, 3),
+                    "evidence_score": round(r.evidence_score, 3),
+                    "safety_score": round(r.safety_score, 3),
+                    "is_first_line": r.is_first_line,
+                    "evidence_level": r.evidence_level,
+                    "indication": r.indication,
+                }
+                for r in recommendation.recommended_interventions
+            ],
+            "alternatives": [
+                {
+                    "intervention": r.intervention,
+                    "total_score": round(r.total_score, 3),
+                    "relative_contraindications": [
+                        {"condition": c.condition, "reason": c.reason}
+                        for c in r.get_relative_contraindications()
+                    ],
+                }
+                for r in recommendation.alternative_interventions
+            ],
+            "contraindicated": [
+                {
+                    "intervention": r.intervention,
+                    "absolute_contraindications": [
+                        {"condition": c.condition, "reason": c.reason}
+                        for c in r.get_absolute_contraindications()
+                    ],
+                }
+                for r in recommendation.contraindicated_interventions
+            ],
+            "considerations": recommendation.considerations,
+            "warnings": recommendation.warnings,
+            "evidence_count": recommendation.total_evidence_count,
+            "significant_evidence_count": recommendation.significant_evidence_count,
         }

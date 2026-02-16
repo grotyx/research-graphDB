@@ -366,7 +366,7 @@ pytest tests/orchestrator/ -m integration
 
 **Attributes**:
 - `neo4j_client: Neo4jClient`
-- `vector_db: TieredVectorDB`
+- `vector_db`: deprecated (ChromaDB removed in v1.14.12)
 - `config: ChainConfig`
 - `llm: ChatGoogleGenerativeAI`
 - `retriever: HybridRetriever`

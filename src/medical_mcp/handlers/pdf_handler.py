@@ -4,7 +4,7 @@ This module provides PDF/text processing functionality extracted from the main
 MedicalKAGServer class for better modularity and maintainability.
 
 Handles:
-- PDF ingestion (add_pdf, add_pdf_v7)
+- PDF ingestion (add_pdf)
 - Text analysis (analyze_text)
 - PDF metadata extraction
 - Document ID generation
@@ -52,8 +52,7 @@ class PDFHandler(BaseHandler):
         self,
         file_path: str,
         metadata: Optional[dict] = None,
-        use_vision: bool = True,
-        use_v7: bool = True
+        use_vision: bool = True
     ) -> dict:
         """PDF 논문 추가.
 
@@ -67,7 +66,6 @@ class PDFHandler(BaseHandler):
             file_path: PDF 파일 경로
             metadata: 추가 메타데이터
             use_vision: 통합 PDF 프로세서 사용 여부 (레거시, True: 권장)
-            use_v7: v1.0 프로세서 사용 여부 (기본값: True, 권장)
 
         Returns:
             처리 결과 딕셔너리
@@ -103,23 +101,12 @@ class PDFHandler(BaseHandler):
             logger.exception(f"Error adding PDF: {e}")
             return {"success": False, "error": str(e)}
 
-    async def add_pdf_v7(
-        self,
-        file_path: str,
-        metadata: Optional[dict] = None,
-        document_type: Optional[str] = None
-    ) -> dict:
-        """PDF 논문 추가 - add_pdf()로 리다이렉트 (v7 파이프라인 아카이브됨)."""
-        logger.info("add_pdf_v7 called, redirecting to add_pdf()")
-        return await self.add_pdf(file_path, metadata)
-
     async def analyze_text(
         self,
         text: str,
         title: str,
         pmid: Optional[str] = None,
-        metadata: Optional[dict] = None,
-        use_v7: bool = True
+        metadata: Optional[dict] = None
     ) -> dict:
         """텍스트(논문 초록/본문)를 직접 분석하여 Neo4j에 저장.
 
@@ -137,7 +124,6 @@ class PDFHandler(BaseHandler):
             title: 논문 제목
             pmid: PubMed ID (선택, 없으면 자동 생성)
             metadata: 추가 메타데이터 (year, journal, authors, doi 등)
-            use_v7: v1.5 Simplified Pipeline 사용 여부 (기본값: True)
 
         Returns:
             분석 결과 및 저장 통계

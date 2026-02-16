@@ -8,6 +8,8 @@ import logging
 from dataclasses import dataclass, field
 from typing import Optional
 
+from core.bounded_cache import BoundedCache
+
 logger = logging.getLogger(__name__)
 
 
@@ -35,7 +37,7 @@ class GraphContextExpander:
             neo4j_client: Neo4jClient instance (can be sync or async)
         """
         self.client = neo4j_client
-        self._cache: dict[str, list[str]] = {}  # intervention -> [variants]
+        self._cache = BoundedCache(maxsize=500)  # intervention -> [variants]
 
     async def expand_intervention_up(
         self,
@@ -52,8 +54,9 @@ class GraphContextExpander:
             List of parent intervention names (excluding original)
         """
         cache_key = f"up_{intervention_name}_{max_depth}"
-        if cache_key in self._cache:
-            return self._cache[cache_key]
+        cached = self._cache.get(cache_key)
+        if cached is not None:
+            return cached
 
         query = """
         MATCH (i:Intervention {name: $name})
@@ -67,7 +70,7 @@ class GraphContextExpander:
                 "max_depth": max_depth
             })
             parents = [r["parent_name"] for r in results if r.get("parent_name")]
-            self._cache[cache_key] = parents
+            self._cache.set(cache_key, parents)
             return parents
         except Exception as e:
             logger.warning(f"Failed to expand up for {intervention_name}: {e}")
@@ -88,8 +91,9 @@ class GraphContextExpander:
             List of child intervention names (excluding original)
         """
         cache_key = f"down_{intervention_name}_{max_depth}"
-        if cache_key in self._cache:
-            return self._cache[cache_key]
+        cached = self._cache.get(cache_key)
+        if cached is not None:
+            return cached
 
         query = """
         MATCH (i:Intervention {name: $name})
@@ -103,7 +107,7 @@ class GraphContextExpander:
                 "max_depth": max_depth
             })
             children = [r["child_name"] for r in results if r.get("child_name")]
-            self._cache[cache_key] = children
+            self._cache.set(cache_key, children)
             return children
         except Exception as e:
             logger.warning(f"Failed to expand down for {intervention_name}: {e}")

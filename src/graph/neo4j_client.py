@@ -1089,7 +1089,9 @@ class Neo4jClient:
         paper_id: str,
         anatomy_name: str,
         level: str = "",
-        region: str = ""
+        region: str = "",
+        snomed_code: str | None = None,
+        snomed_term: str | None = None,
     ) -> dict:
         """논문 → 해부학 위치 관계 생성 (Paper → Anatomy).
 
@@ -1098,6 +1100,8 @@ class Neo4jClient:
             anatomy_name: 해부학적 위치 (예: "L4-5", "C5-6", "Lumbar")
             level: 척추 레벨 (예: "lumbar", "cervical", "thoracic")
             region: 상세 영역 (예: "L4-L5", "C5-C6")
+            snomed_code: SNOMED-CT 코드 (v1.19.5)
+            snomed_term: SNOMED-CT 용어 (v1.19.5)
 
         Returns:
             생성 결과
@@ -1109,6 +1113,8 @@ class Neo4jClient:
                 "anatomy_name": anatomy_name,
                 "level": level,
                 "region": region,
+                "snomed_code": snomed_code,
+                "snomed_term": snomed_term,
             }
         )
 

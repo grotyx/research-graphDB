@@ -1,53 +1,12 @@
-"""Knowledge module for paper relationship graph.
+"""Knowledge module — DEPRECATED.
 
-**DEPRECATED**: This module is deprecated as of v5.2.
-Use Neo4j-based graph storage (`src/graph/`) instead.
+All three legacy SQLite-based modules have been archived to
+``archive/legacy_knowledge/`` as of v1.20.0:
 
-This module provides legacy SQLite-based functionality:
-- PaperGraph: SQLite-based paper relationship storage (deprecated)
-- CitationExtractor: LLM-based citation extraction (deprecated)
-- RelationshipReasoner: LLM-based relationship inference (deprecated)
+- PaperGraph → use ``src/graph/`` (Neo4j)
+- CitationExtractor → use ``src/builder/important_citation_processor.py``
+- RelationshipReasoner → use ``src/solver/conflict_detector.py``
 
-Migration Path:
-- Use `src/graph/` for Neo4j-based graph operations
-- Use `src/builder/important_citation_processor.py` for citation extraction
-- Use `src/solver/conflict_detector.py` for conflict analysis
+Type stubs for CitationInfo / CitationType are provided in
+``src/graph/relationship_builder.py`` for backward compatibility.
 """
-
-import warnings
-
-warnings.warn(
-    "src/knowledge module is deprecated. Use Neo4j-based graph storage (src/graph/) instead.",
-    DeprecationWarning,
-    stacklevel=2
-)
-
-# Deprecated imports - kept for backward compatibility
-from .paper_graph import (
-    PaperNode,
-    PaperRelation,
-    RelationType,
-    PaperGraph,
-)
-from .citation_extractor import (
-    CitationInfo,
-    CitationType,
-    LLMCitationExtractor,
-)
-from .relationship_reasoner import (
-    RelationshipReasoner,
-)
-
-__all__ = [
-    # Paper Graph (deprecated)
-    "PaperNode",
-    "PaperRelation",
-    "RelationType",
-    "PaperGraph",
-    # Citation Extractor (deprecated)
-    "CitationInfo",
-    "CitationType",
-    "LLMCitationExtractor",
-    # Relationship Reasoner (deprecated)
-    "RelationshipReasoner",
-]

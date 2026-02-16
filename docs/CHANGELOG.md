@@ -2,6 +2,94 @@
 
 ## Version History
 
+### v1.20.1 (2026-02-16): Auto Normalizer Expansion — 3-Layer 방어 체계
+
+엔티티 정규화 실패 시 무한 노드 생성 문제를 해결하는 3단계 방어 체계 구현.
+
+#### Layer 1: 추출 프롬프트 제어 어휘
+
+| # | 변경 | 파일 |
+|---|------|------|
+| 1 | **`_build_vocabulary_hints()`**: EntityNormalizer ALIASES에서 canonical name 목록 자동 생성 → EXTRACTION_PROMPT에 결합 | `src/builder/unified_pdf_processor.py` |
+
+#### Layer 2: LLM 폴백 + 동적 Alias
+
+| # | 변경 | 파일 |
+|---|------|------|
+| 2 | **`register_dynamic_alias()`**: 런타임 alias 등록 (thread-safe, 메모리 전용, canonical 검증) | `src/graph/entity_normalizer.py` |
+| 3 | **`_get_candidate_canonicals()`**: rapidfuzz WRatio로 상위 30개 후보 필터링 | `src/graph/entity_normalizer.py` |
+| 4 | **`classify_unmatched_entity()`**: Claude Haiku로 미매칭 엔티티 → 기존 canonical 분류 (confidence ≥ 0.85) | `src/graph/relationship_builder.py` |
+| 5 | **`_normalize_with_fallback()`**: 5단계 정규화 실패 → LLM 폴백 (논문당 10회 제한) | `src/graph/relationship_builder.py` |
+| 6 | **4개 create_*_relations 메서드**: normalize 호출을 `_normalize_with_fallback()`으로 교체 | `src/graph/relationship_builder.py` |
+| 7 | **llm_client 전달**: RelationshipBuilder에 llm_client 주입 | `src/medical_mcp/medical_kag_server.py` |
+
+#### Layer 3: 배치 정리 스크립트
+
+| # | 변경 | 파일 |
+|---|------|------|
+| 8 | **`consolidate_entities.py`**: 미매핑 노드 조회 → LLM 배치 분류 → 노드 병합 + alias 코드 제안 (`--dry-run`, `--force`, `--suggest-aliases`) | `scripts/consolidate_entities.py` (신규) |
+
+#### 테스트
+
+| # | 변경 | 파일 |
+|---|------|------|
+| 9 | **24개 테스트**: Layer 1~2 전체 커버 (vocabulary hints, dynamic alias, candidate filtering, LLM classify, normalize fallback) | `tests/test_auto_normalizer.py` (신규) |
+
+- 전체 테스트 1,447개 통과 (14 skipped, 0 failures)
+
+---
+
+### v1.20.0 (2026-02-16): CA 수정 + 죽은 코드 정리 + MCP 기능 노출 + MCP 프로토콜 업그레이드
+
+4개 병렬 트랙으로 실행. CA 지적 사항 수정, 레거시 죽은 코드 제거, 미노출 기능 MCP 연결, MCP 프로토콜 최신화.
+
+#### Track A: Code Health (CA 수정)
+
+| # | 변경 | 파일 |
+|---|------|------|
+| 1 | **BoundedCache 구현**: OrderedDict 기반 LRU 캐시 (maxsize 설정 가능) | `src/core/bounded_cache.py` (신규) |
+| 2 | **graph_context_expander 캐시 교체**: 무제한 dict → `BoundedCache(maxsize=500)` | `src/solver/graph_context_expander.py` |
+| 3 | **relationship_reasoner 캐시 교체**: 3개 무제한 dict → BoundedCache (pagerank:200, centrality:200, embedding:1000) | `src/knowledge/relationship_reasoner.py` |
+| 4 | **SNOMED N+1 배치 처리**: 개별 UPDATE 루프 → UNWIND 배치 쿼리 (1회 실행) | `src/graph/snomed_enricher.py` |
+| 5 | **spacy optional dependency**: `[project.optional-dependencies]`에 `nlp = ["spacy>=3.0.0"]` 추가 | `pyproject.toml` |
+
+#### Track B: Dead Code Cleanup
+
+| # | 변경 | 파일 |
+|---|------|------|
+| 6 | **TieredVectorDB 참조 제거**: ChromaDB 제거 후 잔존 import/stub 5개 파일 정리 | `agentic_rag.py`, `unified_pipeline.py`, `hybrid_ranker.py`, `response_synthesizer.py`, `orchestrator/README.md` |
+| 7 | **add_pdf_v7 alias 삭제**: enum, dispatch, 메서드, 문서에서 완전 제거 | `medical_kag_server.py`, `pdf_handler.py`, `MCP_USAGE_GUIDE.md` |
+| 8 | **use_v7 파라미터 삭제**: analyze Tool schema + handler에서 제거 | `medical_kag_server.py`, `pdf_handler.py` |
+| 9 | **knowledge/ 레거시 archive**: paper_graph, citation_extractor, relationship_reasoner → `archive/legacy_knowledge/` 이동 | `src/knowledge/` |
+
+#### Track C: MCP Feature Wiring (5개 액션 신규/연결)
+
+| # | 변경 | 파일 |
+|---|------|------|
+| 10 | **document.stats 등록**: 기존 `get_stats()` MCP Tool schema에 노출 | `medical_kag_server.py` |
+| 11 | **graph.multi_hop 재연결**: deprecated stub → `MultiHopReasoner` (Neo4j 기반) | `reasoning_handler.py` |
+| 12 | **search.clinical_recommend 신규**: `ClinicalReasoningEngine` + `PatientContextParser` MCP 노출 | `medical_kag_server.py`, `reasoning_handler.py` |
+| 13 | **document.summarize 신규**: `SummaryGenerator` MCP 노출 | `medical_kag_server.py`, `document_handler.py` |
+| 14 | **graph.infer_relations 신규**: `InferenceEngine` MCP 노출 | `medical_kag_server.py`, `graph_handler.py` |
+
+#### Track D: MCP Protocol Upgrade
+
+| # | 변경 | 파일 |
+|---|------|------|
+| 15 | **Streamable HTTP Transport**: SSE 외에 `--transport streamable-http` 옵션 추가 (MCP 2025-03-26 스펙) | `sse_server.py` |
+| 16 | **Tool Annotations**: 10개 Tool에 readOnly/destructive/idempotent/openWorld 메타데이터 추가 | `medical_kag_server.py` |
+| 17 | **MCP Resources**: `@server.list_resources()` / `@server.read_resource()` — 논문 목록/메타데이터 자동 노출 | `medical_kag_server.py` |
+| 18 | **MCP Prompts**: 3개 프롬프트 템플릿 (compare_interventions, evidence_summary, paper_review) | `medical_kag_server.py` |
+| 19 | **MCP SDK 버전**: `mcp>=1.0.0` → `mcp>=1.8.0` (Streamable HTTP 최소 요구) | `pyproject.toml` |
+
+#### Track E: Integration
+
+- 전체 테스트 1,423개 통과 (14 skipped, 0 failures)
+- 버전 동기화 (5개 파일)
+- 문서 업데이트
+
+---
+
 ### v1.19.4 (2026-02-16): rest_api.py 속성명 오류 수정 + 핸들러 라우팅 정리 + 고립 논문 85건 복구
 
 #### rest_api.py 수정

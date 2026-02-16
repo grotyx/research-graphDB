@@ -5,7 +5,7 @@
 Spine GraphRAG는 Neo4j 그래프 데이터베이스를 사용한 단일 저장소 시스템입니다.
 척추 수술 분야의 의학 논문을 처리하여 구조화된 지식 그래프를 구축하고, 근거 기반 검색을 지원합니다.
 
-**Version**: 1.19.4 | **Status**: Production Ready
+**Version**: 1.20.1 | **Status**: Production Ready
 **Docs**: [PRD](docs/PRD.md) | [TRD](docs/TRD_v3_GraphRAG.md) | [Changelog](docs/CHANGELOG.md)
 
 ### Architecture (Single-Store: Neo4j Only)
@@ -211,9 +211,9 @@ rag_research/
 │   ├── solver/          # 검색/추론 모듈 (tiered_search, hybrid_ranker, conflict_detector)
 │   ├── llm/             # LLM 클라이언트 (claude_client, gemini_client)
 │   ├── medical_mcp/     # MCP 서버 Facade + 11개 도메인 핸들러 (BaseHandler 상속)
-│   ├── core/            # 설정/로깅/예외 (config, exceptions, embedding, text_chunker)
+│   ├── core/            # 설정/로깅/예외 (config, exceptions, embedding, text_chunker, bounded_cache)
 │   ├── cache/           # 캐싱 (llm_cache, query_cache, embedding_cache, semantic_cache)
-│   ├── knowledge/       # 지식 처리 (citation_extractor, paper_graph, relationship_reasoner)
+│   ├── knowledge/       # 지식 처리 (v1.20.0: 레거시 모듈 archive/로 이동)
 │   ├── ontology/        # 온톨로지 (concept_hierarchy, snomed_linker, spine_snomed_mappings)
 │   ├── orchestrator/    # 쿼리 라우팅 (query_pattern_router, cypher_generator)
 │   ├── external/        # 외부 API (pubmed_client)

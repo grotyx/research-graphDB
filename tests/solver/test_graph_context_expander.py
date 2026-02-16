@@ -49,7 +49,7 @@ class TestGraphContextExpanderInit:
         expander = GraphContextExpander(mock_client)
 
         assert expander.client == mock_client
-        assert expander._cache == {}
+        assert len(expander._cache) == 0
 
 
 class TestExpandInterventionUp:
@@ -271,7 +271,7 @@ class TestClearCache:
         expander = GraphContextExpander(mock_client)
 
         # Manually add cache entries
-        expander._cache["test_key"] = ["value1", "value2"]
+        expander._cache.set("test_key", ["value1", "value2"])
 
         assert len(expander._cache) == 1
 

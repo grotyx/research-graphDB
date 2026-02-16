@@ -356,10 +356,51 @@ class ProcessorResult:
 
 
 # =============================================================================
+# Vocabulary Hints (v1.20.0 - Layer 1: Controlled Vocabulary)
+# =============================================================================
+
+def _build_vocabulary_hints() -> str:
+    """EntityNormalizer ALIASES에서 canonical name 목록을 생성하여 프롬프트 힌트 구성.
+
+    Returns:
+        EXTRACTION_PROMPT에 추가할 vocabulary hints 문자열.
+        EntityNormalizer import 실패 시 빈 문자열 반환 (graceful degradation).
+    """
+    try:
+        from graph.entity_normalizer import EntityNormalizer
+        normalizer = EntityNormalizer()
+
+        interventions = sorted(normalizer.INTERVENTION_ALIASES.keys())
+        outcomes = sorted(normalizer.OUTCOME_ALIASES.keys())
+        pathologies = sorted(normalizer.PATHOLOGY_ALIASES.keys())
+
+        return f"""
+
+### 7. CONTROLLED VOCABULARY (CRITICAL)
+When extracting entity names, PREFER these canonical names over free-text variants.
+Only use a name NOT in this list if the concept is genuinely new.
+
+**Interventions**: {', '.join(interventions)}
+
+**Outcomes** (for outcome.name field): {', '.join(outcomes)}
+
+**Pathologies**: {', '.join(pathologies)}
+
+Examples of correct mapping:
+- "Visual Analog Scale back pain score" → use "VAS"
+- "Oswestry Disability Index score" → use "ODI"
+- "Biportal endoscopic lumbar decompression" → use "UBE"
+- "estimated intraoperative blood loss" → use "Blood Loss"
+"""
+    except Exception:
+        return ""
+
+
+# =============================================================================
 # Extraction Prompt (공통)
 # =============================================================================
 
-EXTRACTION_PROMPT = """You are a medical research paper analyst specializing in spine surgery literature.
+_EXTRACTION_PROMPT_BASE = """You are a medical research paper analyst specializing in spine surgery literature.
 Analyze this PDF and extract ALL important information in a structured format.
 
 ## JSON SCHEMA (v3.0 - Optimized)
@@ -710,6 +751,9 @@ Extract: author surnames, year, citation_text, direction_match
 - Return ONLY valid JSON, no additional text
 
 Return valid JSON following the schema above."""
+
+# 정적 프롬프트 + 동적 vocabulary hints 결합
+EXTRACTION_PROMPT = _EXTRACTION_PROMPT_BASE + _build_vocabulary_hints()
 
 
 # =============================================================================

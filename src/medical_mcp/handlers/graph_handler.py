@@ -727,3 +727,104 @@ class GraphHandler(BaseHandler):
             result["aliases"] = []
 
         return result
+
+    @safe_execute
+    async def infer_relations(
+        self,
+        rule_name: Optional[str] = None,
+        intervention: Optional[str] = None,
+        outcome: Optional[str] = None,
+        pathology: Optional[str] = None,
+        paper_id: Optional[str] = None,
+    ) -> dict:
+        """추론 기반 관계 탐색.
+
+        InferenceEngine을 사용하여 그래프에서 추론된 관계를 탐색합니다.
+
+        Args:
+            rule_name: 추론 규칙 이름 (None이면 자동 선택)
+            intervention: 수술법 이름
+            outcome: 결과변수 이름
+            pathology: 질환명
+            paper_id: 논문 ID (현재 미사용, 확장용)
+
+        Returns:
+            추론 결과 딕셔너리
+        """
+        self._require_neo4j()
+        await self._ensure_connected()
+
+        try:
+            from graph.inference_rules import InferenceEngine
+        except ImportError as e:
+            return {"success": False, "error": f"InferenceEngine not available: {e}"}
+
+        engine = InferenceEngine(neo4j_client=self.neo4j_client)
+
+        # If rule_name is specified, execute that rule directly
+        if rule_name:
+            params = {}
+            if intervention:
+                params["intervention"] = intervention
+            if outcome:
+                params["outcome"] = outcome
+            if pathology:
+                params["pathology"] = pathology
+
+            try:
+                results = await engine.execute_rule(rule_name, **params)
+                rule = engine.get_rule(rule_name)
+                return {
+                    "success": True,
+                    "rule_name": rule_name,
+                    "rule_type": rule.rule_type.value if rule else "unknown",
+                    "confidence_weight": rule.confidence_weight if rule else 1.0,
+                    "result_count": len(results),
+                    "results": results,
+                }
+            except ValueError as e:
+                return {"success": False, "error": str(e)}
+
+        # Auto-select rule based on provided parameters
+        results = {}
+
+        if intervention and outcome:
+            evidence = await engine.aggregate_evidence(intervention, outcome)
+            conflicts = await engine.detect_conflicts(intervention, outcome)
+            results["aggregate_evidence"] = evidence
+            results["conflicts"] = conflicts
+        elif intervention:
+            ancestors = await engine.get_ancestors(intervention)
+            comparable = await engine.get_comparable_interventions(intervention)
+            treatments = await engine.infer_treatments(intervention)
+            results["ancestors"] = ancestors
+            results["comparable_interventions"] = comparable
+            results["inferred_treatments"] = treatments
+        elif pathology:
+            indirect = await engine.find_indirect_treatments(pathology)
+            results["indirect_treatments"] = indirect
+        else:
+            # List available rules
+            rules_list = engine.list_rules()
+            return {
+                "success": True,
+                "message": "No parameters provided. Listing available rules.",
+                "available_rules": [
+                    {
+                        "name": r.name,
+                        "type": r.rule_type.value,
+                        "description": r.description,
+                        "parameters": r.parameters,
+                        "confidence_weight": r.confidence_weight,
+                    }
+                    for r in rules_list
+                ],
+            }
+
+        return {
+            "success": True,
+            "intervention": intervention,
+            "outcome": outcome,
+            "pathology": pathology,
+            "results": results,
+        }

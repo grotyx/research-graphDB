@@ -13,7 +13,7 @@ from dataclasses import dataclass, field
 from typing import Any, Optional
 
 from .neo4j_client import Neo4jClient
-from .entity_normalizer import EntityNormalizer
+from .entity_normalizer import EntityNormalizer, NormalizationResult
 from .spine_schema import (
     PaperNode, SpineSubDomain, EvidenceLevel, StudyDesign,
     # v1.1 new types
@@ -441,6 +441,81 @@ class PaperRelationResult:
     similarity_relations: int = 0
 
 
+# --- v1.20.0: LLM Entity Classification ---
+
+_CLASSIFY_ENTITY_PROMPT = """You are a spine surgery terminology expert.
+
+Term: "{entity_text}"
+Type: {entity_type}
+
+Is this term a synonym/variant of any canonical concept below?
+
+{candidates}
+
+Respond JSON only:
+{{"match": "canonical_name_or_null", "confidence": 0.0-1.0, "reason": "brief"}}
+
+Rules:
+- confidence >= 0.9: definite match (same medical concept, different wording)
+- confidence 0.7-0.89: probable match (closely related but uncertain)
+- confidence < 0.7 or match=null: genuinely different concept
+- Do NOT force-match unrelated concepts. When in doubt, return null."""
+
+
+async def classify_unmatched_entity(
+    entity_text: str,
+    entity_type: str,
+    candidates: list[str],
+    llm_client,
+) -> tuple[str, float] | None:
+    """Claude Haiku로 미매칭 엔티티를 기존 canonical에 분류.
+
+    Args:
+        entity_text: 정규화 실패한 원본 텍스트
+        entity_type: 엔티티 유형
+        candidates: rapidfuzz로 사전 필터링된 후보 목록 (최대 30개)
+        llm_client: LLM 클라이언트 인스턴스
+
+    Returns:
+        (canonical_name, confidence) 또는 None (매칭 없음/신규 개념)
+    """
+    if not llm_client or not candidates:
+        return None
+
+    prompt = _CLASSIFY_ENTITY_PROMPT.format(
+        entity_text=entity_text,
+        entity_type=entity_type,
+        candidates="\n".join(f"- {c}" for c in candidates[:30]),
+    )
+
+    schema = {
+        "type": "object",
+        "properties": {
+            "match": {"type": ["string", "null"]},
+            "confidence": {"type": "number"},
+            "reason": {"type": "string"},
+        },
+        "required": ["match", "confidence", "reason"],
+    }
+
+    try:
+        result = await llm_client.generate_json(prompt, schema)
+        matched = result.get("match")
+        confidence = float(result.get("confidence", 0.0))
+
+        if matched and confidence >= 0.85 and matched in candidates:
+            logger.info(
+                f"LLM classify: '{entity_text}' → '{matched}' "
+                f"(conf={confidence:.2f})"
+            )
+            return (matched, confidence)
+
+        return None
+    except Exception as e:
+        logger.warning(f"LLM classify failed for '{entity_text}': {e}")
+        return None
+
+
 class RelationshipBuilder:
     """논문 데이터에서 Neo4j 관계 구축.
 
@@ -457,16 +532,79 @@ class RelationshipBuilder:
     def __init__(
         self,
         neo4j_client: Neo4jClient,
-        normalizer: EntityNormalizer
+        normalizer: EntityNormalizer,
+        llm_client=None,
     ) -> None:
         """초기화.
 
         Args:
             neo4j_client: Neo4j 클라이언트
             normalizer: 엔티티 정규화기
+            llm_client: LLM 클라이언트 (v1.20.0: 미매칭 엔티티 LLM 폴백용)
         """
         self.client: Neo4jClient = neo4j_client
         self.normalizer: EntityNormalizer = normalizer
+        self.llm_client = llm_client
+        self._llm_call_count: int = 0
+        self._llm_call_limit: int = 10
+
+    async def _normalize_with_fallback(
+        self,
+        text: str,
+        entity_type: str,
+    ) -> NormalizationResult:
+        """5단계 정규화 + LLM 폴백.
+
+        Flow:
+        1. normalize_X(text) -> confidence > 0 이면 즉시 반환
+        2. LLM client 없거나 rate limit 초과 -> 원본 반환
+        3. _get_candidate_canonicals()로 후보 30개 추출
+        4. classify_unmatched_entity() LLM 호출
+        5. 매칭 성공 -> register_dynamic_alias() + 재정규화
+        6. 매칭 실패 -> 원본 반환 (기존 동작)
+        """
+        normalize_fn = getattr(self.normalizer, f"normalize_{entity_type}")
+        result = normalize_fn(text)
+
+        if result.confidence > 0.0:
+            return result
+
+        # LLM 폴백 조건 체크
+        if not self.llm_client:
+            return result
+        if entity_type not in ("intervention", "outcome", "pathology"):
+            return result  # anatomy는 패턴 기반으로 충분
+        if self._llm_call_count >= self._llm_call_limit:
+            return result
+
+        self._llm_call_count += 1
+
+        candidates = self.normalizer._get_candidate_canonicals(
+            text, entity_type, top_k=30
+        )
+        if not candidates:
+            return result
+
+        llm_result = await classify_unmatched_entity(
+            entity_text=text,
+            entity_type=entity_type,
+            candidates=candidates,
+            llm_client=self.llm_client,
+        )
+
+        if llm_result:
+            canonical, confidence = llm_result
+            self.normalizer.register_dynamic_alias(
+                entity_type=entity_type,
+                alias=text,
+                canonical=canonical,
+            )
+            # 재정규화 (이제 alias가 등록되었으므로 exact match됨)
+            result = normalize_fn(text)
+            result.method = f"llm_classified+{result.method}"
+            return result
+
+        return result
 
     async def build_from_paper(
         self,
@@ -493,6 +631,9 @@ class RelationshipBuilder:
             BuildResult
         """
         result: BuildResult = BuildResult(paper_id=paper_id, nodes_created=0, relationships_created=0)
+
+        # v1.20.0: 논문당 LLM 폴백 호출 카운터 리셋
+        self._llm_call_count = 0
 
         try:
             # 1. Paper 노드 생성
@@ -767,8 +908,8 @@ class RelationshipBuilder:
                 flat_pathologies.append(str(item))
 
         for idx, pathology in enumerate(flat_pathologies):
-            # 정규화 (SNOMED 코드 포함)
-            norm_result = self.normalizer.normalize_pathology(pathology)
+            # 정규화 (SNOMED 코드 포함, v1.20.0: LLM 폴백)
+            norm_result = await self._normalize_with_fallback(pathology, "pathology")
             pathology_name = norm_result.normalized
 
             # 첫 번째를 primary로 설정
@@ -816,15 +957,21 @@ class RelationshipBuilder:
             if not anatomy:
                 continue
 
+            # 정규화 (SNOMED 코드 포함) — v1.19.5
+            norm_result = self.normalizer.normalize_anatomy(anatomy)
+            anatomy_name = norm_result.normalized
+
             # 레벨과 영역 추출
-            level, region = self._parse_anatomy_level(anatomy)
+            level, region = self._parse_anatomy_level(anatomy_name)
 
             try:
                 await self.client.create_involves_relation(
                     paper_id=paper_id,
-                    anatomy_name=anatomy,
+                    anatomy_name=anatomy_name,
                     level=level,
-                    region=region
+                    region=region,
+                    snomed_code=norm_result.snomed_code if norm_result.snomed_code else None,
+                    snomed_term=norm_result.snomed_term if norm_result.snomed_term else None,
                 )
                 count += 1
             except Exception as e:
@@ -885,8 +1032,8 @@ class RelationshipBuilder:
                 flat_interventions.append(str(item))
 
         for intervention in flat_interventions:
-            # 정규화 (SNOMED 코드 포함)
-            norm_result = self.normalizer.normalize_intervention(intervention)
+            # 정규화 (SNOMED 코드 포함, v1.20.0: LLM 폴백)
+            norm_result = await self._normalize_with_fallback(intervention, "intervention")
             intervention_name = norm_result.normalized
 
             try:
@@ -941,11 +1088,11 @@ class RelationshipBuilder:
                 flat_pathologies.append(str(item))
 
         for intervention in flat_interventions:
-            norm_intervention = self.normalizer.normalize_intervention(intervention)
+            norm_intervention = await self._normalize_with_fallback(intervention, "intervention")
             intervention_name = norm_intervention.normalized
 
             for pathology in flat_pathologies:
-                norm_pathology = self.normalizer.normalize_pathology(pathology)
+                norm_pathology = await self._normalize_with_fallback(pathology, "pathology")
                 pathology_name = norm_pathology.normalized
 
                 try:
@@ -984,13 +1131,13 @@ class RelationshipBuilder:
         """
         count = 0
 
-        # 수술법 정규화
-        norm_intervention = self.normalizer.normalize_intervention(intervention)
+        # 수술법 정규화 (v1.20.0: LLM 폴백)
+        norm_intervention = await self._normalize_with_fallback(intervention, "intervention")
         intervention_name = norm_intervention.normalized
 
         for outcome in outcomes:
-            # 결과변수 정규화 (SNOMED 코드 포함)
-            norm_outcome = self.normalizer.normalize_outcome(outcome.name)
+            # 결과변수 정규화 (SNOMED 코드 포함, v1.20.0: LLM 폴백)
+            norm_outcome = await self._normalize_with_fallback(outcome.name, "outcome")
             outcome_name = norm_outcome.normalized
 
             try:

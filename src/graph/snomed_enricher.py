@@ -75,7 +75,9 @@ class UpdateResult:
     already_mapped: int = 0
     newly_mapped: int = 0
     no_mapping_found: int = 0
+    low_confidence_skipped: int = 0  # v1.19.5: confidence 미달 스킵
     unmapped_names: list[str] = field(default_factory=list)
+    low_confidence_names: list[str] = field(default_factory=list)  # v1.19.5
 
 
 @dataclass
@@ -163,19 +165,21 @@ async def update_snomed_for_entity_type(
     entity_type: str,
     normalizer,  # EntityNormalizer
     dry_run: bool = False,
+    min_confidence: float = 0.8,
 ) -> UpdateResult:
     """특정 엔티티 타입의 모든 노드에 SNOMED 코드 적용.
 
     전략:
     1. snomed_code가 없는 노드를 조회
     2. EntityNormalizer.normalize_{type}(name) 으로 매칭
-    3. 매칭 성공 시 DB SET
+    3. confidence >= min_confidence 인 경우만 DB SET (v1.19.5)
 
     Args:
         client: Neo4jClient 인스턴스
         entity_type: "intervention" | "pathology" | "outcome" | "anatomy"
         normalizer: EntityNormalizer 인스턴스
         dry_run: True이면 DB 변경 없이 결과만 반환
+        min_confidence: SNOMED 코드 할당 최소 confidence (기본 0.8, v1.19.5)
     """
     if entity_type not in ENTITY_TYPE_CONFIG:
         raise ValueError(f"Unknown entity type: {entity_type}")
@@ -215,29 +219,46 @@ async def update_snomed_for_entity_type(
         logger.error(f"  EntityNormalizer에 normalize_{entity_type} 메서드 없음")
         return result
 
+    batch_items: list[dict] = []
     for item in missing_nodes:
         name = item["name"]
         norm_result = normalize_fn(name)
 
         if norm_result.snomed_code:
-            if not dry_run:
-                update_query = f"""
-                MATCH (n:{label} {{name: $name}})
-                SET n.snomed_code = $snomed_code,
-                    n.snomed_term = $snomed_term,
-                    n.snomed_updated_at = datetime()
-                RETURN n.name as name
-                """
-                await client.run_write_query(update_query, {
-                    "name": name,
-                    "snomed_code": norm_result.snomed_code,
-                    "snomed_term": norm_result.snomed_term,
-                })
+            # v1.19.5: confidence 필터 - 낮은 신뢰도 매칭은 SNOMED 할당하지 않음
+            if norm_result.confidence < min_confidence:
+                result.low_confidence_skipped += 1
+                result.low_confidence_names.append(
+                    f"{name} → {norm_result.snomed_term} "
+                    f"(conf={norm_result.confidence:.2f}, method={norm_result.method})"
+                )
+                logger.debug(
+                    f"    SKIP (low confidence): {name} → {norm_result.snomed_code} "
+                    f"(conf={norm_result.confidence:.2f}, method={norm_result.method})"
+                )
+                continue
+
+            batch_items.append({
+                "name": name,
+                "snomed_code": norm_result.snomed_code,
+                "snomed_term": norm_result.snomed_term,
+            })
             result.newly_mapped += 1
             logger.debug(f"    {name} → {norm_result.snomed_code} ({norm_result.snomed_term})")
         else:
             result.no_mapping_found += 1
             result.unmapped_names.append(name)
+
+    # Batch UNWIND: single query instead of N individual queries
+    if batch_items and not dry_run:
+        batch_query = f"""
+        UNWIND $items AS item
+        MATCH (n:{label} {{name: item.name}})
+        SET n.snomed_code = item.snomed_code,
+            n.snomed_term = item.snomed_term,
+            n.snomed_updated_at = datetime()
+        """
+        await client.run_write_query(batch_query, {"items": batch_items})
 
     return result
 

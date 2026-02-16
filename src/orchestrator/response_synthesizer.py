@@ -556,7 +556,6 @@ async def example_usage():
     """Response Synthesizer 사용 예시."""
     from ..solver.hybrid_ranker import HybridRanker, HybridResult
     from ..solver.graph_result import GraphEvidence, PaperNode
-    from ..storage.vector_db import TieredVectorDB
 
     # Mock data 생성
     graph_evidence = GraphEvidence(

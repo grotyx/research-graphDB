@@ -19,7 +19,7 @@ Key Features:
     - Integration with UnifiedSearchPipeline, EvidenceSynthesizer
 
 Example:
-    >>> orchestrator = AgentOrchestrator(neo4j_client, vector_db, gemini_client)
+    >>> orchestrator = AgentOrchestrator(neo4j_client, llm_client=gemini_client)
     >>> response = await orchestrator.solve(
     ...     query="What is the best surgical approach for L4-L5 stenosis?",
     ...     context={"evidence_level": "2a", "patient_age": 65}
@@ -49,13 +49,6 @@ try:
 except ImportError:
     NEO4J_AVAILABLE = False
     Neo4jClient = None
-
-try:
-    from ..storage.vector_db import TieredVectorDB
-    VECTOR_DB_AVAILABLE = True
-except ImportError:
-    VECTOR_DB_AVAILABLE = False
-    TieredVectorDB = None
 
 from typing import Union
 try:
@@ -1037,7 +1030,7 @@ class AgentOrchestrator:
         - Early stopping conditions
 
     Example:
-        >>> orchestrator = AgentOrchestrator(neo4j_client, vector_db, gemini_client)
+        >>> orchestrator = AgentOrchestrator(neo4j_client, llm_client=gemini_client)
         >>> response = await orchestrator.solve(
         ...     query="What is the best surgical approach for L4-L5 stenosis?",
         ...     context={"evidence_level": "2a"}
@@ -1049,7 +1042,7 @@ class AgentOrchestrator:
     def __init__(
         self,
         neo4j_client: Optional["Neo4jClient"] = None,
-        vector_db: Optional["TieredVectorDB"] = None,
+        vector_db: Optional[Any] = None,  # deprecated
         llm_client: Optional[Union["LLMClient", "ClaudeClient", "GeminiClient"]] = None,
         config: Optional[Dict[str, Any]] = None
     ):
@@ -1057,7 +1050,7 @@ class AgentOrchestrator:
 
         Args:
             neo4j_client: Neo4j client
-            vector_db: Vector database
+            vector_db: deprecated (ChromaDB removed in v1.14.12)
             llm_client: LLM client (Claude 또는 Gemini)
             config: Configuration dictionary
         """
@@ -1545,7 +1538,7 @@ Provide a concise, evidence-based answer suitable for clinicians (2-3 sentences)
 async def quick_solve(
     query: str,
     neo4j_client: Optional["Neo4jClient"] = None,
-    vector_db: Optional["TieredVectorDB"] = None,
+    vector_db: Optional[Any] = None,  # deprecated
     llm_client: Optional["GeminiClient"] = None
 ) -> AgentResponse:
     """Quick solve using default orchestrator.
@@ -1553,7 +1546,7 @@ async def quick_solve(
     Args:
         query: Query to solve
         neo4j_client: Neo4j client
-        vector_db: Vector database
+        vector_db: deprecated (ChromaDB removed in v1.14.12)
         llm_client: Gemini client
 
     Returns:
