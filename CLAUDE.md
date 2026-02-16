@@ -207,7 +207,7 @@ git push origin main
 rag_research/
 ├── src/
 │   ├── graph/           # Neo4j 그래프 레이어 (neo4j_client, relationship_dao, search_dao, schema_manager, relationship_builder, taxonomy_manager)
-│   ├── builder/         # PDF/PubMed 처리 (unified_pdf_processor, reference_formatter)
+│   ├── builder/         # PDF/PubMed 처리 (unified_pdf_processor, pubmed_downloader, pubmed_processor, reference_formatter)
 │   ├── solver/          # 검색/추론 모듈 (tiered_search, hybrid_ranker, conflict_detector)
 │   ├── llm/             # LLM 클라이언트 (claude_client, gemini_client)
 │   ├── medical_mcp/     # MCP 서버 Facade + 11개 도메인 핸들러 (BaseHandler 상속)
@@ -232,6 +232,8 @@ rag_research/
 | `search_dao.py` | v1.22.0: Vector/Hybrid 검색 7 methods |
 | `schema_manager.py` | v1.22.0: 스키마 초기화/통계/클리어 4 methods |
 | `unified_pdf_processor.py` | PDF/텍스트 통합 처리 |
+| `pubmed_downloader.py` | v1.23.0: PubMed 검색/다운로드 (pubmed_bulk_processor에서 분리) |
+| `pubmed_processor.py` | v1.23.0: PubMed 논문 LLM 처리/청크 생성 (pubmed_bulk_processor에서 분리) |
 | `relationship_builder.py` | Paper → Graph 구축 |
 | `entity_normalizer.py` | 용어 정규화 (UBE↔BESS), SNOMED 자동 링크 |
 | `taxonomy_manager.py` | Intervention IS_A 계층 관리 |
