@@ -231,45 +231,45 @@ class PubMedHandler(BaseHandler):
             return {"success": False, "error": "PubMed client not available"}
 
         # Search for PMIDs
-            pmids = self.pubmed_client.search(query, max_results=max_results)
+        pmids = self.pubmed_client.search(query, max_results=max_results)
 
-            if not pmids:
-                return {
-                    "success": True,
-                    "query": query,
-                    "total_found": 0,
-                    "results": []
-                }
-
-            results = []
-            if fetch_details:
-                # Fetch paper details
-                for pmid in pmids:
-                    try:
-                        paper = self.pubmed_client.fetch_paper_details(pmid)
-                        results.append({
-                            "pmid": paper.pmid,
-                            "title": paper.title,
-                            "authors": paper.authors[:5],  # First 5 authors
-                            "year": paper.year,
-                            "journal": paper.journal,
-                            "abstract": paper.abstract[:500] + "..." if len(paper.abstract) > 500 else paper.abstract,
-                            "mesh_terms": paper.mesh_terms[:10],
-                            "doi": paper.doi,
-                            "publication_types": paper.publication_types
-                        })
-                    except Exception as e:
-                        logger.warning(f"Failed to fetch PMID {pmid}: {e}")
-                        results.append({"pmid": pmid, "error": str(e)})
-            else:
-                results = [{"pmid": pmid} for pmid in pmids]
-
+        if not pmids:
             return {
                 "success": True,
                 "query": query,
-                "total_found": len(pmids),
-                "results": results
+                "total_found": 0,
+                "results": []
             }
+
+        results = []
+        if fetch_details:
+            # Fetch paper details
+            for pmid in pmids:
+                try:
+                    paper = self.pubmed_client.fetch_paper_details(pmid)
+                    results.append({
+                        "pmid": paper.pmid,
+                        "title": paper.title,
+                        "authors": paper.authors[:5],  # First 5 authors
+                        "year": paper.year,
+                        "journal": paper.journal,
+                        "abstract": paper.abstract[:500] + "..." if len(paper.abstract) > 500 else paper.abstract,
+                        "mesh_terms": paper.mesh_terms[:10],
+                        "doi": paper.doi,
+                        "publication_types": paper.publication_types
+                    })
+                except Exception as e:
+                    logger.warning(f"Failed to fetch PMID {pmid}: {e}")
+                    results.append({"pmid": pmid, "error": str(e)})
+        else:
+            results = [{"pmid": pmid} for pmid in pmids]
+
+        return {
+            "success": True,
+            "query": query,
+            "total_found": len(pmids),
+            "results": results
+        }
 
     @safe_execute
     async def pubmed_bulk_search(
