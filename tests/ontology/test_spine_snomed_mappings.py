@@ -159,12 +159,12 @@ class TestStatistics:
     """매핑 통계 검증."""
 
     def test_total_mapping_count(self):
-        """전체 매핑 수 검증 (v1.19.2: 414개: I:144, P:120, O:104, A:46)."""
+        """전체 매핑 수 검증 (v1.23.1+: 586개: I:193, P:160, O:172, A:61)."""
         stats = get_mapping_statistics()
         total = stats["total_mappings"]
         # Allow some tolerance for recent additions/changes
-        assert total >= 400, f"Total mappings {total} is unexpectedly low (expected ~414)"
-        assert total <= 500, f"Total mappings {total} is unexpectedly high"
+        assert total >= 500, f"Total mappings {total} is unexpectedly low (expected ~586)"
+        assert total <= 700, f"Total mappings {total} is unexpectedly high"
 
     def test_intervention_count(self):
         """Intervention 매핑 수 검증."""

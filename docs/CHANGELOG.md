@@ -2,15 +2,18 @@
 
 ## Version History
 
-### v1.23.4 (2026-02-17): PMC-first 투명성 개선, MCP 타입 검증 해결, analyze_text 버그 수정
+### v1.23.4 (2026-02-17): PMC-first 투명성 개선, MCP 타입 검증 해결, SNOMED 121개 확장, HAS_CHUNK 복구
 
 #### Bug Fixes
 - **MCP 타입 검증 오류 해결**: Claude Desktop이 integer/boolean/array를 string으로 전송하는 문제를 `_coerce_argument_types()`로 자동 변환 (`validate_input=False` + 타입 변환 레이어)
 - **analyze_text `dataclass` NameError 수정**: `from dataclasses import dataclass, field`를 module-level로 이동
+- **DV-006 해소**: HAS_CHUNK 누락 Paper 6건 복구 (`repair_missing_chunks.py` 실행)
 
 #### Improvements
 - **PMC-first 응답 투명성 개선**: `processing_method`가 실제 처리 소스를 반영 (`pmc_fulltext`, `unpaywall_fulltext`, `vision_api`)
 - **`pmc_first` 섹션 추가**: PDF 등록 응답에 PMC/Unpaywall 전문 시도 결과를 상세 보고 (doi_found, pmid_found, pmc_tried, pmc_available, failure_reason 등)
+- **SNOMED 매핑 121개 추가** (465 → 586): orphan alias target 전수 커버리지 확보 (I:+22, P:+33, O:+54, A:+12)
+- **LLM 동시 호출 설정**: `LLM_MAX_CONCURRENT` 환경변수 추가 (1-20, 기본 5)
 
 ---
 

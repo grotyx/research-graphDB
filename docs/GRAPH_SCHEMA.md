@@ -157,15 +157,15 @@ final_score = 0.6 * graph_score + 0.4 * vector_score
 
 모든 엔티티 노드 (Intervention, Pathology, Outcome, Anatomy)에 SNOMED-CT 코드가 자동으로 부여됩니다.
 
-### 매핑 통계 (v1.23.3)
+### 매핑 통계 (v1.23.4)
 
 | Category | Total | Official SNOMED | Extension Codes |
 |----------|-------|-----------------|-----------------|
-| Intervention | 171 | 49 | 122 |
-| Pathology | 127 | 65 | 62 |
-| Outcome | 118 | 26 | 92 |
-| Anatomy | 49 | 24 | 25 |
-| **Total** | **465** | **164** | **301** |
+| Intervention | 193 | 52 | 141 |
+| Pathology | 160 | 67 | 93 |
+| Outcome | 172 | 36 | 136 |
+| Anatomy | 61 | 27 | 34 |
+| **Total** | **586** | **182** | **404** |
 
 ### 주요 매핑 카테고리
 
