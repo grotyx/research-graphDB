@@ -32,6 +32,7 @@ import asyncio
 import json
 import re
 import uuid
+from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Optional, Any
 
@@ -957,7 +958,6 @@ class MedicalKAGServer:
         Returns:
             처리 결과 딕셔너리
         """
-        from dataclasses import dataclass, field
 
         # 0. PMC-first: Open Access 전문이 있으면 Vision API 대신 텍스트 처리
         oa_result = None
@@ -3951,12 +3951,52 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
     # Tool Call Handler
     # ================================================================
 
-    @server.call_tool()
+    def _coerce_argument_types(arguments: dict) -> dict:
+        """MCP 클라이언트가 string으로 보낸 integer/boolean/array 값을 자동 변환.
+
+        Claude Desktop 등 일부 MCP 클라이언트가 JSON 스키마와 다른 타입으로
+        인자를 전송하는 경우를 처리합니다.
+        """
+        # Integer fields
+        int_fields = {"year", "sample_size", "max_concurrent", "top_k", "max_results",
+                       "max_papers", "limit", "max_depth"}
+        # Boolean fields
+        bool_fields = {"use_vision", "fetch_fulltext", "download_pdf", "import_to_graph",
+                        "include_taxonomy", "include_chunks", "enable_pubmed_fallback",
+                        "include_relations", "include_hierarchy", "is_comparison"}
+        # Array fields (JSON-encoded strings → lists)
+        array_fields = {"pmids", "paper_ids", "interventions", "outcomes",
+                         "pathologies", "anatomy_levels", "authors", "chunks",
+                         "patient_cohorts", "followups", "costs", "quality_metrics"}
+
+        coerced = dict(arguments)
+        for key, value in arguments.items():
+            if value is None:
+                continue
+            if key in int_fields and isinstance(value, str):
+                try:
+                    coerced[key] = int(value)
+                except (ValueError, TypeError):
+                    pass
+            elif key in bool_fields and isinstance(value, str):
+                coerced[key] = value.lower() in ("true", "1", "yes")
+            elif key in array_fields and isinstance(value, str):
+                try:
+                    parsed = json.loads(value)
+                    if isinstance(parsed, list):
+                        coerced[key] = parsed
+                except (json.JSONDecodeError, TypeError):
+                    pass
+        return coerced
+
+    @server.call_tool(validate_input=False)
     async def call_tool(name: str, arguments: dict) -> list[TextContent]:
         """통합 도구 핸들러 (v1.19.2 - Tool Registry 패턴).
 
         10개 도구 × 63개 액션을 딕셔너리 기반으로 디스패치합니다.
+        v1.23.4: validate_input=False + _coerce_argument_types로 타입 변환 자동 처리.
         """
+        arguments = _coerce_argument_types(arguments)
         action = arguments.get("action", "")
         logger.info(f"Tool called: {name}, action: {action}")
 
