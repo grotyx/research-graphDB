@@ -11,7 +11,7 @@ from typing import Optional
 
 import numpy as np
 
-from ..llm.cache import LLMCache, generate_cache_key
+from llm.cache import LLMCache, generate_cache_key
 
 logger = logging.getLogger(__name__)
 

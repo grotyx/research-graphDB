@@ -526,6 +526,8 @@ Phase 1 (병렬)          Phase 2 (병렬)          Phase 3 (순차)       Phase
 
 | ID | Check | 심각도 | 설명 | 발견 버전 | 해소 버전 | 상태 |
 |----|-------|--------|------|----------|----------|------|
+| QC-NEW-004 | 2.2 | Low | `cache.cache_manager` import 실패 (상대 import `..llm.cache`). 절대 import로 전환 | v1.23.4 | v1.23.4 | ✅ semantic_cache.py, cache_manager.py import 수정 |
+| QC-NEW-005 | 5.2 | Low | `PUBMED_API_KEY`/`PUBMED_EMAIL` vs `NCBI_API_KEY`/`NCBI_EMAIL` 네이밍 불일치 | v1.23.4 | v1.23.4 | ✅ medical_kag_server.py에 NCBI 우선 fallback 적용 |
 | QC-001 | 1.1 | Medium | 6개 문서 버전 불일치 (DEPLOYMENT, NEO4J_SETUP, user_guide, MCP_USAGE_GUIDE, developer_guide, SYSTEM_VALIDATION) | v1.21.2 | v1.22.0 | ✅ Cleanup Sprint v1.22.0에서 해결 |
 | QC-002 | 1.1 | Low | CLAUDE.md Dependencies 섹션 pyproject.toml과 불일치 (openai, neo4j, google-genai, mcp, sentence-transformers) | v1.21.2 | v1.22.0 | ✅ Cleanup Sprint v1.22.0에서 해결 |
 | QC-003 | 1.1 | Low | DEPLOYMENT.md SNOMED 수치 불일치 (414→447) + entity_normalizer.py 경로 오류 | v1.21.2 | v1.22.0 | ✅ Cleanup Sprint v1.22.0에서 해결 |
@@ -542,6 +544,7 @@ Phase 1 (병렬)          Phase 2 (병렬)          Phase 3 (순차)       Phase
 
 | 일자 | 버전 | 신규 발견 | 해소 | 잔여 Open | 잔여 Accepted | 비고 |
 |------|------|----------|------|----------|--------------|------|
+| 2026-02-17 | v1.23.4 | 2 | 2 | 0 | 2 | QC-NEW-004~005 발견 및 즉시 수정 (cache import, env var naming) |
 | 2026-02-17 | v1.23.4 | 3 | 3 | 0 | 2 | QC-NEW-001~003 발견 및 즉시 수정 (버전 동기화, SNOMED 카운트) |
 | 2026-02-16 | v1.23.0 | 0 | 1 | 0 | 2 | QC-A-003 해소 (test assertion 강화) |
 | 2026-02-16 | v1.22.0 | 4 | 9 | 0 | 3 | Cleanup Sprint: QC-001~005 + NEW-1~4 전체 해소 |

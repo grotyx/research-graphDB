@@ -13,7 +13,7 @@ from typing import Optional
 from .query_cache import CypherQueryCache, QueryCache
 from .embedding_cache import EmbeddingCache
 from .semantic_cache import SemanticCache
-from ..llm.cache import LLMCache
+from llm.cache import LLMCache
 
 logger = logging.getLogger(__name__)
 

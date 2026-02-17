@@ -465,8 +465,8 @@ class MedicalKAGServer:
         self.pubmed_client = None
         if PUBMED_AVAILABLE:
             try:
-                email = os.environ.get("PUBMED_EMAIL", "")
-                api_key = os.environ.get("PUBMED_API_KEY", "")
+                email = os.environ.get("NCBI_EMAIL") or os.environ.get("PUBMED_EMAIL", "")
+                api_key = os.environ.get("NCBI_API_KEY") or os.environ.get("PUBMED_API_KEY", "")
                 self.pubmed_client = PubMedClient(email=email, api_key=api_key if api_key else None)
                 logger.info("PubMed client initialized")
             except Exception as e:

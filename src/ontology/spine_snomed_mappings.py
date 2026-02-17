@@ -2085,6 +2085,15 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         abbreviations=["NPWT"],
         korean_term="음압 창상 치료",
     ),
+    "LAMP": SNOMEDMapping(
+        code="64637005",
+        term="Laminectomy with medial facetectomy",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="387731002",  # Laminectomy
+        synonyms=["Laminectomy with medial facetectomy and pedicular decompression"],
+        abbreviations=["LAMP"],
+        korean_term="추궁절제 및 내측 관절돌기 절제술",
+    ),
 }
 
 
@@ -3564,6 +3573,22 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Spinal osteomyelitis"],
         korean_term="척추 골수염",
+    ),
+    "Suspected Cauda Equina Syndrome": SNOMEDMapping(
+        code="192970001",
+        term="Suspected cauda equina syndrome with normal MRI findings",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="192970008",  # Cauda equina syndrome
+        synonyms=["Suspected CES", "CES with normal MRI"],
+        korean_term="정상 MRI 소견의 마미증후군 의심",
+    ),
+    "Lumbar Facet Synovial Cyst": SNOMEDMapping(
+        code="236114000",
+        term="Lumbar facet synovial cyst",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        synonyms=["Lumbar facet cyst", "Lumbar juxta-articular cyst",
+                  "Lumbar juxtafacet cyst"],
+        korean_term="요추 후관절 활막낭종",
     ),
 }
 
@@ -5175,6 +5200,33 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Wound healing complication", "Wound problem"],
         korean_term="창상 합병증",
+    ),
+    "SRS-22 Quality of Life Score": SNOMEDMapping(
+        code="263666008",
+        term="Scoliosis Research Society 22 quality of life score",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        parent_code="900000000000305",  # SRS-22
+        synonyms=["SRS-22 QoL", "SRS quality of life domain"],
+        abbreviations=["SRS-QoL"],
+        korean_term="SRS-22 삶의 질 점수",
+    ),
+    "Bone Mineral Density Measurement": SNOMEDMapping(
+        code="312701007",
+        term="Bone mineral density measurement",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        synonyms=["BMD measurement", "DEXA measurement", "Bone densitometry"],
+        abbreviations=["BMD"],
+        korean_term="골밀도 측정",
+    ),
+    "PJK Incidence": SNOMEDMapping(
+        code="900000000000205",
+        term="Proximal junctional kyphosis incidence",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        is_extension=True,
+        parent_code="900000000000375",  # PJK
+        synonyms=["PJK rate", "Proximal junctional kyphosis rate"],
+        abbreviations=["PJK"],
+        korean_term="근위부 경계부 후만 발생률",
     ),
 }
 
