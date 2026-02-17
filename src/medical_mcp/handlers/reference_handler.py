@@ -546,7 +546,7 @@ class ReferenceHandler(BaseHandler):
             return None
 
         except json.JSONDecodeError as e:
-            logger.error(f"Invalid JSON for paper {paper_id}: {e}")
+            logger.error(f"Invalid JSON for paper {paper_id}: {e}", exc_info=True)
             return None
         except Exception as e:
             logger.warning(f"Failed to load paper {paper_id}: {e}")

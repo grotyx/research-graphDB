@@ -450,7 +450,7 @@ class BatchProcessor:
             # Update results
             for result in batch_results:
                 if isinstance(result, Exception):
-                    logger.error(f"Batch processing error: {result}")
+                    logger.error(f"Batch processing error: {result}", exc_info=True)
                     await self.error_reporter.report(result)
 
             # Save checkpoint after each batch
@@ -567,7 +567,7 @@ class BatchProcessor:
                 )
 
                 self.progress.failed_files += 1
-                logger.error(f"✗ Error: {Path(pdf_path).name} - {e}")
+                logger.error(f"✗ Error: {Path(pdf_path).name} - {e}", exc_info=True)
 
                 # Report error
                 await self.error_reporter.report(

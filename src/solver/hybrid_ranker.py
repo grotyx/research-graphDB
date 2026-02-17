@@ -500,10 +500,13 @@ class HybridRanker:
 
         # Build Cypher query based on extracted entities
         if interventions and outcomes:
-            # Intervention → Outcome search
+            # Intervention → Outcome search (batch UNWIND to avoid N+1 queries)
             # v1.15: WHERE 절을 MATCH와 OPTIONAL MATCH 사이로 이동 (결과 누락 방지)
-            cypher = """
-            MATCH (i:Intervention {name: $intervention})-[a:AFFECTS]->(o:Outcome {name: $outcome})
+            # v1.23: Refactored from nested loop to single UNWIND batch query (CA-NEW-004)
+            pairs = [{"int": i, "out": o} for i in interventions for o in outcomes]
+            batch_cypher = """
+            UNWIND $pairs AS pair
+            MATCH (i:Intervention {name: pair.int})-[a:AFFECTS]->(o:Outcome {name: pair.out})
             WHERE (a.is_significant = true OR a.p_value < $min_p_value)
             OPTIONAL MATCH (p:Paper)-[:INVESTIGATES]->(i)
             RETURN i.name as intervention,
@@ -524,46 +527,40 @@ class HybridRanker:
             ORDER BY a.p_value ASC
             LIMIT 50
             """
-            for intervention in interventions:
-                for outcome in outcomes:
-                    try:
-                        results = await self.neo4j_client.run_query(
-                            cypher,
-                            {
-                                "intervention": intervention,
-                                "outcome": outcome,
-                                "min_p_value": min_p_value
-                            }
+            try:
+                results = await self.neo4j_client.run_query(
+                    batch_cypher,
+                    {"pairs": pairs, "min_p_value": min_p_value}
+                )
+                for row in results:
+                    ev_level = row.get("evidence_level", "5") or "5"
+                    if evidence_levels and ev_level not in evidence_levels:
+                        continue
+                    evidences.append(GraphEvidence(
+                        intervention=row.get("intervention", ""),
+                        outcome=row.get("outcome", ""),
+                        value=str(row.get("value", "")),
+                        source_paper_id=row.get("source_paper_id", ""),
+                        evidence_level=ev_level,
+                        p_value=row.get("p_value"),
+                        effect_size=str(row.get("effect_size", "")),
+                        confidence_interval=str(row.get("confidence_interval", "")),
+                        is_significant=row.get("is_significant", False),
+                        direction=row.get("direction", ""),
+                        value_control=str(row.get("value_control", ""))
+                    ))
+                    # Collect paper info
+                    pid = row.get("paper_id")
+                    if pid and pid not in papers_dict:
+                        papers_dict[pid] = PaperNode(
+                            paper_id=pid,
+                            title=row.get("paper_title", ""),
+                            year=row.get("paper_year", 0) or 0,
+                            journal=row.get("paper_journal", ""),
+                            evidence_level=ev_level
                         )
-                        for row in results:
-                            ev_level = row.get("evidence_level", "5") or "5"
-                            if evidence_levels and ev_level not in evidence_levels:
-                                continue
-                            evidences.append(GraphEvidence(
-                                intervention=row.get("intervention", intervention),
-                                outcome=row.get("outcome", outcome),
-                                value=str(row.get("value", "")),
-                                source_paper_id=row.get("source_paper_id", ""),
-                                evidence_level=ev_level,
-                                p_value=row.get("p_value"),
-                                effect_size=str(row.get("effect_size", "")),
-                                confidence_interval=str(row.get("confidence_interval", "")),
-                                is_significant=row.get("is_significant", False),
-                                direction=row.get("direction", ""),
-                                value_control=str(row.get("value_control", ""))
-                            ))
-                            # Collect paper info
-                            pid = row.get("paper_id")
-                            if pid and pid not in papers_dict:
-                                papers_dict[pid] = PaperNode(
-                                    paper_id=pid,
-                                    title=row.get("paper_title", ""),
-                                    year=row.get("paper_year", 0) or 0,
-                                    journal=row.get("paper_journal", ""),
-                                    evidence_level=ev_level
-                                )
-                    except Exception as e:
-                        logger.error(f"Graph query error for {intervention}->{outcome}: {e}", exc_info=True)
+            except Exception as e:
+                logger.error(f"Graph batch query error for interventions×outcomes: {e}", exc_info=True)
 
         elif interventions:
             # Search for intervention's all outcomes

@@ -692,7 +692,22 @@ class SpineGraphSchema:
         MERGE (:Anatomy {name: 'S1', region: 'sacral', level: 'vertebra', description: 'First Sacral Vertebra'})
         MERGE (:Anatomy {name: 'S2', region: 'sacral', level: 'vertebra', description: 'Second Sacral Vertebra'})
 
-        RETURN 'Taxonomy initialized with extended interventions, outcomes, pathologies, and anatomy'
+        // ============================================================================
+        // ROOT NODE: Spine Surgery
+        // ============================================================================
+        MERGE (root:Intervention {name: 'Spine Surgery'})
+        SET root.category = 'root',
+            root.snomed_code = '122465003',
+            root.snomed_term = 'Spine Surgery'
+
+        // Connect top-level categories to root
+        WITH root
+        MATCH (cat:Intervention)
+        WHERE cat.name IN ['Fusion Surgery', 'Decompression Surgery', 'Motion Preservation', 'Osteotomy', 'Fixation', 'Vertebral Augmentation']
+        AND NOT (cat)-[:IS_A]->(:Intervention {name: 'Spine Surgery'})
+        MERGE (cat)-[:IS_A]->(root)
+
+        RETURN 'Taxonomy initialized with extended interventions, outcomes, pathologies, anatomy, and root node'
         """
 
     @classmethod
@@ -1025,6 +1040,19 @@ class SpineGraphSchema:
         MERGE (sabr)-[:IS_A {level: 1}]->(radiation)
 
         RETURN 'Radiation therapy hierarchy created'
+        """)
+
+        # 9. Connect orphan top-level categories to Spine Surgery root
+        queries.append("""
+        // === CONNECT ORPHAN TOP-LEVEL CATEGORIES TO ROOT ===
+        MATCH (root:Intervention {name: 'Spine Surgery'})
+        WITH root
+        MATCH (cat:Intervention)
+        WHERE cat.name IN ['Tumor Surgery', 'Conservative Treatment', 'Injection Therapy', 'Craniocervical Surgery', 'Radiation Therapy', 'Transoral Approach']
+        AND NOT (cat)-[:IS_A]->(:Intervention {name: 'Spine Surgery'})
+        MERGE (cat)-[:IS_A]->(root)
+
+        RETURN 'Orphan top-level categories connected to Spine Surgery root'
         """)
 
         return queries

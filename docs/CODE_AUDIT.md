@@ -664,7 +664,17 @@ Phase 4 (병렬)         Phase 5 (병렬)         Phase 6 (병렬)
 
 ### 현재 미수정 항목
 
-(없음)
+#### D-011: Test Coverage Expansion Phase 2
+
+| 항목 | 내용 |
+|------|------|
+| **발견 버전** | v1.23.0 (CA-NEW-007, 2026-02-17) |
+| **Phase** | 5.1 커버리지 |
+| **심각도** | Medium |
+| **상태** | Open |
+| **설명** | 39 modules >= 300 lines lack dedicated test files. Current module coverage is 50% (53/105). |
+| **Top 5 Priority Modules** | 1. `src/builder/unified_pdf_processor.py` (1879 lines) / 2. `src/medical_mcp/handlers/writing_guide_handler.py` (1221 lines) / 3. `src/builder/important_citation_processor.py` (1114 lines) / 4. `src/medical_mcp/sse_server.py` (753 lines) / 5. `src/builder/citation_context_extractor.py` (732 lines) |
+| **예상 규모** | Large (multi-session) |
 
 ### 해소 완료 항목
 

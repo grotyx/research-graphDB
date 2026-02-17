@@ -47,7 +47,10 @@ class CitationInfo:
     citation_text: str = ""
     confidence: float = 0.0
 
-# Vision processor types
+# Vision processor types — intentional cross-package import (graph→builder).
+# These dataclasses are used at runtime (function signatures, isinstance checks,
+# object construction), so a TYPE_CHECKING guard is insufficient.
+# Stub fallback ensures relationship_builder works standalone (e.g., tests).
 try:
     from builder.gemini_vision_processor import (
         ExtractedMetadata,
@@ -56,7 +59,7 @@ try:
         StatisticsData,
     )
 except ImportError:
-    # Fallback: define minimal stub classes for type hints
+    # Fallback: define minimal stub classes for runtime use when vision processor not available
     from typing import Any as _Any
 
     @dataclass
@@ -1766,7 +1769,8 @@ class RelationshipBuilder:
         except Exception as e:
             logger.error(
                 f"Failed to create relation from citation "
-                f"({source_paper_id} → {target_paper_id}): {e}"
+                f"({source_paper_id} → {target_paper_id}): {e}",
+                exc_info=True
             )
             return False
 

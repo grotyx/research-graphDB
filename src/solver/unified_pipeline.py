@@ -52,7 +52,7 @@ from .evidence_synthesizer import (
 from .conflict_detector import ConflictDetector, ConflictResult, ConflictSeverity
 from .direction_determiner import DirectionDeterminer, OutcomeDirection
 
-from core.exceptions import ValidationError, ErrorCode
+from core.exceptions import ValidationError, ProcessingError, ErrorCode
 
 # v4.2: Import GraphContextExpander for IS_A hierarchy expansion
 try:
@@ -501,6 +501,14 @@ class UnifiedSearchPipeline:
                         grade=synthesis_result.grade_rating,
                         synthesis_time_ms=synthesis_time
                     )
+                except ProcessingError as e:
+                    logger.error(
+                        "Evidence synthesis processing error",
+                        intervention=intervention,
+                        outcome=outcome,
+                        error=str(e),
+                        exc_info=True
+                    )
                 except Exception as e:
                     logger.error(
                         "Evidence synthesis failed",
@@ -542,6 +550,14 @@ class UnifiedSearchPipeline:
                         outcome=outcome,
                         conflicts_found=len(conflicts) if conflicts else 0,
                         conflict_time_ms=conflict_time
+                    )
+                except ProcessingError as e:
+                    logger.error(
+                        "Conflict detection processing error",
+                        intervention=intervention,
+                        outcome=outcome,
+                        error=str(e),
+                        exc_info=True
                     )
                 except Exception as e:
                     logger.error(

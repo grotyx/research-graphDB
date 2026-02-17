@@ -703,7 +703,7 @@ class InferenceEngine:
             return results
 
         except Exception as e:
-            logger.error(f"Rule execution failed ({rule_name}): {e}")
+            logger.error(f"Rule execution failed ({rule_name}): {e}", exc_info=True)
             raise
 
     def get_rule(self, rule_name: str) -> Optional[InferenceRule]:

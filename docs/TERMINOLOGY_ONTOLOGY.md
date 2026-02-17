@@ -1,7 +1,7 @@
 # Spine GraphRAG 용어체계 및 온톨로지 가이드
 
-> **Version**: 1.23.0
-> **Last Updated**: 2026-02-16
+> **Version**: 1.23.1
+> **Last Updated**: 2026-02-17
 > **Maintainer**: Spine GraphRAG Development Team
 
 ## 목차
@@ -601,7 +601,7 @@ SYNONYM_GROUPS = [
     {"ASD", "ASDis", "ASDeg", "Adjacent Segment Disease", "Adjacent Level Disease"},
 
     # v1.21.0: PJK/PJF를 별도 개념으로 분리
-    # PJK (Proximal Junctional Kyphosis): Outcome/방사선 측정값 (900000000000205)
+    # PJK (Proximal Junctional Kyphosis): Outcome/방사선 측정값 (900000000000375)
     # PJF (Proximal Junctional Failure): Pathology/임상 실패 (900000000000234)
     {"PJK", "Proximal Junctional Kyphosis"},
     {"PJF", "Proximal Junctional Failure"},
@@ -680,7 +680,7 @@ RELATED_TERMS = {
 > - **SNOMED 중복 전면 해결**: Intervention 29→0, Pathology 3→0, Anatomy 23→0
 > - IS_A 루트 단일화: "Spine Surgery" (122465003) 추가, 22개 카테고리 → IS_A → Spine Surgery
 > - Fusion Surgery 코드 변경: 122465003 → 174765004 (Spine Surgery에 122465003 할당)
-> - PJK/PJF 분리: PJK = Outcome (900000000000205), PJF = Pathology (900000000000234)
+> - PJK/PJF 분리: PJK = Outcome (900000000000375), PJF = Pathology (900000000000234)
 > - Entity Normalizer 4개 카테고리 별칭 대폭 확대
 > - Summary 필드 추가 (Paper 노드, LLM 생성 700자 요약)
 >

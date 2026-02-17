@@ -2,6 +2,31 @@
 
 ## Version History
 
+### v1.23.1 (2026-02-17): QC/CA/DV 전체 스캔 이슈 13건 일괄 수정
+
+#### QC 수정 (1건)
+- QC-NEW-001: `CLAUDE.md` Key Modules 테이블에서 `snomed_enricher.py`를 graph/ 모듈 그룹으로 이동
+
+#### CA 수정 (8건 수정, 1건 D-011 등록)
+- CA-NEW-001: MCP 핸들러 3개에 `MAX_QUERY_LENGTH=10000` 입력 검증 추가
+- CA-NEW-002: `unified_pipeline.py`, `pdf_handler.py`에 `ProcessingError`/`ExtractionError` 명시적 catch 추가
+- CA-NEW-003: `logger.error()` 9곳에 `exc_info=True` 추가 (스택 트레이스 보존)
+- CA-NEW-004: `hybrid_ranker.py` N+1 쿼리 → UNWIND 배치 쿼리로 리팩토링
+- CA-NEW-006: `relationship_builder.py` 순환 의존성에 의도 설명 주석 추가
+- CA-NEW-007: → D-011 등록 (테스트 커버리지 확장 Phase 2, 39 모듈)
+- CA-NEW-008: 미사용 의존성 4개 `[optional-dependencies.legacy]`로 이동
+- CA-NEW-009: 5개 패키지에 상한 버전 바운드 추가 (httpx, numpy, aiosqlite, structlog, nest-asyncio)
+
+#### DV 수정 (3건)
+- DV-NEW-001: Pathology SNOMED 코드 중복 해소 (Discogenic low back pain → 900000000000262)
+- DV-NEW-002: Outcome 확장코드 2개 300번대로 이동 (ASD Reoperation Rate → 374, PJK → 375)
+- DV-NEW-003: "Spine Surgery" 루트 노드 taxonomy 초기화에 추가 + entity_normalizer 카테고리 매핑 수정
+
+#### 문서
+- 13개 파일 버전 1.23.0 → 1.23.1 동기화
+
+---
+
 ### v1.23.0 (2026-02-16): Cleanup Sprint Phase 2 — Monolith 분해, 테스트 250개 추가, 스크립트
 
 #### D-009: pubmed_bulk_processor.py 분해 (462줄 → 3 모듈)

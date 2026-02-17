@@ -1049,7 +1049,7 @@ class EntityNormalizer:
         "Transoral Approach": "Decompression Surgery",
         "Transoral odontoidectomy": "Decompression Surgery",
         # v1.20.2: New intervention categories
-        "Spine Surgery": "Fusion Surgery",
+        # "Spine Surgery" intentionally omitted — it is the taxonomy root with no parent
         "Minimally Invasive Surgery": "Endoscopic Surgery",
         "Hemilaminectomy": "Decompression Surgery",
         "Posterior Decompression": "Decompression Surgery",

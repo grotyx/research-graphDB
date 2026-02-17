@@ -21,6 +21,8 @@ from solver.conflict_detector import ConflictInput
 
 logger = logging.getLogger("medical-kag.handlers.reasoning")
 
+MAX_QUERY_LENGTH = 10000
+
 
 class ReasoningHandler(BaseHandler):
     """추론 관련 도구를 처리하는 핸들러."""
@@ -61,6 +63,9 @@ class ReasoningHandler(BaseHandler):
         Returns:
             추론 결과 딕셔너리
         """
+        if question and len(question) > MAX_QUERY_LENGTH:
+            return {"error": f"Query too long ({len(question)} chars). Maximum: {MAX_QUERY_LENGTH} chars."}
+
         # 1. 검색
         search_result = await self.server.search(question, top_k=10)
         if not search_result["success"]:
@@ -118,6 +123,9 @@ class ReasoningHandler(BaseHandler):
         Returns:
             추론 결과 딕셔너리
         """
+        if question and len(question) > MAX_QUERY_LENGTH:
+            return {"error": f"Query too long ({len(question)} chars). Maximum: {MAX_QUERY_LENGTH} chars."}
+
         try:
             from solver.multi_hop_reasoning import MultiHopReasoner
             from solver.unified_pipeline import UnifiedSearchPipeline
@@ -192,6 +200,9 @@ class ReasoningHandler(BaseHandler):
         Returns:
             상충 분석 결과
         """
+        if topic and len(topic) > MAX_QUERY_LENGTH:
+            return {"error": f"Query too long ({len(topic)} chars). Maximum: {MAX_QUERY_LENGTH} chars."}
+
         # Search for relevant documents
         if document_ids:
             # Filter by specific documents (not fully implemented yet)

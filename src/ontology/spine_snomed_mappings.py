@@ -2689,7 +2689,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
     ),
 
     # === v1.19.2 EXPANSION: Clinical Pathologies, Complications, Comorbidities ===
-    # Official SNOMED codes + Extension codes: 900000000000234 ~ 900000000000260
+    # Official SNOMED codes + Extension codes: 900000000000234 ~ 900000000000262
 
     "Nonunion": SNOMEDMapping(
         code="58611004",
@@ -2717,14 +2717,8 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
                   "Neuroforaminal bone growth"],
         korean_term="이소성 골화",
     ),
-    "Lower back pain": SNOMEDMapping(
-        code="279039007",
-        term="Low back pain",
-        semantic_type=SNOMEDSemanticType.FINDING,
-        synonyms=["Lower back pain", "Lumbago", "LBP"],
-        abbreviations=["LBP"],
-        korean_term="요통",
-    ),
+    # "Lower back pain" merged into "Low Back Pain" (v1.21.0) to eliminate duplicate SNOMED 279039007
+
     "Osteopenia": SNOMEDMapping(
         code="312894000",
         term="Osteopenia",
@@ -2759,7 +2753,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         korean_term="경추 척추증",
     ),
     "Discogenic low back pain": SNOMEDMapping(
-        code="900000000000234",
+        code="900000000000262",
         term="Discogenic low back pain",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
@@ -3033,9 +3027,9 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
     "Low Back Pain": SNOMEDMapping(
         code="279039007",
         term="Low back pain",
-        semantic_type=SNOMEDSemanticType.DISORDER,
+        semantic_type=SNOMEDSemanticType.FINDING,
         synonyms=["LBP", "Chronic low back pain", "CLBP",
-                  "Mechanical low back pain"],
+                  "Mechanical low back pain", "Lower back pain", "Lumbago"],
         abbreviations=["LBP", "CLBP"],
         korean_term="요통",
     ),
@@ -3270,7 +3264,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
     # v1.14.14 수정: Adjacent Segment Disease는 SPINE_PATHOLOGY_SNOMED에서 정의됨 (900000000000208)
     # Outcome에서는 "ASD Reoperation Rate"로 재정의
     "ASD Reoperation Rate": SNOMEDMapping(
-        code="900000000000204",
+        code="900000000000374",
         term="Adjacent segment disease reoperation rate",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
@@ -3280,9 +3274,9 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         notes="Rate of reoperation due to adjacent segment disease",
     ),
     "PJK": SNOMEDMapping(
-        code="900000000000205",
+        code="900000000000375",
         term="Proximal junctional kyphosis",
-        semantic_type=SNOMEDSemanticType.DISORDER,
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
         synonyms=["Junctional kyphosis"],
         abbreviations=["PJK"],

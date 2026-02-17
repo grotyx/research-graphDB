@@ -16,6 +16,8 @@ from solver.multi_factor_ranker import SearchResult as RankerSearchResult, Sourc
 
 logger = logging.getLogger(__name__)
 
+MAX_QUERY_LENGTH = 10000
+
 
 class SearchHandler(BaseHandler):
     """Handler for search operations.
@@ -63,8 +65,8 @@ class SearchHandler(BaseHandler):
         """
         # Input bounds
         top_k = min(top_k, 100)
-        if len(query) > 10000:
-            query = query[:10000]
+        if query and len(query) > MAX_QUERY_LENGTH:
+            return {"error": f"Query too long ({len(query)} chars). Maximum: {MAX_QUERY_LENGTH} chars."}
 
         # 0. Query expansion using SNOMED-CT concept hierarchy
         expanded_query = query
@@ -282,6 +284,9 @@ class SearchHandler(BaseHandler):
         Returns:
             그래프 검색 결과
         """
+        if query and len(query) > MAX_QUERY_LENGTH:
+            return {"error": f"Query too long ({len(query)} chars). Maximum: {MAX_QUERY_LENGTH} chars."}
+
         if not self.graph_searcher:
             return {
                 "success": False,
@@ -410,6 +415,9 @@ class SearchHandler(BaseHandler):
         Returns:
             Full search response with adaptive ranking, synthesis, conflicts
         """
+        if query and len(query) > MAX_QUERY_LENGTH:
+            return {"error": f"Query too long ({len(query)} chars). Maximum: {MAX_QUERY_LENGTH} chars."}
+
         self._require_neo4j()
 
         # Ensure Neo4j connection is established

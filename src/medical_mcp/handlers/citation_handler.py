@@ -17,6 +17,8 @@ from medical_mcp.handlers.utils import get_abstract_from_sections, determine_tie
 
 logger = logging.getLogger(__name__)
 
+MAX_QUERY_LENGTH = 10000
+
 
 class CitationHandler(BaseHandler):
     """Handles citation generation and management operations."""
@@ -50,6 +52,9 @@ class CitationHandler(BaseHandler):
         Returns:
             인용 가능한 근거와 참고문헌 목록
         """
+        if topic and len(topic) > MAX_QUERY_LENGTH:
+            return {"error": f"Query too long ({len(topic)} chars). Maximum: {MAX_QUERY_LENGTH} chars."}
+
         # 1. 관련 논문 검색
         search_result = await self.server.search(
             query=topic,

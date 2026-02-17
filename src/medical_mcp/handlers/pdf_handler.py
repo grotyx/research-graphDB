@@ -22,6 +22,7 @@ if TYPE_CHECKING:
 
 from medical_mcp.handlers.base_handler import BaseHandler, safe_execute
 from medical_mcp.handlers.utils import generate_document_id, get_abstract_from_sections, determine_tier
+from core.exceptions import ProcessingError, ExtractionError
 
 # Import SpineMetadata with alias for backward compatibility
 try:
@@ -97,6 +98,9 @@ class PDFHandler(BaseHandler):
             logger.info("Using multi-step pipeline")
             return await self.server._process_with_legacy_pipeline(path, metadata)
 
+        except (ProcessingError, ExtractionError) as e:
+            logger.error(f"Processing/extraction error adding PDF: {e}", exc_info=True)
+            return {"success": False, "error": f"Processing error: {str(e)}"}
         except Exception as e:
             logger.exception(f"Error adding PDF: {e}")
             return {"success": False, "error": str(e)}
@@ -753,6 +757,9 @@ Return ONLY valid JSON, no additional text.'''
 
             logger.info(f"Neo4j relationships built: {neo4j_result.nodes_created} nodes, {neo4j_result.relationships_created} relationships")
 
+        except (ProcessingError, ExtractionError) as e:
+            logger.error(f"Processing/extraction error during Neo4j storage: {e}", exc_info=True)
+            return {"success": False, "error": f"Processing error: {str(e)}"}
         except Exception as e:
             logger.exception(f"Neo4j storage failed: {e}")
             return {"success": False, "error": f"Neo4j 저장 실패: {str(e)}"}
