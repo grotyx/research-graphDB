@@ -102,7 +102,9 @@ class RateLimiter:
         self.tpm = tokens_per_minute
         self.request_times: deque = deque()
         self.token_usage: deque = deque()
-        self.semaphore = asyncio.Semaphore(5)
+        max_concurrent = int(os.environ.get("LLM_MAX_CONCURRENT", "5"))
+        max_concurrent = max(1, min(max_concurrent, 20))
+        self.semaphore = asyncio.Semaphore(max_concurrent)
         self._lock = asyncio.Lock()
 
     async def acquire(self, estimated_tokens: int = 1000) -> None:

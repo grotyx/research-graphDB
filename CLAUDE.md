@@ -144,6 +144,9 @@ NEO4J_BOLT_THREAD_POOL_SIZE=40  # Bolt 스레드 풀 (재시작 필요)
 
 # PubMed Import (v1.14.23)
 PUBMED_MAX_CONCURRENT=5  # 최대 동시 처리 수 (1-10)
+
+# Concurrency (v1.23.4)
+LLM_MAX_CONCURRENT=5     # LLM API 동시 호출 수 (1-20, 기본 5)
 ```
 
 ## Git Workflow
