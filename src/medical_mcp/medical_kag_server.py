@@ -826,16 +826,33 @@ class MedicalKAGServer:
         self,
         path: Path,
         identifiers: dict[str, str],
-    ) -> Optional[Any]:
+    ) -> tuple[Optional[Any], dict]:
         """Vision API 전에 Open Access 전문을 시도 (PMC → Unpaywall).
 
-        성공 시 process_text()로 처리한 ProcessorResult 반환, 실패 시 None.
+        Returns:
+            (ProcessorResult | None, attempt_info_dict)
+            attempt_info contains: attempted, doi, pmid, pmc_tried, pmc_available,
+            unpaywall_tried, unpaywall_available, source_used, text_length, failure_reason
         """
-        doi = identifiers.get('doi', '')
-        pmid = identifiers.get('pmid', '')
+        info = {
+            "attempted": True,
+            "doi": identifiers.get('doi', ''),
+            "pmid": identifiers.get('pmid', ''),
+            "pmc_tried": False,
+            "pmc_available": False,
+            "unpaywall_tried": False,
+            "unpaywall_available": False,
+            "source_used": None,
+            "text_length": 0,
+            "failure_reason": None,
+        }
+        doi = info["doi"]
+        pmid = info["pmid"]
 
         if not doi and not pmid:
-            return None
+            info["attempted"] = False
+            info["failure_reason"] = "no_identifiers_found"
+            return None, info
 
         MIN_TEXT_LENGTH = 500
 
@@ -845,15 +862,19 @@ class MedicalKAGServer:
                 bib_meta = await self.pubmed_enricher.enrich_by_doi(doi)
                 if bib_meta and bib_meta.pmid:
                     pmid = bib_meta.pmid
+                    info["pmid"] = pmid
                     logger.info(f"[PMC-first] DOI → PMID resolved: {doi} → {pmid}")
             except Exception as e:
                 logger.debug(f"[PMC-first] DOI→PMID resolution failed: {e}")
 
         # Step 2: PMC BioC API (구조화된 전문, 최고 품질)
         if pmid and self.pmc_fetcher:
+            info["pmc_tried"] = True
             try:
                 pmc_result = await self.pmc_fetcher.fetch_fulltext(pmid)
                 if pmc_result.has_full_text and len(pmc_result.full_text) >= MIN_TEXT_LENGTH:
+                    info["pmc_available"] = True
+                    info["text_length"] = len(pmc_result.full_text)
                     logger.info(
                         f"[PMC-first] PMC full text found: PMID {pmid} "
                         f"({len(pmc_result.sections)} sections, {len(pmc_result.full_text)} chars)"
@@ -864,23 +885,31 @@ class MedicalKAGServer:
                         source="pmc_from_pdf",
                     )
                     if result.success:
+                        info["source_used"] = "pmc_fulltext"
                         logger.info(
                             f"[PMC-first] Text processing succeeded "
                             f"(in={result.input_tokens}, out={result.output_tokens})"
                         )
-                        return result
+                        return result, info
                     else:
+                        info["failure_reason"] = f"pmc_llm_failed: {result.error}"
                         logger.warning(f"[PMC-first] Text processing failed: {result.error}")
+                else:
+                    info["failure_reason"] = "pmc_not_open_access"
             except Exception as e:
+                info["failure_reason"] = f"pmc_error: {e}"
                 logger.warning(f"[PMC-first] PMC fetch/process failed: {e}")
 
         # Step 3: Unpaywall (DOI 기반 OA 텍스트)
         if doi and self.doi_fetcher:
+            info["unpaywall_tried"] = True
             try:
                 doi_result = await self.doi_fetcher.fetch(
                     doi, download_pdf=False, fetch_pmc=False,
                 )
                 if doi_result.has_full_text and doi_result.full_text and len(doi_result.full_text) >= MIN_TEXT_LENGTH:
+                    info["unpaywall_available"] = True
+                    info["text_length"] = len(doi_result.full_text)
                     oa_status = doi_result.metadata.oa_status if doi_result.metadata else "unknown"
                     logger.info(
                         f"[PMC-first] Unpaywall text found: DOI {doi} "
@@ -892,18 +921,24 @@ class MedicalKAGServer:
                         source="unpaywall_from_pdf",
                     )
                     if result.success:
+                        info["source_used"] = "unpaywall_fulltext"
                         logger.info(
                             f"[PMC-first] Unpaywall text processing succeeded "
                             f"(in={result.input_tokens}, out={result.output_tokens})"
                         )
-                        return result
+                        return result, info
                     else:
+                        info["failure_reason"] = f"unpaywall_llm_failed: {result.error}"
                         logger.warning(f"[PMC-first] Unpaywall text processing failed: {result.error}")
+                else:
+                    if not info["failure_reason"] or info["failure_reason"] == "pmc_not_open_access":
+                        info["failure_reason"] = "not_open_access"
             except Exception as e:
+                info["failure_reason"] = f"unpaywall_error: {e}"
                 logger.warning(f"[PMC-first] Unpaywall fetch/process failed: {e}")
 
         logger.info(f"[PMC-first] No OA text available for {path.name}, using Vision API")
-        return None
+        return None, info
 
     async def _process_with_vision(
         self,
@@ -926,15 +961,32 @@ class MedicalKAGServer:
 
         # 0. PMC-first: Open Access 전문이 있으면 Vision API 대신 텍스트 처리
         oa_result = None
+        pmc_first_info = {
+            "attempted": False,
+            "doi": "",
+            "pmid": "",
+            "pmc_tried": False,
+            "pmc_available": False,
+            "unpaywall_tried": False,
+            "unpaywall_available": False,
+            "source_used": None,
+            "text_length": 0,
+            "failure_reason": "fetcher_not_available",
+        }
         if self.pmc_fetcher or self.doi_fetcher:
             identifiers = self._extract_identifiers_from_pdf(path)
             if identifiers:
-                oa_result = await self._try_open_access_text(path, identifiers)
+                oa_result, pmc_first_info = await self._try_open_access_text(path, identifiers)
+            else:
+                pmc_first_info["attempted"] = False
+                pmc_first_info["failure_reason"] = "no_doi_pmid_in_pdf"
 
         # 1. LLM API로 전체 처리 (OA 텍스트 또는 Vision API)
+        processing_source = "vision_api"
         if oa_result is not None:
             result = oa_result
-            logger.info(f"[PMC-first] Using Open Access text result for {path.name}")
+            processing_source = pmc_first_info.get("source_used", "fulltext")
+            logger.info(f"[PMC-first] Using Open Access text result for {path.name} (source: {processing_source})")
         else:
             result = await self.vision_processor.process_pdf(str(path))
 
@@ -1462,7 +1514,7 @@ class MedicalKAGServer:
         return {
             "success": True,
             "document_id": doc_id,
-            "processing_method": "gemini_pdf",
+            "processing_method": processing_source,  # "pmc_fulltext", "unpaywall_fulltext", or "vision_api"
             "extracted_metadata": {
                 "title": extracted_meta.title,
                 "authors": extracted_meta.authors,
@@ -1471,6 +1523,18 @@ class MedicalKAGServer:
                 "study_type": extracted_meta.study_type,
                 "evidence_level": extracted_meta.evidence_level,
                 "first_author": pdf_metadata.get("first_author", "")
+            },
+            "pmc_first": {
+                "attempted": pmc_first_info.get("attempted", False),
+                "doi_found": pmc_first_info.get("doi", "") or None,
+                "pmid_found": pmc_first_info.get("pmid", "") or None,
+                "pmc_tried": pmc_first_info.get("pmc_tried", False),
+                "pmc_available": pmc_first_info.get("pmc_available", False),
+                "unpaywall_tried": pmc_first_info.get("unpaywall_tried", False),
+                "unpaywall_available": pmc_first_info.get("unpaywall_available", False),
+                "source_used": pmc_first_info.get("source_used"),
+                "fulltext_chars": pmc_first_info.get("text_length", 0),
+                "failure_reason": pmc_first_info.get("failure_reason") if not pmc_first_info.get("source_used") else None,
             },
             "pubmed_enrichment": {
                 "enabled": self.pubmed_enricher is not None,
