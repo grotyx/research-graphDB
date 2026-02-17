@@ -4,7 +4,7 @@
 
 This guide provides comprehensive information for developers working on or extending the Spine GraphRAG system.
 
-**Version**: 1.23.3
+**Version**: 1.23.4
 **Last Updated**: 2026-02-17
 
 ---

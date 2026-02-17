@@ -4,6 +4,14 @@
 
 ### v1.23.4 (2026-02-17): PMC-first 투명성 개선, MCP 타입 검증 해결, SNOMED 121개 확장, HAS_CHUNK 복구
 
+#### QA 전체 스캔 (QC/CA/DV) — 2026-02-17
+- **QC-NEW-001/002**: `user_guide.md`, `developer_guide.md` 버전 `1.23.3` → `1.23.4` 동기화
+- **QC-NEW-003**: `DEPLOYMENT.md` SNOMED 카운트 `465개` → `586개` 동기화 (2곳)
+- **CA-NEW-003**: `pyproject.toml` 상한 버전 추가 — pydantic `<3.0.0`, rapidfuzz `<4.0.0`, python-dotenv `<2.0.0`
+- **DV-NEW-001**: `schema.py` Anatomy `snomed_code` 인덱스 추가 (Pathology/Intervention/Outcome과 대칭)
+- **DV-NEW-002**: `TERMINOLOGY_ONTOLOGY.md` 섹션 7.1 헤더 `v1.23.3` → `v1.23.4`
+- **CA Deferred 등록**: D-012 (medical_kag_server.py 추가 분리), D-013 (embedding_cache pickle→numpy)
+
 #### Bug Fixes
 - **MCP 타입 검증 오류 해결**: Claude Desktop이 integer/boolean/array를 string으로 전송하는 문제를 `_coerce_argument_types()`로 자동 변환 (`validate_input=False` + 타입 변환 레이어)
 - **analyze_text `dataclass` NameError 수정**: `from dataclasses import dataclass, field`를 module-level로 이동

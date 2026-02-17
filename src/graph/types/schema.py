@@ -149,6 +149,7 @@ class SpineGraphSchema:
         ("Pathology", "snomed_code"),
         ("Anatomy", "name"),
         ("Anatomy", "region"),
+        ("Anatomy", "snomed_code"),
         ("Intervention", "name"),
         ("Intervention", "category"),
         ("Intervention", "snomed_code"),

@@ -644,6 +644,7 @@ Phase 4 (병렬)         Phase 5 (병렬)         Phase 6 (병렬)
 
 | 일자 | 버전 | 신규 발견 | 해소 | 잔여 Deferred | 잔여 Accepted | 비고 |
 |------|------|----------|------|--------------|--------------|------|
+| 2026-02-17 | v1.23.4 | 3 | 1 | 3 | 3 | CA-NEW-001~003 발견. NEW-003(dep bounds) 즉시 수정, NEW-001/002→D-012/D-013 등록 |
 | 2026-02-16 | v1.23.0 | 0 | 2 | 0 | 3 | D-009 (monolith 분해), D-010 (테스트 +250) 해소 |
 | 2026-02-16 | v1.22.0 | 2 | 5 | 2 | 3 | Cleanup Sprint: print→logger 9건, TODO, stubs, allowlist, aiohttp 해소. D-009~D-010 신규 등록 |
 | 2026-02-16 | v1.22.0 | 0 | 4 | 0 | 3 | D-005~D-008 전체 해소 (팀에이전트 실행) |
@@ -663,6 +664,28 @@ Phase 4 (병렬)         Phase 5 (병렬)         Phase 6 (병렬)
 3. 분기별 CA 시 이전 미수정 항목의 진행 상황도 함께 점검
 
 ### 현재 미수정 항목
+
+#### D-012: medical_kag_server.py 추가 분리
+
+| 항목 | 내용 |
+|------|------|
+| **발견 버전** | v1.23.4 (CA-NEW-001, 2026-02-17) |
+| **Phase** | 4.1 God Object |
+| **심각도** | Low |
+| **상태** | Open |
+| **설명** | D-001에서 7,178→4,043줄로 줄였으나 여전히 대형. 남은 inline 메서드를 추가 handler로 분리하면 유지보수성 향상. |
+| **예상 규모** | Medium (1-2 session) |
+
+#### D-013: embedding_cache.py pickle→numpy 전환
+
+| 항목 | 내용 |
+|------|------|
+| **발견 버전** | v1.23.4 (CA-NEW-002, 2026-02-17) |
+| **Phase** | 6.1 의존성 |
+| **심각도** | Low |
+| **상태** | Open |
+| **설명** | `embedding_cache.py` lines 207, 305에서 `pickle.loads()` 사용. 내부 SQLite 전용이라 외부 공격 위험은 낮으나, `numpy.frombuffer()`로 전환하면 안전성 향상. |
+| **예상 규모** | Small (1 session) |
 
 #### D-011: Test Coverage Expansion Phase 2
 

@@ -16,7 +16,7 @@
 - **PubMed + DOI 3단계 Fallback**: PubMed → Crossref/DOI → Basic 순서로 항상 서지 보강
 - **Crossref 서지 검색**: DOI 없이 제목+저자로 논문 검색
 - **인용 논문 항상 저장**: 모든 enrichment 실패 시에도 Paper 노드 생성
-- **SNOMED-CT 매핑**: 465개 매핑 (I:171, P:127, O:118, A:49)
+- **SNOMED-CT 매핑**: 586개 매핑 (I:193, P:160, O:172, A:61)
 - **Neo4j Vector Index**: HNSW 3072d 통합 그래프+벡터 검색
 - **Academic Writing Guide**: 9개 EQUATOR 체크리스트 지원
 - **DOI Fulltext Fetcher**: Crossref + Unpaywall API로 전문 자동 조회
@@ -40,7 +40,7 @@ rag_research/
 │   ├── builder/               # PDF/텍스트 처리, 인용 분석
 │   ├── graph/                 # Neo4j 클라이언트, 관계 빌더, 정규화 엔진
 │   │   └── entity_normalizer.py      # 정규화 엔진
-│   ├── ontology/              # SNOMED-CT 매핑 (465개)
+│   ├── ontology/              # SNOMED-CT 매핑 (586개)
 │   │   └── spine_snomed_mappings.py  # 전체 매핑 정의
 │   ├── medical_mcp/           # MCP 서버 (10개 통합 도구)
 │   ├── solver/                # 검색/추론 모듈

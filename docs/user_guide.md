@@ -4,7 +4,7 @@
 
 Spine GraphRAG is an advanced knowledge augmented generation system for spine surgery research. It uses Neo4j as a unified graph and vector database (HNSW 3072d) with LLM-based reasoning (Claude Haiku 4.5) to provide evidence-based answers to medical questions.
 
-**Version**: 1.23.3
+**Version**: 1.23.4
 **Last Updated**: 2026-02-17
 
 ### Key Features
