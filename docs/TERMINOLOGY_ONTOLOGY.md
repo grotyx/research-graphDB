@@ -1,6 +1,6 @@
 # Spine GraphRAG 용어체계 및 온톨로지 가이드
 
-> **Version**: 1.23.1
+> **Version**: 1.23.2
 > **Last Updated**: 2026-02-17
 > **Maintainer**: Spine GraphRAG Development Team
 
@@ -635,17 +635,17 @@ RELATED_TERMS = {
 
 ## 7. 통계 및 커버리지
 
-### 7.1 전체 매핑 통계 (v1.21.2)
+### 7.1 전체 매핑 통계 (v1.23.2)
 
 #### 소스 매핑 (spine_snomed_mappings.py)
 
 | 카테고리 | 전체 | 공식 SNOMED | 확장 코드 | 커버리지 |
 |----------|------|-------------|-----------|----------|
-| Interventions | 168 | 49 | 119 | 29.2% |
-| Pathologies | 125 | 65 | 60 | 52.0% |
-| Outcomes | 108 | 26 | 82 | 24.1% |
-| Anatomy | 46 | 24 | 22 | 52.2% |
-| **Total** | **447** | **164** | **283** | **36.7%** |
+| Interventions | 171 | 49 | 122 | 28.7% |
+| Pathologies | 127 | 65 | 62 | 51.2% |
+| Outcomes | 118 | 26 | 92 | 22.0% |
+| Anatomy | 49 | 24 | 25 | 49.0% |
+| **Total** | **465** | **164** | **301** | **35.3%** |
 
 #### Neo4j 실제 커버리지
 
@@ -685,7 +685,7 @@ RELATED_TERMS = {
 > - Summary 필드 추가 (Paper 노드, LLM 생성 700자 요약)
 >
 > **v1.21.2 변경사항**:
-> - SNOMED 매핑 확장: 438 → 447개 (I:+1, P:+4, O:+4)
+> - SNOMED 매핑 확장: 438 → 446 → 465개 (I:+1, P:+3, O:+4; v1.23.1: I:+3, P:+3, O:+10, A:+3)
 > - Neo4j 고빈도 미매핑 엔티티 별칭 추가: Intervention 9개, Pathology 11개, Outcome 17개 canonical 확장
 > - 신규 Outcome canonical 3개: ROM, Functional Recovery, PROMs
 > - 공식 SNOMED 5건 추가 (Pseudarthrosis, Low Back Pain, Spinal Cord Compression, Bone Graft, Heterotopic Ossification)

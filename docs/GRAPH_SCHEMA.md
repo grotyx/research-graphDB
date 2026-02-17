@@ -1,6 +1,6 @@
 # Spine GraphRAG Schema
 
-> **Version**: 1.23.1
+> **Version**: 1.23.2
 
 ## Node Types
 
@@ -157,15 +157,15 @@ final_score = 0.6 * graph_score + 0.4 * vector_score
 
 모든 엔티티 노드 (Intervention, Pathology, Outcome, Anatomy)에 SNOMED-CT 코드가 자동으로 부여됩니다.
 
-### 매핑 통계 (v1.21.2)
+### 매핑 통계 (v1.23.2)
 
 | Category | Total | Official SNOMED | Extension Codes |
 |----------|-------|-----------------|-----------------|
-| Intervention | 168 | 49 | 119 |
-| Pathology | 125 | 65 | 60 |
-| Outcome | 108 | 26 | 82 |
-| Anatomy | 46 | 24 | 22 |
-| **Total** | **447** | **164** | **283** |
+| Intervention | 171 | 49 | 122 |
+| Pathology | 127 | 65 | 62 |
+| Outcome | 118 | 26 | 92 |
+| Anatomy | 49 | 24 | 25 |
+| **Total** | **465** | **164** | **301** |
 
 ### 주요 매핑 카테고리
 

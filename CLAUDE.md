@@ -5,7 +5,7 @@
 Spine GraphRAG는 Neo4j 그래프 데이터베이스를 사용한 단일 저장소 시스템입니다.
 척추 수술 분야의 의학 논문을 처리하여 구조화된 지식 그래프를 구축하고, 근거 기반 검색을 지원합니다.
 
-**Version**: 1.23.1 | **Status**: Production Ready
+**Version**: 1.23.2 | **Status**: Production Ready
 **Docs**: [PRD](docs/PRD.md) | [TRD](docs/TRD_v3_GraphRAG.md) | [Changelog](docs/CHANGELOG.md)
 
 ### Architecture (Single-Store: Neo4j Only)
@@ -239,7 +239,7 @@ rag_research/
 | `taxonomy_manager.py` | Intervention IS_A 계층 관리 |
 | `snomed_enricher.py` | SNOMED 업데이트, TREATS 백필, Anatomy 정리 통합 모듈 |
 | `graph/types/schema.py` | Neo4j 스키마, 인덱스, Cypher 템플릿 |
-| `spine_snomed_mappings.py` | SNOMED-CT 매핑 (447개: I:168, P:125, O:108, A:46) — Single Source of Truth |
+| `spine_snomed_mappings.py` | SNOMED-CT 매핑 (465개: I:171, P:127, O:118, A:49) — Single Source of Truth |
 | `medical_kag_server.py` | MCP 서버 Facade (10개 도구, Tool Registry 디스패치 → 11개 핸들러) |
 | `handlers/base_handler.py` | BaseHandler 공통 클래스 + safe_execute 데코레이터 |
 | `solver/hybrid_ranker.py` | Evidence-based 랭킹 |

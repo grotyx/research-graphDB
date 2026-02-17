@@ -1874,6 +1874,23 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         synonyms=["Bone graft", "Bone grafting procedure"],
         korean_term="골이식",
     ),
+
+    # === ADDITIONAL INTERVENTIONS (v1.23.1: Neo4j sync) ===
+    "Injection Therapy": SNOMEDMapping(
+        code="18257003",
+        term="Spinal injection",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+    ),
+    "Vertebral Biopsy": SNOMEDMapping(
+        code="86273004",
+        term="Biopsy of vertebra",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+    ),
+    "Zoledronate": SNOMEDMapping(
+        code="395928001",
+        term="Zoledronic acid therapy",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+    ),
 }
 
 
@@ -3049,6 +3066,23 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
                   "Central spinal canal stenosis"],
         korean_term="중심관 협착증",
     ),
+
+    # === ADDITIONAL PATHOLOGIES (v1.23.1: Neo4j sync) ===
+    "Atlantoaxial Dislocation": SNOMEDMapping(
+        code="57093006",
+        term="Vertebral dislocation",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+    ),
+    "Osteoporosis": SNOMEDMapping(
+        code="64859006",
+        term="Osteoporosis",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+    ),
+    "Psoas Abscess": SNOMEDMapping(
+        code="5294002",
+        term="Spinal abscess",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+    ),
 }
 
 
@@ -4156,6 +4190,58 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         abbreviations=["PROMs", "PROs"],
         korean_term="환자보고 결과지표",
     ),
+
+    # === ADDITIONAL OUTCOMES (v1.23.1: Neo4j sync) ===
+    "Aggrecan": SNOMEDMapping(
+        code="259292002",
+        term="Aggrecan",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+    ),
+    "CSF Leakage": SNOMEDMapping(
+        code="236578006",
+        term="Cerebrospinal fluid leak",
+        semantic_type=SNOMEDSemanticType.FINDING,
+    ),
+    "Deep Vein Thrombosis": SNOMEDMapping(
+        code="128053003",
+        term="Deep vein thrombosis",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+    ),
+    "Extension of Fixation": SNOMEDMapping(
+        code="255536004",
+        term="Extension",
+        semantic_type=SNOMEDSemanticType.QUALIFIER_VALUE,
+    ),
+    "Motor Deficit": SNOMEDMapping(
+        code="398218008",
+        term="Motor function",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+    ),
+    "Recovery Time": SNOMEDMapping(
+        code="278406009",
+        term="Recovery time",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+    ),
+    "SRS-Satisfaction": SNOMEDMapping(
+        code="444908005",
+        term="Patient satisfaction",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+    ),
+    "Sensory Deficit": SNOMEDMapping(
+        code="247311002",
+        term="Sensory function",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+    ),
+    "Surgical Time": SNOMEDMapping(
+        code="118561001",
+        term="Surgical time",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+    ),
+    "Symptomatic Hematoma": SNOMEDMapping(
+        code="35566002",
+        term="Hematoma",
+        semantic_type=SNOMEDSemanticType.FINDING,
+    ),
 }
 
 
@@ -4412,6 +4498,23 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         synonyms=["Multi-level", "Multiple levels", "multilevel",
                   "Mixed/Multiple levels", "Multi-level spine involvement"],
         korean_term="다분절",
+    ),
+
+    # === ADDITIONAL ANATOMY (v1.23.1: Neo4j sync) ===
+    "Cervicosacral Spine": SNOMEDMapping(
+        code="20193003",
+        term="First sacral vertebra",
+        semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
+    ),
+    "C2-C7": SNOMEDMapping(
+        code="39869006",
+        term="Second cervical vertebra",
+        semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
+    ),
+    "Multi-level Vertebral": SNOMEDMapping(
+        code="3572006",
+        term="Vertebral body",
+        semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
     ),
 }
 

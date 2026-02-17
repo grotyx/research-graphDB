@@ -1042,13 +1042,37 @@ class SpineGraphSchema:
         RETURN 'Radiation therapy hierarchy created'
         """)
 
-        # 9. Connect orphan top-level categories to Spine Surgery root
+        # 9. Revision Surgery 계층 정비
+        queries.append("""
+        // === REVISION SURGERY 계층 정비 ===
+        MERGE (rev:Intervention {name: 'Revision Surgery'})
+        SET rev.category = 'revision'
+
+        WITH rev
+        MERGE (rev_sub1:Intervention {name: 'Pseudarthrosis Repair'})
+        ON CREATE SET rev_sub1.category = 'revision', rev_sub1.full_name = 'Pseudarthrosis Repair'
+        MERGE (rev_sub1)-[:IS_A {level: 2}]->(rev)
+
+        WITH rev
+        MERGE (rev_sub2:Intervention {name: 'Hardware Removal'})
+        ON CREATE SET rev_sub2.category = 'revision', rev_sub2.full_name = 'Hardware Removal'
+        MERGE (rev_sub2)-[:IS_A {level: 2}]->(rev)
+
+        WITH rev
+        MERGE (rev_sub3:Intervention {name: 'Adjacent Segment Surgery'})
+        ON CREATE SET rev_sub3.category = 'revision', rev_sub3.full_name = 'Adjacent Segment Surgery'
+        MERGE (rev_sub3)-[:IS_A {level: 2}]->(rev)
+
+        RETURN 'Revision surgery hierarchy created'
+        """)
+
+        # 10. Connect orphan top-level categories to Spine Surgery root
         queries.append("""
         // === CONNECT ORPHAN TOP-LEVEL CATEGORIES TO ROOT ===
         MATCH (root:Intervention {name: 'Spine Surgery'})
         WITH root
         MATCH (cat:Intervention)
-        WHERE cat.name IN ['Tumor Surgery', 'Conservative Treatment', 'Injection Therapy', 'Craniocervical Surgery', 'Radiation Therapy', 'Transoral Approach']
+        WHERE cat.name IN ['Tumor Surgery', 'Conservative Treatment', 'Injection Therapy', 'Craniocervical Surgery', 'Radiation Therapy', 'Transoral Approach', 'Revision Surgery']
         AND NOT (cat)-[:IS_A]->(:Intervention {name: 'Spine Surgery'})
         MERGE (cat)-[:IS_A]->(root)
 

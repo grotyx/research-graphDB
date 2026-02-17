@@ -1,6 +1,6 @@
 [project]
 name = "spine-graphrag"
-version = "1.23.1"
+version = "1.23.2"
 description = "Spine GraphRAG - Neo4j based medical literature knowledge graph system"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -23,9 +23,9 @@ dependencies = [
     # chromadb removed in v1.14.12 - Neo4j Vector Index only
     # MCP Server (SSE + Streamable HTTP Transport)
     "mcp>=1.8.0,<2.0.0",
-    "starlette>=0.27.0",
-    "uvicorn>=0.20.0",
-    "fastapi>=0.100.0",
+    "starlette>=0.27.0,<1.0.0",
+    "uvicorn>=0.20.0,<1.0.0",
+    "fastapi>=0.100.0,<1.0.0",
     # Utilities
     "python-dotenv>=1.0.0",
     "pydantic>=2.0.0",

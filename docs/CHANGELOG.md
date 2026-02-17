@@ -2,6 +2,27 @@
 
 ## Version History
 
+### v1.23.2 (2026-02-17): QC/CA/DV 스캔 이슈 수정 + SNOMED 19개 추가 (465개), DV-007 해소
+
+#### QC/CA 수정
+- QC-NEW-001: SNOMED 매핑 수 문서 동기화 (I:171, P:127, O:118, A:49 = 465)
+- CA-NEW-001: `starlette`/`uvicorn`/`fastapi` 상한 버전 `<1.0.0` 추가
+
+#### DV 수정
+- DV-NEW-002: Nonunion/Pseudarthrosis 동의어 Known Accepted (DV-A-005 등록)
+- DV-NEW-003: MED 카테고리 Endoscopic → Microscopic Surgery 수정
+- DV-NEW-004: Injection/Pain Management → Injection Therapy 명칭 통일 (13개 항목)
+- DV-NEW-005: Revision Surgery + 3개 하위시술 taxonomy 추가
+- DV-007: Neo4j 전용 SNOMED 19개 신규 코드 소스 추가 (521 별칭 Known Accepted)
+
+#### SNOMED 매핑 확장 (446 → 465개, +19)
+- Intervention +3: Injection Therapy, Vertebral Biopsy, Zoledronate
+- Pathology +3: Atlantoaxial Dislocation, Osteoporosis, Psoas Abscess
+- Outcome +10: Aggrecan, CSF Leakage, Deep Vein Thrombosis, Extension of Fixation, Motor Deficit, Recovery Time, SRS-Satisfaction, Sensory Deficit, Surgical Time, Symptomatic Hematoma
+- Anatomy +3: Cervicosacral Spine, C2-C7, Multi-level Vertebral
+
+---
+
 ### v1.23.1 (2026-02-17): QC/CA/DV 전체 스캔 이슈 13건 일괄 수정
 
 #### QC 수정 (1건)
