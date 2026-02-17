@@ -823,7 +823,58 @@ Return ONLY valid JSON, no additional text.'''
             except Exception as e:
                 logger.warning(f"Chunk storage failed: {e}")
 
-        # 7. 결과 반환
+        # 7. extracted JSON 저장 (PubMed import 경로와 동일한 형식)
+        try:
+            from pathlib import Path
+            import json as _json
+
+            extracted_dir = Path("data/extracted")
+            extracted_dir.mkdir(parents=True, exist_ok=True)
+
+            extracted_data = {
+                "metadata": {
+                    "title": title,
+                    "authors": authors or [],
+                    "year": year,
+                    "journal": journal or "",
+                    "doi": doi or "",
+                    "pmid": pmid or "",
+                    "abstract": abstract,
+                    "study_type": study_design or "",
+                    "study_design": study_design or "",
+                    "evidence_level": evidence_level or "",
+                    "sample_size": sample_size or 0,
+                },
+                "spine_metadata": {
+                    "sub_domain": sub_domain or "Unknown",
+                    "interventions": interventions,
+                    "pathologies": pathologies or [],
+                    "anatomy_levels": anatomy_levels or [],
+                    "outcomes": [o if isinstance(o, dict) else {"name": str(o)} for o in outcomes],
+                    "patient_cohorts": patient_cohorts or [],
+                    "followups": followups or [],
+                    "costs": costs or [],
+                    "quality_metrics": quality_metrics or [],
+                    "summary": summary or "",
+                },
+                "chunks": chunks or [],
+            }
+
+            safe_title = "".join(c for c in title[:50] if c.isalnum() or c in " -_").strip().replace(" ", "_")
+            first_author = "unknown"
+            if authors:
+                first_author = authors[0].split()[-1] if authors[0] else "unknown"
+            json_filename = f"{year}_{first_author}_{safe_title}.json"
+            json_path = extracted_dir / json_filename
+
+            with open(json_path, "w", encoding="utf-8") as f:
+                _json.dump(extracted_data, f, ensure_ascii=False, indent=2)
+
+            logger.info(f"Store_paper extracted JSON saved: {json_path}")
+        except Exception as e:
+            logger.warning(f"Failed to save extracted JSON for store_paper: {e}")
+
+        # 8. 결과 반환
         return {
             "success": True,
             "paper_id": paper_id,

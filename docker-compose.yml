@@ -72,6 +72,8 @@ services:
       - ./data/extracted:/app/data/extracted
       - ./data/styles:/app/data/styles
       - ./data/pdf:/app/data/pdf
+      # 로그 바인드 마운트 (컨테이너 재시작 시에도 보존)
+      - ./logs:/app/logs
     networks:
       - spine_network
     depends_on:

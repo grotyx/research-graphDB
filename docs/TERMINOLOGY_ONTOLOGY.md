@@ -1,6 +1,6 @@
 # Spine GraphRAG 용어체계 및 온톨로지 가이드
 
-> **Version**: 1.23.2
+> **Version**: 1.23.3
 > **Last Updated**: 2026-02-17
 > **Maintainer**: Spine GraphRAG Development Team
 
@@ -635,7 +635,7 @@ RELATED_TERMS = {
 
 ## 7. 통계 및 커버리지
 
-### 7.1 전체 매핑 통계 (v1.23.2)
+### 7.1 전체 매핑 통계 (v1.23.3)
 
 #### 소스 매핑 (spine_snomed_mappings.py)
 

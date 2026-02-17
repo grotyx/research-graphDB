@@ -2,6 +2,17 @@
 
 ## Version History
 
+### v1.23.3 (2026-02-17): PubMed 검색 버그 수정, store_paper JSON 저장, 로그 영속화
+
+#### 버그 수정
+- `pubmed_handler.py` search_pubmed() 들여쓰기 오류 수정 — 검색 로직이 `if not self.pubmed_client:` 블록 내부에 잘못 들여쓰기되어 null 반환하던 버그
+
+#### 기능 추가
+- `store_paper` 경로(Claude Desktop/Code 분석 후 저장)에서도 `data/extracted/{년도}_{저자}_{제목}.json` 자동 저장 추가
+- Docker `logs/` 바인드 마운트 추가 — 컨테이너 재시작 시에도 로그 영구 보존 (`./logs:/app/logs`)
+
+---
+
 ### v1.23.2 (2026-02-17): QC/CA/DV 스캔 이슈 수정 + SNOMED 19개 추가 (465개), DV-007 해소
 
 #### QC/CA 수정
