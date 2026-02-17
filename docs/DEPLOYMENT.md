@@ -1,4 +1,4 @@
-# Spine GraphRAG v1.23.3 - Deployment Guide
+# Spine GraphRAG v1.23.4 - Deployment Guide
 
 다른 컴퓨터로 프로젝트를 이전하기 위한 가이드입니다.
 

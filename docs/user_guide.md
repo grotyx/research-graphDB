@@ -1,4 +1,4 @@
-# Spine GraphRAG v1.23.3 - User Guide
+# Spine GraphRAG v1.23.4 - User Guide
 
 ## Overview
 

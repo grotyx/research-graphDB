@@ -1,4 +1,4 @@
-# Spine GraphRAG v1.23.3 - Developer Guide
+# Spine GraphRAG v1.23.4 - Developer Guide
 
 ## Overview
 

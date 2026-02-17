@@ -2,6 +2,18 @@
 
 ## Version History
 
+### v1.23.4 (2026-02-17): PMC-first 투명성 개선, MCP 타입 검증 해결, analyze_text 버그 수정
+
+#### Bug Fixes
+- **MCP 타입 검증 오류 해결**: Claude Desktop이 integer/boolean/array를 string으로 전송하는 문제를 `_coerce_argument_types()`로 자동 변환 (`validate_input=False` + 타입 변환 레이어)
+- **analyze_text `dataclass` NameError 수정**: `from dataclasses import dataclass, field`를 module-level로 이동
+
+#### Improvements
+- **PMC-first 응답 투명성 개선**: `processing_method`가 실제 처리 소스를 반영 (`pmc_fulltext`, `unpaywall_fulltext`, `vision_api`)
+- **`pmc_first` 섹션 추가**: PDF 등록 응답에 PMC/Unpaywall 전문 시도 결과를 상세 보고 (doi_found, pmid_found, pmc_tried, pmc_available, failure_reason 등)
+
+---
+
 ### v1.23.3 (2026-02-17): PubMed 검색 버그 수정, store_paper JSON 저장, 로그 영속화
 
 #### 버그 수정
