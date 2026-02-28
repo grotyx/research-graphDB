@@ -469,6 +469,16 @@ git log --oneline -3
 | 5.2 환경변수 완전성 | ✅/❌ | |
 | 5.3 Git 상태 | ✅/⚠️ | |
 
+## Phase 6: 온톨로지 일관성
+| 항목 | 상태 | 비고 |
+|------|------|------|
+| 6.1 parent_code ↔ IS_A 동기화 | ✅/❌ | |
+| 6.2 IS_A 루트 노드 존재 | ✅/❌ | |
+| 6.3 SNOMED 검색 사용 | ✅/❌ | |
+| 6.4 4-타입 확장 검증 | ✅/❌ | |
+| 6.5 graph_relevance_score | ✅/❌ | |
+| 6.6 query_parser SNOMED | ✅/❌ | |
+
 ## 조치 사항
 - [ ] (수정 필요한 항목 나열)
 
@@ -488,10 +498,101 @@ Phase 1 (병렬)          Phase 2 (병렬)          Phase 3 (순차)       Phase
 ├─ 1.2 문서 참조        ├─ 2.2 Import 체크      ├─ 3.2 Neo4j        ├─ 4.2 스키마 문서   ├─ 5.2 환경변수
 ├─ 1.3 MCP 도구 이름    ├─ 2.3 안티패턴         ├─ 3.3 API 키       └─ 4.3 Taxonomy     └─ 5.3 Git 상태
 ├─ 1.4 SNOMED 통계      ├─ 2.4 Deprecated       └─ 3.4 MCP Health
-└─ 1.5 Docker 설정      └─ 2.5 Type Hints
+└─ 1.5 Docker 설정      └─ 2.5 Type Hints       Phase 6 (병렬)
+                                                 ├─ 6.1 parent_code ↔ IS_A
+                                                 ├─ 6.2 IS_A 루트 노드
+                                                 ├─ 6.3 SNOMED 검색 사용
+                                                 ├─ 6.4 4-타입 확장
+                                                 ├─ 6.5 graph_relevance
+                                                 └─ 6.6 query_parser SNOMED
 ```
 
 **예상 소요 시간:** 전체 약 3-5분 (병렬 실행 시)
+
+---
+
+## Phase 6: 온톨로지 일관성 (병렬 실행)
+
+> 4-Entity IS_A 계층 및 SNOMED 온톨로지의 코드-문서-런타임 일관성을 검증합니다.
+> **v1.24.0** 신규 추가: Ontology Redesign에 따른 코드/문서 일관성 체크
+
+### 6.1 spine_snomed_mappings.py parent_code ↔ Neo4j IS_A 동기화
+
+SNOMED 매핑의 parent_code 정의와 Neo4j IS_A 관계가 일치하는지 확인합니다.
+
+**Claude Code 프롬프트:**
+```
+다음을 확인해줘:
+1. src/ontology/spine_snomed_mappings.py에서 parent_code가 있는 엔트리 수 (Pathology, Outcome, Anatomy)
+2. src/graph/types/schema.py의 get_init_entity_taxonomy_cypher()에서 생성하는 IS_A 쿼리 수
+3. 두 숫자가 일치하는지 비교
+불일치하면 보고만 해줘 (수정하지 말 것).
+```
+
+### 6.2 엔티티 타입별 IS_A 루트 노드 존재 확인
+
+4개 엔티티 타입 모두 루트 노드가 정의되어 있는지 확인합니다.
+
+**Claude Code 프롬프트:**
+```
+src/ontology/spine_snomed_mappings.py에서 parent_code가 없는(=루트) 엔트리를 각
+딕셔너리(SPINE_INTERVENTION_SNOMED, SPINE_PATHOLOGY_SNOMED, SPINE_OUTCOME_SNOMED,
+SPINE_ANATOMY_SNOMED)별로 찾아서 보고해줘.
+각 엔티티 타입에 최소 1개의 루트가 있어야 합니다.
+```
+
+### 6.3 검색 파이프라인 SNOMED 코드 사용 검증
+
+검색 모듈이 SNOMED 코드를 활용하는지 확인합니다.
+
+**Claude Code 프롬프트:**
+```
+다음 파일들에서 SNOMED 관련 코드 사용을 확인해줘 (병렬로):
+1. src/solver/tiered_search.py에서 snomed 관련 참조 (snomed_code, IS_A 등)
+2. src/graph/search_dao.py에서 IS_A expansion 관련 코드
+3. src/solver/hybrid_ranker.py에서 graph_relevance_score 관련 코드
+4. src/orchestrator/query_parser.py에서 SNOMED enrichment 코드
+각 파일에서 SNOMED/IS_A 활용 여부를 보고해줘.
+```
+
+### 6.4 graph_context_expander 4-타입 확장 검증
+
+그래프 확장 모듈이 4개 엔티티 타입 모두를 지원하는지 확인합니다.
+
+**Claude Code 프롬프트:**
+```
+src/solver/graph_context_expander.py에서:
+1. expand_by_ontology 메서드가 4개 엔티티 타입을 지원하는지
+2. expand_pathology_up/down, expand_outcome_up/down, expand_anatomy_up/down 메서드가 존재하는지
+3. Intervention 확장 메서드가 존재하는지
+각 메서드의 존재 여부와 시그니처를 보고해줘.
+```
+
+### 6.5 hybrid_ranker graph_relevance_score 통합 확인
+
+하이브리드 랭커가 graph_relevance_score를 반영하는지 확인합니다.
+
+**Claude Code 프롬프트:**
+```
+src/solver/hybrid_ranker.py에서:
+1. 랭킹 공식에 graph_relevance_score가 포함되어 있는지
+2. semantic/authority/graph 3-way 공식의 가중치 합이 1.0인지
+3. GRAPH_SCHEMA.md의 Hybrid Ranking Algorithm 문서와 실제 코드가 일치하는지
+확인해서 보고해줘.
+```
+
+### 6.6 query_parser SNOMED enrichment 확인
+
+쿼리 파서가 엔티티를 SNOMED ID로 자동 보강하는지 확인합니다.
+
+**Claude Code 프롬프트:**
+```
+src/orchestrator/query_parser.py에서:
+1. SNOMED 관련 import 또는 참조가 있는지
+2. 엔티티를 snomed_id로 enrichment하는 코드가 있는지
+3. entity_normalizer를 활용하여 엔티티를 정규화하는 코드가 있는지
+확인해서 보고해줘.
+```
 
 ---
 
@@ -520,12 +621,20 @@ Phase 1 (병렬)          Phase 2 (병렬)          Phase 3 (순차)       Phase
 
 ### 현재 미해결
 
-(없음)
+| ID | Check | 심각도 | 설명 | 발견 버전 | 상태 |
+|----|-------|--------|------|----------|------|
+| QC-2024-003 | 1.3 (Doc headers) | Info | TROUBLESHOOTING.md, SCHEMA_UPDATE_GUIDE.md, CA_DEFERRED_PLAN.md, CLEANUP_SPRINT_PLAN.md — 운영 문서로 버전 헤더 없음 (의도적 허용 가능) | v1.24.0 | 🟡 보류 |
+| QC-2024-005 | 5.3 (Git status) | Medium | v1.24.0 변경 파일 미커밋 상태 — v1.24.0 릴리스 커밋 필요 | v1.24.0 | 🔴 신규 |
 
 ### 해소 완료
 
 | ID | Check | 심각도 | 설명 | 발견 버전 | 해소 버전 | 상태 |
 |----|-------|--------|------|----------|----------|------|
+| QC-2024-001 | 1.4 | Medium | DEPLOYMENT.md SNOMED 통계 구버전 잔존 (592→621) | v1.24.0 | v1.24.0 | ✅ DEPLOYMENT.md line 19 수정 |
+| QC-2024-002 | 1.3 | Low | TRD_v3_GraphRAG.md 버전 헤더 미갱신 (1.19.4) | v1.24.0 | v1.24.0 | ✅ 버전 1.24.0으로 갱신 |
+| QC-2024-004 | 4.2 | Low | TERMINOLOGY_ONTOLOGY.md root 카운트 오류 (P:7→12, O:8→11) | v1.24.0 | v1.24.0 | ✅ 수치 수정 |
+| QC-2024-006 | 3.1 | Low | .gitignore에 data/pdf/, data/extracted/ 미포함 | v1.24.0 | v1.24.0 | ✅ .gitignore에 추가 |
+| QC-2024-007 | 4.2 | Low | TERMINOLOGY_ONTOLOGY.md IS_A 행 Intervention-only 기재 | v1.24.0 | v1.24.0 | ✅ 4-entity IS_A로 수정 |
 | QC-NEW-004 | 2.2 | Low | `cache.cache_manager` import 실패 (상대 import `..llm.cache`). 절대 import로 전환 | v1.23.4 | v1.23.4 | ✅ semantic_cache.py, cache_manager.py import 수정 |
 | QC-NEW-005 | 5.2 | Low | `PUBMED_API_KEY`/`PUBMED_EMAIL` vs `NCBI_API_KEY`/`NCBI_EMAIL` 네이밍 불일치 | v1.23.4 | v1.23.4 | ✅ medical_kag_server.py에 NCBI 우선 fallback 적용 |
 | QC-001 | 1.1 | Medium | 6개 문서 버전 불일치 (DEPLOYMENT, NEO4J_SETUP, user_guide, MCP_USAGE_GUIDE, developer_guide, SYSTEM_VALIDATION) | v1.21.2 | v1.22.0 | ✅ Cleanup Sprint v1.22.0에서 해결 |
@@ -544,6 +653,7 @@ Phase 1 (병렬)          Phase 2 (병렬)          Phase 3 (순차)       Phase
 
 | 일자 | 버전 | 신규 발견 | 해소 | 잔여 Open | 잔여 Accepted | 비고 |
 |------|------|----------|------|----------|--------------|------|
+| 2026-02-28 | v1.24.0 | 7 | 5 | 2 | 2 | 7건 발견: QC-2024-001(DEPLOYMENT SNOMED), 002(TRD 버전), 003(운영문서 버전), 004(TERMINOLOGY root), 005(미커밋), 006(.gitignore), 007(IS_A 행). 5건 즉시 수정(001,002,004,006,007). 003 보류, 005 커밋 대기. |
 | 2026-02-17 | v1.23.4 | 2 | 2 | 0 | 2 | QC-NEW-004~005 발견 및 즉시 수정 (cache import, env var naming) |
 | 2026-02-17 | v1.23.4 | 3 | 3 | 0 | 2 | QC-NEW-001~003 발견 및 즉시 수정 (버전 동기화, SNOMED 카운트) |
 | 2026-02-16 | v1.23.0 | 0 | 1 | 0 | 2 | QC-A-003 해소 (test assertion 강화) |

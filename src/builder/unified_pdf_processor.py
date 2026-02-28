@@ -489,15 +489,15 @@ Analyze this PDF and extract ALL important information in a structured format.
     "outcomes": [
       {
         "name": "VAS",
-        "category": "pain/function/radiologic/complication/satisfaction/quality_of_life/survival/event_rate",
+        "category": "Pain Outcome/Functional Outcome/Radiological Outcome/Complication/Quality of Life/Surgical Outcome/Survival Outcome/Patient Satisfaction",
         "baseline": 7.2,
         "final": 2.1,
         "value_intervention": "2.1 ± 0.8",
         "value_control": "3.5 ± 1.2",
         "value_difference": "-1.4",
-        "p_value": "0.001",
-        "confidence_interval": "95% CI: -2.1 to -0.7",
-        "effect_size": "Cohen's d = 0.8",
+        "p_value": "0.001 (REQUIRED: use 'not reported' if absent)",
+        "confidence_interval": "95% CI: -2.1 to -0.7 (REQUIRED: use 'not reported' if absent)",
+        "effect_size": "Cohen's d = 0.8 (REQUIRED: use 'not reported' if absent)",
         "effect_measure": {
           "measure_type": "HR/OR/RR/MD/SMD/NNT/I2/Cohen_d/r/other",
           "value": "2.35",
@@ -639,13 +639,27 @@ Examples:
 - outcome: Main outcome measures
 
 **Outcomes** (extract ALL with values, p-values, timepoints, directions):
-- Pain: VAS (back/leg), NRS
-- Function: ODI, NDI, JOA, mJOA, EQ-5D, SF-36
-- Radiological: fusion rate, lordosis, SVA, Cobb angle, disc height
-- Surgical: operation time, blood loss, hospital stay
-- Complications: dural tear, infection, nerve injury, reoperation
-- Satisfaction: MacNab, patient satisfaction
-- Oncology: survival rate, recurrence, SINS score
+Use these STANDARDIZED CATEGORIES (matching ontology hierarchy):
+- **Pain Outcome**: VAS (back/leg), NRS, pain scores
+- **Functional Outcome**: ODI, NDI, JOA, mJOA, EQ-5D, SF-36, modified Rankin
+- **Radiological Outcome**: fusion rate, lordosis, SVA, Cobb angle, disc height, PI-LL
+- **Surgical Outcome**: operation time, blood loss, hospital stay, fluoroscopy time
+- **Complication**: dural tear, infection, nerve injury, reoperation, hardware failure
+- **Quality of Life**: SF-36, EQ-5D (when measuring general QoL, not specific function)
+- **Patient Satisfaction**: MacNab, patient satisfaction, Odom criteria
+- **Survival Outcome**: survival rate, recurrence, SINS score, progression-free survival
+
+**MANDATORY STATISTICS for each outcome:**
+- **p_value**: REQUIRED. Extract exact value (e.g., "0.001", "<0.001"). If not reported, use "not reported"
+- **effect_size**: REQUIRED. Extract based on study design:
+  * RCT/comparative: Cohen's d, MD (Mean Difference)
+  * Cohort: HR (Hazard Ratio), RR (Relative Risk)
+  * Case-control: OR (Odds Ratio)
+  * Meta-analysis: SMD, I², pooled OR/RR
+  * If not reported, use "not reported"
+- **confidence_interval**: REQUIRED. Extract 95% CI. If not reported, use "not reported"
+- **is_significant**: Set true if p < 0.05
+- **direction**: Set "improved", "worsened", or "unchanged" based on clinical meaning
 
 **Complications**: Types, incidence rates, severity
 **Follow-up period**, **Main conclusion**, and **Summary** (2-3 sentence comprehensive summary of key findings)

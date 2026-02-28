@@ -644,6 +644,7 @@ Phase 4 (병렬)         Phase 5 (병렬)         Phase 6 (병렬)
 
 | 일자 | 버전 | 신규 발견 | 해소 | 잔여 Deferred | 잔여 Accepted | 비고 |
 |------|------|----------|------|--------------|--------------|------|
+| 2026-02-28 | v1.24.0 | 4 | 4 | 3 | 3 | D-014~D-017 전체 해소. D-015(is_a_depth 가드), D-016(IS_A 상한), D-017(asyncio.gather) 코드 수정. D-014(테스트) 58 tests 신규 작성. |
 | 2026-02-17 | v1.23.4 | 0 | 0 | 3 | 3 | 재스캔: 신규 이슈 없음. D-011/D-012/D-013 잔여 (변경 없음) |
 | 2026-02-17 | v1.23.4 | 3 | 1 | 3 | 3 | CA-NEW-001~003 발견. NEW-003(dep bounds) 즉시 수정, NEW-001/002→D-012/D-013 등록 |
 | 2026-02-16 | v1.23.0 | 0 | 2 | 0 | 3 | D-009 (monolith 분해), D-010 (테스트 +250) 해소 |
@@ -665,6 +666,58 @@ Phase 4 (병렬)         Phase 5 (병렬)         Phase 6 (병렬)
 3. 분기별 CA 시 이전 미수정 항목의 진행 상황도 함께 점검
 
 ### 현재 미수정 항목
+
+#### D-017: batch_propose()의 순차 LLM 호출 (N+1 패턴)
+
+| 항목 | 내용 |
+|------|------|
+| **발견 버전** | v1.24.0 (2026-02-28) |
+| **Phase** | 3.1 N+1 쿼리 |
+| **심각도** | Medium |
+| **상태** | ✅ 해소 (v1.24.0) |
+| **설명** | `src/ontology/snomed_proposer.py` lines 245-252의 `batch_propose()` 메서드가 `for` 루프 내에서 `await self.propose_mapping()`을 순차 호출. 각 LLM API 호출이 독립적이므로 `asyncio.gather()`로 병렬화 가능. 대량 배치 처리 시 성능 저하 유발. |
+| **예상 규모** | Small (1 session) |
+| **권장 수정** | `proposals = await asyncio.gather(*[self.propose_mapping(...) for t in terms])` 패턴 적용 + LLM_MAX_CONCURRENT 세마포어 적용 |
+| **해소** | `asyncio.gather()` + `Semaphore(5)` 적용 완료 |
+
+#### D-016: GraphContextExpander IS_A 쿼리 무제한 traversal
+
+| 항목 | 내용 |
+|------|------|
+| **발견 버전** | v1.24.0 (2026-02-28) |
+| **Phase** | 3.3 Unbounded Traversal |
+| **심각도** | Medium |
+| **상태** | ✅ 해소 (v1.24.0) |
+| **설명** | `src/solver/graph_context_expander.py` lines 88, 131의 Cypher 쿼리가 `[:IS_A*1..]`(상한 없음)으로 시작 후 `WHERE length(path) <= $max_depth`로 필터링. Neo4j는 WHERE 필터 전에 모든 경로를 탐색하므로 그래프 규모 증가 시 쿼리가 느려질 수 있음. |
+| **예상 규모** | Small (1 session) |
+| **권장 수정** | `[:IS_A*1..$max_depth]` 리터럴 상한 또는 Cypher 파라미터화된 범위로 변경. 단, Neo4j 5.x에서 변수 범위 상한 지원 여부 확인 필요. |
+| **해소** | `[:IS_A*1..5]` 리터럴 상한 + `max_depth` clamp(1-5) 적용 완료 |
+
+#### D-015: GraphTraversalSearch.traverse_evidence_chain() is_a_depth 입력 미검증
+
+| 항목 | 내용 |
+|------|------|
+| **발견 버전** | v1.24.0 (2026-02-28) |
+| **Phase** | 1.3 입력 검증 / 3.3 Unbounded Traversal |
+| **심각도** | Medium |
+| **상태** | ✅ 해소 (v1.24.0) |
+| **설명** | `src/solver/graph_traversal_search.py` lines 130, 430의 `is_a_depth` 파라미터가 f-string으로 Cypher 쿼리에 직접 삽입됨 (`[:IS_A*1..{is_a_depth}]`). 내부 API이나 호출자가 비정상적으로 큰 값(예: 100)을 전달하면 Neo4j 과부하 가능. 파라미터 검증 없음. |
+| **예상 규모** | Small (30분) |
+| **권장 수정** | `is_a_depth = min(max(int(is_a_depth), 1), 5)` 범위 제한 가드 추가 |
+| **해소** | `min(max(int(is_a_depth), 1), 5)` 가드 추가 완료 (traverse_evidence_chain + find_best_evidence) |
+
+#### D-014: graph_traversal_search.py / snomed_proposer.py 테스트 전무
+
+| 항목 | 내용 |
+|------|------|
+| **발견 버전** | v1.24.0 (2026-02-28) |
+| **Phase** | 5.1 커버리지 |
+| **심각도** | Medium |
+| **상태** | ✅ 해소 (v1.24.0) |
+| **설명** | v1.24.0에서 신규 추가된 두 핵심 모듈(`src/solver/graph_traversal_search.py` 536줄, `src/ontology/snomed_proposer.py` 356줄)에 대응하는 테스트 파일이 존재하지 않음. `GraphTraversalSearch.traverse_evidence_chain()`, `compare_interventions()`, `find_best_evidence()`의 공개 메서드 전체가 미검증 상태. `TaxonomyManager`의 신규 멀티엔티티 메서드(`get_parents`, `get_children`, `find_common_ancestor_for`, `validate_entity_taxonomy`, `get_taxonomy_tree`, `get_similar_entities`, `get_entity_level`, `add_to_taxonomy` — 8개 메서드)도 기존 `test_taxonomy_manager.py`에 미포함. |
+| **예상 규모** | Medium (2-3 sessions) |
+| **Top 우선순위** | 1. `test_graph_traversal_search.py` (신규) / 2. `test_snomed_proposer.py` (신규) / 3. `test_taxonomy_manager.py` 확장 (멀티엔티티 8개 메서드) |
+| **해소** | `test_graph_traversal_search.py` (28 tests) + `test_snomed_proposer.py` (30 tests) 신규 작성. is_a_depth clamping, Neo4j 에러 핸들링, LLM 실패, batch_propose 병렬 실행 등 핵심 경로 전수 검증. 전체 2650 passed. |
 
 #### D-012: medical_kag_server.py 추가 분리
 

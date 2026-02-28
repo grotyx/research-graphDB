@@ -1,10 +1,10 @@
-# Spine GraphRAG v1.23.4 - Developer Guide
+# Spine GraphRAG v1.24.0 - Developer Guide
 
 ## Overview
 
 This guide provides comprehensive information for developers working on or extending the Spine GraphRAG system.
 
-**Version**: 1.23.4
+**Version**: 1.24.0
 **Last Updated**: 2026-02-17
 
 ---

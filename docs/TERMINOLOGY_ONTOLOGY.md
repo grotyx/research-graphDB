@@ -1,7 +1,7 @@
 # Spine GraphRAG 용어체계 및 온톨로지 가이드
 
-> **Version**: 1.23.4
-> **Last Updated**: 2026-02-17
+> **Version**: 1.24.0
+> **Last Updated**: 2026-02-28
 > **Maintainer**: Spine GraphRAG Development Team
 
 ## 목차
@@ -9,11 +9,13 @@
 1. [개요](#1-개요)
 2. [Neo4j 그래프 스키마](#2-neo4j-그래프-스키마)
 3. [Intervention Taxonomy](#3-intervention-taxonomy)
-4. [SNOMED-CT 통합](#4-snomed-ct-통합)
-5. [Entity Normalizer](#5-entity-normalizer)
-6. [Synonym Groups](#6-synonym-groups)
-7. [통계 및 커버리지](#7-통계-및-커버리지)
-8. [확장 가이드](#8-확장-가이드)
+4. [Multi-Entity IS_A Hierarchy](#4-multi-entity-is_a-hierarchy-v1240)
+5. [SNOMED-CT 통합](#5-snomed-ct-통합)
+6. [Entity Normalizer](#6-entity-normalizer)
+7. [Synonym Groups](#7-synonym-groups)
+8. [통계 및 커버리지](#8-통계-및-커버리지)
+9. [확장 가이드](#9-확장-가이드)
+10. [온톨로지 진화 워크플로우](#10-온톨로지-진화-워크플로우-v1240)
 
 ---
 
@@ -102,7 +104,7 @@ User Query (자연어)
 | INVESTIGATES | Paper → Intervention | is_comparison | 논문이 조사하는 수술법 |
 | TREATS | Intervention → Pathology | indication, contraindication | 수술법의 치료 대상 |
 | AFFECTS | Intervention → Outcome | value, p_value, effect_size, is_significant, direction | 수술법의 결과 영향 |
-| IS_A | Intervention → Intervention | level | **Taxonomy 계층** (핵심) |
+| IS_A | Entity → Entity (same type) | level | **Taxonomy 계층** (Intervention, Pathology, Outcome, Anatomy 4개 타입) |
 | HAS_CHUNK | Paper → Chunk | - | 논문의 텍스트 청크 |
 | CITES | Paper → Paper | context, section, citation_text, confidence | 인용 관계 |
 | SUPPORTS | Paper → Paper | confidence, evidence | 결과 지지 관계 |
@@ -306,14 +308,176 @@ async with Neo4jClient() as client:
 
 ---
 
-## 4. SNOMED-CT 통합
+## 4. Multi-Entity IS_A Hierarchy (v1.24.0)
 
-### 4.1 개요
+> **Ontology Redesign**: IS_A 관계가 Intervention에서 4개 엔티티 타입 전체로 확장되었습니다.
+
+### 4.1 4-Entity IS_A 개요
+
+| Entity Type | Root Concept | SNOMED Code | Root Type | Children |
+|-------------|-------------|-------------|-----------|----------|
+| **Intervention** | Spine Surgery | 122465003 | Official | 6 categories |
+| **Pathology** | 12 root nodes* | various | Mixed | per-domain |
+| **Outcome** | 11 root nodes* | 900000000000653-660 | Extension | per-category |
+| **Anatomy** | Spine | 900000000000665 | Extension | 7 regions |
+
+> *Pathology, Outcome는 단일 루트가 아닌 도메인별 루트 노드를 가집니다.
+
+### 4.2 Pathology 계층 구조
+
+```text
+Degenerative Spine Disease (49049000)
+├── Spinal Stenosis (76107001)
+│   ├── Lumbar Stenosis (18347007)
+│   ├── Cervical Stenosis (427371002)
+│   ├── Central Canal Stenosis (900000000000261)
+│   └── Foraminal Stenosis (900000000000260)
+├── Disc Herniation (76107001)
+│   ├── Lumbar Disc Herniation (76107001)
+│   └── Cervical Disc Herniation (735681009)
+├── DDD (77547008)
+├── Spondylolisthesis (274152003)
+│   ├── Degenerative Spondylolisthesis (25631001)
+│   └── Isthmic Spondylolisthesis (203646006)
+└── Adjacent Segment Disease (900000000000208)
+
+Spinal Deformity (900000000000642)
+├── Scoliosis (298382003)
+│   ├── Adolescent Idiopathic Scoliosis (203645005)
+│   └── Degenerative Scoliosis (203639008)
+├── Kyphosis (414564002)
+├── Sagittal Imbalance (900000000000202)
+└── Flat Back Syndrome (900000000000250)
+
+Spinal Trauma (900000000000643)
+├── Spinal Fracture (207938004)
+│   └── Osteoporotic Compression Fracture (240200007)
+└── Spinal Cord Injury (90584004)
+
+Spinal Neoplasm (126070001)
+├── Metastatic Spine Tumor (94225005)
+└── Intradural Tumor (900000000000203)
+
+Postoperative Complication (900000000000647)
+├── Mechanical Complication (900000000000648)
+│   ├── Proximal Junctional Failure (900000000000234)
+│   ├── Cage Subsidence (900000000000501)
+│   └── Implant Failure (900000000000249)
+├── Infection Complication (900000000000649)
+│   └── SSI (128601007)
+└── Neurological Complication (900000000000650)
+    └── Dural Tear (39827005)
+```
+
+### 4.3 Outcome 계층 구조
+
+```text
+Pain Outcome (900000000000653)
+├── VAS (273903006)
+│   ├── VAS Back (900000000000301)
+│   └── VAS Leg (900000000000302)
+├── NRS (1137229006)
+└── Pain Score (900000000000661)
+
+Functional Outcome (900000000000654)
+├── ODI (273545004)
+├── NDI (273547007)
+├── JOA (900000000000303)
+├── mJOA (900000000000304)
+└── SRS-22 (900000000000309)
+
+Quality of Life Outcome (900000000000655)
+├── EQ-5D (736534008)
+├── SF-36 (445537008)
+└── SF-12 (900000000000310)
+
+Radiological Outcome (900000000000656)
+├── Alignment Parameter (900000000000662)
+│   ├── Cobb Angle (252495004)
+│   ├── SVA (900000000000307)
+│   ├── PI-LL (900000000000308)
+│   └── Pelvic Tilt (900000000000316)
+├── Fusion Rate (900000000000306)
+└── Lordosis (900000000000315)
+
+Complication Outcome (900000000000657)
+├── Infection Rate (128601007)
+├── Reoperation Rate (900000000000317)
+└── Dural Tear Rate (900000000000319)
+
+Surgical Efficiency Outcome (900000000000658)
+├── Operation Time (900000000000305)
+├── Blood Loss (900000000000320)
+└── Hospital Stay (900000000000321)
+
+Neurological Outcome (900000000000659)
+├── Motor Recovery (900000000000663)
+└── Sensory Recovery (900000000000664)
+```
+
+### 4.4 Anatomy 계층 구조
+
+```text
+Spine (900000000000665)
+├── Cervical (122494005)
+│   ├── C1 (14806007)
+│   ├── C2 (39976000)
+│   ├── C3-C7 (individual codes)
+│   ├── C5-6 Disc (900000000000405)
+│   └── C6-7 Disc (900000000000406)
+├── Thoracic (122495006)
+│   ├── T1 (48694002)
+│   ├── T10-T12 (individual codes)
+│   └── Thoracolumbar Junction (900000000000400)
+├── Lumbar (122496007)
+│   ├── L1-L5 (individual codes)
+│   ├── L3-4 Disc (900000000000404)
+│   ├── L4-5 Disc (900000000000402)
+│   └── L5-S1 Disc (900000000000403)
+├── Sacral (699698002)
+│   ├── S1 (181844004)
+│   └── S2 (900000000000413)
+├── Lumbosacral (264940005)
+├── Cervicothoracic (900000000000401)
+└── Thoracolumbar (900000000000400)
+```
+
+### 4.5 parent_code → Neo4j IS_A 구체화 (Materialization)
+
+```text
+[Source of Truth]
+spine_snomed_mappings.py
+  SPINE_PATHOLOGY_SNOMED["Lumbar Stenosis"] = SNOMEDMapping(
+      code="18347007",
+      parent_code="76107001",  # Spinal Stenosis
+      ...
+  )
+           ↓
+[Schema Init]
+schema.py: get_init_entity_taxonomy_cypher()
+  → code_to_name lookup: "76107001" → "Spinal Stenosis"
+  → generates: MERGE (Lumbar Stenosis)-[:IS_A]->(Spinal Stenosis)
+           ↓
+[Runtime Import]
+relationship_builder.py: _auto_create_is_a_relation()
+  → On paper import, auto-creates IS_A from parent_code
+           ↓
+[Batch Repair]
+scripts/build_ontology.py --force
+scripts/repair_ontology.py --force
+  → Retroactively apply missing IS_A relationships
+```
+
+---
+
+## 5. SNOMED-CT 통합
+
+### 5.1 개요
 
 SNOMED-CT(Systematized Nomenclature of Medicine Clinical Terms)는 의료 용어의 국제 표준입니다.
 Spine GraphRAG는 모든 엔티티에 SNOMED-CT 코드를 매핑하여 상호운용성을 확보합니다.
 
-### 4.2 매핑 구조
+### 5.2 매핑 구조
 
 ```python
 @dataclass
@@ -329,7 +493,7 @@ class SNOMEDMapping:
     notes: str                   # 참고 사항
 ```
 
-### 4.3 Extension Code 시스템
+### 5.3 Extension Code 시스템
 
 SNOMED-CT에 아직 등록되지 않은 최신 척추 수술법은 확장 코드를 사용합니다.
 
@@ -345,9 +509,9 @@ Extension Namespace: 900000000000
 
 > **v1.21.0 추가**: `procedure_ext` 범위(600-699)는 기존 procedure(100-199) 범위가 고갈됨에 따라 도입되었습니다. 주로 Fixation, Osteotomy 하위 기법의 세분화된 변형에 사용됩니다.
 
-### 4.4 주요 SNOMED 매핑
+### 5.4 주요 SNOMED 매핑
 
-#### 4.4.1 Interventions (수술법)
+#### 5.4.1 Interventions (수술법)
 
 | 수술법 | SNOMED Code | 공식/확장 |
 |--------|-------------|-----------|
@@ -369,7 +533,7 @@ Extension Namespace: 900000000000
 | **PELD** | 900000000000107 | **Extension** |
 | **BELIF** | 900000000000119 | **Extension** |
 
-#### 4.4.2 Pathologies (질환)
+#### 5.4.2 Pathologies (질환)
 
 | 질환 | SNOMED Code | 공식/확장 |
 |------|-------------|-----------|
@@ -383,7 +547,7 @@ Extension Namespace: 900000000000
 | **Sagittal Imbalance** | 900000000000202 | **Extension** |
 | **Adjacent Segment Disease** | 900000000000208 | **Extension** |
 
-#### 4.4.3 Outcomes (결과변수)
+#### 5.4.3 Outcomes (결과변수)
 
 | 결과변수 | SNOMED Code | 공식/확장 |
 |----------|-------------|-----------|
@@ -400,7 +564,7 @@ Extension Namespace: 900000000000
 | **Fusion Rate** | 900000000000306 | **Extension** |
 | **Cage Subsidence** | 900000000000501 | **Extension** |
 
-#### 4.4.4 Anatomy (해부학)
+#### 5.4.4 Anatomy (해부학)
 
 | 해부학 | SNOMED Code | 공식/확장 |
 |--------|-------------|-----------|
@@ -414,7 +578,7 @@ Extension Namespace: 900000000000
 | **L4-5 Disc** | 900000000000402 | **Extension** |
 | **L5-S1 Disc** | 900000000000403 | **Extension** |
 
-### 4.5 SNOMED 조회 API
+### 5.5 SNOMED 조회 API
 
 ```python
 from src.ontology.spine_snomed_mappings import (
@@ -446,13 +610,13 @@ synonyms = get_all_synonyms("XLIF")
 
 ---
 
-## 5. Entity Normalizer
+## 6. Entity Normalizer
 
-### 5.1 개요
+### 6.1 개요
 
 Entity Normalizer는 다양한 형태의 의학 용어를 표준화된 형태로 정규화합니다.
 
-### 5.2 주요 기능
+### 6.2 주요 기능
 
 1. **별칭 매핑**: UBE ↔ BESS ↔ Biportal ↔ 내시경 수술
 2. **한국어 지원**: 요추 협착증 ↔ Lumbar Stenosis
@@ -460,7 +624,7 @@ Entity Normalizer는 다양한 형태의 의학 용어를 표준화된 형태로
 4. **Fuzzy Matching**: 오타 교정 (RapidFuzz 사용)
 5. **SNOMED 자동 링크**: 정규화 결과에 SNOMED 코드 포함
 
-### 5.3 사용법
+### 6.3 사용법
 
 ```python
 from src.graph.entity_normalizer import EntityNormalizer
@@ -492,7 +656,7 @@ interventions = normalizer.extract_and_normalize_interventions(text)
 # → [NormalizationResult(normalized="TLIF", ...), NormalizationResult(normalized="OLIF", ...)]
 ```
 
-### 5.4 NormalizationResult 구조
+### 6.4 NormalizationResult 구조
 
 ```python
 @dataclass
@@ -507,7 +671,7 @@ class NormalizationResult:
     category: str       # 수술법 카테고리
 ```
 
-### 5.5 별칭 매핑 현황 (일부)
+### 6.5 별칭 매핑 현황 (일부)
 
 ```python
 INTERVENTION_ALIASES = {
@@ -541,7 +705,7 @@ ANATOMY_ALIASES = {
 }
 ```
 
-### 5.6 normalize_anatomy() (v1.16.0)
+### 6.6 normalize_anatomy() (v1.16.0)
 
 해부학 위치를 정규화하고 SNOMED 코드를 자동 첨부합니다.
 
@@ -565,9 +729,9 @@ result = normalizer.normalize_anatomy("요추")
 
 ---
 
-## 6. Synonym Groups
+## 7. Synonym Groups
 
-### 6.1 완전 동의어 그룹
+### 7.1 완전 동의어 그룹
 
 같은 수술법의 다른 이름들로, 검색 시 모두 동일하게 처리됩니다.
 
@@ -608,7 +772,7 @@ SYNONYM_GROUPS = [
 ]
 ```
 
-### 6.2 관련 수술법 (Related Terms)
+### 7.2 관련 수술법 (Related Terms)
 
 같은 카테고리지만 접근법이 다른 수술법으로, 검색 시 "관련 수술법"으로 표시됩니다.
 
@@ -633,9 +797,9 @@ RELATED_TERMS = {
 
 ---
 
-## 7. 통계 및 커버리지
+## 8. 통계 및 커버리지
 
-### 7.1 전체 매핑 통계 (v1.23.4)
+### 8.1 전체 매핑 통계 (v1.23.4)
 
 #### 소스 매핑 (spine_snomed_mappings.py)
 
@@ -692,7 +856,7 @@ RELATED_TERMS = {
 > - 확장 코드 4건 추가 (Central Canal Stenosis, Mortality, Functional Recovery, PROMs)
 > - Neo4j SNOMED 커버리지: I 40.8%, P 39.1%, O 20.5%, A 89.1%
 
-### 7.2 확장 코드 필요 항목
+### 8.2 확장 코드 필요 항목
 
 #### Interventions (25개)
 - UBE/BESS (Biportal Endoscopy)
@@ -730,7 +894,7 @@ RELATED_TERMS = {
 - Recurrent Disc Herniation, Epidural Hematoma
 - C5 Palsy (v1.14.3)
 
-### 7.3 통계 조회 API
+### 8.3 통계 조회 API
 
 ```python
 from src.ontology.spine_snomed_mappings import get_mapping_statistics, get_coverage_report
@@ -753,9 +917,9 @@ report = get_coverage_report()
 
 ---
 
-## 8. 확장 가이드
+## 9. 확장 가이드
 
-### 8.1 새 수술법 추가
+### 9.1 새 수술법 추가
 
 #### Step 1: SNOMED 매핑 추가 (spine_snomed_mappings.py)
 
@@ -799,7 +963,7 @@ SET i.snomed_code = '900000000000121',
     i.snomed_term = 'New surgical technique description'
 ```
 
-### 8.2 동의어 그룹 추가
+### 9.2 동의어 그룹 추가
 
 ```python
 # spine_snomed_mappings.py
@@ -808,7 +972,7 @@ SYNONYM_GROUPS.append({
 })
 ```
 
-### 8.3 관련 수술법 추가
+### 9.3 관련 수술법 추가
 
 ```python
 # spine_snomed_mappings.py
@@ -817,7 +981,7 @@ RELATED_TERMS["Related1"].append("New Technique")
 RELATED_TERMS["Related2"].append("New Technique")
 ```
 
-### 8.4 공식 SNOMED 코드 업데이트
+### 9.4 공식 SNOMED 코드 업데이트
 
 SNOMED-CT에 새 코드가 등록되면:
 
@@ -835,6 +999,100 @@ SNOMED-CT에 새 코드가 등록되면:
 
 ---
 
+## 10. 온톨로지 진화 워크플로우 (v1.24.0)
+
+> 새 논문 임포트 시 미등록 용어가 발견되면 LLM 기반 SNOMED 매핑을 자동 제안하는 워크플로우입니다.
+
+### 10.1 전체 파이프라인
+
+```text
+[1] Paper Import (unified_pdf_processor)
+    ↓
+[2] Entity Extraction (LLM)
+    ↓
+[3] Entity Normalization (entity_normalizer)
+    ├── Match found → use existing mapping
+    └── No match → record to _unregistered_terms
+                    ↓
+[4] Unregistered Term Collection
+    ↓  (after build_from_paper)
+[5] SNOMEDProposer.propose_mapping()
+    ├── LLM identifies closest parent concept
+    ├── Generates extension code
+    └── Rates confidence
+                    ↓
+[6] Confidence Check
+    ├── >= 0.9: Auto-apply → update spine_snomed_mappings.py
+    ├── 0.7-0.89: Queue for user approval
+    └── < 0.7: Queue for manual review
+                    ↓
+[7] Apply Mapping
+    ├── Add to spine_snomed_mappings.py (SNOMED dict)
+    ├── Add to entity_normalizer.py (aliases)
+    └── Create Neo4j IS_A relationship
+```
+
+### 10.2 SNOMEDProposer API
+
+```python
+from ontology.snomed_proposer import SNOMEDProposer
+
+proposer = SNOMEDProposer(llm_client)
+
+# Single term proposal
+proposal = await proposer.propose_mapping(
+    term="MISS-TLIF",
+    entity_type="intervention",
+    context="Minimally invasive single-stage TLIF technique"
+)
+# → SNOMEDProposal(
+#     proposed_parent_name="MIS-TLIF",
+#     proposed_code="900000000000xxx",
+#     confidence=0.85,
+#     auto_apply=False,
+#     ...
+# )
+
+# Batch proposal from unregistered terms
+from graph.entity_normalizer import EntityNormalizer
+normalizer = EntityNormalizer()
+unregistered = normalizer.get_unregistered_terms()
+proposals = await proposer.batch_propose(unregistered)
+```
+
+### 10.3 Confidence Thresholds
+
+| Confidence | Action | Rationale |
+|-----------|--------|-----------|
+| >= 0.9 | Auto-apply + log to review queue | Clear synonym/variant of existing concept |
+| 0.7-0.89 | User approval needed | Probable match but needs human verification |
+| < 0.7 | Manual review required | Novel concept or ambiguous mapping |
+
+### 10.4 Extension Code Allocation
+
+새 매핑이 추가될 때 다음 사용 가능한 extension code가 자동 할당됩니다.
+
+```text
+Entity Type      Primary Range        Extended Range
+Intervention     900000000001xx       900000000006xx
+Pathology        900000000002xx       -
+Outcome          900000000003xx       -
+Anatomy          900000000004xx       -
+Finding          900000000005xx       -
+```
+
+### 10.5 관련 모듈
+
+| 모듈 | 역할 |
+|------|------|
+| `entity_normalizer.py` | `_record_unregistered_term()`, `get_unregistered_terms()` |
+| `snomed_proposer.py` | LLM 기반 SNOMED 매핑 제안 |
+| `relationship_builder.py` | `build_from_paper()` 후 미등록 용어 로그 |
+| `spine_snomed_mappings.py` | SNOMED 매핑 Single Source of Truth |
+| `repair_ontology.py` | 누락된 IS_A/SNOMED 일괄 복구 |
+
+---
+
 ## 부록: 소스 파일 참조
 
 | 파일 | 라인 수 | 설명 |
@@ -846,7 +1104,10 @@ SNOMED-CT에 새 코드가 등록되면:
 | [src/graph/types/enums.py](../src/graph/types/enums.py) | ~200 | Enum 정의 |
 | [src/graph/taxonomy_manager.py](../src/graph/taxonomy_manager.py) | ~440 | Taxonomy 관리 |
 | [src/ontology/spine_snomed_mappings.py](../src/ontology/spine_snomed_mappings.py) | ~5,190 | SNOMED 매핑 |
-| [src/graph/entity_normalizer.py](../src/graph/entity_normalizer.py) | ~3,450 | 용어 정규화 |
+| [src/graph/entity_normalizer.py](../src/graph/entity_normalizer.py) | ~3,550 | 용어 정규화 + 미등록 용어 수집 |
+| [src/ontology/snomed_proposer.py](../src/ontology/snomed_proposer.py) | ~300 | LLM 기반 SNOMED 매핑 제안 |
+| [scripts/repair_ontology.py](../scripts/repair_ontology.py) | ~400 | 온톨로지 무결성 복구 |
+| [scripts/build_ontology.py](../scripts/build_ontology.py) | ~200 | IS_A 계층 일괄 적용 |
 
 ---
 
@@ -854,6 +1115,7 @@ SNOMED-CT에 새 코드가 등록되면:
 
 | 버전 | 날짜 | 변경 내용 |
 |------|------|----------|
+| 1.24.0 | 2026-02-28 | 4-Entity IS_A Hierarchy 문서화 (Section 4), 온톨로지 진화 워크플로우 (Section 10), SNOMEDProposer 추가, repair_ontology.py 추가, DV Phase 6/QC Phase 6 신설 |
 | 1.21.0 | 2026-02-16 | IS_A 루트 단일화 (Spine Surgery), SNOMED 중복 전면 해결 (I:29→0, P:3→0, A:23→0), Extension range 추가 (procedure_ext 600-699), PJK/PJF 분리, Normalizer 4개 카테고리 대폭 확대, Summary 필드 추가, TREATS paper_count 재계산 |
 | 1.14.1 | 2025-01-01 | 최초 문서 작성, 전체 시스템 분석 |
 | 7.14 | 2024-12 | BELIF, BED, Stereotactic Navigation 추가 |

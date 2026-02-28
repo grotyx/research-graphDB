@@ -1,9 +1,24 @@
 """Query Parser module for parsing and expanding medical queries."""
 
+import logging
 import re
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Optional
+
+# SNOMED lookup functions (optional import for graceful degradation)
+try:
+    from ontology.spine_snomed_mappings import (
+        get_snomed_for_intervention,
+        get_snomed_for_pathology,
+        get_snomed_for_outcome,
+        get_snomed_for_anatomy,
+    )
+    _SNOMED_AVAILABLE = True
+except ImportError:
+    _SNOMED_AVAILABLE = False
+
+logger = logging.getLogger(__name__)
 
 
 class QueryIntent(Enum):
@@ -64,6 +79,9 @@ class ParsedQuery:
     negations: list[str] = field(default_factory=list)
     temporal_context: Optional[str] = None
     confidence: float = 1.0
+
+    # SNOMED codes extracted from entities (entity_text -> snomed_code)
+    snomed_codes: dict[str, str] = field(default_factory=dict)
 
 
 class QueryParser:
@@ -173,12 +191,12 @@ class QueryParser:
             config: 설정 딕셔너리
                 - expand_synonyms: 동의어 확장 여부 (기본값: True)
                 - max_expansions: 최대 확장 용어 수 (기본값: 5)
-                - use_snomed: SNOMED-CT 사용 여부 (기본값: False, 미구현)
+                - use_snomed: SNOMED-CT 사용 여부 (기본값: True)
         """
         self.config = config or {}
         self.expand_synonyms = self.config.get("expand_synonyms", True)
         self.max_expansions = self.config.get("max_expansions", 5)
-        self.use_snomed = self.config.get("use_snomed", False)
+        self.use_snomed = self.config.get("use_snomed", True)
 
         # 패턴 컴파일
         self._compile_patterns()
@@ -231,6 +249,11 @@ class QueryParser:
         # 시간 맥락 추출
         temporal = self._extract_temporal_context(query)
 
+        # SNOMED enrichment
+        snomed_codes: dict[str, str] = {}
+        if self.use_snomed and _SNOMED_AVAILABLE:
+            snomed_codes = self._enrich_with_snomed(entities)
+
         # 용어 확장
         expanded_terms = []
         if input_data.expand_synonyms:
@@ -250,7 +273,8 @@ class QueryParser:
             keywords=keywords,
             negations=negations,
             temporal_context=temporal,
-            confidence=confidence
+            confidence=confidence,
+            snomed_codes=snomed_codes,
         )
 
     def _normalize_query(self, query: str) -> str:
@@ -555,6 +579,49 @@ class QueryParser:
             confidence += 0.1
 
         return min(1.0, confidence)
+
+    def _enrich_with_snomed(
+        self,
+        entities: list[MedicalEntity],
+    ) -> dict[str, str]:
+        """Enrich entities with SNOMED-CT codes.
+
+        Looks up each entity in the SNOMED mapping dictionaries
+        and assigns snomed_id and normalized_form where found.
+
+        Args:
+            entities: List of extracted medical entities
+
+        Returns:
+            Dict mapping entity text to SNOMED code
+        """
+        snomed_codes: dict[str, str] = {}
+
+        for entity in entities:
+            mapping = None
+
+            if entity.entity_type == EntityType.PROCEDURE:
+                mapping = get_snomed_for_intervention(entity.text)
+            elif entity.entity_type == EntityType.DISEASE:
+                mapping = get_snomed_for_pathology(entity.text)
+            elif entity.entity_type == EntityType.SYMPTOM:
+                # Symptoms may map to outcomes
+                mapping = get_snomed_for_outcome(entity.text)
+            elif entity.entity_type == EntityType.ANATOMY:
+                mapping = get_snomed_for_anatomy(entity.text)
+            elif entity.entity_type == EntityType.MEASUREMENT:
+                mapping = get_snomed_for_outcome(entity.text)
+
+            if mapping:
+                entity.snomed_id = mapping.code
+                entity.normalized_form = mapping.term
+                snomed_codes[entity.text] = mapping.code
+                logger.debug(
+                    f"SNOMED enrichment: {entity.text} -> "
+                    f"{mapping.code} ({mapping.term})"
+                )
+
+        return snomed_codes
 
     def get_entity_types(self) -> list[str]:
         """지원하는 엔티티 유형 목록 반환."""

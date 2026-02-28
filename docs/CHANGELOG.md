@@ -2,6 +2,67 @@
 
 ## Version History
 
+### v1.24.0 (2026-02-28): Ontology-Based GraphRAG 전면 재설계
+
+**핵심 변경:** Vector RAG + 간단한 그래프 필터링에서 SNOMED-CT 온톨로지 기반 다중 홉 그래프 순회 + 근거 체인 추론이 가능한 진정한 GraphRAG 시스템으로 전환.
+
+#### Phase 1: 온톨로지 계층 구축
+- **SNOMED parent_code 계층 완성**: 4개 엔티티 타입 전체에 IS_A 계층 구축
+  - Pathology: 178개 (166개 parent_code, 12 root concepts)
+  - Outcome: 187개 (176개 parent_code, 11 root concepts)
+  - Anatomy: 62개 (61개 parent_code, 1 root "Spine")
+- **taxonomy_manager.py 다중 엔티티 지원**: 8개 generic methods 추가 (`get_parents`, `get_children`, `find_common_ancestor_for`, `add_to_taxonomy`, `get_entity_level`, `get_similar_entities`, `get_taxonomy_tree`, `validate_entity_taxonomy`)
+- **schema.py**: `get_init_entity_taxonomy_cypher()` — 403개 IS_A Cypher 자동 생성
+- **scripts/build_ontology.py** (신규): 기존 Neo4j에 IS_A 일괄 적용 (`--dry-run`, `--force`, `--entity-type`)
+
+#### Phase 2: Import 파이프라인 재설계
+- **relationship_builder.py**: Paper 임포트 시 Pathology/Outcome/Anatomy IS_A 자동 생성, review paper TREATS 필터링, AFFECTS "not_reported" 처리
+- **unified_pdf_processor.py**: p_value/effect_size/CI 추출 필수화, 온톨로지 계층 기반 Outcome 카테고리 표준화
+- **entity_normalizer.py**: NormalizationResult에 `parent_code`, `semantic_type` 추가, 계층 기반 fallback 정규화
+
+#### Phase 3: 검색 파이프라인 재설계
+- **graph_context_expander.py**: 4개 엔티티 타입 IS_A 확장 지원 (`expand_by_ontology`, `expand_pathology_up/down`, `expand_outcome_up/down`, `expand_anatomy_up/down`)
+- **graph_traversal_search.py** (신규): 다중 홉 그래프 순회 (`traverse_evidence_chain`, `compare_interventions`, `find_best_evidence`)
+- **search_dao.py**: SNOMED 코드 기반 IS_A 확장 검색 (`snomed_codes` 파라미터)
+- **hybrid_ranker.py**: 3-way 랭킹 (0.4 semantic + 0.3 authority + 0.3 graph_relevance), `_calculate_graph_relevance()` 추가
+- **query_parser.py**: SNOMED 활성화, 엔티티에 `snomed_id` 자동 부여
+
+#### Phase 4-5: QC/Validation + 온톨로지 진화
+- **DATA_VALIDATION.md**: Phase 6 "Ontology Integrity" 추가 (9개 검증 항목 + Cypher)
+- **QC_CHECKLIST.md**: Phase 6 "Ontology Consistency" 추가 (6개 코드 레벨 검증)
+- **scripts/repair_ontology.py** (신규): 온톨로지 무결성 수복 (`--dry-run`, `--force`, `--entity-type`)
+- **snomed_proposer.py** (신규): LLM 기반 미등록 용어 SNOMED 매핑 제안 (confidence ≥0.9 자동, 0.7-0.9 승인, <0.7 수동)
+- **entity_normalizer.py**: 미등록 용어 자동 감지 (`_unregistered_terms`, thread-safe)
+
+#### Bug Fixes (구현 검증 후 수정)
+- **C-1**: Pathology 중복 SNOMED 코드 해소 — `76107001` (Lumbar Disc Herniation → `73589001`), `58611004` (Pseudarthrosis → `900000000000296`)
+- **C-2**: Osteotomy 하위 항목 parent_code 수정 — PCO/Asymmetric PSO/Posterior Column Osteotomy: `900000000000152`(En Bloc Resection) → `179097009`(Osteotomy)
+- **C-3**: 미정의 parent_code 수정 — PEID/PETD: `387713003` → `386638009`(Endoscopic Surgery), MID: `50951008` → `5765005`(Decompression Surgery)
+- **M-1**: Extension code range `taxonomy_root: (640, 699)` 추가
+- **M-2**: `get_init_entity_taxonomy_cypher()` 미해결 parent_code 경고 로그 추가
+- **M-3**: `schema_manager.py` entity taxonomy 루프 내 개별 try/except 적용
+- **M-4**: Deprecated `exists(r.level)` → `r.level IS NULL` 수정
+- **entity_type 화이트리스트**: `_auto_create_is_a_relation()` 입력 검증 추가
+- **source_paper 키 일관성**: `_record_unregistered_term()` 단수/복수 키 통일
+- **compare_interventions()**: pathology 파라미터 Cypher 쿼리에 반영
+- **find_best_evidence()**: outcome_details 반환값에 포함
+
+#### 신규 파일
+| 파일 | 용도 |
+|------|------|
+| `scripts/build_ontology.py` | IS_A 계층 일괄 구축 |
+| `scripts/repair_ontology.py` | 온톨로지 무결성 수복 |
+| `src/solver/graph_traversal_search.py` | 다중 홉 그래프 순회 검색 |
+| `src/ontology/snomed_proposer.py` | LLM 기반 SNOMED 매핑 제안 |
+| `docs/ONTOLOGY_REDESIGN_PLAN.md` | 재설계 계획서 |
+
+#### SNOMED 통계 (v1.24.0)
+- Mappings: 621개 (I:194, P:178, O:187, A:62) — 이전 592개에서 29개 root/intermediate 개념 추가
+- IS_A 관계: 403개 (P:166 + O:176 + A:61)
+- Neo4j 적용: SNOMED 코드 매핑 + TREATS 백필 + IS_A 구축 완료
+
+---
+
 ### v1.23.4 (2026-02-17): PMC-first 투명성 개선, MCP 타입 검증 해결, SNOMED 121개 확장, HAS_CHUNK 복구
 
 #### QA 전체 스캔 (QC/CA/DV) — 2026-02-17

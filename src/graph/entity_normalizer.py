@@ -93,6 +93,8 @@ class NormalizationResult:
         snomed_code: SNOMED-CT 코드 (있는 경우)
         snomed_term: SNOMED-CT 용어 (있는 경우)
         category: 수술법 카테고리 (Intervention인 경우)
+        parent_code: SNOMED parent concept code for IS_A hierarchy
+        semantic_type: SNOMED semantic type (procedure, disorder, etc.)
     """
     original: str
     normalized: str
@@ -102,6 +104,8 @@ class NormalizationResult:
     snomed_code: str = ""
     snomed_term: str = ""
     category: str = ""
+    parent_code: str = ""
+    semantic_type: str = ""
 
 
 class EntityNormalizer:
@@ -2579,6 +2583,10 @@ class EntityNormalizer:
         self._pathology_reverse = self._build_reverse_map(self.PATHOLOGY_ALIASES)
         self._anatomy_reverse = self._build_reverse_map(self.ANATOMY_ALIASES)
 
+        # Unregistered term tracking (v1.24.0 ontology evolution)
+        self._unregistered_terms: list[dict] = []
+        self._unregistered_lock = threading.Lock()
+
         # 한국어 감지 패턴
         self._korean_pattern = re.compile(r'[\uac00-\ud7af]+')  # 한글 유니코드 범위
 
@@ -2608,6 +2616,70 @@ class EntityNormalizer:
         self.partial_match_threshold = 0.5
         self.enable_korean_normalization = True
         self.strip_particles = True
+
+    def _record_unregistered_term(
+        self,
+        original_text: str,
+        entity_type: str,
+        source_paper: str = "",
+        attempted_normalizations: list[str] | None = None,
+    ) -> None:
+        """Record a term that failed normalization for ontology evolution.
+
+        Thread-safe collection of terms not found in any alias dictionary
+        or SNOMED mapping. Used by SNOMEDProposer for LLM-based mapping
+        proposals.
+
+        Args:
+            original_text: The original term text that failed normalization
+            entity_type: Entity type (intervention, pathology, outcome, anatomy)
+            source_paper: Optional paper_id where the term was found
+            attempted_normalizations: Methods tried during normalization
+        """
+        if not original_text or len(original_text.strip()) < 2:
+            return
+
+        entry = {
+            "original_text": original_text.strip(),
+            "entity_type": entity_type,
+            "source_papers": [source_paper] if source_paper else [],
+            "attempted_normalizations": attempted_normalizations or [],
+        }
+
+        with self._unregistered_lock:
+            # Avoid duplicates (same text + entity_type)
+            for existing in self._unregistered_terms:
+                if (existing["original_text"].lower() == entry["original_text"].lower()
+                        and existing["entity_type"] == entry["entity_type"]):
+                    # Update source_papers if new
+                    if source_paper and source_paper not in existing.get("source_papers", []):
+                        existing.setdefault("source_papers", []).append(source_paper)
+                    return
+            self._unregistered_terms.append(entry)
+
+    def get_unregistered_terms(self) -> list[dict]:
+        """Return collected unregistered terms with metadata.
+
+        Returns:
+            List of dicts with keys:
+                - original_text: str
+                - entity_type: str
+                - source_paper: str
+                - attempted_normalizations: list[str]
+        """
+        with self._unregistered_lock:
+            return list(self._unregistered_terms)
+
+    def clear_unregistered_terms(self) -> int:
+        """Reset the unregistered term collection.
+
+        Returns:
+            Number of terms cleared
+        """
+        with self._unregistered_lock:
+            count = len(self._unregistered_terms)
+            self._unregistered_terms.clear()
+            return count
 
     def register_dynamic_alias(
         self,
@@ -3120,9 +3192,13 @@ class EntityNormalizer:
             )
 
         # ═══════════════════════════════════════════════════
-        # NO MATCH - 원본 반환
+        # NO MATCH - 원본 반환 + 미등록 용어 기록
         # ═══════════════════════════════════════════════════
         logger.debug(f"No {entity_type} match found for: {text}")
+        self._record_unregistered_term(
+            text, entity_type,
+            attempted_normalizations=["exact", "token", "word_boundary", "fuzzy", "partial"],
+        )
         return NormalizationResult(
             original=text,
             normalized=text,
@@ -3345,6 +3421,8 @@ class EntityNormalizer:
         if mapping:
             result.snomed_code = mapping.code
             result.snomed_term = mapping.term
+            result.parent_code = mapping.parent_code or ""
+            result.semantic_type = mapping.semantic_type.value if mapping.semantic_type else ""
 
         return result
 
@@ -3432,6 +3510,119 @@ class EntityNormalizer:
         """
         result = self.normalize_outcome(text)
         return self._enrich_with_snomed(result, "outcome")
+
+    def normalize_with_hierarchy_fallback(
+        self,
+        text: str,
+        entity_type: str,
+    ) -> NormalizationResult:
+        """Hierarchy-aware normalization with parent concept fallback.
+
+        When direct normalization fails, tries to match against SNOMED
+        hierarchy by progressively simplifying the term.
+        Example: "L4-5 stenosis" -> try "Lumbar Stenosis" -> parent: "Spinal Stenosis"
+
+        Args:
+            text: Input text to normalize
+            entity_type: Entity type ("intervention", "pathology", "outcome", "anatomy")
+
+        Returns:
+            NormalizationResult with best match (may include parent info)
+        """
+        # 1. Direct normalization
+        normalize_fn = getattr(self, f"normalize_{entity_type}", None)
+        if not normalize_fn:
+            return NormalizationResult(original=text, normalized=text, confidence=0.0, method="none")
+
+        result = normalize_fn(text)
+        if result.confidence > 0.0:
+            return result
+
+        if not SNOMED_AVAILABLE:
+            return result
+
+        # 2. Try simplified variants for hierarchy-based matching
+        simplified_terms = self._generate_simplified_terms(text, entity_type)
+
+        for simplified in simplified_terms:
+            if simplified == text:
+                continue
+            alt_result = normalize_fn(simplified)
+            if alt_result.confidence > 0.0:
+                # Found a match via simplification
+                alt_result.original = text
+                alt_result.confidence = max(alt_result.confidence * 0.85, 0.5)
+                alt_result.method = f"hierarchy_fallback+{alt_result.method}"
+                return alt_result
+
+        return result
+
+    def _generate_simplified_terms(self, text: str, entity_type: str) -> list[str]:
+        """Generate simplified term variants for hierarchy-based matching.
+
+        Strips level-specific prefixes and qualifiers to find broader concepts.
+        Example: "L4-5 stenosis" -> ["Lumbar Stenosis", "Spinal Stenosis"]
+
+        Args:
+            text: Original term text
+            entity_type: Entity type for context-aware simplification
+
+        Returns:
+            List of simplified term candidates (most specific first)
+        """
+        simplified: list[str] = []
+        text_lower = text.lower().strip()
+
+        if entity_type == "pathology":
+            # Strip level-specific prefixes: "L4-5 stenosis" -> "Lumbar Stenosis"
+            level_pattern = re.compile(
+                r'^(?:L\d[-–](?:L?\d|S\d)|C\d[-–]C?\d|T\d+[-–]T?\d+)\s+',
+                re.IGNORECASE
+            )
+            stripped = level_pattern.sub('', text).strip()
+            if stripped and stripped.lower() != text_lower:
+                # Determine region from the level prefix
+                if re.match(r'L\d', text, re.IGNORECASE):
+                    simplified.append(f"Lumbar {stripped.title()}")
+                elif re.match(r'C\d', text, re.IGNORECASE):
+                    simplified.append(f"Cervical {stripped.title()}")
+                elif re.match(r'T\d', text, re.IGNORECASE):
+                    simplified.append(f"Thoracic {stripped.title()}")
+                simplified.append(f"Spinal {stripped.title()}")
+
+            # Strip "lumbar/cervical/thoracic" to get generic form
+            region_pattern = re.compile(
+                r'^(?:lumbar|cervical|thoracic|thoracolumbar|lumbosacral)\s+',
+                re.IGNORECASE
+            )
+            generic = region_pattern.sub('', text).strip()
+            if generic and generic.lower() != text_lower:
+                simplified.append(f"Spinal {generic.title()}")
+
+        elif entity_type == "outcome":
+            # Strip sub-measure qualifiers: "VAS Back" -> "VAS", "ODI Score" -> "ODI"
+            qualifier_pattern = re.compile(
+                r'\s+(?:back|leg|neck|arm|score|index|total|overall)$',
+                re.IGNORECASE
+            )
+            stripped = qualifier_pattern.sub('', text).strip()
+            if stripped and stripped.lower() != text_lower:
+                simplified.append(stripped)
+
+        elif entity_type == "anatomy":
+            # Strip level-specific info: "L4-L5 Disc" -> "Lumbar Disc"
+            level_pattern = re.compile(
+                r'^(?:L\d[-–](?:L?\d|S\d)|C\d[-–]C?\d|T\d+[-–]T?\d+)\s+',
+                re.IGNORECASE
+            )
+            stripped = level_pattern.sub('', text).strip()
+            if stripped and stripped.lower() != text_lower:
+                if re.match(r'L\d', text, re.IGNORECASE):
+                    simplified.append(f"Lumbar {stripped.title()}")
+                elif re.match(r'C\d', text, re.IGNORECASE):
+                    simplified.append(f"Cervical {stripped.title()}")
+
+        return simplified
 
     def normalize_all_with_snomed(self, text: str) -> dict[str, NormalizationResult]:
         """모든 유형에 대해 정규화 시도 + SNOMED 코드.

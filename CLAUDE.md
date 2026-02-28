@@ -5,7 +5,7 @@
 Spine GraphRAG는 Neo4j 그래프 데이터베이스를 사용한 단일 저장소 시스템입니다.
 척추 수술 분야의 의학 논문을 처리하여 구조화된 지식 그래프를 구축하고, 근거 기반 검색을 지원합니다.
 
-**Version**: 1.23.4 | **Status**: Production Ready
+**Version**: 1.24.0 | **Status**: Production Ready
 **Docs**: [PRD](docs/PRD.md) | [TRD](docs/TRD_v3_GraphRAG.md) | [Changelog](docs/CHANGELOG.md)
 
 ### Architecture (Single-Store: Neo4j Only)
@@ -242,10 +242,13 @@ rag_research/
 | `taxonomy_manager.py` | Intervention IS_A 계층 관리 |
 | `snomed_enricher.py` | SNOMED 업데이트, TREATS 백필, Anatomy 정리 통합 모듈 |
 | `graph/types/schema.py` | Neo4j 스키마, 인덱스, Cypher 템플릿 |
-| `spine_snomed_mappings.py` | SNOMED-CT 매핑 (592개: I:194, P:162, O:175, A:61) — Single Source of Truth |
+| `spine_snomed_mappings.py` | SNOMED-CT 매핑 (621개: I:194, P:178, O:187, A:62) — Single Source of Truth |
 | `medical_kag_server.py` | MCP 서버 Facade (10개 도구, Tool Registry 디스패치 → 11개 핸들러) |
 | `handlers/base_handler.py` | BaseHandler 공통 클래스 + safe_execute 데코레이터 |
-| `solver/hybrid_ranker.py` | Evidence-based 랭킹 |
+| `solver/hybrid_ranker.py` | Evidence-based 3-way 랭킹 (semantic 0.4 + authority 0.3 + graph_relevance 0.3) |
+| `solver/graph_traversal_search.py` | 다중 홉 그래프 순회 검색 (evidence chain, intervention 비교) |
+| `solver/graph_context_expander.py` | 4개 엔티티 IS_A 확장 (expand_by_ontology) |
+| `ontology/snomed_proposer.py` | LLM 기반 미등록 용어 SNOMED 매핑 제안 |
 | `reference_formatter.py` | 참고문헌 스타일 포맷팅 |
 | `writing_guide_handler.py` | 학술 논문 작성 가이드 (9개 체크리스트) |
 | `doi_fulltext_fetcher.py` | DOI/Unpaywall 기반 전문 조회 |
@@ -261,6 +264,8 @@ rag_research/
 | `scripts/enrich_graph_snomed.py` | SNOMED 코드 일괄 적용 + TREATS 백필 |
 | `scripts/backfill_summary.py` | 기존 Paper에 LLM 생성 summary 소급 적용 |
 | `scripts/repair_missing_chunks.py` | HAS_CHUNK 누락 Paper 복구 (`--dry-run`, `--paper-ids`, `--max-concurrent` 지원) |
+| `scripts/build_ontology.py` | IS_A 계층 일괄 구축 (`--dry-run`, `--force`, `--entity-type`) |
+| `scripts/repair_ontology.py` | 온톨로지 무결성 수복 (`--dry-run`, `--force`, `--entity-type`) |
 
 ## Documentation
 

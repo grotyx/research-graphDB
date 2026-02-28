@@ -35,7 +35,8 @@ EXTENSION_RANGES = {
     "observable": (300, 399),    # 900000000003xx
     "body_structure": (400, 499),  # 900000000004xx
     "finding": (500, 599),       # 900000000005xx
-    "procedure_ext": (600, 699),  # 900000000006xx (v1.21: Fixation/Osteotomy variants)
+    "procedure_ext": (600, 639),  # 9000000000006xx (v1.21: Fixation/Osteotomy variants)
+    "taxonomy_root": (640, 699),  # 9000000000006xx (v1.24.0: Ontology root/intermediate concepts)
 }
 
 
@@ -1493,7 +1494,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         term="Percutaneous endoscopic interlaminar discectomy",
         semantic_type=SNOMEDSemanticType.PROCEDURE,
         is_extension=True,
-        parent_code="387713003",
+        parent_code="386638009",  # Endoscopic Surgery
         synonyms=["Percutaneous endoscopic interlaminar approach",
                   "Interlaminar endoscopic discectomy"],
         abbreviations=["PEID"],
@@ -1504,7 +1505,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         term="Percutaneous endoscopic transforaminal discectomy",
         semantic_type=SNOMEDSemanticType.PROCEDURE,
         is_extension=True,
-        parent_code="387713003",
+        parent_code="386638009",  # Endoscopic Surgery
         synonyms=["Percutaneous endoscopic transforaminal approach",
                   "Transforaminal endoscopic discectomy", "TED"],
         abbreviations=["PETD", "TED"],
@@ -1515,7 +1516,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         term="Posterior column osteotomy",
         semantic_type=SNOMEDSemanticType.PROCEDURE,
         is_extension=True,
-        parent_code="900000000000152",  # Osteotomy
+        parent_code="179097009",  # Osteotomy
         synonyms=["Ponte osteotomy", "Chevron osteotomy",
                   "Posterior closing wedge osteotomy"],
         abbreviations=["PCO"],
@@ -1628,7 +1629,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         term="Minimally invasive decompression of spine",
         semantic_type=SNOMEDSemanticType.PROCEDURE,
         is_extension=True,
-        parent_code="50951008",  # Decompression of spinal cord
+        parent_code="5765005",  # Decompression Surgery
         synonyms=["MIS decompression", "Tubular retractor-based surgery",
                   "Conventional decompression"],
         korean_term="최소 침습 감압술",
@@ -1905,7 +1906,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         code="900000000000199",
         term="Asymmetric pedicle subtraction osteotomy",
         semantic_type=SNOMEDSemanticType.PROCEDURE,
-        parent_code="900000000000152",  # Osteotomy
+        parent_code="179097009",  # Osteotomy
         is_extension=True,
         synonyms=["Asymmetric pedicle subtraction osteotomy"],
         korean_term="비대칭 척추경 절골술",
@@ -2037,7 +2038,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         code="900000000000636",
         term="Posterior column osteotomy of spine",
         semantic_type=SNOMEDSemanticType.PROCEDURE,
-        parent_code="900000000000152",  # Osteotomy
+        parent_code="179097009",  # Osteotomy
         is_extension=True,
         synonyms=["Chevron osteotomy"],
         abbreviations=["PCO"],
@@ -2102,59 +2103,216 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
 # ============================================================================
 
 SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
+    # ============================================================
+    # ROOT CONCEPTS (Top-level hierarchy nodes)
+    # ============================================================
+    "Degenerative Spine Disease": SNOMEDMapping(
+        code="49049000",
+        term="Degenerative disorder of spine",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        synonyms=["Spinal degeneration", "Degenerative spine condition"],
+        korean_term="퇴행성 척추 질환",
+        notes="Root concept for all degenerative spine pathologies",
+    ),
+    "Spinal Deformity": SNOMEDMapping(
+        code="900000000000642",
+        term="Deformity of spine",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        is_extension=True,
+        synonyms=["Spine deformity", "Spinal malalignment"],
+        korean_term="척추 변형",
+        notes="Root concept for all spinal deformity pathologies",
+    ),
+    "Spinal Trauma": SNOMEDMapping(
+        code="900000000000643",
+        term="Traumatic injury of spine",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        is_extension=True,
+        synonyms=["Spine trauma", "Spinal injury"],
+        korean_term="척추 외상",
+        notes="Root concept for all spinal trauma pathologies",
+    ),
+    "Spinal Neoplasm": SNOMEDMapping(
+        code="126070001",
+        term="Neoplasm of spine",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        synonyms=["Spine tumor", "Spinal neoplasm"],
+        korean_term="척추 신생물",
+        notes="Root concept for all spinal tumor pathologies",
+    ),
+    "Spinal Infection": SNOMEDMapping(
+        code="900000000000644",
+        term="Infection of spine",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        is_extension=True,
+        synonyms=["Spine infection", "Spinal infectious disease"],
+        korean_term="척추 감염",
+        notes="Root concept for all spinal infection pathologies",
+    ),
+    "Inflammatory Spine Disease": SNOMEDMapping(
+        code="900000000000645",
+        term="Inflammatory disease of spine",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        is_extension=True,
+        synonyms=["Spondyloarthropathy", "Inflammatory spondylitis"],
+        korean_term="염증성 척추 질환",
+        notes="Root concept for inflammatory/rheumatologic spine conditions",
+    ),
+    "Neurological Spine Condition": SNOMEDMapping(
+        code="900000000000646",
+        term="Neurological condition of spine",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        is_extension=True,
+        synonyms=["Spinal neurological disorder"],
+        korean_term="신경학적 척추 질환",
+        notes="Root concept for myelopathy, radiculopathy, and other neurological spine conditions",
+    ),
+    "Surgical Complication": SNOMEDMapping(
+        code="900000000000647",
+        term="Complication of spinal surgery",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        is_extension=True,
+        synonyms=["Postoperative spine complication", "Spine surgery complication"],
+        korean_term="수술 합병증",
+        notes="Root concept for all postoperative/surgical complication pathologies",
+    ),
+    "Spinal Pain Syndrome": SNOMEDMapping(
+        code="900000000000648",
+        term="Pain syndrome of spine",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        is_extension=True,
+        synonyms=["Spinal pain", "Back pain syndrome"],
+        korean_term="척추 통증 증후군",
+        notes="Root concept for pain-related spine pathologies",
+    ),
+    "Congenital Spine Disorder": SNOMEDMapping(
+        code="900000000000649",
+        term="Congenital disorder of spine",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        is_extension=True,
+        synonyms=["Congenital spinal anomaly", "Developmental spine disorder"],
+        korean_term="선천성 척추 질환",
+        notes="Root concept for congenital spine pathologies",
+    ),
+    "Metabolic Bone Disease": SNOMEDMapping(
+        code="900000000000650",
+        term="Metabolic bone disease of spine",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        is_extension=True,
+        synonyms=["Bone metabolism disorder"],
+        korean_term="대사성 골질환",
+        notes="Root concept for osteoporosis, osteopenia, and other metabolic bone conditions",
+    ),
+    "Spinal Comorbidity": SNOMEDMapping(
+        code="900000000000651",
+        term="Comorbidity relevant to spine surgery",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        is_extension=True,
+        synonyms=["Risk factor for spine surgery"],
+        korean_term="척추 수술 동반 질환",
+        notes="Root concept for comorbidities/risk factors relevant to spine surgery outcomes",
+    ),
+    # --- Intermediate hierarchy nodes ---
+    "Spinal Stenosis": SNOMEDMapping(
+        code="76107001",
+        term="Spinal stenosis",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="49049000",  # Degenerative Spine Disease
+        synonyms=["Spinal canal stenosis", "Stenosis of spinal canal"],
+        korean_term="척추관 협착증",
+        notes="Intermediate node: parent of regional stenosis subtypes",
+    ),
+    "Disc Herniation": SNOMEDMapping(
+        code="900000000000652",
+        term="Intervertebral disc herniation",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        is_extension=True,
+        parent_code="49049000",  # Degenerative Spine Disease
+        synonyms=["Disc prolapse", "HNP", "Herniated disc"],
+        korean_term="추간판 탈출증",
+        notes="Intermediate node: parent of regional disc herniation subtypes",
+    ),
+    "Scoliosis (Category)": SNOMEDMapping(
+        code="298382003",
+        term="Scoliosis deformity of spine",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000642",  # Spinal Deformity
+        synonyms=["Lateral curvature of spine"],
+        korean_term="측만증 (범주)",
+        notes="Intermediate node: parent of scoliosis subtypes",
+    ),
+    "Vertebral Fracture (Category)": SNOMEDMapping(
+        code="125605004",
+        term="Fracture of vertebral column",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000643",  # Spinal Trauma
+        synonyms=["Spinal fracture"],
+        korean_term="척추 골절 (범주)",
+        notes="Intermediate node: parent of fracture subtypes",
+    ),
+
     # === DEGENERATIVE ===
     "Lumbar Stenosis": SNOMEDMapping(
         code="18347007",
         term="Spinal stenosis of lumbar region",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="76107001",  # Spinal Stenosis
         synonyms=["LSS", "Lumbar spinal stenosis", "Central stenosis"],
     ),
     "Cervical Stenosis": SNOMEDMapping(
         code="427371002",
         term="Spinal stenosis of cervical region",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="76107001",  # Spinal Stenosis
         synonyms=["CSS", "Cervical spinal stenosis"],
     ),
     "Foraminal Stenosis": SNOMEDMapping(
         code="202708005",
         term="Foraminal stenosis",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="76107001",  # Spinal Stenosis
         synonyms=["Neural foraminal stenosis"],
     ),
     "Lumbar Disc Herniation": SNOMEDMapping(
-        code="76107001",
+        code="73589001",
         term="Prolapsed lumbar intervertebral disc",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000652",  # Disc Herniation
         synonyms=["LDH", "HNP", "HIVD", "Lumbar disc prolapse"],
     ),
     "Cervical Disc Herniation": SNOMEDMapping(
         code="60022001",
         term="Prolapsed cervical intervertebral disc",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000652",  # Disc Herniation
         synonyms=["CDH", "Cervical disc prolapse"],
     ),
     "DDD": SNOMEDMapping(
         code="77547008",
         term="Degenerative disc disease",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="49049000",  # Degenerative Spine Disease
         synonyms=["Degenerative disc disorder", "Intervertebral disc degeneration"],
     ),
     "Facet Arthropathy": SNOMEDMapping(
         code="81680005",
         term="Facet joint syndrome",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="49049000",  # Degenerative Spine Disease
         synonyms=["Facet arthritis", "Zygapophyseal joint disease"],
     ),
     "Spondylolisthesis": SNOMEDMapping(
         code="274152003",
         term="Spondylolisthesis",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="49049000",  # Degenerative Spine Disease
         synonyms=["Degenerative spondylolisthesis", "Slip"],
     ),
     "Degenerative Scoliosis": SNOMEDMapping(
         code="203646004",
         term="Degenerative scoliosis",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="298382003",  # Scoliosis (Category)
         synonyms=["De novo scoliosis", "Adult degenerative scoliosis"],
     ),
 
@@ -2163,18 +2321,21 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="203639008",
         term="Adolescent idiopathic scoliosis",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="298382003",  # Scoliosis (Category)
         synonyms=["Idiopathic scoliosis in adolescent"],
     ),
     "Adult Scoliosis": SNOMEDMapping(
         code="111266001",
         term="Adult scoliosis",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="298382003",  # Scoliosis (Category)
     ),
     "Adult Spinal Deformity": SNOMEDMapping(
         code="900000000000201",
         term="Adult spinal deformity",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000642",  # Spinal Deformity
         synonyms=["ASD syndrome", "Adult degenerative deformity"],
         abbreviations=["ASD"],
         korean_term="성인 척추 변형",
@@ -2184,6 +2345,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="203672002",
         term="Flat back syndrome",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000642",  # Spinal Deformity
         synonyms=["Flatback", "Loss of lumbar lordosis", "Iatrogenic flatback"],
         korean_term="편평등 증후군",
     ),
@@ -2191,6 +2353,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="414564002",
         term="Kyphosis deformity of spine",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000642",  # Spinal Deformity
         synonyms=["Thoracic kyphosis", "Hyperkyphosis", "Kyphotic deformity"],
         korean_term="후만증",
     ),
@@ -2199,6 +2362,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Sagittal plane imbalance",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000642",  # Spinal Deformity
         synonyms=["Sagittal malalignment", "Global sagittal imbalance", "Positive sagittal balance"],
         abbreviations=["GSI"],
         korean_term="시상면 불균형",
@@ -2210,23 +2374,27 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="207938004",
         term="Compression fracture of vertebra",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="125605004",  # Vertebral Fracture (Category)
         synonyms=["VCF", "Vertebral compression fracture"],
     ),
     "Burst Fracture": SNOMEDMapping(
         code="207939007",
         term="Burst fracture of vertebra",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="125605004",  # Vertebral Fracture (Category)
     ),
     "Chance Fracture": SNOMEDMapping(
         code="125616002",
         term="Chance fracture",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="125605004",  # Vertebral Fracture (Category)
         synonyms=["Flexion-distraction injury"],
     ),
     "Fracture-Dislocation": SNOMEDMapping(
         code="125609003",
         term="Fracture dislocation of spine",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000643",  # Spinal Trauma
     ),
 
     # === TUMOR ===
@@ -2234,12 +2402,14 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="126968001",
         term="Primary neoplasm of vertebral column",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="126070001",  # Spinal Neoplasm
         synonyms=["Primary spine tumor"],
     ),
     "Spinal Metastasis": SNOMEDMapping(
         code="94503003",
         term="Metastatic malignant neoplasm to spine",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="126070001",  # Spinal Neoplasm
         synonyms=["Spine metastasis", "Vertebral metastasis"],
     ),
     "Intradural Tumor": SNOMEDMapping(
@@ -2247,6 +2417,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Intradural spinal tumor",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="126070001",  # Spinal Neoplasm
         synonyms=["Intradural extramedullary tumor", "Intradural intramedullary tumor", "IDEM", "IDIM"],
         abbreviations=["IDT", "IDEM"],
         korean_term="경막내 척추 종양",
@@ -2258,17 +2429,20 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="4556007",
         term="Spondylodiscitis",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000644",  # Spinal Infection
         synonyms=["Spinal infection", "Vertebral osteomyelitis"],
     ),
     "Epidural Abscess": SNOMEDMapping(
         code="75607008",
         term="Spinal epidural abscess",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000644",  # Spinal Infection
     ),
     "Spinal TB": SNOMEDMapping(
         code="186570004",  # Official SNOMED: Tuberculosis of spine
         term="Tuberculosis of spine",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000644",  # Spinal Infection
         synonyms=["Pott disease", "Spinal tuberculosis", "Pott's disease"],
     ),
 
@@ -2277,6 +2451,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="230529002",
         term="Cervical myelopathy",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000646",  # Neurological Spine Condition
         # v1.14.1: 동의어 확장
         synonyms=["DCM", "Degenerative cervical myelopathy",
                   "Cervical spondylotic myelopathy", "CSM",
@@ -2288,6 +2463,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="267073000",
         term="Cervical radiculopathy",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000646",  # Neurological Spine Condition
         synonyms=["Cervical nerve root compression", "Cervical radicular pain",
                   "cervical radiculopathy", "C-spine radiculopathy"],
         korean_term="경추 신경근병증",
@@ -2298,6 +2474,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="128196005",
         term="Lumbar radiculopathy",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000646",  # Neurological Spine Condition
         synonyms=["Sciatica", "Lumbar radicular pain", "L-spine radiculopathy",
                   "lumbar radiculopathy", "sciatica", "Radicular leg pain"],
         korean_term="요추 신경근병증",
@@ -2309,6 +2486,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Segmental spinal instability",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="49049000",  # Degenerative Spine Disease
         synonyms=["Lumbar instability", "Spinal instability", "Mechanical instability",
                   "segmental instability", "lumbar instability"],
         abbreviations=["SI"],
@@ -2322,6 +2500,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Distal junctional kyphosis",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000647",  # Surgical Complication
         synonyms=["Distal junctional failure", "DJF", "Distal junctional disease",
                   "distal junctional kyphosis"],
         abbreviations=["DJK", "DJF"],
@@ -2335,6 +2514,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Proximal junctional kyphosis",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000647",  # Surgical Complication
         synonyms=["PJK", "Junctional kyphosis"],
         abbreviations=["PJK"],
         korean_term="근위부 경계부 후만",
@@ -2346,6 +2526,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Proximal junctional failure",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000647",  # Surgical Complication
         synonyms=["Proximal junctional failure"],
         abbreviations=["PJF"],
         korean_term="근위부 경계부 부전",
@@ -2358,6 +2539,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Adjacent segment disease",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000647",  # Surgical Complication
         synonyms=["ASD (Adjacent)", "Adjacent segment degeneration", "Adjacent level disease",
                   "Radiographic ASD", "Symptomatic ASD", "adjacent segment disease"],
         abbreviations=["ASdD", "ASdeg"],
@@ -2368,6 +2550,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="192970008",
         term="Cauda equina syndrome",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000646",  # Neurological Spine Condition
         synonyms=["CES"],
     ),
 
@@ -2376,6 +2559,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="73211009",
         term="Diabetes mellitus",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000651",  # Spinal Comorbidity
         synonyms=["Diabetes", "DM", "Diabetic"],
         korean_term="당뇨병",
         notes="Major risk factor for surgical site infection, poor wound healing",
@@ -2431,6 +2615,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="88199009",
         term="Ossification of posterior longitudinal ligament",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="49049000",  # Degenerative Spine Disease
         synonyms=["OPLL", "Posterior longitudinal ligament ossification",
                   "PLL ossification"],
         abbreviations=["OPLL"],
@@ -2441,6 +2626,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Ossification of ligamentum flavum",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="49049000",  # Degenerative Spine Disease
         synonyms=["Ligamentum flavum ossification", "Yellow ligament ossification",
                   "OLF thoracic"],
         abbreviations=["OLF"],
@@ -2451,6 +2637,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="307721000",
         term="Atlantoaxial instability",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000643",  # Spinal Trauma
         synonyms=["C1-C2 instability", "AAI", "Atlantoaxial subluxation"],
         abbreviations=["AAI"],
         korean_term="환축추 불안정",
@@ -2460,6 +2647,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Os odontoideum",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000649",  # Congenital Spine Disorder
         synonyms=["Os odontoideum anomaly", "Odontoid ossicle",
                   "Separated odontoid process"],
         abbreviations=["OO"],
@@ -2470,6 +2658,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="268268009",
         term="Klippel-Feil syndrome",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000649",  # Congenital Spine Disorder
         synonyms=["Klippel-Feil", "Congenital cervical fusion",
                   "Congenital cervical synostosis"],
         korean_term="클리펠-파일 증후군",
@@ -2478,6 +2667,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="253105001",
         term="Basilar invagination",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000649",  # Congenital Spine Disorder
         synonyms=["Basilar impression", "Cranial settling",
                   "Upward migration of odontoid"],
         korean_term="두개저 함입증",
@@ -2490,6 +2680,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="156849009",
         term="Diffuse idiopathic skeletal hyperostosis",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="49049000",  # Degenerative Spine Disease
         synonyms=["Forestier disease", "Forestier's disease",
                   "Ankylosing hyperostosis"],
         abbreviations=["DISH"],
@@ -2500,6 +2691,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Baastrup disease",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="49049000",  # Degenerative Spine Disease
         synonyms=["Kissing spine syndrome", "Interspinous bursitis",
                   "Kissing spines"],
         abbreviations=["KD"],
@@ -2511,6 +2703,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Bertolotti syndrome",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000649",  # Congenital Spine Disorder
         synonyms=["Lumbosacral transitional vertebra", "LSTV",
                   "Sacralization", "Lumbarization"],
         abbreviations=["BS", "LSTV"],
@@ -2522,6 +2715,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Synovial cyst of spine",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="49049000",  # Degenerative Spine Disease
         synonyms=["Facet cyst", "Juxta-articular cyst",
                   "Juxtafacet cyst", "Ganglion cyst of spine"],
         abbreviations=["SC"],
@@ -2533,6 +2727,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Tarlov cyst",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000649",  # Congenital Spine Disorder
         synonyms=["Perineural cyst", "Sacral nerve root cyst",
                   "Sacral perineural cyst"],
         abbreviations=["TC", "PNC"],
@@ -2544,6 +2739,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Modic vertebral endplate changes",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="49049000",  # Degenerative Spine Disease
         synonyms=["Modic type 1", "Modic type 2", "Modic type 3",
                   "Endplate changes", "Vertebral endplate signal changes"],
         abbreviations=["MC"],
@@ -2555,6 +2751,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Failed back surgery syndrome",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000647",  # Surgical Complication
         synonyms=["FBSS", "Post-laminectomy syndrome",
                   "Persistent pain after spinal surgery",
                   "Post-surgical spine syndrome"],
@@ -2570,6 +2767,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="400210000",
         term="Hemangioma of vertebral body",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="126968001",  # Primary Tumor
         synonyms=["Vertebral hemangioma", "Spinal hemangioma",
                   "Aggressive hemangioma"],
         korean_term="척추 혈관종",
@@ -2578,6 +2776,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="88349003",
         term="Giant cell tumor of bone",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="126968001",  # Primary Tumor
         synonyms=["GCT", "Osteoclastoma", "Giant cell tumor of spine"],
         abbreviations=["GCT"],
         korean_term="거대세포종",
@@ -2586,6 +2785,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="55333008",
         term="Osteoblastoma",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="126968001",  # Primary Tumor
         synonyms=["Osteoid osteoma", "Benign osteoblastoma",
                   "Spinal osteoblastoma"],
         korean_term="골모세포종",
@@ -2594,6 +2794,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="33167000",
         term="Ewing sarcoma",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="126968001",  # Primary Tumor
         synonyms=["Ewing's sarcoma", "PNET",
                   "Primitive neuroectodermal tumor",
                   "Ewing sarcoma of spine"],
@@ -2603,6 +2804,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="109989006",
         term="Multiple myeloma",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="126070001",  # Spinal Neoplasm
         synonyms=["Plasmacytoma", "Plasma cell neoplasm",
                   "Spinal myeloma", "Solitary plasmacytoma"],
         korean_term="다발성 골수종",
@@ -2611,6 +2813,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="53659009",
         term="Chordoma",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="126968001",  # Primary Tumor
         synonyms=["Sacral chordoma", "Clival chordoma",
                   "Spinal chordoma", "Vertebral chordoma"],
         korean_term="척삭종",
@@ -2619,6 +2822,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="7851007",
         term="Schwannoma",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000203",  # Intradural Tumor
         synonyms=["Spinal schwannoma", "Neurilemmoma",
                   "Vestibular schwannoma", "Nerve sheath tumor"],
         korean_term="신경초종",
@@ -2627,6 +2831,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="7051007",
         term="Meningioma",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000203",  # Intradural Tumor
         synonyms=["Spinal meningioma", "Intradural meningioma",
                   "Meningioma of spinal canal"],
         korean_term="수막종",
@@ -2635,6 +2840,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="443485007",
         term="Ependymoma",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000203",  # Intradural Tumor
         synonyms=["Spinal ependymoma", "Myxopapillary ependymoma",
                   "Intramedullary ependymoma"],
         korean_term="상의세포종",
@@ -2643,6 +2849,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="92539004",
         term="Neurofibroma",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000203",  # Intradural Tumor
         synonyms=["Spinal neurofibroma", "Neurofibromatosis",
                   "Plexiform neurofibroma"],
         korean_term="신경섬유종",
@@ -2651,6 +2858,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="21708004",
         term="Osteosarcoma",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="126968001",  # Primary Tumor
         synonyms=["Spinal osteosarcoma", "Osteogenic sarcoma",
                   "Osteosarcoma of spine"],
         korean_term="골육종",
@@ -2659,6 +2867,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="443520009",
         term="Chondrosarcoma",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="126968001",  # Primary Tumor
         synonyms=["Spinal chondrosarcoma", "Chondrosarcoma of spine"],
         korean_term="연골육종",
     ),
@@ -2670,6 +2879,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="9631008",
         term="Ankylosing spondylitis",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000645",  # Inflammatory Spine Disease
         synonyms=["AS", "Bamboo spine", "Marie-Strumpell disease",
                   "Bechterew disease"],
         abbreviations=["AS"],
@@ -2679,6 +2889,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="69896004",
         term="Rheumatoid arthritis",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000645",  # Inflammatory Spine Disease
         synonyms=["RA", "Cervical RA", "Rheumatoid arthritis of cervical spine"],
         abbreviations=["RA"],
         korean_term="류마티스 관절염",
@@ -2687,6 +2898,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="156370009",
         term="Psoriatic arthritis",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000645",  # Inflammatory Spine Disease
         synonyms=["Psoriatic spondylitis", "PsA",
                   "Psoriatic spondyloarthritis"],
         abbreviations=["PsA"],
@@ -2697,6 +2909,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Reactive arthritis",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000645",  # Inflammatory Spine Disease
         synonyms=["Reiter syndrome", "Reiter's syndrome",
                   "Post-infectious arthritis"],
         abbreviations=["ReA"],
@@ -2708,6 +2921,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Enteropathic arthritis",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000645",  # Inflammatory Spine Disease
         synonyms=["IBD-associated spondylitis", "Crohn's spine",
                   "IBD-related arthritis", "Inflammatory bowel disease arthritis"],
         abbreviations=["EA"],
@@ -2719,6 +2933,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="SAPHO syndrome",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000645",  # Inflammatory Spine Disease
         synonyms=["Synovitis, Acne, Pustulosis, Hyperostosis, Osteitis",
                   "SAPHO", "Acquired hyperostosis syndrome"],
         abbreviations=["SAPHO"],
@@ -2733,6 +2948,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="205045003",
         term="Congenital scoliosis",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="298382003",  # Scoliosis (Category)
         synonyms=["Congenital spinal deformity", "Hemivertebra",
                   "Congenital vertebral anomaly scoliosis"],
         korean_term="선천성 측만증",
@@ -2742,6 +2958,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Neuromuscular scoliosis",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="298382003",  # Scoliosis (Category)
         synonyms=["NM scoliosis", "Muscular dystrophy scoliosis",
                   "Cerebral palsy scoliosis", "Paralytic scoliosis"],
         abbreviations=["NMS"],
@@ -2753,6 +2970,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Syndromic scoliosis",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="298382003",  # Scoliosis (Category)
         synonyms=["Marfan scoliosis", "Ehlers-Danlos scoliosis",
                   "Neurofibromatosis scoliosis", "Syndrome-associated scoliosis"],
         korean_term="증후군성 측만증",
@@ -2791,6 +3009,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Spinal cord injury without radiographic abnormality",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000643",  # Spinal Trauma
         synonyms=["Spinal Cord Injury Without Radiographic Abnormality",
                   "SCIWORA syndrome"],
         abbreviations=["SCIWORA"],
@@ -2801,6 +3020,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="53515004",
         term="Hangman fracture",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="125605004",  # Vertebral Fracture (Category)
         synonyms=["C2 pars fracture", "Traumatic spondylolisthesis of C2",
                   "C2 pars interarticularis fracture"],
         korean_term="행맨 골절",
@@ -2810,6 +3030,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Jefferson fracture",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="125605004",  # Vertebral Fracture (Category)
         synonyms=["C1 burst fracture", "Atlas fracture",
                   "C1 ring fracture", "Atlas burst fracture"],
         abbreviations=["C1 Fx"],
@@ -2820,6 +3041,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="71030004",
         term="Fracture of odontoid process",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="125605004",  # Vertebral Fracture (Category)
         synonyms=["Dens fracture", "Type I/II/III odontoid fracture",
                   "Odontoid process fracture", "C2 dens fracture"],
         korean_term="치돌기 골절",
@@ -2829,6 +3051,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Sacral fracture",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="125605004",  # Vertebral Fracture (Category)
         synonyms=["Sacral insufficiency fracture", "Denis zone fracture",
                   "Sacral stress fracture", "Sacral fragility fracture"],
         abbreviations=["SF"],
@@ -2840,6 +3063,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Thoracolumbar fracture",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="125605004",  # Vertebral Fracture (Category)
         synonyms=["TL fracture", "Thoracolumbar burst",
                   "Thoracolumbar spine fracture",
                   "Thoracolumbar junction fracture"],
@@ -2855,6 +3079,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="64859001",
         term="Scheuermann disease",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="414564002",  # Kyphosis
         synonyms=["Scheuermann kyphosis", "Juvenile kyphosis",
                   "Scheuermann's disease", "Vertebral epiphysitis"],
         korean_term="쇼이어만병",
@@ -2863,6 +3088,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="240228006",
         term="Spondylolysis",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="49049000",  # Degenerative Spine Disease
         synonyms=["Pars defect", "Pars interarticularis defect",
                   "Isthmic defect", "Pars fracture"],
         korean_term="척추분리증",
@@ -2895,6 +3121,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="67224007",
         term="Tethered spinal cord syndrome",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000649",  # Congenital Spine Disorder
         synonyms=["Tethered spinal cord", "Filum terminale syndrome",
                   "Tight filum terminale", "Tethered cord syndrome"],
         korean_term="척수 유착 증후군",
@@ -2903,6 +3130,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="89435008",
         term="Diastematomyelia",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000649",  # Congenital Spine Disorder
         synonyms=["Split cord malformation", "Diplomyelia",
                   "Split spinal cord malformation"],
         korean_term="이중 척수",
@@ -2915,6 +3143,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="58611004",
         term="Nonunion of fracture",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000647",  # Surgical Complication
         synonyms=["Pseudoarthrosis", "Failed fusion", "Fusion failure",
                   "Non-union", "Bony non-union"],
         korean_term="불유합",
@@ -2923,6 +3152,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="31781004",
         term="Neurogenic claudication",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000646",  # Neurological Spine Condition
         synonyms=["Neurogenic intermittent claudication",
                   "Neurological claudication", "Spinal claudication",
                   "lumbar neurogenic disease"],
@@ -2932,6 +3162,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="2695000",
         term="Heterotopic ossification",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000647",  # Surgical Complication
         synonyms=["Ectopic bone formation", "Heterotopic bone formation",
                   "Symptomatic ectopic ossification", "Symptomatic ectopic bone formation",
                   "Neuroforaminal bone growth"],
@@ -2943,6 +3174,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="312894000",
         term="Osteopenia",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000650",  # Metabolic Bone Disease
         synonyms=["Bone loss", "Reduced bone density",
                   "Age-related bone loss"],
         korean_term="골감소증",
@@ -2951,6 +3183,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="234072006",
         term="Tear of dura mater",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000647",  # Surgical Complication
         synonyms=["Dural tears", "Dural laceration",
                   "Dural tear (intraoperative complication)",
                   "Occult dural tear", "Incidental durotomy"],
@@ -2960,6 +3193,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="713514003",
         term="Frailty",
         semantic_type=SNOMEDSemanticType.FINDING,
+        parent_code="900000000000651",  # Spinal Comorbidity
         synonyms=["Frail elderly", "Frailty syndrome",
                   "Age-related muscle loss"],
         korean_term="허약",
@@ -2968,6 +3202,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="288237004",
         term="Cervical spondylosis",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="49049000",  # Degenerative Spine Disease
         synonyms=["Cervical spondylotic disease", "Cervical degenerative disease",
                   "Cervical spine disorders"],
         korean_term="경추 척추증",
@@ -2987,6 +3222,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Lumbar spinal deformity",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000642",  # Spinal Deformity
         synonyms=["Lumbar deformity", "lumbar degeneration",
                   "Lumbar spine disease", "Degenerative lumbar spine disease",
                   "Degenerative lumbar spine conditions", "Lumbar spine disorders",
@@ -2999,6 +3235,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Interbody cage subsidence",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000647",  # Surgical Complication
         synonyms=["Cage subsidence", "Cage subsidence risk",
                   "Cage settling", "Interbody cage settling"],
         korean_term="케이지 침하",
@@ -3009,6 +3246,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Rupture of transverse ligament of atlas",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000643",  # Spinal Trauma
         synonyms=["Transverse ligament injury", "TAL rupture",
                   "Transverse atlantal ligament disruption"],
         korean_term="환추 횡인대 파열",
@@ -3018,6 +3256,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Iatrogenic facet joint violation",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000647",  # Surgical Complication
         synonyms=["Facet joint disruption", "Iatrogenic facet joint disruption",
                   "Facetectomy-induced instability", "Facet violation"],
         korean_term="후관절 손상",
@@ -3027,6 +3266,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Atlantoaxial rotatory fixation",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000643",  # Spinal Trauma
         synonyms=["Atlantoaxial rotatory fixation (AARF)",
                   "Atlantoaxial rotatory subluxation", "AARS",
                   "C1-C2 rotatory fixation"],
@@ -3038,6 +3278,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Coronal malalignment of spine",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000642",  # Spinal Deformity
         synonyms=["Coronal imbalance", "Coronal decompensation",
                   "Coronal plane deformity"],
         korean_term="관상면 부정렬",
@@ -3047,6 +3288,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Loosening of pedicle screw",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000647",  # Surgical Complication
         synonyms=["screw loosening", "Screw pullout",
                   "Pedicle screw pullout", "Implant loosening"],
         korean_term="척추경 나사못 이완",
@@ -3056,6 +3298,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Postoperative spinal epidural hematoma",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000647",  # Surgical Complication
         synonyms=["postoperative spinal epidural hematoma",
                   "symptomatic postoperative spinal epidural hematoma",
                   "Spinal epidural hematoma after surgery"],
@@ -3067,6 +3310,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Degeneration of paraspinal muscles",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="49049000",  # Degenerative Spine Disease
         synonyms=["Paraspinal muscle atrophy", "Lumbar muscle atrophy",
                   "Multifidus atrophy", "Paravertebral muscle degeneration"],
         korean_term="척추 주위근 퇴행",
@@ -3076,6 +3320,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Migration of interbody cage",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000647",  # Surgical Complication
         synonyms=["Cage displacement", "Interbody cage migration",
                   "Cage retropulsion"],
         korean_term="케이지 이동",
@@ -3085,6 +3330,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Spinopelvic misalignment",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000642",  # Spinal Deformity
         synonyms=["spinopelvic malalignment", "Spinopelvic imbalance",
                   "PI-LL mismatch"],
         korean_term="척추골반 부정렬",
@@ -3094,6 +3340,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="C5 nerve root palsy",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000647",  # Surgical Complication
         synonyms=["C5 palsy", "Postoperative C5 palsy",
                   "C5 nerve root injury"],
         korean_term="C5 신경근 마비",
@@ -3104,6 +3351,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Spinal instrumentation failure",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000647",  # Surgical Complication
         synonyms=["Hardware failure", "Implant failure",
                   "Surgical device complications",
                   "Rod breakage (pathology)"],
@@ -3114,6 +3362,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Spondylitis with epidural abscess",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000644",  # Spinal Infection
         synonyms=["spondylitis with epidural abscess",
                   "Spinal epidural abscess", "Vertebral osteomyelitis with abscess"],
         korean_term="척추염 동반 경막외 농양",
@@ -3123,7 +3372,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Thoracic spinal stenosis",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
-        parent_code="76107001",  # Spinal stenosis
+        parent_code="76107001",  # Spinal Stenosis (intermediate node)
         synonyms=["Thoracic spinal canal stenosis",
                   "Thoracic spine stenosis"],
         korean_term="흉추 협착증",
@@ -3133,6 +3382,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Neuroforaminal compression",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000646",  # Neurological Spine Condition
         synonyms=["Foraminal stenosis (nerve compression)",
                   "Neural foraminal narrowing",
                   "vertically narrow neural foramen"],
@@ -3143,6 +3393,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Segmental vertebral instability",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="49049000",  # Degenerative Spine Disease
         synonyms=["Vertebral instability", "Segmental instability",
                   "segmental mechanical instability",
                   "lumbar degenerative instability",
@@ -3154,6 +3405,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="C1-C2 facet joint asymmetry",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000649",  # Congenital Spine Disorder
         synonyms=["Atlantoaxial facet asymmetry",
                   "C1/2 facet joint asymmetry"],
         korean_term="환축추 후관절 비대칭",
@@ -3163,6 +3415,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Lytic bone disease of spine",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000650",  # Metabolic Bone Disease
         synonyms=["Vertebral body osteolysis", "Osteolytic spine lesion",
                   "Delayed vertebral collapse", "Vertebral body destruction"],
         korean_term="용해성 골질환",
@@ -3172,6 +3425,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Vertebral artery anomaly",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000649",  # Congenital Spine Disorder
         synonyms=["Vertebral artery variant", "VA anomaly",
                   "Anomalous vertebral artery"],
         korean_term="추골동맥 기형",
@@ -3181,6 +3435,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Segmental motor paralysis after spine surgery",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000647",  # Surgical Complication
         synonyms=["Motor weakness post-decompression",
                   "Segmental motor deficit"],
         korean_term="분절 운동 마비",
@@ -3201,6 +3456,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Intervertebral disc disease",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="49049000",  # Degenerative Spine Disease
         synonyms=["intervertebral disc disease", "Intervertebral disk space disease",
                   "Lumbar intervertebral disc disease", "Spinal disc disease",
                   "degenerative spinal disorder"],
@@ -3211,6 +3467,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Craniovertebral junction disorder",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000649",  # Congenital Spine Disorder
         synonyms=["Craniocervical junction abnormality",
                   "Cranial nerve dysfunction", "CVJ disorder",
                   "Irreducible AAD", "Bony AAD"],
@@ -3221,6 +3478,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Intraoperative surgical contamination",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000644",  # Spinal Infection
         synonyms=["Surgical wound contamination",
                   "Intraoperative wound contamination"],
         korean_term="수술 중 오염",
@@ -3230,6 +3488,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Degeneration of spinal cord",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000646",  # Neurological Spine Condition
         synonyms=["Myelopathy progression", "Spinal cord degeneration",
                   "Cervical disability"],
         korean_term="척수 퇴행",
@@ -3237,9 +3496,11 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
 
     # v1.21.0: 미매핑 canonical 추가
     "Pseudarthrosis": SNOMEDMapping(
-        code="58611004",
-        term="Pseudarthrosis",
+        code="900000000000296",
+        term="Pseudarthrosis after spinal surgery",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        is_extension=True,
+        parent_code="900000000000647",  # Surgical Complication
         synonyms=["Pseudoarthrosis", "Nonunion", "Non-union",
                   "Failed fusion", "Fusion failure"],
         korean_term="가관절증",
@@ -3248,6 +3509,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="279039007",
         term="Low back pain",
         semantic_type=SNOMEDSemanticType.FINDING,
+        parent_code="900000000000648",  # Spinal Pain Syndrome
         synonyms=["LBP", "Chronic low back pain", "CLBP",
                   "Mechanical low back pain", "Lower back pain", "Lumbago"],
         abbreviations=["LBP", "CLBP"],
@@ -3257,6 +3519,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="52423008",
         term="Spinal cord compression",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000646",  # Neurological Spine Condition
         synonyms=["Cord compression", "Thoracic cord compression"],
         korean_term="척수 압박",
     ),
@@ -3265,6 +3528,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Central spinal canal stenosis",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="76107001",  # Spinal Stenosis
         synonyms=["Central stenosis", "Central canal narrowing",
                   "Central spinal canal stenosis"],
         korean_term="중심관 협착증",
@@ -3275,16 +3539,19 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="57093006",
         term="Vertebral dislocation",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000643",  # Spinal Trauma
     ),
     "Osteoporosis": SNOMEDMapping(
         code="64859006",
         term="Osteoporosis",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000650",  # Metabolic Bone Disease
     ),
     "Psoas Abscess": SNOMEDMapping(
         code="5294002",
         term="Spinal abscess",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000644",  # Spinal Infection
     ),
 
     # === DV-NEW-002: Orphan Alias Target Extensions (Pathologies) ===
@@ -3293,6 +3560,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Adult spinal deformity",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000642",  # Spinal Deformity
         synonyms=["Adult spinal deformity (ASD)"],
         abbreviations=["ASD"],
         korean_term="성인 척추 변형",
@@ -3302,6 +3570,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Axial low back pain",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="279039007",  # Low Back Pain
         synonyms=["Axial LBP", "Mechanical low back pain"],
         korean_term="축성 요통",
     ),
@@ -3310,6 +3579,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Cervical kyphotic deformity",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="414564002",  # Kyphosis
         synonyms=["Cervical kyphotic deformity",
                   "Post-laminectomy cervical kyphosis"],
         korean_term="경추 후만증",
@@ -3319,6 +3589,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Chiari malformation type I",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000649",  # Congenital Spine Disorder
         synonyms=["Chiari I malformation", "Arnold-Chiari malformation"],
         korean_term="키아리 기형",
     ),
@@ -3327,6 +3598,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Coccygodynia",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000648",  # Spinal Pain Syndrome
         synonyms=["Coccydynia", "Tailbone pain", "Coccyx pain"],
         korean_term="미골통",
     ),
@@ -3335,6 +3607,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Coronal plane spinal imbalance",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000642",  # Spinal Deformity
         synonyms=["Coronal malalignment", "Coronal decompensation",
                   "Coronal deformity"],
         korean_term="관상면 불균형",
@@ -3344,6 +3617,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Post-surgical epidural fibrosis",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000647",  # Surgical Complication
         synonyms=["Peridural fibrosis", "Post-surgical epidural fibrosis"],
         korean_term="경막외 섬유화",
     ),
@@ -3352,6 +3626,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Facet joint dislocation of spine",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000643",  # Spinal Trauma
         synonyms=["Unilateral facet dislocation", "Bilateral facet dislocation",
                   "Jumped facet"],
         korean_term="후관절 탈구",
@@ -3361,6 +3636,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Fixed sagittal imbalance of spine",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000642",  # Spinal Deformity
         synonyms=["Positive sagittal balance"],
         abbreviations=["FSI"],
         korean_term="고정성 시상면 불균형",
@@ -3370,6 +3646,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Iatrogenic flat back deformity",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000647",  # Surgical Complication
         synonyms=["Iatrogenic flatback", "Post-fusion flat back"],
         korean_term="의인성 평배 변형",
     ),
@@ -3378,6 +3655,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Lateral recess stenosis of spine",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="76107001",  # Spinal Stenosis
         synonyms=["Lateral recess narrowing", "Subarticular stenosis"],
         korean_term="측방 함요 협착증",
     ),
@@ -3386,6 +3664,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Lumbar spondylosis",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="49049000",  # Degenerative Spine Disease
         synonyms=["Lumbar degenerative changes", "Degenerative lumbar spine",
                   "Lumbar spine disorders"],
         korean_term="요추 퇴행성 변화",
@@ -3395,6 +3674,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Cervicalgia",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000648",  # Spinal Pain Syndrome
         synonyms=["Cervical pain", "Axial neck pain"],
         korean_term="경부통",
     ),
@@ -3403,6 +3683,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Neurogenic intermittent claudication",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000646",  # Neurological Spine Condition
         synonyms=["Spinal claudication",
                   "Neurogenic intermittent claudication"],
         abbreviations=["NIC"],
@@ -3413,6 +3694,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Neuropathic pain disorder",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000648",  # Spinal Pain Syndrome
         synonyms=["Nerve pain"],
         korean_term="신경병성 통증",
     ),
@@ -3421,6 +3703,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Osteoporotic vertebral compression fracture",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="125605004",  # Vertebral Fracture (Category)
         synonyms=["Osteoporotic vertebral compression fracture",
                   "Osteoporotic fracture"],
         abbreviations=["OVF", "OVCF"],
@@ -3431,6 +3714,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Proximal junctional kyphosis",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000647",  # Surgical Complication
         synonyms=["Proximal Junctional Kyphosis",
                   "Proximal junctional failure"],
         abbreviations=["PJK", "PJF"],
@@ -3441,6 +3725,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Pathological fracture of vertebra",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="125605004",  # Vertebral Fracture (Category)
         synonyms=["Pathologic fracture", "Metastatic fracture"],
         korean_term="병적 골절",
     ),
@@ -3449,6 +3734,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Post-laminectomy syndrome",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000647",  # Surgical Complication
         synonyms=["Failed back surgery", "Post-surgical pain syndrome"],
         korean_term="수술후 통증 증후군",
     ),
@@ -3457,6 +3743,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Radicular pain syndrome",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000648",  # Spinal Pain Syndrome
         synonyms=["Root pain", "Nerve root pain"],
         korean_term="신경근통",
     ),
@@ -3465,6 +3752,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Atlantoaxial rotatory subluxation",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000643",  # Spinal Trauma
         synonyms=["Atlantoaxial rotatory subluxation"],
         abbreviations=["AARS"],
         korean_term="회전성 아탈구",
@@ -3474,6 +3762,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Sacroiliac joint dysfunction",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="49049000",  # Degenerative Spine Disease
         synonyms=["SI joint dysfunction", "SIJ dysfunction",
                   "Sacroiliac joint pain", "SI joint pain"],
         korean_term="천장관절 기능장애",
@@ -3483,6 +3772,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Scoliosis of spine",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="298382003",  # Scoliosis (Category)
         synonyms=["Spinal scoliosis"],
         korean_term="척추 측만증",
     ),
@@ -3491,6 +3781,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Spinal arteriovenous malformation",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000649",  # Congenital Spine Disorder
         synonyms=["Spinal arteriovenous malformation",
                   "Spinal dural AV fistula"],
         abbreviations=["SDAVF"],
@@ -3501,6 +3792,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Traumatic spinal cord injury",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000643",  # Spinal Trauma
         synonyms=["Traumatic spinal cord injury",
                   "Acute spinal cord injury"],
         abbreviations=["SCI", "TSCI"],
@@ -3511,6 +3803,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Intramedullary spinal cord tumor",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000203",  # Intradural Tumor
         synonyms=["Intramedullary tumor",
                   "Intramedullary spinal cord tumor"],
         abbreviations=["IMSCT"],
@@ -3521,6 +3814,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Spinal dysraphism",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000649",  # Congenital Spine Disorder
         synonyms=["Spina bifida", "Neural tube defect"],
         korean_term="이분 척추",
     ),
@@ -3529,6 +3823,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Subaxial cervical spine injury",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000643",  # Spinal Trauma
         synonyms=["Subaxial cervical injury", "Cervical spine trauma"],
         abbreviations=["SLIC"],
         korean_term="하부 경추 손상",
@@ -3538,6 +3833,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Syringomyelia",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000646",  # Neurological Spine Condition
         synonyms=["Syrinx"],
         korean_term="척수공동증",
     ),
@@ -3546,6 +3842,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Tandem spinal stenosis",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="76107001",  # Spinal Stenosis
         synonyms=["Tandem spinal stenosis",
                   "Coexisting cervical and lumbar stenosis"],
         korean_term="동시다발 척추관 협착증",
@@ -3555,6 +3852,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Thoracic disc herniation",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000652",  # Disc Herniation
         synonyms=["Thoracic HNP", "Thoracic disc prolapse"],
         korean_term="흉추 디스크 탈출증",
     ),
@@ -3563,6 +3861,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Vertebral fracture",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="125605004",  # Vertebral Fracture (Category)
         synonyms=["Spine fracture", "Spinal fracture"],
         korean_term="척추 골절",
     ),
@@ -3571,6 +3870,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Vertebral osteomyelitis",
         semantic_type=SNOMEDSemanticType.DISORDER,
         is_extension=True,
+        parent_code="900000000000644",  # Spinal Infection
         synonyms=["Spinal osteomyelitis"],
         korean_term="척추 골수염",
     ),
@@ -3586,6 +3886,7 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         code="236114000",
         term="Lumbar facet synovial cyst",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="49049000",  # Degenerative Spine Disease
         synonyms=["Lumbar facet cyst", "Lumbar juxta-articular cyst",
                   "Lumbar juxtafacet cyst"],
         korean_term="요추 후관절 활막낭종",
@@ -3598,11 +3899,125 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
 # ============================================================================
 
 SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
+    # ============================================================
+    # ROOT CONCEPTS (Top-level outcome hierarchy nodes)
+    # ============================================================
+    "Pain Outcome": SNOMEDMapping(
+        code="900000000000653",
+        term="Pain outcome measure",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        is_extension=True,
+        synonyms=["Pain assessment outcome"],
+        korean_term="통증 결과 지표",
+        notes="Root concept for all pain-related outcome measures",
+    ),
+    "Functional Outcome": SNOMEDMapping(
+        code="900000000000654",
+        term="Functional outcome measure",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        is_extension=True,
+        synonyms=["Disability outcome", "Functional assessment"],
+        korean_term="기능적 결과 지표",
+        notes="Root concept for disability/functional outcome measures (ODI, NDI, JOA, etc.)",
+    ),
+    "Quality of Life Outcome": SNOMEDMapping(
+        code="900000000000655",
+        term="Quality of life outcome measure",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        is_extension=True,
+        synonyms=["QoL outcome", "Health-related quality of life"],
+        korean_term="삶의 질 결과 지표",
+        notes="Root concept for quality of life measures (EQ-5D, SF-36, PROMIS, etc.)",
+    ),
+    "Radiological Outcome": SNOMEDMapping(
+        code="900000000000656",
+        term="Radiological outcome measure",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        is_extension=True,
+        synonyms=["Imaging outcome", "Radiographic outcome"],
+        korean_term="영상학적 결과 지표",
+        notes="Root concept for radiological/imaging outcome measures",
+    ),
+    "Complication Outcome": SNOMEDMapping(
+        code="900000000000657",
+        term="Complication outcome measure",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        is_extension=True,
+        synonyms=["Adverse event outcome", "Complication assessment"],
+        korean_term="합병증 결과 지표",
+        notes="Root concept for complication-related outcome measures",
+    ),
+    "Surgical Efficiency Outcome": SNOMEDMapping(
+        code="900000000000658",
+        term="Surgical efficiency outcome measure",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        is_extension=True,
+        synonyms=["Operative outcome", "Perioperative outcome"],
+        korean_term="수술 효율성 결과 지표",
+        notes="Root concept for operative/perioperative efficiency measures",
+    ),
+    "Neurological Outcome": SNOMEDMapping(
+        code="900000000000659",
+        term="Neurological outcome measure",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        is_extension=True,
+        synonyms=["Neurologic assessment outcome"],
+        korean_term="신경학적 결과 지표",
+        notes="Root concept for neurological outcome measures",
+    ),
+    "Patient-Reported Outcome": SNOMEDMapping(
+        code="900000000000660",
+        term="Patient-reported outcome measure",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        is_extension=True,
+        synonyms=["PROM", "Patient satisfaction outcome"],
+        korean_term="환자 보고 결과 지표",
+        notes="Root concept for patient-reported/satisfaction outcome measures",
+    ),
+    "Biomechanical Outcome": SNOMEDMapping(
+        code="900000000000661",
+        term="Biomechanical outcome measure",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        is_extension=True,
+        synonyms=["Structural outcome", "Mechanical outcome"],
+        korean_term="생역학적 결과 지표",
+        notes="Root concept for biomechanical/structural outcome measures",
+    ),
+    "Laboratory Outcome": SNOMEDMapping(
+        code="900000000000662",
+        term="Laboratory outcome measure",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        is_extension=True,
+        synonyms=["Lab test outcome", "Biomarker outcome"],
+        korean_term="검사실 결과 지표",
+        notes="Root concept for laboratory/biomarker outcome measures",
+    ),
+    "Spinopelvic Parameter": SNOMEDMapping(
+        code="900000000000663",
+        term="Spinopelvic alignment parameter",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        is_extension=True,
+        parent_code="900000000000656",  # Radiological Outcome
+        synonyms=["Spinopelvic measure", "Sagittal parameter"],
+        korean_term="척추골반 정렬 지표",
+        notes="Intermediate node: parent of SVA, PT, PI-LL, PI, SS, etc.",
+    ),
+    "Oncological Outcome": SNOMEDMapping(
+        code="900000000000664",
+        term="Oncological outcome measure",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        is_extension=True,
+        synonyms=["Cancer outcome", "Tumor outcome"],
+        korean_term="종양학적 결과 지표",
+        notes="Root concept for oncological scoring/survival outcome measures",
+    ),
+
     # === PAIN MEASURES ===
     "VAS": SNOMEDMapping(
         code="273903006",
         term="Visual analog pain scale",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        parent_code="900000000000653",  # Pain Outcome
         synonyms=["VAS pain score", "Visual analog scale"],
     ),
     "VAS Back": SNOMEDMapping(
@@ -3629,6 +4044,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         code="1137229006",
         term="Numeric rating scale for pain",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        parent_code="900000000000653",  # Pain Outcome
         synonyms=["Numeric pain scale", "NRS pain"],
     ),
 
@@ -3637,18 +4053,21 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         code="273545004",
         term="Oswestry Disability Index",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        parent_code="900000000000654",  # Functional Outcome
         synonyms=["Oswestry low back pain disability questionnaire"],
     ),
     "NDI": SNOMEDMapping(
         code="273547007",
         term="Neck Disability Index",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        parent_code="900000000000654",  # Functional Outcome
     ),
     "JOA": SNOMEDMapping(
         code="900000000000303",
         term="Japanese Orthopaedic Association score",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000654",  # Functional Outcome
         synonyms=["JOA score", "JOA cervical score", "JOA lumbar score"],
         abbreviations=["JOA"],
         korean_term="일본정형외과학회 점수",
@@ -3659,6 +4078,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Modified Japanese Orthopaedic Association score",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000654",  # Functional Outcome
         synonyms=["Modified JOA score", "mJOA cervical"],
         abbreviations=["mJOA"],
         korean_term="수정 일본정형외과학회 점수",
@@ -3668,18 +4088,21 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         code="736534008",
         term="EQ-5D questionnaire score",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        parent_code="900000000000655",  # Quality of Life Outcome
         synonyms=["EuroQol 5 dimensions"],
     ),
     "SF-36": SNOMEDMapping(
         code="445537008",
         term="Short Form 36 health survey",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        parent_code="900000000000655",  # Quality of Life Outcome
     ),
     "SRS-22": SNOMEDMapping(
         code="900000000000305",
         term="Scoliosis Research Society 22 questionnaire",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000654",  # Functional Outcome
         synonyms=["SRS-22r", "SRS-30", "SRS outcome questionnaire"],
         abbreviations=["SRS-22", "SRS-22r"],
         korean_term="측만증연구학회 22 설문",
@@ -3692,6 +4115,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Bone fusion rate",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["Union rate", "Solid fusion rate", "Arthrodesis rate"],
         abbreviations=["FR"],
         korean_term="골유합률",
@@ -3702,6 +4126,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Interbody cage subsidence",
         semantic_type=SNOMEDSemanticType.FINDING,
         is_extension=True,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["Cage settling", "Interbody subsidence", "Cage sinking"],
         abbreviations=["CS"],
         korean_term="케이지 침강",
@@ -3711,6 +4136,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         code="298003004",
         term="Lumbar lordosis measurement",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["Lumbar lordosis", "Segmental lordosis"],
         abbreviations=["LL"],
         korean_term="요추 전만",
@@ -3719,6 +4145,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         code="252495004",
         term="Cobb angle measurement",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["Scoliosis angle", "Coronal Cobb angle"],
         korean_term="콥 각도",
     ),
@@ -3727,6 +4154,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Sagittal vertical axis",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000663",  # Spinopelvic Parameter
         synonyms=["C7 plumbline", "Sagittal balance"],
         abbreviations=["SVA", "C7-S1 SVA"],
         korean_term="시상면 수직축",
@@ -3737,6 +4165,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Pelvic tilt measurement",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000663",  # Spinopelvic Parameter
         synonyms=["Pelvic retroversion", "Pelvic tilt angle"],
         abbreviations=["PT"],
         korean_term="골반 기울기",
@@ -3747,6 +4176,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Pelvic incidence minus lumbar lordosis",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000663",  # Spinopelvic Parameter
         synonyms=["PI-LL mismatch", "Spinopelvic mismatch"],
         abbreviations=["PI-LL"],
         korean_term="골반입사각-요추전만 불일치",
@@ -3758,22 +4188,26 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         code="116223007",
         term="Complication of procedure",
         semantic_type=SNOMEDSemanticType.FINDING,
+        parent_code="900000000000657",  # Complication Outcome
     ),
     "Dural Tear": SNOMEDMapping(
         code="262540006",
         term="Tear of dura mater",
         semantic_type=SNOMEDSemanticType.FINDING,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Incidental durotomy", "Dural laceration"],
     ),
     "Nerve Injury": SNOMEDMapping(
         code="212992005",
         term="Injury of nerve root",
         semantic_type=SNOMEDSemanticType.FINDING,
+        parent_code="900000000000657",  # Complication Outcome
     ),
     "Infection Rate": SNOMEDMapping(
         code="128601007",
         term="Surgical site infection",
         semantic_type=SNOMEDSemanticType.FINDING,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["SSI", "SSI rate", "Postoperative infection"],
         korean_term="수술 부위 감염률",
     ),
@@ -3781,6 +4215,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         code="433202001",
         term="Superficial incisional surgical site infection",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Superficial SSI", "Superficial wound infection", "Wound infection"],
         korean_term="표재성 수술 부위 감염",
         notes="Infection of skin and subcutaneous tissue only, within 30 days of surgery",
@@ -3789,6 +4224,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         code="433201008",
         term="Deep incisional surgical site infection",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Deep SSI", "Deep wound infection", "Deep infection"],
         korean_term="심부 수술 부위 감염",
         notes="Infection involving fascia, muscle, or implant; may require surgical debridement",
@@ -3798,6 +4234,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Reoperation rate",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Revision rate", "Secondary surgery rate", "Reintervention rate"],
         abbreviations=["RR", "ReOp"],
         korean_term="재수술률",
@@ -3809,6 +4246,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Adjacent segment disease reoperation rate",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["ASD reoperation", "Adjacent segment reoperation rate", "Junctional reoperation"],
         abbreviations=["ASD-RR"],
         korean_term="인접 분절 재수술률",
@@ -3819,6 +4257,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Proximal junctional kyphosis",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Junctional kyphosis"],
         abbreviations=["PJK"],
         korean_term="근위부 경계부 후만",
@@ -3831,6 +4270,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Serum creatine phosphokinase level",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000662",  # Laboratory Outcome
         synonyms=["CPK level", "Creatine kinase", "CK level", "Serum CK",
                   "Creatine phosphokinase", "Muscle enzyme level"],
         abbreviations=["CPK", "CK"],
@@ -3844,6 +4284,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Surgical scar quality assessment",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000658",  # Surgical Efficiency Outcome
         synonyms=["Wound cosmesis", "Scar appearance", "Cosmetic outcome",
                   "Scar assessment", "Wound healing quality"],
         korean_term="수술 흉터 품질",
@@ -3856,6 +4297,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Postoperative drainage volume",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000658",  # Surgical Efficiency Outcome
         synonyms=["Drainage volume", "Drain output", "Wound drainage",
                   "Hemovac output", "Surgical drain volume"],
         korean_term="수술 후 배액량",
@@ -3868,6 +4310,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Deep vein thrombosis after spinal surgery",
         semantic_type=SNOMEDSemanticType.FINDING,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Deep vein thrombosis", "Venous thromboembolism",
                   "Postoperative DVT", "Thromboembolism"],
         abbreviations=["DVT", "VTE"],
@@ -3881,6 +4324,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Pedicle screw malposition",
         semantic_type=SNOMEDSemanticType.FINDING,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Screw misplacement", "Pedicle screw breach",
                   "Screw malpositioning", "Cortical breach",
                   "Screw perforation"],
@@ -3896,6 +4340,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Wound dehiscence",
         semantic_type=SNOMEDSemanticType.FINDING,
         is_extension=False,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Surgical wound dehiscence", "Wound breakdown", "Dehiscence",
                   "Wound separation", "Incision dehiscence", "Wound disruption"],
         korean_term="창상 열개",
@@ -3908,6 +4353,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Recurrent intervertebral disc herniation",
         semantic_type=SNOMEDSemanticType.FINDING,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Recurrent herniated disc", "Re-herniation", "Recurrent HNP",
                   "Disc re-herniation", "Same-level recurrence"],
         abbreviations=["rDH", "ReHNP"],
@@ -3921,6 +4367,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Postoperative spinal epidural hematoma",
         semantic_type=SNOMEDSemanticType.FINDING,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Postoperative epidural hematoma", "Spinal epidural hematoma",
                   "Epidural bleeding", "Epidural blood collection"],
         abbreviations=["SEH"],
@@ -3934,6 +4381,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Postoperative C5 nerve palsy",
         semantic_type=SNOMEDSemanticType.FINDING,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["C5 palsy", "C5 nerve palsy", "C5 root palsy",
                   "Postoperative C5 palsy", "C5 radiculopathy"],
         abbreviations=["C5P"],
@@ -3975,6 +4423,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Short Form 12 health survey",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=False,
+        parent_code="900000000000655",  # Quality of Life Outcome
         synonyms=["Short Form 12", "SF-12 PCS", "SF-12 MCS"],
         abbreviations=["SF-12", "SF12"],
         korean_term="SF-12 건강 설문",
@@ -3987,6 +4436,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Pseudarthrosis after spinal fusion",
         semantic_type=SNOMEDSemanticType.FINDING,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Pseudoarthrosis", "Nonunion", "Non-union", "Fusion failure",
                   "Failed fusion", "Fibrous nonunion"],
         abbreviations=["PA", "Non-union"],
@@ -3998,6 +4448,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Intervertebral disc height measurement",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["Disc space height", "Disc height index", "Intervertebral height",
                   "Disc height restoration"],
         abbreviations=["DH", "DHI"],
@@ -4009,6 +4460,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Neural foraminal height measurement",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["Neural foraminal height", "Foramen height", "Foraminal area",
                   "Neuroforaminal height"],
         abbreviations=["FH"],
@@ -4020,6 +4472,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Spinal canal diameter measurement",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["Spinal canal diameter", "Dural sac diameter", "AP diameter",
                   "Canal cross-sectional area", "Thecal sac diameter"],
         abbreviations=["SCD"],
@@ -4031,6 +4484,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Segmental angle measurement",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["Segmental lordosis", "Segmental kyphosis", "Segmental alignment",
                   "Intervertebral angle"],
         abbreviations=["SA"],
@@ -4054,6 +4508,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Coronal balance measurement",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["Coronal alignment", "C7 tilt", "Trunk shift",
                   "Coronal vertical axis", "Coronal plane balance"],
         abbreviations=["CVA"],
@@ -4067,6 +4522,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Duration of surgical procedure",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=False,
+        parent_code="900000000000658",  # Surgical Efficiency Outcome
         synonyms=["Operative time", "Surgery time", "Surgical duration",
                   "OR time", "Operating time", "Total operative time"],
         abbreviations=["OT"],
@@ -4077,6 +4533,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Estimated blood loss",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=False,
+        parent_code="900000000000658",  # Surgical Efficiency Outcome
         synonyms=["Intraoperative blood loss", "Surgical blood loss",
                   "Total blood loss", "Perioperative blood loss"],
         abbreviations=["EBL"],
@@ -4087,6 +4544,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Hospital length of stay",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=False,
+        parent_code="900000000000658",  # Surgical Efficiency Outcome
         synonyms=["Length of stay", "Hospital length of stay", "Hospitalization duration",
                   "Postoperative hospital stay", "Inpatient stay"],
         abbreviations=["LOS"],
@@ -4097,6 +4555,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Time to first ambulation after surgery",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000658",  # Surgical Efficiency Outcome
         synonyms=["Time to walking", "Mobilization time", "Time to first walk",
                   "Early ambulation time"],
         abbreviations=["TTA"],
@@ -4108,6 +4567,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Time to return to work",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000658",  # Surgical Efficiency Outcome
         synonyms=["Work return", "Disability duration", "Work resumption",
                   "Return to employment", "Time to return to full activity"],
         abbreviations=["RTW"],
@@ -4119,6 +4579,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Treatment cost",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000658",  # Surgical Efficiency Outcome
         synonyms=["Hospital cost", "Total cost", "Healthcare cost",
                   "Surgical cost", "Cost-effectiveness", "Direct medical cost"],
         korean_term="치료 비용",
@@ -4131,6 +4592,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="MacNab criteria outcome assessment",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000660",  # Patient-Reported Outcome
         synonyms=["MacNab criteria", "Modified MacNab criteria", "MacNab classification",
                   "Excellent/Good rate"],
         abbreviations=["MacNab"],
@@ -4142,6 +4604,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Odom criteria outcome assessment",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000660",  # Patient-Reported Outcome
         synonyms=["Odom criteria", "Odom classification", "Odom grading"],
         abbreviations=["Odom"],
         korean_term="오덤 기준",
@@ -4152,6 +4615,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Patient satisfaction with surgical outcome",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000660",  # Patient-Reported Outcome
         synonyms=["Satisfaction rate", "Patient satisfaction score", "Clinical outcome",
                   "Surgical outcome satisfaction", "Functional outcome"],
         abbreviations=["PS", "PSat"],
@@ -4163,6 +4627,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Patient Global Impression of Change",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000660",  # Patient-Reported Outcome
         synonyms=["Patient Global Impression of Change", "Global improvement",
                   "Global impression of change", "PGIC score"],
         abbreviations=["PGIC"],
@@ -4174,6 +4639,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Net Promoter Score for surgical outcome",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000660",  # Patient-Reported Outcome
         synonyms=["Net Promoter Score", "Would recommend", "Recommendation score"],
         abbreviations=["NPS"],
         korean_term="순추천고객지수",
@@ -4186,6 +4652,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Motor strength assessment",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000659",  # Neurological Outcome
         synonyms=["Motor function", "MRC grade", "Muscle strength",
                   "Manual muscle testing", "Motor power"],
         abbreviations=["MRC", "MMT"],
@@ -4197,6 +4664,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Sensory function assessment",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000659",  # Neurological Outcome
         synonyms=["Sensory deficit", "Sensory recovery", "Dermatomal sensation",
                   "Sensory examination", "Light touch sensation"],
         abbreviations=["SF"],
@@ -4208,6 +4676,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="ASIA Impairment Scale score",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000659",  # Neurological Outcome
         synonyms=["ASIA Impairment Scale", "AIS grade", "Spinal cord injury grade",
                   "ASIA motor score", "ASIA sensory score"],
         abbreviations=["AIS", "ASIA"],
@@ -4219,6 +4688,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Nurick myelopathy grading scale",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000659",  # Neurological Outcome
         synonyms=["Nurick myelopathy grade", "Nurick scale", "Nurick classification"],
         abbreviations=["Nurick"],
         korean_term="누릭 척수병증 등급",
@@ -4231,6 +4701,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="PROMIS score",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000655",  # Quality of Life Outcome
         synonyms=["PROMIS Physical Function", "PROMIS Pain Intensity",
                   "PROMIS Pain Interference", "Patient-Reported Outcomes Measurement Information System"],
         abbreviations=["PROMIS", "PROMIS-PF", "PROMIS-PI"],
@@ -4242,6 +4713,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="WHO Quality of Life assessment",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000655",  # Quality of Life Outcome
         synonyms=["WHO Quality of Life", "WHOQOL-BREF", "WHOQOL-100",
                   "World Health Organization Quality of Life"],
         abbreviations=["WHOQOL", "WHOQOL-BREF"],
@@ -4253,6 +4725,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Core Outcome Measures Index",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000654",  # Functional Outcome
         synonyms=["Core Outcome Measures Index", "COMI score", "COMI back",
                   "COMI spine"],
         abbreviations=["COMI"],
@@ -4264,6 +4737,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Zurich Claudication Questionnaire",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000654",  # Functional Outcome
         synonyms=["ZCQ", "Zurich Claudication Questionnaire", "Swiss Spinal Stenosis Questionnaire",
                   "Symptom Severity Scale", "Physical Function Scale"],
         abbreviations=["ZCQ", "SSSQ"],
@@ -4277,6 +4751,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Overall survival rate",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000664",  # Oncological Outcome
         synonyms=["Overall survival", "Survival probability", "Kaplan-Meier survival",
                   "1-year survival", "2-year survival", "5-year survival"],
         abbreviations=["OS"],
@@ -4288,6 +4763,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Tumor recurrence rate",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000664",  # Oncological Outcome
         synonyms=["Local recurrence", "Tumor recurrence", "Local recurrence rate",
                   "Disease recurrence", "Recurrence-free survival"],
         abbreviations=["RecR"],
@@ -4299,6 +4775,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Spinal Instability Neoplastic Score",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000664",  # Oncological Outcome
         synonyms=["Spinal Instability Neoplastic Score", "SINS classification",
                   "Neoplastic spinal instability score"],
         abbreviations=["SINS"],
@@ -4310,6 +4787,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Revised Tokuhashi prognostic score",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000664",  # Oncological Outcome
         synonyms=["Revised Tokuhashi", "Tokuhashi prognosis", "Tokuhashi scoring system",
                   "Tokuhashi survival prediction"],
         abbreviations=["Tokuhashi"],
@@ -4321,6 +4799,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Tomita surgical classification score",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000664",  # Oncological Outcome
         synonyms=["Tomita surgical classification", "Tomita scoring system",
                   "Tomita prognostic score"],
         abbreviations=["Tomita"],
@@ -4335,6 +4814,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         code="2776000",
         term="Delirium",
         semantic_type=SNOMEDSemanticType.FINDING,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Postoperative delirium", "Post-surgical delirium",
                   "Acute confusion after surgery"],
         korean_term="수술 후 섬망",
@@ -4343,6 +4823,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         code="62507009",
         term="Radiculopathy",
         semantic_type=SNOMEDSemanticType.FINDING,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Radiculitis", "Nerve root inflammation",
                   "Postoperative radiculopathy", "BMP-related radiculitis"],
         korean_term="신경근염",
@@ -4351,6 +4832,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         code="364564000",
         term="Range of joint movement",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["Range of Motion (ROM)", "Range of Motion",
                   "Range of Motion (ROM) - Biomechanical",
                   "Spinal ROM", "Joint mobility"],
@@ -4361,6 +4843,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         code="59282003",
         term="Pulmonary embolism",
         semantic_type=SNOMEDSemanticType.FINDING,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Pulmonary embolism", "PE",
                   "Postoperative pulmonary embolism"],
         abbreviations=["PE"],
@@ -4370,6 +4853,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         code="91302008",
         term="Sepsis",
         semantic_type=SNOMEDSemanticType.FINDING,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Postoperative sepsis", "Surgical sepsis",
                   "Systemic infection after surgery"],
         korean_term="패혈증",
@@ -4379,6 +4863,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Pedicle screw loosening rate",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000661",  # Biomechanical Outcome
         synonyms=["Screw Loosening", "Screw loosening rate",
                   "Implant loosening rate", "Screw pullout rate"],
         korean_term="나사못 이완률",
@@ -4388,6 +4873,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Rod fracture incidence",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000661",  # Biomechanical Outcome
         synonyms=["Rod Fracture incidence", "Rod breakage rate",
                   "Instrumentation fracture rate"],
         korean_term="로드 파절률",
@@ -4397,6 +4883,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Postoperative opioid consumption",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000658",  # Surgical Efficiency Outcome
         synonyms=["Opioid Consumption", "Opioid use",
                   "Narcotic consumption", "Morphine equivalent dose"],
         korean_term="수술 후 오피오이드 사용량",
@@ -4406,6 +4893,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Pedicle screw placement accuracy",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000661",  # Biomechanical Outcome
         synonyms=["Screw Accuracy", "Screw accuracy rate",
                   "Gertzbein-Robbins accuracy",
                   "Pedicle screw accuracy",
@@ -4418,6 +4906,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Spinal stiffness measurement",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["Spinal Stiffness", "Spine stiffness",
                   "Segmental stiffness"],
         korean_term="척추 강직도",
@@ -4427,6 +4916,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Transient thigh symptoms after lateral approach",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["LLIF - Transient Thigh Symptoms",
                   "Transient psoas weakness",
                   "Transient psoas weakness (OLIF vs XLIF)",
@@ -4440,6 +4930,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Intraoperative radiation exposure",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000658",  # Surgical Efficiency Outcome
         synonyms=["Radiation Exposure", "Fluoroscopy time",
                   "Radiation dose", "Intraoperative radiation"],
         korean_term="수술 중 방사선 노출",
@@ -4449,6 +4940,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Perioperative transfusion requirement",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000658",  # Surgical Efficiency Outcome
         synonyms=["RBC Transfusion Requirement", "RBC Units Required",
                   "Blood transfusion rate", "Transfusion rate"],
         korean_term="수혈 필요량",
@@ -4458,6 +4950,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Overall mechanical complication rate",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Overall mechanical complications",
                   "Mechanical failure rate",
                   "Instrumentation complication rate"],
@@ -4468,6 +4961,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Von Mises stress measurement",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000661",  # Biomechanical Outcome
         synonyms=["Von Mises Stress", "Von Mises Stress - Annulus",
                   "Finite element stress", "Biomechanical stress"],
         korean_term="폰 미세스 응력",
@@ -4478,6 +4972,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Complete anatomical reduction rate",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["Complete Anatomical AAD Reduction",
                   "Anatomical reduction rate",
                   "Complete reduction rate"],
@@ -4499,6 +4994,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Paraspinal muscle cross-sectional area",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["Muscle CSA", "Cross-sectional area",
                   "Multifidus CSA", "Paraspinal muscle area"],
         abbreviations=["CSA"],
@@ -4509,6 +5005,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Paraspinal muscle fat infiltration",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["Fat infiltration", "Fatty degeneration",
                   "Goutallier grade", "Multifidus fat infiltration"],
         korean_term="근육 지방 침윤",
@@ -4518,6 +5015,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Intraoperative screw revision rate",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Intraoperative Revision Rate",
                   "Screw repositioning rate",
                   "Intraoperative correction rate"],
@@ -4527,6 +5025,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         code="312681000",
         term="Bone mineral density",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["BMD", "Bone density", "DEXA scan result",
                   "T-score", "Bone mineral density measurement"],
         abbreviations=["BMD"],
@@ -4537,6 +5036,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Adjacent segment degeneration rate",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["ASD", "Adjacent segment disease rate",
                   "Radiographic ASD", "Clinical ASD",
                   "Adjacent level degeneration"],
@@ -4549,6 +5049,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Sagittal disc angle measurement",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["Sagittal disc angle", "Disc angle",
                   "Sagittal disc angle (OLIF vs XLIF)",
                   "Interbody lordosis angle"],
@@ -4569,6 +5070,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Vertebral endplate damage assessment",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["Endplate violation", "Endplate fracture",
                   "Vertebral endplate preservation"],
         korean_term="종판 손상",
@@ -4578,6 +5080,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Heterotopic ossification rate",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Ectopic ossification rate",
                   "HO rate", "BMP-related HO rate"],
         korean_term="이소성 골화 발생률",
@@ -4587,6 +5090,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Osteolysis rate",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["BMP-related osteolysis", "Osteolysis persistence",
                   "Peri-implant osteolysis"],
         korean_term="골용해 발생률",
@@ -4596,6 +5100,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Pelvic incidence measurement",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000663",  # Spinopelvic Parameter
         synonyms=["PI", "Pelvic incidence angle"],
         abbreviations=["PI"],
         korean_term="골반 입사각",
@@ -4606,6 +5111,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Sacral slope measurement",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000663",  # Spinopelvic Parameter
         synonyms=["SS", "Sacral slope angle"],
         abbreviations=["SS"],
         korean_term="천골 경사각",
@@ -4615,6 +5121,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="BMP-associated complication rate",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["BMP-associated complications range",
                   "BMP-related revision rate",
                   "BMP complication rate"],
@@ -4625,6 +5132,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Interbody cage subsidence rate",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["Cage subsidence rate", "Cage settling rate",
                   "Subsidence incidence"],
         korean_term="케이지 침하율",
@@ -4644,6 +5152,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Neurological recovery rate",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000659",  # Neurological Outcome
         synonyms=["Neurological improvement rate",
                   "Neural recovery", "Motor recovery rate"],
         korean_term="신경학적 회복률",
@@ -4653,6 +5162,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Cage subsidence measurement in millimeters",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["Subsidence in mm", "Cage settling measurement",
                   "Interbody cage subsidence measurement"],
         korean_term="침하량 측정",
@@ -4664,6 +5174,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Surgical mortality rate",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Mortality rate", "In-hospital mortality",
                   "30-day mortality", "90-day mortality",
                   "Perioperative mortality"],
@@ -4673,6 +5184,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         code="16096001",
         term="Heterotopic ossification",
         semantic_type=SNOMEDSemanticType.FINDING,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["HO", "Ectopic bone formation",
                   "Heterotrophic Ossification"],
         abbreviations=["HO"],
@@ -4683,6 +5195,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Functional recovery assessment",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000654",  # Functional Outcome
         synonyms=["Functional improvement", "Functional recovery",
                   "Functional status improvement"],
         korean_term="기능 회복",
@@ -4692,6 +5205,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Patient-reported outcome measures",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000660",  # Patient-Reported Outcome
         synonyms=["Patient-Reported Outcome Measures",
                   "Patient reported outcomes", "PROs"],
         abbreviations=["PROMs", "PROs"],
@@ -4703,51 +5217,61 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         code="259292002",
         term="Aggrecan",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        parent_code="900000000000662",  # Laboratory Outcome
     ),
     "CSF Leakage": SNOMEDMapping(
         code="236578006",
         term="Cerebrospinal fluid leak",
         semantic_type=SNOMEDSemanticType.FINDING,
+        parent_code="900000000000657",  # Complication Outcome
     ),
     "Deep Vein Thrombosis": SNOMEDMapping(
         code="128053003",
         term="Deep vein thrombosis",
         semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000657",  # Complication Outcome
     ),
     "Extension of Fixation": SNOMEDMapping(
         code="255536004",
         term="Extension",
         semantic_type=SNOMEDSemanticType.QUALIFIER_VALUE,
+        parent_code="900000000000661",  # Biomechanical Outcome
     ),
     "Motor Deficit": SNOMEDMapping(
         code="398218008",
         term="Motor function",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        parent_code="900000000000659",  # Neurological Outcome
     ),
     "Recovery Time": SNOMEDMapping(
         code="278406009",
         term="Recovery time",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        parent_code="900000000000658",  # Surgical Efficiency Outcome
     ),
     "SRS-Satisfaction": SNOMEDMapping(
         code="444908005",
         term="Patient satisfaction",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        parent_code="900000000000660",  # Patient-Reported Outcome
     ),
     "Sensory Deficit": SNOMEDMapping(
         code="247311002",
         term="Sensory function",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        parent_code="900000000000659",  # Neurological Outcome
     ),
     "Surgical Time": SNOMEDMapping(
         code="118561001",
         term="Surgical time",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        parent_code="900000000000658",  # Surgical Efficiency Outcome
     ),
     "Symptomatic Hematoma": SNOMEDMapping(
         code="35566002",
         term="Hematoma",
         semantic_type=SNOMEDSemanticType.FINDING,
+        parent_code="900000000000657",  # Complication Outcome
     ),
 
     # === DV-NEW-003: Orphan Alias Target Extensions (Outcomes) ===
@@ -4756,6 +5280,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Adjacent segment disease",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Adjacent Segment Disease",
                   "Adjacent segment degeneration"],
         abbreviations=["ASD"],
@@ -4766,6 +5291,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Adjacent disc degeneration",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["Proximal disc degeneration", "Distal disc degeneration"],
         korean_term="인접분절 디스크 퇴행",
     ),
@@ -4774,6 +5300,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Serum albumin level",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000662",  # Laboratory Outcome
         synonyms=["Serum albumin", "Albumin level"],
         korean_term="알부민",
     ),
@@ -4782,6 +5309,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Bowel and bladder function",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000659",  # Neurological Outcome
         synonyms=["Bladder function", "Bowel function",
                   "CES recovery", "Sphincter function"],
         korean_term="배변/배뇨 기능",
@@ -4791,6 +5319,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Brief Pain Inventory score",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000653",  # Pain Outcome
         synonyms=["Brief Pain Inventory score"],
         abbreviations=["BPI"],
         korean_term="간이 통증 목록",
@@ -4800,6 +5329,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="C-reactive protein level",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000662",  # Laboratory Outcome
         synonyms=["C-reactive protein", "CRP level", "Serum CRP"],
         abbreviations=["CRP"],
     ),
@@ -4808,6 +5338,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Interbody cage height measurement",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["Interbody cage height", "Cage size"],
         korean_term="케이지 높이",
     ),
@@ -4816,6 +5347,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Cage migration",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Cage retropulsion", "Cage displacement"],
         korean_term="케이지 이동",
     ),
@@ -4824,6 +5356,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Coronal plane correction",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["Coronal Cobb correction", "Scoliosis correction",
                   "Curve correction"],
         korean_term="관상면 교정",
@@ -4833,6 +5366,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Muscle cross-sectional area",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["Muscle CSA", "Multifidus CSA", "Paraspinal CSA"],
         abbreviations=["CSA"],
     ),
@@ -4841,6 +5375,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Disabilities of the Arm, Shoulder and Hand score",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000654",  # Functional Outcome
         synonyms=["Disabilities of the Arm, Shoulder and Hand",
                   "DASH score", "QuickDASH"],
         abbreviations=["DASH"],
@@ -4850,6 +5385,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Postoperative delirium",
         semantic_type=SNOMEDSemanticType.FINDING,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Postoperative delirium"],
         abbreviations=["POD"],
         korean_term="수술후 섬망",
@@ -4859,6 +5395,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Duration of surgical drainage",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000658",  # Surgical Efficiency Outcome
         synonyms=["Drainage duration", "Duration of drainage"],
         korean_term="배액 기간",
     ),
@@ -4867,6 +5404,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Postoperative dysphagia",
         semantic_type=SNOMEDSemanticType.FINDING,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Postoperative dysphagia", "Swallowing difficulty"],
         korean_term="연하곤란",
     ),
@@ -4875,6 +5413,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Dysphonia",
         semantic_type=SNOMEDSemanticType.FINDING,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Hoarseness", "Voice change",
                   "Recurrent laryngeal nerve palsy"],
         korean_term="목소리 변화",
@@ -4884,6 +5423,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Erythrocyte sedimentation rate",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000662",  # Laboratory Outcome
         synonyms=["Erythrocyte sedimentation rate", "ESR level",
                   "Sed rate"],
         abbreviations=["ESR"],
@@ -4893,6 +5433,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Facet joint violation",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Facet violation", "Facet breach"],
         abbreviations=["FJV"],
     ),
@@ -4901,6 +5442,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Paraspinal fatty infiltration",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["Fat infiltration", "Muscle fat infiltration",
                   "Paraspinal fatty infiltration"],
     ),
@@ -4909,6 +5451,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Fluoroscopy radiation dose",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000658",  # Surgical Efficiency Outcome
         synonyms=["Radiation dose", "Cumulative radiation dose"],
         korean_term="방사선 노출량",
     ),
@@ -4917,6 +5460,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Fluoroscopy time",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000658",  # Surgical Efficiency Outcome
         synonyms=["Fluoroscopic time", "Radiation exposure",
                   "Fluoroscopic Scan Number"],
     ),
@@ -4925,6 +5469,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Number of fused spinal segments",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["Number of fused levels", "Fusion extent"],
         korean_term="유합 분절 수",
     ),
@@ -4933,6 +5478,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Generalized Anxiety Disorder 7-item scale",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000660",  # Patient-Reported Outcome
         synonyms=["Generalized Anxiety Disorder 7", "GAD-7 score",
                   "Anxiety score"],
         abbreviations=["GAD-7", "GAD7"],
@@ -4942,6 +5488,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Global tilt angle",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000663",  # Spinopelvic Parameter
         synonyms=["Global tilt angle"],
         abbreviations=["GT"],
     ),
@@ -4950,6 +5497,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Hand grip strength measurement",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000659",  # Neurological Outcome
         synonyms=["Hand grip strength", "Handgrip strength"],
         korean_term="악력",
     ),
@@ -4958,6 +5506,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Spinal hardware failure",
         semantic_type=SNOMEDSemanticType.FINDING,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Implant failure", "Instrumentation failure"],
         korean_term="기기 실패",
     ),
@@ -4966,6 +5515,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Hemoglobin level",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000662",  # Laboratory Outcome
         synonyms=["Hemoglobin level"],
         abbreviations=["Hb", "Hgb"],
         korean_term="혈색소",
@@ -4975,6 +5525,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Intensive care unit length of stay",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000658",  # Surgical Efficiency Outcome
         synonyms=["ICU length of stay", "Intensive care stay", "ICU days"],
         korean_term="중환자실 재원일",
     ),
@@ -4983,6 +5534,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Postoperative ileus",
         semantic_type=SNOMEDSemanticType.FINDING,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Postoperative ileus", "Paralytic ileus"],
         korean_term="장마비",
     ),
@@ -4991,6 +5543,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="JOA Back Pain Evaluation Questionnaire score",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000654",  # Functional Outcome
         synonyms=["JOA Back Pain Evaluation Questionnaire",
                   "JOABPEQ score"],
         abbreviations=["JOABPEQ"],
@@ -5000,6 +5553,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Surgical learning curve",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000658",  # Surgical Efficiency Outcome
         synonyms=["Surgical learning curve", "Case volume effect",
                   "Proficiency curve"],
     ),
@@ -5008,6 +5562,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Neurological deficit",
         semantic_type=SNOMEDSemanticType.FINDING,
         is_extension=True,
+        parent_code="900000000000659",  # Neurological Outcome
         synonyms=["Neurologic deficit", "New neurological deficit",
                   "Postoperative deficit"],
         korean_term="신경학적 결손",
@@ -5017,6 +5572,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Osteolysis",
         semantic_type=SNOMEDSemanticType.FINDING,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Endplate resorption", "Bone resorption",
                   "Endplate Resorption/Osteolysis"],
     ),
@@ -5025,6 +5581,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Patient Health Questionnaire 9-item score",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000660",  # Patient-Reported Outcome
         synonyms=["Patient Health Questionnaire", "PHQ-9 score",
                   "Depression score"],
         abbreviations=["PHQ-9", "PHQ9"],
@@ -5034,6 +5591,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="PainDETECT questionnaire score",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000653",  # Pain Outcome
         synonyms=["PainDETECT", "Pain DETECT questionnaire"],
         abbreviations=["PD-Q"],
     ),
@@ -5042,6 +5600,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Pelvic obliquity measurement",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000663",  # Spinopelvic Parameter
         synonyms=["Pelvic tilt asymmetry"],
     ),
     "Pneumonia": SNOMEDMapping(
@@ -5049,6 +5608,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Postoperative pneumonia",
         semantic_type=SNOMEDSemanticType.FINDING,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Postoperative pneumonia", "Aspiration pneumonia"],
         korean_term="폐렴",
     ),
@@ -5057,6 +5617,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Red blood cell transfusion",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000658",  # Surgical Efficiency Outcome
         synonyms=["RBC Transfusion Requirement", "Blood transfusion",
                   "Transfusion rate", "Packed RBC"],
     ),
@@ -5065,6 +5626,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Roland-Morris Disability Questionnaire score",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000654",  # Functional Outcome
         synonyms=["Roland-Morris Disability Questionnaire", "Roland Morris",
                   "RMDQ score"],
         abbreviations=["RMDQ"],
@@ -5074,6 +5636,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Range of motion measurement",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["Range of Motion", "Range of Motion (ROM)"],
         abbreviations=["ROM"],
     ),
@@ -5082,6 +5645,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Radiculopathy",
         semantic_type=SNOMEDSemanticType.FINDING,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Postoperative radiculopathy",
                   "BMP-related radiculitis", "New radiculopathy"],
     ),
@@ -5090,6 +5654,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Hospital readmission rate",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["30-day readmission", "Hospital readmission",
                   "30-Day Readmission Rate"],
     ),
@@ -5098,6 +5663,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Sagittal plane correction",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["Lordosis restoration", "Sagittal balance correction",
                   "SVA correction"],
     ),
@@ -5106,6 +5672,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Pedicle screw diameter",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000661",  # Biomechanical Outcome
         synonyms=["Pedicle screw diameter"],
         korean_term="나사 직경",
     ),
@@ -5114,6 +5681,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Pedicle screw length",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000661",  # Biomechanical Outcome
         synonyms=["Pedicle screw length"],
         korean_term="나사 길이",
     ),
@@ -5122,6 +5690,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Pedicle screw misplacement",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Screw malpositioning", "Pedicle breach",
                   "Cortical breach"],
     ),
@@ -5130,6 +5699,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Sympathetic chain dysfunction",
         semantic_type=SNOMEDSemanticType.FINDING,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Sympathetic chain injury", "Retrograde ejaculation"],
         korean_term="교감신경 손상",
     ),
@@ -5138,6 +5708,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="T1 pelvic angle measurement",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000663",  # Spinopelvic Parameter
         synonyms=["T1 pelvic angle"],
         abbreviations=["TPA", "T1PA"],
     ),
@@ -5146,6 +5717,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Thoracic kyphosis angle",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["T4-T12 kyphosis", "T5-T12 kyphosis"],
         abbreviations=["TK"],
     ),
@@ -5154,6 +5726,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Postoperative urinary tract infection",
         semantic_type=SNOMEDSemanticType.FINDING,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Postoperative UTI"],
         abbreviations=["UTI"],
         korean_term="요로 감염",
@@ -5163,6 +5736,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Vascular injury during spine surgery",
         semantic_type=SNOMEDSemanticType.FINDING,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Great vessel injury", "Arterial injury",
                   "Venous injury"],
         korean_term="혈관 손상",
@@ -5172,6 +5746,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Vertebral endplate fracture",
         semantic_type=SNOMEDSemanticType.FINDING,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Endplate fracture", "Endplate violation"],
         korean_term="종판 골절",
     ),
@@ -5180,6 +5755,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Serum vitamin D level",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000662",  # Laboratory Outcome
         synonyms=["25-OH vitamin D", "25-hydroxyvitamin D",
                   "Serum vitamin D"],
         korean_term="비타민 D",
@@ -5189,6 +5765,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Walking ability assessment",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,
+        parent_code="900000000000654",  # Functional Outcome
         synonyms=["Ambulation status", "Gait improvement",
                   "Walking distance"],
         korean_term="보행 능력",
@@ -5198,6 +5775,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         term="Wound healing complication",
         semantic_type=SNOMEDSemanticType.FINDING,
         is_extension=True,
+        parent_code="900000000000657",  # Complication Outcome
         synonyms=["Wound healing complication", "Wound problem"],
         korean_term="창상 합병증",
     ),
@@ -5214,6 +5792,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         code="312701007",
         term="Bone mineral density measurement",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        parent_code="900000000000656",  # Radiological Outcome
         synonyms=["BMD measurement", "DEXA measurement", "Bone densitometry"],
         abbreviations=["BMD"],
         korean_term="골밀도 측정",
@@ -5236,35 +5815,53 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
 # ============================================================================
 
 SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
+    # ============================================================
+    # ROOT CONCEPT
+    # ============================================================
+    "Spine": SNOMEDMapping(
+        code="900000000000665",
+        term="Structure of vertebral column",
+        semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
+        is_extension=True,
+        synonyms=["Vertebral column", "Spinal column", "Backbone"],
+        korean_term="척추",
+        notes="Root concept for all spine anatomy",
+    ),
+
     # === REGIONS ===
     "Cervical": SNOMEDMapping(
         code="122494005",
         term="Cervical spine structure",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
+        parent_code="900000000000665",  # Spine
         synonyms=["Cervical region", "C-spine"],
     ),
     "Thoracic": SNOMEDMapping(
         code="122495006",
         term="Thoracic spine structure",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
+        parent_code="900000000000665",  # Spine
         synonyms=["Thoracic region", "T-spine"],
     ),
     "Lumbar": SNOMEDMapping(
         code="122496007",
         term="Lumbar spine structure",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
+        parent_code="900000000000665",  # Spine
         synonyms=["Lumbar region", "L-spine"],
     ),
     "Sacral": SNOMEDMapping(
         code="699698002",
         term="Structure of sacrum",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
+        parent_code="900000000000665",  # Spine
         synonyms=["Sacrum", "S1-S5"],
     ),
     "Lumbosacral": SNOMEDMapping(
         code="264940005",
         term="Lumbosacral region of spine",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
+        parent_code="900000000000665",  # Spine
         synonyms=["LS spine", "L5-S1 junction"],
     ),
     "Cervicothoracic": SNOMEDMapping(
@@ -5272,6 +5869,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Cervicothoracic junction",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="900000000000665",  # Spine
         synonyms=["C7-T1 junction", "Cervicothoracic transition"],
         abbreviations=["CT junction", "CTJ"],
         korean_term="경흉추 이행부",
@@ -5280,29 +5878,30 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         code="264939003",
         term="Thoracolumbar region of spine",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
+        parent_code="900000000000665",  # Spine
         synonyms=["TL junction", "T12-L1"],
     ),
 
     # === SPECIFIC LEVELS ===
-    "C1": SNOMEDMapping(code="14806007", term="Structure of atlas", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE, synonyms=["Atlas"]),
-    "C2": SNOMEDMapping(code="39976000", term="Structure of axis", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE, synonyms=["Axis"]),
-    "C3": SNOMEDMapping(code="181822002", term="Third cervical vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE),
-    "C4": SNOMEDMapping(code="181823007", term="Fourth cervical vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE),
-    "C5": SNOMEDMapping(code="181824001", term="Fifth cervical vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE),
-    "C6": SNOMEDMapping(code="181825000", term="Sixth cervical vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE),
-    "C7": SNOMEDMapping(code="181826004", term="Seventh cervical vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE),
-    "T1": SNOMEDMapping(code="181827008", term="First thoracic vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE),
-    "T12": SNOMEDMapping(code="181838003", term="Twelfth thoracic vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE),
-    "L1": SNOMEDMapping(code="181839006", term="First lumbar vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE),
-    "L2": SNOMEDMapping(code="181840008", term="Second lumbar vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE),
-    "L3": SNOMEDMapping(code="181841007", term="Third lumbar vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE),
-    "L4": SNOMEDMapping(code="181842000", term="Fourth lumbar vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE),
-    "L5": SNOMEDMapping(code="181843005", term="Fifth lumbar vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE),
-    "S1": SNOMEDMapping(code="181844004", term="First sacral vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE),
+    "C1": SNOMEDMapping(code="14806007", term="Structure of atlas", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE, parent_code="122494005", synonyms=["Atlas"]),
+    "C2": SNOMEDMapping(code="39976000", term="Structure of axis", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE, parent_code="122494005", synonyms=["Axis"]),
+    "C3": SNOMEDMapping(code="181822002", term="Third cervical vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE, parent_code="122494005"),
+    "C4": SNOMEDMapping(code="181823007", term="Fourth cervical vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE, parent_code="122494005"),
+    "C5": SNOMEDMapping(code="181824001", term="Fifth cervical vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE, parent_code="122494005"),
+    "C6": SNOMEDMapping(code="181825000", term="Sixth cervical vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE, parent_code="122494005"),
+    "C7": SNOMEDMapping(code="181826004", term="Seventh cervical vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE, parent_code="122494005"),
+    "T1": SNOMEDMapping(code="181827008", term="First thoracic vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE, parent_code="122495006"),
+    "T12": SNOMEDMapping(code="181838003", term="Twelfth thoracic vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE, parent_code="122495006"),
+    "L1": SNOMEDMapping(code="181839006", term="First lumbar vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE, parent_code="122496007"),
+    "L2": SNOMEDMapping(code="181840008", term="Second lumbar vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE, parent_code="122496007"),
+    "L3": SNOMEDMapping(code="181841007", term="Third lumbar vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE, parent_code="122496007"),
+    "L4": SNOMEDMapping(code="181842000", term="Fourth lumbar vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE, parent_code="122496007"),
+    "L5": SNOMEDMapping(code="181843005", term="Fifth lumbar vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE, parent_code="122496007"),
+    "S1": SNOMEDMapping(code="181844004", term="First sacral vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE, parent_code="699698002"),
     # v1.16.1: 누락된 vertebral levels 추가
-    "S2": SNOMEDMapping(code="181845003", term="Second sacral vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE),
-    "T10": SNOMEDMapping(code="181836002", term="Tenth thoracic vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE),
-    "T11": SNOMEDMapping(code="181837006", term="Eleventh thoracic vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE),
+    "S2": SNOMEDMapping(code="181845003", term="Second sacral vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE, parent_code="699698002"),
+    "T10": SNOMEDMapping(code="181836002", term="Tenth thoracic vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE, parent_code="122495006"),
+    "T11": SNOMEDMapping(code="181837006", term="Eleventh thoracic vertebra", semantic_type=SNOMEDSemanticType.BODY_STRUCTURE, parent_code="122495006"),
 
     # === SEGMENT LEVELS (Intervertebral Disc) ===
     "L4-5": SNOMEDMapping(
@@ -5310,6 +5909,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="L4-L5 intervertebral disc",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122496007",  # Lumbar
         synonyms=["L4-L5 disc", "L4/5 level"],
         korean_term="L4-5 추간판",
         notes="Most common level for lumbar disc herniation",
@@ -5319,6 +5919,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="L5-S1 intervertebral disc",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122496007",  # Lumbar
         synonyms=["L5-S1 disc", "L5/S1 level", "Lumbosacral disc"],
         korean_term="L5-S1 추간판",
         notes="Second most common level for lumbar disc herniation",
@@ -5328,6 +5929,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="L3-L4 intervertebral disc",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122496007",  # Lumbar
         synonyms=["L3-L4 disc", "L3/4 level"],
         korean_term="L3-4 추간판",
     ),
@@ -5336,6 +5938,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="C5-C6 intervertebral disc",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122494005",  # Cervical
         synonyms=["C5-C6 disc", "C5/6 level"],
         korean_term="C5-6 추간판",
         notes="Most common level for cervical disc herniation",
@@ -5345,6 +5948,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="C6-C7 intervertebral disc",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122494005",  # Cervical
         synonyms=["C6-C7 disc", "C6/7 level"],
         korean_term="C6-7 추간판",
         notes="Second most common level for cervical disc herniation",
@@ -5355,6 +5959,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="C3-C4 intervertebral disc",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122494005",  # Cervical
         synonyms=["C3-C4 disc", "C3/4 level"],
         korean_term="C3-4 추간판",
     ),
@@ -5363,6 +5968,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="C4-C5 intervertebral disc",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122494005",  # Cervical
         synonyms=["C4-C5 disc", "C4/5 level"],
         korean_term="C4-5 추간판",
     ),
@@ -5371,6 +5977,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="C7-T1 intervertebral disc",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122494005",  # Cervical
         synonyms=["C7-T1 disc", "cervicothoracic disc"],
         korean_term="C7-T1 추간판",
         notes="Cervicothoracic junction disc level",
@@ -5380,6 +5987,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="L1-L2 intervertebral disc",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122496007",  # Lumbar
         synonyms=["L1-L2 disc", "L1/2 level"],
         korean_term="L1-2 추간판",
     ),
@@ -5388,6 +5996,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="L2-L3 intervertebral disc",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122496007",  # Lumbar
         synonyms=["L2-L3 disc", "L2/3 level"],
         korean_term="L2-3 추간판",
     ),
@@ -5396,6 +6005,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="T11-T12 intervertebral disc",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122495006",  # Thoracic
         synonyms=["T11-T12 disc", "T11/12 level"],
         korean_term="T11-12 추간판",
     ),
@@ -5404,6 +6014,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="T12-L1 intervertebral disc",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122495006",  # Thoracic
         synonyms=["T12-L1 disc", "thoracolumbar disc"],
         korean_term="T12-L1 추간판",
         notes="Thoracolumbar junction disc level",
@@ -5417,6 +6028,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="T2-T3 intervertebral disc",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122495006",  # Thoracic
         synonyms=["T2-T3 disc", "T2/3 level"],
         korean_term="T2-3 추간판",
     ),
@@ -5425,6 +6037,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="T3-T4 intervertebral disc",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122495006",  # Thoracic
         synonyms=["T3-T4 disc", "T3/4 level"],
         korean_term="T3-4 추간판",
     ),
@@ -5433,6 +6046,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="T4-T5 intervertebral disc",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122495006",  # Thoracic
         synonyms=["T4-T5 disc", "T4/5 level"],
         korean_term="T4-5 추간판",
     ),
@@ -5441,6 +6055,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="T5-T6 intervertebral disc",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122495006",  # Thoracic
         synonyms=["T5-T6 disc", "T5/6 level"],
         korean_term="T5-6 추간판",
     ),
@@ -5449,6 +6064,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="T6-T7 intervertebral disc",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122495006",  # Thoracic
         synonyms=["T6-T7 disc", "T6/7 level"],
         korean_term="T6-7 추간판",
     ),
@@ -5457,6 +6073,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="T7-T8 intervertebral disc",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122495006",  # Thoracic
         synonyms=["T7-T8 disc", "T7/8 level"],
         korean_term="T7-8 추간판",
     ),
@@ -5465,6 +6082,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="T8-T9 intervertebral disc",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122495006",  # Thoracic
         synonyms=["T8-T9 disc", "T8/9 level"],
         korean_term="T8-9 추간판",
     ),
@@ -5473,6 +6091,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="T9-T10 intervertebral disc",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122495006",  # Thoracic
         synonyms=["T9-T10 disc", "T9/10 level"],
         korean_term="T9-10 추간판",
     ),
@@ -5481,6 +6100,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Multi-level spine",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="900000000000665",  # Spine
         synonyms=["Multi-level", "Multiple levels", "multilevel",
                   "Mixed/Multiple levels", "Multi-level spine involvement"],
         korean_term="다분절",
@@ -5491,16 +6111,19 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         code="20193003",
         term="First sacral vertebra",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
+        parent_code="900000000000665",  # Spine
     ),
     "C2-C7": SNOMEDMapping(
         code="39869006",
         term="Second cervical vertebra",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
+        parent_code="122494005",  # Cervical
     ),
     "Multi-level Vertebral": SNOMEDMapping(
         code="3572006",
         term="Vertebral body",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
+        parent_code="900000000000665",  # Spine
     ),
 
     # === DV-NEW-004: Orphan Alias Target Extensions (Anatomy) ===
@@ -5509,6 +6132,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="C2-C3 spinal segment",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122494005",  # Cervical
         synonyms=["C2-C3", "C2/3", "C2/C3", "C2-C3 disc"],
         korean_term="C2-3 분절",
     ),
@@ -5517,6 +6141,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="L3 to L5 spinal segment",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122496007",  # Lumbar
         synonyms=["L3-L5", "L3/5", "L3-L4-L5"],
         korean_term="L3-5 분절",
     ),
@@ -5525,6 +6150,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="L4 to S1 spinal segment",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122496007",  # Lumbar
         synonyms=["L4-L5-S1", "L4/S1", "L4-5-S1"],
         korean_term="L4-S1 분절",
     ),
@@ -5533,6 +6159,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="T10-T11 spinal segment",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122495006",  # Thoracic
         synonyms=["T10-T11", "T10/11", "T10/T11"],
         korean_term="T10-11 분절",
     ),
@@ -5541,6 +6168,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Second thoracic vertebra",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122495006",  # Thoracic
         synonyms=["T2 vertebra", "second thoracic vertebra", "D2"],
         korean_term="흉추 2번",
     ),
@@ -5549,6 +6177,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Third thoracic vertebra",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122495006",  # Thoracic
         synonyms=["T3 vertebra", "third thoracic vertebra"],
         korean_term="흉추 3번",
     ),
@@ -5557,6 +6186,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Fourth thoracic vertebra",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122495006",  # Thoracic
         synonyms=["T4 vertebra", "fourth thoracic vertebra"],
         korean_term="흉추 4번",
     ),
@@ -5565,6 +6195,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Fifth thoracic vertebra",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122495006",  # Thoracic
         synonyms=["T5 vertebra", "fifth thoracic vertebra"],
         korean_term="흉추 5번",
     ),
@@ -5573,6 +6204,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Sixth thoracic vertebra",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122495006",  # Thoracic
         synonyms=["T6 vertebra", "sixth thoracic vertebra"],
         korean_term="흉추 6번",
     ),
@@ -5581,6 +6213,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Seventh thoracic vertebra",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122495006",  # Thoracic
         synonyms=["T7 vertebra", "seventh thoracic vertebra"],
         korean_term="흉추 7번",
     ),
@@ -5589,6 +6222,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Eighth thoracic vertebra",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122495006",  # Thoracic
         synonyms=["T8 vertebra", "eighth thoracic vertebra"],
         korean_term="흉추 8번",
     ),
@@ -5597,6 +6231,7 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         term="Ninth thoracic vertebra",
         semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
         is_extension=True,
+        parent_code="122495006",  # Thoracic
         synonyms=["T9 vertebra", "ninth thoracic vertebra"],
         korean_term="흉추 9번",
     ),

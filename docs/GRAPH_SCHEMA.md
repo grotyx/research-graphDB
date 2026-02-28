@@ -1,6 +1,6 @@
 # Spine GraphRAG Schema
 
-> **Version**: 1.23.4
+> **Version**: 1.24.0
 
 ## Node Types
 
@@ -54,7 +54,7 @@
 | INVESTIGATES | Paper → Intervention | is_comparison | 논문이 조사하는 수술법 |
 | AFFECTS | Intervention → Outcome | value, p_value, effect_size, is_significant | 수술법의 결과 영향 |
 | TREATS | Intervention → Pathology | indication, source_paper_ids, paper_count | 수술법이 치료하는 질환 (v1.16.1 구현, v1.16.4 속성 통일) |
-| IS_A | Intervention → Intervention | | Taxonomy 계층 관계 |
+| IS_A | Entity → Entity (same type) | auto_generated, source, created_at | Taxonomy 계층 관계 (4 entity types) |
 | HAS_CHUNK | Paper → Chunk | | 논문의 텍스트 청크 |
 
 ### Paper-to-Paper Relationships
@@ -118,6 +118,100 @@ Spine Surgery
     └── PVP (Percutaneous Vertebroplasty), PKP (Balloon Kyphoplasty)
 ```
 
+## 4-Entity IS_A Hierarchy (v1.24.0)
+
+> **Ontology Redesign**: IS_A 관계가 Intervention뿐 아니라 Pathology, Outcome, Anatomy로 확장되었습니다.
+> spine_snomed_mappings.py의 `parent_code`가 Neo4j IS_A 관계의 Single Source of Truth입니다.
+
+### IS_A Relationship Properties
+
+| Property | Type | Description |
+|----------|------|-------------|
+| level | int | Hierarchy depth (1 = direct child) |
+| auto_generated | bool | True if created by scripts/import pipeline |
+| source | string | Origin: 'build_ontology', 'repair_ontology', 'relationship_builder' |
+| created_at | datetime | Creation timestamp |
+
+### Root Concepts per Entity Type
+
+| Entity Type | Root Concept | SNOMED Code | Children Count |
+|-------------|-------------|-------------|----------------|
+| **Intervention** | Spine Surgery | 122465003 | 6 category nodes |
+| **Pathology** | Spinal Disease (root) | 1268926005 | 7+ category nodes |
+| **Outcome** | Patient-Reported Outcome (root) | 371545006 | 5+ category nodes |
+| **Anatomy** | Spinal Structure | 421060004 | 4 region nodes |
+
+### IS_A Examples per Entity Type
+
+#### Intervention IS_A
+```text
+TLIF -[:IS_A]-> Interbody Fusion -[:IS_A]-> Spine Surgery
+UBE -[:IS_A]-> Endoscopic Surgery -[:IS_A]-> Decompression Surgery -[:IS_A]-> Spine Surgery
+```
+
+#### Pathology IS_A
+```text
+Lumbar Stenosis -[:IS_A]-> Spinal Stenosis -[:IS_A]-> Degenerative Spine Disease
+Proximal Junctional Failure -[:IS_A]-> Mechanical Complication -[:IS_A]-> Postoperative Complication
+Adjacent Segment Disease -[:IS_A]-> Degenerative Spine Disease
+```
+
+#### Outcome IS_A
+```text
+VAS Back -[:IS_A]-> VAS -[:IS_A]-> Pain Score -[:IS_A]-> Patient-Reported Outcome
+ODI -[:IS_A]-> Functional Score -[:IS_A]-> Patient-Reported Outcome
+Cobb Angle -[:IS_A]-> Alignment Parameter -[:IS_A]-> Radiographic Outcome
+```
+
+#### Anatomy IS_A
+```text
+L4-5 -[:IS_A]-> Lumbar Spine -[:IS_A]-> Spinal Structure
+C5-6 -[:IS_A]-> Cervical Spine -[:IS_A]-> Spinal Structure
+Facet Joint -[:IS_A]-> Spinal Structure
+```
+
+### Graph Traversal Paths
+
+```cypher
+-- 1. Find all interventions under "Endoscopic Surgery"
+MATCH (i:Intervention)-[:IS_A*1..3]->(parent:Intervention {name: 'Endoscopic Surgery'})
+RETURN i.name
+
+-- 2. Find pathologies related to "Degenerative Spine Disease"
+MATCH (p:Pathology)-[:IS_A*1..3]->(parent:Pathology {name: 'Degenerative Spine Disease'})
+RETURN p.name
+
+-- 3. Expand outcome hierarchy for "Pain Score"
+MATCH (o:Outcome)-[:IS_A*1..3]->(parent:Outcome {name: 'Pain Score'})
+RETURN o.name
+
+-- 4. Find anatomy under "Lumbar Spine"
+MATCH (a:Anatomy)-[:IS_A*1..3]->(parent:Anatomy {name: 'Lumbar Spine'})
+RETURN a.name
+
+-- 5. Evidence chain: find papers treating lumbar stenosis with any endoscopic technique
+MATCH (i:Intervention)-[:IS_A*0..3]->(parent:Intervention {name: 'Endoscopic Surgery'})
+MATCH (p:Paper)-[:INVESTIGATES]->(i)
+MATCH (p)-[:STUDIES]->(path:Pathology)-[:IS_A*0..3]->(pParent:Pathology {name: 'Spinal Stenosis'})
+RETURN p.title, i.name, path.name
+```
+
+### Materialization: parent_code to Neo4j IS_A
+
+```text
+spine_snomed_mappings.py
+  parent_code: "609588000"  (Interbody Fusion code)
+       ↓
+  schema.py: get_init_entity_taxonomy_cypher()
+       ↓
+  Neo4j: (TLIF)-[:IS_A]->(Interbody Fusion)
+```
+
+Scripts for IS_A management:
+- `scripts/build_ontology.py`: Batch apply IS_A from SNOMED parent_code
+- `scripts/repair_ontology.py`: Repair missing IS_A, SNOMED codes, TREATS
+- `relationship_builder.py`: Auto IS_A on paper import via `_auto_create_is_a_relation()`
+
 ## Hybrid Ranking Algorithm
 
 ```python
@@ -132,19 +226,26 @@ EVIDENCE_LEVEL_WEIGHTS = {
     "5": 0.1,   # Unknown
 }
 
-# Graph Score (구조화된 근거)
-evidence_weight = EVIDENCE_LEVEL_WEIGHTS[level]
+# Three-way Ranking Formula (v1.24.0)
+# 1. Semantic Score (40%) - Vector similarity with evidence boost
+evidence_boost = 0.5 + 0.5 * evidence_weight
+semantic_score = similarity * evidence_boost
+
+# 2. Authority Score (30%) - Evidence level and statistical significance
 p_score = 1.0 - p_value if p_value < 0.05 else 0.0
 significance_boost = 1.5 if is_significant else 1.0
-graph_score = evidence_weight * (1.0 + p_score) * significance_boost
+authority_score = evidence_weight * (1.0 + p_score) * significance_boost
 
-# Vector Score (시맨틱 관련성)
-evidence_boost = 0.5 + 0.5 * evidence_weight
-vector_score = similarity * evidence_boost
+# 3. Graph Relevance Score (30%) - IS_A hierarchy proximity
+#    Boosted when query entity matches via IS_A expansion
+graph_relevance_score = compute_graph_relevance(query_entities, result_entities)
 
 # Combined Score
-final_score = 0.6 * graph_score + 0.4 * vector_score
+final_score = 0.4 * semantic_score + 0.3 * authority_score + 0.3 * graph_relevance_score
 ```
+
+> **v1.24.0 변경**: 기존 2-way (graph 60% + vector 40%)에서 3-way (semantic 40% + authority 30% + graph_relevance 30%)로 전환.
+> IS_A 계층 확장으로 graph_relevance가 더 정밀해짐.
 
 ## Neo4j Vector Index
 

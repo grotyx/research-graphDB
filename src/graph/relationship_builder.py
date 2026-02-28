@@ -23,6 +23,22 @@ from .spine_schema import (
     ComplicationNode,
 )
 
+# SNOMED mappings for auto IS_A relationship building
+try:
+    from ontology.spine_snomed_mappings import (
+        SPINE_PATHOLOGY_SNOMED,
+        SPINE_OUTCOME_SNOMED,
+        SPINE_ANATOMY_SNOMED,
+        SPINE_INTERVENTION_SNOMED,
+    )
+    _SNOMED_MAPPINGS_AVAILABLE = True
+except ImportError:
+    _SNOMED_MAPPINGS_AVAILABLE = False
+    SPINE_PATHOLOGY_SNOMED = {}
+    SPINE_OUTCOME_SNOMED = {}
+    SPINE_ANATOMY_SNOMED = {}
+    SPINE_INTERVENTION_SNOMED = {}
+
 # Citation types (knowledge.citation_extractor removed in v1.20.0)
 from enum import Enum
 
@@ -595,6 +611,150 @@ class RelationshipBuilder:
 
         return result
 
+    # ===== Auto IS_A Relationship Builders =====
+
+    def _get_parent_name_from_snomed(
+        self,
+        entity_name: str,
+        entity_type: str,
+    ) -> Optional[str]:
+        """Look up the parent concept name from SNOMED mappings.
+
+        Uses the parent_code field in SNOMED mappings to find the parent concept.
+
+        Args:
+            entity_name: Normalized entity name
+            entity_type: Entity type ("pathology", "outcome", "anatomy", "intervention")
+
+        Returns:
+            Parent concept name or None
+        """
+        if not _SNOMED_MAPPINGS_AVAILABLE:
+            return None
+
+        mapping_dict = {
+            "pathology": SPINE_PATHOLOGY_SNOMED,
+            "outcome": SPINE_OUTCOME_SNOMED,
+            "anatomy": SPINE_ANATOMY_SNOMED,
+            "intervention": SPINE_INTERVENTION_SNOMED,
+        }.get(entity_type)
+
+        if not mapping_dict:
+            return None
+
+        # Find the entity's SNOMED mapping
+        mapping = mapping_dict.get(entity_name)
+        if not mapping or not mapping.parent_code:
+            return None
+
+        # Build code->name lookup and find parent name
+        for name, m in mapping_dict.items():
+            if m.code == mapping.parent_code:
+                return name
+
+        return None
+
+    async def _auto_create_is_a_relation(
+        self,
+        entity_name: str,
+        entity_type: str,
+        norm_result: NormalizationResult,
+    ) -> bool:
+        """Auto-create IS_A relationship using SNOMED parent_code.
+
+        Looks up the parent concept from SNOMED mappings and creates an IS_A
+        relationship if the parent exists.
+
+        Args:
+            entity_name: Normalized entity name
+            entity_type: Entity type ("Pathology", "Outcome", "Anatomy")
+            norm_result: Normalization result (may contain parent_code)
+
+        Returns:
+            True if IS_A relationship was created
+        """
+        # Determine parent from norm_result.parent_code or SNOMED lookup
+        parent_code = norm_result.parent_code
+        parent_name = None
+
+        if parent_code and _SNOMED_MAPPINGS_AVAILABLE:
+            # Map entity_type label to mapping dict key
+            type_key = entity_type.lower()
+            mapping_dict = {
+                "pathology": SPINE_PATHOLOGY_SNOMED,
+                "outcome": SPINE_OUTCOME_SNOMED,
+                "anatomy": SPINE_ANATOMY_SNOMED,
+                "intervention": SPINE_INTERVENTION_SNOMED,
+            }.get(type_key)
+
+            if mapping_dict:
+                for name, m in mapping_dict.items():
+                    if m.code == parent_code:
+                        parent_name = name
+                        break
+
+        if not parent_name:
+            # Fallback: try direct lookup
+            parent_name = self._get_parent_name_from_snomed(
+                entity_name, entity_type.lower()
+            )
+
+        if not parent_name or parent_name == entity_name:
+            return False
+
+        _VALID_IS_A_TYPES = {"Pathology", "Outcome", "Anatomy", "Intervention"}
+        if entity_type not in _VALID_IS_A_TYPES:
+            logger.warning(f"Invalid entity_type for IS_A: {entity_type}")
+            return False
+
+        try:
+            label = entity_type
+            query = f"""
+            MERGE (child:{label} {{name: $child_name}})
+            MERGE (parent:{label} {{name: $parent_name}})
+            MERGE (child)-[r:IS_A]->(parent)
+            ON CREATE SET r.auto_generated = true,
+                          r.created_at = datetime()
+            RETURN child.name as child, parent.name as parent
+            """
+            result = await self.client.run_query(
+                query,
+                {"child_name": entity_name, "parent_name": parent_name},
+                fetch_all=False,
+            )
+            if result:
+                logger.debug(
+                    f"Auto IS_A: {entity_type}:{entity_name} -> {parent_name}"
+                )
+                return True
+        except Exception as e:
+            logger.warning(
+                f"Failed to auto-create IS_A for {entity_type}:{entity_name}: {e}"
+            )
+
+        return False
+
+    def _is_review_paper(self, metadata: "ExtractedMetadata") -> bool:
+        """Check if the paper is a review (systematic review / meta-analysis).
+
+        Reviews are excluded from primary evidence counting in TREATS relationships.
+
+        Args:
+            metadata: Extracted paper metadata
+
+        Returns:
+            True if the paper is a review/meta-analysis
+        """
+        study_type = (getattr(metadata, "study_type", "") or "").lower()
+        study_design = (getattr(metadata, "study_design", "") or "").lower()
+
+        review_keywords = [
+            "systematic review", "meta-analysis", "scoping review",
+            "narrative review", "literature review",
+        ]
+        combined = f"{study_type} {study_design}"
+        return any(kw in combined for kw in review_keywords)
+
     async def build_from_paper(
         self,
         paper_id: str,
@@ -630,7 +790,7 @@ class RelationshipBuilder:
             result.nodes_created += 1
             logger.info(f"Created Paper node: {paper_id}")
 
-            # 2. Paper → Pathology (STUDIES) 관계
+            # 2. Paper → Pathology (STUDIES) 관계 + auto IS_A
             if spine_metadata.pathologies:
                 studies_count = await self.create_studies_relations(
                     paper_id, spine_metadata.pathologies
@@ -640,7 +800,7 @@ class RelationshipBuilder:
             else:
                 result.warnings.append("No pathologies found")
 
-            # 3. Paper → Anatomy (INVOLVES) 관계
+            # 3. Paper → Anatomy (INVOLVES) 관계 + auto IS_A
             if spine_metadata.anatomy_levels:
                 involves_count = await self.create_involves_relations(
                     paper_id, spine_metadata.anatomy_levels
@@ -661,12 +821,16 @@ class RelationshipBuilder:
                 result.warnings.append("No interventions found")
 
             # 4.5. Intervention → Pathology (TREATS) 관계
-            if spine_metadata.interventions and spine_metadata.pathologies:
+            # Skip TREATS for pure review papers (no primary evidence)
+            is_review = self._is_review_paper(metadata)
+            if spine_metadata.interventions and spine_metadata.pathologies and not is_review:
                 treats_count = await self.create_treats_relations(
                     paper_id, spine_metadata.interventions, spine_metadata.pathologies
                 )
                 result.relationships_created += treats_count
                 logger.info(f"Created {treats_count} TREATS relations")
+            elif is_review and spine_metadata.interventions and spine_metadata.pathologies:
+                logger.info(f"Skipping TREATS for review paper {paper_id}")
 
             # 5. Intervention → Outcome (AFFECTS) 관계 (통계 포함)
             outcomes = self._extract_outcomes_from_chunks(chunks, spine_metadata)
@@ -807,6 +971,17 @@ class RelationshipBuilder:
             logger.error(f"Build error for {paper_id}: {e}", exc_info=True)
             result.errors.append(str(e))
 
+        # Log unregistered terms summary (v1.24.0 ontology evolution)
+        unregistered = self.normalizer.get_unregistered_terms()
+        if unregistered:
+            by_type: dict[str, int] = {}
+            for t in unregistered:
+                by_type[t["entity_type"]] = by_type.get(t["entity_type"], 0) + 1
+            summary = ", ".join(f"{k}:{v}" for k, v in sorted(by_type.items()))
+            logger.info(
+                f"Unregistered terms after {paper_id}: {len(unregistered)} total ({summary})"
+            )
+
         return result
 
     async def create_paper_node(
@@ -913,6 +1088,11 @@ class RelationshipBuilder:
                     snomed_term=norm_result.snomed_term if norm_result.snomed_term else None
                 )
                 count += 1
+
+                # Auto-create IS_A relationship from SNOMED parent_code
+                await self._auto_create_is_a_relation(
+                    pathology_name, "Pathology", norm_result
+                )
             except Exception as e:
                 logger.warning(f"Failed to create STUDIES relation for {pathology_name}: {e}")
 
@@ -963,6 +1143,11 @@ class RelationshipBuilder:
                     snomed_term=norm_result.snomed_term if norm_result.snomed_term else None,
                 )
                 count += 1
+
+                # Auto-create IS_A relationship from SNOMED parent_code
+                await self._auto_create_is_a_relation(
+                    anatomy_name, "Anatomy", norm_result
+                )
             except Exception as e:
                 logger.warning(f"Failed to create INVOLVES relation for {anatomy}: {e}")
 
@@ -1129,6 +1314,16 @@ class RelationshipBuilder:
             norm_outcome = await self._normalize_with_fallback(outcome.name, "outcome")
             outcome_name = norm_outcome.normalized
 
+            # Mark NULL statistics as "not_reported" rather than leaving NULL
+            effect_size = outcome.effect_size or "not_reported"
+            confidence_interval = outcome.confidence_interval or "not_reported"
+            direction = outcome.direction or self._determine_direction_from_outcome(outcome)
+
+            # Auto-determine is_significant from p_value when available
+            is_significant = outcome.is_significant
+            if not is_significant and outcome.p_value is not None:
+                is_significant = outcome.p_value < 0.05
+
             try:
                 await self.client.create_affects_relation(
                     intervention_name=intervention_name,
@@ -1138,10 +1333,10 @@ class RelationshipBuilder:
                     value=outcome.value,
                     value_control=outcome.value_control,
                     p_value=outcome.p_value,
-                    effect_size=outcome.effect_size,
-                    confidence_interval=outcome.confidence_interval,
-                    is_significant=outcome.is_significant,
-                    direction=outcome.direction,
+                    effect_size=effect_size,
+                    confidence_interval=confidence_interval,
+                    is_significant=is_significant,
+                    direction=direction,
                     # v4.0 추가 필드
                     baseline=outcome.baseline,
                     final=outcome.final,
@@ -1154,6 +1349,11 @@ class RelationshipBuilder:
                     snomed_term=norm_outcome.snomed_term if norm_outcome.snomed_term else None
                 )
                 count += 1
+
+                # Auto-create IS_A relationship from SNOMED parent_code
+                await self._auto_create_is_a_relation(
+                    outcome_name, "Outcome", norm_outcome
+                )
             except Exception as e:
                 logger.warning(f"Failed to create AFFECTS relation for {outcome_name}: {e}")
 
@@ -1468,6 +1668,30 @@ class RelationshipBuilder:
             return "improved"
         else:
             return "unchanged"
+
+    def _determine_direction_from_outcome(self, outcome: ExtractedOutcome) -> str:
+        """Determine direction from an ExtractedOutcome object.
+
+        Wrapper around _determine_direction that converts ExtractedOutcome to dict.
+
+        Args:
+            outcome: ExtractedOutcome object
+
+        Returns:
+            Direction string: "improved", "worsened", or "unchanged"
+        """
+        outcome_dict = {
+            "name": outcome.name,
+            "baseline": outcome.baseline,
+            "final": outcome.final,
+            "value_intervention": outcome.value_intervention,
+            "value_control": outcome.value_control,
+            "effect_size": outcome.effect_size if outcome.effect_size != "not_reported" else "",
+            "p_value": outcome.p_value,
+            "is_significant": outcome.is_significant,
+            "direction": outcome.direction,
+        }
+        return self._determine_direction(outcome_dict)
 
     def _is_lower_better_outcome(self, outcome_name: str) -> bool:
         """낮을수록 좋은 결과변수인지 판단.

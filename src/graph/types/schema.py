@@ -712,6 +712,64 @@ class SpineGraphSchema:
         """
 
     @classmethod
+    def get_init_entity_taxonomy_cypher(cls) -> list[tuple[str, dict]]:
+        """Pathology, Outcome, Anatomy IS_A 계층 초기화 Cypher.
+
+        spine_snomed_mappings.py의 parent_code를 기반으로 IS_A 관계를 동적 생성합니다.
+        Intervention은 get_init_taxonomy_cypher()에서 이미 처리되므로 제외합니다.
+
+        Returns:
+            (Cypher 쿼리, 파라미터 dict) 튜플 목록
+        """
+        from ontology.spine_snomed_mappings import (
+            SPINE_PATHOLOGY_SNOMED,
+            SPINE_OUTCOME_SNOMED,
+            SPINE_ANATOMY_SNOMED,
+        )
+
+        queries: list[tuple[str, dict]] = []
+
+        entity_configs = [
+            ("Pathology", SPINE_PATHOLOGY_SNOMED),
+            ("Outcome", SPINE_OUTCOME_SNOMED),
+            ("Anatomy", SPINE_ANATOMY_SNOMED),
+        ]
+
+        for label, mapping_dict in entity_configs:
+            # Build code->name lookup
+            code_to_name: dict[str, str] = {}
+            for name, m in mapping_dict.items():
+                code_to_name[m.code] = name
+
+            # Generate IS_A relationships for entries with parent_code
+            for name, m in mapping_dict.items():
+                if not m.parent_code:
+                    continue  # Root concept, no IS_A
+
+                parent_name = code_to_name.get(m.parent_code)
+                if not parent_name:
+                    if m.parent_code:
+                        import logging
+                        logging.getLogger(__name__).warning(
+                            f"[{label}] '{name}': parent_code='{m.parent_code}' "
+                            f"not found in mapping — IS_A skipped"
+                        )
+                    continue
+
+                query = (
+                    f"MERGE (child:{label} {{name: $child_name}}) "
+                    f"MERGE (parent:{label} {{name: $parent_name}}) "
+                    f"MERGE (child)-[:IS_A {{level: 1}}]->(parent)"
+                )
+                params = {
+                    "child_name": name,
+                    "parent_name": parent_name,
+                }
+                queries.append((query, params))
+
+        return queries
+
+    @classmethod
     def get_enrich_snomed_cypher(cls) -> list[tuple[str, dict]]:
         """SNOMED 코드로 기존 노드를 보강하는 Cypher (query, params) 튜플 목록.
 

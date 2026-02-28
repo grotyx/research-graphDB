@@ -56,9 +56,23 @@ logger = logging.getLogger(__name__)
 # v1.0 Evidence-based Ranking Configuration
 # ============================================================================
 
-# Scoring Formula Constants (v1.0)
-DEFAULT_SEMANTIC_WEIGHT: float = 0.6    # Semantic score weight in final formula
-DEFAULT_AUTHORITY_WEIGHT: float = 0.4   # Authority score weight in final formula
+# Scoring Formula Constants (v1.0 - legacy, kept for backward compat)
+DEFAULT_SEMANTIC_WEIGHT: float = 0.6    # Semantic score weight (v1.0 legacy)
+DEFAULT_AUTHORITY_WEIGHT: float = 0.4   # Authority score weight (v1.0 legacy)
+
+# v1.1: Three-way scoring with graph relevance
+SEMANTIC_WEIGHT_V11: float = 0.4        # Semantic score weight in v1.1 formula
+AUTHORITY_WEIGHT_V11: float = 0.3       # Authority score weight in v1.1 formula
+GRAPH_RELEVANCE_WEIGHT_V11: float = 0.3 # Graph relevance weight (ontology distance + relationships)
+
+# Ontology distance scoring (IS_A hops)
+ONTOLOGY_DISTANCE_SCORES = {
+    0: 1.0,  # Direct match
+    1: 0.7,  # 1 IS_A hop
+    2: 0.4,  # 2 IS_A hops
+}
+ONTOLOGY_DISTANCE_DEFAULT: float = 0.2  # 3+ hops
+RELATIONSHIP_BONUS: float = 0.3  # Bonus for direct TREATS/AFFECTS connection
 KEY_FINDING_BOOST: float = 1.2          # Boost multiplier for key findings
 STATISTICS_BOOST: float = 1.1           # Boost multiplier for results with statistics
 DIRECTION_IMPROVED_BOOST: float = 1.2   # Direction boost for improved outcomes
@@ -347,25 +361,46 @@ class HybridRanker:
         1. Neo4j hybrid_search(): 그래프 필터링 + 벡터 검색 통합 쿼리
         2. 단일 트랜잭션으로 처리 (더 빠른 응답)
 
-    점수 계산 (v1.0):
+    점수 계산 (v1.1):
         - Authority 점수: Evidence Level × Study Design × Sample Size × Recency × Citations
         - Semantic 점수: Vector Similarity × Metadata Boosts
-        - 최종 점수 = 0.6 × Semantic + 0.4 × Authority
+        - Graph Relevance 점수: Ontology Distance + Relationship Bonus + Evidence Strength
+        - 최종 점수 = 0.4 × Semantic + 0.3 × Authority + 0.3 × Graph Relevance
     """
 
     def __init__(
         self,
         neo4j_client: Optional["Neo4jClient"] = None,
-        use_neo4j_hybrid: bool = False
+        use_neo4j_hybrid: bool = False,
+        semantic_weight: float = SEMANTIC_WEIGHT_V11,
+        authority_weight: float = AUTHORITY_WEIGHT_V11,
+        graph_relevance_weight: float = GRAPH_RELEVANCE_WEIGHT_V11,
     ) -> None:
         """초기화.
 
         Args:
             neo4j_client: Neo4j 클라이언트 (선택적)
             use_neo4j_hybrid: Neo4j 통합 hybrid_search 사용 여부 (v5.3)
+            semantic_weight: Semantic score weight (default 0.4)
+            authority_weight: Authority score weight (default 0.3)
+            graph_relevance_weight: Graph relevance weight (default 0.3)
         """
         self.neo4j_client: Optional["Neo4jClient"] = neo4j_client
         self.use_neo4j_hybrid: bool = use_neo4j_hybrid and neo4j_client is not None
+
+        # Configurable weights (must sum to 1.0)
+        total = semantic_weight + authority_weight + graph_relevance_weight
+        if abs(total - 1.0) > 0.01:
+            logger.warning(
+                f"Ranking weights sum to {total:.2f}, normalizing to 1.0"
+            )
+            semantic_weight /= total
+            authority_weight /= total
+            graph_relevance_weight /= total
+
+        self.semantic_weight = semantic_weight
+        self.authority_weight = authority_weight
+        self.graph_relevance_weight = graph_relevance_weight
 
         if neo4j_client is None:
             logger.warning("Neo4j client not provided. Graph search disabled.")
@@ -877,8 +912,17 @@ class HybridRanker:
             # 5. Calculate Authority Score (v1.0)
             authority_score = self._calculate_authority_score_from_metadata(vr)
 
-            # 6. Combine: semantic + authority (weighted)
-            final_score = DEFAULT_SEMANTIC_WEIGHT * semantic_score + DEFAULT_AUTHORITY_WEIGHT * authority_score
+            # 6. Calculate Graph Relevance Score (v1.1)
+            graph_relevance = self._calculate_graph_relevance({
+                "evidence_level": vr.evidence_level,
+            })
+
+            # 7. Combine: semantic + authority + graph_relevance (weighted)
+            final_score = (
+                self.semantic_weight * semantic_score
+                + self.authority_weight * authority_score
+                + self.graph_relevance_weight * graph_relevance
+            )
 
             # Normalize to 0~1
             final_score = min(final_score, 1.0)
@@ -897,7 +941,8 @@ class HybridRanker:
                     "has_statistics": vr.has_statistics,
                     "semantic_score": semantic_score,
                     "authority_score": authority_score,
-                    "ranking_version": "v1.0",
+                    "graph_relevance_score": graph_relevance,
+                    "ranking_version": "v1.1",
                 }
             ))
 
@@ -944,6 +989,84 @@ class HybridRanker:
         )
 
         return authority_score
+
+    @staticmethod
+    def _calculate_graph_relevance(
+        paper_metadata: dict,
+        query_entities: Optional[list[str]] = None,
+        graph_context: Optional[dict] = None,
+    ) -> float:
+        """Calculate graph relevance score based on ontology distance and relationships.
+
+        Combines:
+        - ontology_distance_score: closer IS_A hops = higher score
+        - relationship_score: bonus if TREATS/AFFECTS direct connection exists
+        - evidence_strength_score: based on p_value and effect_size
+
+        Args:
+            paper_metadata: Paper/chunk metadata dict with keys like
+                'evidence_level', 'intervention', 'outcome', 'p_value',
+                'effect_size', 'has_treats_link', 'ontology_distance'
+            query_entities: List of entity names from the query
+            graph_context: Optional expanded context with hierarchy info
+
+        Returns:
+            Graph relevance score (0.0-1.0)
+        """
+        score = 0.0
+
+        # 1. Ontology distance score
+        ontology_distance = paper_metadata.get("ontology_distance")
+        if ontology_distance is not None:
+            score += ONTOLOGY_DISTANCE_SCORES.get(
+                ontology_distance, ONTOLOGY_DISTANCE_DEFAULT
+            )
+        else:
+            # No distance info: check if entities match directly
+            if query_entities:
+                paper_intervention = paper_metadata.get("intervention", "")
+                paper_outcome = paper_metadata.get("outcome", "")
+                paper_pathology = paper_metadata.get("pathology", "")
+                paper_entities = {
+                    paper_intervention, paper_outcome, paper_pathology
+                } - {""}
+
+                if paper_entities & set(query_entities):
+                    score += 1.0  # Direct entity match
+                else:
+                    score += 0.3  # No match, base score
+            else:
+                score += 0.5  # No query entities, neutral
+
+        # 2. Relationship bonus (TREATS/AFFECTS direct connection)
+        if paper_metadata.get("has_treats_link"):
+            score += RELATIONSHIP_BONUS
+        elif paper_metadata.get("has_affects_link"):
+            score += RELATIONSHIP_BONUS * 0.7
+
+        # 3. Evidence strength score (p_value + effect_size)
+        p_value = paper_metadata.get("p_value")
+        if p_value is not None:
+            if p_value < 0.01:
+                score += 0.2
+            elif p_value < 0.05:
+                score += 0.14
+            else:
+                score += 0.06
+
+        effect_size = paper_metadata.get("effect_size", "")
+        if effect_size:
+            try:
+                es_val = float(str(effect_size).replace("Cohen's d=", "").strip())
+                if es_val >= 0.8:
+                    score += 0.1  # Large effect
+                elif es_val >= 0.5:
+                    score += 0.07  # Medium effect
+            except (ValueError, TypeError):
+                pass
+
+        # Normalize to 0-1 range
+        return min(score / 1.5, 1.0)
 
     async def _neo4j_hybrid_search(
         self,
@@ -1018,8 +1141,15 @@ class HybridRanker:
                 # Authority score
                 authority_score = evidence_weight * design_weight * recency_boost
 
-                # Combined: semantic + authority (weighted)
-                final_score = DEFAULT_SEMANTIC_WEIGHT * semantic_score + DEFAULT_AUTHORITY_WEIGHT * authority_score
+                # Graph relevance score (v1.1)
+                graph_relevance = self._calculate_graph_relevance(raw)
+
+                # Combined: semantic + authority + graph_relevance (weighted)
+                final_score = (
+                    self.semantic_weight * semantic_score
+                    + self.authority_weight * authority_score
+                    + self.graph_relevance_weight * graph_relevance
+                )
                 final_score = min(final_score, 1.0)
 
                 results.append(HybridResult(
@@ -1038,8 +1168,9 @@ class HybridRanker:
                         "graph_score": raw.get("graph_score", 0.0),
                         "semantic_score": semantic_score,
                         "authority_score": authority_score,
+                        "graph_relevance_score": graph_relevance,
                         "backend": "neo4j_hybrid",
-                        "ranking_version": "v1.0",
+                        "ranking_version": "v1.1",
                     }
                 ))
 
@@ -1149,7 +1280,13 @@ class HybridRanker:
             "graph_db_available": self.neo4j_client is not None,
             "neo4j_hybrid_enabled": self.use_neo4j_hybrid,  # v5.3
             "search_backend": "neo4j_hybrid" if self.use_neo4j_hybrid else "neo4j_cypher",
-            "ranking_version": "v1.0",  # NEW
+            "ranking_version": "v1.0",  # backward compat key
+            "ranking_formula": "v1.1",  # actual formula version
+            "weights": {
+                "semantic": self.semantic_weight,
+                "authority": self.authority_weight,
+                "graph_relevance": self.graph_relevance_weight,
+            },
         }
 
         return stats

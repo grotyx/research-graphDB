@@ -96,12 +96,29 @@ class SchemaManager:
                 if "already exists" not in str(e).lower():
                     logger.warning(f"Vector index creation warning: {e}")
 
-        # 5. Taxonomy 초기화
+        # 5. Taxonomy 초기화 (Intervention)
         try:
             await self._run_write_query(SpineGraphSchema.get_init_taxonomy_cypher())
             logger.info("Intervention taxonomy initialized")
         except Exception as e:
             logger.warning(f"Taxonomy initialization warning: {e}")
+
+        # 6. Entity Taxonomy 초기화 (Pathology, Outcome, Anatomy IS_A)
+        entity_queries = SpineGraphSchema.get_init_entity_taxonomy_cypher()
+        entity_success = 0
+        for query, params in entity_queries:
+            try:
+                await self._run_write_query(query, params)
+                entity_success += 1
+            except Exception as e:
+                logger.warning(
+                    f"Entity taxonomy IS_A failed: "
+                    f"{params.get('child_name', '?')} -> "
+                    f"{params.get('parent_name', '?')}: {e}"
+                )
+        logger.info(
+            f"Entity taxonomy initialized ({entity_success}/{len(entity_queries)} IS_A relationships)"
+        )
 
         self._initialized = True
         logger.info("Neo4j schema initialization complete")
