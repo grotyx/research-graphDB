@@ -190,19 +190,35 @@ class SearchDAO:
             query += " WHERE " + " AND ".join(filters)
 
         # SNOMED IS_A hierarchy expansion (optional ontology-aware filter)
+        # Covers all 4 entity types:
+        #   INVESTIGATES → Intervention, STUDIES → Pathology,
+        #   INVOLVES → Anatomy, INVESTIGATES→AFFECTS → Outcome (via Intervention)
         if snomed_codes:
             snomed_subquery = """
         WITH c, p, vector_score
-        OPTIONAL MATCH (p)-[:INVESTIGATES|STUDIES]->(target)
-        WHERE target.snomed_code IN $snomed_codes
+        OPTIONAL MATCH (p)-[:INVESTIGATES|STUDIES|INVOLVES]->(direct_target)
+        WHERE direct_target.snomed_code IN $snomed_codes
            OR EXISTS {
-               MATCH (target)-[:IS_A*1..2]->(ancestor)
+               MATCH (direct_target)-[:IS_A*1..2]->(ancestor)
                WHERE ancestor.snomed_code IN $snomed_codes
            }
            OR EXISTS {
-               MATCH (descendant)-[:IS_A*1..2]->(target)
+               MATCH (descendant)-[:IS_A*1..2]->(direct_target)
                WHERE descendant.snomed_code IN $snomed_codes
            }
+        WITH c, p, vector_score, direct_target
+        OPTIONAL MATCH (p)-[:INVESTIGATES]->(:Intervention)-[:AFFECTS]->(outcome_target:Outcome)
+        WHERE outcome_target.snomed_code IN $snomed_codes
+           OR EXISTS {
+               MATCH (outcome_target)-[:IS_A*1..2]->(ancestor)
+               WHERE ancestor.snomed_code IN $snomed_codes
+           }
+           OR EXISTS {
+               MATCH (descendant)-[:IS_A*1..2]->(outcome_target)
+               WHERE descendant.snomed_code IN $snomed_codes
+           }
+        WITH c, p, vector_score,
+             CASE WHEN direct_target IS NOT NULL THEN direct_target ELSE outcome_target END as target
         WITH c, p, vector_score, target,
              CASE
                  WHEN target IS NULL THEN null
