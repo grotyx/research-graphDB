@@ -624,12 +624,13 @@ src/orchestrator/query_parser.py에서:
 | ID | Check | 심각도 | 설명 | 발견 버전 | 상태 |
 |----|-------|--------|------|----------|------|
 | QC-2024-003 | 1.3 (Doc headers) | Info | TROUBLESHOOTING.md, SCHEMA_UPDATE_GUIDE.md, CA_DEFERRED_PLAN.md, CLEANUP_SPRINT_PLAN.md — 운영 문서로 버전 헤더 없음 (의도적 허용 가능) | v1.24.0 | 🟡 보류 |
-| QC-2024-005 | 5.3 (Git status) | Medium | v1.24.0 변경 파일 미커밋 상태 — v1.24.0 릴리스 커밋 필요 | v1.24.0 | 🔴 신규 |
+| QC-2024-005 | 5.3 (Git status) | Medium | v1.24.0 변경 파일 미커밋 상태 — ✅ SNOMED 확장 커밋에서 해소 (e55a2a7) | v1.24.0 | ✅ 해소 |
 
 ### 해소 완료
 
 | ID | Check | 심각도 | 설명 | 발견 버전 | 해소 버전 | 상태 |
 |----|-------|--------|------|----------|----------|------|
+| QC-2024-008 | 1.4 | Medium | SNOMED 매핑 확장 후 GRAPH_SCHEMA.md, DEPLOYMENT.md 통계 미갱신 (621→653) | v1.24.x | v1.24.x | ✅ 3곳 수정 (GRAPH_SCHEMA 통계표, DEPLOYMENT 3행) |
 | QC-2024-001 | 1.4 | Medium | DEPLOYMENT.md SNOMED 통계 구버전 잔존 (592→621) | v1.24.0 | v1.24.0 | ✅ DEPLOYMENT.md line 19 수정 |
 | QC-2024-002 | 1.3 | Low | TRD_v3_GraphRAG.md 버전 헤더 미갱신 (1.19.4) | v1.24.0 | v1.24.0 | ✅ 버전 1.24.0으로 갱신 |
 | QC-2024-004 | 4.2 | Low | TERMINOLOGY_ONTOLOGY.md root 카운트 오류 (P:7→12, O:8→11) | v1.24.0 | v1.24.0 | ✅ 수치 수정 |
