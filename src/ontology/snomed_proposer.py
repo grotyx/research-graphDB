@@ -44,18 +44,19 @@ _ENTITY_CONFIG = {
         "mapping": SPINE_INTERVENTION_SNOMED,
         "range_key": "procedure",
         "range_key_ext": "procedure_ext",
+        "range_key_ext2": "procedure_ext2",
         "semantic_type": SNOMEDSemanticType.PROCEDURE,
     },
     "pathology": {
         "mapping": SPINE_PATHOLOGY_SNOMED,
         "range_key": "disorder",
-        "range_key_ext": None,
+        "range_key_ext": "disorder_ext",
         "semantic_type": SNOMEDSemanticType.DISORDER,
     },
     "outcome": {
         "mapping": SPINE_OUTCOME_SNOMED,
         "range_key": "observable",
-        "range_key_ext": None,
+        "range_key_ext": "observable_ext",
         "semantic_type": SNOMEDSemanticType.OBSERVABLE_ENTITY,
     },
     "anatomy": {
@@ -353,6 +354,14 @@ class SNOMEDProposer:
         if range_key_ext and range_key_ext in EXTENSION_RANGES:
             ext_start, ext_end = EXTENSION_RANGES[range_key_ext]
             for idx in range(ext_start, ext_end + 1):
+                if idx not in existing_codes:
+                    return f"{EXTENSION_NAMESPACE}{idx}"
+
+        # Try second extended range if available (procedure_ext2)
+        range_key_ext2 = config.get("range_key_ext2")
+        if range_key_ext2 and range_key_ext2 in EXTENSION_RANGES:
+            ext2_start, ext2_end = EXTENSION_RANGES[range_key_ext2]
+            for idx in range(ext2_start, ext2_end + 1):
                 if idx not in existing_codes:
                     return f"{EXTENSION_NAMESPACE}{idx}"
 

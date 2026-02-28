@@ -490,7 +490,7 @@ async def classify_unmatched_entity(
     prompt = _CLASSIFY_ENTITY_PROMPT.format(
         entity_text=entity_text,
         entity_type=entity_type,
-        candidates="\n".join(f"- {c}" for c in candidates[:30]),
+        candidates="\n".join(f"- {c}" for c in candidates[:50]),
     )
 
     schema = {
@@ -585,7 +585,7 @@ class RelationshipBuilder:
         self._llm_call_count += 1
 
         candidates = self.normalizer._get_candidate_canonicals(
-            text, entity_type, top_k=30
+            text, entity_type, top_k=50
         )
         if not candidates:
             return result

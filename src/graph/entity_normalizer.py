@@ -155,8 +155,8 @@ class EntityNormalizer:
         "PELD": [
             "Percutaneous Endoscopic Lumbar Discectomy",
             "경피적 내시경", "PELD technique",
-            # v1.21.0: PTED = Percutaneous Transforaminal Endoscopic Discectomy ≈ PELD
-            "PTED", "Percutaneous Transforaminal Endoscopic Discectomy",
+            # v1.25.0: PTED/Transforaminal moved to PETD (distinct procedure)
+            "percutaneous endoscopic discectomy",
         ],
         "FESS": [
             "Full Endoscopic Spinal Surgery",
@@ -193,6 +193,9 @@ class EntityNormalizer:
             # v1.14.1: 소문자/변형 추가
             "transforaminal lumbar interbody fusion", "Transforaminal fusion",
             "transforaminal fusion",
+            # v1.25.0: alias expansion
+            "open TLIF", "Open TLIF", "posterior lumbar interbody fusion",
+            "unilateral TLIF",
         ],
         "MIS-TLIF": [
             "Minimally Invasive TLIF", "MIS TLIF",
@@ -292,6 +295,9 @@ class EntityNormalizer:
             "Smith Petersen Osteotomy",
             # v1.14.1: 소문자/변형 추가
             "SPO osteotomy", "Ponte", "ponte osteotomy",
+            # v1.25.0: PCO merged into SPO (same procedure)
+            "PCO", "Posterior Column Osteotomy",
+            "posterior column osteotomy", "Chevron osteotomy",
         ],
         "PSO": [
             "Pedicle Subtraction Osteotomy",
@@ -366,8 +372,8 @@ class EntityNormalizer:
         "ADR": [
             "Artificial Disc Replacement", "TDR",
             "Total Disc Replacement", "Disc Arthroplasty",
-            # v1.21.0: Neo4j 고빈도 미매핑 추가
-            "TDR (Simplify Cervical Disc)",
+            # v1.25.0: "TDR (Simplify Cervical Disc)" moved to CDR (cervical device)
+            "lTDR", "Lumbar disc replacement", "Lumbar TDR",
         ],
         "Dynamic Stabilization": [
             "Dynamic Spinal Stabilization"
@@ -508,7 +514,9 @@ class EntityNormalizer:
         "CDR": [
             "Cervical Disc Replacement", "Cervical ADR",
             "Cervical Artificial Disc", "Cervical TDR",
-            "경추 인공디스크"
+            "경추 인공디스크",
+            # v1.25.0: cervical-specific aliases consolidated here
+            "cTDR", "cADR", "TDR (Simplify Cervical Disc)",
         ],
         "Laminoplasty": [
             "Cervical Laminoplasty", "Open-door laminoplasty",
@@ -809,10 +817,7 @@ class EntityNormalizer:
             "Combined anterior-posterior fusion",
             "360-degree fusion", "전후방 동시 유합술",
         ],
-        "Posterior Column Osteotomy": [
-            "PCO", "posterior column osteotomy",
-            "Chevron osteotomy",
-        ],
+        # v1.25.0: PCO/Posterior Column Osteotomy merged into SPO (same procedure)
         "Asymmetric PSO": [
             "asymmetric PSO", "Asymmetric pedicle subtraction osteotomy",
         ],
@@ -901,6 +906,276 @@ class EntityNormalizer:
         "Wound VAC": [
             "wound VAC", "Vacuum-assisted closure",
             "Negative pressure wound therapy", "NPWT",
+        ],
+
+        # ========================================
+        # v1.25.0: SNOMED Orphan Sync + Alias Expansion
+        # ========================================
+
+        # Endoscopic variants (SNOMED orphans)
+        "PEID": [
+            "Percutaneous Endoscopic Interlaminar Discectomy",
+            "Interlaminar endoscopic discectomy",
+            "Percutaneous endoscopic interlaminar approach",
+        ],
+        "PETD": [
+            "Percutaneous Endoscopic Transforaminal Discectomy",
+            "Transforaminal endoscopic discectomy", "TED",
+            "Percutaneous endoscopic transforaminal approach",
+            # v1.25.0: moved from PELD (distinct transforaminal procedure)
+            "PTED", "Transforaminal PELD", "TF-PELD technique",
+            "TF-PELD",
+        ],
+        "LE-ULBD": [
+            "Lateral Endoscopic ULBD",
+            "Lateral endoscopic unilateral laminotomy bilateral decompression",
+        ],
+        "LAMP": [
+            "Laminectomy with medial facetectomy and pedicular decompression",
+            "추궁절제 및 내측 관절돌기 절제술",
+        ],
+
+        # Bone graft specifics (SNOMED orphans)
+        "rhBMP-2": [
+            "rhBMP-2 augmentation", "BMP-2", "BMP-2 grafting",
+            "rh-BMP2", "BMP augmentation", "E.BMP-2",
+            "rhBMP-2/ACS", "rhBMP-2 with HA",
+            "재조합 인간 골형성 단백질-2 적용",
+        ],
+        "Allograft bone grafting": [
+            "allograft", "Structural femoral allograft",
+            "bone allograft", "동종골 이식술",
+        ],
+        "Autograft bone grafting": [
+            "autograft", "Autogenous bone graft",
+            "Local autograft", "auto-iliac bone graft",
+            "Bone marrow aspirate", "자가골 이식술",
+        ],
+        "Bone graft augmentation": [
+            "Bone marrow aspirate concentrate", "BMAC",
+            "골 이식 보강술",
+        ],
+        "Demineralized bone matrix": [
+            "탈회골기질",
+        ],
+
+        # Instrumentation specifics (SNOMED orphans)
+        "Pedicle screw instrumentation": [
+            "Pedicle screw insertion",
+            "Bilateral pedicle screw instrumentation",
+            "Unilateral pedicle screw instrumentation",
+            "pedicle screw and rod instrumentation",
+            "척추경 나사못 기기 고정술",
+        ],
+        "Interbody cage implantation": [
+            "cage implantation", "Interbody cage placement",
+            "Interbody spacer", "PEEK interbody cage",
+            "Expandable cage", "intervertebral cage",
+            "추체간 케이지 삽입술",
+        ],
+
+        # Repair / Reconstruction (SNOMED orphans)
+        "Dural repair": [
+            "Dural closure", "Dural suture", "Duraplasty",
+            "경막 수복술",
+        ],
+        "Posterior stabilization": [
+            "Posterior instrumentation", "Posterior wiring",
+            "후방 안정화술",
+        ],
+        "Laminar reconstruction": [
+            "Laminoplasty reconstruction",
+            "PEEK artificial lamina reconstruction",
+            "추궁판 재건술",
+        ],
+
+        # Decompression variants (SNOMED orphans)
+        "Minimally Invasive Decompression": [
+            "MIS decompression", "Tubular retractor-based surgery",
+            "최소 침습 감압술",
+        ],
+        "Flavectomy": [
+            "Ligamentum flavum resection",
+            "Ligamentum flavum removal",
+            "Yellow ligament excision",
+            "황색인대 절제술",
+        ],
+        "Bilateral facetectomy": [
+            "bilateral facetectomy", "Bilateral facet resection",
+        ],
+
+        # Fixation variants (SNOMED orphans)
+        "Pelvic fixation": [
+            "Iliac fixation", "Spinopelvic fixation",
+        ],
+        "Dynamic rod fixation": [
+            "Dynamic stabilization rod", "dynamic rod",
+        ],
+        "Rigid rod fixation": [
+            "rigid rod fixation", "Standard rod fixation",
+        ],
+        "Plate fixation": [
+            "plate fixation", "Spinal plate fixation",
+            "Anterior plate",
+        ],
+        "Posterior fixation": [
+            "posterior fixation", "Posterior fixation with pedicle screws",
+        ],
+        "Percutaneous posterior fixation": [
+            "percutaneous posterior fixation",
+            "Percutaneous instrumented fusion",
+        ],
+        "Navigation-guided fixation": [
+            "navigation-guided fixation",
+            "CT-guided fixation",
+        ],
+        "Anterior fixation": [
+            "anterior fixation", "Anterior titanium plate fixation",
+        ],
+        "Transpedicular fixation": [
+            "transpedicular fixation",
+            "Transpedicular screw fixation",
+        ],
+        "Robot-assisted fixation": [
+            "robot-assisted fixation",
+            "Robot-assisted transfacet screw fixation",
+        ],
+        "Internal fixation": [
+            "internal fixation", "Hybrid internal fixation",
+        ],
+        "Lateral plate fixation": [
+            "lateral plate fixation", "Lateral cervical plate",
+        ],
+        "Translaminar facet screw fixation": [
+            "translaminar facet screw",
+            "Translaminar screw fixation",
+        ],
+        "TT fixation": [
+            "Traditional trajectory", "Traditional trajectory fixation",
+        ],
+        "CBT fixation": [
+            "Cortical bone trajectory fixation",
+            "CBT screw fixation",
+        ],
+        "Hybrid CBT-TT fixation": [
+            "hybrid CBT-TT fixation",
+            "Combined CBT-TT screw fixation",
+        ],
+
+        # v1.25.0: PCO merged into SPO (see SPO entry above)
+        "Facet joint osteotomy": [
+            "facet joint osteotomy", "Facet osteotomy",
+        ],
+        "Posterior osteotomy": [
+            "posterior osteotomy", "Posterior spinal osteotomy",
+        ],
+        "Transoral osteotomy": [
+            "transoral osteotomy",
+        ],
+
+        # Fusion variants (SNOMED orphans)
+        "C1/2 posterior fusion": [
+            "C1-2 posterior fusion", "Atlantoaxial posterior fusion",
+        ],
+        "CDA": [
+            "Cervical Disc Arthroplasty", "cervical disc arthroplasty",
+        ],
+
+        # Trauma (SNOMED orphans)
+        "Closed reduction": [
+            "Closed fracture reduction", "Manual reduction",
+            "비관혈적 정복술",
+        ],
+        "Open reduction": [
+            "Open fracture reduction", "ORIF",
+            "관혈적 정복술",
+        ],
+
+        # Other (SNOMED orphans)
+        "Stereotactic Navigation": [
+            "Stereotactic surgery", "Stereotactic guidance",
+        ],
+        "Robot-assisted spine surgery": [
+            "robot-assisted spine surgery",
+        ],
+        "Navigation-guided spine surgery": [
+            "navigation-guided spine surgery",
+        ],
+        "Bariatric Surgery": [
+            "Weight loss surgery", "Obesity surgery",
+            "Sleeve gastrectomy", "RYGB", "비만 수술",
+        ],
+        "Injection Therapy": [
+            "injection therapy", "Spinal injection",
+        ],
+        "Vertebral Biopsy": [
+            "vertebral biopsy", "Spine biopsy",
+            "CT-guided biopsy", "척추 생검",
+        ],
+        "Zoledronate": [
+            "Zoledronic acid", "zoledronate",
+            "졸레드론산",
+        ],
+
+        # ========================================
+        # v1.25.0: New SNOMED Concept Aliases (Gap C)
+        # ========================================
+        "Expandable Cage": [
+            "expandable cage", "Expandable interbody cage",
+            "Expandable interbody spacer", "Articulating expandable cage",
+            "확장형 케이지",
+        ],
+        "Zero-Profile Device": [
+            "zero-profile device", "Zero-profile cage",
+            "Stand-alone anterior cage", "Zero-P device",
+            "제로 프로파일 디바이스",
+        ],
+        "Endoscopic OLIF": [
+            "endoscopic OLIF", "Endo-OLIF",
+            "Full-endoscopic OLIF",
+            "내시경 사측방 유합술",
+        ],
+        "Robot-Assisted UBE": [
+            "robot-assisted UBE", "RA-UBE", "Robotic UBE",
+            "Robot-assisted biportal endoscopy",
+            "로봇 보조 양측 내시경",
+        ],
+        "AR-Guided Surgery": [
+            "AR-guided surgery", "AR navigation",
+            "Augmented reality navigation",
+            "AR-guided pedicle screw placement",
+            "증강현실 가이드 수술",
+        ],
+        "Romosozumab": [
+            "romosozumab", "Evenity",
+            "Anti-sclerostin antibody", "Romosozumab treatment",
+            "로모소주맙",
+        ],
+        "Abaloparatide": [
+            "abaloparatide", "Tymlos",
+            "PTHrP analog", "Abaloparatide treatment",
+            "아발로파라타이드",
+        ],
+        "Standalone Cage": [
+            "standalone cage", "Stand-alone cage",
+            "Cage-only fusion", "Stand-alone PEEK cage",
+            "Standalone ALIF cage", "단독 케이지",
+        ],
+        "3D-Printed Implant": [
+            "3D-printed implant", "3D-printed titanium cage",
+            "3D-printed cage", "Custom 3D implant",
+            "Additive manufactured cage",
+            "3D 프린팅 임플란트",
+        ],
+        "Endoscopic Posterior Fusion": [
+            "endoscopic posterior fusion", "Endo-PLIF",
+            "Endoscopic PLIF", "Full-endoscopic posterior fusion",
+            "내시경 후방 유합술",
+        ],
+        "Percutaneous Cement Discoplasty": [
+            "percutaneous cement discoplasty", "PCD",
+            "Cement discoplasty", "PMMA discoplasty",
+            "경피적 시멘트 추간판 성형술",
         ],
     }
 
@@ -1077,6 +1352,67 @@ class EntityNormalizer:
         "Oblique Corpectomy": "Tumor Surgery",
         "Lateral Corpectomy": "Tumor Surgery",
         "Wound VAC": "Other Surgical",
+        # v1.25.0: SNOMED Orphan Sync categories
+        "PEID": "Endoscopic Surgery",
+        "PETD": "Endoscopic Surgery",
+        "LE-ULBD": "Endoscopic Surgery",
+        "LAMP": "Decompression Surgery",
+        "rhBMP-2": "Other Surgical",
+        "Allograft bone grafting": "Other Surgical",
+        "Autograft bone grafting": "Other Surgical",
+        "Bone graft augmentation": "Other Surgical",
+        "Demineralized bone matrix": "Other Surgical",
+        "Pedicle screw instrumentation": "Fixation",
+        "Interbody cage implantation": "Other Surgical",
+        "Dural repair": "Other Surgical",
+        "Posterior stabilization": "Fixation",
+        "Laminar reconstruction": "Decompression Surgery",
+        "Minimally Invasive Decompression": "Decompression Surgery",
+        "Flavectomy": "Decompression Surgery",
+        "Bilateral facetectomy": "Decompression Surgery",
+        "Pelvic fixation": "Fixation",
+        "Dynamic rod fixation": "Fixation",
+        "Rigid rod fixation": "Fixation",
+        "Plate fixation": "Fixation",
+        "Posterior fixation": "Fixation",
+        "Percutaneous posterior fixation": "Fixation",
+        "Navigation-guided fixation": "Fixation",
+        "Anterior fixation": "Fixation",
+        "Transpedicular fixation": "Fixation",
+        "Robot-assisted fixation": "Fixation",
+        "Internal fixation": "Fixation",
+        "Lateral plate fixation": "Fixation",
+        "Translaminar facet screw fixation": "Fixation",
+        "TT fixation": "Fixation",
+        "CBT fixation": "Fixation",
+        "Hybrid CBT-TT fixation": "Fixation",
+        # PCO merged into SPO
+        "Facet joint osteotomy": "Osteotomy",
+        "Posterior osteotomy": "Osteotomy",
+        "Transoral osteotomy": "Osteotomy",
+        "C1/2 posterior fusion": "Posterolateral Fusion",
+        "CDA": "Motion Preservation",
+        "Closed reduction": "Other Surgical",
+        "Open reduction": "Other Surgical",
+        "Stereotactic Navigation": "Navigation/Robotics",
+        "Robot-assisted spine surgery": "Navigation/Robotics",
+        "Navigation-guided spine surgery": "Navigation/Robotics",
+        "Bariatric Surgery": "Other Surgical",
+        "Injection Therapy": "Injection Therapy",
+        "Vertebral Biopsy": "Diagnostic",
+        "Zoledronate": "Conservative Treatment",
+        # v1.25.0: New SNOMED concept categories (Gap C)
+        "Expandable Cage": "Other Surgical",
+        "Zero-Profile Device": "Interbody Fusion",
+        "Endoscopic OLIF": "Endoscopic Surgery",
+        "Robot-Assisted UBE": "Endoscopic Surgery",
+        "AR-Guided Surgery": "Navigation/Robotics",
+        "Romosozumab": "Conservative Treatment",
+        "Abaloparatide": "Conservative Treatment",
+        "Standalone Cage": "Interbody Fusion",
+        "3D-Printed Implant": "Other Surgical",
+        "Endoscopic Posterior Fusion": "Endoscopic Surgery",
+        "Percutaneous Cement Discoplasty": "Other Surgical",
     }
 
     # 결과변수 별칭 매핑
@@ -1345,6 +1681,11 @@ class EntityNormalizer:
             # v1.20.2: 추가 변형
             "Direct cost", "Indirect cost", "Total hospital cost",
             "Economic cost", "Medical cost", "총 비용",
+            # v1.25.0: cost-effectiveness / QALY variants
+            "QALY", "Quality-adjusted life year",
+            "Cost-effectiveness", "cost-effectiveness",
+            "ICER", "Incremental cost-effectiveness ratio",
+            "Cost per QALY", "Economic evaluation",
         ],
 
         # ========================================
@@ -1352,7 +1693,11 @@ class EntityNormalizer:
         # ========================================
         "MacNab": [
             "MacNab criteria", "Modified MacNab",
-            "Excellent/Good rate"
+            "Excellent/Good rate",
+            # v1.25.0: alias expansion
+            "Macnab criteria", "MacNab outcome",
+            "Modified Macnab criteria", "McNab criteria",
+            "MacNab classification",
         ],
         "Odom": [
             "Odom criteria", "Odom classification"
@@ -1383,7 +1728,11 @@ class EntityNormalizer:
         ],
         "ASIA Score": [
             "ASIA Impairment Scale", "AIS grade",
-            "Spinal cord injury grade"
+            "Spinal cord injury grade",
+            # v1.25.0: alias expansion
+            "ASIA grade", "AIS score", "ASIA Impairment Scale score",
+            "ASIA motor score", "ASIA sensory score",
+            "American Spinal Injury Association score",
         ],
         "Nurick Grade": [
             "Nurick myelopathy grade", "Nurick scale"
@@ -1394,17 +1743,26 @@ class EntityNormalizer:
         # ========================================
         "PROMIS": [
             "PROMIS Physical Function", "PROMIS Pain Intensity",
-            "PROMIS score"
+            "PROMIS score",
+            # v1.25.0: alias expansion
+            "PROMIS-10", "PROMIS-29", "PROMIS Global Health",
+            "PROMIS Physical Function score",
+            "Patient-Reported Outcomes Measurement Information System",
         ],
         "WHOQOL": [
             "WHO Quality of Life", "WHOQOL-BREF"
         ],
         "COMI": [
-            "Core Outcome Measures Index", "COMI score"
+            "Core Outcome Measures Index", "COMI score",
+            # v1.25.0: alias expansion
+            "COMI Back", "COMI Neck", "Core Outcome Measure Index",
         ],
         "Zurich Claudication": [
             "ZCQ", "Zurich Claudication Questionnaire",
-            "Symptom Severity Scale", "Physical Function Scale"
+            "Symptom Severity Scale", "Physical Function Scale",
+            # v1.25.0: alias expansion
+            "ZCQ score", "Zurich Claudication Questionnaire score",
+            "Swiss Spinal Stenosis Questionnaire",
         ],
 
         # ========================================
@@ -1816,6 +2174,198 @@ class EntityNormalizer:
             "Patient-Reported Outcome Measures (PROMs)",
             "Patient reported outcomes", "PROs",
         ],
+
+        # ========================================
+        # v1.25.0: SNOMED Orphan Sync + Alias Expansion (Outcomes)
+        # ========================================
+
+        # SNOMED orphan — new canonicals
+        "Sacral Slope": [
+            "SS", "sacral slope", "Sacral slope angle",
+            "천골 경사각",
+        ],
+        "Spinal Stiffness": [
+            "spinal stiffness", "Spine stiffness",
+            "Segmental stiffness", "척추 강직도",
+        ],
+        "Transient Thigh Symptoms": [
+            "Transient psoas weakness", "Thigh numbness after XLIF",
+            "Hip flexion weakness", "일과성 대퇴 증상",
+        ],
+        "Radiation Exposure": [
+            "radiation exposure", "Intraoperative radiation",
+            "수술 중 방사선 노출",
+        ],
+        "Overall Mechanical Complications": [
+            "overall mechanical complications",
+            "Mechanical failure rate",
+            "Instrumentation complication rate",
+            "전체 기계적 합병증률",
+        ],
+        "Von Mises Stress": [
+            "von Mises stress", "Finite element stress",
+            "Biomechanical stress", "폰 미세스 응력",
+        ],
+        "Complete Anatomical Reduction": [
+            "Anatomical reduction rate",
+            "Complete reduction rate",
+            "완전 해부학적 정복률",
+        ],
+        "Solid Fusion": [
+            "Solid arthrodesis", "Confirmed fusion",
+            "견고한 유합률",
+        ],
+        "Intraoperative Revision Rate": [
+            "intraoperative revision rate",
+            "Screw repositioning rate",
+            "수술 중 재삽입률",
+        ],
+        "Sagittal Disc Angle": [
+            "sagittal disc angle", "Disc angle",
+            "Interbody lordosis angle",
+            "시상면 추간판 각도",
+        ],
+        "Endplate Damage": [
+            "Endplate violation", "endplate damage",
+            "Vertebral endplate preservation",
+            "종판 손상",
+        ],
+        "BMP Complication Rate": [
+            "BMP-associated complications",
+            "BMP-related revision rate",
+            "BMP 관련 합병증률",
+        ],
+        "Subsidence Measurement": [
+            "Subsidence in mm", "Cage settling measurement",
+            "Interbody cage subsidence measurement",
+            "침하량 측정",
+        ],
+        "Aggrecan": [
+            "aggrecan", "Aggrecan level",
+        ],
+        "CSF Leakage": [
+            "CSF leakage", "Cerebrospinal fluid leakage",
+            "CSF leak rate", "뇌척수액 누출",
+        ],
+        "Extension of Fixation": [
+            "extension of fixation",
+            "Fixation extension rate",
+        ],
+        "Motor Deficit": [
+            "motor deficit", "Postoperative motor deficit",
+            "New motor weakness", "운동 결손",
+        ],
+        "Recovery Time": [
+            "recovery time", "Time to recovery",
+            "Convalescence period", "회복 시간",
+        ],
+        "SRS-Satisfaction": [
+            "SRS satisfaction", "SRS-22 satisfaction domain",
+            "SRS satisfaction score",
+        ],
+        "Sensory Deficit": [
+            "sensory deficit", "Postoperative sensory deficit",
+            "New sensory deficit", "감각 결손",
+        ],
+        "Surgical Time": [
+            "surgical time", "Total surgical time",
+        ],
+        "Symptomatic Hematoma": [
+            "symptomatic hematoma",
+            "Symptomatic postoperative hematoma",
+        ],
+
+        # SNOMED orphan — rate/variant aliases for existing canonicals
+        # (These are separate SNOMED entries but normalize to base concepts)
+        "Postoperative Delirium": [
+            "postoperative delirium", "POD incidence",
+        ],
+        "Radiculitis": [
+            "radiculitis", "BMP-related radiculitis",
+            "Postoperative radiculitis",
+        ],
+        "Range of Motion": [
+            "range of motion", "Range of motion measurement",
+        ],
+        "Transfusion Requirement": [
+            "transfusion requirement", "Blood transfusion requirement",
+        ],
+        "Muscle Cross-sectional Area": [
+            "muscle cross-sectional area", "Muscle CSA measurement",
+        ],
+        "Muscle Fat Infiltration": [
+            "muscle fat infiltration",
+            "Paraspinal muscle fat infiltration",
+        ],
+        "Adjacent Segment Degeneration": [
+            "adjacent segment degeneration",
+            "Proximal segment degeneration",
+        ],
+        "Quality of Life - SF-36": [
+            "quality of life SF-36", "QoL SF-36",
+        ],
+        "Heterotopic Ossification Rate": [
+            "heterotopic ossification rate", "HO rate",
+        ],
+        "Osteolysis Rate": [
+            "osteolysis rate", "Bone resorption rate",
+        ],
+        "Cage Subsidence Rate": [
+            "cage subsidence rate", "Subsidence rate",
+        ],
+        "Pseudarthrosis Rate": [
+            "pseudarthrosis rate", "Nonunion rate",
+        ],
+        "SRS-22 Quality of Life Score": [
+            "SRS-22 QoL", "SRS-22 quality of life",
+        ],
+        "Bone Mineral Density Measurement": [
+            "BMD measurement", "Bone density measurement",
+        ],
+        # v1.25.0: PJK Incidence removed (already covered by PJK canonical)
+
+        # Opioid Consumption SNOMED entry (reverse gap fix)
+        "Opioid Consumption": [
+            "opioid consumption", "Narcotic use",
+            "Opioid use", "Morphine equivalent",
+            "MED (morphine equivalent dose)",
+        ],
+
+        # ========================================
+        # v1.25.0: New SNOMED Concept Aliases (Gap C - Outcomes)
+        # ========================================
+        "PROMIS-10": [
+            "PROMIS-10", "PROMIS Global-10",
+            "PROMIS Global Health", "PROMIS-10 전반 건강 점수",
+        ],
+        "QALY": [
+            "Quality-adjusted life year", "Quality adjusted life year",
+            "Cost per QALY", "질보정 수명년",
+        ],
+        "Disc Height Index": [
+            "disc height index", "DHI",
+            "Disc space height ratio", "Disc height ratio",
+            "추간판 높이 지수",
+        ],
+        "Macnab Criteria": [
+            "Macnab criteria", "Modified MacNab",
+            "MacNab classification", "MacNab outcome",
+            "McNab criteria", "맥낵 기준",
+        ],
+        "Timed Up and Go": [
+            "Timed Up and Go", "TUG test", "TUG",
+            "Timed up-and-go", "기립보행검사",
+        ],
+        "ICER": [
+            "Incremental cost-effectiveness ratio",
+            "Cost-effectiveness ratio", "Cost per QALY gained",
+            "점증적 비용효과비",
+        ],
+        "Spinal Cord Perfusion": [
+            "spinal cord perfusion", "SCPP",
+            "Spinal cord perfusion pressure",
+            "척수 관류",
+        ],
     }
 
     # 질환명 별칭 매핑
@@ -1831,6 +2381,11 @@ class EntityNormalizer:
             "Lumbar stenosis with instability",
             # v1.21.0: Neo4j 고빈도 미매핑 추가
             "Spinal canal narrowing", "spinal canal narrowing",
+            # v1.25.0: severity/qualifier variants
+            "Severe spinal stenosis", "severe lumbar stenosis",
+            "Moderate spinal stenosis", "Mild spinal stenosis",
+            "Degenerative lumbar spinal stenosis",
+            "Multilevel lumbar stenosis",
         ],
         "Cervical Stenosis": [
             "Cervical Spinal Stenosis", "CSS",
@@ -1926,6 +2481,11 @@ class EntityNormalizer:
             "spondylolisthesis", "degenerative spondylolisthesis",
             "Degenerative lumbar spondylolisthesis",
             "Lumbar spondylolisthesis", "lumbar spondylolisthesis",
+            # v1.25.0: grade/severity variants
+            "Grade 1 spondylolisthesis", "Grade 2 spondylolisthesis",
+            "Grade I spondylolisthesis", "Grade II spondylolisthesis",
+            "High-grade spondylolisthesis", "Low-grade spondylolisthesis",
+            "Retrolisthesis",
         ],
         "Degenerative Scoliosis": [
             "De Novo Scoliosis", "Adult Degenerative Scoliosis",
@@ -1984,12 +2544,17 @@ class EntityNormalizer:
             "PJF", "Proximal junctional failure", "proximal junctional failure",
             "Junctional kyphosis", "junctional kyphosis",
             "근위부 접합부 후만",
+            # v1.25.0: merged from Proximal Junctional Failure
+            "Proximal junctional fracture", "Acute PJK failure",
+            "근위부 접합부 부전", "근위부 경계부 부전",
         ],
         # v1.14.1: DJK 신규 추가
         # v1.15: merged duplicate entries
         "DJK": [
             "Distal Junctional Kyphosis", "distal junctional kyphosis",
             "Distal junctional failure",
+            # v1.25.0: merged from Distal Junctional Failure
+            "DJF", "Distal junctional fracture", "원위부 접합부 부전",
         ],
         # v1.14.1: Adjacent Segment Disease 신규 추가
         # v1.15: merged duplicate entries
@@ -2445,6 +3010,8 @@ class EntityNormalizer:
             "Non-union", "Fusion failure", "가관절증",
             # v1.21.0: Neo4j 고빈도 미매핑 추가
             "Failed fusion", "failed fusion",
+            # v1.25.0: Nonunion merged here
+            "nonunion", "Bony non-union", "불유합",
         ],
         "Post-laminectomy Syndrome": [
             "post-laminectomy syndrome", "Failed back surgery",
@@ -2476,6 +3043,219 @@ class EntityNormalizer:
             "tandem stenosis", "Tandem spinal stenosis",
             "Coexisting cervical and lumbar stenosis",
         ],
+
+        # ========================================
+        # v1.25.0: SNOMED Orphan Sync + Alias Expansion (Pathology)
+        # ========================================
+
+        # v1.25.0: PJF merged into "Proximal Junctional Failure" (Gap C entry)
+        # v1.25.0: Nonunion merged into Pseudarthrosis (same concept; see Pathology section)
+        "Frailty": [
+            "frailty", "Frail elderly", "Frailty syndrome",
+            "Age-related muscle loss", "허약",
+        ],
+        "Cervical spondylotic disease": [
+            "Cervical degenerative disease",
+            "Cervical spine disorders", "경추 척추증",
+        ],
+        "Discogenic low back pain": [
+            "Discogenic pain", "Disc-related low back pain",
+            "Discogenic LBP", "추간판성 요통",
+        ],
+        "Lumbar deformity": [
+            "lumbar deformity", "Degenerative lumbar spine disease",
+            "Degenerative lumbar spine conditions",
+            "Lumbar spine pathology", "요추 변형",
+        ],
+        "Transverse ligament rupture": [
+            "Transverse ligament injury", "TAL rupture",
+            "Transverse atlantal ligament disruption",
+            "환추 횡인대 파열",
+        ],
+        "Atlantoaxial rotatory fixation": [
+            "AARF", "Atlantoaxial rotatory subluxation",
+            "AARS", "C1-C2 rotatory fixation",
+            "환축추 회전 고정",
+        ],
+        "Coronal malalignment": [
+            "coronal malalignment", "Coronal decompensation",
+            "Coronal plane deformity", "관상면 부정렬",
+        ],
+        "Pedicle screw loosening": [
+            "screw loosening", "Screw pullout",
+            "Pedicle screw pullout", "Implant loosening",
+            "척추경 나사못 이완",
+        ],
+        "Postoperative spinal epidural hematoma": [
+            "PSEH", "Spinal epidural hematoma after surgery",
+            "symptomatic postoperative spinal epidural hematoma",
+            "수술 후 척추 경막외 혈종",
+        ],
+        "Paraspinal muscle degeneration": [
+            "Paraspinal muscle atrophy", "Lumbar muscle atrophy",
+            "Multifidus atrophy", "Paravertebral muscle degeneration",
+            "척추 주위근 퇴행",
+        ],
+        "Spinopelvic misalignment": [
+            "spinopelvic malalignment", "Spinopelvic imbalance",
+            "PI-LL mismatch", "척추골반 부정렬",
+        ],
+        "Instrumentation failure": [
+            "instrumentation failure", "Hardware failure",
+            "Implant failure", "Surgical device complications",
+            "기기 실패",
+        ],
+        "Spondylitis with epidural abscess": [
+            "Spinal epidural abscess with spondylitis",
+            "Vertebral osteomyelitis with abscess",
+            "척추염 동반 경막외 농양",
+        ],
+        "Thoracic stenosis": [
+            "Thoracic spinal canal stenosis",
+            "Thoracic spine stenosis", "흉추 협착증",
+        ],
+        "Neuroforaminal compression": [
+            "neuroforaminal compression",
+            "Neural foraminal narrowing", "신경공 압박",
+        ],
+        "Vertebral instability": [
+            "vertebral instability",
+            "Segmental mechanical instability",
+            "Lumbar degenerative instability",
+            "분절 불안정성",
+        ],
+        "C1/2 facet joint asymmetry": [
+            "Atlantoaxial facet asymmetry",
+            "환축추 후관절 비대칭",
+        ],
+        "Lytic bone disease": [
+            "Vertebral body osteolysis",
+            "Osteolytic spine lesion",
+            "Vertebral body destruction",
+            "용해성 골질환",
+        ],
+        "Vertebral artery anomaly": [
+            "Vertebral artery variant", "VA anomaly",
+            "Anomalous vertebral artery",
+            "추골동맥 기형",
+        ],
+        "Segmental motor paralysis": [
+            "Motor weakness post-decompression",
+            "Segmental motor deficit",
+            "분절 운동 마비",
+        ],
+        "Lumbar central canal stenosis": [
+            "Central stenosis (lumbar)",
+            "Lumbar degenerative spinal stenosis",
+            "요추 중심관 협착증",
+        ],
+        "Intervertebral disc disease": [
+            "intervertebral disc disease",
+            "Intervertebral disk space disease",
+            "Lumbar intervertebral disc disease",
+            "추간판 질환",
+        ],
+        "Craniovertebral junction disorder": [
+            "Craniocervical junction abnormality",
+            "CVJ disorder", "Irreducible AAD",
+            "두개경추 접합부 질환",
+        ],
+        "Intraoperative contamination": [
+            "Surgical wound contamination",
+            "Intraoperative wound contamination",
+            "수술 중 오염",
+        ],
+        "Spinal cord degeneration": [
+            "Myelopathy progression",
+            "spinal cord degeneration",
+            "척수 퇴행",
+        ],
+        "Atlantoaxial Dislocation": [
+            "atlantoaxial dislocation", "C1-C2 dislocation",
+            "AAD", "환축추 탈구",
+        ],
+        "Psoas Abscess": [
+            "psoas abscess", "Iliopsoas abscess",
+            "장요근 농양",
+        ],
+        "Suspected Cauda Equina Syndrome": [
+            "Suspected CES", "CES with normal MRI",
+            "정상 MRI 소견의 마미증후군 의심",
+        ],
+        "Lumbar Facet Synovial Cyst": [
+            "Lumbar facet cyst", "Lumbar juxta-articular cyst",
+            "Lumbar juxtafacet cyst",
+            "요추 후관절 활막낭종",
+        ],
+
+        # Cross-type aliases (Pathology SNOMED keys also in Outcome)
+        "Heterotopic ossification": [
+            "heterotopic ossification", "HO (pathology)",
+        ],
+        "Dural tear": [
+            "dural tear", "Incidental durotomy (pathology)",
+        ],
+        "Cage subsidence": [
+            "cage subsidence (pathology)",
+        ],
+        "Facet joint violation": [
+            "facet joint violation (pathology)",
+        ],
+        "Cage migration": [
+            "cage migration (pathology)",
+        ],
+        "C5 palsy": [
+            "C5 palsy (pathology)", "C5 nerve palsy (pathology)",
+        ],
+
+        # v1.25.0: Adult Spinal Deformity removed (already alias of ASD)
+        # v1.25.0: Proximal Junctional Kyphosis removed (already alias of PJK)
+
+        # ========================================
+        # v1.25.0: New SNOMED Concept Aliases (Gap C - Pathology)
+        # ========================================
+        "Rod Breakage": [
+            "rod breakage", "Rod fracture", "Broken rod",
+            "Spinal rod failure", "로드 파절",
+        ],
+        "Screw Pullout": [
+            "screw pullout", "Screw loosening",
+            "Screw migration", "Pedicle screw failure",
+            "나사못 이탈",
+        ],
+        "Epidural Lipomatosis": [
+            "epidural lipomatosis", "Epidural fat hypertrophy",
+            "SEL", "Spinal lipomatosis",
+            "경막외 지방종증",
+        ],
+        "Vertebral Hemangioma (Aggressive)": [
+            "aggressive vertebral hemangioma",
+            "Symptomatic vertebral hemangioma",
+            "Compressive hemangioma",
+            "공격적 척추 혈관종",
+        ],
+        "Dropped Head Syndrome": [
+            "dropped head syndrome", "Chin-on-chest deformity",
+            "Severe cervical kyphosis", "Head drop",
+            "수하두 증후군",
+        ],
+        "Spinal Subdural Hematoma": [
+            "spinal subdural hematoma", "SSDH",
+            "Subdural hematoma of spine",
+            "척추 경막하 혈종",
+        ],
+        "Implant Allergy": [
+            "implant allergy", "Metal allergy",
+            "Titanium allergy", "Nickel hypersensitivity",
+            "임플란트 금속 알레르기",
+        ],
+        "Vertebral Endplate Degeneration": [
+            "vertebral endplate degeneration",
+            "Endplate erosion", "Endplate Modic changes",
+            "Endplate signal changes", "추체 종판 퇴행",
+        ],
+        # v1.25.0: Proximal Junctional Failure removed as canonical (aliases merged into PJK)
+        # v1.25.0: Distal Junctional Failure removed as canonical (aliases merged into DJK)
     }
 
     # v1.16.1: 해부학 위치 별칭 (Anatomy Aliases)
@@ -2547,6 +3327,48 @@ class EntityNormalizer:
             "Multiple levels (not specified)", "Mixed levels",
             "C-spine and L-spine (multiple levels)",
             "Multiple spinal levels", "Various levels",
+        ],
+
+        # ========================================
+        # v1.25.0: SNOMED Orphan Sync (Anatomy)
+        # ========================================
+        # Thoracic disc segments (v1.19.2 SNOMED, missing from aliases)
+        "T2-3": ["T2-T3", "T2/3", "T2/T3", "T2-T3 disc"],
+        "T3-4": ["T3-T4", "T3/4", "T3/T4", "T3-T4 disc"],
+        "T4-5": ["T4-T5", "T4/5", "T4/T5", "T4-T5 disc"],
+        "T5-6": ["T5-T6", "T5/6", "T5/T6", "T5-T6 disc"],
+        "T6-7": ["T6-T7", "T6/7", "T6/T7", "T6-T7 disc"],
+        "T7-8": ["T7-T8", "T7/8", "T7/T8", "T7-T8 disc"],
+        "T8-9": ["T8-T9", "T8/9", "T8/T9", "T8-T9 disc"],
+        # Range / composite anatomy levels
+        "Cervicosacral Spine": ["cervicosacral", "C-S spine", "Full spine"],
+        "C2-C7": ["C2-7", "C2-C7 subaxial", "Subaxial cervical"],
+        "Multi-level Vertebral": ["Multi-level vertebral", "Multiple vertebral levels"],
+
+        # ========================================
+        # v1.25.0: New SNOMED Concept Aliases (Gap C - Anatomy)
+        # ========================================
+        "Disc Space": [
+            "disc space", "Intervertebral disc space",
+            "Intervertebral space", "Disc height space",
+            "추간판 공간",
+        ],
+        "Facet Joint": [
+            "facet joint", "Zygapophyseal joint",
+            "Zygapophysial joint", "Articular facet",
+            "후관절",
+        ],
+        "Neural Foramen": [
+            "neural foramen", "Neuroforamen",
+            "Intervertebral foramen", "추간공",
+        ],
+        "Spinal Canal": [
+            "spinal canal", "Central canal",
+            "Vertebral canal", "척추관",
+        ],
+        "Thecal Sac": [
+            "thecal sac", "Dural sac",
+            "Dural tube", "경막낭",
         ],
     }
 

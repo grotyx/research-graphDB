@@ -511,10 +511,15 @@ Extension Namespace: 900000000000
 ├── 900000000003xx: Observable Entities (측정값, 300-399)
 ├── 900000000004xx: Body Structures (해부학, 400-499)
 ├── 900000000005xx: Findings (소견, 500-599)
-└── 900000000006xx: Procedures Extended (수술법 확장, 600-699) ← v1.21.0 추가
+├── 900000000006xx: Procedures Extended (수술법 확장, 600-699) ← v1.21.0 추가
+├── 900000000007xx: Procedures Extended 2 (수술법 확장2, 700-799) ← v1.24.x 추가
+├── 900000000008xx: Observable Extended (측정값 확장, 800-899) ← v1.24.x 추가
+└── 900000000009xx: Disorders Extended (질환 확장, 900-949) ← v1.24.x 추가
 ```
 
 > **v1.21.0 추가**: `procedure_ext` 범위(600-699)는 기존 procedure(100-199) 범위가 고갈됨에 따라 도입되었습니다. 주로 Fixation, Osteotomy 하위 기법의 세분화된 변형에 사용됩니다.
+>
+> **v1.24.x 추가**: `procedure_ext2`(700-799), `observable_ext`(800-899), `disorder_ext`(900-949) 범위가 추가되었습니다. 32개 신규 SNOMED 개념(I:11, P:10, O:8, A:5) 수용을 위해 도입.
 
 ### 5.4 주요 SNOMED 매핑
 
@@ -861,17 +866,17 @@ RELATED_TERMS = {
 
 ## 8. 통계 및 커버리지
 
-### 8.1 전체 매핑 통계 (v1.24.0)
+### 8.1 전체 매핑 통계 (v1.24.x)
 
 #### 소스 매핑 (spine_snomed_mappings.py)
 
 | 카테고리 | 전체 | 공식 SNOMED | 확장 코드 | 커버리지 |
 |----------|------|-------------|-----------|----------|
-| Interventions | 194 | 53 | 141 | 27.3% |
-| Pathologies | 178 | 73 | 105 | 41.0% |
-| Outcomes | 187 | 38 | 149 | 20.3% |
-| Anatomy | 62 | 27 | 35 | 43.5% |
-| **Total** | **621** | **191** | **430** | **30.8%** |
+| Interventions | 204 | 53 | 151 | 26.0% |
+| Pathologies | 188 | 73 | 115 | 38.8% |
+| Outcomes | 194 | 38 | 156 | 19.6% |
+| Anatomy | 67 | 27 | 40 | 40.3% |
+| **Total** | **653** | **191** | **462** | **29.2%** |
 
 #### Neo4j 실제 커버리지
 
@@ -1177,6 +1182,7 @@ Finding          900000000005xx       -
 
 | 버전 | 날짜 | 변경 내용 |
 |------|------|----------|
+| 1.24.x | 2026-02-28 | SNOMED 매핑 확장 621→653개 (I:+10, P:+10, O:+7, A:+5), Extension 범위 추가 (procedure_ext2 700-799, observable_ext 800-899, disorder_ext 900-949), 166개 orphan key entity_normalizer 동기화, ~280 alias 추가, synonym overlap 정리 |
 | 1.24.0 | 2026-02-28 | 4-Entity IS_A Hierarchy 문서화 (Section 4), 온톨로지 진화 워크플로우 (Section 10), SNOMEDProposer 추가, repair_ontology.py 추가, DV Phase 6/QC Phase 6 신설 |
 | 1.21.0 | 2026-02-16 | IS_A 루트 단일화 (Spine Surgery), SNOMED 중복 전면 해결 (I:29→0, P:3→0, A:23→0), Extension range 추가 (procedure_ext 600-699), PJK/PJF 분리, Normalizer 4개 카테고리 대폭 확대, Summary 필드 추가, TREATS paper_count 재계산 |
 | 1.14.1 | 2025-01-01 | 최초 문서 작성, 전체 시스템 분석 |

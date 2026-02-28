@@ -242,7 +242,7 @@ rag_research/
 | `taxonomy_manager.py` | Intervention IS_A 계층 관리 |
 | `snomed_enricher.py` | SNOMED 업데이트, TREATS 백필, Anatomy 정리 통합 모듈 |
 | `graph/types/schema.py` | Neo4j 스키마, 인덱스, Cypher 템플릿 |
-| `spine_snomed_mappings.py` | SNOMED-CT 매핑 (621개: I:194, P:178, O:187, A:62) — Single Source of Truth |
+| `spine_snomed_mappings.py` | SNOMED-CT 매핑 (653개: I:204, P:188, O:194, A:67) — Single Source of Truth |
 | `medical_kag_server.py` | MCP 서버 Facade (10개 도구, Tool Registry 디스패치 → 11개 핸들러) |
 | `handlers/base_handler.py` | BaseHandler 공통 클래스 + safe_execute 데코레이터 |
 | `solver/hybrid_ranker.py` | Evidence-based 3-way 랭킹 (semantic 0.4 + authority 0.3 + graph_relevance 0.3) |

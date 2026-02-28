@@ -37,6 +37,9 @@ EXTENSION_RANGES = {
     "finding": (500, 599),       # 900000000005xx
     "procedure_ext": (600, 639),  # 9000000000006xx (v1.21: Fixation/Osteotomy variants)
     "taxonomy_root": (640, 699),  # 9000000000006xx (v1.24.0: Ontology root/intermediate concepts)
+    "procedure_ext2": (700, 799),   # v1.25.0: Intervention 확장 (+100 slots)
+    "observable_ext": (800, 899),   # v1.25.0: Outcome 확장 (+100 slots)
+    "disorder_ext": (900, 949),     # v1.25.0: Pathology 확장 (+50 slots)
 }
 
 
@@ -561,7 +564,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         term="Artificial disc replacement",
         semantic_type=SNOMEDSemanticType.PROCEDURE,
         synonyms=["Total disc replacement", "Disc arthroplasty", "Disc prosthesis"],
-        abbreviations=["ADR", "TDR", "cTDR", "lTDR"],
+        abbreviations=["ADR", "TDR", "lTDR"],  # v1.25.0: cTDR moved to CDR (cervical)
         korean_term="인공 디스크 치환술",
     ),
     "Dynamic Stabilization": SNOMEDMapping(
@@ -1511,18 +1514,7 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         abbreviations=["PETD", "TED"],
         korean_term="경피적 내시경 추간공 디스크 절제술",
     ),
-    "PCO": SNOMEDMapping(
-        code="900000000000183",
-        term="Posterior column osteotomy",
-        semantic_type=SNOMEDSemanticType.PROCEDURE,
-        is_extension=True,
-        parent_code="179097009",  # Osteotomy
-        synonyms=["Ponte osteotomy", "Chevron osteotomy",
-                  "Posterior closing wedge osteotomy"],
-        abbreviations=["PCO"],
-        korean_term="후주 절골술",
-        notes="Grade 1 osteotomy (Schwab classification); removes posterior elements for gradual correction",
-    ),
+    # v1.25.0: PCO merged into SPO entry (same procedure; SPO already has PCO as abbreviation)
     "CDA": SNOMEDMapping(
         code="900000000000184",
         term="Cervical disc arthroplasty",
@@ -2094,6 +2086,113 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         synonyms=["Laminectomy with medial facetectomy and pedicular decompression"],
         abbreviations=["LAMP"],
         korean_term="추궁절제 및 내측 관절돌기 절제술",
+    ),
+
+    # ============================================================
+    # v1.25.0: New Concepts (procedure_ext2 range 700+)
+    # ============================================================
+    "Expandable Cage": SNOMEDMapping(
+        code="900000000000700",
+        term="Expandable interbody cage insertion",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="609588000",  # Interbody fusion
+        is_extension=True,
+        synonyms=["Expandable cage", "Expandable interbody spacer", "Articulating expandable cage"],
+        korean_term="확장형 케이지 삽입",
+    ),
+    "Zero-Profile Device": SNOMEDMapping(
+        code="900000000000701",
+        term="Zero-profile anterior cervical interbody device",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="112728004",  # ACDF
+        is_extension=True,
+        synonyms=["Zero-profile cage", "Stand-alone anterior cage", "Zero-P device"],
+        korean_term="제로 프로파일 경추 디바이스",
+    ),
+    "Endoscopic OLIF": SNOMEDMapping(
+        code="900000000000702",
+        term="Endoscopic oblique lumbar interbody fusion",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="900000000000101",  # OLIF
+        is_extension=True,
+        synonyms=["Endoscopic OLIF", "Endo-OLIF", "Full-endoscopic OLIF"],
+        korean_term="내시경 사측방 유합술",
+    ),
+    "Robot-Assisted UBE": SNOMEDMapping(
+        code="900000000000703",
+        term="Robot-assisted unilateral biportal endoscopic surgery",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="900000000000105",  # UBE
+        is_extension=True,
+        synonyms=["Robotic UBE", "Robot-assisted biportal endoscopy"],
+        abbreviations=["RA-UBE"],
+        korean_term="로봇 보조 양측 내시경 수술",
+    ),
+    "AR-Guided Surgery": SNOMEDMapping(
+        code="900000000000704",
+        term="Augmented reality guided spine surgery",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="386638009",  # Endoscopic spinal procedure
+        is_extension=True,
+        synonyms=["AR-guided pedicle screw placement", "AR navigation", "Augmented reality navigation"],
+        abbreviations=["AR"],
+        korean_term="증강현실 가이드 척추 수술",
+    ),
+    "Romosozumab": SNOMEDMapping(
+        code="900000000000705",
+        term="Romosozumab therapy",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="900000000000641",  # Conservative Management
+        is_extension=True,
+        synonyms=["Evenity", "Anti-sclerostin antibody", "Romosozumab treatment"],
+        korean_term="로모소주맙 치료",
+    ),
+    "Abaloparatide": SNOMEDMapping(
+        code="900000000000706",
+        term="Abaloparatide therapy",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="900000000000641",  # Conservative Management
+        is_extension=True,
+        synonyms=["Tymlos", "PTHrP analog", "Abaloparatide treatment"],
+        korean_term="아발로파라타이드 치료",
+    ),
+    "Standalone Cage": SNOMEDMapping(
+        code="900000000000707",
+        term="Stand-alone interbody cage insertion",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="609588000",  # Interbody fusion
+        is_extension=True,
+        synonyms=["Stand-alone cage", "Standalone cage", "Cage-only fusion",
+                  "Stand-alone PEEK cage", "Standalone ALIF cage"],
+        korean_term="단독 케이지 삽입술",
+    ),
+    "3D-Printed Implant": SNOMEDMapping(
+        code="900000000000708",
+        term="3D-printed spinal implant insertion",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="609588000",  # Interbody fusion
+        is_extension=True,
+        synonyms=["3D-printed titanium cage", "3D-printed cage", "Custom 3D implant",
+                  "Additive manufactured cage"],
+        korean_term="3D 프린팅 임플란트 삽입술",
+    ),
+    "Endoscopic Posterior Fusion": SNOMEDMapping(
+        code="900000000000709",
+        term="Endoscopic posterior lumbar interbody fusion",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="386638009",  # Endoscopic spinal procedure
+        is_extension=True,
+        synonyms=["Endo-PLIF", "Endoscopic PLIF", "Full-endoscopic posterior fusion"],
+        korean_term="내시경 후방 유합술",
+    ),
+    "Percutaneous Cement Discoplasty": SNOMEDMapping(
+        code="900000000000710",
+        term="Percutaneous cement discoplasty",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="900000000000115",  # Vertebral Augmentation
+        is_extension=True,
+        synonyms=["Cement discoplasty", "PCD", "PMMA discoplasty"],
+        korean_term="경피적 시멘트 추간판 성형술",
     ),
 }
 
@@ -3890,6 +3989,100 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         synonyms=["Lumbar facet cyst", "Lumbar juxta-articular cyst",
                   "Lumbar juxtafacet cyst"],
         korean_term="요추 후관절 활막낭종",
+    ),
+
+    # ============================================================
+    # v1.25.0: New Pathology Concepts (disorder_ext range 900+)
+    # ============================================================
+    "Rod Breakage": SNOMEDMapping(
+        code="900000000000900",
+        term="Rod fracture of spinal instrumentation",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000647",  # Surgical Complication
+        is_extension=True,
+        synonyms=["Rod fracture (pathology)", "Broken rod", "Spinal rod failure"],
+        korean_term="로드 파절",
+    ),
+    "Screw Pullout": SNOMEDMapping(
+        code="900000000000901",
+        term="Pedicle screw pullout",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000647",  # Surgical Complication
+        is_extension=True,
+        synonyms=["Screw loosening (pathology)", "Screw migration", "Pedicle screw failure"],
+        korean_term="나사못 이탈",
+    ),
+    "Epidural Lipomatosis": SNOMEDMapping(
+        code="900000000000902",
+        term="Spinal epidural lipomatosis",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="49049000",  # Degenerative Spine Disease
+        is_extension=True,
+        synonyms=["Epidural fat hypertrophy", "SEL", "Spinal lipomatosis"],
+        korean_term="경막외 지방종증",
+    ),
+    "Vertebral Hemangioma (Aggressive)": SNOMEDMapping(
+        code="900000000000903",
+        term="Aggressive vertebral hemangioma",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000650",  # Spinal Neoplasm
+        is_extension=True,
+        synonyms=["Symptomatic vertebral hemangioma", "Compressive hemangioma"],
+        korean_term="공격적 척추 혈관종",
+    ),
+    "Dropped Head Syndrome": SNOMEDMapping(
+        code="900000000000904",
+        term="Dropped head syndrome",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000642",  # Spinal Deformity
+        is_extension=True,
+        synonyms=["Chin-on-chest deformity", "Severe cervical kyphosis", "Head drop"],
+        korean_term="수하두 증후군",
+    ),
+    "Spinal Subdural Hematoma": SNOMEDMapping(
+        code="900000000000905",
+        term="Spinal subdural hematoma",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000647",  # Surgical Complication
+        is_extension=True,
+        synonyms=["Subdural hematoma of spine", "SSDH"],
+        korean_term="척추 경막하 혈종",
+    ),
+    "Implant Allergy": SNOMEDMapping(
+        code="900000000000906",
+        term="Spinal implant metal allergy",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000647",  # Surgical Complication
+        is_extension=True,
+        synonyms=["Metal allergy", "Titanium allergy", "Nickel hypersensitivity"],
+        korean_term="임플란트 금속 알레르기",
+    ),
+    "Vertebral Endplate Degeneration": SNOMEDMapping(
+        code="900000000000907",
+        term="Vertebral endplate degeneration",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="49049000",  # Degenerative Spine Disease
+        is_extension=True,
+        synonyms=["Endplate erosion", "Endplate Modic changes", "Endplate signal changes"],
+        korean_term="추체 종판 퇴행",
+    ),
+    "Proximal Junctional Failure": SNOMEDMapping(
+        code="900000000000908",
+        term="Proximal junctional failure",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000647",  # Surgical Complication
+        is_extension=True,
+        synonyms=["PJF", "Proximal junctional fracture", "Acute PJK failure"],
+        korean_term="근위부 접합부 부전",
+    ),
+    "Distal Junctional Failure": SNOMEDMapping(
+        code="900000000000909",
+        term="Distal junctional failure",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000647",  # Surgical Complication
+        is_extension=True,
+        synonyms=["DJF", "Distal junctional fracture"],
+        korean_term="원위부 접합부 부전",
     ),
 }
 
@@ -5807,6 +6000,89 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         abbreviations=["PJK"],
         korean_term="근위부 경계부 후만 발생률",
     ),
+
+    # ============================================================
+    # v1.25.0: New Outcome Concepts (observable_ext range 800+)
+    # ============================================================
+    "PROMIS-10": SNOMEDMapping(
+        code="900000000000800",
+        term="PROMIS-10 Global Health score",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        parent_code="900000000000660",  # Patient-Reported Outcome
+        is_extension=True,
+        synonyms=["PROMIS-10", "PROMIS Global-10", "PROMIS Global Health"],
+        abbreviations=["PROMIS-10"],
+        korean_term="PROMIS-10 전반 건강 점수",
+    ),
+    "QALY": SNOMEDMapping(
+        code="900000000000801",
+        term="Quality-adjusted life year",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        parent_code="900000000000658",  # Surgical Efficiency Outcome
+        is_extension=True,
+        synonyms=["Quality adjusted life year", "Cost per QALY"],
+        abbreviations=["QALY"],
+        korean_term="질보정 수명년",
+    ),
+    "Disc Height Index": SNOMEDMapping(
+        code="900000000000802",
+        term="Disc height index measurement",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        parent_code="900000000000656",  # Radiological Outcome
+        is_extension=True,
+        synonyms=["DHI", "Disc space height ratio", "Disc height ratio"],
+        abbreviations=["DHI"],
+        korean_term="추간판 높이 지수",
+    ),
+    "Macnab Criteria": SNOMEDMapping(
+        code="900000000000803",
+        term="Modified Macnab criteria assessment",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        parent_code="900000000000660",  # Patient-Reported Outcome
+        is_extension=True,
+        synonyms=["Modified MacNab", "MacNab classification", "MacNab outcome"],
+        korean_term="맥낵 기준 평가",
+    ),
+    "Opioid Consumption": SNOMEDMapping(
+        code="900000000000804",
+        term="Postoperative opioid consumption",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        parent_code="900000000000658",  # Surgical Efficiency Outcome
+        is_extension=True,
+        synonyms=["Narcotic use", "Opioid use", "Morphine equivalent dose",
+                  "MED (morphine equivalent dose)"],
+        korean_term="아편유사제 소비량",
+    ),
+    "Timed Up and Go": SNOMEDMapping(
+        code="900000000000805",
+        term="Timed Up and Go test",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        parent_code="900000000000655",  # Functional Outcome
+        is_extension=True,
+        synonyms=["TUG test", "TUG", "Timed up-and-go"],
+        abbreviations=["TUG"],
+        korean_term="기립보행검사",
+    ),
+    "ICER": SNOMEDMapping(
+        code="900000000000806",
+        term="Incremental cost-effectiveness ratio",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        parent_code="900000000000658",  # Surgical Efficiency Outcome
+        is_extension=True,
+        synonyms=["Cost-effectiveness ratio", "Cost per QALY gained"],
+        abbreviations=["ICER"],
+        korean_term="점증적 비용효과비",
+    ),
+    "Spinal Cord Perfusion": SNOMEDMapping(
+        code="900000000000807",
+        term="Spinal cord perfusion measurement",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        parent_code="900000000000659",  # Neurological Outcome
+        is_extension=True,
+        synonyms=["Spinal cord perfusion pressure", "SCPP"],
+        abbreviations=["SCPP"],
+        korean_term="척수 관류 측정",
+    ),
 }
 
 
@@ -6234,6 +6510,55 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         parent_code="122495006",  # Thoracic
         synonyms=["T9 vertebra", "ninth thoracic vertebra"],
         korean_term="흉추 9번",
+    ),
+
+    # ============================================================
+    # v1.25.0: New Anatomy Concepts
+    # ============================================================
+    "Disc Space": SNOMEDMapping(
+        code="900000000000470",
+        term="Intervertebral disc space",
+        semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
+        parent_code="900000000000665",  # Spine
+        is_extension=True,
+        synonyms=["Disc space", "Intervertebral space", "Disc height space"],
+        korean_term="추간판 공간",
+    ),
+    "Facet Joint": SNOMEDMapping(
+        code="900000000000471",
+        term="Zygapophyseal joint",
+        semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
+        parent_code="900000000000665",  # Spine
+        is_extension=True,
+        synonyms=["Facet joint", "Zygapophysial joint", "Articular facet"],
+        korean_term="후관절",
+    ),
+    "Neural Foramen": SNOMEDMapping(
+        code="900000000000472",
+        term="Intervertebral foramen",
+        semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
+        parent_code="900000000000665",  # Spine
+        is_extension=True,
+        synonyms=["Neural foramen", "Neuroforamen", "Intervertebral foramen"],
+        korean_term="추간공",
+    ),
+    "Spinal Canal": SNOMEDMapping(
+        code="900000000000473",
+        term="Vertebral canal",
+        semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
+        parent_code="900000000000665",  # Spine
+        is_extension=True,
+        synonyms=["Spinal canal", "Central canal", "Vertebral canal"],
+        korean_term="척추관",
+    ),
+    "Thecal Sac": SNOMEDMapping(
+        code="900000000000474",
+        term="Thecal sac",
+        semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
+        parent_code="900000000000665",  # Spine
+        is_extension=True,
+        synonyms=["Dural sac", "Dural tube", "Thecal sac compression"],
+        korean_term="경막낭",
     ),
 }
 

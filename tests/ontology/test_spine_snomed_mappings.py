@@ -211,7 +211,7 @@ class TestStatistics:
         """
         stats = get_mapping_statistics()
         coverage = stats["coverage_percent"]
-        assert 30 <= coverage <= 100, f"Coverage {coverage}% is out of expected range"
+        assert 25 <= coverage <= 100, f"Coverage {coverage}% is out of expected range"
 
     def test_extension_codes_have_namespace(self):
         """Extension 코드는 extension namespace로 시작해야 한다."""

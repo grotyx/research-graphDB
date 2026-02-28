@@ -2,6 +2,24 @@
 
 ## Version History
 
+### SNOMED Mapping Expansion (2026-02-28): 621→653개 매핑 확장
+
+#### 매핑 확장 요약
+- **총 매핑 수**: 621 → 653개 (+32 신규 SNOMED 개념: I:+10, P:+10, O:+7, A:+5)
+- **Extension 코드 범위 확장**: `procedure_ext2`(700-799), `observable_ext`(800-899), `disorder_ext`(900-949) 신규 도입
+- **Orphan key 동기화**: `spine_snomed_mappings.py`의 166개 orphaned key를 `entity_normalizer.py`에 alias로 동기화
+- **Alias 대폭 추가**: ~280개 alias variation 추가로 term matching 정확도 향상
+- **Synonym overlap 정리**: PCO→SPO merge, PELD/PETD split, Nonunion→Pseudarthrosis merge, ADR/CDR split
+- **LLM fallback 후보 풀**: snomed_proposer.py candidate pool 30→50 확대
+
+#### SNOMED 통계
+- Interventions: 194 → 204 (+10)
+- Pathologies: 178 → 188 (+10)
+- Outcomes: 187 → 194 (+7)
+- Anatomy: 62 → 67 (+5)
+
+---
+
 ### v1.24.0 Post-Release Fixes (2026-02-28): 검색 파이프라인 온톨로지 실연결
 
 #### SNOMED 코드 파이프라인 수정
@@ -78,7 +96,7 @@
 | `docs/ONTOLOGY_REDESIGN_PLAN.md` | 재설계 계획서 |
 
 #### SNOMED 통계 (v1.24.0)
-- Mappings: 621개 (I:194, P:178, O:187, A:62) — 이전 592개에서 29개 root/intermediate 개념 추가
+- Mappings: 653개 (I:204, P:188, O:194, A:67) — 이전 621개에서 32개 신규 개념 추가, ~280 alias 확장
 - IS_A 관계: 403개 (P:166 + O:176 + A:61)
 - Neo4j 적용: SNOMED 코드 매핑 + TREATS 백필 + IS_A 구축 완료
 
