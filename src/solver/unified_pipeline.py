@@ -69,6 +69,7 @@ try:
         get_snomed_for_intervention,
         get_snomed_for_pathology,
         get_snomed_for_outcome,
+        get_snomed_for_anatomy,
     )
     SNOMED_LOOKUP_AVAILABLE = True
 except ImportError:
@@ -394,6 +395,10 @@ class UnifiedSearchPipeline:
                     "expanded_interventions": expanded.expanded_interventions,
                     "original_pathologies": expanded.original_pathologies,
                     "expanded_pathologies": expanded.expanded_pathologies,
+                    "original_outcomes": expanded.original_outcomes,
+                    "expanded_outcomes": expanded.expanded_outcomes,
+                    "original_anatomies": expanded.original_anatomies,
+                    "expanded_anatomies": expanded.expanded_anatomies,
                     "intervention_hierarchy": expanded.intervention_hierarchy,
                 }
                 logger.info(
@@ -446,6 +451,10 @@ class UnifiedSearchPipeline:
                     snomed_codes.append(mapping.code)
             for name in extracted_entities.get("outcomes", []):
                 mapping = get_snomed_for_outcome(name)
+                if mapping:
+                    snomed_codes.append(mapping.code)
+            for name in extracted_entities.get("anatomies", []):
+                mapping = get_snomed_for_anatomy(name)
                 if mapping:
                     snomed_codes.append(mapping.code)
             if snomed_codes:

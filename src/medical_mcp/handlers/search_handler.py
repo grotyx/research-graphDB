@@ -455,6 +455,10 @@ class SearchHandler(BaseHandler):
                         graph_filters["intervention"] = entity.text
                     elif etype in ['CONDITION', 'PATHOLOGY', 'pathology']:
                         graph_filters["pathology"] = entity.text
+                    elif etype in ['SYMPTOM', 'OUTCOME', 'outcome']:
+                        graph_filters["outcome"] = entity.text
+                    elif etype in ['ANATOMY', 'anatomy']:
+                        graph_filters["anatomy"] = entity.text
                 if hasattr(entity, 'snomed_id') and entity.snomed_id:
                     snomed_codes.append(entity.snomed_id)
             # Fallback: use ParsedQuery.snomed_codes dict

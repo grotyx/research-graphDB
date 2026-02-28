@@ -651,6 +651,10 @@ class TieredHybridSearch:
                         graph_filters["intervention"] = entity.text
                     elif entity_type in ['CONDITION', 'PATHOLOGY', 'pathology']:
                         graph_filters["pathology"] = entity.text
+                    elif entity_type in ['SYMPTOM', 'OUTCOME', 'outcome']:
+                        graph_filters["outcome"] = entity.text
+                    elif entity_type in ['ANATOMY', 'anatomy']:
+                        graph_filters["anatomy"] = entity.text
                 # Collect SNOMED codes from entities for IS_A expansion
                 if hasattr(entity, 'snomed_id') and entity.snomed_id:
                     snomed_codes.append(entity.snomed_id)
@@ -668,6 +672,10 @@ class TieredHybridSearch:
                     _expand_tasks.append(("intervention", graph_filters["intervention"], "Intervention"))
                 if graph_filters.get("pathology"):
                     _expand_tasks.append(("pathology", graph_filters["pathology"], "Pathology"))
+                if graph_filters.get("outcome"):
+                    _expand_tasks.append(("outcome", graph_filters["outcome"], "Outcome"))
+                if graph_filters.get("anatomy"):
+                    _expand_tasks.append(("anatomy", graph_filters["anatomy"], "Anatomy"))
                 for _key, _name, _type in _expand_tasks:
                     try:
                         variants = asyncio.get_event_loop().run_until_complete(

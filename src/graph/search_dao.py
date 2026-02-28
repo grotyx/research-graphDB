@@ -164,6 +164,20 @@ class SearchDAO:
             filters.append("(p)-[:STUDIES]->(:Pathology {name: $pathology})")
             params["pathology"] = graph_filters["pathology"]
 
+        if graph_filters.get("outcomes"):
+            filters.append("(p)-[:INVESTIGATES]->(:Intervention)-[:AFFECTS]->(out:Outcome) WHERE out.name IN $outcomes")
+            params["outcomes"] = graph_filters["outcomes"]
+        elif graph_filters.get("outcome"):
+            filters.append("(p)-[:INVESTIGATES]->(:Intervention)-[:AFFECTS]->(:Outcome {name: $outcome})")
+            params["outcome"] = graph_filters["outcome"]
+
+        if graph_filters.get("anatomies"):
+            filters.append("(p)-[:INVOLVES]->(anat:Anatomy) WHERE anat.name IN $anatomies")
+            params["anatomies"] = graph_filters["anatomies"]
+        elif graph_filters.get("anatomy"):
+            filters.append("(p)-[:INVOLVES]->(:Anatomy {name: $anatomy})")
+            params["anatomy"] = graph_filters["anatomy"]
+
         if graph_filters.get("evidence_levels"):
             filters.append("p.evidence_level IN $evidence_levels")
             params["evidence_levels"] = graph_filters["evidence_levels"]
