@@ -42,6 +42,19 @@ class SearchHandler(BaseHandler):
         self.cypher_generator = server.cypher_generator
         self.vector_db = server.vector_db  # None (kept for backward compatibility)
 
+        # GraphTraversalSearch for multi-hop evidence chain queries
+        self.graph_traversal = None
+        if server.neo4j_client:
+            try:
+                from solver.graph_traversal_search import GraphTraversalSearch
+                self.graph_traversal = GraphTraversalSearch(
+                    server.neo4j_client,
+                    getattr(server, 'taxonomy_manager', None),
+                )
+                logger.info("SearchHandler: GraphTraversalSearch initialized")
+            except ImportError:
+                logger.debug("GraphTraversalSearch not available")
+
     @safe_execute
     async def search(
         self,
@@ -661,4 +674,144 @@ class SearchHandler(BaseHandler):
             "direction": direction,
             "evidence_count": len(evidence),
             "evidence": evidence
+        }
+
+    @safe_execute
+    async def evidence_chain(
+        self,
+        intervention: str,
+        pathology: str,
+        outcome: Optional[str] = None,
+        is_a_depth: int = 2,
+    ) -> dict:
+        """Multi-hop evidence chain traversal.
+
+        Follows IS_A → TREATS → AFFECTS chains from intervention to pathology
+        and collects direct + related evidence via hierarchy expansion.
+
+        Args:
+            intervention: Intervention name (e.g., "TLIF")
+            pathology: Pathology name (e.g., "Spinal Stenosis")
+            outcome: Optional specific outcome to filter
+            is_a_depth: IS_A hierarchy depth (1-5)
+
+        Returns:
+            Evidence chain with direct and related evidence
+        """
+        if not self.graph_traversal:
+            return {"success": False, "error": "GraphTraversalSearch not available"}
+
+        await self._ensure_connected()
+
+        result = await self.graph_traversal.traverse_evidence_chain(
+            intervention=intervention,
+            pathology=pathology,
+            outcome=outcome,
+            is_a_depth=is_a_depth,
+        )
+
+        return {
+            "success": True,
+            "intervention": result.intervention,
+            "pathology": result.pathology,
+            "outcomes": result.outcomes,
+            "direct_evidence_count": len(result.direct_evidence),
+            "direct_evidence": result.direct_evidence,
+            "related_evidence_count": len(result.related_evidence),
+            "related_evidence": result.related_evidence,
+            "evidence_chain": [
+                {
+                    "source": link.source_node,
+                    "relationship": link.relationship,
+                    "target": link.target_node,
+                    "properties": link.properties,
+                }
+                for link in result.evidence_chain
+            ],
+        }
+
+    @safe_execute
+    async def compare_interventions(
+        self,
+        intervention1: str,
+        intervention2: str,
+        pathology: Optional[str] = None,
+    ) -> dict:
+        """Compare two interventions on shared outcomes.
+
+        Args:
+            intervention1: First intervention name
+            intervention2: Second intervention name
+            pathology: Optional pathology to scope comparison
+
+        Returns:
+            Comparison of shared and unique outcomes for each intervention
+        """
+        if not self.graph_traversal:
+            return {"success": False, "error": "GraphTraversalSearch not available"}
+
+        await self._ensure_connected()
+
+        result = await self.graph_traversal.compare_interventions(
+            int1=intervention1,
+            int2=intervention2,
+            pathology=pathology or "",
+        )
+
+        return {
+            "success": True,
+            "intervention1": result.intervention1,
+            "intervention2": result.intervention2,
+            "pathology": result.pathology,
+            "shared_outcomes": result.shared_outcomes,
+            "int1_only_outcomes": result.int1_only_outcomes,
+            "int2_only_outcomes": result.int2_only_outcomes,
+            "comparison_summary": result.comparison_summary,
+        }
+
+    @safe_execute
+    async def best_evidence(
+        self,
+        pathology: str,
+        outcome_category: Optional[str] = None,
+        top_k: int = 5,
+    ) -> dict:
+        """Find highest evidence-level papers for a pathology.
+
+        Args:
+            pathology: Target pathology name
+            outcome_category: Optional outcome to filter
+            top_k: Maximum results
+
+        Returns:
+            Best evidence papers sorted by evidence level
+        """
+        if not self.graph_traversal:
+            return {"success": False, "error": "GraphTraversalSearch not available"}
+
+        await self._ensure_connected()
+
+        results = await self.graph_traversal.find_best_evidence(
+            pathology=pathology,
+            outcome_category=outcome_category,
+            limit=top_k,
+        )
+
+        return {
+            "success": True,
+            "pathology": pathology,
+            "outcome_category": outcome_category,
+            "result_count": len(results),
+            "results": [
+                {
+                    "paper_id": r.paper_id,
+                    "title": r.title,
+                    "evidence_level": r.evidence_level,
+                    "year": r.year,
+                    "interventions": r.interventions,
+                    "outcomes": r.outcomes,
+                    "outcome_details": r.outcome_details,
+                }
+                for r in results
+            ],
         }

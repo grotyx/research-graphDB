@@ -682,12 +682,14 @@ class Neo4jClient:
         graph_filters: Optional[dict] = None,
         top_k: int = 10,
         graph_weight: float = 0.6,
-        vector_weight: float = 0.4
+        vector_weight: float = 0.4,
+        snomed_codes: Optional[list[str]] = None,
     ) -> list[dict]:
         """그래프 + 벡터 하이브리드 검색. Delegates to SearchDAO."""
         return await self.search.hybrid_search(
             embedding=embedding, graph_filters=graph_filters, top_k=top_k,
             graph_weight=graph_weight, vector_weight=vector_weight,
+            snomed_codes=snomed_codes,
         )
 
     async def get_chunk_count(self, paper_id: Optional[str] = None) -> int:

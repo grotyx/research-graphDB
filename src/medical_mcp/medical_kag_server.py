@@ -3161,13 +3161,17 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
                     "properties": {
                         "action": {
                             "type": "string",
-                            "enum": ["search", "graph", "adaptive", "evidence", "reason", "clinical_recommend"],
-                            "description": "검색 유형: search(벡터+PubMed 자동), graph(그래프), adaptive(통합), evidence(근거), reason(추론), clinical_recommend(임상 치료 추천)"
+                            "enum": ["search", "graph", "adaptive", "evidence", "reason", "clinical_recommend", "evidence_chain", "compare_interventions", "best_evidence"],
+                            "description": "검색 유형: search(벡터+PubMed 자동), graph(그래프), adaptive(통합), evidence(근거), reason(추론), clinical_recommend(임상 치료 추천), evidence_chain(다중홉 근거체인), compare_interventions(수술법 비교), best_evidence(최고 근거 검색)"
                         },
                         "query": {"type": "string", "description": "검색 쿼리"},
                         "question": {"type": "string", "description": "질문 (reason)"},
-                        "intervention": {"type": "string", "description": "수술법 (evidence, clinical_recommend)"},
-                        "outcome": {"type": "string", "description": "결과변수 (evidence)"},
+                        "intervention": {"type": "string", "description": "수술법 (evidence, evidence_chain, compare_interventions, clinical_recommend)"},
+                        "intervention2": {"type": "string", "description": "비교 대상 수술법 (compare_interventions)"},
+                        "pathology": {"type": "string", "description": "질환명 (evidence_chain, compare_interventions, best_evidence)"},
+                        "outcome": {"type": "string", "description": "결과변수 (evidence, evidence_chain)"},
+                        "outcome_category": {"type": "string", "description": "결과 카테고리 (best_evidence)"},
+                        "is_a_depth": {"type": "integer", "default": 2, "description": "IS_A 계층 탐색 깊이 (evidence_chain, 1-5)"},
                         "patient_context": {"type": "string", "description": "환자 정보 텍스트 (clinical_recommend, 예: '65세 남성, 당뇨, L4-5 Stenosis')"},
                         "top_k": {"type": "integer", "default": 10, "description": "결과 수"},
                         "tier_strategy": {"type": "string", "enum": ["tier1_only", "tier1_then_tier2", "all_tiers"], "default": "tier1_then_tier2"},
@@ -3555,6 +3559,18 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
             return await kag_server.reasoning_handler.clinical_recommend(
                 args.get("patient_context", ""),
                 args.get("intervention"))
+        elif action == "evidence_chain":
+            return await kag_server.search_handler.evidence_chain(
+                args.get("intervention", ""), args.get("pathology", ""),
+                args.get("outcome"), args.get("is_a_depth", 2))
+        elif action == "compare_interventions":
+            return await kag_server.search_handler.compare_interventions(
+                args.get("intervention", ""), args.get("intervention2", ""),
+                args.get("pathology"))
+        elif action == "best_evidence":
+            return await kag_server.search_handler.best_evidence(
+                args.get("pathology", ""), args.get("outcome_category"),
+                args.get("top_k", 5))
         return {"success": False, "error": f"Unknown search action: {action}"}
 
     async def _dispatch_pubmed(action: str, args: dict) -> dict:

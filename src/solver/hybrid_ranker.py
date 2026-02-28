@@ -418,7 +418,8 @@ class HybridRanker:
         vector_weight: float = 0.4,
         min_p_value: float = 0.05,
         evidence_levels: Optional[list[str]] = None,
-        graph_filters: Optional[dict] = None
+        graph_filters: Optional[dict] = None,
+        snomed_codes: Optional[list[str]] = None,
     ) -> list[HybridResult]:
         """Hybrid 검색 수행.
 
@@ -434,6 +435,7 @@ class HybridRanker:
                 - intervention: Intervention 이름
                 - pathology: Pathology 이름
                 - min_year: 최소 연도
+            snomed_codes: Optional SNOMED codes for IS_A hierarchy expansion
 
         Returns:
             통합 점수 기준 정렬된 HybridResult 목록
@@ -447,7 +449,8 @@ class HybridRanker:
                 graph_weight=graph_weight,
                 vector_weight=vector_weight,
                 evidence_levels=evidence_levels,
-                graph_filters=graph_filters
+                graph_filters=graph_filters,
+                snomed_codes=snomed_codes,
             )
 
         # 기존 방식: Graph + Vector 분리 검색
@@ -1076,7 +1079,8 @@ class HybridRanker:
         graph_weight: float,
         vector_weight: float,
         evidence_levels: Optional[list[str]],
-        graph_filters: Optional[dict]
+        graph_filters: Optional[dict],
+        snomed_codes: Optional[list[str]] = None,
     ) -> list[HybridResult]:
         """Neo4j 통합 Hybrid Search (v5.3 + v1.0).
 
@@ -1093,6 +1097,7 @@ class HybridRanker:
             vector_weight: Vector 점수 가중치
             evidence_levels: 허용할 근거 수준
             graph_filters: 그래프 필터
+            snomed_codes: Optional SNOMED codes for IS_A hierarchy expansion
 
         Returns:
             HybridResult 목록
@@ -1113,7 +1118,8 @@ class HybridRanker:
                 graph_filters=filters,
                 top_k=top_k,
                 graph_weight=graph_weight,
-                vector_weight=vector_weight
+                vector_weight=vector_weight,
+                snomed_codes=snomed_codes,
             )
 
             logger.info(f"Neo4j hybrid search: {len(raw_results)} results")

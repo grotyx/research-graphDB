@@ -979,7 +979,8 @@ class RelationshipBuilder:
                 by_type[t["entity_type"]] = by_type.get(t["entity_type"], 0) + 1
             summary = ", ".join(f"{k}:{v}" for k, v in sorted(by_type.items()))
             logger.info(
-                f"Unregistered terms after {paper_id}: {len(unregistered)} total ({summary})"
+                f"Unregistered terms after {paper_id}: {len(unregistered)} total ({summary}). "
+                f"Use entity_normalizer.propose_snomed_for_unregistered() to get SNOMED mapping proposals."
             )
 
         return result

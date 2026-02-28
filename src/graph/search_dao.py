@@ -148,13 +148,19 @@ class SearchDAO:
         MATCH (p:Paper)-[:HAS_CHUNK]->(c)
         """
 
-        # 그래프 필터 적용
+        # 그래프 필터 적용 (plural lists take precedence over singular)
         filters = []
-        if graph_filters.get("intervention"):
+        if graph_filters.get("interventions"):
+            filters.append("(p)-[:INVESTIGATES]->(int:Intervention) WHERE int.name IN $interventions")
+            params["interventions"] = graph_filters["interventions"]
+        elif graph_filters.get("intervention"):
             filters.append("(p)-[:INVESTIGATES]->(:Intervention {name: $intervention})")
             params["intervention"] = graph_filters["intervention"]
 
-        if graph_filters.get("pathology"):
+        if graph_filters.get("pathologies"):
+            filters.append("(p)-[:STUDIES]->(path:Pathology) WHERE path.name IN $pathologies")
+            params["pathologies"] = graph_filters["pathologies"]
+        elif graph_filters.get("pathology"):
             filters.append("(p)-[:STUDIES]->(:Pathology {name: $pathology})")
             params["pathology"] = graph_filters["pathology"]
 
@@ -183,7 +189,13 @@ class SearchDAO:
                MATCH (descendant)-[:IS_A*1..2]->(target)
                WHERE descendant.snomed_code IN $snomed_codes
            }
-        WITH c, p, vector_score,
+        WITH c, p, vector_score, target,
+             CASE
+                 WHEN target IS NULL THEN null
+                 WHEN target.snomed_code IN $snomed_codes THEN 0
+                 WHEN EXISTS { MATCH (target)-[:IS_A]->(a1) WHERE a1.snomed_code IN $snomed_codes } THEN 1
+                 ELSE 2
+             END as ontology_distance,
              CASE WHEN target IS NOT NULL THEN 1.0 ELSE 0.5 END as snomed_boost
             """
             query += snomed_subquery
@@ -191,7 +203,7 @@ class SearchDAO:
 
             # 그래프 점수 계산 with SNOMED boost
             query += """
-        WITH c, p, vector_score, snomed_boost,
+        WITH c, p, vector_score, snomed_boost, ontology_distance,
              CASE p.evidence_level
                  WHEN '1a' THEN 1.0
                  WHEN '1b' THEN 0.9
@@ -202,7 +214,8 @@ class SearchDAO:
                  ELSE 0.1
              END as evidence_score
         WITH c, p, vector_score, evidence_score * snomed_boost as graph_score,
-             ($graph_weight * evidence_score * snomed_boost + $vector_weight * vector_score) as final_score
+             ($graph_weight * evidence_score * snomed_boost + $vector_weight * vector_score) as final_score,
+             ontology_distance
             """
         else:
             # 그래프 점수 계산 (evidence level 기반, 기존 방식)
@@ -218,7 +231,8 @@ class SearchDAO:
                  ELSE 0.1
              END as graph_score
         WITH c, p, vector_score, graph_score,
-             ($graph_weight * graph_score + $vector_weight * vector_score) as final_score
+             ($graph_weight * graph_score + $vector_weight * vector_score) as final_score,
+             null as ontology_distance
             """
 
         params["graph_weight"] = graph_weight
@@ -235,7 +249,8 @@ class SearchDAO:
                p.year as year,
                vector_score,
                graph_score,
-               final_score
+               final_score,
+               ontology_distance
         ORDER BY final_score DESC
         LIMIT $limit
         """

@@ -232,6 +232,16 @@ class TieredHybridSearch:
         self.graph_weight: float = self.config.get("graph_weight", 0.3)
         self.tier1_min_results: int = self.config.get("tier1_min_results", 3)
 
+        # GraphContextExpander for IS_A hierarchy expansion
+        self.context_expander = None
+        if self.neo4j_client:
+            try:
+                from solver.graph_context_expander import GraphContextExpander
+                self.context_expander = GraphContextExpander(self.neo4j_client)
+                logger.info("TieredHybridSearch: GraphContextExpander initialized")
+            except ImportError:
+                logger.debug("GraphContextExpander not available")
+
         # Lazy-initialized OpenAI client for embedding generation
         self._openai_client = None
 
@@ -631,7 +641,8 @@ class TieredHybridSearch:
         if input_data.min_year:
             graph_filters["min_year"] = input_data.min_year
 
-        # 엔티티에서 intervention, pathology 추출
+        # 엔티티에서 intervention, pathology, snomed_codes 추출
+        snomed_codes: list[str] = []
         if input_data.entities:
             for entity in input_data.entities:
                 if hasattr(entity, 'entity_type'):
@@ -640,6 +651,35 @@ class TieredHybridSearch:
                         graph_filters["intervention"] = entity.text
                     elif entity_type in ['CONDITION', 'PATHOLOGY', 'pathology']:
                         graph_filters["pathology"] = entity.text
+                # Collect SNOMED codes from entities for IS_A expansion
+                if hasattr(entity, 'snomed_code') and entity.snomed_code:
+                    snomed_codes.append(entity.snomed_code)
+
+        # IS_A hierarchy expansion via GraphContextExpander
+        if self.context_expander:
+            try:
+                import asyncio
+                _expand_tasks = []
+                if graph_filters.get("intervention"):
+                    _expand_tasks.append(("intervention", graph_filters["intervention"], "Intervention"))
+                if graph_filters.get("pathology"):
+                    _expand_tasks.append(("pathology", graph_filters["pathology"], "Pathology"))
+                for _key, _name, _type in _expand_tasks:
+                    try:
+                        variants = asyncio.get_event_loop().run_until_complete(
+                            self.context_expander.expand_by_ontology(_name, _type, depth=2)
+                        )
+                    except RuntimeError:
+                        variants = asyncio.run(
+                            self.context_expander.expand_by_ontology(_name, _type, depth=2)
+                        )
+                    if variants and len(variants) > 1:
+                        plural_key = f"{_key[:-1]}ies" if _key.endswith("y") else f"{_key}s"
+                        graph_filters[plural_key] = variants
+                        del graph_filters[_key]
+                        logger.info(f"IS_A expanded {_key} '{_name}' -> {len(variants)} variants: {variants[:5]}")
+            except Exception as e:
+                logger.warning(f"IS_A expansion failed, using original filters: {e}")
 
         # Neo4j hybrid_search 수행 (동기 래퍼)
         try:
@@ -652,7 +692,8 @@ class TieredHybridSearch:
                         graph_filters=graph_filters if graph_filters else None,
                         top_k=top_k,
                         graph_weight=self.graph_weight,
-                        vector_weight=self.vector_weight
+                        vector_weight=self.vector_weight,
+                        snomed_codes=snomed_codes or None,
                     )
                 )
             except RuntimeError:
@@ -662,7 +703,8 @@ class TieredHybridSearch:
                         graph_filters=graph_filters if graph_filters else None,
                         top_k=top_k,
                         graph_weight=self.graph_weight,
-                        vector_weight=self.vector_weight
+                        vector_weight=self.vector_weight,
+                        snomed_codes=snomed_codes or None,
                     )
                 )
         except Exception as e:

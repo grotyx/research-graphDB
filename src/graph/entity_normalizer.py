@@ -2681,6 +2681,46 @@ class EntityNormalizer:
             self._unregistered_terms.clear()
             return count
 
+    async def propose_snomed_for_unregistered(self, llm_client=None) -> list[dict]:
+        """Propose SNOMED mappings for collected unregistered terms.
+
+        Calls SNOMEDProposer.batch_propose() with the current unregistered terms.
+        Returns proposals for manual review or auto-apply.
+
+        Args:
+            llm_client: Optional LLM client for SNOMEDProposer.
+                If None, SNOMEDProposer will create its own.
+
+        Returns:
+            List of proposal dicts with keys: original_term, proposed_term,
+            proposed_code, parent_code, confidence, auto_apply, reasoning.
+        """
+        terms = self.get_unregistered_terms()
+        if not terms:
+            return []
+
+        try:
+            from ontology.snomed_proposer import SNOMEDProposer
+        except ImportError:
+            logger.warning("SNOMEDProposer not available; cannot propose SNOMED mappings")
+            return []
+
+        proposer = SNOMEDProposer(llm_client=llm_client)
+        proposals = await proposer.batch_propose(terms)
+
+        return [
+            {
+                "original_term": p.original_term,
+                "proposed_term": p.proposed_term,
+                "proposed_code": p.proposed_code,
+                "parent_code": p.proposed_parent_code,
+                "confidence": p.confidence,
+                "auto_apply": p.auto_apply,
+                "reasoning": p.reasoning,
+            }
+            for p in proposals
+        ]
+
     def register_dynamic_alias(
         self,
         entity_type: str,
