@@ -1,5 +1,7 @@
 # Spine GraphRAG Troubleshooting
 
+> **Version**: 1.24.0 | **Last Updated**: 2026-02-28
+
 ## Neo4j Connection Issues
 
 ```bash

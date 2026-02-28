@@ -22,6 +22,7 @@ from .spine_schema import (
     CausesRelation, HasRiskFactorRelation, PredictsRelation, CorrelatesRelation, UsesDeviceRelation,
     ComplicationNode,
 )
+from .types.enums import normalize_study_design
 
 # SNOMED mappings for auto IS_A relationship building
 try:
@@ -1021,7 +1022,7 @@ class RelationshipBuilder:
             sub_domains=sub_domains,
             surgical_approach=getattr(spine_metadata, 'surgical_approach', []) or [],
             study_type=getattr(metadata, 'study_type', '') or "",
-            study_design=getattr(metadata, 'study_design', '') or "",
+            study_design=normalize_study_design(getattr(metadata, 'study_design', '') or ""),
             evidence_level=metadata.evidence_level,
             sample_size=getattr(metadata, 'sample_size', 0) or 0,
             centers=getattr(metadata, 'centers', '') or "",

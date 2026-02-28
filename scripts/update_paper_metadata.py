@@ -15,6 +15,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from graph.neo4j_client import Neo4jClient, Neo4jConfig
+from graph.types.enums import normalize_study_design
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -36,7 +37,7 @@ def extract_metadata_from_json(json_path: Path) -> Optional[Dict[str, Any]]:
         updates = {
             'paper_id': paper_id,
             'title': metadata.get('title'),
-            'study_design': metadata.get('study_design') or metadata.get('study_type'),
+            'study_design': normalize_study_design(metadata.get('study_design') or metadata.get('study_type') or ""),
             'evidence_level': metadata.get('evidence_level'),
             'sample_size': metadata.get('sample_size'),
             'sub_domain': spine_metadata.get('sub_domain'),

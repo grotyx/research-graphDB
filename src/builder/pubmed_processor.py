@@ -46,6 +46,15 @@ except ImportError:
         UnifiedPDFProcessor = None
         EntityNormalizer = None
 
+try:
+    from graph.types.enums import normalize_study_design
+except ImportError:
+    try:
+        from src.graph.types.enums import normalize_study_design
+    except ImportError:
+        def normalize_study_design(raw: str) -> str:  # type: ignore[misc]
+            return raw  # fallback: no-op
+
 if TYPE_CHECKING:
     from src.graph.neo4j_client import Neo4jClient
 
@@ -1272,7 +1281,7 @@ def _build_extracted_metadata(
         pmid=paper.pmid or "",
         abstract=abstract,
         study_type=metadata_dict.get("study_type", ""),
-        study_design=metadata_dict.get("study_design", ""),
+        study_design=normalize_study_design(metadata_dict.get("study_design", "")),
         evidence_level=metadata_dict.get("evidence_level") or inferred_evidence or "5",
         sample_size=metadata_dict.get("sample_size", 0) or 0,
         centers=metadata_dict.get("centers", ""),

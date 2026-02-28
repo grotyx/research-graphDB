@@ -713,15 +713,17 @@ class SpineGraphSchema:
 
     @classmethod
     def get_init_entity_taxonomy_cypher(cls) -> list[tuple[str, dict]]:
-        """Pathology, Outcome, Anatomy IS_A 계층 초기화 Cypher.
+        """4개 엔티티 IS_A 계층 초기화 Cypher (Intervention 포함).
 
         spine_snomed_mappings.py의 parent_code를 기반으로 IS_A 관계를 동적 생성합니다.
-        Intervention은 get_init_taxonomy_cypher()에서 이미 처리되므로 제외합니다.
+        Intervention도 parent_code 기반 IS_A를 생성합니다 (get_init_taxonomy_cypher()의
+        카테고리 수준 IS_A를 보완).
 
         Returns:
             (Cypher 쿼리, 파라미터 dict) 튜플 목록
         """
         from ontology.spine_snomed_mappings import (
+            SPINE_INTERVENTION_SNOMED,
             SPINE_PATHOLOGY_SNOMED,
             SPINE_OUTCOME_SNOMED,
             SPINE_ANATOMY_SNOMED,
@@ -730,6 +732,7 @@ class SpineGraphSchema:
         queries: list[tuple[str, dict]] = []
 
         entity_configs = [
+            ("Intervention", SPINE_INTERVENTION_SNOMED),
             ("Pathology", SPINE_PATHOLOGY_SNOMED),
             ("Outcome", SPINE_OUTCOME_SNOMED),
             ("Anatomy", SPINE_ANATOMY_SNOMED),

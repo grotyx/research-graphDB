@@ -645,6 +645,7 @@ Phase 4 (병렬)         Phase 5 (병렬)         Phase 6 (병렬)
 
 | 일자 | 버전 | 신규 발견 | 해소 | 잔여 Deferred | 잔여 Accepted | 비고 |
 |------|------|----------|------|--------------|--------------|------|
+| 2026-02-28 | v1.24.1 | 0 | 2 | 1 | 4 | D-012(tool_definitions.py 추출, 4059→3708줄) 해소. D-013(pickle→numpy) 해소. D-011(test coverage) 잔여 |
 | 2026-02-28 | v1.24.1 | 2 | 2 | 3 | 4 | CA-NEW-001(taxonomy_manager generic Exception), CA-NEW-002(snomed_proposer generic Exception) 발견 및 즉시 수정. Neo4jError/OSError, RuntimeError/OSError/ValueError로 narrowing |
 | 2026-02-28 | v1.24.0 | 4 | 4 | 3 | 3 | D-014~D-017 전체 해소. D-015(is_a_depth 가드), D-016(IS_A 상한), D-017(asyncio.gather) 코드 수정. D-014(테스트) 58 tests 신규 작성. |
 | 2026-02-17 | v1.23.4 | 0 | 0 | 3 | 3 | 재스캔: 신규 이슈 없음. D-011/D-012/D-013 잔여 (변경 없음) |
@@ -728,8 +729,8 @@ Phase 4 (병렬)         Phase 5 (병렬)         Phase 6 (병렬)
 | **발견 버전** | v1.23.4 (CA-NEW-001, 2026-02-17) |
 | **Phase** | 4.1 God Object |
 | **심각도** | Low |
-| **상태** | Open |
-| **설명** | D-001에서 7,178→4,043줄로 줄였으나 여전히 대형. 남은 inline 메서드를 추가 handler로 분리하면 유지보수성 향상. |
+| **상태** | **Resolved (2026-02-28)** |
+| **설명** | D-001에서 7,178→4,043줄로 줄였으나 여전히 대형. `list_tools()` 내 10개 Tool 정의(~350줄)를 `tool_definitions.py`로 추출. 4,059→3,708줄 (-351줄). `get_tool_definitions(Tool, ToolAnnotations)` 함수로 lazy import. |
 | **예상 규모** | Medium (1-2 session) |
 
 #### D-013: embedding_cache.py pickle→numpy 전환
@@ -739,8 +740,8 @@ Phase 4 (병렬)         Phase 5 (병렬)         Phase 6 (병렬)
 | **발견 버전** | v1.23.4 (CA-NEW-002, 2026-02-17) |
 | **Phase** | 6.1 의존성 |
 | **심각도** | Low |
-| **상태** | Open |
-| **설명** | `embedding_cache.py` lines 207, 305에서 `pickle.loads()` 사용. 내부 SQLite 전용이라 외부 공격 위험은 낮으나, `numpy.frombuffer()`로 전환하면 안전성 향상. |
+| **상태** | **Resolved (2026-02-28)** |
+| **설명** | `embedding_cache.py`에서 `pickle.loads()`/`pickle.dumps()` 4곳을 `np.frombuffer(dtype=np.float32)`/`np.asarray(dtype=np.float32).tobytes()`로 전환. `import pickle` 제거. 81 tests passed. |
 | **예상 규모** | Small (1 session) |
 
 #### D-011: Test Coverage Expansion Phase 2

@@ -80,6 +80,7 @@ from typing import Optional, Any
 
 from dotenv import load_dotenv
 from core.exceptions import LLMError, ErrorCode
+from graph.types.enums import normalize_study_design
 
 # Load environment variables
 load_dotenv()
@@ -1683,7 +1684,7 @@ class UnifiedPDFProcessor:
             pmid=meta_dict.get("pmid", ""),
             abstract=meta_dict.get("abstract", ""),
             study_type=meta_dict.get("study_type", ""),
-            study_design=meta_dict.get("study_design", ""),
+            study_design=normalize_study_design(meta_dict.get("study_design", "")),
             evidence_level=meta_dict.get("evidence_level", "5"),
             sample_size=int(meta_dict.get("sample_size", 0) or 0),
             centers=meta_dict.get("centers", ""),

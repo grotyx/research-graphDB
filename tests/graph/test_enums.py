@@ -12,6 +12,7 @@ from graph.types.enums import (
     PaperRelationType,
     SpineSubDomain,
     StudyDesign,
+    normalize_study_design,
 )
 
 
@@ -61,11 +62,12 @@ class TestEvidenceLevel:
 
 class TestStudyDesign:
     def test_member_count(self):
-        assert len(StudyDesign) == 10
+        assert len(StudyDesign) == 11
 
     def test_selected_values(self):
         assert StudyDesign.META_ANALYSIS.value == "meta-analysis"
         assert StudyDesign.RCT.value == "RCT"
+        assert StudyDesign.CROSS_SECTIONAL.value == "cross-sectional"
         assert StudyDesign.OTHER.value == "other"
 
     def test_lookup_by_value(self):
@@ -74,6 +76,127 @@ class TestStudyDesign:
     def test_invalid_value(self):
         with pytest.raises(ValueError):
             StudyDesign("randomized")
+
+
+# -- normalize_study_design ---------------------------------------------------
+
+class TestNormalizeStudyDesign:
+    """Tests for normalize_study_design() variant mapping."""
+
+    # --- Empty / None ---
+    @pytest.mark.parametrize("raw", ["", "  ", None])
+    def test_empty_returns_empty(self, raw):
+        assert normalize_study_design(raw or "") == ""
+
+    # --- Canonical pass-through ---
+    @pytest.mark.parametrize("canonical", [sd.value for sd in StudyDesign])
+    def test_canonical_passthrough(self, canonical):
+        assert normalize_study_design(canonical) == canonical
+
+    # --- Underscore variants (study_classifier.py style) ---
+    @pytest.mark.parametrize("raw,expected", [
+        ("meta_analysis", "meta-analysis"),
+        ("systematic_review", "systematic-review"),
+        ("rct", "RCT"),
+        ("case_control", "case-control"),
+        ("case_series", "case-series"),
+        ("case_report", "case-report"),
+        ("expert_opinion", "expert-opinion"),
+        ("cross_sectional", "cross-sectional"),
+    ])
+    def test_underscore_variants(self, raw, expected):
+        assert normalize_study_design(raw) == expected
+
+    # --- Space variants ---
+    @pytest.mark.parametrize("raw,expected", [
+        ("meta analysis", "meta-analysis"),
+        ("case control", "case-control"),
+        ("case series", "case-series"),
+        ("case report", "case-report"),
+        ("expert opinion", "expert-opinion"),
+        ("cross sectional", "cross-sectional"),
+        ("systematic review", "systematic-review"),
+    ])
+    def test_space_variants(self, raw, expected):
+        assert normalize_study_design(raw) == expected
+
+    # --- Long-form variants ---
+    @pytest.mark.parametrize("raw,expected", [
+        ("randomized controlled trial", "RCT"),
+        ("randomised controlled trial", "RCT"),
+        ("randomized_controlled_trial", "RCT"),
+        ("randomized", "RCT"),
+        ("randomised", "RCT"),
+        ("controlled trial", "RCT"),
+        ("double-blind", "RCT"),
+    ])
+    def test_rct_variants(self, raw, expected):
+        assert normalize_study_design(raw) == expected
+
+    # --- classify_papers.py style ---
+    @pytest.mark.parametrize("raw,expected", [
+        ("meta_analysis", "meta-analysis"),
+        ("systematic_review", "systematic-review"),
+        ("randomized", "RCT"),
+        ("cohort", "retrospective-cohort"),
+        ("case_control", "case-control"),
+        ("retrospective", "retrospective-cohort"),
+        ("case_series", "case-series"),
+        ("cross_sectional", "cross-sectional"),
+    ])
+    def test_classify_papers_values(self, raw, expected):
+        assert normalize_study_design(raw) == expected
+
+    # --- Cohort variants ---
+    @pytest.mark.parametrize("raw,expected", [
+        ("prospective cohort", "prospective-cohort"),
+        ("retrospective cohort", "retrospective-cohort"),
+        ("prospective_cohort", "prospective-cohort"),
+        ("retrospective_cohort", "retrospective-cohort"),
+        ("cohort study", "retrospective-cohort"),
+        ("cohort_study", "retrospective-cohort"),
+        ("longitudinal", "prospective-cohort"),
+        ("longitudinal study", "prospective-cohort"),
+    ])
+    def test_cohort_variants(self, raw, expected):
+        assert normalize_study_design(raw) == expected
+
+    # --- Substring fallback for compound strings ---
+    def test_compound_randomized(self):
+        assert normalize_study_design("multi-center randomized trial") == "RCT"
+
+    def test_compound_meta(self):
+        assert normalize_study_design("systematic review and meta-analysis") == "meta-analysis"
+
+    # --- Unknown falls to "other" ---
+    def test_unknown_maps_to_other(self):
+        assert normalize_study_design("unknown") == "other"
+
+    def test_gibberish_maps_to_other(self):
+        assert normalize_study_design("something_totally_unexpected") == "other"
+
+    # --- Non-randomized should NOT map to RCT ---
+    @pytest.mark.parametrize("raw", [
+        "non-randomized",
+        "non_randomized",
+        "non randomized",
+        "non-randomised",
+        "non-randomized single-arm",
+        "non-randomized multi-arm",
+    ])
+    def test_non_randomized_is_not_rct(self, raw):
+        assert normalize_study_design(raw) == "other"
+
+    # --- Single-arm / multi-arm ---
+    @pytest.mark.parametrize("raw", ["single-arm", "multi-arm", "single_arm", "multi_arm"])
+    def test_arm_variants_are_other(self, raw):
+        assert normalize_study_design(raw) == "other"
+
+    # --- Case insensitivity ---
+    def test_case_insensitive(self):
+        assert normalize_study_design("META-ANALYSIS") == "meta-analysis"
+        assert normalize_study_design("Rct") == "RCT"
+        assert normalize_study_design("RETROSPECTIVE") == "retrospective-cohort"
 
 
 # ── OutcomeType ─────────────────────────────────────────────────

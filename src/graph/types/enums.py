@@ -12,6 +12,7 @@
 - 인용 컨텍스트: CitationContext
 """
 
+import re
 from enum import Enum
 
 
@@ -46,7 +47,213 @@ class StudyDesign(Enum):
     CASE_SERIES = "case-series"
     CASE_REPORT = "case-report"
     EXPERT_OPINION = "expert-opinion"
+    CROSS_SECTIONAL = "cross-sectional"
     OTHER = "other"
+
+
+# ---------------------------------------------------------------------------
+# study_design normalization — maps all known variant forms to canonical values
+# ---------------------------------------------------------------------------
+
+# Canonical values are the StudyDesign enum .value strings above.
+# This mapping handles underscore/hyphen variants, abbreviations, long forms,
+# and the values produced by study_classifier.py, study_type_detector.py,
+# classify_papers.py, and free-form LLM outputs.
+
+_STUDY_DESIGN_ALIAS_MAP: dict[str, str] = {
+    # ── meta-analysis ──
+    "meta-analysis": "meta-analysis",
+    "meta_analysis": "meta-analysis",
+    "meta analysis": "meta-analysis",
+    "metaanalysis": "meta-analysis",
+    "pooled analysis": "meta-analysis",
+    "pooled_analysis": "meta-analysis",
+
+    # ── systematic-review ──
+    "systematic-review": "systematic-review",
+    "systematic_review": "systematic-review",
+    "systematic review": "systematic-review",
+    "scoping review": "systematic-review",
+    "scoping_review": "systematic-review",
+    "literature review": "systematic-review",
+    "literature_review": "systematic-review",
+
+    # ── RCT ──
+    "rct": "RCT",
+    "randomized": "RCT",
+    "randomised": "RCT",
+    "randomized_controlled_trial": "RCT",
+    "randomised_controlled_trial": "RCT",
+    "randomized controlled trial": "RCT",
+    "randomised controlled trial": "RCT",
+    "randomized trial": "RCT",
+    "randomised trial": "RCT",
+    "randomized clinical trial": "RCT",
+    "controlled trial": "RCT",
+    "controlled_trial": "RCT",
+    "double-blind": "RCT",
+    "double_blind": "RCT",
+    "single-blind": "RCT",
+    "single_blind": "RCT",
+
+    # ── prospective-cohort ──
+    "prospective-cohort": "prospective-cohort",
+    "prospective_cohort": "prospective-cohort",
+    "prospective cohort": "prospective-cohort",
+    "prospective study": "prospective-cohort",
+    "prospective_study": "prospective-cohort",
+    "longitudinal": "prospective-cohort",
+    "longitudinal study": "prospective-cohort",
+    "longitudinal_study": "prospective-cohort",
+    "follow-up study": "prospective-cohort",
+    "follow_up_study": "prospective-cohort",
+
+    # ── retrospective-cohort ──
+    "retrospective-cohort": "retrospective-cohort",
+    "retrospective_cohort": "retrospective-cohort",
+    "retrospective cohort": "retrospective-cohort",
+    "retrospective": "retrospective-cohort",
+    "retrospective study": "retrospective-cohort",
+    "retrospective_study": "retrospective-cohort",
+    "retrospective review": "retrospective-cohort",
+    "retrospective_review": "retrospective-cohort",
+    "chart review": "retrospective-cohort",
+    "chart_review": "retrospective-cohort",
+    "medical record": "retrospective-cohort",
+
+    # ── cohort (ambiguous → retrospective-cohort as safer default) ──
+    "cohort": "retrospective-cohort",
+    "cohort study": "retrospective-cohort",
+    "cohort_study": "retrospective-cohort",
+
+    # ── case-control ──
+    "case-control": "case-control",
+    "case_control": "case-control",
+    "case control": "case-control",
+    "case-control study": "case-control",
+    "case_control_study": "case-control",
+
+    # ── case-series ──
+    "case-series": "case-series",
+    "case_series": "case-series",
+    "case series": "case-series",
+
+    # ── case-report ──
+    "case-report": "case-report",
+    "case_report": "case-report",
+    "case report": "case-report",
+    "single case": "case-report",
+    "single_case": "case-report",
+
+    # ── expert-opinion ──
+    "expert-opinion": "expert-opinion",
+    "expert_opinion": "expert-opinion",
+    "expert opinion": "expert-opinion",
+    "editorial": "expert-opinion",
+    "commentary": "expert-opinion",
+    "letter": "expert-opinion",
+    "perspective": "expert-opinion",
+    "viewpoint": "expert-opinion",
+    "guideline": "expert-opinion",
+
+    # ── cross-sectional ──
+    "cross-sectional": "cross-sectional",
+    "cross_sectional": "cross-sectional",
+    "cross sectional": "cross-sectional",
+    "survey": "cross-sectional",
+
+    # ── non-randomized / observational (NOT RCT) ──
+    "non-randomized": "other",
+    "non_randomized": "other",
+    "non randomized": "other",
+    "non-randomised": "other",
+    "non-randomized single-arm": "other",
+    "non-randomized multi-arm": "other",
+    "non-randomised single-arm": "other",
+    "non-randomised multi-arm": "other",
+    "single-arm": "other",
+    "single_arm": "other",
+    "multi-arm": "other",
+    "multi_arm": "other",
+    "observational": "other",
+
+    # ── other ──
+    "other": "other",
+    "unknown": "other",
+}
+
+
+def normalize_study_design(raw: str) -> str:
+    """Normalize a study_design string to a canonical StudyDesign value.
+
+    Maps variant forms (underscore, hyphen, long-form, abbreviation) to
+    the canonical enum values defined in StudyDesign.
+
+    Args:
+        raw: Raw study_design string from LLM output, PubMed, or user input.
+
+    Returns:
+        Canonical study_design string (one of StudyDesign enum values),
+        or empty string if input is empty/None.
+    """
+    if not raw:
+        return ""
+
+    key = raw.strip().lower()
+    if not key:
+        return ""
+
+    # Direct lookup
+    canonical = _STUDY_DESIGN_ALIAS_MAP.get(key)
+    if canonical:
+        return canonical
+
+    # Check if already a valid canonical value (case-insensitive for "RCT")
+    canonical_values = {sd.value.lower(): sd.value for sd in StudyDesign}
+    if key in canonical_values:
+        return canonical_values[key]
+
+    # Check for negation patterns FIRST — "non-randomized" is NOT RCT
+    if re.search(r'\bnon[\-_\s]?randomi[sz]ed\b', key):
+        return "other"
+
+    # Substring fallback for compound descriptions like "multi-center randomized trial"
+    # Priority order: meta-analysis > systematic-review > RCT > cohort > case-control > case-series > case-report > cross-sectional > expert-opinion
+    _SUBSTRING_PRIORITY = [
+        ("meta-analysis", "meta-analysis"),
+        ("meta analysis", "meta-analysis"),
+        ("metaanalysis", "meta-analysis"),
+        ("systematic review", "systematic-review"),
+        ("systematic_review", "systematic-review"),
+        ("randomized", "RCT"),
+        ("randomised", "RCT"),
+        ("rct", "RCT"),
+        ("prospective cohort", "prospective-cohort"),
+        ("prospective_cohort", "prospective-cohort"),
+        ("retrospective cohort", "retrospective-cohort"),
+        ("retrospective_cohort", "retrospective-cohort"),
+        ("case-control", "case-control"),
+        ("case_control", "case-control"),
+        ("case control", "case-control"),
+        ("cross-sectional", "cross-sectional"),
+        ("cross_sectional", "cross-sectional"),
+        ("cross sectional", "cross-sectional"),
+        ("case series", "case-series"),
+        ("case_series", "case-series"),
+        ("case report", "case-report"),
+        ("case_report", "case-report"),
+        ("retrospective", "retrospective-cohort"),
+        ("prospective", "prospective-cohort"),
+        ("cohort", "retrospective-cohort"),
+        ("expert opinion", "expert-opinion"),
+        ("editorial", "expert-opinion"),
+    ]
+    for substr, canonical_val in _SUBSTRING_PRIORITY:
+        if substr in key:
+            return canonical_val
+
+    # Unrecognized — return "other"
+    return "other"
 
 
 class OutcomeType(Enum):

@@ -201,7 +201,7 @@ class TestRelationshipBuilder:
         assert paper.year == 2024
         assert paper.sub_domain == "Degenerative"
         assert paper.study_type == "RCT"
-        assert paper.study_design == "randomized"
+        assert paper.study_design == "RCT"  # "randomized" normalized to "RCT"
         assert paper.evidence_level == "1b"
 
     @pytest.mark.asyncio

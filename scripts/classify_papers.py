@@ -14,6 +14,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from graph.neo4j_client import Neo4jClient
+from graph.types.enums import normalize_study_design
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -104,14 +105,17 @@ def classify_sub_domain(title: str, abstract: str) -> Optional[str]:
 
 
 def classify_study_design(title: str, abstract: str) -> Optional[str]:
-    """제목과 초록으로 study_design 분류."""
+    """제목과 초록으로 study_design 분류.
+
+    Returns canonical StudyDesign enum values via normalize_study_design().
+    """
     text = f"{title} {abstract}".lower()
 
     # 우선순위대로 체크
     for design, keywords in STUDY_DESIGN_KEYWORDS.items():
         for kw in keywords:
             if kw.lower() in text:
-                return design
+                return normalize_study_design(design)
 
     return None
 

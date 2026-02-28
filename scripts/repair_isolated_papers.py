@@ -32,6 +32,7 @@ from builder.unified_pdf_processor import (
     UnifiedPDFProcessor,
     ExtractedMetadata,
 )
+from graph.types.enums import normalize_study_design
 
 logging.basicConfig(
     level=logging.INFO,
@@ -142,7 +143,7 @@ def parse_llm_response(extracted_data: dict, paper: dict) -> tuple[GraphSpineMet
         pmid=paper.get("pmid", "") or "",
         abstract=paper.get("abstract", ""),
         study_type=metadata_dict.get("study_type", ""),
-        study_design=metadata_dict.get("study_design", ""),
+        study_design=normalize_study_design(metadata_dict.get("study_design", "")),
         evidence_level=metadata_dict.get("evidence_level", "5") or "5",
         sample_size=metadata_dict.get("sample_size", 0) or 0,
         centers=metadata_dict.get("centers", ""),

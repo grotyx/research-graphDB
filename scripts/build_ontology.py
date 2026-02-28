@@ -2,8 +2,7 @@
 """Neo4j 엔티티 IS_A 계층 구조 구축 스크립트.
 
 spine_snomed_mappings.py의 parent_code를 기반으로
-Pathology, Outcome, Anatomy 엔티티의 IS_A 계층을 Neo4j에 적용합니다.
-(Intervention IS_A는 기존 get_init_taxonomy_cypher()에서 처리됩니다.)
+Intervention, Pathology, Outcome, Anatomy 엔티티의 IS_A 계층을 Neo4j에 적용합니다.
 
 Usage:
     # Dry-run (쿼리 확인만)
@@ -170,7 +169,7 @@ async def main():
     )
     parser.add_argument(
         "--entity-type",
-        choices=sorted(VALID_ENTITY_TYPES - {"Intervention"}),
+        choices=sorted(VALID_ENTITY_TYPES),
         help="Process specific entity type only",
     )
     parser.add_argument(

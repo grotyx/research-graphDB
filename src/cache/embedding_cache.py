@@ -6,7 +6,6 @@ Persistent cache using SQLite for text-to-embedding mappings.
 import hashlib
 import json
 import logging
-import pickle
 import sqlite3
 from dataclasses import dataclass
 from datetime import datetime, timedelta
@@ -57,7 +56,7 @@ class EmbeddingCache:
     Schema:
         - text_hash: SHA-256 hash of normalized text (PRIMARY KEY)
         - text: Original text (for debugging)
-        - embedding: Pickled numpy array
+        - embedding: numpy float32 binary blob (via tobytes/frombuffer)
         - model_name: Embedding model identifier
         - created_at: Timestamp
         - expires_at: Expiration timestamp
@@ -203,8 +202,8 @@ class EmbeddingCache:
             )
             conn.commit()
 
-            # Deserialize embedding
-            embedding = pickle.loads(embedding_blob)
+            # Deserialize embedding (raw float32 bytes → numpy array)
+            embedding = np.frombuffer(embedding_blob, dtype=np.float32).copy()
             self._hit_count += 1
             logger.debug(f"Embedding cache hit: {text[:50]}...")
             return embedding
@@ -234,8 +233,8 @@ class EmbeddingCache:
         ttl = ttl_override if ttl_override is not None else self.ttl_days
         expires_at = None if ttl <= 0 else datetime.now() + timedelta(days=ttl)
 
-        # Serialize embedding
-        embedding_blob = pickle.dumps(embedding)
+        # Serialize embedding (numpy array → raw float32 bytes)
+        embedding_blob = np.asarray(embedding, dtype=np.float32).tobytes()
 
         conn = sqlite3.connect(self.db_path)
         try:
@@ -301,8 +300,8 @@ class EmbeddingCache:
                     if datetime.now() > expires_dt:
                         continue
 
-                # Deserialize
-                embedding = pickle.loads(embedding_blob)
+                # Deserialize (raw float32 bytes → numpy array)
+                embedding = np.frombuffer(embedding_blob, dtype=np.float32).copy()
                 text = hash_to_text[text_hash]
                 results[text] = embedding
                 found_hashes.add(text_hash)
@@ -358,7 +357,7 @@ class EmbeddingCache:
         for text, embedding in texts_embeddings.items():
             text_hash = self._generate_hash(text, model_name)
             normalized = self._normalize_text(text)
-            embedding_blob = pickle.dumps(embedding)
+            embedding_blob = np.asarray(embedding, dtype=np.float32).tobytes()
             data.append((
                 text_hash,
                 normalized,
