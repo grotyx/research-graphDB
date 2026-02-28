@@ -637,6 +637,7 @@ Phase 4 (병렬)         Phase 5 (병렬)         Phase 6 (병렬)
 | CA-A-001 | 2.1 | cleanup/fallback 코드의 silent exception | 의도적 fallback 패턴, WARNING 로깅됨 | 2026-02-16 |
 | CA-A-002 | 2.3 | `scripts/`, `__main__` 블록 내 print() (~110건) | 의도적: CLI 도구의 stdout 출력 | 2026-02-16 |
 | CA-A-003 | 3.1 | LLM 호출 루프 (asyncio.gather 사용 불가한 순차 의존 케이스) | 각 호출이 이전 결과에 의존하여 병렬화 불가 | 2026-02-16 |
+| CA-A-004 | 4.2 | `entity_normalizer._build_reverse_map` last-write-wins 패턴 | 의도적 설계: dict 순회 순서로 canonical 우선순위 결정. 신규 canonical 추가 시 기존 alias 충돌 가능 (예: PJK/PJF, DJK/DJF). 테스트로 검증 중 | 2026-02-28 |
 
 ---
 
