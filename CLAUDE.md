@@ -297,8 +297,6 @@ rag_research/
 - [DEPLOYMENT.md](docs/DEPLOYMENT.md) - 배포 가이드
 - [HOW_TO_RUN_kr.md](docs/HOW_TO_RUN_kr.md) - 실행 가이드 (한국어)
 - [SCHEMA_UPDATE_GUIDE.md](docs/SCHEMA_UPDATE_GUIDE.md) - 스키마/Taxonomy 업데이트 절차
-- [CLEANUP_SPRINT_PLAN.md](docs/CLEANUP_SPRINT_PLAN.md) - **Cleanup Sprint (QC/DV Open Issues 일괄 해소 실행 계획)**
-- [CA_DEFERRED_PLAN.md](docs/CA_DEFERRED_PLAN.md) - CA Deferred Items 실행 계획 (D-005~D-008)
 - `docs/specs/` - 기술 상세 명세
 - `docs/api/` - API 레퍼런스
 

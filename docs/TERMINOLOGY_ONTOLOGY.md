@@ -519,7 +519,7 @@ Extension Namespace: 900000000000
 
 > **v1.21.0 추가**: `procedure_ext` 범위(600-699)는 기존 procedure(100-199) 범위가 고갈됨에 따라 도입되었습니다. 주로 Fixation, Osteotomy 하위 기법의 세분화된 변형에 사용됩니다.
 >
-> **v1.24.x 추가**: `procedure_ext2`(700-799), `observable_ext`(800-899), `disorder_ext`(900-949) 범위가 추가되었습니다. 32개 신규 SNOMED 개념(I:11, P:10, O:8, A:5) 수용을 위해 도입.
+> **v1.24.x 추가**: `procedure_ext2`(700-799), `observable_ext`(800-899), `disorder_ext`(900-949) 범위가 추가되었습니다. 32개 신규 SNOMED 개념(I:+10, P:+10, O:+7, A:+5) 수용을 위해 도입.
 
 ### 5.4 주요 SNOMED 매핑
 

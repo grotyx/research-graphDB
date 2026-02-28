@@ -172,6 +172,9 @@ PDF/텍스트 논문을 추가하고 관리합니다.
 | `evidence` | 근거 검색 | 특정 수술법의 효과 근거 찾기 |
 | `reason` | 추론 기반 답변 | 질문에 대한 종합 답변 |
 | `clinical_recommend` | 임상 치료 추천 (`patient_context`, `intervention` 파라미터) | 환자 맥락 기반 치료 추천 |
+| `evidence_chain` | 다중홉 근거 체인 (`pathology` 파라미터) | 주장에 대한 근거 체인 추적 |
+| `compare_interventions` | 수술법 비교 (`pathology`, `interventions` 파라미터) | 수술법 간 결과 비교 |
+| `best_evidence` | 최고 근거 검색 (`pathology`, `outcome_category` 파라미터) | 질환별 최상위 근거 검색 |
 
 #### 사용 예시
 

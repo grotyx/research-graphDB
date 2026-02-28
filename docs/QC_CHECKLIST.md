@@ -478,7 +478,7 @@ git log --oneline -3
 | 6.3 SNOMED 검색 사용 | ✅/❌ | |
 | 6.4 4-타입 확장 검증 | ✅/❌ | |
 | 6.5 graph_relevance_score | ✅/❌ | |
-| 6.6 query_parser SNOMED | ✅/❌ | |
+| 6.6 tiered_search SNOMED enrichment | ✅/❌ | |
 | 6.7 SNOMED↔normalizer 동기화 | ✅/❌ | orphan: / 충돌: |
 
 ## 조치 사항
@@ -506,7 +506,7 @@ Phase 1 (병렬)          Phase 2 (병렬)          Phase 3 (순차)       Phase
                                                  ├─ 6.3 SNOMED 검색 사용
                                                  ├─ 6.4 4-타입 확장
                                                  ├─ 6.5 graph_relevance
-                                                 ├─ 6.6 query_parser SNOMED
+                                                 ├─ 6.6 tiered_search SNOMED
                                                  └─ 6.7 SNOMED↔normalizer 동기화
 ```
 
@@ -584,13 +584,13 @@ src/solver/hybrid_ranker.py에서:
 확인해서 보고해줘.
 ```
 
-### 6.6 query_parser SNOMED enrichment 확인
+### 6.6 tiered_search SNOMED enrichment 확인
 
-쿼리 파서가 엔티티를 SNOMED ID로 자동 보강하는지 확인합니다.
+검색 파이프라인이 엔티티를 SNOMED ID로 자동 보강하는지 확인합니다.
 
 **Claude Code 프롬프트:**
 ```
-src/orchestrator/query_parser.py에서:
+src/solver/tiered_search.py에서:
 1. SNOMED 관련 import 또는 참조가 있는지
 2. 엔티티를 snomed_id로 enrichment하는 코드가 있는지
 3. entity_normalizer를 활용하여 엔티티를 정규화하는 코드가 있는지
@@ -651,13 +651,19 @@ spine_snomed_mappings.py의 SNOMED 키가 entity_normalizer.py의 reverse map에
 
 | ID | Check | 심각도 | 설명 | 발견 버전 | 상태 |
 |----|-------|--------|------|----------|------|
-| QC-2024-003 | 1.3 (Doc headers) | Info | TROUBLESHOOTING.md, SCHEMA_UPDATE_GUIDE.md, CA_DEFERRED_PLAN.md, CLEANUP_SPRINT_PLAN.md — 운영 문서로 버전 헤더 없음 (의도적 허용 가능) | v1.24.0 | 🟡 보류 |
-| QC-2024-005 | 5.3 (Git status) | Medium | v1.24.0 변경 파일 미커밋 상태 — ✅ SNOMED 확장 커밋에서 해소 (e55a2a7) | v1.24.0 | ✅ 해소 |
+| QC-2024-003 | 1.3 (Doc headers) | Info | TROUBLESHOOTING.md, SCHEMA_UPDATE_GUIDE.md — 운영 문서로 버전 헤더 없음 (의도적 허용 가능) | v1.24.0 | 🟡 보류 |
 
 ### 해소 완료
 
 | ID | Check | 심각도 | 설명 | 발견 버전 | 해소 버전 | 상태 |
 |----|-------|--------|------|----------|----------|------|
+| QC-2025-001 | 1.2 | Medium | CLAUDE.md에서 참조하는 CA_DEFERRED_PLAN.md, CLEANUP_SPRINT_PLAN.md 파일 미존재 | v1.24.1 | v1.24.1 | ✅ CLAUDE.md에서 참조 제거 |
+| QC-2025-002 | 3.4 | Medium | MCP Docker 컨테이너 v1.23.4 ↔ 소스 v1.24.0 불일치 | v1.24.1 | v1.24.1 | ✅ docker-compose restart mcp |
+| QC-2025-003 | 1.4 | Low | GRAPH_SCHEMA.md "매핑 통계 (v1.23.4)" 버전 라벨 미갱신 | v1.24.1 | v1.24.1 | ✅ v1.24.0으로 수정 |
+| QC-2025-004 | 1.4 | Low | TERMINOLOGY_ONTOLOGY.md "I:11, P:10, O:8, A:5" 합계 오류(34≠32) | v1.24.1 | v1.24.1 | ✅ I:+10, P:+10, O:+7, A:+5로 수정 |
+| QC-2025-005 | 4.1 | Low | CHANGELOG 최상단 항목에 버전 번호 없음 | v1.24.1 | v1.24.1 | ✅ v1.24.1 라벨 추가 |
+| QC-2025-006 | 1.3 | Low | search 도구 best_evidence/evidence_chain/compare_interventions 미기재 | v1.24.1 | v1.24.1 | ✅ user_guide.md, MCP_USAGE_GUIDE.md에 추가 |
+| QC-2025-007 | 6.6 | Info | QC 체크리스트에 query_parser.py 참조 (미존재) | v1.24.1 | v1.24.1 | ✅ tiered_search.py로 수정 |
 | QC-2024-008 | 1.4 | Medium | SNOMED 매핑 확장 후 GRAPH_SCHEMA.md, DEPLOYMENT.md 통계 미갱신 (621→653) | v1.24.x | v1.24.x | ✅ 3곳 수정 (GRAPH_SCHEMA 통계표, DEPLOYMENT 3행) |
 | QC-2024-001 | 1.4 | Medium | DEPLOYMENT.md SNOMED 통계 구버전 잔존 (592→621) | v1.24.0 | v1.24.0 | ✅ DEPLOYMENT.md line 19 수정 |
 | QC-2024-002 | 1.3 | Low | TRD_v3_GraphRAG.md 버전 헤더 미갱신 (1.19.4) | v1.24.0 | v1.24.0 | ✅ 버전 1.24.0으로 갱신 |
@@ -682,6 +688,7 @@ spine_snomed_mappings.py의 SNOMED 키가 entity_normalizer.py의 reverse map에
 
 | 일자 | 버전 | 신규 발견 | 해소 | 잔여 Open | 잔여 Accepted | 비고 |
 |------|------|----------|------|----------|--------------|------|
+| 2026-02-28 | v1.24.1 | 7 | 7 | 1 | 2 | QC-2025-001~007 발견 및 전체 해소. 001: CLAUDE.md 참조 제거, 002: MCP Docker 재시작, 003: GRAPH_SCHEMA 버전 라벨, 004: TERMINOLOGY 합계, 005: CHANGELOG 버전, 006: search action 문서화, 007: query_parser→tiered_search |
 | 2026-02-28 | v1.24.0 | 7 | 5 | 2 | 2 | 7건 발견: QC-2024-001(DEPLOYMENT SNOMED), 002(TRD 버전), 003(운영문서 버전), 004(TERMINOLOGY root), 005(미커밋), 006(.gitignore), 007(IS_A 행). 5건 즉시 수정(001,002,004,006,007). 003 보류, 005 커밋 대기. |
 | 2026-02-17 | v1.23.4 | 2 | 2 | 0 | 2 | QC-NEW-004~005 발견 및 즉시 수정 (cache import, env var naming) |
 | 2026-02-17 | v1.23.4 | 3 | 3 | 0 | 2 | QC-NEW-001~003 발견 및 즉시 수정 (버전 동기화, SNOMED 카운트) |

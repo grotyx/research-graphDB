@@ -350,6 +350,9 @@ PDF/텍스트 논문을 추가하고 관리합니다.
 | `evidence` | 근거 검색 |
 | `reason` | 추론 기반 답변 |
 | `clinical_recommend` | 환자 맥락 기반 임상 치료 추천 |
+| `evidence_chain` | 다중홉 근거 체인 검색 |
+| `compare_interventions` | 수술법 비교 분석 |
+| `best_evidence` | 최고 근거 검색 (질환+수술법+결과 기반) |
 
 **Usage**:
 ```

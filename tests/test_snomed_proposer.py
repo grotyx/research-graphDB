@@ -259,7 +259,7 @@ class TestProposeMapping:
     @pytest.mark.asyncio
     async def test_llm_failure_handled(self, proposer, mock_llm):
         """LLM failure returns empty proposal with error reasoning."""
-        mock_llm.generate_json.side_effect = Exception("API Error")
+        mock_llm.generate_json.side_effect = RuntimeError("API Error")
 
         proposal = await proposer.propose_mapping("Test", "intervention")
 
@@ -346,7 +346,7 @@ class TestBatchPropose:
             nonlocal call_count
             call_count += 1
             if call_count == 2:
-                raise Exception("API Error on term 2")
+                raise RuntimeError("API Error on term 2")
             return {
                 "preferred_term": f"Term {call_count}",
                 "confidence": 0.8,

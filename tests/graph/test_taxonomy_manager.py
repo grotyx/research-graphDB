@@ -71,7 +71,7 @@ class TestTaxonomyManager:
     @pytest.mark.asyncio
     async def test_get_parent_interventions_error(self, manager, mock_client):
         """Test get_parent_interventions with error."""
-        mock_client.run_query.side_effect = Exception("Database error")
+        mock_client.run_query.side_effect = OSError("Database error")
 
         parents = await manager.get_parent_interventions("TLIF")
 
@@ -105,7 +105,7 @@ class TestTaxonomyManager:
     @pytest.mark.asyncio
     async def test_get_child_interventions_error(self, manager, mock_client):
         """Test get_child_interventions with error."""
-        mock_client.get_intervention_children.side_effect = Exception("Error")
+        mock_client.get_intervention_children.side_effect = OSError("Error")
 
         children = await manager.get_child_interventions("Test")
 
@@ -147,7 +147,7 @@ class TestTaxonomyManager:
     @pytest.mark.asyncio
     async def test_find_common_ancestor_error(self, manager, mock_client):
         """Test find_common_ancestor with error."""
-        mock_client.run_query.side_effect = Exception("Error")
+        mock_client.run_query.side_effect = OSError("Error")
 
         ancestor = await manager.find_common_ancestor("A", "B")
 
@@ -169,7 +169,7 @@ class TestTaxonomyManager:
     @pytest.mark.asyncio
     async def test_add_intervention_to_taxonomy_error(self, manager, mock_client):
         """Test add_intervention_to_taxonomy with error."""
-        mock_client.run_write_query.side_effect = Exception("Error")
+        mock_client.run_write_query.side_effect = OSError("Error")
 
         result = await manager.add_intervention_to_taxonomy(
             intervention="Test",
@@ -219,7 +219,7 @@ class TestTaxonomyManager:
     @pytest.mark.asyncio
     async def test_get_full_taxonomy_tree_error(self, manager, mock_client):
         """Test get_full_taxonomy_tree with error."""
-        mock_client.run_query.side_effect = Exception("Error")
+        mock_client.run_query.side_effect = OSError("Error")
 
         tree = await manager.get_full_taxonomy_tree()
 
@@ -255,7 +255,7 @@ class TestTaxonomyManager:
     @pytest.mark.asyncio
     async def test_get_intervention_level_error(self, manager, mock_client):
         """Test get_intervention_level with error."""
-        mock_client.run_query.side_effect = Exception("Error")
+        mock_client.run_query.side_effect = OSError("Error")
 
         level = await manager.get_intervention_level("Test")
 
@@ -310,7 +310,7 @@ class TestTaxonomyManager:
     @pytest.mark.asyncio
     async def test_get_similar_interventions_error(self, manager, mock_client):
         """Test get_similar_interventions with error."""
-        mock_client.run_query.side_effect = Exception("Error")
+        mock_client.run_query.side_effect = OSError("Error")
 
         similar = await manager.get_similar_interventions("Test")
 
@@ -394,7 +394,7 @@ class TestTaxonomyManager:
     @pytest.mark.asyncio
     async def test_validate_taxonomy_error(self, manager, mock_client):
         """Test validate_taxonomy with error."""
-        mock_client.run_query.side_effect = Exception("Database error")
+        mock_client.run_query.side_effect = OSError("Database error")
 
         issues = await manager.validate_taxonomy()
 
@@ -491,7 +491,7 @@ class TestEdgeCases:
     @pytest.mark.asyncio
     async def test_none_intervention_name(self, manager, mock_client):
         """Test with None intervention name."""
-        mock_client.run_query.side_effect = Exception("Invalid parameter")
+        mock_client.run_query.side_effect = OSError("Invalid parameter")
 
         parents = await manager.get_parent_interventions(None)
 

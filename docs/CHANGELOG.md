@@ -2,7 +2,7 @@
 
 ## Version History
 
-### SNOMED Mapping Expansion (2026-02-28): 621→653개 매핑 확장
+### v1.24.1: SNOMED Mapping Expansion (2026-02-28): 621→653개 매핑 확장
 
 #### 매핑 확장 요약
 - **총 매핑 수**: 621 → 653개 (+32 신규 SNOMED 개념: I:+10, P:+10, O:+7, A:+5)

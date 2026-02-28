@@ -645,6 +645,7 @@ Phase 4 (병렬)         Phase 5 (병렬)         Phase 6 (병렬)
 
 | 일자 | 버전 | 신규 발견 | 해소 | 잔여 Deferred | 잔여 Accepted | 비고 |
 |------|------|----------|------|--------------|--------------|------|
+| 2026-02-28 | v1.24.1 | 2 | 2 | 3 | 4 | CA-NEW-001(taxonomy_manager generic Exception), CA-NEW-002(snomed_proposer generic Exception) 발견 및 즉시 수정. Neo4jError/OSError, RuntimeError/OSError/ValueError로 narrowing |
 | 2026-02-28 | v1.24.0 | 4 | 4 | 3 | 3 | D-014~D-017 전체 해소. D-015(is_a_depth 가드), D-016(IS_A 상한), D-017(asyncio.gather) 코드 수정. D-014(테스트) 58 tests 신규 작성. |
 | 2026-02-17 | v1.23.4 | 0 | 0 | 3 | 3 | 재스캔: 신규 이슈 없음. D-011/D-012/D-013 잔여 (변경 없음) |
 | 2026-02-17 | v1.23.4 | 3 | 1 | 3 | 3 | CA-NEW-001~003 발견. NEW-003(dep bounds) 즉시 수정, NEW-001/002→D-012/D-013 등록 |

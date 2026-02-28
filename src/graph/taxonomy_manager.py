@@ -9,6 +9,8 @@
 import logging
 from typing import Optional
 
+from core.exceptions import Neo4jError
+
 from .neo4j_client import Neo4jClient
 
 logger = logging.getLogger(__name__)
@@ -107,7 +109,7 @@ class TaxonomyManager:
                 logger.debug(f"No parents found for {entity_type}:{entity_name}")
                 return []
 
-        except Exception as e:
+        except (Neo4jError, OSError) as e:
             logger.error(
                 f"Failed to get parents for {entity_type}:{entity_name}: {e}",
                 exc_info=True,
@@ -137,7 +139,7 @@ class TaxonomyManager:
             try:
                 results = await self.client.get_intervention_children(entity_name)
                 return [r["name"] for r in results]
-            except Exception as e:
+            except (Neo4jError, OSError) as e:
                 logger.error(
                     f"Failed to get children for Intervention:{entity_name}: {e}",
                     exc_info=True,
@@ -157,7 +159,7 @@ class TaxonomyManager:
             )
             return [r["name"] for r in results]
 
-        except Exception as e:
+        except (Neo4jError, OSError) as e:
             logger.error(
                 f"Failed to get children for {entity_type}:{entity_name}: {e}",
                 exc_info=True,
@@ -234,7 +236,7 @@ class TaxonomyManager:
                 )
                 return None
 
-        except Exception as e:
+        except (Neo4jError, OSError) as e:
             logger.error(f"Failed to find common ancestor: {e}", exc_info=True)
             return None
 
@@ -273,7 +275,7 @@ class TaxonomyManager:
             )
             return True
 
-        except Exception as e:
+        except (Neo4jError, OSError) as e:
             logger.error(
                 f"Failed to add {entity_type}:{entity_name} to taxonomy: {e}",
                 exc_info=True,
@@ -314,7 +316,7 @@ class TaxonomyManager:
             else:
                 return 0
 
-        except Exception as e:
+        except (Neo4jError, OSError) as e:
             logger.error(
                 f"Failed to get level for {entity_type}:{entity_name}: {e}",
                 exc_info=True,
@@ -385,7 +387,7 @@ class TaxonomyManager:
             )
             return similar
 
-        except Exception as e:
+        except (Neo4jError, OSError) as e:
             logger.error(
                 f"Failed to find similar entities: {e}", exc_info=True
             )
@@ -440,7 +442,7 @@ class TaxonomyManager:
             )
             return tree
 
-        except Exception as e:
+        except (Neo4jError, OSError) as e:
             logger.error(
                 f"Failed to get {entity_type} taxonomy tree: {e}",
                 exc_info=True,
@@ -510,7 +512,7 @@ class TaxonomyManager:
                     f"{entity_type} taxonomy!"
                 )
 
-        except Exception as e:
+        except (Neo4jError, OSError) as e:
             logger.error(
                 f"{entity_type} taxonomy validation failed: {e}",
                 exc_info=True,
@@ -554,7 +556,7 @@ class TaxonomyManager:
                 logger.debug(f"No parents found for {intervention_name}")
                 return []
 
-        except Exception as e:
+        except (Neo4jError, OSError) as e:
             logger.error(f"Failed to get parents for {intervention_name}: {e}", exc_info=True)
             return []
 
@@ -573,7 +575,7 @@ class TaxonomyManager:
             results = await self.client.get_intervention_children(intervention_name)
             return [r["name"] for r in results]
 
-        except Exception as e:
+        except (Neo4jError, OSError) as e:
             logger.error(f"Failed to get children for {intervention_name}: {e}", exc_info=True)
             return []
 
@@ -645,7 +647,7 @@ class TaxonomyManager:
                 logger.debug(f"No common ancestor for {intervention1} and {intervention2}")
                 return None
 
-        except Exception as e:
+        except (Neo4jError, OSError) as e:
             logger.error(f"Failed to find common ancestor: {e}", exc_info=True)
             return None
 
@@ -681,7 +683,7 @@ class TaxonomyManager:
             logger.info(f"Added {intervention} to taxonomy under {parent}")
             return True
 
-        except Exception as e:
+        except (Neo4jError, OSError) as e:
             logger.error(f"Failed to add {intervention} to taxonomy: {e}", exc_info=True)
             return False
 
@@ -736,7 +738,7 @@ class TaxonomyManager:
             logger.debug(f"Retrieved taxonomy tree with {len(tree)} root nodes")
             return tree
 
-        except Exception as e:
+        except (Neo4jError, OSError) as e:
             logger.error(f"Failed to get taxonomy tree: {e}", exc_info=True)
             return {}
 
@@ -769,7 +771,7 @@ class TaxonomyManager:
                 # Taxonomy에 없거나 root인 경우
                 return 0
 
-        except Exception as e:
+        except (Neo4jError, OSError) as e:
             logger.error(f"Failed to get level for {intervention_name}: {e}", exc_info=True)
             return 0
 
@@ -831,7 +833,7 @@ class TaxonomyManager:
             logger.debug(f"Found {len(similar)} similar interventions for {intervention_name}")
             return similar
 
-        except Exception as e:
+        except (Neo4jError, OSError) as e:
             logger.error(f"Failed to find similar interventions: {e}", exc_info=True)
             return []
 
@@ -892,7 +894,7 @@ class TaxonomyManager:
             if issues["cycles"]:
                 logger.error(f"Found {len(issues['cycles'])} cycles in taxonomy!")
 
-        except Exception as e:
+        except (Neo4jError, OSError) as e:
             logger.error(f"Taxonomy validation failed: {e}", exc_info=True)
             issues["warnings"].append(f"Validation error: {e}")
 

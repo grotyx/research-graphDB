@@ -196,7 +196,7 @@ class SNOMEDProposer:
                     "required": ["preferred_term", "confidence", "reasoning"],
                 },
             )
-        except Exception as e:
+        except (RuntimeError, OSError, ValueError) as e:
             logger.warning(f"LLM proposal failed for '{term}': {e}")
             return SNOMEDProposal(
                 original_term=term,
