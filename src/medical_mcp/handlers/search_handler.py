@@ -440,6 +440,29 @@ class SearchHandler(BaseHandler):
         import time
         start_time = time.time()
 
+        # Parse query to extract entities + SNOMED codes for ontology-aware search
+        graph_filters: dict = {}
+        snomed_codes: list[str] = []
+        try:
+            parsed = self.query_parser.parse(QueryInput(
+                query=query,
+                expand_synonyms=True
+            ))
+            for entity in parsed.entities:
+                if hasattr(entity, 'entity_type'):
+                    etype = entity.entity_type.value if hasattr(entity.entity_type, 'value') else str(entity.entity_type)
+                    if etype in ['PROCEDURE', 'INTERVENTION', 'intervention']:
+                        graph_filters["intervention"] = entity.text
+                    elif etype in ['CONDITION', 'PATHOLOGY', 'pathology']:
+                        graph_filters["pathology"] = entity.text
+                if hasattr(entity, 'snomed_id') and entity.snomed_id:
+                    snomed_codes.append(entity.snomed_id)
+            # Fallback: use ParsedQuery.snomed_codes dict
+            if not snomed_codes and parsed.snomed_codes:
+                snomed_codes = list(parsed.snomed_codes.values())
+        except Exception as parse_err:
+            logger.warning(f"Query parsing for adaptive_search failed: {parse_err}")
+
         # Generate query embedding for hybrid search
         query_embedding = None
         if self.vector_db and hasattr(self.vector_db, 'get_embedding'):
@@ -461,7 +484,9 @@ class SearchHandler(BaseHandler):
         if query_embedding:
             search_results = await self.neo4j_client.hybrid_search(
                 embedding=query_embedding,
-                top_k=top_k
+                graph_filters=graph_filters or None,
+                top_k=top_k,
+                snomed_codes=snomed_codes or None,
             )
         else:
             # Fallback to regular tiered search

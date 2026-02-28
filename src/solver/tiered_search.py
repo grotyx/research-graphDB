@@ -652,8 +652,12 @@ class TieredHybridSearch:
                     elif entity_type in ['CONDITION', 'PATHOLOGY', 'pathology']:
                         graph_filters["pathology"] = entity.text
                 # Collect SNOMED codes from entities for IS_A expansion
-                if hasattr(entity, 'snomed_code') and entity.snomed_code:
-                    snomed_codes.append(entity.snomed_code)
+                if hasattr(entity, 'snomed_id') and entity.snomed_id:
+                    snomed_codes.append(entity.snomed_id)
+
+        # Also collect from ParsedQuery.snomed_codes dict (entity_text -> code)
+        if not snomed_codes and input_data.parsed_query and input_data.parsed_query.snomed_codes:
+            snomed_codes = list(input_data.parsed_query.snomed_codes.values())
 
         # IS_A hierarchy expansion via GraphContextExpander
         if self.context_expander:

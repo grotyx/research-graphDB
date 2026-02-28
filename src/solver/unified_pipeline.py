@@ -63,6 +63,17 @@ except ImportError:
     GraphContextExpander = None
     ExpandedContext = None
 
+# SNOMED lookup for ontology-aware search
+try:
+    from ontology.spine_snomed_mappings import (
+        get_snomed_for_intervention,
+        get_snomed_for_pathology,
+        get_snomed_for_outcome,
+    )
+    SNOMED_LOOKUP_AVAILABLE = True
+except ImportError:
+    SNOMED_LOOKUP_AVAILABLE = False
+
 # v4.2: Import QueryPatternRouter for advanced query classification
 try:
     from ..orchestrator.query_pattern_router import (
@@ -422,6 +433,24 @@ class UnifiedSearchPipeline:
         # Generate query embedding via Neo4j client
         query_embedding = await self.neo4j_client.get_embedding(search_query)
 
+        # Extract SNOMED codes from entities for ontology-aware search
+        snomed_codes: list[str] = []
+        if SNOMED_LOOKUP_AVAILABLE and extracted_entities:
+            for name in extracted_entities.get("interventions", []):
+                mapping = get_snomed_for_intervention(name)
+                if mapping:
+                    snomed_codes.append(mapping.code)
+            for name in extracted_entities.get("pathologies", []):
+                mapping = get_snomed_for_pathology(name)
+                if mapping:
+                    snomed_codes.append(mapping.code)
+            for name in extracted_entities.get("outcomes", []):
+                mapping = get_snomed_for_outcome(name)
+                if mapping:
+                    snomed_codes.append(mapping.code)
+            if snomed_codes:
+                logger.info(f"SNOMED codes for hybrid search: {snomed_codes}")
+
         # Perform hybrid search
         if self.hybrid_ranker and options.enable_adaptive:
             # Use HybridRanker for raw results
@@ -430,7 +459,8 @@ class UnifiedSearchPipeline:
                 query_embedding=query_embedding,
                 top_k=options.top_k * 2,  # Get more for ranking
                 graph_weight=options.graph_weight or 0.6,
-                vector_weight=options.vector_weight or 0.4
+                vector_weight=options.vector_weight or 0.4,
+                snomed_codes=snomed_codes or None,
             )
 
             # Convert HybridResult to format for AdaptiveRanker
