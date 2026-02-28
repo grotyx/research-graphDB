@@ -2,6 +2,27 @@
 
 ## Version History
 
+### v1.24.0 Post-Release Fixes (2026-02-28): 검색 파이프라인 온톨로지 실연결
+
+#### SNOMED 코드 파이프라인 수정
+- **snomed_id 속성명 수정**: `tiered_search.py`에서 `entity.snomed_code` → `entity.snomed_id` (MedicalEntity 실제 필드명)
+- **ParsedQuery.snomed_codes fallback**: `tiered_search`, `adaptive_search` 모두 엔티티 개별 snomed_id 없을 시 dict fallback 추가
+- **adaptive_search 온톨로지 연결**: `search_handler.py`에서 QueryParser 파싱 → graph_filters + snomed_codes 추출 → `hybrid_search()` 전달
+- **unified_pipeline 온톨로지 연결**: `spine_snomed_mappings` 4개 lookup 함수로 SNOMED 코드 추출 → `hybrid_ranker.search(snomed_codes=...)` 전달
+
+#### 4개 엔티티 IS_A 확장 완전 연결
+- **tiered_search**: outcome/anatomy 엔티티 추출 + IS_A 확장 태스크 추가
+- **search_dao**: outcome (`INVESTIGATES→AFFECTS`), anatomy (`INVOLVES`) singular/plural Cypher 필터 추가
+- **search_handler**: adaptive_search에서 outcome/anatomy graph_filters 추출
+- **unified_pipeline**: `get_snomed_for_anatomy` import + anatomy SNOMED lookup + `expanded_outcomes`/`expanded_anatomies` 저장
+
+#### SNOMED ontology_distance 4개 엔티티 확장
+- **search_dao SNOMED Cypher**: `INVESTIGATES|STUDIES` → `INVESTIGATES|STUDIES|INVOLVES` (Anatomy 직접 매칭 추가)
+- **Outcome 2홉 매칭**: `(p)-[:INVESTIGATES]->(:Intervention)-[:AFFECTS]->(outcome_target:Outcome)` 별도 OPTIONAL MATCH
+- **COALESCE 로직**: `direct_target` 우선, 없으면 `outcome_target` 사용 → 통합 `ontology_distance` 계산
+
+---
+
 ### v1.24.0 (2026-02-28): Ontology-Based GraphRAG 전면 재설계
 
 **핵심 변경:** Vector RAG + 간단한 그래프 필터링에서 SNOMED-CT 온톨로지 기반 다중 홉 그래프 순회 + 근거 체인 추론이 가능한 진정한 GraphRAG 시스템으로 전환.
