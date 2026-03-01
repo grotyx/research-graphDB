@@ -168,9 +168,8 @@ class GraphHandler(BaseHandler):
 
         # 1. 먼저 텍스트 매칭으로 검색
         search_query = """
-        MATCH (p:Paper)
-        WHERE toLower(p.title) CONTAINS toLower($claim)
-           OR toLower(p.abstract) CONTAINS toLower($claim)
+        CALL db.index.fulltext.queryNodes('paper_text_search', $claim)
+        YIELD node AS p
         WITH p
         LIMIT $limit
 

@@ -317,6 +317,9 @@ class PubMedPaperProcessor:
             pmcid=fulltext.pmcid or "",
         )
 
+        # v1.25.0: Chunk→Entity MENTIONS 관계 생성
+        await self._create_chunk_mentions(paper_id, graph_spine_meta)
+
         return chunks_created, True, extracted_data
 
     async def process_abstract_with_llm(
@@ -409,6 +412,9 @@ class PubMedPaperProcessor:
                 metadata=build_chunk_metadata(paper),
             )
 
+        # v1.25.0: Chunk→Entity MENTIONS 관계 생성
+        await self._create_chunk_mentions(paper_id, graph_spine_meta)
+
         return chunks_created, True, extracted_data
 
     async def process_text_with_llm(
@@ -493,11 +499,24 @@ class PubMedPaperProcessor:
             pmcid="",
         )
 
+        # v1.25.0: Chunk→Entity MENTIONS 관계 생성
+        await self._create_chunk_mentions(paper_id, graph_spine_meta)
+
         return chunks_created, True, extracted_data
 
     # =========================================================================
     # Chunk Storage Methods
     # =========================================================================
+
+    async def _create_chunk_mentions(self, paper_id: str, spine_meta) -> int:
+        """Chunk→Entity MENTIONS 관계 생성 (v1.25.0)."""
+        if not self.relationship_builder:
+            return 0
+        try:
+            return await self.relationship_builder.create_chunk_mentions(paper_id, spine_meta)
+        except Exception as e:
+            logger.debug(f"Chunk MENTIONS creation skipped: {e}")
+            return 0
 
     async def store_llm_chunks(
         self,

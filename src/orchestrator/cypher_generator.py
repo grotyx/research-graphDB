@@ -241,7 +241,7 @@ class CypherGenerator:
 
         # 의도별 Cypher 생성
         if intent == "evidence_search":
-            return self._generate_evidence_search(interventions, outcomes, pathologies)
+            return self._generate_evidence_search(interventions, outcomes, pathologies, query)
 
         elif intent == "comparison":
             return self._generate_comparison(interventions, outcomes)
@@ -254,13 +254,14 @@ class CypherGenerator:
 
         else:
             # 기본: 근거 검색
-            return self._generate_evidence_search(interventions, outcomes, pathologies)
+            return self._generate_evidence_search(interventions, outcomes, pathologies, query)
 
     def _generate_evidence_search(
         self,
         interventions: list[str],
         outcomes: list[str],
-        pathologies: list[str]
+        pathologies: list[str],
+        query: str = ""
     ) -> tuple[str, dict]:
         """근거 기반 검색 Cypher 생성 (파라미터화)."""
         if interventions and outcomes:
@@ -324,18 +325,29 @@ class CypherGenerator:
             """, {"intervention": interventions[0]})
 
         else:
-            # 기본: 검색어 기반 제목/초록 검색 (v1.14.18)
-            return ("""
-            MATCH (p:Paper)
-            WHERE toLower(p.title) CONTAINS toLower($search_term)
-               OR toLower(p.abstract) CONTAINS toLower($search_term)
-            RETURN p.paper_id as paper_id,
-                   p.title as title,
-                   p.year as year,
-                   p.evidence_level as evidence_level
-            ORDER BY p.year DESC
-            LIMIT 20
-            """, {})
+            # 기본: 검색어 기반 제목/초록 검색 (v1.25.0: fulltext index)
+            if query and query.strip():
+                return ("""
+                CALL db.index.fulltext.queryNodes('paper_text_search', $search_term)
+                YIELD node AS p, score AS text_score
+                RETURN p.paper_id as paper_id,
+                       p.title as title,
+                       p.year as year,
+                       p.evidence_level as evidence_level
+                ORDER BY text_score DESC
+                LIMIT 20
+                """, {"search_term": query.strip()})
+            else:
+                # 검색어 없음: 최신 논문 반환
+                return ("""
+                MATCH (p:Paper)
+                RETURN p.paper_id as paper_id,
+                       p.title as title,
+                       p.year as year,
+                       p.evidence_level as evidence_level
+                ORDER BY p.year DESC
+                LIMIT 20
+                """, {})
 
     def _generate_comparison(
         self,

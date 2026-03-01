@@ -130,6 +130,9 @@ class SpineGraphSchema:
         "REPORTS_COST",  # Paper → Cost
         "ASSOCIATED_WITH",  # Cost → Intervention
         "HAS_QUALITY_METRIC",  # Paper → QualityMetric
+        # v1.25.0 Scale optimization
+        "MENTIONS",  # Chunk → Intervention/Pathology/Outcome/Anatomy
+        "APPLIED_TO",  # Intervention → Anatomy
     ]
 
     # 인덱스 정의

@@ -132,6 +132,7 @@ class TestRelationshipBuilder:
         client.create_investigates_relation = AsyncMock(return_value={"relationships_created": 1})
         client.create_affects_relation = AsyncMock(return_value={"relationships_created": 1})
         client.get_intervention_hierarchy = AsyncMock(return_value=[])
+        client.run_query = AsyncMock(return_value=[{"created": 0}])
         return client
 
     @pytest.fixture

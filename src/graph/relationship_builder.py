@@ -821,6 +821,15 @@ class RelationshipBuilder:
             else:
                 result.warnings.append("No interventions found")
 
+            # 4.3. Intervention → Anatomy (APPLIED_TO) 직접 관계 (v1.25.0)
+            if spine_metadata.interventions and spine_metadata.anatomy_levels:
+                applied_to_count = await self._create_applied_to_relations(
+                    spine_metadata.interventions, spine_metadata.anatomy_levels
+                )
+                result.relationships_created += applied_to_count
+                if applied_to_count:
+                    logger.info(f"Created {applied_to_count} APPLIED_TO relations")
+
             # 4.5. Intervention → Pathology (TREATS) 관계
             # Skip TREATS for pure review papers (no primary evidence)
             is_review = self._is_review_paper(metadata)
@@ -985,6 +994,96 @@ class RelationshipBuilder:
             )
 
         return result
+
+    async def create_chunk_mentions(
+        self,
+        paper_id: str,
+        spine_metadata: SpineMetadata,
+    ) -> int:
+        """Chunk → Entity (MENTIONS) 관계 생성 (v1.25.0).
+
+        청크 content에서 해당 논문의 entity를 언급하는지 확인하여
+        직접 연결. Paper 경유 없이 청크 단위 정밀 검색 가능.
+
+        Args:
+            paper_id: Paper ID
+            spine_metadata: 척추 특화 메타데이터 (entities 목록 포함)
+
+        Returns:
+            생성된 MENTIONS 관계 수
+        """
+        entities: list[dict] = []
+        for name in (spine_metadata.interventions or []):
+            if isinstance(name, str) and name.strip():
+                entities.append({"name": name.strip(), "label": "Intervention"})
+        for name in (spine_metadata.pathologies or []):
+            if isinstance(name, str) and name.strip():
+                entities.append({"name": name.strip(), "label": "Pathology"})
+        for name in (spine_metadata.anatomy_levels or []):
+            if isinstance(name, str) and name.strip():
+                entities.append({"name": name.strip(), "label": "Anatomy"})
+        for outcome in (spine_metadata.outcomes or []):
+            o_name = outcome.get("name", "") if isinstance(outcome, dict) else getattr(outcome, "name", "")
+            if o_name and o_name.strip():
+                entities.append({"name": o_name.strip(), "label": "Outcome"})
+
+        if not entities:
+            return 0
+
+        try:
+            chunks_result = await self.client.run_query(
+                "MATCH (p:Paper {paper_id: $pid})-[:HAS_CHUNK]->(c:Chunk) "
+                "RETURN c.chunk_id AS chunk_id, c.content AS content",
+                {"pid": paper_id}
+            )
+        except Exception as e:
+            logger.warning(f"Failed to fetch chunks for MENTIONS: {e}")
+            return 0
+
+        if not chunks_result:
+            return 0
+
+        mentions_batch: list[dict] = []
+        for chunk_row in chunks_result:
+            chunk_id = chunk_row.get("chunk_id", "")
+            content_lower = (chunk_row.get("content") or "").lower()
+            if not content_lower or not chunk_id:
+                continue
+            for entity in entities:
+                if entity["name"].lower() in content_lower:
+                    mentions_batch.append({
+                        "chunk_id": chunk_id,
+                        "entity_name": entity["name"],
+                        "entity_label": entity["label"],
+                    })
+
+        if not mentions_batch:
+            return 0
+
+        total = 0
+        for label in ["Intervention", "Pathology", "Outcome", "Anatomy"]:
+            label_batch = [m for m in mentions_batch if m["entity_label"] == label]
+            if not label_batch:
+                continue
+            try:
+                cypher = f"""
+                UNWIND $batch AS row
+                MATCH (c:Chunk {{chunk_id: row.chunk_id}})
+                MATCH (e:{label} {{name: row.entity_name}})
+                MERGE (c)-[r:MENTIONS]->(e)
+                ON CREATE SET r.created_at = datetime()
+                RETURN count(r) AS created
+                """
+                result = await self.client.run_query(
+                    cypher, {"batch": [{"chunk_id": m["chunk_id"], "entity_name": m["entity_name"]} for m in label_batch]}
+                )
+                total += result[0].get("created", 0) if result else 0
+            except Exception as e:
+                logger.warning(f"Failed to create MENTIONS for {label}: {e}")
+
+        if total:
+            logger.info(f"Created {total} MENTIONS relations for {paper_id}")
+        return total
 
     async def create_paper_node(
         self,
@@ -1231,6 +1330,53 @@ class RelationshipBuilder:
                 logger.warning(f"Failed to create INVESTIGATES relation for {intervention_name}: {e}")
 
         return count
+
+    async def _create_applied_to_relations(
+        self,
+        interventions: list[str],
+        anatomy_levels: list[str],
+    ) -> int:
+        """Intervention → Anatomy (APPLIED_TO) 직접 관계 생성 (v1.25.0).
+
+        Paper 경유 없이 수술법이 어떤 해부학적 부위에 적용되는지 직접 연결.
+
+        Args:
+            interventions: 수술법 목록
+            anatomy_levels: 해부학적 부위 목록
+
+        Returns:
+            생성된 관계 수
+        """
+        if not interventions or not anatomy_levels:
+            return 0
+
+        # Flatten nested lists
+        flat_interventions = self._flatten_to_set(interventions)
+        flat_anatomy = self._flatten_to_set(anatomy_levels)
+
+        if not flat_interventions or not flat_anatomy:
+            return 0
+
+        batch = [
+            {"intervention": i, "anatomy": a}
+            for i in flat_interventions
+            for a in flat_anatomy
+        ]
+
+        try:
+            cypher = """
+            UNWIND $batch AS row
+            MATCH (i:Intervention {name: row.intervention})
+            MATCH (a:Anatomy {name: row.anatomy})
+            MERGE (i)-[r:APPLIED_TO]->(a)
+            ON CREATE SET r.created_at = datetime()
+            RETURN count(r) AS created
+            """
+            result = await self.client.run_query(cypher, {"batch": batch})
+            return result[0].get("created", 0) if result else 0
+        except Exception as e:
+            logger.warning(f"Failed to create APPLIED_TO relations: {e}")
+            return 0
 
     async def create_treats_relations(
         self,
@@ -2036,36 +2182,45 @@ class RelationshipBuilder:
         current_anatomy = self._flatten_to_set(paper_metadata.get("anatomy_levels", []))
         current_sub_domain = paper_metadata.get("sub_domain", "")
 
+        # v1.25.0: 배치 수집 후 UNWIND 단일 write (N+1 제거)
+        batch = []
         for other_paper in existing_papers:
-            # 자기 자신은 제외
             if other_paper.get("paper_id") == paper_id:
                 continue
 
-            # 유사도 계산
             similarity = self._calculate_paper_similarity(
                 paper_metadata, other_paper
             )
 
             if similarity >= min_similarity:
-                try:
-                    # SIMILAR_TOPIC 관계 생성 (create_paper_relation 사용)
-                    await self.client.create_paper_relation(
-                        source_paper_id=paper_id,
-                        target_paper_id=other_paper["paper_id"],
-                        relation_type="SIMILAR_TOPIC",
-                        confidence=similarity,
-                        evidence=f"Similarity score: {similarity:.2f}",
-                        detected_by="similarity_calculation"
-                    )
-                    count += 1
-                    logger.debug(
-                        f"Created SIMILAR_TOPIC: {paper_id} ↔ {other_paper['paper_id']} "
-                        f"(similarity: {similarity:.2f})"
-                    )
-                except Exception as e:
-                    logger.warning(
-                        f"Failed to create SIMILAR_TOPIC relation: {e}"
-                    )
+                batch.append({
+                    "target_id": other_paper["paper_id"],
+                    "confidence": round(similarity, 3),
+                    "evidence": f"Similarity score: {similarity:.2f}",
+                })
+
+        if not batch:
+            return 0
+
+        try:
+            cypher = """
+            UNWIND $batch AS row
+            MATCH (a:Paper {paper_id: $source_id})
+            MATCH (b:Paper {paper_id: row.target_id})
+            MERGE (a)-[r:SIMILAR_TOPIC]->(b)
+            SET r.confidence = row.confidence,
+                r.evidence = row.evidence,
+                r.detected_by = 'similarity_calculation',
+                r.created_at = datetime()
+            RETURN count(r) AS created
+            """
+            result = await self.client.run_query(
+                cypher, {"source_id": paper_id, "batch": batch}
+            )
+            count = result[0].get("created", 0) if result else len(batch)
+            logger.debug(f"Created {count} SIMILAR_TOPIC relations for {paper_id} (batch)")
+        except Exception as e:
+            logger.warning(f"Failed to create SIMILAR_TOPIC batch: {e}")
 
         return count
 

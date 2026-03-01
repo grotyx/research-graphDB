@@ -2,6 +2,27 @@
 
 ## Version History
 
+### v1.25.0: Scaling & Graph Enrichment — 6개 성능/구조 최적화 (2026-03-01)
+
+수천 건 논문 규모 대비 성능 최적화 및 그래프 구조 확장.
+
+#### Priority 1: Performance Optimization (3건)
+- **1A. SIMILAR_TOPIC batch write**: N+1 개별 `create_paper_relation()` → UNWIND 일괄 쓰기 (relationship_builder.py)
+- **1B. LIMIT before OPTIONAL MATCH**: `get_all_papers_with_relations()`에서 LIMIT을 OPTIONAL MATCH 이전으로 이동 — O(N×M) → O(limit×M) (neo4j_client.py)
+- **1C. Fulltext index 활용**: `toLower(p.title) CONTAINS` → `db.index.fulltext.queryNodes('paper_text_search')` (cypher_generator.py, graph_handler.py)
+
+#### Priority 2: Graph Structure Enrichment (3건)
+- **2D. Chunk→Entity MENTIONS 관계**: Chunk에서 entity 이름 매칭 → UNWIND batch MENTIONS 생성 (relationship_builder.py, pubmed_processor.py)
+- **2E. Intervention→Anatomy APPLIED_TO 관계**: Paper 경유 없이 수술법↔해부 부위 직접 연결 (relationship_builder.py, schema.py)
+- **2F. IS_A expansion 병렬화**: `run_until_complete` 순차 루프 → `asyncio.gather()` 동시 확장 (tiered_search.py)
+
+#### Documentation
+- **GRAPH_SCHEMA.md**: SNOMED CT 아키텍처 설계 (Architecture Decision Record) 추가 — 정석 vs 현재 구현 비교 분석
+
+#### Schema Changes
+- New relationship: `MENTIONS` (Chunk→Intervention/Pathology/Outcome/Anatomy)
+- New relationship: `APPLIED_TO` (Intervention→Anatomy)
+
 ### v1.24.2: Critical Bug Fixes — Import/Search/Graph 전면 검증 (2026-03-01)
 
 22건의 버그를 수정하여 전체 파이프라인(Import → Graph Build → Search) 안정성을 확보.

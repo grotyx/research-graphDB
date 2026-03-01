@@ -679,7 +679,7 @@ class TieredHybridSearch:
                 graph_filters[_plural] = collected
                 graph_filters.pop(_singular, None)
 
-        # IS_A hierarchy expansion via GraphContextExpander
+        # IS_A hierarchy expansion via GraphContextExpander (v1.25.0: 병렬 처리)
         if self.context_expander:
             try:
                 import asyncio
@@ -692,20 +692,30 @@ class TieredHybridSearch:
                     _expand_tasks.append(("outcome", graph_filters["outcome"], "Outcome"))
                 if graph_filters.get("anatomy"):
                     _expand_tasks.append(("anatomy", graph_filters["anatomy"], "Anatomy"))
-                for _key, _name, _type in _expand_tasks:
+
+                if _expand_tasks:
+                    # 모든 entity 확장을 asyncio.gather로 병렬 실행
+                    async def _expand_all():
+                        coros = [
+                            self.context_expander.expand_by_ontology(_name, _type, depth=2)
+                            for _, _name, _type in _expand_tasks
+                        ]
+                        return await asyncio.gather(*coros, return_exceptions=True)
+
                     try:
-                        variants = asyncio.get_event_loop().run_until_complete(
-                            self.context_expander.expand_by_ontology(_name, _type, depth=2)
-                        )
+                        all_results = asyncio.get_event_loop().run_until_complete(_expand_all())
                     except RuntimeError:
-                        variants = asyncio.run(
-                            self.context_expander.expand_by_ontology(_name, _type, depth=2)
-                        )
-                    if variants and len(variants) > 1:
-                        plural_key = f"{_key[:-1]}ies" if _key.endswith("y") else f"{_key}s"
-                        graph_filters[plural_key] = variants
-                        del graph_filters[_key]
-                        logger.info(f"IS_A expanded {_key} '{_name}' -> {len(variants)} variants: {variants[:5]}")
+                        all_results = asyncio.run(_expand_all())
+
+                    for (_key, _name, _type), variants in zip(_expand_tasks, all_results):
+                        if isinstance(variants, Exception):
+                            logger.warning(f"IS_A expansion failed for {_key} '{_name}': {variants}")
+                            continue
+                        if variants and len(variants) > 1:
+                            plural_key = f"{_key[:-1]}ies" if _key.endswith("y") else f"{_key}s"
+                            graph_filters[plural_key] = variants
+                            del graph_filters[_key]
+                            logger.info(f"IS_A expanded {_key} '{_name}' -> {len(variants)} variants: {variants[:5]}")
             except Exception as e:
                 logger.warning(f"IS_A expansion failed, using original filters: {e}")
 

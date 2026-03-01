@@ -456,8 +456,10 @@ class Neo4jClient:
         Returns:
             논문 정보 목록 (관계 정보 포함)
         """
+        # v1.25.0: LIMIT을 OPTIONAL MATCH 전에 적용하여 스캔 범위 축소
         query = """
         MATCH (p:Paper)
+        WITH p ORDER BY p.year DESC LIMIT $limit
         OPTIONAL MATCH (p)-[:STUDIES]->(path:Pathology)
         OPTIONAL MATCH (p)-[:INVESTIGATES]->(int:Intervention)
         OPTIONAL MATCH (p)-[:INVOLVES]->(anat:Anatomy)
@@ -473,8 +475,6 @@ class Neo4jClient:
                pathologies,
                interventions,
                anatomy_levels
-        ORDER BY p.year DESC
-        LIMIT $limit
         """
         results = await self.run_query(query, {"limit": limit})
 

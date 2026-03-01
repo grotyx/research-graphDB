@@ -368,3 +368,131 @@ Epidural Hematoma: 900000000000505
 
 - `src/ontology/spine_snomed_mappings.py`: 전체 매핑 정의
 - `src/graph/entity_normalizer.py`: 정규화 및 SNOMED 코드 조회
+
+---
+
+## SNOMED CT 아키텍처 설계 (Architecture Decision Record)
+
+> **결정 일자**: v1.24.0 | **상태**: Accepted
+
+### 설계 선택: Embedded Properties vs Separate Ontology Layer
+
+우리 시스템은 SNOMED CT를 통합하는 두 가지 주요 패턴 중 **"Embedded SNOMED Properties"** 방식을 채택합니다.
+
+- **채택 방식**: 도메인 노드(Intervention, Pathology, Outcome, Anatomy)에 `snomed_code` / `snomed_term` 속성을 직접 내장
+- **대안 방식**: 별도 `:SNOMED_Concept` 노드를 생성하고 엣지로 연결하는 "Separate Ontology Layer" 패턴
+
+### 비교 테이블
+
+| 설계 차원 | 정석 (Separate Ontology) | 우리 시스템 (Embedded Properties) |
+|-----------|--------------------------|-----------------------------------|
+| **SNOMED 노드** | 별도 `:SNOMED_Concept` 노드 생성 | 도메인 노드에 `snomed_code` 속성 내장 |
+| **연결 방식** | `(:Entity)-[:HAS_SNOMED_CONCEPT]->(:SNOMED_Concept)` 엣지 | `snomed_code` / `snomed_term` 속성 필터 |
+| **IS_A 계층** | `(:SNOMED_Concept)-[:IS_A]->(:SNOMED_Concept)` (개념 간) | `(:Intervention)-[:IS_A]->(:Intervention)` (동일 레이블 내) |
+| **데이터 소스** | RF2 전체 import (36만+ 개념) | Python dict 653개 도메인 특화 매핑 |
+| **검색 연동** | SNOMED_Concept 그래프 경로 탐색 | 속성 필터 + IS_A 다중 홉 확장 |
+
+### 노드 구조 비교
+
+#### 정석 방식 (Separate Ontology Layer)
+
+```cypher
+// SNOMED_Concept 노드가 별도 존재하고 도메인 엔티티가 엣지로 연결
+(:Chunk)-[:MENTIONS]->(:Intervention {name: "TLIF"})
+  -[:HAS_SNOMED_CONCEPT]->(:SNOMED_Concept {code: "447764006", term: "Transforaminal lumbar interbody fusion"})
+    -[:IS_A]->(:SNOMED_Concept {code: "609588000", term: "Interbody Fusion"})
+      -[:IS_A]->(:SNOMED_Concept {code: "122465003", term: "Spine Surgery"})
+```
+
+#### 우리 시스템 (Embedded Properties)
+
+```cypher
+// snomed_code/snomed_term이 도메인 노드 속성으로 내장, IS_A는 동일 레이블 내
+(:Paper)-[:INVESTIGATES]->(:Intervention {
+    name: "TLIF",
+    snomed_code: "447764006",
+    snomed_term: "Transforaminal lumbar interbody fusion"
+})-[:IS_A]->(:Intervention {
+    name: "Interbody Fusion",
+    snomed_code: "609588000"
+})-[:IS_A]->(:Intervention {
+    name: "Spine Surgery",
+    snomed_code: "122465003"
+})
+```
+
+### 검색 쿼리 비교
+
+#### 정석 방식: SNOMED_Concept 노드 경유
+
+```cypher
+// "Interbody Fusion" 계열 수술을 다루는 논문 조회
+MATCH (sc:SNOMED_Concept {code: "609588000"})<-[:IS_A*0..2]-(child:SNOMED_Concept)
+MATCH (i:Intervention)-[:HAS_SNOMED_CONCEPT]->(child)
+MATCH (p:Paper)-[:INVESTIGATES]->(i)
+RETURN p.title, i.name, child.term
+```
+
+#### 우리 시스템: 벡터 인덱스 + 속성 필터 + IS_A 다중 홉
+
+```cypher
+// Vector index로 청크 후보 검색 후, IS_A 계층으로 관련 논문 확장
+CALL db.index.vector.queryNodes('chunk_embedding_index', 10, $query_embedding)
+YIELD node AS chunk, score
+MATCH (p:Paper)-[:HAS_CHUNK]->(chunk)
+MATCH (p)-[:INVESTIGATES]->(i:Intervention)
+WHERE i.snomed_code = "447764006"
+   OR EXISTS {
+       MATCH (i)-[:IS_A*1..2]->(parent:Intervention)
+       WHERE parent.snomed_code = "609588000"
+   }
+RETURN p.title, i.name, score
+ORDER BY score DESC
+```
+
+### 우리 설계의 장단점
+
+#### 장점
+
+| 항목 | 설명 |
+|------|------|
+| **단순성** | 별도 SNOMED 노드 계층 없이 도메인 노드만으로 그래프 구성 |
+| **단일 저장소** | Neo4j 하나에 Graph + Vector 통합, 별도 SNOMED 트리플 스토어 불필요 |
+| **도메인 특화** | 36만+ RF2 전체 대신 척추 외과 653개 핵심 개념만 관리 |
+| **Vector+Graph 통합** | 벡터 유사도 검색과 IS_A 계층 탐색을 단일 Cypher 쿼리에서 처리 |
+
+#### 단점
+
+| 항목 | 설명 |
+|------|------|
+| **관계 유형 제한** | IS_A만 구현; 표준 SNOMED의 CAUSES, HAS_FINDING, HAS_BODY_STRUCTURE 미구현 |
+| **Chunk↔SNOMED 직접 링크 없음** | Chunk 노드가 SNOMED 코드와 직접 연결되지 않아 청크 수준 온톨로지 필터 불가 |
+| **RF2 호환성 없음** | 표준 SNOMED RF2 도구(Snowstorm 등)와 직접 통합 불가 |
+
+#### 보완 전략
+
+- **CAUSES 부재 보완**: `AFFECTS` 관계가 `(Intervention)-[:AFFECTS]->(Outcome)`으로 통계적 인과 연관을 표현
+- **HAS_FINDING 부재 보완**: `Paper` 노드 경유 간접 연결 — `(Pathology)-[:STUDIES]->(:Paper)<-[:AFFECTS]-(:Outcome)` 경로로 소견 조회 가능
+- **Chunk 정밀도 보완**: 3072차원 벡터 검색이 Chunk 수준 의미 매칭을 담당하여 SNOMED 직접 링크의 공백을 보완
+
+### 임상 관계 매핑
+
+표준 SNOMED CT 관계와 우리 시스템의 Paper-centric 관계 대응표:
+
+| SNOMED 관계 | 우리 시스템 대응 | 차이 |
+|-------------|----------------|------|
+| `TREATS` | `(Intervention)-[:TREATS]->(Pathology)` | 동일 의미, 직접 구현 |
+| `CAUSES` | `(Intervention)-[:AFFECTS]->(Outcome)` | 인과 대신 통계적 연관으로 표현 |
+| `HAS_FINDING` | Paper 경유 간접: `(Pathology)<-[:STUDIES]-(:Paper)-[:INVESTIGATES]->(:Intervention)` | 직접 링크 없음, 2홉 경로 |
+| `HAS_BODY_STRUCTURE` | Paper 경유 간접: `(Intervention)<-[:INVESTIGATES]-(:Paper)-[:INVOLVES]->(Anatomy)` | 직접 링크 없음, 2홉 경로 |
+| `ASSOCIATED_WITH` | 미구현 (Cost↔Intervention에 동명 관계 있으나 SNOMED 의미 아님) | 미구현 |
+
+### v1.25.0 확장 계획
+
+현재 아키텍처의 단점을 보완하기 위한 다음 버전 로드맵:
+
+| 계획 항목 | 설명 | 우선순위 |
+|-----------|------|---------|
+| **Chunk↔Entity MENTIONS 관계 추가** | `(:Chunk)-[:MENTIONS]->(:Intervention\|:Pathology\|...)` 직접 링크로 청크 수준 온톨로지 필터 활성화 | High |
+| **Intervention→Anatomy APPLIED_TO** | `(Intervention)-[:APPLIED_TO]->(Anatomy)` 직접 관계로 HAS_BODY_STRUCTURE 의미 구현 | Medium |
+| **IS_A 확장 병렬 처리** | `build_ontology.py` 비동기 배치 처리로 대용량 IS_A 구축 속도 개선 | Medium |
