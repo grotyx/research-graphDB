@@ -1456,6 +1456,17 @@ class MedicalKAGServer:
                 neo4j_relations = build_result.relationships_created
                 neo4j_warnings = build_result.warnings
 
+                # v1.25.0: Chunk→Entity MENTIONS 관계 생성
+                try:
+                    mentions_count = await self.relationship_builder.create_chunk_mentions(
+                        doc_id, graph_spine_meta
+                    )
+                    if mentions_count:
+                        neo4j_relations += mentions_count
+                        logger.info(f"Created {mentions_count} MENTIONS relations")
+                except Exception as me:
+                    logger.warning(f"MENTIONS relation creation failed: {me}")
+
                 logger.info(f"Neo4j Graph: {neo4j_nodes} nodes, {neo4j_relations} relations created")
                 if neo4j_warnings:
                     logger.warning(f"Neo4j warnings: {neo4j_warnings}")
@@ -2011,6 +2022,7 @@ class MedicalKAGServer:
             journal: str = ""
             doi: str = ""
             pmid: str = ""
+            study_type: str = ""
             evidence_level: str = ""
             study_design: str = ""
             sample_size: int = 0
@@ -2022,6 +2034,7 @@ class MedicalKAGServer:
             journal=_meta_dict.get("journal", ""),
             doi=_meta_dict.get("doi", ""),
             pmid=_meta_dict.get("pmid", ""),
+            study_type=_meta_dict.get("study_type", ""),
             evidence_level=_meta_dict.get("evidence_level", ""),
             study_design=normalize_study_design(_meta_dict.get("study_design", "")),
             sample_size=_meta_dict.get("sample_size", 0),
@@ -2123,11 +2136,12 @@ class MedicalKAGServer:
 
         # 7. SpineMetadata 준비 (extracted_data의 spine_metadata dict에서 파싱)
         class MinimalSpineMeta:
-            sub_domain = "Unknown"
-            anatomy_levels = []
-            interventions = []
-            pathologies = []
-            outcomes = []
+            def __init__(self):
+                self.sub_domain = "Unknown"
+                self.anatomy_levels = []
+                self.interventions = []
+                self.pathologies = []
+                self.outcomes = []
 
         if _spine_dict:
             spine_meta = MinimalSpineMeta()
@@ -2172,7 +2186,7 @@ class MedicalKAGServer:
                     centers: str = ""
                     blinding: str = ""
                     abstract: str = ""
-                    spine: any = None
+                    spine: Any = None
 
                 meta_compat = ExtractedMetaCompat(
                     title=title,
@@ -2181,6 +2195,8 @@ class MedicalKAGServer:
                     journal=journal,
                     doi=doi,
                     pmid=pmid or "",
+                    study_type=extracted_meta.study_type or "",
+                    study_design=extracted_meta.study_design or "",
                     evidence_level=extracted_meta.evidence_level or "unknown",
                     abstract=text[:2000] if len(text) > 2000 else text,
                     spine=graph_spine_meta,
@@ -2261,6 +2277,17 @@ class MedicalKAGServer:
                         chunks_created += 1
 
                     logger.info(f"Stored {chunks_created} chunks with embeddings to Neo4j")
+
+                    # v1.25.0: Chunk→Entity MENTIONS 관계 생성
+                    if self.relationship_builder and chunks_created > 0:
+                        try:
+                            mentions_count = await self.relationship_builder.create_chunk_mentions(
+                                paper_id, graph_spine_meta
+                            )
+                            if mentions_count:
+                                logger.info(f"Created {mentions_count} MENTIONS relations for analyze_text")
+                        except Exception as me:
+                            logger.warning(f"MENTIONS relation creation failed: {me}")
 
             except Exception as e:
                 logger.warning(f"Chunk storage failed: {e}")
@@ -2804,7 +2831,7 @@ class MedicalKAGServer:
         WITH c, r
         DELETE r
         WITH c
-        WHERE NOT exists((c)<-[:HAS_CHUNK]-())
+        WHERE NOT EXISTS { MATCH (c)<-[:HAS_CHUNK]-() }
         DETACH DELETE c
         RETURN count(*) AS deleted_count
         """

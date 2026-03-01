@@ -496,7 +496,8 @@ class TestCompareInterventions:
     @pytest.mark.asyncio
     async def test_compare_interventions_success(self, graph_handler, mock_server):
         """Test successful intervention comparison."""
-        mock_server.find_evidence = AsyncMock(
+        mock_server.search_handler = MagicMock()
+        mock_server.search_handler.find_evidence = AsyncMock(
             side_effect=[
                 {
                     "success": True,
@@ -529,7 +530,8 @@ class TestCompareInterventions:
     @pytest.mark.asyncio
     async def test_compare_interventions_equal_evidence(self, graph_handler, mock_server):
         """Test comparison with equal evidence levels."""
-        mock_server.find_evidence = AsyncMock(
+        mock_server.search_handler = MagicMock()
+        mock_server.search_handler.find_evidence = AsyncMock(
             return_value={
                 "success": True,
                 "evidence": [{"p_value": 0.01, "is_significant": True}]

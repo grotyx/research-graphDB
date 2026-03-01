@@ -1357,10 +1357,25 @@ class RelationshipBuilder:
         if not flat_interventions or not flat_anatomy:
             return 0
 
+        # Normalize names to match stored Neo4j node names
+        norm_interventions = set()
+        for i in flat_interventions:
+            norm = await self._normalize_with_fallback(i, "intervention")
+            if norm and norm.normalized:
+                norm_interventions.add(norm.normalized)
+        norm_anatomy = set()
+        for a in flat_anatomy:
+            norm = self.normalizer.normalize_anatomy(a)
+            if norm and norm.normalized:
+                norm_anatomy.add(norm.normalized)
+
+        if not norm_interventions or not norm_anatomy:
+            return 0
+
         batch = [
             {"intervention": i, "anatomy": a}
-            for i in flat_interventions
-            for a in flat_anatomy
+            for i in norm_interventions
+            for a in norm_anatomy
         ]
 
         try:

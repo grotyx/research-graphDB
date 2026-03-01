@@ -503,8 +503,8 @@ class SearchHandler(BaseHandler):
         for r in search_results:
             results.append({
                 "paper_id": r.get("paper_id", ""),
-                "title": r.get("title", ""),
-                "final_score": r.get("score", 0.0),
+                "title": r.get("paper_title", r.get("title", "")),
+                "final_score": r.get("final_score", r.get("score", 0.0)),
                 "graph_score": r.get("graph_score", 0.0),
                 "vector_score": r.get("vector_score", r.get("score", 0.0)),
                 "content": r.get("content", "")[:200] if r.get("content") else "",

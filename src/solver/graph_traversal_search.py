@@ -330,7 +330,7 @@ class GraphTraversalSearch:
         OPTIONAL MATCH (p1:Paper)-[:INVESTIGATES]->(i1)
         OPTIONAL MATCH (p1)-[:STUDIES]->(:Pathology {name: $pathology})
         WITH i1, a1, o1, p1
-        WHERE $pathology IS NULL OR $pathology = '' OR exists((p1)-[:STUDIES]->(:Pathology {name: $pathology}))
+        WHERE $pathology IS NULL OR $pathology = '' OR EXISTS { MATCH (p1)-[:STUDIES]->(:Pathology {name: $pathology}) }
         WITH collect(DISTINCT {
             outcome: o1.name,
             value: a1.value,
@@ -345,7 +345,7 @@ class GraphTraversalSearch:
         OPTIONAL MATCH (p2:Paper)-[:INVESTIGATES]->(i2)
         OPTIONAL MATCH (p2)-[:STUDIES]->(:Pathology {name: $pathology})
         WITH int1_outcomes, i2, a2, o2, p2
-        WHERE $pathology IS NULL OR $pathology = '' OR exists((p2)-[:STUDIES]->(:Pathology {name: $pathology}))
+        WHERE $pathology IS NULL OR $pathology = '' OR EXISTS { MATCH (p2)-[:STUDIES]->(:Pathology {name: $pathology}) }
         WITH int1_outcomes, collect(DISTINCT {
             outcome: o2.name,
             value: a2.value,

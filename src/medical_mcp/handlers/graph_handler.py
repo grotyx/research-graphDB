@@ -580,9 +580,9 @@ class GraphHandler(BaseHandler):
                 "error": "Neo4j Graph modules not available"
             }
 
-        # Get evidence for both interventions
-        evidence1 = await self.server.find_evidence(intervention1, outcome)
-        evidence2 = await self.server.find_evidence(intervention2, outcome)
+        # Get evidence for both interventions via search_handler
+        evidence1 = await self.server.search_handler.find_evidence(intervention1, outcome)
+        evidence2 = await self.server.search_handler.find_evidence(intervention2, outcome)
 
         if not evidence1.get("success") or not evidence2.get("success"):
             return {

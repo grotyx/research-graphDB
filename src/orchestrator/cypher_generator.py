@@ -370,6 +370,7 @@ class CypherGenerator:
                    a2.p_value as p_value2,
                    a1.source_paper_id as paper1,
                    a2.source_paper_id as paper2
+            LIMIT 50
             """, {"intervention1": interventions[0], "intervention2": interventions[1], "outcome": outcomes[0]})
 
         elif interventions:
@@ -382,6 +383,7 @@ class CypherGenerator:
                    a.p_value as p_value,
                    a.direction as direction
             ORDER BY a.p_value ASC
+            LIMIT 50
             """, {"intervention": interventions[0]})
 
         else:
@@ -399,6 +401,7 @@ class CypherGenerator:
                    i.category as category,
                    collect(DISTINCT parent.name) as parents,
                    collect(DISTINCT child.name) as children
+            LIMIT 50
             """, {"intervention": interventions[0]})
         else:
             # 최상위 카테고리 조회
@@ -408,6 +411,7 @@ class CypherGenerator:
             RETURN i.name as name,
                    i.category as category
             ORDER BY i.name
+            LIMIT 100
             """, {})
 
     def _generate_conflict(
@@ -433,6 +437,7 @@ class CypherGenerator:
                    a2.p_value as p_value2,
                    a1.source_paper_id as paper1,
                    a2.source_paper_id as paper2
+            LIMIT 50
             """, {"intervention": interventions[0], "outcome": outcomes[0]})
 
         elif interventions:
@@ -448,6 +453,7 @@ class CypherGenerator:
                    a2.direction as direction2,
                    a1.source_paper_id as paper1,
                    a2.source_paper_id as paper2
+            LIMIT 50
             """, {"intervention": interventions[0]})
 
         else:
