@@ -790,22 +790,22 @@ Return ONLY valid JSON, no additional text.'''
                         chunk_id = f"{paper_id}_chunk_{i}"
 
                         chunk_content = _extract_chunk_text(chunk)
-                        # tier: "tier1"/"tier2" 문자열 또는 1/2 정수 모두 호환
+                        # tier: "tier1"/"tier2" 문자열 또는 1/2 정수 모두 호환 → 항상 문자열로 저장
                         tier_raw = chunk.get("tier", "tier2")
-                        chunk_tier = 1 if str(tier_raw) in ("tier1", "1") else 2
+                        chunk_tier = "tier1" if str(tier_raw) in ("tier1", "1") else "tier2"
                         chunk_section = chunk.get("section_type", "body")
 
                         await self.server.neo4j_client.run_query(
                             """
                             MATCH (p:Paper {paper_id: $paper_id})
-                            CREATE (c:Chunk {
-                                chunk_id: $chunk_id,
+                            MERGE (c:Chunk {chunk_id: $chunk_id})
+                            ON CREATE SET c += {
                                 content: $content,
                                 tier: $tier,
                                 section: $section,
                                 embedding: $embedding
-                            })
-                            CREATE (p)-[:HAS_CHUNK]->(c)
+                            }
+                            MERGE (p)-[:HAS_CHUNK]->(c)
                             """,
                             {
                                 "paper_id": paper_id,
@@ -819,6 +819,17 @@ Return ONLY valid JSON, no additional text.'''
                         chunks_created += 1
 
                     logger.info(f"Stored {chunks_created} chunks with embeddings to Neo4j")
+
+                    # v1.25.0: Chunk→Entity MENTIONS 관계 생성
+                    if self.server.relationship_builder and chunks_created > 0:
+                        try:
+                            mentions_count = await self.server.relationship_builder.create_chunk_mentions(
+                                paper_id, graph_spine_meta
+                            )
+                            if mentions_count:
+                                logger.info(f"Created {mentions_count} MENTIONS relations")
+                        except Exception as e:
+                            logger.warning(f"MENTIONS relation creation failed: {e}")
 
             except Exception as e:
                 logger.warning(f"Chunk storage failed: {e}")

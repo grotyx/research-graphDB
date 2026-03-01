@@ -237,6 +237,14 @@ async def repair_single_paper(
         logger.error(f"[{paper_id}] Relationship building failed: {e}")
         return {"paper_id": paper_id, "success": False, "error": str(e), "extracted": summary}
 
+    # 3.5 Chunk→Entity MENTIONS 관계 생성 (v1.25.0)
+    try:
+        mentions_count = await relationship_builder.create_chunk_mentions(paper_id, spine_meta)
+        if mentions_count:
+            logger.info(f"[{paper_id}] Created {mentions_count} MENTIONS relations")
+    except Exception as e:
+        logger.warning(f"[{paper_id}] MENTIONS relation creation failed: {e}")
+
     # 4. study_type 업데이트 (기존 Paper 노드에)
     if extracted_metadata.study_type:
         try:

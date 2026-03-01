@@ -519,33 +519,18 @@ class TieredHybridSearch:
         # Neo4j 벡터 검색 수행 (동기 래퍼 사용)
         try:
             import asyncio
-            # 이미 이벤트 루프가 있는지 확인
-            try:
-                loop = asyncio.get_running_loop()
-                # 이벤트 루프가 있으면 run_until_complete 사용 불가
-                # asyncio.create_task 또는 다른 방법 필요
-                raw_results = asyncio.get_event_loop().run_until_complete(
-                    self.neo4j_client.vector_search_chunks(
-                        embedding=query_embedding,
-                        top_k=top_k,
-                        tier=tier_str,
-                        evidence_levels=evidence_levels,
-                        min_year=input_data.min_year,
-                        min_score=0.5
-                    )
+            # nest_asyncio already applied at module load, safe to use run_until_complete
+            loop = asyncio.get_event_loop()
+            raw_results = loop.run_until_complete(
+                self.neo4j_client.vector_search_chunks(
+                    embedding=query_embedding,
+                    top_k=top_k,
+                    tier=tier_str,
+                    evidence_levels=evidence_levels,
+                    min_year=input_data.min_year,
+                    min_score=0.5
                 )
-            except RuntimeError:
-                # 이벤트 루프가 없으면 새로 생성
-                raw_results = asyncio.run(
-                    self.neo4j_client.vector_search_chunks(
-                        embedding=query_embedding,
-                        top_k=top_k,
-                        tier=tier_str,
-                        evidence_levels=evidence_levels,
-                        min_year=input_data.min_year,
-                        min_score=0.5
-                    )
-                )
+            )
         except Exception as e:
             logger.error(f"Neo4j vector search failed: {e}", exc_info=True)
             return []
@@ -702,10 +687,9 @@ class TieredHybridSearch:
                         ]
                         return await asyncio.gather(*coros, return_exceptions=True)
 
-                    try:
-                        all_results = asyncio.get_event_loop().run_until_complete(_expand_all())
-                    except RuntimeError:
-                        all_results = asyncio.run(_expand_all())
+                    # nest_asyncio already applied at module load, safe to use run_until_complete
+                    loop = asyncio.get_event_loop()
+                    all_results = loop.run_until_complete(_expand_all())
 
                     for (_key, _name, _type), variants in zip(_expand_tasks, all_results):
                         if isinstance(variants, Exception):
@@ -722,29 +706,18 @@ class TieredHybridSearch:
         # Neo4j hybrid_search 수행 (동기 래퍼)
         try:
             import asyncio
-            try:
-                loop = asyncio.get_running_loop()
-                raw_results = asyncio.get_event_loop().run_until_complete(
-                    self.neo4j_client.hybrid_search(
-                        embedding=query_embedding,
-                        graph_filters=graph_filters if graph_filters else None,
-                        top_k=top_k,
-                        graph_weight=self.graph_weight,
-                        vector_weight=self.vector_weight,
-                        snomed_codes=snomed_codes or None,
-                    )
+            # nest_asyncio already applied at module load, safe to use run_until_complete
+            loop = asyncio.get_event_loop()
+            raw_results = loop.run_until_complete(
+                self.neo4j_client.hybrid_search(
+                    embedding=query_embedding,
+                    graph_filters=graph_filters if graph_filters else None,
+                    top_k=top_k,
+                    graph_weight=self.graph_weight,
+                    vector_weight=self.vector_weight,
+                    snomed_codes=snomed_codes or None,
                 )
-            except RuntimeError:
-                raw_results = asyncio.run(
-                    self.neo4j_client.hybrid_search(
-                        embedding=query_embedding,
-                        graph_filters=graph_filters if graph_filters else None,
-                        top_k=top_k,
-                        graph_weight=self.graph_weight,
-                        vector_weight=self.vector_weight,
-                        snomed_codes=snomed_codes or None,
-                    )
-                )
+            )
         except Exception as e:
             logger.error(f"Neo4j hybrid search failed: {e}", exc_info=True)
             return []

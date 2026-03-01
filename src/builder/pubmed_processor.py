@@ -285,6 +285,7 @@ class PubMedPaperProcessor:
         chunks_data = extracted_data.get("chunks") or []
 
         # Neo4j 관계 구축
+        graph_spine_meta = None
         try:
             graph_spine_meta = _build_spine_metadata(spine_meta)
 
@@ -318,7 +319,8 @@ class PubMedPaperProcessor:
         )
 
         # v1.25.0: Chunk→Entity MENTIONS 관계 생성
-        await self._create_chunk_mentions(paper_id, graph_spine_meta)
+        if graph_spine_meta:
+            await self._create_chunk_mentions(paper_id, graph_spine_meta)
 
         return chunks_created, True, extracted_data
 
@@ -372,6 +374,7 @@ class PubMedPaperProcessor:
         chunks_data = extracted_data.get("chunks") or []
 
         # Neo4j 관계 구축
+        graph_spine_meta = None
         try:
             graph_spine_meta = _build_spine_metadata(spine_meta)
 
@@ -413,7 +416,8 @@ class PubMedPaperProcessor:
             )
 
         # v1.25.0: Chunk→Entity MENTIONS 관계 생성
-        await self._create_chunk_mentions(paper_id, graph_spine_meta)
+        if graph_spine_meta:
+            await self._create_chunk_mentions(paper_id, graph_spine_meta)
 
         return chunks_created, True, extracted_data
 
@@ -466,6 +470,7 @@ class PubMedPaperProcessor:
         spine_meta = extracted_data.get("spine_metadata") or {}
         chunks_data = extracted_data.get("chunks") or []
 
+        graph_spine_meta = None
         try:
             graph_spine_meta = _build_spine_metadata(spine_meta)
 
@@ -500,7 +505,8 @@ class PubMedPaperProcessor:
         )
 
         # v1.25.0: Chunk→Entity MENTIONS 관계 생성
-        await self._create_chunk_mentions(paper_id, graph_spine_meta)
+        if graph_spine_meta:
+            await self._create_chunk_mentions(paper_id, graph_spine_meta)
 
         return chunks_created, True, extracted_data
 
@@ -515,7 +521,7 @@ class PubMedPaperProcessor:
         try:
             return await self.relationship_builder.create_chunk_mentions(paper_id, spine_meta)
         except Exception as e:
-            logger.debug(f"Chunk MENTIONS creation skipped: {e}")
+            logger.warning(f"Chunk MENTIONS creation failed: {e}")
             return 0
 
     async def store_llm_chunks(

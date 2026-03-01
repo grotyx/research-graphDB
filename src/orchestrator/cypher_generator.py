@@ -40,6 +40,18 @@ class ExtractedEntities:
     sub_domain: Optional[str] = None
 
 
+def _escape_lucene(text: str) -> str:
+    """Escape Lucene special characters for Neo4j fulltext search."""
+    special = r'+-&|!(){}[]^"~*?:\/'
+    escaped = []
+    for ch in text:
+        if ch in special:
+            escaped.append(f'\\{ch}')
+        else:
+            escaped.append(ch)
+    return ''.join(escaped)
+
+
 class CypherGenerator:
     """자연어 쿼리를 Cypher로 변환.
 
@@ -336,7 +348,7 @@ class CypherGenerator:
                        p.evidence_level as evidence_level
                 ORDER BY text_score DESC
                 LIMIT 20
-                """, {"search_term": query.strip()})
+                """, {"search_term": _escape_lucene(query.strip())})
             else:
                 # 검색어 없음: 최신 논문 반환
                 return ("""

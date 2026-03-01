@@ -52,7 +52,15 @@ class SchemaManager:
                 if "already exists" not in str(e).lower():
                     logger.warning(f"Index creation warning: {e}")
 
-        # 3. Paper relation indexes
+        # 3. Relationship property indexes (AFFECTS, STUDIES, INVESTIGATES, etc.)
+        for query in SpineGraphSchema.get_create_relationship_indexes_cypher():
+            try:
+                await self._run_write_query(query)
+            except Exception as e:
+                if "already exists" not in str(e).lower():
+                    logger.warning(f"Relationship index creation warning: {e}")
+
+        # 3b. Paper relation indexes
         paper_relation_indexes = [
             """
             CREATE INDEX paper_relation_confidence IF NOT EXISTS

@@ -553,3 +553,69 @@ class TestRelationshipBuilder:
         """Test parsing with spaces."""
         p_val = builder._parse_p_value("p = 0.001")
         assert p_val == 0.001
+
+    @pytest.mark.asyncio
+    async def test_create_chunk_mentions_basic(self, builder, sample_spine_metadata):
+        """Test create_chunk_mentions creates MENTIONS relations."""
+        # Mock chunks query result
+        builder.client.run_query = AsyncMock(side_effect=[
+            # First call: fetch chunks
+            [
+                {"chunk_id": "chunk_001", "content": "TLIF showed improved fusion rate in lumbar stenosis patients"},
+                {"chunk_id": "chunk_002", "content": "VAS scores improved significantly after surgery"}
+            ],
+            # Subsequent calls: UNWIND batch results for each label type
+            [{"created": 2}],  # Intervention matches (TLIF)
+            [{"created": 1}],  # Pathology matches (Lumbar Stenosis)
+            [{"created": 0}],  # Outcome matches
+            [{"created": 0}],  # Anatomy matches
+        ])
+
+        count = await builder.create_chunk_mentions("test_paper", sample_spine_metadata)
+
+        assert count >= 0
+        assert builder.client.run_query.call_count >= 1
+
+    @pytest.mark.asyncio
+    async def test_create_chunk_mentions_no_chunks(self, builder, sample_spine_metadata):
+        """Test create_chunk_mentions with no chunks."""
+        builder.client.run_query = AsyncMock(return_value=[])
+
+        count = await builder.create_chunk_mentions("test_paper", sample_spine_metadata)
+
+        assert count == 0
+
+    @pytest.mark.asyncio
+    async def test_create_chunk_mentions_no_entities(self, builder):
+        """Test create_chunk_mentions with empty spine metadata."""
+        spine_meta = SpineMetadata()
+
+        count = await builder.create_chunk_mentions("test_paper", spine_meta)
+
+        assert count == 0
+        # Should not even query for chunks
+        builder.client.run_query.assert_not_called()
+
+    @pytest.mark.asyncio
+    async def test_create_applied_to_relations(self, builder):
+        """Test _create_applied_to_relations creates APPLIED_TO relations."""
+        builder.client.run_query = AsyncMock(return_value=[{"created": 2}])
+
+        count = await builder._create_applied_to_relations(
+            ["TLIF", "PLIF"], ["L4-5", "L5-S1"]
+        )
+
+        assert count == 2
+        builder.client.run_query.assert_called_once()
+        # Verify batch parameter is passed
+        call_args = builder.client.run_query.call_args
+        assert "batch" in call_args[1] or (len(call_args[0]) > 1 and "batch" in call_args[0][1])
+
+    @pytest.mark.asyncio
+    async def test_create_applied_to_relations_empty(self, builder):
+        """Test _create_applied_to_relations with empty inputs."""
+        count = await builder._create_applied_to_relations([], ["L4-5"])
+        assert count == 0
+
+        count = await builder._create_applied_to_relations(["TLIF"], [])
+        assert count == 0

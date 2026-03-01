@@ -23,6 +23,18 @@
 - New relationship: `MENTIONS` (Chunk→Intervention/Pathology/Outcome/Anatomy)
 - New relationship: `APPLIED_TO` (Intervention→Anatomy)
 
+#### Post-Release Fixes (10건)
+- **CRITICAL**: `_create_applied_to_relations()` 비정규화 이름 → normalize 후 MATCH
+- **CRITICAL**: `graph_traversal_search.py` `exists()` → `EXISTS { MATCH }` (Neo4j 5.x 호환)
+- **CRITICAL**: `medical_kag_server.py` 동일 `exists()` → `EXISTS { MATCH }`
+- **CRITICAL**: `graph_handler.compare_interventions` `server.find_evidence()` → `server.search_handler.find_evidence()`
+- **HIGH**: `search_handler.adaptive_search` 필드명 `title`→`paper_title`, `score`→`final_score`
+- **MEDIUM**: PDF/analyze_text 경로 `create_chunk_mentions()` 호출 추가
+- **MEDIUM**: `MinimalSpineMeta` 클래스 레벨 mutable default → `__init__`
+- **MEDIUM**: `analyze_text` `ExtractedMetaCompat` `study_type`/`study_design` 채움
+- **LOW**: `spine: any` → `Any` 타입 어노테이션
+- **LOW**: 6개 Cypher 쿼리 LIMIT 추가
+
 ### v1.24.2: Critical Bug Fixes — Import/Search/Graph 전면 검증 (2026-03-01)
 
 22건의 버그를 수정하여 전체 파이프라인(Import → Graph Build → Search) 안정성을 확보.

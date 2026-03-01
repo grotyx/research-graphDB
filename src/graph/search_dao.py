@@ -293,6 +293,7 @@ class SearchDAO:
                c.content as content,
                c.tier as tier,
                c.section as section,
+               c.is_key_finding as is_key_finding,
                p.title as paper_title,
                p.evidence_level as evidence_level,
                p.year as year,

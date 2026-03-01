@@ -1,8 +1,8 @@
 # Technical Requirements Document v3 - Spine GraphRAG
 
-> **버전**: 1.24.0 (문서 버전 동기화)
+> **버전**: 1.25.0 (문서 버전 동기화)
 > **이전 버전**: [TRD_v2_LLM.md](TRD_v2_LLM.md)
-> **최종 수정**: 2026-02-28
+> **최종 수정**: 2026-03-02
 > **대상 도메인**: General Spine Surgery (Degenerative, Deformity, Trauma, Tumor)
 >
 > **⚠️ v5.2 변경사항**: SQLite (`paper_graph.db`) 완전 제거. 모든 Paper-to-Paper 관계는 Neo4j에서 관리.

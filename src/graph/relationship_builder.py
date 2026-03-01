@@ -1015,17 +1015,21 @@ class RelationshipBuilder:
         entities: list[dict] = []
         for name in (spine_metadata.interventions or []):
             if isinstance(name, str) and name.strip():
-                entities.append({"name": name.strip(), "label": "Intervention"})
+                norm = await self._normalize_with_fallback(name.strip(), "intervention")
+                entities.append({"name": norm.normalized if norm else name.strip(), "label": "Intervention"})
         for name in (spine_metadata.pathologies or []):
             if isinstance(name, str) and name.strip():
-                entities.append({"name": name.strip(), "label": "Pathology"})
+                norm = self.normalizer.normalize_pathology(name.strip())
+                entities.append({"name": norm.normalized if norm else name.strip(), "label": "Pathology"})
         for name in (spine_metadata.anatomy_levels or []):
             if isinstance(name, str) and name.strip():
-                entities.append({"name": name.strip(), "label": "Anatomy"})
+                norm = self.normalizer.normalize_anatomy(name.strip())
+                entities.append({"name": norm.normalized if norm else name.strip(), "label": "Anatomy"})
         for outcome in (spine_metadata.outcomes or []):
             o_name = outcome.get("name", "") if isinstance(outcome, dict) else getattr(outcome, "name", "")
             if o_name and o_name.strip():
-                entities.append({"name": o_name.strip(), "label": "Outcome"})
+                norm = self.normalizer.normalize_outcome(o_name.strip())
+                entities.append({"name": norm.normalized if norm else o_name.strip(), "label": "Outcome"})
 
         if not entities:
             return 0
@@ -1403,6 +1407,7 @@ class RelationshipBuilder:
 
         논문에서 추출된 수술법-질환 쌍에 대해 TREATS 관계를 생성.
         v1.16.1: TREATS 관계 구현.
+        CA-009: UNWIND batch로 변환 (N+1 쿼리 → 단일 쿼리).
 
         Args:
             paper_id: 출처 논문 ID
@@ -1412,8 +1417,6 @@ class RelationshipBuilder:
         Returns:
             생성된 관계 수
         """
-        count = 0
-
         # 리스트 평탄화
         flat_interventions = []
         for item in interventions:
@@ -1429,28 +1432,41 @@ class RelationshipBuilder:
             elif item:
                 flat_pathologies.append(str(item))
 
+        if not flat_interventions or not flat_pathologies:
+            return 0
+
+        # 정규화 (normalize first, then batch)
+        norm_interventions: list[str] = []
         for intervention in flat_interventions:
-            norm_intervention = await self._normalize_with_fallback(intervention, "intervention")
-            intervention_name = norm_intervention.normalized
+            norm = await self._normalize_with_fallback(intervention, "intervention")
+            norm_interventions.append(norm.normalized if norm else intervention)
 
-            for pathology in flat_pathologies:
-                norm_pathology = await self._normalize_with_fallback(pathology, "pathology")
-                pathology_name = norm_pathology.normalized
+        norm_pathologies: list[str] = []
+        for pathology in flat_pathologies:
+            norm = await self._normalize_with_fallback(pathology, "pathology")
+            norm_pathologies.append(norm.normalized if norm else pathology)
 
-                try:
-                    await self.client.create_treats_relation(
-                        intervention_name=intervention_name,
-                        pathology_name=pathology_name,
-                        source_paper_id=paper_id,
-                    )
-                    count += 1
-                except Exception as e:
-                    logger.warning(
-                        f"Failed to create TREATS relation "
-                        f"{intervention_name} -> {pathology_name}: {e}"
-                    )
+        # UNWIND batch: 단일 쿼리로 모든 TREATS 관계 생성
+        batch = [
+            {"intervention": i, "pathology": p}
+            for i in norm_interventions
+            for p in norm_pathologies
+        ]
 
-        return count
+        try:
+            cypher = """
+            UNWIND $batch AS row
+            MATCH (i:Intervention {name: row.intervention})
+            MATCH (p:Pathology {name: row.pathology})
+            MERGE (i)-[r:TREATS]->(p)
+            ON CREATE SET r.created_at = datetime(), r.source_paper_id = $paper_id
+            RETURN count(r) AS created
+            """
+            result = await self.client.run_query(cypher, {"batch": batch, "paper_id": paper_id})
+            return result[0].get("created", 0) if result else 0
+        except Exception as e:
+            logger.warning(f"Failed to create TREATS relations (batch): {e}")
+            return 0
 
     async def create_affects_relations(
         self,

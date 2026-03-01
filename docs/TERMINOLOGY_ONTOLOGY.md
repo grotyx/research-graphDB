@@ -1,7 +1,7 @@
 # Spine GraphRAG 용어체계 및 온톨로지 가이드
 
-> **Version**: 1.24.0
-> **Last Updated**: 2026-02-28
+> **Version**: 1.25.0
+> **Last Updated**: 2026-03-02
 > **Maintainer**: Spine GraphRAG Development Team
 
 ## 목차

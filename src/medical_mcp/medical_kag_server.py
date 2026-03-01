@@ -2249,21 +2249,21 @@ class MedicalKAGServer:
                         # 청크 속성 추출 (dict 또는 object 호환)
                         chunk_content = _get_chunk_field(chunk, 'content', str(chunk))
                         tier_raw = _get_chunk_field(chunk, 'tier', 'tier2')
-                        chunk_tier = 1 if str(tier_raw) in ("tier1", "1") else 2
+                        chunk_tier = "tier1" if str(tier_raw) in ("tier1", "1") else "tier2"
                         chunk_section = _get_chunk_field(chunk, 'section_type', 'body')
 
                         # Neo4j에 Chunk 노드 생성 및 Paper와 연결
                         await self.neo4j_client.run_query(
                             """
                             MATCH (p:Paper {paper_id: $paper_id})
-                            CREATE (c:Chunk {
-                                chunk_id: $chunk_id,
+                            MERGE (c:Chunk {chunk_id: $chunk_id})
+                            ON CREATE SET c += {
                                 content: $content,
                                 tier: $tier,
                                 section: $section,
                                 embedding: $embedding
-                            })
-                            CREATE (p)-[:HAS_CHUNK]->(c)
+                            }
+                            MERGE (p)-[:HAS_CHUNK]->(c)
                             """,
                             {
                                 "paper_id": paper_id,
