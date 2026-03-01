@@ -601,10 +601,10 @@ class HybridRanker:
                 logger.error(f"Graph batch query error for interventions×outcomes: {e}", exc_info=True)
 
         elif interventions:
-            # Search for intervention's all outcomes
-            # v1.15: WHERE 절을 MATCH와 OPTIONAL MATCH 사이로 이동 (결과 누락 방지)
-            cypher = """
-            MATCH (i:Intervention {name: $intervention})-[a:AFFECTS]->(o:Outcome)
+            # Search for intervention's all outcomes (batch UNWIND, CA-NEW-001)
+            batch_cypher = """
+            UNWIND $interventions AS int_name
+            MATCH (i:Intervention {name: int_name})-[a:AFFECTS]->(o:Outcome)
             WHERE (a.is_significant = true OR a.p_value < $min_p_value)
             OPTIONAL MATCH (p:Paper)-[:INVESTIGATES]->(i)
             RETURN i.name as intervention,
@@ -621,42 +621,41 @@ class HybridRanker:
             ORDER BY a.p_value ASC
             LIMIT 50
             """
-            for intervention in interventions:
-                try:
-                    results = await self.neo4j_client.run_query(
-                        cypher,
-                        {"intervention": intervention, "min_p_value": min_p_value}
-                    )
-                    for row in results:
-                        ev_level = row.get("evidence_level", "5") or "5"
-                        if evidence_levels and ev_level not in evidence_levels:
-                            continue
-                        evidences.append(GraphEvidence(
-                            intervention=row.get("intervention", intervention),
-                            outcome=row.get("outcome", ""),
-                            value=str(row.get("value", "")),
-                            source_paper_id=row.get("source_paper_id", ""),
-                            evidence_level=ev_level,
-                            p_value=row.get("p_value"),
-                            effect_size=str(row.get("effect_size", "")),
-                            is_significant=row.get("is_significant", False),
-                            direction=row.get("direction", "")
-                        ))
-                        pid = row.get("paper_id")
-                        if pid and pid not in papers_dict:
-                            papers_dict[pid] = PaperNode(
-                                paper_id=pid,
-                                title=row.get("paper_title", ""),
-                                evidence_level=ev_level
-                            )
-                except Exception as e:
-                    logger.error(f"Graph query error for {intervention}: {e}", exc_info=True)
+            try:
+                results = await self.neo4j_client.run_query(
+                    batch_cypher,
+                    {"interventions": interventions, "min_p_value": min_p_value}
+                )
+                for row in results:
+                    ev_level = row.get("evidence_level", "5") or "5"
+                    if evidence_levels and ev_level not in evidence_levels:
+                        continue
+                    evidences.append(GraphEvidence(
+                        intervention=row.get("intervention", ""),
+                        outcome=row.get("outcome", ""),
+                        value=str(row.get("value", "")),
+                        source_paper_id=row.get("source_paper_id", ""),
+                        evidence_level=ev_level,
+                        p_value=row.get("p_value"),
+                        effect_size=str(row.get("effect_size", "")),
+                        is_significant=row.get("is_significant", False),
+                        direction=row.get("direction", "")
+                    ))
+                    pid = row.get("paper_id")
+                    if pid and pid not in papers_dict:
+                        papers_dict[pid] = PaperNode(
+                            paper_id=pid,
+                            title=row.get("paper_title", ""),
+                            evidence_level=ev_level
+                        )
+            except Exception as e:
+                logger.error(f"Graph batch query error for interventions: {e}", exc_info=True)
 
         elif outcomes:
-            # Search for outcome's all interventions
-            # v1.15: WHERE 절을 MATCH와 OPTIONAL MATCH 사이로 이동 (결과 누락 방지)
-            cypher = """
-            MATCH (i:Intervention)-[a:AFFECTS]->(o:Outcome {name: $outcome})
+            # Search for outcome's all interventions (batch UNWIND, CA-NEW-001)
+            batch_cypher = """
+            UNWIND $outcomes AS out_name
+            MATCH (i:Intervention)-[a:AFFECTS]->(o:Outcome {name: out_name})
             WHERE (a.is_significant = true OR a.p_value < $min_p_value)
             OPTIONAL MATCH (p:Paper)-[:INVESTIGATES]->(i)
             RETURN i.name as intervention,
@@ -672,43 +671,43 @@ class HybridRanker:
             ORDER BY a.p_value ASC
             LIMIT 50
             """
-            for outcome in outcomes:
-                try:
-                    results = await self.neo4j_client.run_query(
-                        cypher,
-                        {"outcome": outcome, "min_p_value": min_p_value}
-                    )
-                    for row in results:
-                        ev_level = row.get("evidence_level", "5") or "5"
-                        if evidence_levels and ev_level not in evidence_levels:
-                            continue
-                        evidences.append(GraphEvidence(
-                            intervention=row.get("intervention", ""),
-                            outcome=row.get("outcome", outcome),
-                            value=str(row.get("value", "")),
-                            source_paper_id=row.get("source_paper_id", ""),
-                            evidence_level=ev_level,
-                            p_value=row.get("p_value"),
-                            is_significant=row.get("is_significant", False),
-                            direction=row.get("direction", "")
-                        ))
-                        pid = row.get("paper_id")
-                        if pid and pid not in papers_dict:
-                            papers_dict[pid] = PaperNode(
-                                paper_id=pid,
-                                title=row.get("paper_title", ""),
-                                evidence_level=ev_level
-                            )
-                except Exception as e:
-                    logger.error(f"Graph query error for {outcome}: {e}", exc_info=True)
+            try:
+                results = await self.neo4j_client.run_query(
+                    batch_cypher,
+                    {"outcomes": outcomes, "min_p_value": min_p_value}
+                )
+                for row in results:
+                    ev_level = row.get("evidence_level", "5") or "5"
+                    if evidence_levels and ev_level not in evidence_levels:
+                        continue
+                    evidences.append(GraphEvidence(
+                        intervention=row.get("intervention", ""),
+                        outcome=row.get("outcome", ""),
+                        value=str(row.get("value", "")),
+                        source_paper_id=row.get("source_paper_id", ""),
+                        evidence_level=ev_level,
+                        p_value=row.get("p_value"),
+                        is_significant=row.get("is_significant", False),
+                        direction=row.get("direction", "")
+                    ))
+                    pid = row.get("paper_id")
+                    if pid and pid not in papers_dict:
+                        papers_dict[pid] = PaperNode(
+                            paper_id=pid,
+                            title=row.get("paper_title", ""),
+                            evidence_level=ev_level
+                        )
+            except Exception as e:
+                logger.error(f"Graph batch query error for outcomes: {e}", exc_info=True)
 
         elif pathologies:
-            # Search for pathology's interventions
-            cypher = """
-            MATCH (i:Intervention)-[:TREATS]->(path:Pathology {name: $pathology})
+            # Search for pathology's interventions (batch UNWIND, CA-NEW-001)
+            batch_cypher = """
+            UNWIND $pathologies AS path_name
+            MATCH (i:Intervention)-[:TREATS]->(path:Pathology {name: path_name})
             OPTIONAL MATCH (i)-[a:AFFECTS]->(o:Outcome)
-            OPTIONAL MATCH (p:Paper)-[:INVESTIGATES]->(i)
             WHERE a IS NULL OR a.is_significant = true
+            OPTIONAL MATCH (p:Paper)-[:INVESTIGATES]->(i)
             RETURN DISTINCT i.name as intervention,
                    o.name as outcome,
                    a.value as value,
@@ -720,33 +719,32 @@ class HybridRanker:
                    p.evidence_level as evidence_level
             LIMIT 50
             """
-            for pathology in pathologies:
-                try:
-                    results = await self.neo4j_client.run_query(
-                        cypher,
-                        {"pathology": pathology}
-                    )
-                    for row in results:
-                        if row.get("outcome"):
-                            ev_level = row.get("evidence_level", "5") or "5"
-                            evidences.append(GraphEvidence(
-                                intervention=row.get("intervention", ""),
-                                outcome=row.get("outcome", ""),
-                                value=str(row.get("value", "")),
-                                source_paper_id=row.get("source_paper_id", ""),
-                                evidence_level=ev_level,
-                                p_value=row.get("p_value"),
-                                direction=row.get("direction", "")
-                            ))
-                        pid = row.get("paper_id")
-                        if pid and pid not in papers_dict:
-                            papers_dict[pid] = PaperNode(
-                                paper_id=pid,
-                                title=row.get("paper_title", ""),
-                                evidence_level=row.get("evidence_level", "5") or "5"
-                            )
-                except Exception as e:
-                    logger.error(f"Graph query error for {pathology}: {e}", exc_info=True)
+            try:
+                results = await self.neo4j_client.run_query(
+                    batch_cypher,
+                    {"pathologies": pathologies}
+                )
+                for row in results:
+                    if row.get("outcome"):
+                        ev_level = row.get("evidence_level", "5") or "5"
+                        evidences.append(GraphEvidence(
+                            intervention=row.get("intervention", ""),
+                            outcome=row.get("outcome", ""),
+                            value=str(row.get("value", "")),
+                            source_paper_id=row.get("source_paper_id", ""),
+                            evidence_level=ev_level,
+                            p_value=row.get("p_value"),
+                            direction=row.get("direction", "")
+                        ))
+                    pid = row.get("paper_id")
+                    if pid and pid not in papers_dict:
+                        papers_dict[pid] = PaperNode(
+                            paper_id=pid,
+                            title=row.get("paper_title", ""),
+                            evidence_level=row.get("evidence_level", "5") or "5"
+                        )
+            except Exception as e:
+                logger.error(f"Graph batch query error for pathologies: {e}", exc_info=True)
 
         else:
             # Fallback: search recent papers with outcomes
@@ -1135,14 +1133,14 @@ class HybridRanker:
                 kf_boost = KEY_FINDING_BOOST if raw.get("is_key_finding", False) else 1.0
 
                 # v1.0: Calculate authority score from paper metadata
-                paper_year = raw.get("paper_year", 0)
+                paper_year = raw.get("year", 0) or raw.get("paper_year", 0)
                 publication_types = raw.get("publication_types", [])
 
                 design_weight = get_study_design_weight(publication_types)
                 recency_boost = get_recency_boost(paper_year) if paper_year else 1.0
 
                 # Semantic score (from Neo4j vector similarity)
-                semantic_score = raw.get("score", 0.0) * kf_boost
+                semantic_score = raw.get("vector_score", 0.0) * kf_boost
 
                 # Authority score
                 authority_score = evidence_weight * design_weight * recency_boost
@@ -1170,7 +1168,7 @@ class HybridRanker:
                         "section": raw.get("section", ""),
                         "evidence_level": evidence_level,
                         "is_key_finding": raw.get("is_key_finding", False),
-                        "vector_score": raw.get("score", 0.0),
+                        "vector_score": raw.get("vector_score", 0.0),
                         "graph_score": raw.get("graph_score", 0.0),
                         "semantic_score": semantic_score,
                         "authority_score": authority_score,

@@ -1,6 +1,6 @@
 # Spine GraphRAG Schema
 
-> **Version**: 1.24.0
+> **Version**: 1.24.1
 
 ## Node Types
 
@@ -302,6 +302,21 @@ final_score = 0.4 * semantic_score + 0.3 * authority_score + 0.3 * graph_relevan
 - Regions: Cervical, Thoracic, Lumbar, Sacral
 - Levels: C1-C7, T1-T12, L1-L5, S1-S5
 - Structures: Disc, Facet, Pedicle, Lamina
+
+### Extension Code Ranges
+
+| Range | Name | Description |
+|-------|------|-------------|
+| 900000000001xx | procedure | Intervention 기본 범위 |
+| 900000000002xx | disorder | Pathology 기본 범위 |
+| 900000000003xx | observable | Outcome 기본 범위 |
+| 900000000004xx | body_structure | Anatomy 기본 범위 |
+| 900000000005xx | finding | 합병증/소견 범위 |
+| 900000000006xx | procedure_ext | Intervention 확장 범위 (v1.21.0) |
+| 9000000000064x-069x | taxonomy_root | Taxonomy 루트 노드 (v1.24.0) |
+| 900000000007xx | procedure_ext2 | Intervention 확장 범위 2 (v1.24.1) |
+| 900000000008xx | observable_ext | Outcome 확장 범위 (v1.24.1) |
+| 9000000000090x-094x | disorder_ext | Pathology 확장 범위 (v1.24.1) |
 
 ### Extension Codes (900000000000xxx)
 

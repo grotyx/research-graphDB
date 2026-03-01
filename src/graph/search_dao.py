@@ -52,6 +52,9 @@ class SearchDAO:
 
         Returns:
             청크 정보 리스트 (score 포함)
+
+        Raises:
+            Exception: Neo4j 쿼리 실패 시 로깅 후 빈 리스트 반환
         """
         # 기본 벡터 검색 (HNSW index)
         query = """
@@ -103,7 +106,11 @@ class SearchDAO:
         """
         params["limit"] = top_k
 
-        return await self._run_query(query, params)
+        try:
+            return await self._run_query(query, params)
+        except Exception as e:
+            logger.error(f"Vector search failed: {e}", exc_info=True)
+            return []
 
     async def hybrid_search(
         self,
@@ -149,45 +156,51 @@ class SearchDAO:
         """
 
         # 그래프 필터 적용 (plural lists take precedence over singular)
-        filters = []
+        # MATCH 패턴 필터와 WHERE 스칼라 필터를 분리
+        match_filters = []
+        where_filters = []
+
         if graph_filters.get("interventions"):
-            filters.append("(p)-[:INVESTIGATES]->(int:Intervention) WHERE int.name IN $interventions")
+            match_filters.append("MATCH (p)-[:INVESTIGATES]->(int:Intervention) WHERE int.name IN $interventions")
             params["interventions"] = graph_filters["interventions"]
         elif graph_filters.get("intervention"):
-            filters.append("(p)-[:INVESTIGATES]->(:Intervention {name: $intervention})")
+            match_filters.append("MATCH (p)-[:INVESTIGATES]->(:Intervention {name: $intervention})")
             params["intervention"] = graph_filters["intervention"]
 
         if graph_filters.get("pathologies"):
-            filters.append("(p)-[:STUDIES]->(path:Pathology) WHERE path.name IN $pathologies")
+            match_filters.append("MATCH (p)-[:STUDIES]->(path:Pathology) WHERE path.name IN $pathologies")
             params["pathologies"] = graph_filters["pathologies"]
         elif graph_filters.get("pathology"):
-            filters.append("(p)-[:STUDIES]->(:Pathology {name: $pathology})")
+            match_filters.append("MATCH (p)-[:STUDIES]->(:Pathology {name: $pathology})")
             params["pathology"] = graph_filters["pathology"]
 
         if graph_filters.get("outcomes"):
-            filters.append("(p)-[:INVESTIGATES]->(:Intervention)-[:AFFECTS]->(out:Outcome) WHERE out.name IN $outcomes")
+            match_filters.append("MATCH (p)-[:INVESTIGATES]->(:Intervention)-[:AFFECTS]->(out:Outcome) WHERE out.name IN $outcomes")
             params["outcomes"] = graph_filters["outcomes"]
         elif graph_filters.get("outcome"):
-            filters.append("(p)-[:INVESTIGATES]->(:Intervention)-[:AFFECTS]->(:Outcome {name: $outcome})")
+            match_filters.append("MATCH (p)-[:INVESTIGATES]->(:Intervention)-[:AFFECTS]->(:Outcome {name: $outcome})")
             params["outcome"] = graph_filters["outcome"]
 
         if graph_filters.get("anatomies"):
-            filters.append("(p)-[:INVOLVES]->(anat:Anatomy) WHERE anat.name IN $anatomies")
+            match_filters.append("MATCH (p)-[:INVOLVES]->(anat:Anatomy) WHERE anat.name IN $anatomies")
             params["anatomies"] = graph_filters["anatomies"]
         elif graph_filters.get("anatomy"):
-            filters.append("(p)-[:INVOLVES]->(:Anatomy {name: $anatomy})")
+            match_filters.append("MATCH (p)-[:INVOLVES]->(:Anatomy {name: $anatomy})")
             params["anatomy"] = graph_filters["anatomy"]
 
         if graph_filters.get("evidence_levels"):
-            filters.append("p.evidence_level IN $evidence_levels")
+            where_filters.append("p.evidence_level IN $evidence_levels")
             params["evidence_levels"] = graph_filters["evidence_levels"]
 
         if graph_filters.get("min_year"):
-            filters.append("p.year >= $min_year")
+            where_filters.append("p.year >= $min_year")
             params["min_year"] = graph_filters["min_year"]
 
-        if filters:
-            query += " WHERE " + " AND ".join(filters)
+        # MATCH 패턴은 별도 MATCH 절로, 스칼라 조건만 WHERE 절로
+        for mf in match_filters:
+            query += f"\n        {mf}"
+        if where_filters:
+            query += "\n        WHERE " + " AND ".join(where_filters)
 
         # SNOMED IS_A hierarchy expansion (optional ontology-aware filter)
         # Covers all 4 entity types:
@@ -225,8 +238,14 @@ class SearchDAO:
                  WHEN target.snomed_code IN $snomed_codes THEN 0
                  WHEN EXISTS { MATCH (target)-[:IS_A]->(a1) WHERE a1.snomed_code IN $snomed_codes } THEN 1
                  ELSE 2
-             END as ontology_distance,
-             CASE WHEN target IS NOT NULL THEN 1.0 ELSE 0.5 END as snomed_boost
+             END as ontology_distance
+        WITH c, p, vector_score, ontology_distance,
+             CASE ontology_distance
+                 WHEN 0 THEN 1.0
+                 WHEN 1 THEN 0.85
+                 WHEN 2 THEN 0.7
+                 ELSE 0.5
+             END as snomed_boost
             """
             query += snomed_subquery
             params["snomed_codes"] = snomed_codes
@@ -286,7 +305,11 @@ class SearchDAO:
         """
         params["limit"] = top_k
 
-        return await self._run_query(query, params)
+        try:
+            return await self._run_query(query, params)
+        except Exception as e:
+            logger.error(f"Hybrid search failed: {e}", exc_info=True)
+            return []
 
     async def get_intervention_hierarchy(self, intervention_name: str) -> list[dict]:
         """수술법 계층 조회."""

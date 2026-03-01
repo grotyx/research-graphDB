@@ -73,26 +73,40 @@ class OpenAIEmbeddingGenerator:
         return response.data[0].embedding
 
     def embed_batch(self, texts: list[str]) -> list[list[float]]:
-        """Generate embeddings for multiple texts."""
+        """Generate embeddings for multiple texts.
+
+        CA-NEW-007: Per-batch error handling with partial result support.
+        If a batch fails, logs the error and raises with info about
+        how many embeddings were successfully generated.
+        """
         if not texts:
             return []
 
         all_embeddings = []
         processed = [self._preprocess(t) for t in texts]
+        total_batches = (len(processed) + self.batch_size - 1) // self.batch_size
 
         for i in range(0, len(processed), self.batch_size):
             batch = processed[i:i + self.batch_size]
+            batch_num = i // self.batch_size + 1
 
-            response = self.client.embeddings.create(
-                input=batch,
-                model=self.MODEL
-            )
+            try:
+                response = self.client.embeddings.create(
+                    input=batch,
+                    model=self.MODEL
+                )
 
-            batch_embeddings = [item.embedding for item in response.data]
-            all_embeddings.extend(batch_embeddings)
+                batch_embeddings = [item.embedding for item in response.data]
+                all_embeddings.extend(batch_embeddings)
 
-            if len(processed) > self.batch_size:
-                logger.debug(f"Embedded batch {i//self.batch_size + 1}/{(len(processed) + self.batch_size - 1)//self.batch_size}")
+                if total_batches > 1:
+                    logger.debug(f"Embedded batch {batch_num}/{total_batches}")
+            except Exception as e:
+                logger.error(
+                    f"Embedding batch {batch_num}/{total_batches} failed "
+                    f"({len(all_embeddings)}/{len(processed)} completed): {e}"
+                )
+                raise
 
         return all_embeddings
 

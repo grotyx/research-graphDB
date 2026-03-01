@@ -647,13 +647,17 @@ class TieredHybridSearch:
             for entity in input_data.entities:
                 if hasattr(entity, 'entity_type'):
                     entity_type = entity.entity_type.value if hasattr(entity.entity_type, 'value') else str(entity.entity_type)
-                    if entity_type in ['PROCEDURE', 'INTERVENTION', 'intervention']:
-                        graph_filters["intervention"] = entity.text
-                    elif entity_type in ['CONDITION', 'PATHOLOGY', 'pathology']:
+                    if entity_type in ['PROCEDURE', 'INTERVENTION', 'intervention', 'procedure']:
+                        graph_filters.setdefault("_interventions_list", []).append(entity.text)
+                        graph_filters["intervention"] = entity.text  # 단일값 폴백
+                    elif entity_type in ['CONDITION', 'PATHOLOGY', 'pathology', 'disease']:
+                        graph_filters.setdefault("_pathologies_list", []).append(entity.text)
                         graph_filters["pathology"] = entity.text
-                    elif entity_type in ['SYMPTOM', 'OUTCOME', 'outcome']:
+                    elif entity_type in ['SYMPTOM', 'OUTCOME', 'outcome', 'measurement', 'symptom']:
+                        graph_filters.setdefault("_outcomes_list", []).append(entity.text)
                         graph_filters["outcome"] = entity.text
                     elif entity_type in ['ANATOMY', 'anatomy']:
+                        graph_filters.setdefault("_anatomies_list", []).append(entity.text)
                         graph_filters["anatomy"] = entity.text
                 # Collect SNOMED codes from entities for IS_A expansion
                 if hasattr(entity, 'snomed_id') and entity.snomed_id:
@@ -662,6 +666,18 @@ class TieredHybridSearch:
         # Also collect from ParsedQuery.snomed_codes dict (entity_text -> code)
         if not snomed_codes and input_data.parsed_query and input_data.parsed_query.snomed_codes:
             snomed_codes = list(input_data.parsed_query.snomed_codes.values())
+
+        # 다중 entity 수집 리스트 → plural 필터로 승격 (IS_A 확장 전)
+        for _list_key, _singular, _plural in [
+            ("_interventions_list", "intervention", "interventions"),
+            ("_pathologies_list", "pathology", "pathologies"),
+            ("_outcomes_list", "outcome", "outcomes"),
+            ("_anatomies_list", "anatomy", "anatomies"),
+        ]:
+            collected = graph_filters.pop(_list_key, None)
+            if collected and len(collected) > 1:
+                graph_filters[_plural] = collected
+                graph_filters.pop(_singular, None)
 
         # IS_A hierarchy expansion via GraphContextExpander
         if self.context_expander:

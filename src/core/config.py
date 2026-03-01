@@ -446,8 +446,49 @@ class ConfigManager:
         resolved = self._resolve_env_vars(raw)
         self._config = self._parse_config(resolved)
 
+        # CA-NEW-008: validate critical environment variables
+        self._validate_config(self._config)
+
         logger.info(f"Configuration loaded successfully (version: {self._config.version})")
         return self._config
+
+    def _validate_config(self, config: Config) -> None:
+        """Validate critical configuration values.
+
+        Logs warnings for missing or suspicious values rather than
+        raising exceptions, to avoid breaking startup.
+
+        Args:
+            config: Parsed configuration to validate
+        """
+        # Check Neo4j password is not default
+        if config.neo4j.password == "password":
+            logger.warning(
+                "Neo4j password is set to default 'password'. "
+                "Set NEO4J_PASSWORD environment variable for production."
+            )
+
+        # Check LLM API key is present
+        if not config.llm.api_key:
+            # Check common env vars directly
+            provider = config.llm.provider.lower()
+            env_key = None
+            if provider == "claude":
+                env_key = "ANTHROPIC_API_KEY"
+            elif provider == "gemini":
+                env_key = "GOOGLE_API_KEY"
+
+            if env_key and not os.environ.get(env_key):
+                logger.warning(
+                    f"LLM API key not configured. Set {env_key} environment variable."
+                )
+
+        # Check Neo4j URI is reachable format
+        if not config.neo4j.uri.startswith(("bolt://", "neo4j://", "neo4j+s://")):
+            logger.warning(
+                f"Neo4j URI '{config.neo4j.uri}' uses unexpected scheme. "
+                "Expected bolt://, neo4j://, or neo4j+s://"
+            )
 
     def reload(self, config_path: Optional[str] = None) -> Config:
         """Reload configuration from file.

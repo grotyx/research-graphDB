@@ -25,6 +25,7 @@ Usage:
 import asyncio
 import argparse
 import logging
+import re
 import sys
 from pathlib import Path
 
@@ -35,6 +36,7 @@ from dotenv import load_dotenv
 load_dotenv(Path(__file__).parent.parent / ".env", override=True)
 
 from graph.neo4j_client import Neo4jClient
+from graph.entity_normalizer import EntityNormalizer
 from ontology.spine_snomed_mappings import (
     SPINE_INTERVENTION_SNOMED,
     SPINE_PATHOLOGY_SNOMED,
@@ -322,6 +324,138 @@ async def backfill_treats(
     return stats
 
 
+# Timepoint/qualifier regex for outcome variant stripping
+_TIMEPOINT_RE = re.compile(
+    r'^(.+?)\s+(?:\d+[\s-]*(?:months?|years?|weeks?|mo|yr|[mM])\b|'
+    r'(?:pre|post)[-\s]?(?:op(?:erative)?)|'
+    r'(?:final|latest|last)\s+follow[- ]?up|'
+    r'(?:at\s+)?(?:discharge|baseline|follow[- ]?up))',
+    re.IGNORECASE,
+)
+
+
+async def repair_outcome_variant_is_a(
+    client: Neo4jClient,
+    dry_run: bool = True,
+) -> dict[str, int]:
+    """Link Outcome variant nodes to their canonical parent via IS_A.
+
+    Many Outcome nodes include timepoint qualifiers (e.g. "VAS Back 6 months",
+    "ODI 1 year") that prevent them from being connected to the canonical
+    Outcome node.  This function:
+      1. Finds Outcome nodes without any IS_A relationship.
+      2. Normalizes each name via EntityNormalizer.normalize_outcome().
+      3. Falls back to a timepoint regex strip if normalization fails.
+      4. Creates (variant)-[:IS_A]->(canonical) if the canonical exists in Neo4j.
+      5. Copies snomed_code/snomed_term from canonical to variant when missing.
+
+    Args:
+        client: Neo4j client
+        dry_run: If True, only report
+
+    Returns:
+        {"repaired": int, "skipped": int, "errors": int}
+    """
+    print_separator("Repair Outcome Variant IS_A")
+    stats = {"repaired": 0, "skipped": 0, "errors": 0}
+
+    # 1. Find Outcome nodes without IS_A
+    query = """
+    MATCH (o:Outcome)
+    WHERE NOT (o)-[:IS_A]->(:Outcome)
+    RETURN o.name AS name
+    ORDER BY o.name
+    """
+    result = await client.run_query(query)
+    if not result:
+        print("  All Outcome nodes already have IS_A relationships")
+        return stats
+
+    orphan_names = [r["name"] for r in result if r["name"]]
+    print(f"  Found {len(orphan_names)} Outcome nodes without IS_A")
+
+    # 2. Build set of canonical Outcome names in Neo4j
+    canon_query = """
+    MATCH (o:Outcome)
+    RETURN DISTINCT o.name AS name
+    """
+    canon_result = await client.run_query(canon_query)
+    neo4j_names = {r["name"] for r in canon_result if r["name"]}
+    neo4j_names_lower = {n.lower(): n for n in neo4j_names}
+
+    normalizer = EntityNormalizer()
+
+    to_link: list[tuple[str, str]] = []  # (variant_name, canonical_name)
+
+    for name in orphan_names:
+        # 3a. Try EntityNormalizer
+        nr = normalizer.normalize_outcome(name)
+        if nr.confidence > 0 and nr.normalized.lower() != name.lower():
+            canonical = nr.normalized
+            # Check canonical exists in Neo4j
+            actual = neo4j_names_lower.get(canonical.lower())
+            if actual and actual.lower() != name.lower():
+                to_link.append((name, actual))
+                continue
+
+        # 3b. Fallback: timepoint regex
+        m = _TIMEPOINT_RE.match(name)
+        if m:
+            stripped = m.group(1).strip()
+            if stripped and stripped.lower() != name.lower():
+                # Try normalizer on stripped form
+                nr2 = normalizer.normalize_outcome(stripped)
+                if nr2.confidence > 0:
+                    actual = neo4j_names_lower.get(nr2.normalized.lower())
+                    if actual and actual.lower() != name.lower():
+                        to_link.append((name, actual))
+                        continue
+                # Direct match on stripped form
+                actual = neo4j_names_lower.get(stripped.lower())
+                if actual and actual.lower() != name.lower():
+                    to_link.append((name, actual))
+                    continue
+
+        stats["skipped"] += 1
+
+    print(f"  Matched {len(to_link)} variants to canonical Outcome nodes")
+    print(f"  Unmatched: {stats['skipped']}")
+
+    if dry_run:
+        for variant, canonical in to_link[:20]:
+            print(f"    [DRY-RUN] {variant} -[:IS_A]-> {canonical}")
+        if len(to_link) > 20:
+            print(f"    ... and {len(to_link) - 20} more")
+        stats["skipped"] += len(to_link)
+    else:
+        for variant, canonical in to_link:
+            try:
+                repair_query = """
+                MATCH (v:Outcome {name: $variant})
+                MATCH (c:Outcome {name: $canonical})
+                MERGE (v)-[r:IS_A]->(c)
+                ON CREATE SET r.auto_generated = true,
+                              r.source = 'repair_outcome_variant',
+                              r.created_at = datetime()
+                WITH v, c
+                WHERE (v.snomed_code IS NULL OR v.snomed_code = '')
+                      AND c.snomed_code IS NOT NULL AND c.snomed_code <> ''
+                SET v.snomed_code = c.snomed_code,
+                    v.snomed_term = c.snomed_term
+                RETURN v.name AS variant, c.name AS canonical
+                """
+                await client.run_write_query(
+                    repair_query,
+                    {"variant": variant, "canonical": canonical},
+                )
+                stats["repaired"] += 1
+            except Exception as e:
+                stats["errors"] += 1
+                logger.warning(f"Failed Outcome IS_A repair {variant} -> {canonical}: {e}")
+
+    return stats
+
+
 async def report_affects_stats(client: Neo4jClient) -> None:
     """Report AFFECTS relationships with missing statistics.
 
@@ -496,7 +630,13 @@ async def main():
             for k in total_stats:
                 total_stats[k] += s[k]
 
-        # 4. AFFECTS stats report (always report-only)
+        # 4. Outcome variant IS_A backfill
+        if not args.entity_type or args.entity_type == "Outcome":
+            s = await repair_outcome_variant_is_a(client, dry_run)
+            for k in total_stats:
+                total_stats[k] += s[k]
+
+        # 5. AFFECTS stats report (always report-only)
         await report_affects_stats(client)
 
         # Summary

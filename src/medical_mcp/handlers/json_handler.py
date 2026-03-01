@@ -235,14 +235,52 @@ class JSONHandler(BaseHandler):
                     quality_metrics=spine_dict.get('quality_metrics', []),
                 )
 
-                neo4j_result = await self.relationship_builder.build_from_paper(
+                # ExtractedMetadata 호환 객체 생성 (build_from_paper는 속성 접근 필요)
+                from dataclasses import dataclass, field as df
+                from typing import Any
+
+                @dataclass
+                class _ExtractedMetaCompat:
+                    title: str = ""
+                    authors: list = df(default_factory=list)
+                    year: int = 0
+                    journal: str = ""
+                    doi: str = ""
+                    pmid: str = ""
+                    study_type: str = ""
+                    study_design: str = ""
+                    evidence_level: str = ""
+                    sample_size: int = 0
+                    centers: str = ""
+                    blinding: str = ""
+                    abstract: str = ""
+
+                meta_compat = _ExtractedMetaCompat(
+                    title=meta_dict.get("title", ""),
+                    authors=meta_dict.get("authors", []),
+                    year=meta_dict.get("year", 0) or 0,
+                    journal=meta_dict.get("journal", "Unknown"),
+                    doi=meta_dict.get("doi", ""),
+                    pmid=meta_dict.get("pmid", ""),
+                    study_type=meta_dict.get("study_type", ""),
+                    study_design=meta_dict.get("study_design", ""),
+                    evidence_level=meta_dict.get("evidence_level", "5"),
+                    sample_size=meta_dict.get("sample_size", 0) or 0,
+                    abstract=meta_dict.get("abstract", ""),
+                )
+
+                build_result = await self.relationship_builder.build_from_paper(
                     paper_id=doc_id,
-                    metadata=meta_dict,
+                    metadata=meta_compat,
                     spine_metadata=spine_metadata,
                     chunks=chunks_list,
                     owner=getattr(self.server, 'current_user', 'default'),
                     shared=True
                 )
+                neo4j_result = {
+                    "nodes_created": build_result.nodes_created,
+                    "relationships_created": build_result.relationships_created,
+                }
             except Exception as e:
                 logger.warning(f"Neo4j 저장 실패: {e}")
 

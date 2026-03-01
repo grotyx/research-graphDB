@@ -244,14 +244,33 @@ class PubMedPaperProcessor:
 
         logger.info(f"Processing PMC full text with LLM ({len(full_text)} chars)")
 
-        result: ProcessorResult = await self.vision_processor.process_text(
-            text=full_text,
-            title=paper.title,
-            source="pmc",
-        )
+        # CA-NEW-005: retry logic for transient LLM failures
+        max_retries = 2
+        result: Optional[ProcessorResult] = None
+        for attempt in range(max_retries + 1):
+            try:
+                result = await self.vision_processor.process_text(
+                    text=full_text,
+                    title=paper.title,
+                    source="pmc",
+                )
+                if result.success:
+                    break
+                if attempt < max_retries:
+                    logger.warning(f"LLM attempt {attempt + 1} failed: {result.error}, retrying...")
+                    import asyncio
+                    await asyncio.sleep(1.0 * (attempt + 1))
+            except Exception as e:
+                if attempt < max_retries:
+                    logger.warning(f"LLM attempt {attempt + 1} exception: {e}, retrying...")
+                    import asyncio
+                    await asyncio.sleep(1.0 * (attempt + 1))
+                else:
+                    logger.error(f"LLM processing failed after {max_retries + 1} attempts: {e}")
+                    return 0, False, None
 
-        if not result.success:
-            logger.warning(f"LLM text processing failed: {result.error}")
+        if not result or not result.success:
+            logger.warning(f"LLM text processing failed after {max_retries + 1} attempts: {getattr(result, 'error', 'unknown')}")
             return 0, False, None
 
         extracted_data = result.extracted_data
@@ -442,52 +461,27 @@ class PubMedPaperProcessor:
         chunks_data = extracted_data.get("chunks") or []
 
         try:
-            anatomy_level = spine_meta.get("anatomy_level", "")
-            anatomy_levels = [anatomy_level] if anatomy_level else []
+            graph_spine_meta = _build_spine_metadata(spine_meta)
 
-            pathology = spine_meta.get("pathology", [])
-            pathologies = pathology if isinstance(pathology, list) else [pathology] if pathology else []
+            metadata_dict = extracted_data.get("metadata") or {}
+            inferred_evidence = infer_evidence_level(paper.publication_types)
+            extracted_metadata = _build_extracted_metadata(
+                metadata_dict, paper, inferred_evidence,
+                abstract=paper.abstract or "",
+            )
 
-            sub_domains = spine_meta.get("sub_domains", []) or []
-            sub_domain = spine_meta.get("sub_domain", "") or ""
-            if not sub_domains and sub_domain:
-                sub_domains = [sub_domain]
-            if sub_domains and not sub_domain:
-                sub_domain = sub_domains[0]
-
-            surgical_approach = spine_meta.get("surgical_approach", []) or []
-
-            pico = spine_meta.get("pico", {}) or {}
-            pico_population = pico.get("population", "") or spine_meta.get("pico_population", "")
-            pico_intervention = pico.get("intervention", "") or spine_meta.get("pico_intervention", "")
-            pico_comparison = pico.get("comparison", "") or spine_meta.get("pico_comparison", "")
-            pico_outcome = pico.get("outcome", "") or spine_meta.get("pico_outcome", "")
-
-            graph_spine_meta = SpineMetadata(
-                sub_domains=sub_domains,
-                sub_domain=sub_domain,
-                surgical_approach=surgical_approach,
-                anatomy_levels=anatomy_levels,
-                pathologies=pathologies,
-                interventions=spine_meta.get("interventions", []),
-                outcomes=spine_meta.get("outcomes", []),
-                main_conclusion=spine_meta.get("main_conclusion", ""),
-                pico_population=pico_population,
-                pico_intervention=pico_intervention,
-                pico_comparison=pico_comparison,
-                pico_outcome=pico_outcome,
-                summary=spine_meta.get("summary", "") or extracted_data.get("metadata", {}).get("abstract", ""),
+            build_result = await self.relationship_builder.build_from_paper(
+                paper_id=paper_id,
+                metadata=extracted_metadata,
+                spine_metadata=graph_spine_meta,
+                chunks=chunks_data,
                 owner=owner,
                 shared=shared,
             )
 
-            await self.relationship_builder.build_relationships(
-                paper_id=paper_id,
-                metadata=graph_spine_meta,
-                title=paper.title,
-                abstract=paper.abstract or "",
-                year=paper.year,
-                journal=paper.journal,
+            logger.info(
+                f"Neo4j relationships built (DOI/text): {build_result.nodes_created} nodes, "
+                f"{build_result.relationships_created} relations"
             )
         except Exception as e:
             logger.warning(f"Failed to build Neo4j relationships: {e}")
@@ -949,7 +943,7 @@ class PubMedPaperProcessor:
             cypher = """
             MATCH (c:Chunk {paper_id: $paper_id})
             WITH c, c.chunk_id AS chunk_id
-            DELETE c
+            DETACH DELETE c
             RETURN count(chunk_id) AS deleted_count
             """
             result = await self.neo4j.run_query(cypher, {"paper_id": paper_id})
@@ -1221,15 +1215,19 @@ def parse_structured_abstract(
 
 def _build_spine_metadata(spine_meta: dict) -> SpineMetadata:
     """spine_metadata dict에서 SpineMetadata 객체 생성 (공통 로직)."""
-    anatomy_level = spine_meta.get("anatomy_level", "")
-    anatomy_levels = [anatomy_level] if anatomy_level else []
+    # 복수형 키(anatomy_levels) 우선, 없으면 단수형(anatomy_level/anatomy_region) 폴백
+    anatomy_levels = spine_meta.get("anatomy_levels", []) or []
+    if not anatomy_levels:
+        anatomy_level = spine_meta.get("anatomy_level", "")
+        anatomy_levels = [anatomy_level] if anatomy_level else []
     if not anatomy_levels:
         anatomy_region = spine_meta.get("anatomy_region", "")
         if anatomy_region:
             anatomy_levels = [anatomy_region]
 
-    pathology = spine_meta.get("pathology", [])
-    pathologies = pathology if isinstance(pathology, list) else [pathology] if pathology else []
+    # 복수형 키(pathologies) 우선, 없으면 단수형(pathology) 폴백
+    pathologies_raw = spine_meta.get("pathologies") or spine_meta.get("pathology", [])
+    pathologies = pathologies_raw if isinstance(pathologies_raw, list) else [pathologies_raw] if pathologies_raw else []
 
     all_outcomes = spine_meta.get("outcomes", [])
 

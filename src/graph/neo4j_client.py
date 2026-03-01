@@ -464,7 +464,7 @@ class Neo4jClient:
         WITH p,
              collect(DISTINCT path.name) AS pathologies,
              collect(DISTINCT int.name) AS interventions,
-             collect(DISTINCT anat.level) AS anatomy_levels
+             collect(DISTINCT anat.name) AS anatomy_levels
         RETURN p.paper_id AS paper_id,
                p.title AS title,
                p.sub_domain AS sub_domain,

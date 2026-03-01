@@ -1368,7 +1368,19 @@ class UnifiedPDFProcessor:
                 error=f"File not found: {pdf_path}"
             )
 
-        logger.info(f"Processing PDF: {path.name} with {self.provider.value}/{self.model}")
+        # CA-NEW-006: PDF file size check (max 100MB)
+        max_pdf_size_mb = 100
+        file_size_mb = path.stat().st_size / (1024 * 1024)
+        if file_size_mb > max_pdf_size_mb:
+            logger.warning(f"PDF too large: {file_size_mb:.1f}MB (max {max_pdf_size_mb}MB)")
+            return ProcessorResult(
+                success=False,
+                provider=self.provider.value,
+                model=self.model,
+                error=f"PDF too large: {file_size_mb:.1f}MB exceeds {max_pdf_size_mb}MB limit"
+            )
+
+        logger.info(f"Processing PDF: {path.name} ({file_size_mb:.1f}MB) with {self.provider.value}/{self.model}")
 
         # 폴백 추적 변수
         fallback_used = False

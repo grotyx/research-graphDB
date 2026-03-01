@@ -2126,16 +2126,19 @@ class MedicalKAGServer:
         if _spine_dict:
             spine_meta = MinimalSpineMeta()
             spine_meta.sub_domain = _spine_dict.get("sub_domain", "Unknown")
-            _anatomy_level = _spine_dict.get("anatomy_level", "")
-            _anatomy_region = _spine_dict.get("anatomy_region", "")
-            _anatomy_levels = []
-            if _anatomy_level:
-                _anatomy_levels.append(_anatomy_level)
-            if _anatomy_region and _anatomy_region != _anatomy_level:
-                _anatomy_levels.append(_anatomy_region)
+            # anatomy_levels: 복수형 키 우선, 없으면 단수형 폴백
+            _anatomy_levels = _spine_dict.get("anatomy_levels", []) or []
+            if not _anatomy_levels:
+                _anatomy_level = _spine_dict.get("anatomy_level", "")
+                if _anatomy_level:
+                    _anatomy_levels.append(_anatomy_level)
+                _anatomy_region = _spine_dict.get("anatomy_region", "")
+                if _anatomy_region and _anatomy_region not in _anatomy_levels:
+                    _anatomy_levels.append(_anatomy_region)
             spine_meta.anatomy_levels = _anatomy_levels
             spine_meta.interventions = _spine_dict.get("interventions", [])
-            spine_meta.pathologies = _spine_dict.get("pathologies", [])
+            # pathologies: 복수형 키 우선, 없으면 단수형 폴백
+            spine_meta.pathologies = _spine_dict.get("pathologies") or _spine_dict.get("pathology", [])
             spine_meta.outcomes = _spine_dict.get("outcomes", [])
         else:
             spine_meta = MinimalSpineMeta()
@@ -2151,7 +2154,7 @@ class MedicalKAGServer:
                 @dataclass
                 class ExtractedMetaCompat:
                     title: str = ""
-                    authors: list = df(default_factory=list)
+                    authors: list = field(default_factory=list)
                     year: int = 0
                     journal: str = ""
                     doi: str = ""

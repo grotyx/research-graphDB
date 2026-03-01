@@ -1222,6 +1222,11 @@ class RelationshipBuilder:
                     snomed_term=norm_result.snomed_term if norm_result.snomed_term else None
                 )
                 count += 1
+
+                # Auto-create IS_A relationship from SNOMED parent_code
+                await self._auto_create_is_a_relation(
+                    intervention_name, "Intervention", norm_result
+                )
             except Exception as e:
                 logger.warning(f"Failed to create INVESTIGATES relation for {intervention_name}: {e}")
 
@@ -1312,6 +1317,9 @@ class RelationshipBuilder:
         intervention_name = norm_intervention.normalized
 
         for outcome in outcomes:
+            # 빈 outcome.name 가드
+            if not outcome.name or not outcome.name.strip():
+                continue
             # 결과변수 정규화 (SNOMED 코드 포함, v1.20.0: LLM 폴백)
             norm_outcome = await self._normalize_with_fallback(outcome.name, "outcome")
             outcome_name = norm_outcome.normalized
@@ -1444,9 +1452,9 @@ class RelationshipBuilder:
             "decompression": "Decompression Surgery",
             "endoscopic": "Endoscopic Surgery",
             "microscopic": "Microscopic Surgery",
-            "motion_preservation": "Motion Preservation Surgery",
+            "motion_preservation": "Motion Preservation",
             "fixation": "Fixation",
-            "osteotomy": "Osteotomy Surgery",
+            "osteotomy": "Osteotomy",
             "augmentation": "Vertebral Augmentation",
         }
 
@@ -1469,13 +1477,13 @@ class RelationshipBuilder:
             return "Decompression Surgery"
 
         if any(kw in name_lower for kw in ["disc replacement", "adr", "dynamic stabiliz"]):
-            return "Motion Preservation Surgery"
+            return "Motion Preservation"
 
         if any(kw in name_lower for kw in ["screw", "fixation", "instrumentation"]):
             return "Fixation"
 
         if any(kw in name_lower for kw in ["osteotomy", "pso", "spo", "vcr"]):
-            return "Osteotomy Surgery"
+            return "Osteotomy"
 
         if any(kw in name_lower for kw in ["vertebroplasty", "kyphoplasty", "pvp", "pkp", "augmentation"]):
             return "Vertebral Augmentation"

@@ -2,6 +2,41 @@
 
 ## Version History
 
+### v1.24.2: Critical Bug Fixes — Import/Search/Graph 전면 검증 (2026-03-01)
+
+22건의 버그를 수정하여 전체 파이프라인(Import → Graph Build → Search) 안정성을 확보.
+
+#### CRITICAL Fixes (5건)
+- **`medical_kag_server.py` analyze_text()**: `df` 미정의 → `field`로 수정 — `build_from_paper()` 영구 실패 해소
+- **`search_dao.py` hybrid_search()**: MATCH 패턴 필터에 내장된 `WHERE`가 다중 필터 시 invalid Cypher 생성 → MATCH/WHERE 분리
+- **`hybrid_ranker.py` semantic score**: `raw.get("score")` → `raw.get("vector_score")` — semantic 점수 항상 0이던 문제 수정
+- **`pubmed_processor.py` process_text_with_llm()**: 존재하지 않는 `build_relationships()` → `build_from_paper()` + 올바른 ExtractedMetadata 구성
+- **`json_handler.py` add_json()**: raw dict → `_ExtractedMetaCompat` dataclass — Paper 노드 생성 실패 수정
+
+#### HIGH Fixes (8건)
+- **`hybrid_ranker.py` recency boost**: `raw.get("paper_year")` → `raw.get("year")` — recency boost 영구 1.0 수정
+- **`relationship_builder.py` taxonomy 이름 불일치**: `"Osteotomy Surgery"` → `"Osteotomy"`, `"Motion Preservation Surgery"` → `"Motion Preservation"` — IS_A 매칭 수정
+- **`relationship_builder.py` Intervention IS_A 누락**: `create_investigates_relations()`에서 `_auto_create_is_a_relation()` 호출 추가
+- **`neo4j_client.py` anatomy 필드**: `anat.level` → `anat.name` — SIMILAR_TOPIC 관계의 anatomy 데이터 수정
+- **`pubmed_processor.py` delete_paper_chunks()**: `DELETE c` → `DETACH DELETE c` — HAS_CHUNK 관계 존재 시 에러 수정
+- **`tiered_search.py` entity type 불일치**: `'procedure'`, `'disease'`, `'measurement'`, `'symptom'` 소문자 추가
+- **`tiered_search.py` 다중 entity**: 같은 타입 entity 여러 개일 때 마지막만 유지 → list 수집으로 변경
+- **`pdf_handler.py` None → ""**: SpineMetadata str 필드에 None 대신 빈 문자열 전달
+
+#### MEDIUM Fixes (6건)
+- **`pubmed_processor.py` _build_spine_metadata()**: `anatomy_levels` 복수형 키 우선 체크 추가
+- **`pubmed_processor.py` _build_spine_metadata()**: `pathologies` 복수형 키 우선 체크 추가
+- **`hybrid_ranker.py` WHERE 절 위치**: `a IS NULL OR a.is_significant = true` 절을 올바른 OPTIONAL MATCH 뒤로 이동
+- **`relationship_builder.py` 빈 outcome 가드**: 빈 `outcome.name` 시 continue — 빈 Outcome 노드 생성 방지
+- **`json_handler.py` BuildResult 직렬화**: `BuildResult` 객체 → dict 변환 후 반환
+
+#### CA/QC/DV Fixes (QA 스캔 기반, 3건)
+- **CA-NEW-001~008**: hybrid_ranker N+1→UNWIND, relationship_dao LIMIT, search_dao 에러 핸들링, entity_normalizer 크기 제한, pubmed_processor 재시도, pdf_processor 크기 체크, embedding 배치 에러, config 검증
+- **QC-2025-001~006**: 버전 동기화, docstring, GRAPH_SCHEMA 확장 코드 범위, Outcome IS_A 100%, study_design 정규화
+- **DV-NEW-026~032**: SNOMED enrichment, TREATS backfill, Anatomy region 수복
+
+---
+
 ### v1.24.1: SNOMED Mapping Expansion (2026-02-28): 621→653개 매핑 확장
 
 #### 매핑 확장 요약

@@ -370,7 +370,8 @@ class RelationshipDAO:
         self,
         paper_id: str,
         relation_types: Optional[list[str]] = None,
-        direction: str = "both"
+        direction: str = "both",
+        limit: int = 100,
     ) -> list[dict]:
         """논문의 관계 조회.
 
@@ -401,6 +402,7 @@ class RelationshipDAO:
             RETURN type(r) as relation_type, target, r.confidence as confidence,
                    r.evidence as evidence, r.detected_by as detected_by, r.created_at as created_at
             ORDER BY r.confidence DESC
+            LIMIT $limit
             """
         elif direction == "incoming":
             query = f"""
@@ -408,6 +410,7 @@ class RelationshipDAO:
             RETURN type(r) as relation_type, source as target, r.confidence as confidence,
                    r.evidence as evidence, r.detected_by as detected_by, r.created_at as created_at
             ORDER BY r.confidence DESC
+            LIMIT $limit
             """
         else:  # both
             query = f"""
@@ -427,9 +430,10 @@ class RelationshipDAO:
             }}
             RETURN relation_type, target, confidence, evidence, detected_by, created_at, direction
             ORDER BY confidence DESC
+            LIMIT $limit
             """
 
-        return await self._run_query(query, {"paper_id": paper_id})
+        return await self._run_query(query, {"paper_id": paper_id, "limit": limit})
 
     async def get_related_papers(
         self,

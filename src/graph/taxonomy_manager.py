@@ -688,7 +688,7 @@ class TaxonomyManager:
             return False
 
     async def get_full_taxonomy_tree(self) -> dict:
-        """전체 Intervention Taxonomy 트리 조회.
+        """전체 엔티티 Taxonomy 트리 조회 (Intervention, Pathology, Outcome, Anatomy).
 
         계층 구조를 딕셔너리로 반환.
 
@@ -838,7 +838,7 @@ class TaxonomyManager:
             return []
 
     async def validate_taxonomy(self) -> dict[str, list[str]]:
-        """Intervention Taxonomy 유효성 검증.
+        """엔티티 Taxonomy 유효성 검증 (Intervention, Pathology, Outcome, Anatomy).
 
         - 고아 노드 (IS_A 관계 없음)
         - 순환 참조

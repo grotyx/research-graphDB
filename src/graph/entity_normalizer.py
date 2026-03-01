@@ -3408,6 +3408,7 @@ class EntityNormalizer:
         # Unregistered term tracking (v1.24.0 ontology evolution)
         self._unregistered_terms: list[dict] = []
         self._unregistered_lock = threading.Lock()
+        self._unregistered_max_size = 500  # CA-NEW-004: prevent unbounded growth
 
         # 한국어 감지 패턴
         self._korean_pattern = re.compile(r'[\uac00-\ud7af]+')  # 한글 유니코드 범위
@@ -3477,6 +3478,13 @@ class EntityNormalizer:
                     if source_paper and source_paper not in existing.get("source_papers", []):
                         existing.setdefault("source_papers", []).append(source_paper)
                     return
+            # CA-NEW-004: enforce max size to prevent unbounded growth
+            if len(self._unregistered_terms) >= self._unregistered_max_size:
+                logger.warning(
+                    f"Unregistered terms list reached max size ({self._unregistered_max_size}), "
+                    f"dropping oldest entry"
+                )
+                self._unregistered_terms.pop(0)
             self._unregistered_terms.append(entry)
 
     def get_unregistered_terms(self) -> list[dict]:
