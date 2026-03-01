@@ -1349,9 +1349,15 @@ class MedicalKAGServer:
 
                 if spine_meta and (interventions or pathologies):
                     # spine metadata가 있는 경우 (v2.0 processor)
-                    # anatomy_level (str) → anatomy_levels (list) 변환
-                    anatomy_level = getattr(spine_meta, 'anatomy_level', '') or ''
-                    anatomy_levels = [anatomy_level] if anatomy_level else []
+                    # anatomy_levels (list) 우선, 없으면 anatomy_level (str) 폴백
+                    anatomy_levels = getattr(spine_meta, 'anatomy_levels', []) or []
+                    if not anatomy_levels:
+                        anatomy_level = getattr(spine_meta, 'anatomy_level', '') or ''
+                        anatomy_levels = [anatomy_level] if anatomy_level else []
+                    if not anatomy_levels:
+                        anatomy_region = getattr(spine_meta, 'anatomy_region', '') or ''
+                        if anatomy_region:
+                            anatomy_levels = [anatomy_region]
 
                     # spine_meta에서 outcomes 추출 (Unified Schema v4.0)
                     # Claude와 Gemini PDF 처리기 결과 모두 지원
@@ -2799,7 +2805,7 @@ class MedicalKAGServer:
         DELETE r
         WITH c
         WHERE NOT exists((c)<-[:HAS_CHUNK]-())
-        DELETE c
+        DETACH DELETE c
         RETURN count(*) AS deleted_count
         """
         try:

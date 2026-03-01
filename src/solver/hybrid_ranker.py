@@ -750,8 +750,8 @@ class HybridRanker:
             # Fallback: search recent papers with outcomes
             cypher = """
             MATCH (i:Intervention)-[a:AFFECTS]->(o:Outcome)
-            OPTIONAL MATCH (p:Paper)-[:INVESTIGATES]->(i)
             WHERE a.is_significant = true
+            OPTIONAL MATCH (p:Paper)-[:INVESTIGATES]->(i)
             RETURN i.name as intervention,
                    o.name as outcome,
                    a.value as value,

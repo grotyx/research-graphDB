@@ -85,13 +85,19 @@ def parse_llm_response(extracted_data: dict, paper: dict) -> tuple[GraphSpineMet
     metadata_dict = extracted_data.get("metadata") or {}
     spine_meta = extracted_data.get("spine_metadata") or {}
 
-    # anatomy_level → anatomy_levels (list)
-    anatomy_level = spine_meta.get("anatomy_level", "")
-    anatomy_levels = [anatomy_level] if anatomy_level else []
+    # anatomy_levels: 복수형 키 우선, 없으면 단수형 폴백
+    anatomy_levels = spine_meta.get("anatomy_levels", []) or []
+    if not anatomy_levels:
+        anatomy_level = spine_meta.get("anatomy_level", "")
+        anatomy_levels = [anatomy_level] if anatomy_level else []
+    if not anatomy_levels:
+        anatomy_region = spine_meta.get("anatomy_region", "")
+        if anatomy_region:
+            anatomy_levels = [anatomy_region]
 
-    # pathology → pathologies (list)
-    pathology = spine_meta.get("pathology", [])
-    pathologies = pathology if isinstance(pathology, list) else [pathology] if pathology else []
+    # pathologies: 복수형 키 우선, 없으면 단수형 폴백
+    pathologies_raw = spine_meta.get("pathologies") or spine_meta.get("pathology", [])
+    pathologies = pathologies_raw if isinstance(pathologies_raw, list) else [pathologies_raw] if pathologies_raw else []
 
     # outcomes
     all_outcomes = spine_meta.get("outcomes", [])
