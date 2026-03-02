@@ -4976,7 +4976,7 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         notes="0-18 score: 0-6 stable, 7-12 indeterminate, 13-18 unstable; guides surgical decision-making",
     ),
     "Tokuhashi Score": SNOMEDMapping(
-        code="900000000000341",
+        code="900000000000808",  # DV-NEW-032: moved from 341 (observable range) to 808 (observable_ext)
         term="Revised Tokuhashi prognostic score",
         semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
         is_extension=True,

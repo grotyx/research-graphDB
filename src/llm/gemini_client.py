@@ -354,7 +354,7 @@ class GeminiClient:
                     raise
 
         # 모든 재시도 실패
-        raise last_error or Exception("모든 재시도 실패")
+        raise last_error or LLMError("모든 재시도 실패")
 
     async def _call_api(self, prompt: str, system: Optional[str] = None) -> dict:
         """단일 API 호출 (네이티브 async).
@@ -441,7 +441,7 @@ class GeminiClient:
                 else:
                     raise
 
-        raise last_error or Exception("모든 재시도 실패")
+        raise last_error or LLMError("모든 재시도 실패")
 
     async def _call_api_json(
         self,

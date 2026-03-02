@@ -502,7 +502,7 @@ Respond ONLY with the JSON object, no additional text or markdown formatting."""
                 else:
                     raise
 
-        raise last_error or Exception("모든 재시도 실패")
+        raise last_error or LLMError("모든 재시도 실패")
 
     async def _call_api(
         self,

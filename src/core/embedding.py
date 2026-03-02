@@ -104,7 +104,8 @@ class OpenAIEmbeddingGenerator:
             except Exception as e:
                 logger.error(
                     f"Embedding batch {batch_num}/{total_batches} failed "
-                    f"({len(all_embeddings)}/{len(processed)} completed): {e}"
+                    f"({len(all_embeddings)}/{len(processed)} completed): {e}",
+                    exc_info=True,
                 )
                 raise
 

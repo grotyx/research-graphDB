@@ -1610,7 +1610,7 @@ class EntityNormalizer:
         ],
         "PJK": [
             "Proximal Junctional Kyphosis",
-            "PJK incidence", "PJK rate", "Proximal junctional failure"
+            "PJK incidence", "PJK Incidence", "PJK rate", "Proximal junctional failure"
         ],
         # v1.14.3: Epidural Hematoma, C5 Palsy 추가
         "Epidural Hematoma": [
@@ -2366,6 +2366,24 @@ class EntityNormalizer:
             "Spinal cord perfusion pressure",
             "척수 관류",
         ],
+
+        # ========================================
+        # IS_A hierarchy root/category nodes (QC-2026-004)
+        # ========================================
+        "Pain Outcome": [],  # IS_A root category
+        "Functional Outcome": [],  # IS_A root category
+        "Quality of Life Outcome": [],  # IS_A root category
+        "Radiological Outcome": [],  # IS_A root category
+        "Complication Outcome": [],  # IS_A root category
+        "Surgical Efficiency Outcome": [],  # IS_A root category
+        "Neurological Outcome": [],  # IS_A root category
+        "Patient-Reported Outcome": ["PRO", "patient-reported outcome"],
+        "Biomechanical Outcome": [],  # IS_A root category
+        "Laboratory Outcome": [],  # IS_A root category
+        "Oncological Outcome": [],  # IS_A root category
+        "Spinopelvic Parameter": ["spinopelvic parameter", "Spinopelvic alignment"],
+        # Note: "PJK Incidence" SNOMED key covered by PJK aliases (last-write-wins safe)
+        "Screw Malposition": ["screw malposition", "Screw malpositioning", "Pedicle breach"],
     }
 
     # 질환명 별칭 매핑
@@ -2552,7 +2570,7 @@ class EntityNormalizer:
         # v1.15: merged duplicate entries
         "DJK": [
             "Distal Junctional Kyphosis", "distal junctional kyphosis",
-            "Distal junctional failure",
+            "Distal junctional failure", "Distal Junctional Failure",
             # v1.25.0: merged from Distal Junctional Failure
             "DJF", "Distal junctional fracture", "원위부 접합부 부전",
         ],
@@ -3256,6 +3274,25 @@ class EntityNormalizer:
         ],
         # v1.25.0: Proximal Junctional Failure removed as canonical (aliases merged into PJK)
         # v1.25.0: Distal Junctional Failure removed as canonical (aliases merged into DJK)
+
+        # ========================================
+        # IS_A hierarchy root/category nodes (QC-2026-004)
+        # ========================================
+        "Degenerative Spine Disease": [],  # IS_A root category
+        "Spinal Deformity": [],  # IS_A root category
+        "Spinal Trauma": [],  # IS_A root category
+        "Spinal Neoplasm": ["Spinal neoplasm", "Spine tumor"],
+        "Inflammatory Spine Disease": [],  # IS_A root category
+        "Neurological Spine Condition": [],  # IS_A root category
+        "Surgical Complication": ["surgical complication", "Postoperative complication"],
+        "Spinal Pain Syndrome": [],  # IS_A root category
+        "Congenital Spine Disorder": ["congenital spine disorder", "Congenital spinal anomaly"],
+        "Metabolic Bone Disease": ["metabolic bone disease", "Metabolic bone disorder"],
+        "Spinal Comorbidity": [],  # IS_A root category
+        "Scoliosis (Category)": [],  # IS_A root category (parent of AIS, Adult, etc.)
+        "Vertebral Fracture (Category)": [],  # IS_A root category
+        # Note: "Distal Junctional Failure" SNOMED key covered by DJK aliases (last-write-wins safe)
+        "Neurogenic claudication": [],  # SNOMED key variant (cf. Neurogenic Claudication)
     }
 
     # v1.16.1: 해부학 위치 별칭 (Anatomy Aliases)
@@ -3370,6 +3407,11 @@ class EntityNormalizer:
             "thecal sac", "Dural sac",
             "Dural tube", "경막낭",
         ],
+
+        # ========================================
+        # IS_A hierarchy root/category nodes (QC-2026-004)
+        # ========================================
+        "Spine": ["spine", "Spinal column", "Vertebral column", "척추"],
     }
 
     # v1.20.2: Anatomy terms that indicate non-specified/vague location

@@ -235,7 +235,7 @@ class PubMedBulkProcessor:
                 logger.info(f"OpenAI Embedding initialized: {self.EMBEDDING_MODEL} ({self.EMBEDDING_DIM}d)")
             except Exception as e:
                 logger.error(f"OpenAI embedding initialization failed: {e}", exc_info=True)
-                logger.error("OPENAI_API_KEY must be set - MedTE fallback removed (dimension mismatch)")
+                logger.error("OPENAI_API_KEY must be set - MedTE fallback removed (dimension mismatch)", exc_info=True)
                 raise ProcessingError(message=f"OpenAI embedding required (3072d index): {e}", error_code=ErrorCode.PROC_EMBEDDING_FAILED)
 
         # LLM processor for text analysis

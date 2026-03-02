@@ -3522,7 +3522,7 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
     # ================================================================
 
     @server.list_resources()
-    async def list_resources():
+    async def list_resources() -> list[Resource]:
         """논문 목록을 MCP Resource로 노출."""
         try:
             papers = await kag_server.document_handler.list_documents()
@@ -3544,7 +3544,7 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
             return []
 
     @server.read_resource()
-    async def read_resource(uri):
+    async def read_resource(uri) -> str:
         """개별 논문 메타데이터 반환."""
         uri_str = str(uri)
         paper_id = uri_str.replace("paper://", "")
@@ -3560,7 +3560,7 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
     # ================================================================
 
     @server.list_prompts()
-    async def list_prompts():
+    async def list_prompts() -> list[Prompt]:
         """검색/분석 템플릿을 MCP Prompt로 노출."""
         return [
             Prompt(
@@ -3718,7 +3718,7 @@ def create_mcp_server(kag_server: MedicalKAGServer) -> Any:
     return server
 
 
-async def main():
+async def main() -> None:
     """서버 실행."""
     if not MCP_AVAILABLE:
         # MCP protocol requires all non-JSON output to stderr

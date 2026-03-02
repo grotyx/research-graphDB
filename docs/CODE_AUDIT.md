@@ -645,6 +645,7 @@ Phase 4 (병렬)         Phase 5 (병렬)         Phase 6 (병렬)
 
 | 일자 | 버전 | 신규 발견 | 해소 | 잔여 Deferred | 잔여 Accepted | 비고 |
 |------|------|----------|------|--------------|--------------|------|
+| 2026-03-02 | v1.25.0 | 3 | 3+D-011 | 0 | 4 | CA-NEW-001(logger.error exc_info 5곳 수정), CA-NEW-002(LLM Exception→LLMError 3곳), CA-NEW-003(retry util 추출→core/http_utils.py). D-011(test coverage 1,019 tests 추가) 해소 |
 | 2026-02-28 | v1.24.1 | 0 | 2 | 1 | 4 | D-012(tool_definitions.py 추출, 4059→3708줄) 해소. D-013(pickle→numpy) 해소. D-011(test coverage) 잔여 |
 | 2026-02-28 | v1.24.1 | 2 | 2 | 3 | 4 | CA-NEW-001(taxonomy_manager generic Exception), CA-NEW-002(snomed_proposer generic Exception) 발견 및 즉시 수정. Neo4jError/OSError, RuntimeError/OSError/ValueError로 narrowing |
 | 2026-02-28 | v1.24.0 | 4 | 4 | 3 | 3 | D-014~D-017 전체 해소. D-015(is_a_depth 가드), D-016(IS_A 상한), D-017(asyncio.gather) 코드 수정. D-014(테스트) 58 tests 신규 작성. |
@@ -744,19 +745,18 @@ Phase 4 (병렬)         Phase 5 (병렬)         Phase 6 (병렬)
 | **설명** | `embedding_cache.py`에서 `pickle.loads()`/`pickle.dumps()` 4곳을 `np.frombuffer(dtype=np.float32)`/`np.asarray(dtype=np.float32).tobytes()`로 전환. `import pickle` 제거. 81 tests passed. |
 | **예상 규모** | Small (1 session) |
 
+### 해소 완료 항목
+
 #### D-011: Test Coverage Expansion Phase 2
 
 | 항목 | 내용 |
 |------|------|
 | **발견 버전** | v1.23.0 (CA-NEW-007, 2026-02-17) |
+| **해소 버전** | v1.25.0 (2026-03-02) |
 | **Phase** | 5.1 커버리지 |
 | **심각도** | Medium |
-| **상태** | Open |
-| **설명** | 39 modules >= 300 lines lack dedicated test files. Current module coverage is 50% (53/105). |
-| **Top 5 Priority Modules** | 1. `src/builder/unified_pdf_processor.py` (1879 lines) / 2. `src/medical_mcp/handlers/writing_guide_handler.py` (1221 lines) / 3. `src/builder/important_citation_processor.py` (1114 lines) / 4. `src/medical_mcp/sse_server.py` (753 lines) / 5. `src/builder/citation_context_extractor.py` (732 lines) |
-| **예상 규모** | Large (multi-session) |
-
-### 해소 완료 항목
+| **상태** | ✅ 해소 |
+| **결과** | 20개 모듈에 대해 1,019개 신규 테스트 작성 (기존 2,722 → 3,741 tests, 37% 증가). 대상 모듈: unified_pdf_processor(65), writing_guide_handler(80), important_citation_processor(42), citation_context_extractor(46), search_handler(32), sse_server(39), llm_semantic_chunker(57), batch_processor(46), doi_fulltext_fetcher(46), reasoning_handler(30), claude_client(42), snomed_enricher(56), pico_extractor(64), embedding_cache(53), relationship_dao(53), llm_metadata_extractor(62), document_handler(36), gemini_client(36), document_type_detector(92), reference_handler(42) |
 
 #### D-009: pubmed_bulk_processor.py 분해 (Monolith Decomposition)
 

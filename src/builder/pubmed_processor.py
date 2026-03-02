@@ -266,7 +266,7 @@ class PubMedPaperProcessor:
                     import asyncio
                     await asyncio.sleep(1.0 * (attempt + 1))
                 else:
-                    logger.error(f"LLM processing failed after {max_retries + 1} attempts: {e}")
+                    logger.error(f"LLM processing failed after {max_retries + 1} attempts: {e}", exc_info=True)
                     return 0, False, None
 
         if not result or not result.success:

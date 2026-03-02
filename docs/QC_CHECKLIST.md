@@ -657,6 +657,10 @@ spine_snomed_mappings.py의 SNOMED 키가 entity_normalizer.py의 reverse map에
 
 | ID | Check | 심각도 | 설명 | 발견 버전 | 해소 버전 | 상태 |
 |----|-------|--------|------|----------|----------|------|
+| QC-2026-001 | 1.1 | Low | DEPLOYMENT.md 4곳에 v1.24.0 잔존 (tar/scp/verify 명령) | v1.25.0 | v1.25.0 | ✅ v1.25.0으로 수정 |
+| QC-2026-002 | 2.5 | Low | medical_kag_server.py type hint 67% (4개 untyped public method: main, list_resources, read_resource, list_prompts) | v1.25.0 | v1.25.0 | ✅ return type hint 추가 |
+| QC-2026-003 | 3.4 | Medium | MCP Docker 컨테이너 version 1.24.0 ↔ 소스 1.25.0 불일치 | v1.25.0 | v1.25.0 | ✅ docker-compose restart mcp |
+| QC-2026-004 | 6.7 | Low | 31개 orphan SNOMED 키 (IS_A 루트/카테고리 노드) entity_normalizer에 미등록 | v1.25.0 | v1.25.0 | ✅ 30개 canonical 추가 (P:14, O:12, A:1, I:0, alias 3개) |
 | QC-2025-001 | 1.2 | Medium | CLAUDE.md에서 참조하는 CA_DEFERRED_PLAN.md, CLEANUP_SPRINT_PLAN.md 파일 미존재 | v1.24.1 | v1.24.1 | ✅ CLAUDE.md에서 참조 제거 |
 | QC-2025-002 | 3.4 | Medium | MCP Docker 컨테이너 v1.23.4 ↔ 소스 v1.24.0 불일치 | v1.24.1 | v1.24.1 | ✅ docker-compose restart mcp |
 | QC-2025-003 | 1.4 | Low | GRAPH_SCHEMA.md "매핑 통계 (v1.23.4)" 버전 라벨 미갱신 | v1.24.1 | v1.24.1 | ✅ v1.24.0으로 수정 |
@@ -688,6 +692,7 @@ spine_snomed_mappings.py의 SNOMED 키가 entity_normalizer.py의 reverse map에
 
 | 일자 | 버전 | 신규 발견 | 해소 | 잔여 Open | 잔여 Accepted | 비고 |
 |------|------|----------|------|----------|--------------|------|
+| 2026-03-02 | v1.25.0 | 4 | 4 | 1 | 2 | QC-2026-001~004 발견 및 전체 해소. 001: DEPLOYMENT.md v1.24.0→v1.25.0, 002: type hints 추가, 003: MCP Docker restart, 004: 30개 orphan SNOMED canonical 추가 |
 | 2026-02-28 | v1.24.1 | 7 | 7 | 1 | 2 | QC-2025-001~007 발견 및 전체 해소. 001: CLAUDE.md 참조 제거, 002: MCP Docker 재시작, 003: GRAPH_SCHEMA 버전 라벨, 004: TERMINOLOGY 합계, 005: CHANGELOG 버전, 006: search action 문서화, 007: query_parser→tiered_search |
 | 2026-02-28 | v1.24.0 | 7 | 5 | 2 | 2 | 7건 발견: QC-2024-001(DEPLOYMENT SNOMED), 002(TRD 버전), 003(운영문서 버전), 004(TERMINOLOGY root), 005(미커밋), 006(.gitignore), 007(IS_A 행). 5건 즉시 수정(001,002,004,006,007). 003 보류, 005 커밋 대기. |
 | 2026-02-17 | v1.23.4 | 2 | 2 | 0 | 2 | QC-NEW-004~005 발견 및 즉시 수정 (cache import, env var naming) |

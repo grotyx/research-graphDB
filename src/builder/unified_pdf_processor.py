@@ -1029,7 +1029,7 @@ class ClaudeBackend:
             if hasattr(e, 'pos') and e.pos > 0 and raw_text:
                 start = max(0, e.pos - 50)
                 end = min(len(raw_text), e.pos + 50)
-                logger.error(f"Context around error: ...{raw_text[start:end]}...")
+                logger.error(f"Context around error: ...{raw_text[start:end]}...", exc_info=True)
             return {
                 "success": False,
                 "error": f"JSON parsing error: {e}",

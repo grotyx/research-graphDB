@@ -1,6 +1,6 @@
 {
   "journal_mappings": {
-    "Spine": "spine_lww",
+    "Spine": "vancouver",
     "The Spine Journal": "spine_j",
     "Spine Journal": "spine_j",
     "Spine J": "spine_j",
@@ -1046,7 +1046,45 @@
       "pmid_format": "PMID: {pmid}",
       "element_separator": ". ",
       "final_period": true
+    },
+    "test": {
+      "name": "test",
+      "base_style": "vancouver",
+      "author": {
+        "format": "last_initials",
+        "separator": ", ",
+        "last_separator": ", ",
+        "et_al_threshold": 6,
+        "et_al_min": 3,
+        "et_al_text": "et al",
+        "initials_format": "no_space",
+        "hyphen_handling": "keep"
+      },
+      "title_quotes": false,
+      "title_italics": false,
+      "title_period": true,
+      "title_case": "sentence",
+      "journal": {
+        "use_abbreviation": true,
+        "italicize": false,
+        "bold": false
+      },
+      "date": {
+        "format": "year_only",
+        "position": "after_authors"
+      },
+      "volume_bold": false,
+      "volume_format": "{volume}({issue})",
+      "issue_in_parens": true,
+      "pages_format": "full",
+      "pages_prefix": ":",
+      "include_doi": false,
+      "doi_format": "doi:{doi}",
+      "include_pmid": false,
+      "pmid_format": "PMID: {pmid}",
+      "element_separator": ". ",
+      "final_period": true
     }
   },
-  "updated_at": "2026-02-13T22:00:00.000000"
+  "updated_at": "2026-03-02T10:59:43.827112"
 }

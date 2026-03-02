@@ -35,6 +35,41 @@
 - **LOW**: `spine: any` → `Any` 타입 어노테이션
 - **LOW**: 6개 Cypher 쿼리 LIMIT 추가
 
+#### QA Fixes — QC/CA/DV 전면 스캔 + 테스트 커버리지 확장 (2026-03-02)
+
+**QC (Quality Control) 4건 해소:**
+- QC-2026-001: `docs/DEPLOYMENT.md` 4곳 v1.24.0 → v1.25.0 버전 동기화
+- QC-2026-002: `medical_kag_server.py` 4개 함수 return type hint 추가
+- QC-2026-003: MCP Docker 컨테이너 재시작 (소스 바인드 마운트 반영)
+- QC-2026-004: `entity_normalizer.py`에 30개 orphan SNOMED key alias 동기화
+
+**CA (Code Audit) 3건 해소:**
+- CA-NEW-001: `logger.error()` 5곳에 `exc_info=True` 추가 (pubmed_bulk_processor, pubmed_processor, unified_pdf_processor, embedding, snomed_linker)
+- CA-NEW-002: LLM 클라이언트 3곳 generic `Exception` → `LLMError` (claude_client, gemini_client)
+- CA-NEW-003: DOI/PMC fetcher 중복 retry 로직 → `core/http_utils.py` 공유 유틸 추출
+
+**DV (Data Validation) 8건 해소:**
+- DV-NEW-026: SNOMED enrichment 일괄 적용
+- DV-NEW-027: TREATS 관계 26건 백필 + 681건 paper_count 갱신
+- DV-NEW-028: Anatomy region 수복
+- DV-NEW-029: IS_A 순환참조 3건 해소 (양방향 IS_A → 단방향 유지)
+- DV-NEW-030: Orphan 노드 10건 IS_A 계층 연결 (3 Pathology + 7 AI Intervention)
+- DV-NEW-031: Pathology-Outcome 교차 라벨 3건 → DV-A-011 허용 등록
+- DV-NEW-032: SNOMED 코드 충돌 수정 (Tokuhashi Score: 341 → 808)
+- DV-NEW-033: Lumbar arthrodesis SNOMED 코드 수정 (341 → 132)
+
+**D-011: Test Coverage Expansion Phase 2 (1,019 tests 신규):**
+- 20개 모듈에 대한 단위 테스트 작성 (기존 2,722 → 3,741 tests, 37% 증가)
+- Batch 1: unified_pdf_processor(65), writing_guide_handler(80), important_citation_processor(42), citation_context_extractor(46)
+- Batch 2: search_handler(32), sse_server(39), llm_semantic_chunker(57), batch_processor(46)
+- Batch 3: doi_fulltext_fetcher(46), reasoning_handler(30), claude_client(42), snomed_enricher(56)
+- Batch 4: pico_extractor(64), embedding_cache(53), relationship_dao(53), llm_metadata_extractor(62)
+- Batch 5: document_handler(36), gemini_client(36), document_type_detector(92), reference_handler(42)
+
+**신규 파일:**
+- `src/core/http_utils.py`: 공유 async HTTP retry 유틸리티
+- `tests/` 하위 20개 테스트 파일
+
 ### v1.24.2: Critical Bug Fixes — Import/Search/Graph 전면 검증 (2026-03-01)
 
 22건의 버그를 수정하여 전체 파이프라인(Import → Graph Build → Search) 안정성을 확보.

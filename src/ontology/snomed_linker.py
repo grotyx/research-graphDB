@@ -102,7 +102,7 @@ class SNOMEDLinker:
                 )
 
         except ImportError as e:
-            logger.error("scispaCy not installed")
+            logger.error("scispaCy not installed", exc_info=True)
             raise ImportError(
                 "scispaCy required for medical NER. Install with:\n"
                 "  pip install scispacy\n"
