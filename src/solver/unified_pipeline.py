@@ -460,6 +460,26 @@ class UnifiedSearchPipeline:
             if snomed_codes:
                 logger.info(f"SNOMED codes for hybrid search: {snomed_codes}")
 
+        # Build graph_filters from expanded context (IS_A hierarchy)
+        graph_filters: Optional[dict] = None
+        if expanded_context:
+            graph_filters = {}
+            # Use expanded entities (IS_A hierarchy included) when available, fallback to originals
+            interventions = expanded_context.get("expanded_interventions") or extracted_entities.get("interventions", [])
+            pathologies = expanded_context.get("expanded_pathologies") or extracted_entities.get("pathologies", [])
+            outcomes = expanded_context.get("expanded_outcomes") or extracted_entities.get("outcomes", [])
+            anatomies = expanded_context.get("expanded_anatomies") or extracted_entities.get("anatomies", [])
+            if interventions:
+                graph_filters["interventions" if len(interventions) > 1 else "intervention"] = interventions if len(interventions) > 1 else interventions[0]
+            if pathologies:
+                graph_filters["pathologies" if len(pathologies) > 1 else "pathology"] = pathologies if len(pathologies) > 1 else pathologies[0]
+            if outcomes:
+                graph_filters["outcomes" if len(outcomes) > 1 else "outcome"] = outcomes if len(outcomes) > 1 else outcomes[0]
+            if anatomies:
+                graph_filters["anatomies" if len(anatomies) > 1 else "anatomy"] = anatomies if len(anatomies) > 1 else anatomies[0]
+            if not graph_filters:
+                graph_filters = None
+
         # Perform hybrid search
         if self.hybrid_ranker and options.enable_adaptive:
             # Use HybridRanker for raw results
@@ -470,6 +490,7 @@ class UnifiedSearchPipeline:
                 graph_weight=options.graph_weight or 0.6,
                 vector_weight=options.vector_weight or 0.4,
                 snomed_codes=snomed_codes or None,
+                graph_filters=graph_filters,
             )
 
             # Convert HybridResult to format for AdaptiveRanker
