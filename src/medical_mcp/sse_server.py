@@ -322,17 +322,13 @@ def create_app():
         return Response(status_code=200)
 
     async def send_heartbeat(session_id: str, write_stream):
-        """주기적으로 heartbeat 전송 — SSE 연결 유지용."""
+        """주기적으로 heartbeat 전송 — 연결 상태 추적용."""
         try:
             while True:
                 await asyncio.sleep(HEARTBEAT_INTERVAL)
                 connection_manager.heartbeat(session_id)
-                # SSE comment로 keep-alive 전송 (네트워크 장비의 유휴 연결 끊김 방지)
-                try:
-                    if hasattr(write_stream, 'send'):
-                        await write_stream.send({"type": "http.response.body", "body": b": heartbeat\n\n", "more_body": True})
-                except Exception:
-                    pass  # write_stream이 SSE comment를 지원하지 않을 수 있음
+                # MCP write_stream은 MCP 메시지만 허용하므로 내부 카운터만 업데이트
+                # SSE keep-alive는 uvicorn의 timeout_keep_alive에 의존
                 logger.debug(f"Heartbeat: {session_id[:8]}...")
         except asyncio.CancelledError:
             pass
