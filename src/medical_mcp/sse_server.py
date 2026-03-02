@@ -106,8 +106,8 @@ logger = logging.getLogger(__name__)
 # ============================================
 # 설정
 # ============================================
-HEARTBEAT_INTERVAL = 30  # 초
-CONNECTION_TIMEOUT = 300  # 5분 유휴 타임아웃
+HEARTBEAT_INTERVAL = 15  # 초 (원격 연결 유지를 위해 15초 간격)
+CONNECTION_TIMEOUT = 3600  # 1시간 유휴 타임아웃 (원격 사용 시 충분한 여유)
 MAX_RECONNECT_ATTEMPTS = 3
 
 # 등록된 사용자 목록 (실제 환경에서는 DB나 설정 파일로 관리)
@@ -322,12 +322,17 @@ def create_app():
         return Response(status_code=200)
 
     async def send_heartbeat(session_id: str, write_stream):
-        """주기적으로 heartbeat 전송."""
+        """주기적으로 heartbeat 전송 — SSE 연결 유지용."""
         try:
             while True:
                 await asyncio.sleep(HEARTBEAT_INTERVAL)
                 connection_manager.heartbeat(session_id)
-                # MCP 프로토콜에서는 ping/pong이 없으므로 activity만 업데이트
+                # SSE comment로 keep-alive 전송 (네트워크 장비의 유휴 연결 끊김 방지)
+                try:
+                    if hasattr(write_stream, 'send'):
+                        await write_stream.send({"type": "http.response.body", "body": b": heartbeat\n\n", "more_body": True})
+                except Exception:
+                    pass  # write_stream이 SSE comment를 지원하지 않을 수 있음
                 logger.debug(f"Heartbeat: {session_id[:8]}...")
         except asyncio.CancelledError:
             pass

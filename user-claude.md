@@ -657,6 +657,28 @@ case-report: 증례보고
 
 ---
 
+## MCP 연결 끊김 시 재연결
+
+원격 SSE 접속 시 장시간 유휴 또는 네트워크 이슈로 연결이 끊길 수 있습니다.
+
+### 재연결 방법
+```bash
+# 1. 서버 생존 확인
+curl http://YOUR_SERVER_IP:7777/ping
+
+# 2. Claude Code에서 MCP 재연결
+claude mcp remove medical-kag-remote
+claude mcp add --transport sse medical-kag-remote http://YOUR_SERVER_IP:7777/sse --scope project
+
+# 3. Neo4j 연결만 재설정 (서버 재시작 불필요)
+curl -X POST http://YOUR_SERVER_IP:7777/restart
+
+# 4. 서버 전체 재시작 (최후 수단)
+# 서버 PC에서: docker-compose restart mcp
+```
+
+---
+
 ## 빠른 참조 명령어
 
 ```bash

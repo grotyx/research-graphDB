@@ -68,6 +68,22 @@ curl http://localhost:8000/sse?user=kim
 curl -H "X-User-ID: kim" http://localhost:8000/sse
 ```
 
+**연결 끊김 시 재연결**:
+
+```bash
+# 서버 생존 확인
+curl http://YOUR_SERVER_IP:7777/ping
+
+# Claude Code에서 MCP 재연결
+claude mcp remove medical-kag-remote
+claude mcp add --transport sse medical-kag-remote http://YOUR_SERVER_IP:7777/sse --scope project
+
+# Neo4j 연결만 재설정 (서버 재시작 불필요)
+curl -X POST http://YOUR_SERVER_IP:7777/restart
+```
+
+> 상세 문제 해결은 [TROUBLESHOOTING.md](TROUBLESHOOTING.md#mcp-연결-끊김--재연결-sse-원격-접속) 참조
+
 ### 3. Neo4j 실행 확인
 
 ```bash

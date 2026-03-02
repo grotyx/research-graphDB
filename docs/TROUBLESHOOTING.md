@@ -1,6 +1,75 @@
 # Spine GraphRAG Troubleshooting
 
-> **Version**: 1.24.0 | **Last Updated**: 2026-02-28
+> **Version**: 1.25.0 | **Last Updated**: 2026-03-02
+
+## MCP 연결 끊김 & 재연결 (SSE 원격 접속)
+
+### 증상
+- Claude Code/Desktop에서 MCP 도구 호출 시 "connection closed" 또는 "server disconnected" 에러
+- 장시간 대기 후 도구 호출 실패
+- SSE 연결이 중간에 끊김
+
+### 원인
+| 원인 | 설명 |
+|------|------|
+| **유휴 타임아웃** | 서버 `CONNECTION_TIMEOUT` (기본 1시간) 이후 연결 종료 |
+| **네트워크 장비** | 방화벽/프록시/NAT가 유휴 TCP 연결 끊음 (보통 5-15분) |
+| **Neo4j 풀 만료** | 장시간 유휴 후 DB 연결 풀 만료 → 도구 호출 에러 |
+
+### 재연결 방법
+
+#### 방법 1: Claude Code에서 MCP 재연결
+```bash
+# Claude Code 터미널에서 MCP 서버 상태 확인
+curl http://YOUR_SERVER_IP:7777/health
+
+# MCP 서버 목록 확인 및 재연결
+claude mcp list
+claude mcp remove medical-kag-remote
+claude mcp add --transport sse medical-kag-remote http://YOUR_SERVER_IP:7777/sse --scope project
+
+# 또는 Claude Code에서 /mcp 명령으로 재연결
+/mcp
+```
+
+#### 방법 2: 서버 측 Neo4j 연결 초기화
+```bash
+# Neo4j 연결만 재설정 (서버 재시작 불필요)
+curl -X POST http://YOUR_SERVER_IP:7777/restart
+
+# 서버 캐시 전체 초기화
+curl -X POST http://YOUR_SERVER_IP:7777/reset
+```
+
+#### 방법 3: 서버 재시작
+```bash
+# 로컬 서버 재시작
+pkill -f "sse_server" && PYTHONPATH=./src nohup python3 -m medical_mcp.sse_server --host 0.0.0.0 --port 7777 > logs/sse_server.log 2>&1 &
+
+# Docker 서버 재시작
+docker-compose restart mcp
+```
+
+### 연결 안정성 설정
+
+서버 실행 시 타임아웃/heartbeat 조정:
+```bash
+# 긴 세션용 (heartbeat 15초, 타임아웃 2시간)
+PYTHONPATH=./src python3 -m medical_mcp.sse_server \
+  --host 0.0.0.0 --port 7777 \
+  --heartbeat 15 --timeout 7200
+```
+
+### 서버 상태 확인
+```bash
+# Health check (연결 수, 유휴 시간 확인)
+curl http://YOUR_SERVER_IP:7777/health | python3 -m json.tool
+
+# Ping (서버 생존 확인)
+curl http://YOUR_SERVER_IP:7777/ping
+```
+
+---
 
 ## Neo4j Connection Issues
 
