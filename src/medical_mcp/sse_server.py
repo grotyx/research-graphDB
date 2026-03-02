@@ -683,11 +683,13 @@ def create_streamable_http_app():
 
 
 async def main():
+    global HEARTBEAT_INTERVAL, CONNECTION_TIMEOUT
+
     parser = argparse.ArgumentParser(description="Medical KAG MCP Server (SSE/Streamable HTTP)")
     parser.add_argument("--host", default="0.0.0.0", help="Host to bind to")
     parser.add_argument("--port", type=int, default=8000, help="Port to bind to")
-    parser.add_argument("--heartbeat", type=int, default=30, help="Heartbeat interval (seconds)")
-    parser.add_argument("--timeout", type=int, default=300, help="Connection timeout (seconds)")
+    parser.add_argument("--heartbeat", type=int, default=HEARTBEAT_INTERVAL, help="Heartbeat interval (seconds)")
+    parser.add_argument("--timeout", type=int, default=CONNECTION_TIMEOUT, help="Connection timeout (seconds)")
     parser.add_argument(
         "--transport", choices=["sse", "streamable-http"], default="sse",
         help="Transport protocol: sse (default, legacy) or streamable-http (MCP SDK >= 1.8)",
@@ -709,7 +711,6 @@ async def main():
             sys.exit(1)
 
     # 설정 적용
-    global HEARTBEAT_INTERVAL, CONNECTION_TIMEOUT
     HEARTBEAT_INTERVAL = args.heartbeat
     CONNECTION_TIMEOUT = args.timeout
 
