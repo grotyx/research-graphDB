@@ -32,7 +32,7 @@ def main(dry_run: bool = False):
 
     uri = os.getenv("NEO4J_URI", "bolt://localhost:7687")
     username = os.getenv("NEO4J_USERNAME", "neo4j")
-    password = os.getenv("NEO4J_PASSWORD", "spineGraph2024")
+    password = os.environ["NEO4J_PASSWORD"]
     database = os.getenv("NEO4J_DATABASE", "neo4j")
 
     print(f"Connecting to Neo4j at {uri}...")

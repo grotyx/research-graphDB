@@ -183,7 +183,7 @@ async def init_neo4j(skip_taxonomy: bool = False, enrich_snomed: bool = True) ->
             logger.info("=" * 80)
             logger.info("\n💡 Next Steps:")
             logger.info("  1. Open Neo4j Browser: http://localhost:7474")
-            logger.info("  2. Login with: neo4j / spineGraph2024")
+            logger.info("  2. Login with: neo4j / <NEO4J_PASSWORD from .env>")
             logger.info("  3. Try a query: MATCH (n) RETURN n LIMIT 25")
             logger.info("\n")
 
@@ -197,7 +197,7 @@ async def init_neo4j(skip_taxonomy: bool = False, enrich_snomed: bool = True) ->
         logger.error("  3. Verify environment variables in .env file:")
         logger.error("     NEO4J_URI=bolt://localhost:7687")
         logger.error("     NEO4J_USERNAME=neo4j")
-        logger.error("     NEO4J_PASSWORD=spineGraph2024")
+        logger.error("     NEO4J_PASSWORD=<your-password>")
         logger.error("     NEO4J_DATABASE=neo4j")
         raise
 

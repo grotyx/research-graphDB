@@ -122,7 +122,7 @@ async def check_neo4j_connection(logger: logging.Logger) -> bool:
             os.getenv('NEO4J_URI', 'bolt://localhost:7687'),
             auth=(
                 os.getenv('NEO4J_USERNAME', 'neo4j'),
-                os.getenv('NEO4J_PASSWORD', 'spineGraph2024')
+                os.environ['NEO4J_PASSWORD']
             )
         )
 
@@ -147,7 +147,7 @@ async def get_current_state(logger: logging.Logger) -> dict:
         os.getenv('NEO4J_URI', 'bolt://localhost:7687'),
         auth=(
             os.getenv('NEO4J_USERNAME', 'neo4j'),
-            os.getenv('NEO4J_PASSWORD', 'spineGraph2024')
+            os.environ['NEO4J_PASSWORD']
         )
     )
 
@@ -217,7 +217,7 @@ async def apply_taxonomy_updates(logger: logging.Logger, dry_run: bool = False) 
         os.getenv('NEO4J_URI', 'bolt://localhost:7687'),
         auth=(
             os.getenv('NEO4J_USERNAME', 'neo4j'),
-            os.getenv('NEO4J_PASSWORD', 'spineGraph2024')
+            os.environ['NEO4J_PASSWORD']
         )
     )
 
@@ -284,7 +284,7 @@ async def verify_updates(logger: logging.Logger) -> dict:
         os.getenv('NEO4J_URI', 'bolt://localhost:7687'),
         auth=(
             os.getenv('NEO4J_USERNAME', 'neo4j'),
-            os.getenv('NEO4J_PASSWORD', 'spineGraph2024')
+            os.environ['NEO4J_PASSWORD']
         )
     )
 

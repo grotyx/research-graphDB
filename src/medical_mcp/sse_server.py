@@ -30,11 +30,16 @@ Endpoints:
     GET  /health      - Health check with connection stats
     GET  /ping        - Simple ping
     GET  /tools       - List available MCP tools
-    GET  /users       - List registered users
-    POST /users/add   - Add new user (admin only)
-    GET  /connections - Connection statistics
-    POST /reset       - Reset server cache (reconnection support)
-    POST /restart     - Restart Neo4j connection
+    GET  /users       - List registered users (admin auth required)
+    POST /users/add   - Add new user (admin auth required)
+    GET  /connections - Connection statistics (admin auth required)
+    POST /reset       - Reset server cache (admin auth required)
+    POST /restart     - Restart Neo4j connection (admin auth required)
+
+Security:
+    - MCP_ADMIN_KEY 환경변수 설정 시, 관리자 엔드포인트에 Bearer 인증 필요
+    - CORS_ORIGINS 환경변수로 허용 오리진 제한
+    - MCP_MAX_CONNECTIONS로 최대 동시 연결 수 제한
 
 v1.16.0 (2026-01-26):
     - SSE 서버 통합: run_mcp_sse.py → sse_server.py 래퍼로 변환
@@ -56,6 +61,7 @@ v1.13.1 개선사항:
 
 import argparse
 import asyncio
+import hmac
 import logging
 import os
 import sys
@@ -109,6 +115,16 @@ logger = logging.getLogger(__name__)
 HEARTBEAT_INTERVAL = 15  # 초 (원격 연결 유지를 위해 15초 간격)
 CONNECTION_TIMEOUT = 3600  # 1시간 유휴 타임아웃 (원격 사용 시 충분한 여유)
 MAX_RECONNECT_ATTEMPTS = 3
+MAX_CONNECTIONS = int(os.environ.get("MCP_MAX_CONNECTIONS", "20"))
+
+# 관리자 API 키 (설정 시 /reset, /restart, /users/add에 인증 필요)
+MCP_ADMIN_KEY = os.environ.get("MCP_ADMIN_KEY", "")
+
+# CORS 허용 오리진 (쉼표 구분, 기본: localhost 변형만 허용)
+CORS_ORIGINS = os.environ.get(
+    "CORS_ORIGINS",
+    "http://localhost:3000,http://localhost:8000,http://localhost:8501,http://127.0.0.1:3000,http://127.0.0.1:8000,http://127.0.0.1:8501",
+).split(",")
 
 # 등록된 사용자 목록 (실제 환경에서는 DB나 설정 파일로 관리)
 REGISTERED_USERS = {
@@ -134,7 +150,7 @@ class ConnectionManager:
             "last_activity": time.time(),
             "heartbeats": 0,
         }
-        logger.info(f"Connection registered: {session_id} (user: {user_id})")
+        logger.info(f"Connection registered: {session_id[:8]}... (user: {user_id})")
 
     def update_activity(self, session_id: str):
         """연결 활동 시간 업데이트."""
@@ -153,7 +169,7 @@ class ConnectionManager:
             info = self.connections.pop(session_id)
             duration = time.time() - info["connected_at"]
             logger.info(
-                f"Connection closed: {session_id} "
+                f"Connection closed: {session_id[:8]}... "
                 f"(user: {info['user_id']}, duration: {duration:.1f}s, "
                 f"heartbeats: {info['heartbeats']})"
             )
@@ -185,7 +201,7 @@ class ConnectionManager:
                     if now - info["last_activity"] > CONNECTION_TIMEOUT
                 ]
                 for sid in stale:
-                    logger.warning(f"Cleaning up stale connection: {sid}")
+                    logger.warning(f"Cleaning up stale connection: {sid[:8]}...")
                     self.unregister(sid)
             except asyncio.CancelledError:
                 break
@@ -228,6 +244,29 @@ def get_user_from_request(request: Request) -> str:
 
     # 기본값
     return "system"
+
+
+def check_admin_auth(request: Request) -> Optional[JSONResponse]:
+    """관리자 인증 확인. MCP_ADMIN_KEY 설정 시 Bearer 토큰 필요.
+
+    Returns:
+        None if authorized, JSONResponse(403) if unauthorized.
+    """
+    if not MCP_ADMIN_KEY:
+        return None  # 키 미설정 시 인증 생략 (로컬 개발용)
+
+    auth_header = request.headers.get("Authorization", "")
+    if not auth_header.startswith("Bearer "):
+        return JSONResponse(
+            {"error": "Authorization required. Set 'Authorization: Bearer <MCP_ADMIN_KEY>' header."},
+            status_code=403,
+        )
+
+    token = auth_header[7:]  # "Bearer " 이후
+    if not hmac.compare_digest(token, MCP_ADMIN_KEY):
+        return JSONResponse({"error": "Invalid admin key"}, status_code=403)
+
+    return None
 
 
 def get_user_from_scope(scope: dict) -> str:
@@ -282,6 +321,14 @@ def create_app():
 
     async def handle_sse(request: Request):
         """Handle SSE connection with user context and heartbeat."""
+        # 최대 연결 수 제한
+        if len(connection_manager.connections) >= MAX_CONNECTIONS:
+            logger.warning(f"Connection limit reached ({MAX_CONNECTIONS})")
+            return JSONResponse(
+                {"error": f"Maximum connections ({MAX_CONNECTIONS}) reached. Try again later."},
+                status_code=503,
+            )
+
         session_id = str(uuid.uuid4())
         user_id = get_user_from_request(request)
 
@@ -345,11 +392,9 @@ def create_app():
             "server": "medical-kag",
             "version": __version__,
             "current_user": user_id,
-            "user_info": REGISTERED_USERS.get(user_id, {}),
             "neo4j_available": kag_server.neo4j_client is not None,
-            "llm_enabled": getattr(kag_server, 'enable_llm', False),
-            "active_users": list(user_servers.keys()),
-            "connections": connection_manager.get_stats(),
+            "active_connections": len(connection_manager.connections),
+            "max_connections": MAX_CONNECTIONS,
             "settings": {
                 "heartbeat_interval": HEARTBEAT_INTERVAL,
                 "connection_timeout": CONNECTION_TIMEOUT,
@@ -375,18 +420,25 @@ def create_app():
         })
 
     async def list_users(request: Request):
-        """등록된 사용자 목록."""
+        """등록된 사용자 목록 (관리자 전용)."""
+        auth_err = check_admin_auth(request)
+        if auth_err:
+            return auth_err
+
         return JSONResponse({
             "users": [
-                {"id": uid, **info}
+                {"id": uid, "name": info["name"], "role": info["role"]}
                 for uid, info in REGISTERED_USERS.items()
             ],
             "active_sessions": list(user_servers.keys()),
-            "connections": connection_manager.get_stats(),
         })
 
     async def add_user(request: Request):
         """새 사용자 등록 (관리자 전용)."""
+        auth_err = check_admin_auth(request)
+        if auth_err:
+            return auth_err
+
         caller = get_user_from_request(request)
         if REGISTERED_USERS.get(caller, {}).get("role") != "admin":
             return JSONResponse(
@@ -415,10 +467,14 @@ def create_app():
             })
         except Exception as e:
             logger.error(f"User creation failed: {e}", exc_info=True)
-            return JSONResponse({"error": str(e)}, status_code=500)
+            return JSONResponse({"error": "User creation failed"}, status_code=500)
 
     async def connection_stats(request: Request):
-        """연결 상태 상세 조회."""
+        """연결 상태 상세 조회 (관리자 전용)."""
+        auth_err = check_admin_auth(request)
+        if auth_err:
+            return auth_err
+
         return JSONResponse(connection_manager.get_stats())
 
     async def reset_server(request: Request):
@@ -433,6 +489,10 @@ def create_app():
             curl -X POST http://localhost:8000/reset
             curl -X POST http://localhost:8000/reset?user=kim  # 특정 사용자만
         """
+        auth_err = check_admin_auth(request)
+        if auth_err:
+            return auth_err
+
         user_id = request.query_params.get("user")
 
         try:
@@ -487,7 +547,7 @@ def create_app():
 
         except Exception as e:
             logger.error(f"Reset error: {e}", exc_info=True)
-            return JSONResponse({"error": str(e)}, status_code=500)
+            return JSONResponse({"error": "Server reset failed"}, status_code=500)
 
     async def restart_neo4j(request: Request):
         """Neo4j 연결 재설정.
@@ -497,6 +557,10 @@ def create_app():
         Usage:
             curl -X POST http://localhost:8000/restart
         """
+        auth_err = check_admin_auth(request)
+        if auth_err:
+            return auth_err
+
         try:
             reconnected = []
             failed = []
@@ -515,7 +579,7 @@ def create_app():
                         reconnected.append(user_id)
                         logger.info(f"Neo4j reconnected for user: {user_id}")
                 except Exception as e:
-                    failed.append({"user": user_id, "error": str(e)})
+                    failed.append({"user": user_id, "error": "reconnect failed"})
                     logger.error(f"Neo4j reconnect failed for {user_id}: {e}", exc_info=True)
 
             return JSONResponse({
@@ -526,7 +590,7 @@ def create_app():
 
         except Exception as e:
             logger.error(f"Restart error: {e}", exc_info=True)
-            return JSONResponse({"error": str(e)}, status_code=500)
+            return JSONResponse({"error": "Neo4j restart failed"}, status_code=500)
 
     async def ping(request: Request):
         """간단한 ping 엔드포인트 (서버 생존 확인용)."""
@@ -564,10 +628,10 @@ def create_app():
     middleware = [
         Middleware(
             CORSMiddleware,
-            allow_origins=["*"],
+            allow_origins=CORS_ORIGINS,
             allow_credentials=True,
-            allow_methods=["*"],
-            allow_headers=["*"],
+            allow_methods=["GET", "POST", "DELETE"],
+            allow_headers=["Authorization", "Content-Type", "X-User-ID", "Mcp-Session-Id"],
         )
     ]
 
@@ -582,40 +646,74 @@ def create_streamable_http_app():
     - Session management via Mcp-Session-Id header
     - No long-lived SSE connections needed
     """
-    # Session state: session_id -> (transport, task_group, mcp_server)
+    # Session state: session_id -> {transport, task, user_id}
     _sessions: Dict[str, dict] = {}
 
-    kag_server = MedicalKAGServer(default_user="system")
-    mcp_server = create_mcp_server(kag_server)
+    # 사용자별 서버 인스턴스 캐시
+    user_servers: dict[str, MedicalKAGServer] = {}
+    mcp_servers: dict[str, any] = {}
+
+    def get_mcp_server_for_user(user_id: str):
+        if user_id not in user_servers:
+            user_servers[user_id] = MedicalKAGServer(default_user=user_id)
+        if user_id not in mcp_servers:
+            mcp_servers[user_id] = create_mcp_server(user_servers[user_id])
+        return mcp_servers[user_id]
 
     async def handle_mcp(request: Request):
         """Streamable HTTP endpoint - handles all MCP communication."""
-        # Get or create session
         session_id = request.headers.get("mcp-session-id")
+        user_id = get_user_from_request(request)
+
+        if request.method == "DELETE" and session_id and session_id in _sessions:
+            # 세션 종료
+            session = _sessions.pop(session_id)
+            task = session.get("task")
+            if task and not task.done():
+                task.cancel()
+            logger.info(f"Session terminated: {session_id[:8]}...")
+            return Response(status_code=200)
 
         if request.method == "POST" and session_id is None:
-            # New session - create transport
+            # 연결 수 제한
+            if len(_sessions) >= MAX_CONNECTIONS:
+                return JSONResponse(
+                    {"error": f"Maximum sessions ({MAX_CONNECTIONS}) reached."},
+                    status_code=503,
+                )
+
+            # 새 세션 생성
             session_id = str(uuid.uuid4())
             transport = StreamableHTTPServerTransport(
                 mcp_session_id=session_id,
                 is_json_response_enabled=True,
             )
-            _sessions[session_id] = {"transport": transport}
 
-            # Start serving in background
+            mcp_server = get_mcp_server_for_user(user_id)
+
+            # 백그라운드에서 MCP 서버 실행
             async def serve_session():
-                async with transport.connect() as (read_stream, write_stream):
-                    await mcp_server.run(
-                        read_stream, write_stream,
-                        mcp_server.create_initialization_options(),
-                    )
+                try:
+                    async with transport.connect() as (read_stream, write_stream):
+                        await mcp_server.run(
+                            read_stream, write_stream,
+                            mcp_server.create_initialization_options(),
+                        )
+                except asyncio.CancelledError:
+                    pass
+                except Exception as e:
+                    logger.error(f"Session {session_id[:8]}... error: {e}")
+                finally:
+                    _sessions.pop(session_id, None)
 
-            import anyio
-            task_group = anyio.create_task_group()
-            _sessions[session_id]["task_group"] = task_group
+            task = asyncio.create_task(serve_session())
+            _sessions[session_id] = {
+                "transport": transport,
+                "task": task,
+                "user_id": user_id,
+            }
 
-            # We need to handle the request through the transport
-            # The transport is an ASGI app itself
+            # 요청 처리
             await transport.handle_request(request.scope, request.receive, request._send)
             return Response(status_code=200)
 
@@ -651,11 +749,11 @@ def create_streamable_http_app():
     async def lifespan(app):
         logger.info("Streamable HTTP server started")
         yield
-        # Cleanup sessions
-        for sid, session in _sessions.items():
-            transport = session.get("transport")
-            if transport and not transport.is_terminated():
-                transport.terminate()
+        # 세션 정리
+        for sid, session in list(_sessions.items()):
+            task = session.get("task")
+            if task and not task.done():
+                task.cancel()
         _sessions.clear()
         logger.info("Streamable HTTP server stopped")
 
@@ -668,10 +766,10 @@ def create_streamable_http_app():
     middleware = [
         Middleware(
             CORSMiddleware,
-            allow_origins=["*"],
+            allow_origins=CORS_ORIGINS,
             allow_credentials=True,
-            allow_methods=["*"],
-            allow_headers=["*"],
+            allow_methods=["GET", "POST", "DELETE"],
+            allow_headers=["Authorization", "Content-Type", "X-User-ID", "Mcp-Session-Id"],
         )
     ]
 
@@ -731,11 +829,12 @@ async def main():
     logger.info(f"Transport: {args.transport}")
     logger.info(f"Heartbeat interval: {HEARTBEAT_INTERVAL}s")
     logger.info(f"Connection timeout: {CONNECTION_TIMEOUT}s")
+    logger.info(f"Max connections: {MAX_CONNECTIONS}")
+    logger.info(f"Admin auth: {'ENABLED' if MCP_ADMIN_KEY else 'DISABLED (set MCP_ADMIN_KEY to enable)'}")
+    logger.info(f"CORS origins: {len(CORS_ORIGINS)} allowed")
     if not use_streamable:
         logger.info("-" * 60)
-        logger.info("Registered users:")
-        for uid, info in REGISTERED_USERS.items():
-            logger.info(f"  - {uid}: {info['name']} ({info['role']})")
+        logger.info(f"Registered users: {len(REGISTERED_USERS)}")
     logger.info("=" * 60)
 
     app = create_streamable_http_app() if use_streamable else create_app()

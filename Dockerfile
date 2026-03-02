@@ -1,7 +1,7 @@
 FROM python:3.12-slim
 
 LABEL maintainer="Spine GraphRAG Team"
-LABEL version="7.16.0"
+LABEL version="1.25.0"
 LABEL description="Spine GraphRAG MCP Server - Medical Literature Knowledge Graph"
 
 WORKDIR /app

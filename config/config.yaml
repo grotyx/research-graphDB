@@ -14,7 +14,7 @@ neo4j:
   # Connection settings
   uri: ${NEO4J_URI:bolt://localhost:7687}
   username: ${NEO4J_USERNAME:neo4j}
-  password: ${NEO4J_PASSWORD:spineGraph2024}
+  password: ${NEO4J_PASSWORD}
   database: ${NEO4J_DATABASE:neo4j}
 
   # Connection pool settings

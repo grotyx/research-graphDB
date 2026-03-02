@@ -33,7 +33,7 @@ async def reimport_all_papers():
     config = Neo4jConfig(
         uri=os.getenv('NEO4J_URI', 'bolt://localhost:7687'),
         username=os.getenv('NEO4J_USERNAME', 'neo4j'),
-        password=os.getenv('NEO4J_PASSWORD', 'spineGraph2024'),
+        password=os.environ['NEO4J_PASSWORD'],
         database=os.getenv('NEO4J_DATABASE', 'neo4j')
     )
 

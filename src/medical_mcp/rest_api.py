@@ -59,16 +59,20 @@ def create_app() -> "FastAPI":
     app = FastAPI(
         title="Medical KAG API",
         description="Spine Surgery Knowledge Graph REST API",
-        version="7.6.0"
+        version="1.25.0"
     )
 
-    # CORS 설정 (외부 접속 허용)
+    # CORS 설정 (CORS_ORIGINS 환경변수 또는 localhost 기본값)
+    cors_origins = os.environ.get(
+        "CORS_ORIGINS",
+        "http://localhost:3000,http://localhost:8000,http://localhost:8501,http://127.0.0.1:3000,http://127.0.0.1:8000,http://127.0.0.1:8501",
+    ).split(",")
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["*"],
+        allow_origins=cors_origins,
         allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
+        allow_methods=["GET", "POST", "PUT", "DELETE"],
+        allow_headers=["Authorization", "Content-Type", "X-User-ID"],
     )
 
     @app.on_event("startup")
