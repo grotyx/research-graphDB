@@ -691,10 +691,14 @@ def create_streamable_http_app():
 
             mcp_server = get_mcp_server_for_user(user_id)
 
+            # connect() 완료를 알리는 이벤트
+            connected_event = asyncio.Event()
+
             # 백그라운드에서 MCP 서버 실행
             async def serve_session():
                 try:
                     async with transport.connect() as (read_stream, write_stream):
+                        connected_event.set()
                         await mcp_server.run(
                             read_stream, write_stream,
                             mcp_server.create_initialization_options(),
@@ -704,6 +708,7 @@ def create_streamable_http_app():
                 except Exception as e:
                     logger.error(f"Session {session_id[:8]}... error: {e}")
                 finally:
+                    connected_event.set()  # 에러 시에도 대기 해제
                     _sessions.pop(session_id, None)
 
             task = asyncio.create_task(serve_session())
@@ -713,7 +718,8 @@ def create_streamable_http_app():
                 "user_id": user_id,
             }
 
-            # 요청 처리
+            # connect() 완료 대기 후 요청 처리
+            await connected_event.wait()
             await transport.handle_request(request.scope, request.receive, request._send)
             return Response(status_code=200)
 

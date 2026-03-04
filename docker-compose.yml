@@ -54,6 +54,7 @@ services:
   mcp:
     build: .
     container_name: spine_graphrag_mcp
+    command: ["python", "-m", "medical_mcp.sse_server", "--host", "0.0.0.0", "--port", "7777", "--transport", "streamable-http"]
     ports:
       - "7777:7777"
     env_file:

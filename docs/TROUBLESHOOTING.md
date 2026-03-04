@@ -1,39 +1,72 @@
 # Spine GraphRAG Troubleshooting
 
-> **Version**: 1.25.0 | **Last Updated**: 2026-03-02
+> **Version**: 1.25.0 | **Last Updated**: 2026-03-04
 
-## MCP 연결 끊김 & 재연결 (SSE 원격 접속)
+## MCP Transport 설정 (Streamable HTTP — 권장)
 
-### 증상
-- Claude Code/Desktop에서 MCP 도구 호출 시 "connection closed" 또는 "server disconnected" 에러
-- 장시간 대기 후 도구 호출 실패
-- SSE 연결이 중간에 끊김
+v1.25.0부터 **Streamable HTTP**가 기본 transport입니다. SSE 대비 연결 안정성이 크게 개선됩니다.
 
-### 원인
-| 원인 | 설명 |
-|------|------|
-| **유휴 타임아웃** | 서버 `CONNECTION_TIMEOUT` (기본 1시간) 이후 연결 종료 |
-| **네트워크 장비** | 방화벽/프록시/NAT가 유휴 TCP 연결 끊음 (보통 5-15분) |
-| **Neo4j 풀 만료** | 장시간 유휴 후 DB 연결 풀 만료 → 도구 호출 에러 |
+### SSE vs Streamable HTTP 비교
 
-### 재연결 방법
+| | SSE (레거시) | Streamable HTTP (권장) |
+|---|---|---|
+| 연결 방식 | long-lived 스트림 | 요청/응답 (stateless-like) |
+| 끊김 문제 | 잦음 (프록시/NAT 타임아웃) | 없음 (매 요청 독립) |
+| Keep-alive | 필요 (heartbeat) | 불필요 |
+| MCP SDK | 전 버전 | >= 1.8 |
+| 엔드포인트 | `/sse` + `/messages` | `/mcp` 단일 |
 
-#### 방법 1: Claude Code에서 MCP 재연결
+### 서버 실행 (Docker)
+
 ```bash
-# Claude Code 터미널에서 MCP 서버 상태 확인
-curl http://YOUR_SERVER_IP:7777/health
+# docker-compose.yml에 command가 설정되어 있음
+docker compose up -d mcp
 
-# MCP 서버 목록 확인 및 재연결
-claude mcp list
-claude mcp remove medical-kag-remote
-claude mcp add --transport sse medical-kag-remote http://YOUR_SERVER_IP:7777/sse --scope project
-
-# 또는 Claude Code에서 /mcp 명령으로 재연결
-/mcp
+# 또는 직접 실행
+PYTHONPATH=./src python3 -m medical_mcp.sse_server \
+  --host 0.0.0.0 --port 7777 --transport streamable-http
 ```
 
-#### 방법 2: 서버 측 Neo4j 연결 초기화
+### 클라이언트 설정
+
+**Claude Code (IDE/CLI)** — `~/.claude/settings.json` 또는 프로젝트 `.claude/settings.json`:
+```json
+{
+  "mcpServers": {
+    "medical-kag-remote": {
+      "url": "http://YOUR_SERVER_IP:7777/mcp"
+    }
+  }
+}
+```
+
+**Claude Desktop** — `~/Library/Application Support/Claude/claude_desktop_config.json`:
+```json
+{
+  "mcpServers": {
+    "medical-kag-remote": {
+      "url": "http://YOUR_SERVER_IP:7777/mcp"
+    }
+  }
+}
+```
+
+> **Note**: `"type": "sse"` 필드와 `/sse` 경로는 더 이상 사용하지 않습니다.
+
+### 서버 상태 확인
 ```bash
+# Health check
+curl http://YOUR_SERVER_IP:7777/health | python3 -m json.tool
+
+# Ping (서버 생존 확인)
+curl http://YOUR_SERVER_IP:7777/ping
+```
+
+### 서버 재시작
+```bash
+# Docker 재시작
+docker compose restart mcp
+
 # Neo4j 연결만 재설정 (서버 재시작 불필요)
 curl -X POST http://YOUR_SERVER_IP:7777/restart
 
@@ -41,32 +74,19 @@ curl -X POST http://YOUR_SERVER_IP:7777/restart
 curl -X POST http://YOUR_SERVER_IP:7777/reset
 ```
 
-#### 방법 3: 서버 재시작
-```bash
-# 로컬 서버 재시작
-pkill -f "sse_server" && PYTHONPATH=./src nohup python3 -m medical_mcp.sse_server --host 0.0.0.0 --port 7777 > logs/sse_server.log 2>&1 &
+### SSE 모드 (레거시)
 
-# Docker 서버 재시작
-docker-compose restart mcp
+SSE가 필요한 경우 `docker-compose.yml`의 `command`에서 `--transport sse`로 변경:
+```yaml
+command: ["python", "-m", "medical_mcp.sse_server", "--host", "0.0.0.0", "--port", "7777", "--transport", "sse"]
 ```
 
-### 연결 안정성 설정
-
-서버 실행 시 타임아웃/heartbeat 조정:
-```bash
-# 긴 세션용 (heartbeat 15초, 타임아웃 2시간)
-PYTHONPATH=./src python3 -m medical_mcp.sse_server \
-  --host 0.0.0.0 --port 7777 \
-  --heartbeat 15 --timeout 7200
-```
-
-### 서버 상태 확인
-```bash
-# Health check (연결 수, 유휴 시간 확인)
-curl http://YOUR_SERVER_IP:7777/health | python3 -m json.tool
-
-# Ping (서버 생존 확인)
-curl http://YOUR_SERVER_IP:7777/ping
+클라이언트 설정:
+```json
+"medical-kag-remote": {
+  "type": "sse",
+  "url": "http://YOUR_SERVER_IP:7777/sse"
+}
 ```
 
 ---

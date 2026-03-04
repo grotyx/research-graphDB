@@ -2,6 +2,15 @@
 
 ## Version History
 
+### v1.25.0 Post-Release: MCP Transport SSE → Streamable HTTP 전환 (2026-03-04)
+
+- **MCP Transport 전환**: SSE (long-lived stream) → Streamable HTTP (stateless HTTP POST)
+  - SSE 연결 끊김 문제 근본 해결 — 프록시/NAT 타임아웃에 영향 없음
+  - `docker-compose.yml`에 `command` 추가 (이미지 재빌드 불필요)
+  - 클라이언트 설정: `"url": "http://host:7777/mcp"` (type/sse 경로 제거)
+- **Streamable HTTP race condition 수정**: `transport.connect()` 완료 전 `handle_request()` 호출 시 `ValueError` 발생 → `asyncio.Event` 동기화 추가
+- **문서 업데이트**: TROUBLESHOOTING.md MCP 섹션 전면 개정 (Streamable HTTP 가이드)
+
 ### v1.25.0: Scaling & Graph Enrichment — 6개 성능/구조 최적화 (2026-03-01)
 
 수천 건 논문 규모 대비 성능 최적화 및 그래프 구조 확장.
