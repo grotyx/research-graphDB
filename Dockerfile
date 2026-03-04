@@ -29,4 +29,4 @@ EXPOSE 7777
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     CMD curl -f http://localhost:7777/health || exit 1
 
-CMD ["python", "-m", "medical_mcp.sse_server", "--host", "0.0.0.0", "--port", "7777"]
+CMD ["python", "-m", "medical_mcp.sse_server", "--host", "0.0.0.0", "--port", "7777", "--transport", "streamable-http"]
