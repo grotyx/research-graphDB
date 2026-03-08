@@ -2194,6 +2194,156 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         synonyms=["Cement discoplasty", "PCD", "PMMA discoplasty"],
         korean_term="경피적 시멘트 추간판 성형술",
     ),
+
+    # ============================================================
+    # v1.25.0: LLM-proposed Intervention mappings
+    # ============================================================
+    "Cobb Angle Measurement": SNOMEDMapping(
+        code="900000000000711",
+        term="Measurement of Cobb angle",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="122465003",  # Spine Surgery
+        is_extension=True,
+        synonyms=["Cobb angle assessment", "Cobb angle determination",
+                  "Cobb angle measurement", "Cobb measurement",
+                  "Measurement of spinal curvature angle"],
+        abbreviations=["Cobb"],
+        korean_term="콥 각도 측정",
+    ),
+    "Open Spine Surgery": SNOMEDMapping(
+        code="900000000000712",
+        term="Open spine surgery",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="122465003",  # Spine Surgery
+        is_extension=True,
+        synonyms=["Open surgical approach to spine", "Open spinal surgery",
+                  "Conventional open spine surgery"],
+        korean_term="개방 척추 수술",
+    ),
+    "Sagittal Correction": SNOMEDMapping(
+        code="900000000000713",
+        term="Sagittal plane correction",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="122465003",  # Spine Surgery
+        is_extension=True,
+        synonyms=["Sagittal correction procedure", "Sagittal deformity correction",
+                  "Correction in sagittal plane"],
+        korean_term="시상면 교정술",
+    ),
+    "Bone Resection": SNOMEDMapping(
+        code="900000000000714",
+        term="Bone resection",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="122465003",  # Spine Surgery
+        is_extension=True,
+        synonyms=["Bone cutting", "Bone excision", "Bone cutting/resection",
+                  "Surgical bone removal"],
+        korean_term="골 절제술",
+    ),
+    # --- AI-Assisted Procedure taxonomy root (666) + children ---
+    "AI-Assisted Procedure": SNOMEDMapping(
+        code="900000000000666",
+        term="Artificial intelligence-assisted spine procedure",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="122465003",  # Spine Surgery
+        is_extension=True,
+        synonyms=["AI-assisted procedure", "AI-based spine procedure",
+                  "Machine learning-assisted procedure"],
+        korean_term="인공지능 보조 시술",
+    ),
+    "Artificial Intelligence": SNOMEDMapping(
+        code="900000000000715",
+        term="Artificial intelligence application in spine surgery",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="900000000000666",  # AI-Assisted Procedure
+        is_extension=True,
+        synonyms=["AI in spine surgery", "Artificial intelligence",
+                  "Machine learning in spine"],
+        abbreviations=["AI"],
+        korean_term="인공지능 응용",
+    ),
+    "Deep Learning": SNOMEDMapping(
+        code="900000000000716",
+        term="Deep learning application in spine surgery",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="900000000000666",  # AI-Assisted Procedure
+        is_extension=True,
+        synonyms=["Deep learning", "Neural network-based analysis",
+                  "Deep neural network"],
+        abbreviations=["DL"],
+        korean_term="딥러닝 응용",
+    ),
+    "Deep Learning Segmentation": SNOMEDMapping(
+        code="900000000000717",
+        term="Deep learning-based image segmentation",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="900000000000716",  # Deep Learning
+        is_extension=True,
+        synonyms=["Deep learning segmentation", "AI-based segmentation",
+                  "Neural tissue segmentation", "Automated segmentation"],
+        korean_term="딥러닝 영상 분할",
+    ),
+    "Convolutional Neural Network": SNOMEDMapping(
+        code="900000000000718",
+        term="Convolutional neural network analysis",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="900000000000716",  # Deep Learning
+        is_extension=True,
+        synonyms=["CNN analysis", "Convolutional neural network",
+                  "CNN-based analysis"],
+        abbreviations=["CNN"],
+        korean_term="합성곱 신경망 분석",
+    ),
+    "AI-based Cobb Angle Measurement": SNOMEDMapping(
+        code="900000000000719",
+        term="AI-assisted Cobb angle measurement",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="900000000000711",  # Cobb Angle Measurement
+        is_extension=True,
+        synonyms=["AI-based Cobb angle measurement", "Automated Cobb angle measurement",
+                  "3D Cobb Angle Measurement", "Machine learning Cobb angle"],
+        korean_term="AI 기반 콥 각도 측정",
+    ),
+    "Deep Learning Landmark Detection": SNOMEDMapping(
+        code="900000000000720",
+        term="Deep learning-based anatomical landmark detection",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="900000000000716",  # Deep Learning
+        is_extension=True,
+        synonyms=["Deep learning landmark detection", "AI landmark detection",
+                  "Automated landmark detection"],
+        korean_term="딥러닝 랜드마크 검출",
+    ),
+    "Automated Spinopelvic Parameter Measurement": SNOMEDMapping(
+        code="900000000000721",
+        term="Automated spinopelvic parameter measurement",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="900000000000666",  # AI-Assisted Procedure
+        is_extension=True,
+        synonyms=["Automated spinopelvic measurement", "AI spinopelvic parameter",
+                  "Automated Cervical Parameter Measurement",
+                  "Automated measurement", "SpinePose AI Model"],
+        korean_term="자동 척추-골반 파라미터 측정",
+    ),
+    "Keypoint Detection Model": SNOMEDMapping(
+        code="900000000000722",
+        term="Keypoint detection model for spine imaging",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="900000000000716",  # Deep Learning
+        is_extension=True,
+        synonyms=["Keypoint R-CNN", "Keypoint detection", "Keypoint-based detection"],
+        korean_term="키포인트 검출 모델",
+    ),
+    "ULIF": SNOMEDMapping(
+        code="900000000000723",
+        term="Unilateral lumbar interbody fusion",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="122465003",  # Spine Surgery
+        is_extension=True,
+        synonyms=["Unilateral LIF", "ULIF procedure"],
+        abbreviations=["ULIF"],
+        korean_term="편측 요추체간 유합술",
+    ),
 }
 
 
@@ -4083,6 +4233,266 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["DJF", "Distal junctional fracture"],
         korean_term="원위부 접합부 부전",
+    ),
+
+    # ============================================================
+    # v1.25.0: LLM-proposed Pathology mappings
+    # ============================================================
+    "Eosinophilic Granuloma": SNOMEDMapping(
+        code="900000000000910",
+        term="Eosinophilic granuloma",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="94503003",  # Spinal Metastasis (closest tumor category)
+        is_extension=True,
+        synonyms=["Langerhans cell histiocytosis localized", "Histiocytosis X",
+                  "Langerhans cell granulomatosis"],
+        korean_term="호산구성 육아종",
+    ),
+    "Langerhans Cell Histiocytosis": SNOMEDMapping(
+        code="900000000000911",
+        term="Langerhans cell histiocytosis",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="94503003",  # Spinal Metastasis (closest tumor category)
+        is_extension=True,
+        synonyms=["Histiocytosis X", "Langerhans cell disease", "LCH"],
+        abbreviations=["LCH"],
+        korean_term="랑게르한스 세포 조직구증",
+    ),
+    "Breast Cancer Metastasis": SNOMEDMapping(
+        code="900000000000912",
+        term="Metastatic breast cancer to spine",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="94503003",  # Spinal Metastasis
+        is_extension=True,
+        synonyms=["Breast cancer with spinal metastasis", "Spinal metastasis from breast cancer",
+                  "Breast cancer metastasis"],
+        korean_term="유방암 척추 전이",
+    ),
+    "Prostate Cancer Metastasis": SNOMEDMapping(
+        code="900000000000913",
+        term="Metastatic prostate cancer to spine",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="94503003",  # Spinal Metastasis
+        is_extension=True,
+        synonyms=["Prostate cancer metastasis to spine", "Spinal metastasis from prostate cancer",
+                  "Prostatic cancer with spinal metastasis"],
+        korean_term="전립선암 척추 전이",
+    ),
+    "Renal Cancer Metastasis": SNOMEDMapping(
+        code="900000000000914",
+        term="Metastatic renal cell carcinoma to spine",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="94503003",  # Spinal Metastasis
+        is_extension=True,
+        synonyms=["Renal cancer metastasis to spine", "Spinal metastasis from renal carcinoma",
+                  "Renal cancer metastasis"],
+        korean_term="신장암 척추 전이",
+    ),
+    "Nucleus Pulposus Degeneration": SNOMEDMapping(
+        code="900000000000915",
+        term="Nucleus pulposus degeneration",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="49049000",  # Degenerative Spine Disease
+        is_extension=True,
+        synonyms=["Nucleus pulposus injury", "Nucleus pulposus injury/degeneration",
+                  "Nuclear degeneration", "Intervertebral disc nucleus pulposus degeneration"],
+        korean_term="수핵 변성",
+    ),
+    "Paraspinal Sarcopenia": SNOMEDMapping(
+        code="900000000000916",
+        term="Paraspinal sarcopenia",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="49049000",  # Degenerative Spine Disease
+        is_extension=True,
+        synonyms=["Sarcopenia of paraspinal muscles", "Paraspinal muscle sarcopenia",
+                  "Age-related paraspinal muscle loss"],
+        korean_term="척추 주위근 근감소증",
+    ),
+    "Ligamentum Flavum Calcification": SNOMEDMapping(
+        code="900000000000917",
+        term="Calcification of ligamentum flavum",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000212",  # OLF
+        is_extension=True,
+        synonyms=["Ligamentum flavum calcification", "Calcified ligamentum flavum"],
+        korean_term="황색인대 석회화",
+    ),
+    "Laminar Ossification": SNOMEDMapping(
+        code="900000000000918",
+        term="Ossification of spinal lamina",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="88199009",  # OPLL
+        is_extension=True,
+        synonyms=["Laminar ossification", "Ossification of lamina"],
+        korean_term="척추판 골화",
+    ),
+    "Facet Joint Pain": SNOMEDMapping(
+        code="900000000000919",
+        term="Facet joint pain",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="81680005",  # Facet Arthropathy
+        is_extension=True,
+        synonyms=["Zygapophysial joint pain", "Facet-mediated pain",
+                  "Posterior joint pain", "Facet syndrome", "facet joint pain"],
+        korean_term="후관절 통증",
+    ),
+    "Lumbar Lordosis Loss": SNOMEDMapping(
+        code="900000000000920",
+        term="Loss of lumbar lordosis",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="203672002",  # Flat Back
+        is_extension=True,
+        synonyms=["Lumbar lordosis loss", "Decreased lumbar lordosis",
+                  "lumbar lordosis loss", "Hypolordosis", "Flattening of lumbar spine"],
+        korean_term="요추 전만 소실",
+    ),
+    "Severe Rigid Kyphoscoliosis": SNOMEDMapping(
+        code="900000000000921",
+        term="Severe rigid kyphoscoliosis",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000285",  # Scoliosis
+        is_extension=True,
+        synonyms=["Severe rigid kyphotic scoliosis", "Rigid severe kyphoscoliosis",
+                  "Severe kyphoscoliotic deformity"],
+        korean_term="중증 강직성 후측만증",
+    ),
+    "Vertebral Fracture Due to Myeloma": SNOMEDMapping(
+        code="900000000000922",
+        term="Vertebral fracture due to multiple myeloma",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000294",  # Vertebral Fracture
+        is_extension=True,
+        synonyms=["Vertebral fractures secondary to multiple myeloma",
+                  "Myeloma-related vertebral fracture",
+                  "Pathologic vertebral fracture secondary to multiple myeloma"],
+        korean_term="다발성 골수종 척추 골절",
+    ),
+    "Thoracic Degenerative Pathology": SNOMEDMapping(
+        code="900000000000923",
+        term="Degenerative pathology of thoracic spine",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="49049000",  # Degenerative Spine Disease
+        is_extension=True,
+        synonyms=["Thoracic degenerative disease", "Thoracic degenerative pathology",
+                  "Thoracic spine degeneration", "Degenerative thoracic spondylosis"],
+        korean_term="흉추 퇴행성 질환",
+    ),
+    "Cartilage Degeneration": SNOMEDMapping(
+        code="900000000000924",
+        term="Cartilage degeneration of spine",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="49049000",  # Degenerative Spine Disease
+        is_extension=True,
+        synonyms=["Spinal cartilage degeneration", "Cartilage degeneration",
+                  "Cartilage degradation of spine"],
+        korean_term="척추 연골 변성",
+    ),
+    "Kyphoscoliosis": SNOMEDMapping(
+        code="900000000000925",
+        term="Kyphoscoliosis",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000285",  # Scoliosis
+        is_extension=True,
+        synonyms=["Kyphotic scoliosis", "Combined kyphosis and scoliosis"],
+        korean_term="후측만증",
+    ),
+    "Pseudomeningocele": SNOMEDMapping(
+        code="900000000000926",
+        term="Pseudomeningocele",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000647",  # Surgical Complication
+        is_extension=True,
+        synonyms=["Pseudo-meningocele", "False meningocele",
+                  "Postoperative pseudomeningocele"],
+        korean_term="가성수막류",
+    ),
+    "Osteolysis": SNOMEDMapping(
+        code="900000000000927",
+        term="Osteolysis",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000647",  # Surgical Complication
+        is_extension=True,
+        synonyms=["Bone resorption", "Periprosthetic osteolysis",
+                  "Implant-related osteolysis"],
+        korean_term="골용해",
+    ),
+    "Subsidence": SNOMEDMapping(
+        code="900000000000928",
+        term="Implant subsidence",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000236",  # Cage subsidence
+        is_extension=True,
+        synonyms=["Subsidence", "Implant settling", "Device subsidence"],
+        korean_term="임플란트 침하",
+    ),
+    "Device Migration": SNOMEDMapping(
+        code="900000000000929",
+        term="Device migration",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000244",  # Cage migration
+        is_extension=True,
+        synonyms=["Implant migration", "Device displacement",
+                  "Device wear"],
+        korean_term="기기 이동",
+    ),
+    "S1 Radiculopathy": SNOMEDMapping(
+        code="900000000000930",
+        term="S1 radiculopathy",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="128196005",  # Lumbar Radiculopathy
+        is_extension=True,
+        synonyms=["S1 nerve root compression", "First sacral radiculopathy",
+                  "S1 radiculopathy"],
+        korean_term="S1 신경근병증",
+    ),
+    "Conjoined Nerve Roots": SNOMEDMapping(
+        code="900000000000931",
+        term="Conjoined nerve roots",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000649",  # Congenital Spine Disorder
+        is_extension=True,
+        synonyms=["Conjoined nerve root", "Nerve root anomaly",
+                  "Combined nerve roots"],
+        korean_term="합류 신경근",
+    ),
+    "Apophyseal Ring Separation": SNOMEDMapping(
+        code="900000000000932",
+        term="Apophyseal ring separation",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000643",  # Spinal Trauma
+        is_extension=True,
+        synonyms=["Apophyseal ring fracture", "Ring apophysis separation",
+                  "Delayed apophyseal ring maturation"],
+        korean_term="골단환 분리",
+    ),
+    "Lumbar Spine Fracture": SNOMEDMapping(
+        code="900000000000933",
+        term="Lumbar spine fracture",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000294",  # Vertebral Fracture
+        is_extension=True,
+        synonyms=["Lumbar vertebral fracture", "Lumbar fracture"],
+        korean_term="요추 골절",
+    ),
+    "Annulus Fibrosus Microdamage": SNOMEDMapping(
+        code="900000000000934",
+        term="Annulus fibrosus microdamage",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="49049000",  # Degenerative Spine Disease
+        is_extension=True,
+        synonyms=["Annular microdamage", "Annulus fibrosus tear",
+                  "Annulus fibrosus microdamage"],
+        korean_term="섬유윤 미세손상",
+    ),
+    "Cervical Lordosis Loss": SNOMEDMapping(
+        code="900000000000935",
+        term="Loss of cervical lordosis",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000642",  # Spinal Deformity
+        is_extension=True,
+        synonyms=["loss of cervical lordosis", "Cervical lordosis loss",
+                  "Cervical kyphotic deformity", "Decreased cervical lordosis"],
+        korean_term="경추 전만 소실",
     ),
 }
 
@@ -6559,6 +6969,29 @@ SPINE_ANATOMY_SNOMED: dict[str, SNOMEDMapping] = {
         is_extension=True,
         synonyms=["Dural sac", "Dural tube", "Thecal sac compression"],
         korean_term="경막낭",
+    ),
+
+    # ============================================================
+    # v1.25.0: LLM-proposed Anatomy mappings
+    # ============================================================
+    "Pelvis": SNOMEDMapping(
+        code="12921003",
+        term="Pelvis",
+        semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
+        parent_code=None,
+        is_extension=False,
+        synonyms=["Pelvic region", "Pelvic girdle", "Pelvic basin"],
+        korean_term="골반",
+    ),
+    "Coccyx": SNOMEDMapping(
+        code="64688005",
+        term="Coccyx",
+        semantic_type=SNOMEDSemanticType.BODY_STRUCTURE,
+        parent_code=None,
+        is_extension=False,
+        synonyms=["Coccygeal vertebrae", "Tailbone", "Coccygeal region",
+                  "Coccygeal vertebrae (Co2-Co3 implied)"],
+        korean_term="미골",
     ),
 }
 

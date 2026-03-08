@@ -3421,7 +3421,15 @@ class EntityNormalizer:
         "not specifically stated", "not explicitly specified in provided text",
         "not explicitly specified", "not mentioned", "not reported",
         "unspecified", "n/a", "na", "none", "unknown",
+        "not-applicable", "not stated", "single-level", "spinal",
+        "not specified in text",
     }
+
+    # Placeholder patterns for all entity types (import-time filtering)
+    _PLACEHOLDER_RE = re.compile(
+        r"(?i)^(not\s+(specified|applicable|explicitly|specifically|stated)|"
+        r"not-applicable|unspecified|n/?a$|none$|unknown$)",
+    )
 
     # 한국어 조사 (Korean particles) - 정규화 시 제거할 조사들
     KOREAN_PARTICLES = {
@@ -3968,12 +3976,12 @@ class EntityNormalizer:
         # 한국어 해부학 용어 변환 (우선)
         stripped = text.strip()
 
-        # v1.20.2: Vague/non-specified terms → low confidence
-        if stripped.lower() in self._ANATOMY_VAGUE_TERMS:
+        # v1.20.2+: Vague/non-specified terms → confidence 0 (skip at import)
+        if stripped.lower() in self._ANATOMY_VAGUE_TERMS or self._PLACEHOLDER_RE.match(stripped):
             return NormalizationResult(
                 original=text,
                 normalized=text,
-                confidence=0.1,
+                confidence=0.0,
                 method="vague_term"
             )
 

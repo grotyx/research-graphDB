@@ -1024,7 +1024,11 @@ class RelationshipBuilder:
         for name in (spine_metadata.anatomy_levels or []):
             if isinstance(name, str) and name.strip():
                 norm = self.normalizer.normalize_anatomy(name.strip())
-                entities.append({"name": norm.normalized if norm else name.strip(), "label": "Anatomy"})
+                # Skip vague/placeholder anatomy (confidence=0)
+                if norm and norm.confidence > 0:
+                    entities.append({"name": norm.normalized, "label": "Anatomy"})
+                elif not norm:
+                    entities.append({"name": name.strip(), "label": "Anatomy"})
         for outcome in (spine_metadata.outcomes or []):
             o_name = outcome.get("name", "") if isinstance(outcome, dict) else getattr(outcome, "name", "")
             if o_name and o_name.strip():

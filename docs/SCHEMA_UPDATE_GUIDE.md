@@ -20,6 +20,8 @@
 | **Ontology Builder** | parent_code 기반 IS_A 계층 일괄 구축 | `scripts/build_ontology.py` |
 | **Ontology Repairer** | 온톨로지 무결성 수복 (IS_A/SNOMED/TREATS) | `scripts/repair_ontology.py` |
 | **SNOMED Proposer** | 미등록 용어 LLM 매핑 제안 | `src/ontology/snomed_proposer.py` |
+| **Entity Normalizer** | Import-time 정규화 (placeholder 차단, 별칭 매핑) | `src/graph/entity_normalizer.py` |
+| **Normalize Script** | Post-import 일괄 정규화 (중복 병합, IS_A 링크) | `scripts/normalize_entities.py` |
 
 ### IS_A 계층 구조 (v1.24.0)
 
@@ -71,19 +73,29 @@ v1.24.0부터 4개 엔티티 타입 모두에 IS_A 계층이 적용됩니다:
                             ↓
 ┌─────────────────────────────────────────────────────────────┐
 │  5. 온톨로지 무결성 수복 (선택, v1.24.0)                      │
-│     python scripts/repair_ontology.py --dry-run              │
+│     python scripts/repair_ontology.py --force                │
 │     ├── IS_A 누락 관계 복구                                   │
 │     ├── SNOMED 코드 누락 노드 보강                            │
 │     ├── TREATS backfill                                       │
-│     └── 순환 참조 / 중복 감지                                  │
+│     └── Outcome variant IS_A 연결                             │
 └─────────────────────────────────────────────────────────────┘
                             ↓
 ┌─────────────────────────────────────────────────────────────┐
-│  6. 검증                                                     │
+│  6. 엔티티 정규화 (v1.25.0)                                   │
+│     python scripts/normalize_entities.py --force              │
+│     ├── 대소문자 중복 병합 (case-merge)                       │
+│     ├── 쓰레기/placeholder 노드 정리 (garbage)               │
+│     ├── Outcome variant IS_A 링크 (outcome-variants)         │
+│     └── 비도메인 브랜드 Outcome 제거 (outcome-brands)        │
+└─────────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────────┐
+│  7. 검증                                                     │
 │     ├── SNOMED 커버리지 확인 (report 명령)                    │
 │     ├── IS_A 관계 수 확인 (4개 엔티티 타입)                   │
 │     ├── TREATS 관계 수 확인                                   │
-│     └── 온톨로지 무결성 검증 (repair_ontology report)         │
+│     ├── 온톨로지 무결성 검증 (repair_ontology report)         │
+│     └── 정규화 상태 확인 (normalize_entities report)         │
 └─────────────────────────────────────────────────────────────┘
 ```
 

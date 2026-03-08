@@ -266,6 +266,7 @@ rag_research/
 | `scripts/repair_missing_chunks.py` | HAS_CHUNK 누락 Paper 복구 (`--dry-run`, `--paper-ids`, `--max-concurrent` 지원) |
 | `scripts/build_ontology.py` | IS_A 계층 일괄 구축 (`--dry-run`, `--force`, `--entity-type`) |
 | `scripts/repair_ontology.py` | 온톨로지 무결성 수복 (`--dry-run`, `--force`, `--entity-type`) |
+| `scripts/normalize_entities.py` | 엔티티 정규화 (중복 병합, 쓰레기 정리, Outcome IS_A 링크, `--dry-run`, `--force`, `--phase`) |
 
 ## Documentation
 
