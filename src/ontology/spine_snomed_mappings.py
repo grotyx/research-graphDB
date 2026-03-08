@@ -6493,6 +6493,19 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         abbreviations=["SCPP"],
         korean_term="척수 관류 측정",
     ),
+
+    # ============================================================
+    # v1.25.0: AI/ML Performance Outcome taxonomy root
+    # ============================================================
+    "AI/ML Performance Outcome": SNOMEDMapping(
+        code="900000000000809",
+        term="AI/ML performance outcome measure",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        is_extension=True,
+        synonyms=["AI performance", "Machine learning performance",
+                  "Model performance metric"],
+        korean_term="AI/ML 성능 결과",
+    ),
 }
 
 
