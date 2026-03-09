@@ -376,6 +376,104 @@ echo "Edit .env with your API keys, then run:" && \
 echo "docker-compose up -d && sleep 30 && python scripts/init_neo4j.py && streamlit run web/app.py"
 ```
 
+## Git 듀얼 리모트 운영 (Private + Public)
+
+하나의 로컬 폴더에서 Private/Public 두 GitHub repo를 동시에 관리합니다.
+
+### 리모트 구성
+
+| 리모트 | 용도 | URL |
+|--------|------|-----|
+| `origin` | Private (전체 히스토리) | `https://github.com/grotyx/medical_kag.git` |
+| `public` | Public (깨끗한 히스토리) | `https://github.com/grotyx/research-graphDB.git` |
+
+### 브랜치 구성
+
+| 브랜치 | 용도 |
+|--------|------|
+| `main` | 일상 개발 브랜치. `origin`(private)에 push |
+| `public-release` | public repo 전용 orphan 브랜치. `public` remote에 push |
+
+### 일상 작업 흐름 (Private만)
+
+평소에는 `main` 브랜치에서 작업하고 private repo에만 push합니다.
+
+```bash
+# 평소 작업
+git add <files>
+git commit -m "변경 내용"
+git push origin main
+```
+
+### Public 업데이트 (필요할 때만)
+
+버전 릴리스, 주요 기능 추가 등 공개할 때만 실행합니다.
+
+```bash
+# Step 1: public-release 브랜치로 전환
+git checkout public-release
+
+# Step 2: main의 최신 코드 전체를 가져오기
+git checkout main -- .
+
+# Step 3: public에 포함하면 안 되는 파일 제거
+git rm --cached -r --ignore-unmatch \
+  user-claude.md \
+  .claude/ \
+  data/extracted/ \
+  2>/dev/null
+
+# Step 4: public용 .gitignore 적용 (개인 파일 제외 항목 추가)
+# .gitignore에 user-claude.md, .claude/ 가 없으면 임시 추가
+grep -q "user-claude.md" .gitignore || echo -e "\n# Personal/Claude config\nuser-claude.md\n.claude/" >> .gitignore
+git add .gitignore
+
+# Step 5: 커밋 & push
+git add -A
+git commit -m "Update to vX.Y.Z: 변경 요약"
+git push public public-release:main
+
+# Step 6: main 브랜치로 복귀
+git checkout main
+
+# Step 7: .gitignore 원복 (orphan에서 수정한 경우)
+git checkout -- .gitignore
+```
+
+### 주의사항
+
+- **절대로 `main` 브랜치를 `public` remote에 push하지 마세요** — 과거 히스토리(비밀번호 포함)가 노출됩니다
+- Public에는 반드시 `public-release` 브랜치만 push
+- `data/extracted/` (논문 JSON), `user-claude.md`, `.claude/`는 public에 올리지 않음
+- `.env`는 양쪽 모두 `.gitignore`로 제외됨 (안전)
+
+### 빠른 참조 (한 줄 명령)
+
+```bash
+# Public 업데이트 전체를 한 번에 실행
+git checkout public-release && \
+git checkout main -- . && \
+git rm --cached -r --ignore-unmatch user-claude.md .claude/ data/extracted/ 2>/dev/null; \
+grep -q "user-claude.md" .gitignore || echo -e "\n# Personal/Claude config\nuser-claude.md\n.claude/" >> .gitignore; \
+git add -A && \
+git commit -m "Update to vX.Y.Z" && \
+git push public public-release:main && \
+git checkout main && \
+git checkout -- .gitignore
+```
+
+### 리모트 확인
+
+```bash
+git remote -v
+# origin  https://github.com/grotyx/medical_kag.git (fetch)
+# origin  https://github.com/grotyx/medical_kag.git (push)
+# public  https://github.com/grotyx/research-graphDB.git (fetch)
+# public  https://github.com/grotyx/research-graphDB.git (push)
+```
+
+---
+
 ## 관련 문서
 
 | 문서 | 용도 |
