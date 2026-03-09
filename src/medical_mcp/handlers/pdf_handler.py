@@ -49,6 +49,7 @@ class PDFHandler(BaseHandler):
     # Main PDF Processing Methods
     # ========================================================================
 
+    @safe_execute
     async def add_pdf(
         self,
         file_path: str,
@@ -71,16 +72,9 @@ class PDFHandler(BaseHandler):
         Returns:
             처리 결과 딕셔너리
         """
-        path = Path(file_path).resolve()
-
-        # v1.15: Path traversal 방지 — 허용 디렉토리 검증
-        allowed_dirs = [
-            Path(self.server.project_root / "data").resolve() if hasattr(self.server, 'project_root') else None,
-            Path.cwd().resolve(),
-        ]
-        if not any(d and str(path).startswith(str(d)) for d in allowed_dirs if d):
-            logger.warning(f"Path traversal attempt blocked: {file_path}")
-            return {"success": False, "error": "접근 불가: 허용된 디렉토리 외부 경로입니다"}
+        path, error = self.validate_file_path(file_path)
+        if error:
+            return error
 
         if not path.exists():
             return {"success": False, "error": f"파일 없음: {file_path}"}
@@ -105,6 +99,7 @@ class PDFHandler(BaseHandler):
             logger.exception(f"Error adding PDF: {e}")
             return {"success": False, "error": str(e)}
 
+    @safe_execute
     async def analyze_text(
         self,
         text: str,
@@ -364,6 +359,7 @@ class PDFHandler(BaseHandler):
     # PDF Preparation and Analysis Methods
     # ========================================================================
 
+    @safe_execute
     async def prepare_pdf_prompt(self, file_path: str) -> dict:
         """PDF에서 텍스트를 추출하고 분석용 프롬프트를 반환합니다.
 
@@ -550,6 +546,7 @@ Return ONLY valid JSON, no additional text.'''
             logger.exception(f"Error preparing PDF prompt: {e}")
             return {"success": False, "error": str(e)}
 
+    @safe_execute
     async def store_analyzed_paper(
         self,
         title: str,

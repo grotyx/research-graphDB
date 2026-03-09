@@ -7,40 +7,68 @@ import hashlib
 import json
 import logging
 import sqlite3
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Optional
 
 import numpy as np
 
+from cache.base_stats import BaseCacheStats
+
 logger = logging.getLogger(__name__)
 
 
-@dataclass
-class EmbeddingCacheStats:
+class EmbeddingCacheStats(BaseCacheStats):
     """Embedding cache statistics.
+
+    Inherits hits, misses, hit_rate from BaseCacheStats.
+    Accepts hit_count/miss_count as backward-compatible aliases
+    in constructor (mapped to hits/misses).
 
     Attributes:
         total_entries: Total cached embeddings
         total_size_mb: Approximate disk usage (MB)
-        hit_count: Number of cache hits
-        miss_count: Number of cache misses
         avg_embedding_size: Average embedding dimension
     """
-    total_entries: int = 0
-    total_size_mb: float = 0.0
-    hit_count: int = 0
-    miss_count: int = 0
-    avg_embedding_size: int = 0
+
+    def __init__(
+        self,
+        hits: int = 0,
+        misses: int = 0,
+        total_entries: int = 0,
+        total_size_mb: float = 0.0,
+        avg_embedding_size: int = 0,
+        *,
+        hit_count: int | None = None,
+        miss_count: int | None = None,
+    ):
+        # Allow hit_count/miss_count as aliases for hits/misses
+        super().__init__(
+            hits=hit_count if hit_count is not None else hits,
+            misses=miss_count if miss_count is not None else misses,
+        )
+        self.total_entries = total_entries
+        self.total_size_mb = total_size_mb
+        self.avg_embedding_size = avg_embedding_size
 
     @property
-    def hit_rate(self) -> float:
-        """Calculate hit rate."""
-        total = self.hit_count + self.miss_count
-        if total == 0:
-            return 0.0
-        return self.hit_count / total
+    def hit_count(self) -> int:
+        """Backward-compatible alias for hits."""
+        return self.hits
+
+    @hit_count.setter
+    def hit_count(self, value: int) -> None:
+        self.hits = value
+
+    @property
+    def miss_count(self) -> int:
+        """Backward-compatible alias for misses."""
+        return self.misses
+
+    @miss_count.setter
+    def miss_count(self, value: int) -> None:
+        self.misses = value
 
 
 class EmbeddingCache:
@@ -457,10 +485,10 @@ class EmbeddingCache:
                 avg_embedding_size = int(avg_size or 0) // 4  # Rough estimate (float32)
 
                 return EmbeddingCacheStats(
+                    hits=self._hit_count,
+                    misses=self._miss_count,
                     total_entries=total_entries or 0,
                     total_size_mb=total_size_mb,
-                    hit_count=self._hit_count,
-                    miss_count=self._miss_count,
                     avg_embedding_size=avg_embedding_size
                 )
 

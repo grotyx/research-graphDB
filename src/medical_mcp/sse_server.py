@@ -65,8 +65,10 @@ import hmac
 import logging
 import os
 import sys
+import threading
 import time
 import uuid
+from collections import OrderedDict
 from typing import Optional, Dict
 from contextlib import asynccontextmanager
 
@@ -125,6 +127,78 @@ CORS_ORIGINS = os.environ.get(
     "CORS_ORIGINS",
     "http://localhost:3000,http://localhost:8000,http://localhost:8501,http://127.0.0.1:3000,http://127.0.0.1:8000,http://127.0.0.1:8501",
 ).split(",")
+
+# 사용자별 서버 캐시 최대 크기
+MAX_USER_CACHE_SIZE = int(os.environ.get("MCP_MAX_USER_CACHE", "100"))
+
+
+class BoundedLRUCache:
+    """Thread-safe bounded dict with LRU eviction.
+
+    When max_size is reached, the least-recently-used entry is evicted.
+    Access via get() or __contains__ + __getitem__ promotes the key to most-recent.
+    """
+
+    def __init__(self, max_size: int = 100):
+        self._data: OrderedDict = OrderedDict()
+        self._lock = threading.Lock()
+        self._max_size = max_size
+
+    def get(self, key: str, default=None):
+        with self._lock:
+            if key in self._data:
+                self._data.move_to_end(key)
+                return self._data[key]
+            return default
+
+    def __contains__(self, key: str) -> bool:
+        with self._lock:
+            return key in self._data
+
+    def __setitem__(self, key: str, value):
+        with self._lock:
+            if key in self._data:
+                self._data.move_to_end(key)
+                self._data[key] = value
+            else:
+                if len(self._data) >= self._max_size:
+                    evicted_key, evicted_val = self._data.popitem(last=False)
+                    logger.info(f"LRU eviction: cache entry '{evicted_key}' removed (max_size={self._max_size})")
+                self._data[key] = value
+
+    def __getitem__(self, key: str):
+        with self._lock:
+            self._data.move_to_end(key)
+            return self._data[key]
+
+    def __delitem__(self, key: str):
+        with self._lock:
+            del self._data[key]
+
+    def keys(self):
+        with self._lock:
+            return list(self._data.keys())
+
+    def items(self):
+        with self._lock:
+            return list(self._data.items())
+
+    def values(self):
+        with self._lock:
+            return list(self._data.values())
+
+    def pop(self, key: str, *args):
+        with self._lock:
+            return self._data.pop(key, *args)
+
+    def clear(self):
+        with self._lock:
+            self._data.clear()
+
+    def __len__(self) -> int:
+        with self._lock:
+            return len(self._data)
+
 
 # 등록된 사용자 목록 (실제 환경에서는 DB나 설정 파일로 관리)
 REGISTERED_USERS = {
@@ -292,29 +366,41 @@ def get_user_from_scope(scope: dict) -> str:
 def create_app():
     """Create Starlette app with SSE transport and multi-user support."""
 
-    # 사용자별 서버 인스턴스 캐시
-    user_servers: dict[str, MedicalKAGServer] = {}
-    # MCP 서버 캐시
-    mcp_servers: dict[str, any] = {}
+    # 사용자별 서버 인스턴스 캐시 (bounded LRU, thread-safe)
+    user_servers: BoundedLRUCache = BoundedLRUCache(max_size=MAX_USER_CACHE_SIZE)
+    # MCP 서버 캐시 (bounded LRU, thread-safe)
+    mcp_servers: BoundedLRUCache = BoundedLRUCache(max_size=MAX_USER_CACHE_SIZE)
+    # Lock for atomic check-then-create of user server instances
+    _server_create_lock = threading.Lock()
 
     def get_server_for_user(user_id: str) -> MedicalKAGServer:
-        """사용자별 서버 인스턴스 반환 (캐시 사용)."""
-        if user_id not in user_servers:
-            server = MedicalKAGServer(default_user=user_id)
-            user_servers[user_id] = server
-            logger.info(f"Created server instance for user: {user_id}")
+        """사용자별 서버 인스턴스 반환 (캐시 사용, thread-safe)."""
+        server = user_servers.get(user_id)
+        if server is None:
+            with _server_create_lock:
+                # Double-check after acquiring lock
+                server = user_servers.get(user_id)
+                if server is None:
+                    server = MedicalKAGServer(default_user=user_id)
+                    user_servers[user_id] = server
+                    logger.info(f"Created server instance for user: {user_id}")
         else:
             # 이미 생성된 서버의 사용자 컨텍스트 업데이트
-            user_servers[user_id].set_user(user_id)
-        return user_servers[user_id]
+            server.set_user(user_id)
+        return server
 
     def get_mcp_server_for_user(user_id: str):
-        """사용자별 MCP 서버 인스턴스 반환 (캐시 사용)."""
-        if user_id not in mcp_servers:
-            kag_server = get_server_for_user(user_id)
-            mcp_servers[user_id] = create_mcp_server(kag_server)
-            logger.info(f"Created MCP server for user: {user_id}")
-        return mcp_servers[user_id]
+        """사용자별 MCP 서버 인스턴스 반환 (캐시 사용, thread-safe)."""
+        mcp_server = mcp_servers.get(user_id)
+        if mcp_server is None:
+            with _server_create_lock:
+                mcp_server = mcp_servers.get(user_id)
+                if mcp_server is None:
+                    kag_server = get_server_for_user(user_id)
+                    mcp_server = create_mcp_server(kag_server)
+                    mcp_servers[user_id] = mcp_server
+                    logger.info(f"Created MCP server for user: {user_id}")
+        return mcp_server
 
     # SSE transport 생성
     sse_transport = SseServerTransport("/messages")
@@ -649,16 +735,22 @@ def create_streamable_http_app():
     # Session state: session_id -> {transport, task, user_id}
     _sessions: Dict[str, dict] = {}
 
-    # 사용자별 서버 인스턴스 캐시
-    user_servers: dict[str, MedicalKAGServer] = {}
-    mcp_servers: dict[str, any] = {}
+    # 사용자별 서버 인스턴스 캐시 (bounded LRU, thread-safe)
+    user_servers: BoundedLRUCache = BoundedLRUCache(max_size=MAX_USER_CACHE_SIZE)
+    mcp_servers: BoundedLRUCache = BoundedLRUCache(max_size=MAX_USER_CACHE_SIZE)
+    _server_create_lock = threading.Lock()
 
     def get_mcp_server_for_user(user_id: str):
-        if user_id not in user_servers:
-            user_servers[user_id] = MedicalKAGServer(default_user=user_id)
-        if user_id not in mcp_servers:
-            mcp_servers[user_id] = create_mcp_server(user_servers[user_id])
-        return mcp_servers[user_id]
+        mcp_server = mcp_servers.get(user_id)
+        if mcp_server is None:
+            with _server_create_lock:
+                mcp_server = mcp_servers.get(user_id)
+                if mcp_server is None:
+                    if user_id not in user_servers:
+                        user_servers[user_id] = MedicalKAGServer(default_user=user_id)
+                    mcp_server = create_mcp_server(user_servers[user_id])
+                    mcp_servers[user_id] = mcp_server
+        return mcp_server
 
     async def handle_mcp(request: Request):
         """Streamable HTTP endpoint - handles all MCP communication."""
@@ -706,7 +798,7 @@ def create_streamable_http_app():
                 except asyncio.CancelledError:
                     pass
                 except Exception as e:
-                    logger.error(f"Session {session_id[:8]}... error: {e}")
+                    logger.error(f"Session {session_id[:8]}... error: {e}", exc_info=True)
                 finally:
                     connected_event.set()  # 에러 시에도 대기 해제
                     _sessions.pop(session_id, None)

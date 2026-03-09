@@ -1177,6 +1177,64 @@ class EntityNormalizer:
             "Cement discoplasty", "PMMA discoplasty",
             "경피적 시멘트 추간판 성형술",
         ],
+
+        # ========================================
+        # v1.25.0: SNOMED Orphan Sync (QC-2026-008) — Intervention
+        # ========================================
+        "AI-Assisted Procedure": [
+            "AI-assisted procedure", "AI-assisted surgery",
+            "AI-guided procedure",
+        ],
+        "AI-based Cobb Angle Measurement": [
+            "AI-based cobb angle measurement", "AI Cobb angle",
+        ],
+        "Artificial Intelligence": [
+            "artificial intelligence", "AI", "AI application",
+        ],
+        "Automated Spinopelvic Parameter Measurement": [
+            "automated spinopelvic parameter measurement",
+            "automated spinopelvic measurement",
+        ],
+        "Bone Resection": [
+            "bone resection", "Bony resection",
+            "Vertebral resection",
+        ],
+        "Cobb Angle Measurement": [
+            "cobb angle measurement", "Cobb angle",
+            "Cobb measurement",
+        ],
+        "Convolutional Neural Network": [
+            "convolutional neural network", "CNN",
+        ],
+        "Deep Learning": [
+            "deep learning", "DL", "Deep learning model",
+        ],
+        "Deep Learning Landmark Detection": [
+            "deep learning landmark detection",
+            "DL landmark detection",
+        ],
+        "Deep Learning Segmentation": [
+            "deep learning segmentation", "DL segmentation",
+            "Automated segmentation",
+        ],
+        "Keypoint Detection Model": [
+            "keypoint detection model", "Keypoint detection",
+        ],
+        "Open Spine Surgery": [
+            "open spine surgery", "Open surgery",
+            "Open spinal surgery", "개방 척추 수술",
+        ],
+        "Sagittal Correction": [
+            "sagittal correction", "Sagittal realignment",
+            "Sagittal balance correction",
+        ],
+        "ULIF": [
+            "Unilateral Lumbar Interbody Fusion",
+            "unilateral lumbar interbody fusion",
+        ],
+        # Note: These SNOMED keys are already reachable as aliases of other canonicals
+        # (no need for separate canonical entries — would cause last-write-wins conflicts):
+        # "Posterior Column Osteotomy" → alias of SPO
     }
 
     # 수술법 카테고리 매핑 (정규화된 이름 → 카테고리)
@@ -1413,6 +1471,21 @@ class EntityNormalizer:
         "3D-Printed Implant": "Other Surgical",
         "Endoscopic Posterior Fusion": "Endoscopic Surgery",
         "Percutaneous Cement Discoplasty": "Other Surgical",
+        # v1.25.0: SNOMED Orphan Sync (QC-2026-008)
+        "AI-Assisted Procedure": "Navigation/Robotics",
+        "AI-based Cobb Angle Measurement": "Diagnostic",
+        "Artificial Intelligence": "Diagnostic",
+        "Automated Spinopelvic Parameter Measurement": "Diagnostic",
+        "Bone Resection": "Decompression Surgery",
+        "Cobb Angle Measurement": "Diagnostic",
+        "Convolutional Neural Network": "Diagnostic",
+        "Deep Learning": "Diagnostic",
+        "Deep Learning Landmark Detection": "Diagnostic",
+        "Deep Learning Segmentation": "Diagnostic",
+        "Keypoint Detection Model": "Diagnostic",
+        "Open Spine Surgery": "Other Surgical",
+        "Sagittal Correction": "Osteotomy",
+        "ULIF": "Interbody Fusion",
     }
 
     # 결과변수 별칭 매핑
@@ -2384,6 +2457,18 @@ class EntityNormalizer:
         "Spinopelvic Parameter": ["spinopelvic parameter", "Spinopelvic alignment"],
         # Note: "PJK Incidence" SNOMED key covered by PJK aliases (last-write-wins safe)
         "Screw Malposition": ["screw malposition", "Screw malpositioning", "Pedicle breach"],
+
+        # ========================================
+        # v1.25.0: SNOMED Orphan Sync (QC-2026-008) — Outcome
+        # ========================================
+        "AI/ML Performance Outcome": [
+            "AI/ML performance outcome", "AI performance",
+            "ML performance", "Model performance outcome",
+        ],
+        # Note: These SNOMED keys are already reachable as aliases of other canonicals
+        # (no need for separate canonical entries — would cause last-write-wins conflicts):
+        # "DVT" → alias of Deep Vein Thrombosis
+        # "PJK Incidence" → alias of PJK
     }
 
     # 질환명 별칭 매핑
@@ -3293,6 +3378,126 @@ class EntityNormalizer:
         "Vertebral Fracture (Category)": [],  # IS_A root category
         # Note: "Distal Junctional Failure" SNOMED key covered by DJK aliases (last-write-wins safe)
         "Neurogenic claudication": [],  # SNOMED key variant (cf. Neurogenic Claudication)
+
+        # ========================================
+        # v1.25.0: SNOMED Orphan Sync (QC-2026-008) — Pathology
+        # ========================================
+        "Annulus Fibrosus Microdamage": [
+            "annulus fibrosus microdamage", "Annular microdamage",
+            "AF microdamage",
+        ],
+        "Apophyseal Ring Separation": [
+            "apophyseal ring separation", "Ring apophysis separation",
+            "Apophyseal ring fracture",
+        ],
+        "Breast Cancer Metastasis": [
+            "breast cancer metastasis", "Breast cancer spine metastasis",
+            "유방암 척추 전이",
+        ],
+        "Cartilage Degeneration": [
+            "cartilage degeneration", "Cartilage degradation",
+            "연골 퇴행",
+        ],
+        "Cervical Lordosis Loss": [
+            "cervical lordosis loss", "Loss of cervical lordosis",
+            "경추 전만 소실",
+        ],
+        "Conjoined Nerve Roots": [
+            "conjoined nerve roots", "Conjoined nerve root",
+            "Conjoined root anomaly",
+        ],
+        "Device Migration": [
+            "device migration", "Implant migration",
+            "Cage migration", "기기 이동",
+        ],
+        "Eosinophilic Granuloma": [
+            "eosinophilic granuloma",
+            "호산구성 육아종",
+        ],
+        "Facet Joint Pain": [
+            "facet joint pain", "Facet pain",
+            "Facet syndrome", "후관절 통증",
+        ],
+        "Kyphoscoliosis": [
+            "kyphoscoliosis", "Kypho-scoliosis",
+            "후만측만증",
+        ],
+        "Laminar Ossification": [
+            "laminar ossification",
+            "Ossification of lamina",
+        ],
+        "Langerhans Cell Histiocytosis": [
+            "langerhans cell histiocytosis", "LCH",
+            "Histiocytosis X", "랑게르한스세포 조직구증",
+        ],
+        "Ligamentum Flavum Calcification": [
+            "ligamentum flavum calcification",
+            "Calcified ligamentum flavum", "LF calcification",
+            "황색인대 석회화",
+        ],
+        "Lumbar Lordosis Loss": [
+            "lumbar lordosis loss", "요추 전만 소실",
+        ],
+        "Lumbar Spine Fracture": [
+            "lumbar spine fracture", "Lumbar fracture",
+            "Lumbar vertebral fracture", "요추 골절",
+        ],
+        "Nucleus Pulposus Degeneration": [
+            "nucleus pulposus degeneration", "NP degeneration",
+            "수핵 퇴행",
+        ],
+        "Osteolysis": [
+            "osteolysis", "Bone resorption",
+            "Peri-implant osteolysis", "골용해",
+        ],
+        "Paraspinal Sarcopenia": [
+            "paraspinal sarcopenia", "척추주위근 감소증",
+        ],
+        "Prostate Cancer Metastasis": [
+            "prostate cancer metastasis", "Prostate cancer spine metastasis",
+            "전립선암 척추 전이",
+        ],
+        "Pseudomeningocele": [
+            "pseudomeningocele", "Pseudo-meningocele",
+            "가성수막류",
+        ],
+        "Renal Cancer Metastasis": [
+            "renal cancer metastasis", "Renal cell carcinoma spine metastasis",
+            "Kidney cancer spine metastasis", "신장암 척추 전이",
+        ],
+        "S1 Radiculopathy": [
+            "S1 radiculopathy", "S1 nerve root compression",
+            "S1 root pain",
+        ],
+        "Severe Rigid Kyphoscoliosis": [
+            "severe rigid kyphoscoliosis",
+            "Rigid kyphoscoliosis",
+        ],
+        "Subsidence": [
+            "subsidence", "Cage subsidence",
+            "Implant subsidence", "케이지 침강",
+        ],
+        "Thoracic Degenerative Pathology": [
+            "thoracic degenerative pathology",
+            "Thoracic degeneration", "흉추 퇴행성 질환",
+        ],
+        "Vertebral Fracture Due to Myeloma": [
+            "vertebral fracture due to myeloma",
+            "Myeloma vertebral fracture",
+            "Multiple myeloma spine fracture",
+            "골수종 척추 골절",
+        ],
+        # Note: These SNOMED keys are already reachable as aliases of other canonicals
+        # (no need for separate canonical entries — would cause last-write-wins conflicts):
+        # "Adult Spinal Deformity" → alias of ASD
+        # "Disc Herniation" → alias of Lumbar Disc Herniation
+        # "Distal Junctional Failure" → alias of DJK
+        # "Nonunion" → alias of Pseudarthrosis
+        # "PJF" → alias of PJK
+        # "Proximal Junctional Failure" → alias of PJK
+        # "Proximal Junctional Kyphosis" → alias of PJK
+        # "Spinal Infection" → alias of Spondylodiscitis
+        # "Spinal Stenosis" → alias of Lumbar Stenosis
     }
 
     # v1.16.1: 해부학 위치 별칭 (Anatomy Aliases)
@@ -3412,6 +3617,12 @@ class EntityNormalizer:
         # IS_A hierarchy root/category nodes (QC-2026-004)
         # ========================================
         "Spine": ["spine", "Spinal column", "Vertebral column", "척추"],
+
+        # ========================================
+        # v1.25.0: SNOMED Orphan Sync (QC-2026-008) — Anatomy
+        # ========================================
+        "Coccyx": ["coccyx", "Coccygeal", "Tailbone", "미추", "미골"],
+        "Pelvis": ["pelvis", "Pelvic", "Pelvic bone", "골반"],
     }
 
     # v1.20.2: Anatomy terms that indicate non-specified/vague location

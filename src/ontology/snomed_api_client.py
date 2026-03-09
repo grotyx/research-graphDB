@@ -17,6 +17,7 @@ API Documentation:
 Version: 1.0.0
 """
 
+from collections import OrderedDict
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
@@ -169,6 +170,9 @@ class SNOMEDAPIClient:
     # Cache TTL (time to live)
     CACHE_TTL = timedelta(hours=24)
 
+    # Maximum cache entries (size-based eviction)
+    MAX_CACHE_SIZE = 1000
+
     def __init__(
         self,
         base_url: Optional[str] = None,
@@ -200,8 +204,9 @@ class SNOMEDAPIClient:
         self.timeout = timeout
         self.enable_cache = enable_cache
 
-        # Result cache: {cache_key: (result, timestamp)}
-        self._cache: dict[str, tuple[any, datetime]] = {}
+        # Result cache: OrderedDict for LRU-style eviction
+        # {cache_key: (result, timestamp)} — insertion order tracks age
+        self._cache: OrderedDict[str, tuple[any, datetime]] = OrderedDict()
 
         # HTTP client (created in __aenter__)
         self._client: Optional[httpx.AsyncClient] = None
@@ -237,12 +242,14 @@ class SNOMEDAPIClient:
         return f"{operation}:{':'.join(str(a) for a in args)}"
 
     def _get_cached(self, key: str) -> Optional[any]:
-        """Get cached result if valid."""
+        """Get cached result if valid. Moves accessed entry to end (LRU)."""
         if not self.enable_cache or key not in self._cache:
             return None
 
         result, timestamp = self._cache[key]
         if datetime.now() - timestamp < self.CACHE_TTL:
+            # Move to end so least-recently-used entries stay at the front
+            self._cache.move_to_end(key)
             return result
 
         # Cache expired
@@ -250,9 +257,26 @@ class SNOMEDAPIClient:
         return None
 
     def _set_cached(self, key: str, result: any):
-        """Set cached result."""
-        if self.enable_cache:
+        """Set cached result with size-based eviction.
+
+        If the cache exceeds MAX_CACHE_SIZE, evicts the least-recently-used
+        (oldest) entry from the front of the OrderedDict.
+        """
+        if not self.enable_cache:
+            return
+
+        # If key already exists, update in place and move to end
+        if key in self._cache:
             self._cache[key] = (result, datetime.now())
+            self._cache.move_to_end(key)
+            return
+
+        # Evict oldest entries if at capacity
+        while len(self._cache) >= self.MAX_CACHE_SIZE:
+            evicted_key, _ = self._cache.popitem(last=False)
+            logger.debug(f"Cache evicted (size limit): {evicted_key}")
+
+        self._cache[key] = (result, datetime.now())
 
     async def search_concepts(
         self,

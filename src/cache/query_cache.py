@@ -11,6 +11,8 @@ from collections import OrderedDict
 from dataclasses import dataclass, field
 from typing import Any, Optional
 
+from cache.base_stats import BaseCacheStats
+
 logger = logging.getLogger(__name__)
 
 
@@ -44,31 +46,21 @@ class CacheEntry:
 
 
 @dataclass
-class CacheStats:
+class CacheStats(BaseCacheStats):
     """Cache statistics.
 
+    Inherits hits, misses, hit_rate from BaseCacheStats.
+
     Attributes:
-        hits: Number of cache hits
-        misses: Number of cache misses
         entries: Current number of entries
         evictions: Number of evictions (LRU)
         expirations: Number of expired entries removed
         total_size_bytes: Approximate memory usage
     """
-    hits: int = 0
-    misses: int = 0
     entries: int = 0
     evictions: int = 0
     expirations: int = 0
     total_size_bytes: int = 0
-
-    @property
-    def hit_rate(self) -> float:
-        """Calculate hit rate."""
-        total = self.hits + self.misses
-        if total == 0:
-            return 0.0
-        return self.hits / total
 
 
 class QueryCache:

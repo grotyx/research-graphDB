@@ -12,7 +12,7 @@ PDF/Text → Claude Haiku → SpineMetadata Extraction
               Neo4j (Graph + Vector Unified)
               ├── Graph: Paper, Pathology, Intervention, Outcome, Anatomy
               ├── Vector: HNSW Index (3072d OpenAI embeddings)
-              ├── Ontology: SNOMED-CT IS_A hierarchy (653 mappings)
+              ├── Ontology: SNOMED-CT IS_A hierarchy (696 mappings)
               └── Single Cypher Query: Graph Filter + Vector Search
                               ↓
               Hybrid Ranker (Semantic 0.4 + Authority 0.3 + Graph 0.3)
@@ -21,7 +21,7 @@ PDF/Text → Claude Haiku → SpineMetadata Extraction
 ## Key Features
 
 - **Neo4j 단일 저장소**: Graph + Vector (HNSW 3072d) 통합 검색
-- **SNOMED-CT 온톨로지**: 653개 매핑 (I:204, P:188, O:194, A:67), 4개 엔티티 IS_A 계층
+- **SNOMED-CT 온톨로지**: 696개 매핑 (I:218, P:214, O:195, A:69), 4개 엔티티 IS_A 계층
 - **Claude Haiku 4.5 기반** PDF/텍스트 분석 + Gemini 폴백
 - **다중 홉 그래프 순회**: Evidence chain, Intervention 비교, Best evidence 검색
 - **Evidence-based Ranking**: p-value, effect size, evidence level 기반 3-way 랭킹
@@ -109,7 +109,7 @@ rag_research/
 │   ├── medical_mcp/     # MCP 서버 + 11개 도메인 핸들러
 │   ├── core/            # 설정/로깅/예외/임베딩
 │   ├── cache/           # 캐싱 (query, embedding, semantic)
-│   ├── ontology/        # SNOMED-CT 온톨로지 (653개 매핑)
+│   ├── ontology/        # SNOMED-CT 온톨로지 (696개 매핑)
 │   ├── orchestrator/    # 쿼리 라우팅/Cypher 생성
 │   └── external/        # 외부 API (PubMed)
 ├── web/                 # Streamlit UI

@@ -531,10 +531,9 @@ class TestEdgeCases:
 
     @pytest.mark.asyncio
     async def test_none_section_input(self, handler):
-        # Handler doesn't validate None - it will raise AttributeError
-        # This is acceptable since the input should be validated at a higher level
-        with pytest.raises(AttributeError):
-            result = await handler.get_section_guide(None)
+        # @safe_execute catches AttributeError and returns error dict
+        result = await handler.get_section_guide(None)
+        assert result["success"] is False
 
     @pytest.mark.asyncio
     async def test_empty_string_section(self, handler):

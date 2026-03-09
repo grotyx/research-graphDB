@@ -264,11 +264,11 @@ final_score = 0.4 * semantic_score + 0.3 * authority_score + 0.3 * graph_relevan
 
 | Category | Total | Official SNOMED | Extension Codes |
 |----------|-------|-----------------|-----------------|
-| Intervention | 204 | 53 | 151 |
-| Pathology | 188 | 73 | 115 |
-| Outcome | 194 | 38 | 156 |
-| Anatomy | 67 | 27 | 40 |
-| **Total** | **653** | **191** | **462** |
+| Intervention | 218 | 53 | 165 |
+| Pathology | 214 | 73 | 141 |
+| Outcome | 195 | 38 | 157 |
+| Anatomy | 69 | 29 | 40 |
+| **Total** | **696** | **193** | **503** |
 
 ### 주요 매핑 카테고리
 
@@ -391,7 +391,7 @@ Epidural Hematoma: 900000000000505
 | **SNOMED 노드** | 별도 `:SNOMED_Concept` 노드 생성 | 도메인 노드에 `snomed_code` 속성 내장 |
 | **연결 방식** | `(:Entity)-[:HAS_SNOMED_CONCEPT]->(:SNOMED_Concept)` 엣지 | `snomed_code` / `snomed_term` 속성 필터 |
 | **IS_A 계층** | `(:SNOMED_Concept)-[:IS_A]->(:SNOMED_Concept)` (개념 간) | `(:Intervention)-[:IS_A]->(:Intervention)` (동일 레이블 내) |
-| **데이터 소스** | RF2 전체 import (36만+ 개념) | Python dict 653개 도메인 특화 매핑 |
+| **데이터 소스** | RF2 전체 import (36만+ 개념) | Python dict 696개 도메인 특화 매핑 |
 | **검색 연동** | SNOMED_Concept 그래프 경로 탐색 | 속성 필터 + IS_A 다중 홉 확장 |
 
 ### 노드 구조 비교
@@ -460,7 +460,7 @@ ORDER BY score DESC
 |------|------|
 | **단순성** | 별도 SNOMED 노드 계층 없이 도메인 노드만으로 그래프 구성 |
 | **단일 저장소** | Neo4j 하나에 Graph + Vector 통합, 별도 SNOMED 트리플 스토어 불필요 |
-| **도메인 특화** | 36만+ RF2 전체 대신 척추 외과 653개 핵심 개념만 관리 |
+| **도메인 특화** | 36만+ RF2 전체 대신 척추 외과 696개 핵심 개념만 관리 |
 | **Vector+Graph 통합** | 벡터 유사도 검색과 IS_A 계층 탐색을 단일 Cypher 쿼리에서 처리 |
 
 #### 단점

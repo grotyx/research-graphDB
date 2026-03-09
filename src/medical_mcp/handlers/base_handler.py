@@ -9,6 +9,7 @@ Provides common functionality shared across all handlers:
 
 import logging
 import functools
+from pathlib import Path
 from typing import Any, Callable, Optional, TYPE_CHECKING
 
 from core.exceptions import Neo4jError, ValidationError, ErrorCode
@@ -40,6 +41,31 @@ class BaseHandler:
         self._require_neo4j()
         if not self.neo4j_client._driver:
             await self.neo4j_client.connect()
+
+    def validate_file_path(self, file_path: str) -> tuple[Optional[Path], Optional[dict]]:
+        """Validate file path against allowed directories (path traversal defense).
+
+        Resolves the path and checks it falls within allowed directories
+        (project data dir + cwd).
+
+        Args:
+            file_path: Raw file path string to validate.
+
+        Returns:
+            (resolved_path, None) if valid, or (None, error_dict) if blocked.
+        """
+        path = Path(file_path).resolve()
+
+        # v1.15: Path traversal 방지 — 허용 디렉토리 검증
+        allowed_dirs = [
+            Path(self.server.project_root / "data").resolve() if hasattr(self.server, 'project_root') else None,
+            Path.cwd().resolve(),
+        ]
+        if not any(d and str(path).startswith(str(d)) for d in allowed_dirs if d):
+            logger.warning(f"Path traversal attempt blocked: {file_path}")
+            return None, {"success": False, "error": "접근 불가: 허용된 디렉토리 외부 경로입니다"}
+
+        return path, None
 
     @staticmethod
     def _format_error(error: str, **kwargs) -> dict:

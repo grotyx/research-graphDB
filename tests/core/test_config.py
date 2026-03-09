@@ -164,11 +164,11 @@ def test_config_caching(temp_config_file, reset_config):
 # ============================================================================
 
 
-def test_env_var_resolution_with_default(temp_config_file, reset_config):
+def test_env_var_resolution_with_default(temp_config_file, reset_config, monkeypatch):
     """Test environment variable resolution with defaults."""
-    # Remove env vars so config file defaults apply (reset_config fixture restores them)
+    # Remove env vars so config file defaults apply
     for key in ["NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD", "GEMINI_API_KEY", "LLM_MODEL"]:
-        os.environ.pop(key, None)
+        monkeypatch.delenv(key, raising=False)
 
     manager = ConfigManager()
     config = manager.load(temp_config_file)
@@ -178,12 +178,11 @@ def test_env_var_resolution_with_default(temp_config_file, reset_config):
     assert config.llm.api_key == "test_api_key"
 
 
-def test_env_var_resolution_with_override(temp_config_file, reset_config):
+def test_env_var_resolution_with_override(temp_config_file, reset_config, monkeypatch):
     """Test environment variable override."""
-    # Set override values (reset_config fixture restores originals)
-    os.environ["NEO4J_URI"] = "bolt://override:7687"
-    os.environ["NEO4J_USERNAME"] = "override_user"
-    os.environ["GEMINI_API_KEY"] = "override_key"
+    monkeypatch.setenv("NEO4J_URI", "bolt://override:7687")
+    monkeypatch.setenv("NEO4J_USERNAME", "override_user")
+    monkeypatch.setenv("GEMINI_API_KEY", "override_key")
 
     manager = ConfigManager()
     config = manager.load(temp_config_file)
@@ -412,51 +411,45 @@ neo4j:
 # ============================================================================
 
 
-def test_full_config_integration(temp_config_file, reset_config):
+def test_full_config_integration(temp_config_file, reset_config, monkeypatch):
     """Test full configuration with all helpers."""
-    # Set some env vars
-    os.environ["NEO4J_PASSWORD"] = "secret_pass"
-    os.environ["LLM_MODEL"] = "gemini-2.5-pro"
+    monkeypatch.setenv("NEO4J_PASSWORD", "secret_pass")
+    monkeypatch.setenv("LLM_MODEL", "gemini-2.5-pro")
 
-    try:
-        manager = ConfigManager()
-        manager.load(temp_config_file)
+    manager = ConfigManager()
+    manager.load(temp_config_file)
 
-        # Test global access
-        config = get_config()
-        assert config.version == "3.1"
+    # Test global access
+    config = get_config()
+    assert config.version == "3.1"
 
-        # Test specific configs
-        neo4j = get_neo4j_config()
-        assert neo4j.password == "secret_pass"
+    # Test specific configs
+    neo4j = get_neo4j_config()
+    assert neo4j.password == "secret_pass"
 
-        llm = get_llm_config()
-        assert llm.model == "gemini-2.5-pro"
+    llm = get_llm_config()
+    assert llm.model == "gemini-2.5-pro"
 
-        # Test thresholds
-        fuzzy = get_threshold("fuzzy_threshold")
-        assert fuzzy == 0.90
+    # Test thresholds
+    fuzzy = get_threshold("fuzzy_threshold")
+    assert fuzzy == 0.90
 
-        sig = get_threshold("significance_threshold")
-        assert sig == 0.01
+    sig = get_threshold("significance_threshold")
+    assert sig == 0.01
 
-        # Test nested access
-        assert llm.vision.model == "gemini-2.5-flash"
+    # Test nested access
+    assert llm.vision.model == "gemini-2.5-flash"
 
-        # Test dict fields
-        assert config.cache.query_cache["max_size"] == 500
-        assert config.ranker.evidence_weights["1a"] == 1.0
-
-    finally:
-        del os.environ["NEO4J_PASSWORD"]
-        del os.environ["LLM_MODEL"]
+    # Test dict fields
+    assert config.cache.query_cache["max_size"] == 500
+    assert config.ranker.evidence_weights["1a"] == 1.0
 
 
-def test_config_usage_in_module_context(temp_config_file, reset_config):
+def test_config_usage_in_module_context(temp_config_file, reset_config, monkeypatch):
     """Test configuration usage as it would be in actual modules."""
-    # Remove env vars so config file defaults apply (reset_config fixture restores them)
+    # Remove env vars so config file defaults apply
     for key in ["NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD", "GEMINI_API_KEY", "LLM_MODEL"]:
-        os.environ.pop(key, None)
+        monkeypatch.delenv(key, raising=False)
 
     manager = ConfigManager()
     manager.load(temp_config_file)

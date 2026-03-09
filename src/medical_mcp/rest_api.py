@@ -24,6 +24,7 @@ import json
 import logging
 import os
 import sys
+import threading
 from typing import Any
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -42,8 +43,9 @@ from medical_mcp.medical_kag_server import MedicalKAGServer
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Global server instance
+# Global server instance (protected by double-checked locking)
 kag_server: MedicalKAGServer = None
+_kag_server_lock = threading.Lock()
 
 
 class ToolRequest(BaseModel):
@@ -78,9 +80,12 @@ def create_app() -> "FastAPI":
     @app.on_event("startup")
     async def startup():
         global kag_server
-        logger.info("Initializing Medical KAG Server...")
-        kag_server = MedicalKAGServer()
-        logger.info("Medical KAG Server initialized")
+        if kag_server is None:
+            with _kag_server_lock:
+                if kag_server is None:
+                    logger.info("Initializing Medical KAG Server...")
+                    kag_server = MedicalKAGServer()
+                    logger.info("Medical KAG Server initialized")
 
     @app.get("/health")
     async def health_check():

@@ -25,6 +25,8 @@ import logging
 from dataclasses import dataclass, field
 from typing import Optional
 
+from core.exceptions import LLMError, ErrorCode
+
 from .spine_snomed_mappings import (
     SPINE_INTERVENTION_SNOMED,
     SPINE_PATHOLOGY_SNOMED,
@@ -136,7 +138,10 @@ class SNOMEDProposer:
                 from llm import LLMClient
                 self._llm_client = LLMClient()
             except ImportError:
-                raise RuntimeError("LLM client not available. Install llm package.")
+                raise LLMError(
+                    message="LLM client not available. Install llm package.",
+                    error_code=ErrorCode.LLM_API_ERROR,
+                )
         return self._llm_client
 
     async def propose_mapping(
@@ -196,7 +201,7 @@ class SNOMEDProposer:
                     "required": ["preferred_term", "confidence", "reasoning"],
                 },
             )
-        except (RuntimeError, OSError, ValueError) as e:
+        except (LLMError, RuntimeError, OSError, ValueError) as e:
             logger.warning(f"LLM proposal failed for '{term}': {e}")
             return SNOMEDProposal(
                 original_term=term,

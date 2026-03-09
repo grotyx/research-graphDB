@@ -208,7 +208,7 @@
 | `docs/ONTOLOGY_REDESIGN_PLAN.md` | 재설계 계획서 |
 
 #### SNOMED 통계 (v1.24.0)
-- Mappings: 653개 (I:204, P:188, O:194, A:67) — 이전 621개에서 32개 신규 개념 추가, ~280 alias 확장
+- Mappings: 696개 (I:218, P:214, O:195, A:69) — 이전 621개에서 75개 신규 개념 추가, ~280 alias 확장
 - IS_A 관계: 403개 (P:166 + O:176 + A:61)
 - Neo4j 적용: SNOMED 코드 매핑 + TREATS 백필 + IS_A 구축 완료
 

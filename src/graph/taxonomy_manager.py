@@ -9,7 +9,7 @@
 import logging
 from typing import Optional
 
-from core.exceptions import Neo4jError
+from core.exceptions import Neo4jError, ValidationError, ErrorCode
 
 from .neo4j_client import Neo4jClient
 
@@ -32,9 +32,10 @@ def _validate_entity_type(entity_type: str) -> str:
         ValueError: If entity_type is not in VALID_ENTITY_TYPES.
     """
     if entity_type not in VALID_ENTITY_TYPES:
-        raise ValueError(
-            f"Invalid entity_type '{entity_type}'. "
-            f"Must be one of: {sorted(VALID_ENTITY_TYPES)}"
+        raise ValidationError(
+            message=f"Invalid entity_type '{entity_type}'. "
+            f"Must be one of: {sorted(VALID_ENTITY_TYPES)}",
+            error_code=ErrorCode.VAL_INVALID_VALUE,
         )
     return entity_type
 

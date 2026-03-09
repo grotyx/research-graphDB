@@ -117,7 +117,7 @@ class LLMConfig:
     vision: LLMVisionConfig = field(default_factory=LLMVisionConfig)
 
     def __repr__(self) -> str:
-        masked_key = f"{self.api_key[:8]}..." if self.api_key and len(self.api_key) > 8 else "***"
+        masked_key = "***"
         return (f"LLMConfig(provider={self.provider!r}, model={self.model!r}, "
                 f"api_key='{masked_key}')")
 

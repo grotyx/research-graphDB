@@ -7,7 +7,7 @@
 ### Key Features (v1.25)
 
 - **Neo4j 통합 저장소**: Graph + Vector (3072d HNSW) 단일 DB (ChromaDB 완전 제거)
-- **SNOMED-CT 온톨로지**: 653개 매핑 (I:204, P:188, O:194, A:67), 4개 엔티티 IS_A 계층
+- **SNOMED-CT 온톨로지**: 696개 매핑 (I:218, P:214, O:195, A:69), 4개 엔티티 IS_A 계층
 - **10개 MCP 도구**: Claude Desktop/Code 연동
 - **PubMed + DOI 3단계 Fallback**: PubMed → Crossref/DOI → Basic 순서로 항상 서지 보강
 - **store_paper 자동 PubMed enrichment** (v1.18+): 저장 시 PMID/DOI/저널/저자 자동 보강

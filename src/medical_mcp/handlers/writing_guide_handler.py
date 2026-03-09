@@ -863,6 +863,7 @@ class WritingGuideHandler(BaseHandler):
         """
         super().__init__(server)
 
+    @safe_execute
     async def get_section_guide(
         self,
         section: str,
@@ -918,6 +919,7 @@ class WritingGuideHandler(BaseHandler):
 
         return result
 
+    @safe_execute
     async def get_checklist(
         self,
         study_type: Optional[str] = None,
@@ -983,6 +985,7 @@ class WritingGuideHandler(BaseHandler):
             "total_items": len(items),
         }
 
+    @safe_execute
     async def get_expert_info(
         self,
         expert: Optional[str] = None,
@@ -1028,6 +1031,7 @@ class WritingGuideHandler(BaseHandler):
             "experts": {key: agent for key, agent in EXPERT_AGENTS.items()},
         }
 
+    @safe_execute
     async def get_response_template(
         self,
         response_type: str,
@@ -1067,6 +1071,7 @@ class WritingGuideHandler(BaseHandler):
         }
         return guides.get(response_type, "")
 
+    @safe_execute
     async def draft_response_letter(
         self,
         reviewer_comments: List[Dict[str, str]],
@@ -1129,6 +1134,7 @@ Sincerely,
             ],
         }
 
+    @safe_execute
     async def analyze_reviewer_comments(
         self,
         comments: List[str],
@@ -1189,6 +1195,7 @@ Sincerely,
             ],
         }
 
+    @safe_execute
     async def get_all_guides(self) -> Dict[str, Any]:
         """Get overview of all available writing guides and resources.
 

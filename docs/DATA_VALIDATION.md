@@ -1360,7 +1360,7 @@ driver.close()
 ```
 
 **기대 결과:** Anatomy 85%+, Intervention 45%+, Pathology 40%+, Outcome 25%+
-> **v1.24.x 참고**: SNOMED 매핑 653개로 확장 (I:204, P:188, O:194, A:67). 매핑 확장 후 `scripts/enrich_graph_snomed.py` 실행 필요.
+> **v1.24.x 참고**: SNOMED 매핑 696개로 확장 (I:218, P:214, O:195, A:69). 매핑 확장 후 `scripts/enrich_graph_snomed.py` 실행 필요.
 
 ### 6.5 parent_code ↔ Neo4j IS_A 일치율
 

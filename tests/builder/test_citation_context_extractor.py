@@ -172,11 +172,10 @@ class TestClaudeBackendInit:
                 backend = ClaudeBackend(model="claude-sonnet-4-5-20250929")
                 assert backend.model == "claude-sonnet-4-5-20250929"
 
-    def test_init_without_key_raises(self):
-        with patch.dict('os.environ', {}, clear=True):
-            os.environ.pop("ANTHROPIC_API_KEY", None)
-            with pytest.raises(Exception):
-                ClaudeBackend()
+    def test_init_without_key_raises(self, monkeypatch):
+        monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+        with pytest.raises(Exception):
+            ClaudeBackend()
 
 
 # ===========================================================================

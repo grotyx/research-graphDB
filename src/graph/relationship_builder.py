@@ -40,6 +40,20 @@ except ImportError:
     SPINE_ANATOMY_SNOMED = {}
     SPINE_INTERVENTION_SNOMED = {}
 
+# Reverse index: (entity_type, snomed_code) -> entity_name for O(1) parent lookup
+# Replaces linear scans in _get_parent_name_from_snomed / _auto_create_is_a_relation
+_SNOMED_CODE_TO_NAME: dict[tuple[str, str], str] = {}
+if _SNOMED_MAPPINGS_AVAILABLE:
+    for _type_key, _mapping_dict in (
+        ("pathology", SPINE_PATHOLOGY_SNOMED),
+        ("outcome", SPINE_OUTCOME_SNOMED),
+        ("anatomy", SPINE_ANATOMY_SNOMED),
+        ("intervention", SPINE_INTERVENTION_SNOMED),
+    ):
+        for _name, _m in _mapping_dict.items():
+            if _m.code:
+                _SNOMED_CODE_TO_NAME[(_type_key, _m.code)] = _name
+
 # Citation types (knowledge.citation_extractor removed in v1.20.0)
 from enum import Enum
 
@@ -553,6 +567,9 @@ class RelationshipBuilder:
         self.llm_client = llm_client
         self._llm_call_count: int = 0
         self._llm_call_limit: int = 10
+        # Session-scoped normalization cache (CA-P-018)
+        # Key: (raw_name_lower_stripped, entity_type), Value: NormalizationResult
+        self._norm_cache: dict[tuple[str, str], NormalizationResult] = {}
 
     async def _normalize_with_fallback(
         self,
@@ -569,10 +586,17 @@ class RelationshipBuilder:
         5. 매칭 성공 -> register_dynamic_alias() + 재정규화
         6. 매칭 실패 -> 원본 반환 (기존 동작)
         """
+        # CA-P-018: Check session cache first
+        cache_key = (text.lower().strip(), entity_type)
+        cached = self._norm_cache.get(cache_key)
+        if cached is not None:
+            return cached
+
         normalize_fn = getattr(self.normalizer, f"normalize_{entity_type}")
         result = normalize_fn(text)
 
         if result.confidence > 0.0:
+            self._norm_cache[cache_key] = result
             return result
 
         # LLM 폴백 조건 체크
@@ -608,7 +632,34 @@ class RelationshipBuilder:
             # 재정규화 (이제 alias가 등록되었으므로 exact match됨)
             result = normalize_fn(text)
             result.method = f"llm_classified+{result.method}"
+            self._norm_cache[cache_key] = result
             return result
+
+        return result
+
+    def _normalize_cached(self, text: str, entity_type: str) -> NormalizationResult:
+        """Synchronous normalization with session cache (CA-P-018).
+
+        For direct normalizer calls that don't need LLM fallback.
+        Uses the same cache as _normalize_with_fallback.
+
+        Args:
+            text: Raw entity text
+            entity_type: Entity type (pathology, intervention, outcome, anatomy)
+
+        Returns:
+            NormalizationResult
+        """
+        cache_key = (text.lower().strip(), entity_type)
+        cached = self._norm_cache.get(cache_key)
+        if cached is not None:
+            return cached
+
+        normalize_fn = getattr(self.normalizer, f"normalize_{entity_type}")
+        result = normalize_fn(text)
+
+        if result.confidence > 0.0:
+            self._norm_cache[cache_key] = result
 
         return result
 
@@ -648,12 +699,8 @@ class RelationshipBuilder:
         if not mapping or not mapping.parent_code:
             return None
 
-        # Build code->name lookup and find parent name
-        for name, m in mapping_dict.items():
-            if m.code == mapping.parent_code:
-                return name
-
-        return None
+        # O(1) lookup via reverse index (CA-P-007 fix)
+        return _SNOMED_CODE_TO_NAME.get((entity_type, mapping.parent_code))
 
     async def _auto_create_is_a_relation(
         self,
@@ -679,20 +726,9 @@ class RelationshipBuilder:
         parent_name = None
 
         if parent_code and _SNOMED_MAPPINGS_AVAILABLE:
-            # Map entity_type label to mapping dict key
+            # O(1) lookup via reverse index (CA-P-007 fix)
             type_key = entity_type.lower()
-            mapping_dict = {
-                "pathology": SPINE_PATHOLOGY_SNOMED,
-                "outcome": SPINE_OUTCOME_SNOMED,
-                "anatomy": SPINE_ANATOMY_SNOMED,
-                "intervention": SPINE_INTERVENTION_SNOMED,
-            }.get(type_key)
-
-            if mapping_dict:
-                for name, m in mapping_dict.items():
-                    if m.code == parent_code:
-                        parent_name = name
-                        break
+            parent_name = _SNOMED_CODE_TO_NAME.get((type_key, parent_code))
 
         if not parent_name:
             # Fallback: try direct lookup
@@ -784,6 +820,8 @@ class RelationshipBuilder:
 
         # v1.20.0: 논문당 LLM 폴백 호출 카운터 리셋
         self._llm_call_count = 0
+        # CA-P-018: 논문당 정규화 캐시 리셋
+        self._norm_cache = {}
 
         try:
             # 1. Paper 노드 생성
@@ -1019,11 +1057,11 @@ class RelationshipBuilder:
                 entities.append({"name": norm.normalized if norm else name.strip(), "label": "Intervention"})
         for name in (spine_metadata.pathologies or []):
             if isinstance(name, str) and name.strip():
-                norm = self.normalizer.normalize_pathology(name.strip())
+                norm = self._normalize_cached(name.strip(), "pathology")
                 entities.append({"name": norm.normalized if norm else name.strip(), "label": "Pathology"})
         for name in (spine_metadata.anatomy_levels or []):
             if isinstance(name, str) and name.strip():
-                norm = self.normalizer.normalize_anatomy(name.strip())
+                norm = self._normalize_cached(name.strip(), "anatomy")
                 # Skip vague/placeholder anatomy (confidence=0)
                 if norm and norm.confidence > 0:
                     entities.append({"name": norm.normalized, "label": "Anatomy"})
@@ -1032,7 +1070,7 @@ class RelationshipBuilder:
         for outcome in (spine_metadata.outcomes or []):
             o_name = outcome.get("name", "") if isinstance(outcome, dict) else getattr(outcome, "name", "")
             if o_name and o_name.strip():
-                norm = self.normalizer.normalize_outcome(o_name.strip())
+                norm = self._normalize_cached(o_name.strip(), "outcome")
                 entities.append({"name": norm.normalized if norm else o_name.strip(), "label": "Outcome"})
 
         if not entities:
@@ -1236,7 +1274,7 @@ class RelationshipBuilder:
                 continue
 
             # 정규화 (SNOMED 코드 포함) — v1.19.5
-            norm_result = self.normalizer.normalize_anatomy(anatomy)
+            norm_result = self._normalize_cached(anatomy, "anatomy")
             anatomy_name = norm_result.normalized
 
             # 레벨과 영역 추출
@@ -1373,7 +1411,7 @@ class RelationshipBuilder:
                 norm_interventions.add(norm.normalized)
         norm_anatomy = set()
         for a in flat_anatomy:
-            norm = self.normalizer.normalize_anatomy(a)
+            norm = self._normalize_cached(a, "anatomy")
             if norm and norm.normalized:
                 norm_anatomy.add(norm.normalized)
 
@@ -1565,7 +1603,7 @@ class RelationshipBuilder:
         """
         try:
             # 정규화
-            norm_result = self.normalizer.normalize_intervention(intervention_name)
+            norm_result = self._normalize_cached(intervention_name, "intervention")
             canonical_name = norm_result.normalized
 
             # Taxonomy에 이미 존재하는지 확인
@@ -1771,7 +1809,7 @@ class RelationshipBuilder:
                 if p_values and keywords:
                     # keywords에서 결과변수 찾기
                     for keyword in keywords:
-                        norm_outcome = self.normalizer.normalize_outcome(keyword)
+                        norm_outcome = self._normalize_cached(keyword, "outcome")
                         if norm_outcome.confidence > 0.5:
                             # 이미 추가되지 않은 경우만
                             if not any(o.name == norm_outcome.normalized for o in outcomes):
@@ -2554,7 +2592,7 @@ class RelationshipBuilder:
             return 0
 
         # Normalize intervention name
-        norm_intervention = self.normalizer.normalize_intervention(intervention_name)
+        norm_intervention = self._normalize_cached(intervention_name, "intervention")
         intervention_name = norm_intervention.normalized
 
         items = []
@@ -2812,7 +2850,7 @@ class RelationshipBuilder:
             return 0
 
         # Normalize intervention name
-        norm_intervention = self.normalizer.normalize_intervention(intervention_name)
+        norm_intervention = self._normalize_cached(intervention_name, "intervention")
         intervention_name = norm_intervention.normalized
 
         items = []
@@ -2896,7 +2934,7 @@ class RelationshipBuilder:
 
             intervention_name = cohort_dict.get("intervention_name")
             if intervention_name:
-                norm_intervention = self.normalizer.normalize_intervention(intervention_name)
+                norm_intervention = self._normalize_cached(intervention_name, "intervention")
                 treated_with_items.append({
                     "cohort_name": name,
                     "intervention_name": norm_intervention.normalized,
@@ -3102,7 +3140,7 @@ class RelationshipBuilder:
 
             intervention_name = cost_dict.get("intervention_name")
             if intervention_name:
-                norm_intervention = self.normalizer.normalize_intervention(intervention_name)
+                norm_intervention = self._normalize_cached(intervention_name, "intervention")
                 associated_items.append({
                     "cost_name": name,
                     "intervention_name": norm_intervention.normalized,

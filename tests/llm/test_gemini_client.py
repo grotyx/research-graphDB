@@ -108,16 +108,11 @@ class TestGeminiConfig:
         assert config.temperature == 0.5
         assert config.max_retries == 5
 
-    def test_missing_api_key_raises_error(self):
+    def test_missing_api_key_raises_error(self, monkeypatch):
         from llm.gemini_client import GeminiConfig
-        with patch.dict(os.environ, {}, clear=True):
-            env_backup = os.environ.pop("GEMINI_API_KEY", None)
-            try:
-                with pytest.raises(LLMError, match="GEMINI_API_KEY"):
-                    GeminiConfig(api_key="")
-            finally:
-                if env_backup:
-                    os.environ["GEMINI_API_KEY"] = env_backup
+        monkeypatch.delenv("GEMINI_API_KEY", raising=False)
+        with pytest.raises(LLMError, match="GEMINI_API_KEY"):
+            GeminiConfig(api_key="")
 
     def test_api_key_from_env(self):
         from llm.gemini_client import GeminiConfig

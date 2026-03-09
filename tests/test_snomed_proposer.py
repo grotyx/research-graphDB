@@ -384,7 +384,7 @@ class TestLazyLLMInit:
         """Without llm_client, tries to import LLMClient."""
         proposer = SNOMEDProposer(llm_client=None)
 
-        with pytest.raises(RuntimeError, match="LLM client not available"):
+        with pytest.raises(Exception, match="LLM client not available"):
             # This should fail because 'llm' module isn't installed in test env
             with patch.dict("sys.modules", {"llm": None}):
                 await proposer._get_llm_client()
