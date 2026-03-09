@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+
+# Environment
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data (large files)
+data/chromadb/
+data/neo4j/
+data/pdf/
+data/extracted/
+*.dump
+logs/
+
+# Test/Cache
+.pytest_cache/
+.mypy_cache/
+htmlcov/
+.coverage
+
+# Tmux
+tmux-*.log

@@ -1,0 +1,1090 @@
+{
+  "journal_mappings": {
+    "Spine": "vancouver",
+    "The Spine Journal": "spine_j",
+    "Spine Journal": "spine_j",
+    "Spine J": "spine_j",
+    "European Spine Journal": "eur_spine_j",
+    "Eur Spine J": "eur_spine_j",
+    "Global Spine Journal": "global_spine_j",
+    "Global Spine J": "global_spine_j",
+    "Glob Spine J": "global_spine_j",
+    "Asian Spine Journal": "asian_spine_j",
+    "Asian Spine J": "asian_spine_j",
+    "Journal of Neurosurgery: Spine": "j_neurosurg_spine",
+    "Journal of Neurosurgery Spine": "j_neurosurg_spine",
+    "J Neurosurg Spine": "j_neurosurg_spine",
+    "Spine Deformity": "spine_deformity",
+    "Spine Deform": "spine_deformity",
+    "Neurospine": "neurospine",
+    "Journal of Bone and Joint Surgery": "jbjs_am",
+    "J Bone Joint Surg Am": "jbjs_am",
+    "J Bone Joint Surg": "jbjs_am",
+    "JBJS": "jbjs_am",
+    "The Bone & Joint Journal": "bone_joint_j",
+    "The Bone and Joint Journal": "bone_joint_j",
+    "Bone Joint J": "bone_joint_j",
+    "J Bone Joint Surg Br": "bone_joint_j",
+    "Clinical Orthopaedics and Related Research": "corr",
+    "Clin Orthop Relat Res": "corr",
+    "CORR": "corr",
+    "Journal of the American Academy of Orthopaedic Surgeons": "jaaos",
+    "J Am Acad Orthop Surg": "jaaos",
+    "JAAOS": "jaaos",
+    "Journal of Orthopaedic Research": "j_orthop_res",
+    "J Orthop Res": "j_orthop_res",
+    "International Orthopaedics": "int_orthop",
+    "Int Orthop": "int_orthop",
+    "Clinics in Orthopedic Surgery": "clin_orthop_surg",
+    "Clin Orthop Surg": "clin_orthop_surg",
+    "Journal of Orthopaedic Surgery and Research": "j_orthop_surg_res",
+    "J Orthop Surg Res": "j_orthop_surg_res",
+    "Journal of Neurosurgery": "j_neurosurg",
+    "J Neurosurg": "j_neurosurg",
+    "Neurosurgery": "neurosurgery_cns",
+    "Neurosurgical Focus": "neurosurg_focus",
+    "Neurosurg Focus": "neurosurg_focus",
+    "World Neurosurgery": "world_neurosurg",
+    "World Neurosurg": "world_neurosurg",
+    "Operative Neurosurgery": "oper_neurosurg",
+    "Oper Neurosurg": "oper_neurosurg",
+    "Journal of Korean Neurosurgical Society": "jkns",
+    "J Korean Neurosurg Soc": "jkns",
+    "Pain": "pain_iasp",
+    "The Journal of Pain": "j_pain",
+    "Journal of Pain": "j_pain",
+    "J Pain": "j_pain",
+    "Medicine": "medicine_lww",
+    "Scientific Reports": "sci_rep",
+    "Sci Rep": "sci_rep"
+  },
+  "custom_styles": {
+    "spine_lww": {
+      "name": "Spine (Lippincott Williams & Wilkins)",
+      "base_style": "vancouver",
+      "author": {
+        "format": "last_initials",
+        "separator": ", ",
+        "last_separator": ", ",
+        "et_al_threshold": 4,
+        "et_al_min": 3,
+        "et_al_text": "et al",
+        "initials_format": "no_space",
+        "hyphen_handling": "keep"
+      },
+      "title_quotes": false,
+      "title_italics": false,
+      "title_period": true,
+      "title_case": "sentence",
+      "journal": {
+        "use_abbreviation": true,
+        "italicize": true,
+        "bold": false
+      },
+      "date": {
+        "format": "year_only",
+        "position": "after_authors"
+      },
+      "volume_bold": false,
+      "volume_format": "{volume}({issue})",
+      "issue_in_parens": true,
+      "pages_format": "abbreviated",
+      "pages_prefix": ":",
+      "include_doi": false,
+      "doi_format": "doi:{doi}",
+      "include_pmid": false,
+      "pmid_format": "PMID: {pmid}",
+      "element_separator": ". ",
+      "final_period": true
+    },
+    "spine_j": {
+      "name": "The Spine Journal (Elsevier/NASS)",
+      "base_style": "vancouver",
+      "author": {
+        "format": "last_initials",
+        "separator": ", ",
+        "last_separator": ", ",
+        "et_al_threshold": 7,
+        "et_al_min": 6,
+        "et_al_text": "et al",
+        "initials_format": "no_space",
+        "hyphen_handling": "keep"
+      },
+      "title_quotes": false,
+      "title_italics": false,
+      "title_period": true,
+      "title_case": "sentence",
+      "journal": {
+        "use_abbreviation": true,
+        "italicize": false,
+        "bold": false
+      },
+      "date": {
+        "format": "year_only",
+        "position": "after_authors"
+      },
+      "volume_bold": false,
+      "volume_format": "{volume}({issue})",
+      "issue_in_parens": true,
+      "pages_format": "abbreviated",
+      "pages_prefix": ":",
+      "include_doi": true,
+      "doi_format": "https://doi.org/{doi}",
+      "include_pmid": false,
+      "pmid_format": "PMID: {pmid}",
+      "element_separator": ". ",
+      "final_period": true
+    },
+    "eur_spine_j": {
+      "name": "European Spine Journal (Springer)",
+      "base_style": "vancouver",
+      "author": {
+        "format": "last_initials",
+        "separator": ", ",
+        "last_separator": ", ",
+        "et_al_threshold": 5,
+        "et_al_min": 3,
+        "et_al_text": "et al",
+        "initials_format": "no_space",
+        "hyphen_handling": "keep"
+      },
+      "title_quotes": false,
+      "title_italics": false,
+      "title_period": true,
+      "title_case": "sentence",
+      "journal": {
+        "use_abbreviation": true,
+        "italicize": false,
+        "bold": false
+      },
+      "date": {
+        "format": "year_only",
+        "position": "after_authors"
+      },
+      "volume_bold": false,
+      "volume_format": "{volume}({issue})",
+      "issue_in_parens": true,
+      "pages_format": "full",
+      "pages_prefix": ":",
+      "include_doi": true,
+      "doi_format": "https://doi.org/{doi}",
+      "include_pmid": false,
+      "pmid_format": "PMID: {pmid}",
+      "element_separator": ". ",
+      "final_period": true
+    },
+    "global_spine_j": {
+      "name": "Global Spine Journal (SAGE/AOSpine)",
+      "base_style": "ama",
+      "author": {
+        "format": "last_initials",
+        "separator": ", ",
+        "last_separator": ", ",
+        "et_al_threshold": 7,
+        "et_al_min": 3,
+        "et_al_text": "et al",
+        "initials_format": "no_space",
+        "hyphen_handling": "keep"
+      },
+      "title_quotes": false,
+      "title_italics": false,
+      "title_period": true,
+      "title_case": "sentence",
+      "journal": {
+        "use_abbreviation": true,
+        "italicize": true,
+        "bold": false
+      },
+      "date": {
+        "format": "year_only",
+        "position": "after_authors"
+      },
+      "volume_bold": false,
+      "volume_format": "{volume}({issue})",
+      "issue_in_parens": true,
+      "pages_format": "full",
+      "pages_prefix": ":",
+      "include_doi": true,
+      "doi_format": "doi:{doi}",
+      "include_pmid": false,
+      "pmid_format": "PMID: {pmid}",
+      "element_separator": ". ",
+      "final_period": true
+    },
+    "asian_spine_j": {
+      "name": "Asian Spine Journal (KAMJE)",
+      "base_style": "vancouver",
+      "author": {
+        "format": "last_initials",
+        "separator": ", ",
+        "last_separator": ", ",
+        "et_al_threshold": 7,
+        "et_al_min": 3,
+        "et_al_text": "et al",
+        "initials_format": "no_space",
+        "hyphen_handling": "keep"
+      },
+      "title_quotes": false,
+      "title_italics": false,
+      "title_period": true,
+      "title_case": "sentence",
+      "journal": {
+        "use_abbreviation": true,
+        "italicize": true,
+        "bold": false
+      },
+      "date": {
+        "format": "year_only",
+        "position": "after_authors"
+      },
+      "volume_bold": false,
+      "volume_format": "{volume}({issue})",
+      "issue_in_parens": true,
+      "pages_format": "abbreviated",
+      "pages_prefix": ":",
+      "include_doi": true,
+      "doi_format": "https://doi.org/{doi}",
+      "include_pmid": false,
+      "pmid_format": "PMID: {pmid}",
+      "element_separator": ". ",
+      "final_period": true
+    },
+    "j_neurosurg_spine": {
+      "name": "Journal of Neurosurgery: Spine (AANS)",
+      "base_style": "ama",
+      "author": {
+        "format": "last_initials",
+        "separator": ", ",
+        "last_separator": ", ",
+        "et_al_threshold": 7,
+        "et_al_min": 3,
+        "et_al_text": "et al",
+        "initials_format": "no_space",
+        "hyphen_handling": "keep"
+      },
+      "title_quotes": false,
+      "title_italics": false,
+      "title_period": true,
+      "title_case": "sentence",
+      "journal": {
+        "use_abbreviation": true,
+        "italicize": true,
+        "bold": false
+      },
+      "date": {
+        "format": "year_only",
+        "position": "after_authors"
+      },
+      "volume_bold": false,
+      "volume_format": "{volume}({issue})",
+      "issue_in_parens": true,
+      "pages_format": "full",
+      "pages_prefix": ":",
+      "include_doi": false,
+      "doi_format": "doi:{doi}",
+      "include_pmid": false,
+      "pmid_format": "PMID: {pmid}",
+      "element_separator": ". ",
+      "final_period": true
+    },
+    "spine_deformity": {
+      "name": "Spine Deformity (Springer/SRS)",
+      "base_style": "vancouver",
+      "author": {
+        "format": "last_initials",
+        "separator": ", ",
+        "last_separator": ", ",
+        "et_al_threshold": 999,
+        "et_al_min": 999,
+        "et_al_text": "et al",
+        "initials_format": "no_space",
+        "hyphen_handling": "keep"
+      },
+      "title_quotes": false,
+      "title_italics": false,
+      "title_period": true,
+      "title_case": "sentence",
+      "journal": {
+        "use_abbreviation": true,
+        "italicize": false,
+        "bold": false
+      },
+      "date": {
+        "format": "year_only",
+        "position": "after_authors"
+      },
+      "volume_bold": false,
+      "volume_format": "{volume}({issue})",
+      "issue_in_parens": true,
+      "pages_format": "full",
+      "pages_prefix": ":",
+      "include_doi": true,
+      "doi_format": "https://doi.org/{doi}",
+      "include_pmid": false,
+      "pmid_format": "PMID: {pmid}",
+      "element_separator": ". ",
+      "final_period": true
+    },
+    "neurospine": {
+      "name": "Neurospine (KSSN)",
+      "base_style": "vancouver",
+      "author": {
+        "format": "last_initials",
+        "separator": ", ",
+        "last_separator": ", ",
+        "et_al_threshold": 4,
+        "et_al_min": 3,
+        "et_al_text": "et al",
+        "initials_format": "no_space",
+        "hyphen_handling": "keep"
+      },
+      "title_quotes": false,
+      "title_italics": false,
+      "title_period": true,
+      "title_case": "sentence",
+      "journal": {
+        "use_abbreviation": true,
+        "italicize": true,
+        "bold": false
+      },
+      "date": {
+        "format": "year_only",
+        "position": "after_authors"
+      },
+      "volume_bold": false,
+      "volume_format": "{volume}({issue})",
+      "issue_in_parens": true,
+      "pages_format": "abbreviated",
+      "pages_prefix": ":",
+      "include_doi": false,
+      "doi_format": "doi:{doi}",
+      "include_pmid": false,
+      "pmid_format": "PMID: {pmid}",
+      "element_separator": ". ",
+      "final_period": true
+    },
+    "jbjs_am": {
+      "name": "Journal of Bone and Joint Surgery (Am)",
+      "base_style": "vancouver",
+      "author": {
+        "format": "last_initials",
+        "separator": ", ",
+        "last_separator": ", ",
+        "et_al_threshold": 999,
+        "et_al_min": 999,
+        "et_al_text": "et al",
+        "initials_format": "no_space",
+        "hyphen_handling": "keep"
+      },
+      "title_quotes": false,
+      "title_italics": false,
+      "title_period": true,
+      "title_case": "sentence",
+      "journal": {
+        "use_abbreviation": true,
+        "italicize": false,
+        "bold": false
+      },
+      "date": {
+        "format": "year_only",
+        "position": "after_authors"
+      },
+      "volume_bold": false,
+      "volume_format": "{volume}({issue})",
+      "issue_in_parens": true,
+      "pages_format": "full",
+      "pages_prefix": ":",
+      "include_doi": false,
+      "doi_format": "doi:{doi}",
+      "include_pmid": false,
+      "pmid_format": "PMID: {pmid}",
+      "element_separator": ". ",
+      "final_period": true
+    },
+    "bone_joint_j": {
+      "name": "The Bone & Joint Journal (Br)",
+      "base_style": "vancouver",
+      "author": {
+        "format": "last_initials",
+        "separator": ", ",
+        "last_separator": ", ",
+        "et_al_threshold": 7,
+        "et_al_min": 6,
+        "et_al_text": "et al",
+        "initials_format": "no_space",
+        "hyphen_handling": "keep"
+      },
+      "title_quotes": false,
+      "title_italics": false,
+      "title_period": true,
+      "title_case": "sentence",
+      "journal": {
+        "use_abbreviation": true,
+        "italicize": true,
+        "bold": false
+      },
+      "date": {
+        "format": "year_only",
+        "position": "after_authors"
+      },
+      "volume_bold": false,
+      "volume_format": "{volume}({issue})",
+      "issue_in_parens": true,
+      "pages_format": "full",
+      "pages_prefix": ":",
+      "include_doi": false,
+      "doi_format": "doi:{doi}",
+      "include_pmid": false,
+      "pmid_format": "PMID: {pmid}",
+      "element_separator": ". ",
+      "final_period": true
+    },
+    "corr": {
+      "name": "Clinical Orthopaedics and Related Research",
+      "base_style": "ama",
+      "author": {
+        "format": "last_initials",
+        "separator": ", ",
+        "last_separator": ", ",
+        "et_al_threshold": 7,
+        "et_al_min": 3,
+        "et_al_text": "et al",
+        "initials_format": "no_space",
+        "hyphen_handling": "keep"
+      },
+      "title_quotes": false,
+      "title_italics": false,
+      "title_period": true,
+      "title_case": "sentence",
+      "journal": {
+        "use_abbreviation": true,
+        "italicize": true,
+        "bold": false
+      },
+      "date": {
+        "format": "year_only",
+        "position": "after_authors"
+      },
+      "volume_bold": false,
+      "volume_format": "{volume}",
+      "issue_in_parens": false,
+      "pages_format": "full",
+      "pages_prefix": ":",
+      "include_doi": false,
+      "doi_format": "doi:{doi}",
+      "include_pmid": false,
+      "pmid_format": "PMID: {pmid}",
+      "element_separator": ". ",
+      "final_period": true
+    },
+    "jaaos": {
+      "name": "Journal of the American Academy of Orthopaedic Surgeons",
+      "base_style": "ama",
+      "author": {
+        "format": "last_initials",
+        "separator": ", ",
+        "last_separator": ", ",
+        "et_al_threshold": 11,
+        "et_al_min": 10,
+        "et_al_text": "et al",
+        "initials_format": "no_space",
+        "hyphen_handling": "keep"
+      },
+      "title_quotes": false,
+      "title_italics": false,
+      "title_period": true,
+      "title_case": "sentence",
+      "journal": {
+        "use_abbreviation": true,
+        "italicize": true,
+        "bold": false
+      },
+      "date": {
+        "format": "year_only",
+        "position": "after_authors"
+      },
+      "volume_bold": false,
+      "volume_format": "{volume}",
+      "issue_in_parens": false,
+      "pages_format": "full",
+      "pages_prefix": ":",
+      "include_doi": false,
+      "doi_format": "doi:{doi}",
+      "include_pmid": false,
+      "pmid_format": "PMID: {pmid}",
+      "element_separator": ". ",
+      "final_period": true
+    },
+    "j_orthop_res": {
+      "name": "Journal of Orthopaedic Research (Wiley/ORS)",
+      "base_style": "vancouver",
+      "author": {
+        "format": "last_initials",
+        "separator": ", ",
+        "last_separator": ", ",
+        "et_al_threshold": 5,
+        "et_al_min": 3,
+        "et_al_text": "et al",
+        "initials_format": "no_space",
+        "hyphen_handling": "keep"
+      },
+      "title_quotes": false,
+      "title_italics": false,
+      "title_period": true,
+      "title_case": "sentence",
+      "journal": {
+        "use_abbreviation": true,
+        "italicize": false,
+        "bold": false
+      },
+      "date": {
+        "format": "year_only",
+        "position": "after_authors"
+      },
+      "volume_bold": false,
+      "volume_format": "{volume}({issue})",
+      "issue_in_parens": true,
+      "pages_format": "full",
+      "pages_prefix": ":",
+      "include_doi": false,
+      "doi_format": "doi:{doi}",
+      "include_pmid": false,
+      "pmid_format": "PMID: {pmid}",
+      "element_separator": ". ",
+      "final_period": true
+    },
+    "int_orthop": {
+      "name": "International Orthopaedics (Springer/SICOT)",
+      "base_style": "vancouver",
+      "author": {
+        "format": "last_initials",
+        "separator": ", ",
+        "last_separator": ", ",
+        "et_al_threshold": 5,
+        "et_al_min": 3,
+        "et_al_text": "et al",
+        "initials_format": "no_space",
+        "hyphen_handling": "keep"
+      },
+      "title_quotes": false,
+      "title_italics": false,
+      "title_period": true,
+      "title_case": "sentence",
+      "journal": {
+        "use_abbreviation": true,
+        "italicize": false,
+        "bold": false
+      },
+      "date": {
+        "format": "year_only",
+        "position": "after_authors"
+      },
+      "volume_bold": false,
+      "volume_format": "{volume}",
+      "issue_in_parens": false,
+      "pages_format": "full",
+      "pages_prefix": ":",
+      "include_doi": true,
+      "doi_format": "https://doi.org/{doi}",
+      "include_pmid": false,
+      "pmid_format": "PMID: {pmid}",
+      "element_separator": ". ",
+      "final_period": true
+    },
+    "clin_orthop_surg": {
+      "name": "Clinics in Orthopedic Surgery (KAMJE)",
+      "base_style": "vancouver",
+      "author": {
+        "format": "last_initials",
+        "separator": ", ",
+        "last_separator": ", ",
+        "et_al_threshold": 7,
+        "et_al_min": 3,
+        "et_al_text": "et al",
+        "initials_format": "no_space",
+        "hyphen_handling": "keep"
+      },
+      "title_quotes": false,
+      "title_italics": false,
+      "title_period": true,
+      "title_case": "sentence",
+      "journal": {
+        "use_abbreviation": true,
+        "italicize": false,
+        "bold": false
+      },
+      "date": {
+        "format": "year_only",
+        "position": "after_authors"
+      },
+      "volume_bold": false,
+      "volume_format": "{volume}({issue})",
+      "issue_in_parens": true,
+      "pages_format": "abbreviated",
+      "pages_prefix": ":",
+      "include_doi": false,
+      "doi_format": "doi:{doi}",
+      "include_pmid": false,
+      "pmid_format": "PMID: {pmid}",
+      "element_separator": ". ",
+      "final_period": true
+    },
+    "j_orthop_surg_res": {
+      "name": "Journal of Orthopaedic Surgery and Research (BMC/Springer)",
+      "base_style": "vancouver",
+      "author": {
+        "format": "last_initials",
+        "separator": ", ",
+        "last_separator": ", ",
+        "et_al_threshold": 7,
+        "et_al_min": 6,
+        "et_al_text": "et al",
+        "initials_format": "no_space",
+        "hyphen_handling": "keep"
+      },
+      "title_quotes": false,
+      "title_italics": false,
+      "title_period": true,
+      "title_case": "sentence",
+      "journal": {
+        "use_abbreviation": true,
+        "italicize": false,
+        "bold": false
+      },
+      "date": {
+        "format": "year_only",
+        "position": "after_authors"
+      },
+      "volume_bold": false,
+      "volume_format": "{volume}",
+      "issue_in_parens": false,
+      "pages_format": "full",
+      "pages_prefix": ":",
+      "include_doi": true,
+      "doi_format": "https://doi.org/{doi}",
+      "include_pmid": false,
+      "pmid_format": "PMID: {pmid}",
+      "element_separator": ". ",
+      "final_period": true
+    },
+    "j_neurosurg": {
+      "name": "Journal of Neurosurgery (AANS)",
+      "base_style": "ama",
+      "author": {
+        "format": "last_initials",
+        "separator": ", ",
+        "last_separator": ", ",
+        "et_al_threshold": 7,
+        "et_al_min": 3,
+        "et_al_text": "et al",
+        "initials_format": "no_space",
+        "hyphen_handling": "keep"
+      },
+      "title_quotes": false,
+      "title_italics": false,
+      "title_period": true,
+      "title_case": "sentence",
+      "journal": {
+        "use_abbreviation": true,
+        "italicize": true,
+        "bold": false
+      },
+      "date": {
+        "format": "year_only",
+        "position": "after_authors"
+      },
+      "volume_bold": false,
+      "volume_format": "{volume}({issue})",
+      "issue_in_parens": true,
+      "pages_format": "full",
+      "pages_prefix": ":",
+      "include_doi": false,
+      "doi_format": "doi:{doi}",
+      "include_pmid": false,
+      "pmid_format": "PMID: {pmid}",
+      "element_separator": ". ",
+      "final_period": true
+    },
+    "neurosurgery_cns": {
+      "name": "Neurosurgery (CNS/Oxford)",
+      "base_style": "ama",
+      "author": {
+        "format": "last_initials",
+        "separator": ", ",
+        "last_separator": ", ",
+        "et_al_threshold": 7,
+        "et_al_min": 3,
+        "et_al_text": "et al",
+        "initials_format": "no_space",
+        "hyphen_handling": "keep"
+      },
+      "title_quotes": false,
+      "title_italics": false,
+      "title_period": true,
+      "title_case": "sentence",
+      "journal": {
+        "use_abbreviation": true,
+        "italicize": true,
+        "bold": false
+      },
+      "date": {
+        "format": "year_only",
+        "position": "after_authors"
+      },
+      "volume_bold": false,
+      "volume_format": "{volume}({issue})",
+      "issue_in_parens": true,
+      "pages_format": "full",
+      "pages_prefix": ":",
+      "include_doi": false,
+      "doi_format": "doi:{doi}",
+      "include_pmid": false,
+      "pmid_format": "PMID: {pmid}",
+      "element_separator": ". ",
+      "final_period": true
+    },
+    "neurosurg_focus": {
+      "name": "Neurosurgical Focus (AANS)",
+      "base_style": "ama",
+      "author": {
+        "format": "last_initials",
+        "separator": ", ",
+        "last_separator": ", ",
+        "et_al_threshold": 7,
+        "et_al_min": 3,
+        "et_al_text": "et al",
+        "initials_format": "no_space",
+        "hyphen_handling": "keep"
+      },
+      "title_quotes": false,
+      "title_italics": false,
+      "title_period": true,
+      "title_case": "sentence",
+      "journal": {
+        "use_abbreviation": true,
+        "italicize": true,
+        "bold": false
+      },
+      "date": {
+        "format": "year_only",
+        "position": "after_authors"
+      },
+      "volume_bold": false,
+      "volume_format": "{volume}({issue})",
+      "issue_in_parens": true,
+      "pages_format": "full",
+      "pages_prefix": ":",
+      "include_doi": false,
+      "doi_format": "doi:{doi}",
+      "include_pmid": false,
+      "pmid_format": "PMID: {pmid}",
+      "element_separator": ". ",
+      "final_period": true
+    },
+    "world_neurosurg": {
+      "name": "World Neurosurgery (Elsevier)",
+      "base_style": "ama",
+      "author": {
+        "format": "last_initials",
+        "separator": ", ",
+        "last_separator": ", ",
+        "et_al_threshold": 7,
+        "et_al_min": 3,
+        "et_al_text": "et al",
+        "initials_format": "no_space",
+        "hyphen_handling": "keep"
+      },
+      "title_quotes": false,
+      "title_italics": false,
+      "title_period": true,
+      "title_case": "sentence",
+      "journal": {
+        "use_abbreviation": true,
+        "italicize": true,
+        "bold": false
+      },
+      "date": {
+        "format": "year_only",
+        "position": "after_authors"
+      },
+      "volume_bold": false,
+      "volume_format": "{volume}({issue})",
+      "issue_in_parens": true,
+      "pages_format": "full",
+      "pages_prefix": ":",
+      "include_doi": false,
+      "doi_format": "doi:{doi}",
+      "include_pmid": false,
+      "pmid_format": "PMID: {pmid}",
+      "element_separator": ". ",
+      "final_period": true
+    },
+    "oper_neurosurg": {
+      "name": "Operative Neurosurgery (CNS/Oxford)",
+      "base_style": "ama",
+      "author": {
+        "format": "last_initials",
+        "separator": ", ",
+        "last_separator": ", ",
+        "et_al_threshold": 7,
+        "et_al_min": 3,
+        "et_al_text": "et al",
+        "initials_format": "no_space",
+        "hyphen_handling": "keep"
+      },
+      "title_quotes": false,
+      "title_italics": false,
+      "title_period": true,
+      "title_case": "sentence",
+      "journal": {
+        "use_abbreviation": true,
+        "italicize": true,
+        "bold": false
+      },
+      "date": {
+        "format": "year_only",
+        "position": "after_authors"
+      },
+      "volume_bold": false,
+      "volume_format": "{volume}({issue})",
+      "issue_in_parens": true,
+      "pages_format": "full",
+      "pages_prefix": ":",
+      "include_doi": false,
+      "doi_format": "doi:{doi}",
+      "include_pmid": false,
+      "pmid_format": "PMID: {pmid}",
+      "element_separator": ". ",
+      "final_period": true
+    },
+    "jkns": {
+      "name": "Journal of Korean Neurosurgical Society (KAMJE)",
+      "base_style": "vancouver",
+      "author": {
+        "format": "last_initials",
+        "separator": ", ",
+        "last_separator": ", ",
+        "et_al_threshold": 7,
+        "et_al_min": 6,
+        "et_al_text": "et al",
+        "initials_format": "no_space",
+        "hyphen_handling": "keep"
+      },
+      "title_quotes": false,
+      "title_italics": false,
+      "title_period": true,
+      "title_case": "sentence",
+      "journal": {
+        "use_abbreviation": true,
+        "italicize": false,
+        "bold": true
+      },
+      "date": {
+        "format": "year_only",
+        "position": "after_authors"
+      },
+      "volume_bold": false,
+      "volume_format": "{volume}",
+      "issue_in_parens": false,
+      "pages_format": "full",
+      "pages_prefix": ":",
+      "include_doi": false,
+      "doi_format": "doi:{doi}",
+      "include_pmid": false,
+      "pmid_format": "PMID: {pmid}",
+      "element_separator": ". ",
+      "final_period": true
+    },
+    "pain_iasp": {
+      "name": "Pain (IASP/Wolters Kluwer)",
+      "base_style": "vancouver",
+      "author": {
+        "format": "last_initials",
+        "separator": ", ",
+        "last_separator": ", ",
+        "et_al_threshold": 999,
+        "et_al_min": 999,
+        "et_al_text": "et al",
+        "initials_format": "no_space",
+        "hyphen_handling": "keep"
+      },
+      "title_quotes": false,
+      "title_italics": false,
+      "title_period": true,
+      "title_case": "sentence",
+      "journal": {
+        "use_abbreviation": false,
+        "italicize": false,
+        "bold": false
+      },
+      "date": {
+        "format": "year_only",
+        "position": "after_authors"
+      },
+      "volume_bold": false,
+      "volume_format": "{volume}",
+      "issue_in_parens": false,
+      "pages_format": "full",
+      "pages_prefix": ":",
+      "include_doi": true,
+      "doi_format": "doi:{doi}",
+      "include_pmid": false,
+      "pmid_format": "PMID: {pmid}",
+      "element_separator": ". ",
+      "final_period": true
+    },
+    "j_pain": {
+      "name": "The Journal of Pain (Elsevier)",
+      "base_style": "ama",
+      "author": {
+        "format": "last_initials",
+        "separator": ", ",
+        "last_separator": ", ",
+        "et_al_threshold": 999,
+        "et_al_min": 999,
+        "et_al_text": "et al",
+        "initials_format": "no_space",
+        "hyphen_handling": "keep"
+      },
+      "title_quotes": false,
+      "title_italics": false,
+      "title_period": true,
+      "title_case": "sentence",
+      "journal": {
+        "use_abbreviation": true,
+        "italicize": false,
+        "bold": false
+      },
+      "date": {
+        "format": "year_only",
+        "position": "after_authors"
+      },
+      "volume_bold": false,
+      "volume_format": "{volume}",
+      "issue_in_parens": false,
+      "pages_format": "full",
+      "pages_prefix": ":",
+      "include_doi": true,
+      "doi_format": "https://doi.org/{doi}",
+      "include_pmid": false,
+      "pmid_format": "PMID: {pmid}",
+      "element_separator": ". ",
+      "final_period": true
+    },
+    "medicine_lww": {
+      "name": "Medicine (Wolters Kluwer)",
+      "base_style": "nlm",
+      "author": {
+        "format": "last_initials",
+        "separator": ", ",
+        "last_separator": ", ",
+        "et_al_threshold": 7,
+        "et_al_min": 6,
+        "et_al_text": "et al",
+        "initials_format": "no_space",
+        "hyphen_handling": "keep"
+      },
+      "title_quotes": false,
+      "title_italics": false,
+      "title_period": true,
+      "title_case": "sentence",
+      "journal": {
+        "use_abbreviation": true,
+        "italicize": false,
+        "bold": false
+      },
+      "date": {
+        "format": "year_month",
+        "position": "after_authors"
+      },
+      "volume_bold": false,
+      "volume_format": "{volume}({issue})",
+      "issue_in_parens": true,
+      "pages_format": "full",
+      "pages_prefix": ":",
+      "include_doi": true,
+      "doi_format": "doi: {doi}",
+      "include_pmid": false,
+      "pmid_format": "PMID: {pmid}",
+      "element_separator": ". ",
+      "final_period": true
+    },
+    "sci_rep": {
+      "name": "Scientific Reports (Nature Portfolio)",
+      "base_style": "vancouver",
+      "author": {
+        "format": "last_initials",
+        "separator": ", ",
+        "last_separator": " & ",
+        "et_al_threshold": 6,
+        "et_al_min": 1,
+        "et_al_text": "et al",
+        "initials_format": "dots",
+        "hyphen_handling": "keep"
+      },
+      "title_quotes": false,
+      "title_italics": false,
+      "title_period": true,
+      "title_case": "sentence",
+      "journal": {
+        "use_abbreviation": true,
+        "italicize": true,
+        "bold": false
+      },
+      "date": {
+        "format": "year_only",
+        "position": "after_authors"
+      },
+      "volume_bold": true,
+      "volume_format": "{volume}",
+      "issue_in_parens": false,
+      "pages_format": "full",
+      "pages_prefix": ", ",
+      "include_doi": true,
+      "doi_format": "https://doi.org/{doi}",
+      "include_pmid": false,
+      "pmid_format": "PMID: {pmid}",
+      "element_separator": ". ",
+      "final_period": true
+    },
+    "test": {
+      "name": "test",
+      "base_style": "vancouver",
+      "author": {
+        "format": "last_initials",
+        "separator": ", ",
+        "last_separator": ", ",
+        "et_al_threshold": 6,
+        "et_al_min": 3,
+        "et_al_text": "et al",
+        "initials_format": "no_space",
+        "hyphen_handling": "keep"
+      },
+      "title_quotes": false,
+      "title_italics": false,
+      "title_period": true,
+      "title_case": "sentence",
+      "journal": {
+        "use_abbreviation": true,
+        "italicize": false,
+        "bold": false
+      },
+      "date": {
+        "format": "year_only",
+        "position": "after_authors"
+      },
+      "volume_bold": false,
+      "volume_format": "{volume}({issue})",
+      "issue_in_parens": true,
+      "pages_format": "full",
+      "pages_prefix": ":",
+      "include_doi": false,
+      "doi_format": "doi:{doi}",
+      "include_pmid": false,
+      "pmid_format": "PMID: {pmid}",
+      "element_separator": ". ",
+      "final_period": true
+    }
+  },
+  "updated_at": "2026-03-02T10:59:43.827112"
+}

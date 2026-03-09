@@ -1,0 +1,275 @@
+{
+  "test_papers": [
+    {
+      "paper_id": "test_deg_001",
+      "title": "TLIF versus PLIF for Lumbar Spinal Stenosis: A Randomized Controlled Trial",
+      "authors": ["Park SM", "Kim HJ", "Lee SY", "Choi WR"],
+      "year": 2023,
+      "journal": "Spine",
+      "doi": "10.1097/BRS.test001",
+      "pmid": "",
+      "sub_domain": "Degenerative",
+      "study_design": "RCT",
+      "evidence_level": "1b",
+      "sample_size": 120,
+      "follow_up_months": 24,
+      "abstract": "Background: Both TLIF and PLIF are effective fusion techniques for lumbar stenosis. This RCT compares clinical and radiological outcomes. Methods: 120 patients were randomized to TLIF (n=60) or PLIF (n=60). Results: Fusion rate at 2 years was 92% in TLIF vs 85% in PLIF (p=0.01). VAS improved from 7.2 to 2.3 in TLIF vs 7.4 to 2.8 in PLIF (p=0.04). ODI improved from 54% to 22% in TLIF vs 56% to 28% in PLIF (p=0.03). Complication rate was lower in TLIF (8% vs 15%, p=0.02). Conclusion: TLIF shows superior fusion rate and lower complication rate compared to PLIF for lumbar stenosis.",
+      "metadata": {
+        "anatomy_levels": ["L4-5"],
+        "pathologies": ["Lumbar Stenosis"],
+        "interventions": ["TLIF", "PLIF"],
+        "outcomes": [
+          {
+            "name": "Fusion Rate",
+            "value_intervention": "92%",
+            "value_control": "85%",
+            "p_value": 0.01,
+            "is_significant": true,
+            "direction": "improved"
+          },
+          {
+            "name": "VAS",
+            "value_intervention": "2.3",
+            "value_control": "2.8",
+            "p_value": 0.04,
+            "is_significant": true,
+            "direction": "improved"
+          },
+          {
+            "name": "ODI",
+            "value_intervention": "22%",
+            "value_control": "28%",
+            "p_value": 0.03,
+            "is_significant": true,
+            "direction": "improved"
+          },
+          {
+            "name": "Complication Rate",
+            "value_intervention": "8%",
+            "value_control": "15%",
+            "p_value": 0.02,
+            "is_significant": true,
+            "direction": "improved"
+          }
+        ]
+      }
+    },
+    {
+      "paper_id": "test_def_001",
+      "title": "Pedicle Subtraction Osteotomy for Severe Sagittal Imbalance in Adult Spinal Deformity",
+      "authors": ["Lee JH", "Park JS", "Kim KT", "Cho DC"],
+      "year": 2022,
+      "journal": "European Spine Journal",
+      "doi": "10.1007/s00586-test002",
+      "pmid": "",
+      "sub_domain": "Deformity",
+      "study_design": "prospective-cohort",
+      "evidence_level": "2b",
+      "sample_size": 85,
+      "follow_up_months": 36,
+      "abstract": "Background: PSO is a powerful correction technique for severe sagittal imbalance. Methods: 85 consecutive patients with severe sagittal imbalance (SVA > 100mm) underwent PSO. Mean age was 68 years. Results: SVA improved from 152mm to 42mm (p<0.001). PI-LL mismatch improved from 48° to 8° (p<0.001). Cobb angle corrected from 42° to 18° (p<0.001). SRS-22 score improved from 2.1 to 3.6 (p<0.001). Complication rate was 24% (PJK 12%, infection 5%, neurological deficit 3%). Conclusion: PSO effectively corrects severe sagittal imbalance with acceptable complication rates.",
+      "metadata": {
+        "anatomy_levels": ["L3"],
+        "pathologies": ["Kyphosis", "ASD"],
+        "interventions": ["PSO"],
+        "outcomes": [
+          {
+            "name": "SVA",
+            "value_intervention": "42mm",
+            "value_control": "152mm",
+            "p_value": 0.0001,
+            "is_significant": true,
+            "direction": "improved",
+            "effect_size": "110mm reduction"
+          },
+          {
+            "name": "PI-LL",
+            "value_intervention": "8°",
+            "value_control": "48°",
+            "p_value": 0.0001,
+            "is_significant": true,
+            "direction": "improved"
+          },
+          {
+            "name": "SRS-22",
+            "value_intervention": "3.6",
+            "value_control": "2.1",
+            "p_value": 0.0001,
+            "is_significant": true,
+            "direction": "improved"
+          },
+          {
+            "name": "PJK",
+            "value_intervention": "12%",
+            "value_control": "",
+            "p_value": null,
+            "is_significant": false,
+            "direction": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "paper_id": "test_tra_001",
+      "title": "Short Segment Fixation versus Long Segment Fixation for Thoracolumbar Burst Fracture: A Meta-analysis",
+      "authors": ["Choi SH", "Han IB", "Park CW", "Kim DH"],
+      "year": 2024,
+      "journal": "Journal of Neurosurgery: Spine",
+      "doi": "10.3171/2024.test003",
+      "pmid": "",
+      "sub_domain": "Trauma",
+      "study_design": "meta-analysis",
+      "evidence_level": "1a",
+      "sample_size": 856,
+      "follow_up_months": 24,
+      "abstract": "Background: Optimal fixation strategy for thoracolumbar burst fractures remains controversial. Methods: Meta-analysis of 12 RCTs (856 patients) comparing short segment (≤2 levels above and below) vs long segment fixation. Results: No significant difference in VAS (MD -0.3, 95% CI -0.8 to 0.2, p=0.24) or ODI (MD -2.1%, 95% CI -5.3 to 1.1, p=0.19). Short segment had lower complication rate (15% vs 24%, OR 0.58, 95% CI 0.39-0.87, p=0.007) and shorter operative time (p<0.001). Long segment had lower reoperation rate (8% vs 15%, OR 1.98, 95% CI 1.18-3.32, p=0.009). Conclusion: Short segment fixation offers comparable clinical outcomes with fewer complications but higher reoperation rate.",
+      "metadata": {
+        "anatomy_levels": ["T12-L1"],
+        "pathologies": ["Burst Fracture"],
+        "interventions": ["Short Segment Fixation", "Long Segment Fixation"],
+        "outcomes": [
+          {
+            "name": "VAS",
+            "value_intervention": "",
+            "value_control": "",
+            "p_value": 0.24,
+            "is_significant": false,
+            "direction": "unchanged",
+            "effect_size": "MD -0.3",
+            "confidence_interval": "95% CI -0.8 to 0.2"
+          },
+          {
+            "name": "ODI",
+            "value_intervention": "",
+            "value_control": "",
+            "p_value": 0.19,
+            "is_significant": false,
+            "direction": "unchanged",
+            "effect_size": "MD -2.1%",
+            "confidence_interval": "95% CI -5.3 to 1.1"
+          },
+          {
+            "name": "Complication Rate",
+            "value_intervention": "15%",
+            "value_control": "24%",
+            "p_value": 0.007,
+            "is_significant": true,
+            "direction": "improved",
+            "effect_size": "OR 0.58",
+            "confidence_interval": "95% CI 0.39-0.87"
+          },
+          {
+            "name": "Reoperation Rate",
+            "value_intervention": "15%",
+            "value_control": "8%",
+            "p_value": 0.009,
+            "is_significant": true,
+            "direction": "worsened",
+            "effect_size": "OR 1.98",
+            "confidence_interval": "95% CI 1.18-3.32"
+          }
+        ]
+      }
+    },
+    {
+      "paper_id": "test_tum_001",
+      "title": "Surgical Outcomes of Spinal Metastasis: Decompression with Stabilization versus Decompression Alone",
+      "authors": ["Kim YH", "Cho YJ", "Park BC", "Lee CS"],
+      "year": 2023,
+      "journal": "Spine Journal",
+      "doi": "10.1016/j.spinee.test004",
+      "pmid": "",
+      "sub_domain": "Tumor",
+      "study_design": "retrospective-cohort",
+      "evidence_level": "2b",
+      "sample_size": 142,
+      "follow_up_months": 12,
+      "abstract": "Background: Optimal surgical strategy for spinal metastasis balances neurological recovery and mechanical stability. Methods: Retrospective analysis of 142 patients: decompression with stabilization (n=88) vs decompression alone (n=54). Mean survival was 18 months. Results: Neurological improvement rate was 78% in stabilization group vs 65% in decompression alone (p=0.04). VAS improved from 8.1 to 3.2 in stabilization vs 7.9 to 4.5 in decompression alone (p=0.02). Ambulation recovery was 71% vs 52% (p=0.01). Complication rate was 22% vs 18% (p=0.53). Median survival was 21 months vs 15 months (p=0.08). Conclusion: Decompression with stabilization provides better neurological recovery and ambulation in spinal metastasis patients.",
+      "metadata": {
+        "anatomy_levels": ["T6-T12"],
+        "pathologies": ["Spinal Metastasis"],
+        "interventions": ["Decompression with Stabilization", "Decompression Alone"],
+        "outcomes": [
+          {
+            "name": "Neurological Improvement",
+            "value_intervention": "78%",
+            "value_control": "65%",
+            "p_value": 0.04,
+            "is_significant": true,
+            "direction": "improved"
+          },
+          {
+            "name": "VAS",
+            "value_intervention": "3.2",
+            "value_control": "4.5",
+            "p_value": 0.02,
+            "is_significant": true,
+            "direction": "improved"
+          },
+          {
+            "name": "Ambulation Recovery",
+            "value_intervention": "71%",
+            "value_control": "52%",
+            "p_value": 0.01,
+            "is_significant": true,
+            "direction": "improved"
+          },
+          {
+            "name": "Complication Rate",
+            "value_intervention": "22%",
+            "value_control": "18%",
+            "p_value": 0.53,
+            "is_significant": false,
+            "direction": "unchanged"
+          }
+        ]
+      }
+    },
+    {
+      "paper_id": "test_bas_001",
+      "title": "Biomechanical Comparison of OLIF and LLIF: Finite Element Analysis Study",
+      "authors": ["Jung KS", "Park SJ", "Kim NH", "Lee DH"],
+      "year": 2024,
+      "journal": "Clinical Biomechanics",
+      "doi": "10.1016/j.clinbiomech.test005",
+      "pmid": "",
+      "sub_domain": "Basic Science",
+      "study_design": "other",
+      "evidence_level": "4",
+      "sample_size": 0,
+      "follow_up_months": 0,
+      "abstract": "Background: OLIF and LLIF are lateral lumbar fusion techniques with different approach corridors. Methods: Finite element models of L4-5 fusion were created for OLIF51 and LLIF. Cage position, segmental lordosis, and biomechanical stress were analyzed under physiological loading. Results: OLIF showed 15% higher cage-endplate contact area (p<0.001). Segmental lordosis was 8.2° in OLIF vs 6.5° in LLIF (p=0.003). Peak von Mises stress in cage was lower in OLIF (42.3 MPa vs 51.7 MPa, p=0.002). Psoas muscle injury risk was lower in OLIF (anterior to psoas). Range of motion was similar (p=0.45). Conclusion: OLIF provides biomechanical advantages with better cage positioning and lower stress compared to LLIF.",
+      "metadata": {
+        "anatomy_levels": ["L4-5"],
+        "pathologies": [],
+        "interventions": ["OLIF", "LLIF"],
+        "outcomes": [
+          {
+            "name": "Cage-Endplate Contact Area",
+            "value_intervention": "15% higher",
+            "value_control": "",
+            "p_value": 0.0001,
+            "is_significant": true,
+            "direction": "improved"
+          },
+          {
+            "name": "Segmental Lordosis",
+            "value_intervention": "8.2°",
+            "value_control": "6.5°",
+            "p_value": 0.003,
+            "is_significant": true,
+            "direction": "improved"
+          },
+          {
+            "name": "Peak Stress in Cage",
+            "value_intervention": "42.3 MPa",
+            "value_control": "51.7 MPa",
+            "p_value": 0.002,
+            "is_significant": true,
+            "direction": "improved"
+          }
+        ]
+      }
+    }
+  ]
+}

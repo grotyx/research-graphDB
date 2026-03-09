@@ -1,0 +1,201 @@
+# Cache Configuration for Spine GraphRAG
+
+# Global cache settings
+cache:
+  enabled: true  # Master switch for all caching
+  data_dir: "./data"  # Directory for cache files
+
+# Query Cache (Cypher queries)
+query_cache:
+  enabled: true
+  max_size: 1000  # Maximum number of cached queries
+  ttl_seconds: 3600  # 1 hour TTL
+
+  # Cache eviction policy
+  eviction_policy: "lru"  # Least Recently Used
+
+  # Warmup queries (executed on startup)
+  warmup_enabled: true
+  warmup_queries:
+    - description: "Count papers"
+      query: "MATCH (n:Paper) RETURN count(n) as count"
+      params: {}
+      ttl_override: 7200  # 2 hours
+
+    - description: "Count interventions"
+      query: "MATCH (n:Intervention) RETURN count(n) as count"
+      params: {}
+      ttl_override: 7200
+
+    - description: "List interventions"
+      query: "MATCH (i:Intervention) RETURN i.name ORDER BY i.name LIMIT 50"
+      params: {}
+      ttl_override: 3600
+
+    - description: "List pathologies"
+      query: "MATCH (p:Pathology) RETURN p.name ORDER BY p.name LIMIT 50"
+      params: {}
+      ttl_override: 3600
+
+    - description: "UBE hierarchy"
+      query: "MATCH (i:Intervention)-[:IS_A*]->(parent) WHERE i.name = $name RETURN parent"
+      params: {name: "UBE"}
+      ttl_override: 7200
+
+# Embedding Cache (text embeddings)
+embedding_cache:
+  enabled: true
+  db_path: "./data/embedding_cache.db"
+  ttl_days: 30  # 30 days TTL
+
+  # Warmup with common medical terms
+  warmup_enabled: true
+  warmup_terms:
+    # Pathologies
+    - "lumbar stenosis"
+    - "disc herniation"
+    - "spondylolisthesis"
+    - "degenerative disc disease"
+    - "spinal fracture"
+    - "vertebral compression fracture"
+    - "spinal tumor"
+    - "scoliosis"
+    - "kyphosis"
+    - "adult spinal deformity"
+
+    # Interventions
+    - "fusion surgery"
+    - "laminectomy"
+    - "discectomy"
+    - "foraminotomy"
+    - "vertebroplasty"
+    - "kyphoplasty"
+    - "endoscopic surgery"
+    - "minimally invasive surgery"
+    - "UBE"
+    - "TLIF"
+    - "PLIF"
+    - "OLIF"
+    - "posterior fusion"
+    - "anterior fusion"
+
+    # Outcomes
+    - "pain relief"
+    - "functional improvement"
+    - "fusion rate"
+    - "complication rate"
+    - "reoperation rate"
+    - "adjacent segment disease"
+    - "proximal junctional kyphosis"
+    - "subsidence"
+    - "cage migration"
+
+    # Measurements
+    - "VAS score"
+    - "ODI score"
+    - "JOA score"
+    - "SF-36"
+    - "EQ-5D"
+    - "back pain"
+    - "leg pain"
+    - "neurological deficit"
+    - "quality of life"
+
+  warmup_batch_size: 32
+  warmup_ttl_days: 90  # Longer TTL for warmup entries
+
+# LLM Response Cache
+llm_cache:
+  enabled: true
+  db_path: "./data/llm_cache.db"
+  ttl_hours: 168  # 7 days TTL
+
+  # Cache by operation type
+  operation_ttl:
+    section_classify: 720  # 30 days (stable)
+    chunk: 720  # 30 days (stable)
+    extract_metadata: 720  # 30 days (stable)
+    summarize: 168  # 7 days (may change)
+    answer_query: 72  # 3 days (query-dependent)
+    reasoning: 24  # 1 day (context-dependent)
+
+  # Cost tracking
+  cost_tracking_enabled: true
+
+  # Automatic cleanup
+  cleanup_expired_on_startup: true
+  cleanup_interval_hours: 24
+
+# Semantic Cache (similarity-based)
+semantic_cache:
+  enabled: true
+  similarity_threshold: 0.85  # Cosine similarity threshold (0-1)
+  max_entries_per_operation: 1000
+
+  # Operations eligible for semantic caching
+  enabled_operations:
+    - "summarize"
+    - "answer_query"
+    - "explain"
+    - "compare"
+
+  # Invalidation rules
+  invalidate_on_data_update: true
+  invalidate_node_types:
+    - "Paper"
+    - "Intervention"
+    - "Outcome"
+    - "Pathology"
+
+# Hybrid Ranker Cache
+hybrid_ranker_cache:
+  enabled: true
+  cache_search_results: true
+  cache_ttl_seconds: 1800  # 30 minutes
+  cache_size: 500
+
+  # Cache keys include:
+  # - Query text hash
+  # - Top K
+  # - Graph/vector weights
+  # - Evidence level filters
+
+# Cache Maintenance
+maintenance:
+  # Automatic cleanup schedule
+  cleanup_enabled: true
+  cleanup_schedule: "0 2 * * *"  # Daily at 2 AM (cron format)
+
+  # Cleanup thresholds
+  cleanup_when_expired_pct: 10  # Clean when >10% expired
+  cleanup_when_size_mb: 500  # Clean when cache exceeds 500MB
+
+  # Statistics logging
+  stats_logging_enabled: true
+  stats_interval_hours: 6  # Log stats every 6 hours
+
+# Performance Tuning
+performance:
+  # Memory limits
+  max_memory_mb: 1000  # Maximum total cache memory
+
+  # Batch sizes
+  embedding_batch_size: 32
+  query_batch_size: 10
+
+  # Timeouts
+  cache_operation_timeout_ms: 100  # Fail fast on cache operations
+
+  # Concurrency
+  max_concurrent_cache_ops: 50
+
+# Development/Testing
+dev:
+  # Disable caching in tests
+  disable_in_tests: false
+
+  # Cache statistics in development
+  verbose_stats: true
+
+  # Mock caches for testing
+  use_mock_caches: false

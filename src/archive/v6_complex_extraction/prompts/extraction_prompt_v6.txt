@@ -1,0 +1,38 @@
+### 4. STATISTICS FORMAT (v3.2 - Diverse Study Types Support)
+
+**IMPORTANT: Use the appropriate effect measure based on study type:**
+
+| Study Type | Primary Effect Measures | Examples |
+|------------|------------------------|----------|
+| RCT | MD, SMD, Cohen's d, RR | "MD -1.4 (95% CI: -2.1 to -0.7)", "Cohen's d = 0.8" |
+| Cohort (prospective/retrospective) | HR, RR, OR | "HR 2.35 (95% CI: 1.42-3.89)" |
+| Case-control | OR | "OR 3.2 (95% CI: 1.8-5.6)" |
+| Cross-sectional | OR, PR (Prevalence Ratio) | "OR 1.85 (95% CI: 1.2-2.8)" |
+| Meta-analysis | SMD, MD, OR, RR, I² | "SMD -0.45 (95% CI: -0.67 to -0.23), I²=42%" |
+| Survival analysis | HR, Median survival | "HR 0.72 (95% CI: 0.58-0.89), median 24 months" |
+
+**Statistics Fields:**
+- **p_value**: The most representative p-value (string, e.g., "0.001", "<0.001")
+- **is_significant**: Boolean (true if p < 0.05)
+- **effect_measure**: Structured effect measure object:
+  - measure_type: "HR/OR/RR/MD/SMD/NNT/I2/Cohen_d/r/other"
+  - value: numeric value as string (e.g., "2.35")
+  - ci_lower: lower 95% CI bound (e.g., "1.42")
+  - ci_upper: upper 95% CI bound (e.g., "3.89")
+  - label: complete formatted string (e.g., "HR 2.35 (95% CI: 1.42-3.89)")
+- **additional**: Other statistics as a single string (e.g., "NNT=5, I²=42%")
+
+**PICO** (Paper-level, in spine_metadata):
+- population: Study subjects (age, diagnosis, inclusion criteria)
+- intervention: Primary treatment/surgery
+- comparison: Control group treatment
+- outcome: Main outcome measures
+
+**Outcomes** (extract ALL with values, p-values, timepoints, directions):
+- Pain: VAS (back/leg), NRS
+- Function: ODI, NDI, JOA, mJOA, EQ-5D, SF-36
+- Radiological: fusion rate, lordosis, SVA, Cobb angle, disc height
+- Surgical: operation time, blood loss, hospital stay
+- Complications: dural tear, infection, nerve injury, reoperation
+- Satisfaction: MacNab, patient satisfaction
+- Oncology: survival rate, recurrence, SINS score

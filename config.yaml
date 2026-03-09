@@ -1,0 +1,114 @@
+# RAG System Configuration
+
+embedding:
+  # MedTE: Medical domain-specific embedding model
+  model: "MohammadKhodadad/MedTE-cl15-step-8000"
+  dim: 768
+  device: "cpu"  # "cuda" for GPU
+  batch_size: 32
+
+chunker:
+  chunk_size: 512
+  chunk_overlap: 50
+  separators:
+    - "\n\n"
+    - "\n"
+    - ". "
+    - " "
+
+vector_db:
+  persist_directory: "./data/chroma_db"
+  collection_name: "papers"
+
+search:
+  top_k: 5
+  score_threshold: 0.3
+
+web_scraper:
+  timeout: 30
+  user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+
+# LLM Configuration (Gemini 2.5 Flash)
+llm:
+  enabled: true
+  provider: "gemini"
+  model: "gemini-2.5-flash"
+  api_key_env: "GEMINI_API_KEY"
+
+  rate_limit:
+    requests_per_minute: 2000
+    tokens_per_minute: 4000000
+    concurrent_requests: 10
+
+  fallback:
+    on_error: true  # 에러시 규칙기반으로 fallback
+
+  cache:
+    enabled: true
+    ttl_hours: 168
+    db_path: "./data/llm_cache.db"
+
+  processing:
+    section_classification: true
+    semantic_chunking: true
+    metadata_extraction: true
+    batch_size: 10
+
+# Tiered Indexing Configuration
+tiers:
+  tier1:
+    sections: ["abstract", "results", "conclusion"]
+    search_weight: 1.0
+  tier2:
+    sections: ["introduction", "methods", "discussion"]
+    search_weight: 0.7
+
+# Evidence Levels
+evidence:
+  keywords:
+    level_1a: ["meta-analysis", "systematic review"]
+    level_1b: ["randomized", "RCT", "double-blind"]
+    level_2a: ["cohort", "prospective", "longitudinal"]
+    level_2b: ["case-control", "retrospective"]
+    level_3: ["case series", "case report"]
+    level_4: ["expert opinion", "consensus"]
+
+# Multi-factor Ranker Weights
+ranker:
+  weights:
+    semantic_similarity: 0.3
+    evidence_level: 0.25
+    recency: 0.15
+    section_tier: 0.15
+    citation_type: 0.15
+  time_decay:
+    half_life_years: 5
+
+# Knowledge Graph Configuration
+knowledge_graph:
+  enabled: true
+  db_path: "./data/paper_graph.db"
+
+  # Relationship analysis
+  relationship:
+    min_pico_similarity: 0.6
+    min_confidence: 0.5
+    auto_analyze_on_add: true
+
+  # Citation extraction
+  citation:
+    extract_on_add: true
+    match_existing_papers: true
+
+  # Topic clustering
+  clustering:
+    min_cluster_size: 2
+    similarity_threshold: 0.7
+
+# Ontology (SNOMED-CT) Configuration
+ontology:
+  enabled: true
+  use_scispacy: false  # Set to true if scispaCy is installed
+  query_expansion:
+    enabled: true
+    max_expansion_terms: 5

@@ -1,0 +1,301 @@
+# Clinical Rules for Spine Surgery Decision Support
+# Version: 1.0
+# Last Updated: 2025-12-14
+
+# ============================================================================
+# CONTRAINDICATIONS (금기사항)
+# ============================================================================
+# severity: absolute (절대 금기) | relative (상대 금기)
+# mitigation: 상대 금기인 경우 완화 방법
+
+contraindications:
+  # Fusion Surgery 금기
+  - intervention: "Fusion Surgery"
+    condition: "severe_osteoporosis"
+    severity: "absolute"
+    reason: "Screw loosening risk due to poor bone quality"
+
+  - intervention: "Fusion Surgery"
+    condition: "active_infection"
+    severity: "absolute"
+    reason: "Risk of implant-related infection"
+
+  - intervention: "Fusion Surgery"
+    condition: "age > 85"
+    severity: "relative"
+    mitigation: "Consider minimally invasive fusion or non-operative management"
+
+  - intervention: "Fusion Surgery"
+    condition: "Smoking"
+    severity: "relative"
+    mitigation: "Smoking cessation 4-6 weeks before surgery recommended"
+
+  # TLIF 금기
+  - intervention: "TLIF"
+    condition: "prior_same_level_surgery"
+    severity: "relative"
+    mitigation: "Consider ALIF or revision approach"
+
+  - intervention: "TLIF"
+    condition: "severe_foraminal_stenosis"
+    severity: "relative"
+    mitigation: "May require additional foraminotomy"
+
+  # ALIF 금기
+  - intervention: "ALIF"
+    condition: "prior_abdominal_surgery"
+    severity: "relative"
+    mitigation: "Careful vascular approach planning required"
+
+  - intervention: "ALIF"
+    condition: "vascular_disease"
+    severity: "relative"
+    mitigation: "Vascular surgery consultation recommended"
+
+  - intervention: "ALIF"
+    condition: "L5-S1"
+    severity: "relative"
+    mitigation: "Consider ALIF with supplements or TLIF alternative"
+
+  # OLIF 금기
+  - intervention: "OLIF"
+    condition: "retroperitoneal_scarring"
+    severity: "absolute"
+    reason: "High risk of vascular and ureteral injury"
+
+  # UBE 금기
+  - intervention: "UBE"
+    condition: "severe_instability"
+    severity: "absolute"
+    reason: "Decompression alone insufficient for unstable spine"
+
+  - intervention: "UBE"
+    condition: "multi_level > 3"
+    severity: "relative"
+    mitigation: "Consider staged procedures or open surgery"
+
+  # Decompression 금기
+  - intervention: "Laminectomy"
+    condition: "spondylolisthesis_grade_2+"
+    severity: "relative"
+    mitigation: "Fusion should be added to prevent iatrogenic instability"
+
+# ============================================================================
+# OUTCOME WEIGHTS BY AGE GROUP
+# ============================================================================
+# 나이에 따른 결과 변수 중요도 가중치 (합계 = 1.0)
+
+outcome_weights_by_age:
+  young_adult:  # < 40세
+    pain_relief: 0.20
+    functional_improvement: 0.20
+    return_to_work: 0.25
+    long_term_durability: 0.25
+    complication_risk: 0.10
+
+  middle_aged:  # 40-59세
+    pain_relief: 0.25
+    functional_improvement: 0.25
+    return_to_work: 0.20
+    long_term_durability: 0.15
+    complication_risk: 0.15
+
+  elderly:  # 60-74세
+    pain_relief: 0.30
+    functional_improvement: 0.25
+    return_to_work: 0.05
+    long_term_durability: 0.10
+    complication_risk: 0.30
+
+  very_elderly:  # 75세+
+    pain_relief: 0.30
+    functional_improvement: 0.20
+    return_to_work: 0.00
+    long_term_durability: 0.05
+    complication_risk: 0.45
+
+# ============================================================================
+# OUTCOME MAPPING
+# ============================================================================
+# 시스템 결과 변수 → 카테고리 매핑
+
+outcome_categories:
+  pain_relief:
+    - "VAS"
+    - "VAS Back"
+    - "VAS Leg"
+    - "NRS"
+    - "Pain Score"
+    - "Back Pain"
+    - "Leg Pain"
+
+  functional_improvement:
+    - "ODI"
+    - "JOA"
+    - "SF-36"
+    - "EQ-5D"
+    - "Functional Score"
+    - "Walking Distance"
+
+  return_to_work:
+    - "Return to Work"
+    - "Work Status"
+    - "Activity Level"
+
+  long_term_durability:
+    - "Fusion Rate"
+    - "Reoperation Rate"
+    - "Adjacent Segment Disease"
+    - "Hardware Failure"
+    - "Revision Rate"
+
+  complication_risk:
+    - "Complication Rate"
+    - "Dural Tear"
+    - "Infection"
+    - "Blood Loss"
+    - "Hospital Stay"
+    - "Operative Time"
+
+# ============================================================================
+# PATHOLOGY-INTERVENTION RECOMMENDATIONS
+# ============================================================================
+# 질환별 1차/2차 추천 수술법
+
+pathology_recommendations:
+  "Lumbar Stenosis":
+    first_line:
+      - name: "UBE"
+        indication: "Single or two-level stenosis without instability"
+        evidence_level: "1b"
+      - name: "Laminectomy"
+        indication: "Multi-level stenosis without instability"
+        evidence_level: "1a"
+    second_line:
+      - name: "TLIF"
+        indication: "Stenosis with instability or spondylolisthesis"
+        evidence_level: "1b"
+
+  "Disc Herniation":
+    first_line:
+      - name: "Microdiscectomy"
+        indication: "First-time herniation without instability"
+        evidence_level: "1a"
+      - name: "UBE"
+        indication: "Single-level herniation, minimal invasive preference"
+        evidence_level: "1b"
+    second_line:
+      - name: "TLIF"
+        indication: "Recurrent herniation or with instability"
+        evidence_level: "2a"
+
+  "Spondylolisthesis":
+    first_line:
+      - name: "TLIF"
+        indication: "Grade I-II with neurologic symptoms"
+        evidence_level: "1b"
+      - name: "PLIF"
+        indication: "Grade I-II with bilateral symptoms"
+        evidence_level: "1b"
+    second_line:
+      - name: "ALIF"
+        indication: "High-grade (III-IV) or revision cases"
+        evidence_level: "2a"
+
+  "Degenerative Disc Disease":
+    first_line:
+      - name: "ALIF"
+        indication: "Single-level DDD at L4-5 or L5-S1"
+        evidence_level: "1b"
+      - name: "TLIF"
+        indication: "DDD with foraminal stenosis"
+        evidence_level: "1b"
+    second_line:
+      - name: "ADR"
+        indication: "Young patient, single level, good facets"
+        evidence_level: "1b"
+
+  "Scoliosis":
+    first_line:
+      - name: "Long Fusion"
+        indication: "Adult deformity with imbalance"
+        evidence_level: "2a"
+    second_line:
+      - name: "Short Fusion"
+        indication: "Limited curve with localized symptoms"
+        evidence_level: "2b"
+
+# ============================================================================
+# COMORBIDITY RISK MODIFIERS
+# ============================================================================
+# 동반질환에 따른 합병증 위험 배율
+
+comorbidity_risk_modifiers:
+  "Diabetes":
+    infection_risk: 2.0
+    wound_healing: 1.5
+    fusion_rate_reduction: 0.85
+
+  "Osteoporosis":
+    hardware_failure: 2.5
+    fusion_rate_reduction: 0.80
+
+  "Smoking":
+    fusion_rate_reduction: 0.70
+    infection_risk: 1.5
+
+  "Obesity":
+    infection_risk: 1.8
+    complication_risk: 1.5
+    operative_time: 1.3
+
+  "Cardiac Disease":
+    perioperative_risk: 2.0
+
+  "Renal Disease":
+    perioperative_risk: 1.8
+    bone_quality_reduction: 0.85
+
+# ============================================================================
+# SEVERITY MODIFIERS
+# ============================================================================
+# 중증도에 따른 치료 접근
+
+severity_modifiers:
+  mild:
+    conservative_first: true
+    min_conservative_weeks: 6
+    surgery_threshold: "failed_conservative"
+
+  moderate:
+    conservative_first: true
+    min_conservative_weeks: 4
+    surgery_threshold: "failed_conservative_or_progressive"
+
+  severe:
+    conservative_first: false
+    urgent_if:
+      - "cauda_equina"
+      - "progressive_weakness"
+      - "bowel_bladder_dysfunction"
+    surgery_threshold: "direct"
+
+# ============================================================================
+# EVIDENCE QUALITY REQUIREMENTS
+# ============================================================================
+
+evidence_requirements:
+  # 최소 근거 수준
+  minimum_evidence_level: "3"
+
+  # 선호 근거 수준
+  preferred_evidence_levels:
+    - "1a"
+    - "1b"
+    - "2a"
+
+  # 신뢰도 임계값
+  confidence_thresholds:
+    high: 0.8
+    moderate: 0.6
+    low: 0.4
