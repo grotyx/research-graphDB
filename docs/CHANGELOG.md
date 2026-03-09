@@ -1600,7 +1600,7 @@ pubmed action=import_by_pmids pmids=["12345678", "23456789"] max_concurrent=10
   - `MCP_USAGE_GUIDE.md`: v1.14.18 → v1.14.19
   - `TRD_v3_GraphRAG.md`: v1.14.18 → v1.14.19
 - **CLAUDE.md 비밀번호 동기화**: `.env` 실제 설정과 일치하도록 수정
-  - `spine_graph_2024` → `spineGraph2024`
+  - 비밀번호를 `.env` 환경변수로 통일
 
 **코드 변경**:
 - **`search_handler.py`** (adaptive_search 메서드):

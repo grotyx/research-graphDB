@@ -36,5 +36,9 @@ logs/
 htmlcov/
 .coverage
 
+# Personal/Claude config
+user-claude.md
+.claude/
+
 # Tmux
 tmux-*.log

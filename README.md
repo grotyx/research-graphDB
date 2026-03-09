@@ -144,4 +144,6 @@ PUBMED_MAX_CONCURRENT=5           # PubMed 동시 처리 수 (1-10)
 
 ## License
 
-Private repository - All rights reserved.
+This project is provided for **research and personal use only**.
+
+See [LICENSE](LICENSE) for details.
