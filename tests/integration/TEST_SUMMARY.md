@@ -12,7 +12,7 @@ Created comprehensive integration tests for three new modules in the Spine Graph
 
 ### 1. test_hybrid_pipeline.py
 
-**Location**: `/Users/sangminpark/Desktop/rag_research/tests/integration/test_hybrid_pipeline.py`
+**Location**: `/path/to/project/tests/integration/test_hybrid_pipeline.py`
 
 **Total Test Classes**: 6
 **Total Test Methods**: 28
@@ -72,7 +72,7 @@ Created comprehensive integration tests for three new modules in the Spine Graph
 
 ### 2. test_evidence_synthesis.py
 
-**Location**: `/Users/sangminpark/Desktop/rag_research/tests/integration/test_evidence_synthesis.py`
+**Location**: `/path/to/project/tests/integration/test_evidence_synthesis.py`
 
 **Total Test Classes**: 9
 **Total Test Methods**: 41
@@ -151,7 +151,7 @@ Created comprehensive integration tests for three new modules in the Spine Graph
 
 ### 3. test_inference_engine.py
 
-**Location**: `/Users/sangminpark/Desktop/rag_research/tests/integration/test_inference_engine.py`
+**Location**: `/path/to/project/tests/integration/test_inference_engine.py`
 
 **Total Test Classes**: 10
 **Total Test Methods**: 38

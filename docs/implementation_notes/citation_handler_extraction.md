@@ -82,7 +82,7 @@
 ## File Structure
 
 ### Created File
-`/Users/sangminpark/Desktop/rag_research/src/medical_mcp/handlers/citation_handler.py`
+`src/src/medical_mcp/handlers/citation_handler.py`
 
 ### Class Design
 ```python
@@ -106,7 +106,7 @@ class CitationHandler:
 - Access to `server.search()` method
 
 ### Integration
-- Added to `/Users/sangminpark/Desktop/rag_research/src/medical_mcp/handlers/__init__.py`
+- Added to `src/src/medical_mcp/handlers/__init__.py`
 - Exported in `__all__` list
 - Import: `from .citation_handler import CitationHandler`
 

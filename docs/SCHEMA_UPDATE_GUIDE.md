@@ -225,10 +225,10 @@ PYTHONPATH=./src python3 scripts/build_ontology.py report
 crontab -e
 
 # 다음 줄 추가 (통합 보강 스크립트)
-0 3 * * 0 cd /Users/sangminpark/Documents/rag_research && PYTHONPATH=./src /usr/bin/python3 scripts/enrich_graph_snomed.py --force --quiet >> logs/snomed_enrich.log 2>&1
+0 3 * * 0 cd /path/to/project && PYTHONPATH=./src /usr/bin/python3 scripts/enrich_graph_snomed.py --force --quiet >> logs/snomed_enrich.log 2>&1
 
 # 온톨로지 계층 (월 1회, 매월 1일)
-0 4 1 * * cd /Users/sangminpark/Documents/rag_research && PYTHONPATH=./src /usr/bin/python3 scripts/build_ontology.py --force >> logs/build_ontology.log 2>&1
+0 4 1 * * cd /path/to/project && PYTHONPATH=./src /usr/bin/python3 scripts/build_ontology.py --force >> logs/build_ontology.log 2>&1
 ```
 
 ### Launchd (macOS 권장)
@@ -245,16 +245,16 @@ crontab -e
     <key>ProgramArguments</key>
     <array>
         <string>/usr/bin/python3</string>
-        <string>/Users/sangminpark/Documents/rag_research/scripts/enrich_graph_snomed.py</string>
+        <string>/path/to/project/scripts/enrich_graph_snomed.py</string>
         <string>--force</string>
         <string>--quiet</string>
     </array>
     <key>WorkingDirectory</key>
-    <string>/Users/sangminpark/Documents/rag_research</string>
+    <string>/path/to/project</string>
     <key>EnvironmentVariables</key>
     <dict>
         <key>PYTHONPATH</key>
-        <string>/Users/sangminpark/Documents/rag_research/src</string>
+        <string>/path/to/project/src</string>
     </dict>
     <key>StartCalendarInterval</key>
     <dict>
@@ -266,9 +266,9 @@ crontab -e
         <integer>0</integer>
     </dict>
     <key>StandardOutPath</key>
-    <string>/Users/sangminpark/Documents/rag_research/logs/snomed_enrich.log</string>
+    <string>/path/to/project/logs/snomed_enrich.log</string>
     <key>StandardErrorPath</key>
-    <string>/Users/sangminpark/Documents/rag_research/logs/snomed_enrich_error.log</string>
+    <string>/path/to/project/logs/snomed_enrich_error.log</string>
 </dict>
 </plist>
 ```

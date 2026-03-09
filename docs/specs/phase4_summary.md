@@ -388,7 +388,7 @@ Integrate ResponseSynthesizer into:
 ## Files Created/Modified
 
 ```
-/Users/sangminpark/Desktop/rag_research/
+src/
 ├── src/orchestrator/
 │   ├── __init__.py                          (updated)
 │   └── response_synthesizer.py              (new, 620 lines)

@@ -300,7 +300,7 @@ class QueryType(Enum):
 ### Run Tests
 
 ```bash
-PYTHONPATH=/Users/sangminpark/Desktop/rag_research/src python -m pytest tests/solver/test_adaptive_ranker.py -v
+PYTHONPATH=/path/to/project/src python -m pytest tests/solver/test_adaptive_ranker.py -v
 ```
 
 ### Test Coverage
@@ -459,10 +459,10 @@ print(f"Vector results: {len(vector_results)}")
 
 ## References
 
-- **HybridRanker**: `/Users/sangminpark/Desktop/rag_research/src/solver/hybrid_ranker.py`
-- **GraphResult**: `/Users/sangminpark/Desktop/rag_research/src/solver/graph_result.py`
-- **VectorDB**: `/Users/sangminpark/Desktop/rag_research/src/storage/vector_db.py`
-- **Tests**: `/Users/sangminpark/Desktop/rag_research/tests/solver/test_adaptive_ranker.py`
+- **HybridRanker**: `/path/to/project/src/solver/hybrid_ranker.py`
+- **GraphResult**: `/path/to/project/src/solver/graph_result.py`
+- **VectorDB**: `/path/to/project/src/storage/vector_db.py`
+- **Tests**: `/path/to/project/tests/solver/test_adaptive_ranker.py`
 
 ## License
 

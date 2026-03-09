@@ -14,7 +14,7 @@ Extended the Gemini Vision PDF Processor to extract spine-specific metadata for 
 
 ## 1. Modified Files
 
-### 1.1 `/Users/sangminpark/Desktop/rag_research/src/builder/gemini_vision_processor.py`
+### 1.1 `src/src/builder/gemini_vision_processor.py`
 
 **Changes:**
 
@@ -122,7 +122,7 @@ spine_metadata = SpineMetadata(
 
 ## 2. New Files
 
-### 2.1 `/Users/sangminpark/Desktop/rag_research/src/builder/spine_domain_classifier.py`
+### 2.1 `src/src/builder/spine_domain_classifier.py`
 
 **Purpose**: Post-processing and normalization of extracted spine metadata.
 
@@ -219,7 +219,7 @@ async def process_paper():
 
 ---
 
-### 2.2 `/Users/sangminpark/Desktop/rag_research/tests/builder/test_spine_domain_classifier.py`
+### 2.2 `src/tests/builder/test_spine_domain_classifier.py`
 
 **Purpose**: Comprehensive unit tests for SpineDomainClassifier.
 
@@ -260,7 +260,7 @@ async def process_paper():
 **Run Tests:**
 
 ```bash
-cd /Users/sangminpark/Desktop/rag_research
+cd .
 pytest tests/builder/test_spine_domain_classifier.py -v
 ```
 
@@ -271,7 +271,7 @@ pytest tests/builder/test_spine_domain_classifier.py -v
 ### 3.1 EntityNormalizer Dependency
 
 SpineDomainClassifier depends on:
-- `/Users/sangminpark/Desktop/rag_research/src/graph/entity_normalizer.py`
+- `src/src/graph/entity_normalizer.py`
 
 **Current Status**: Already implemented (Phase 1: Foundation)
 

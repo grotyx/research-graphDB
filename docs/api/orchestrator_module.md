@@ -4,7 +4,7 @@
 
 The Orchestrator module provides LangChain-based hybrid search orchestration, combining Neo4j Graph search with ChromaDB Vector search and Gemini LLM-based response synthesis.
 
-**Module Path**: `/Users/sangminpark/Desktop/rag_research/src/orchestrator/`
+**Module Path**: `src/src/orchestrator/`
 
 **Key Components**:
 - `chain_builder.py` - LangChain chain orchestration

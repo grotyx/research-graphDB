@@ -8,7 +8,7 @@ Utility scripts for Spine GraphRAG system.
 
 ```bash
 # From project root
-cd /Users/sangminpark/Desktop/rag_research
+cd /path/to/project
 docker-compose up -d
 ```
 

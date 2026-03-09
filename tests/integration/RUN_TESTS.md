@@ -7,7 +7,7 @@
 pip install pytest pytest-asyncio pytest-cov
 
 # Ensure you're in project root
-cd /Users/sangminpark/Desktop/rag_research
+cd /path/to/project
 ```
 
 ## Quick Start
@@ -224,7 +224,7 @@ jobs:
 
 ```bash
 # Solution: Set PYTHONPATH
-export PYTHONPATH=/Users/sangminpark/Desktop/rag_research:$PYTHONPATH
+export PYTHONPATH=/path/to/project:$PYTHONPATH
 pytest tests/integration/ -v
 ```
 

@@ -46,7 +46,6 @@ rag_research/
 │   ├── solver/                # 검색/추론 모듈
 │   ├── llm/                   # Claude/Gemini 클라이언트
 │   └── storage/               # 저장소 추상화
-├── web/                        # Streamlit UI ⭐필수
 ├── docs/                       # 문서 📖권장
 │   ├── CHANGELOG.md           # 버전 히스토리
 │   ├── GRAPH_SCHEMA.md        # Neo4j 스키마
@@ -59,11 +58,9 @@ rag_research/
 │   ├── extracted/             # JSON 추출 결과 ⚪선택
 │   └── pdf/                   # 원본 PDF ⚪선택
 ├── .env.example                # 환경변수 템플릿 ⭐필수
-├── docker-compose.yml          # Neo4j 컨테이너 ⭐필수
 ├── pyproject.toml              # Python 의존성 ⭐필수
 ├── requirements.txt            # pip 의존성 ⭐필수
-├── config.yaml                 # 앱 설정 ⭐필수
-└── CLAUDE.md                   # 프로젝트 규칙 📖권장
+└── config.yaml                 # 앱 설정 ⭐필수
 ```
 
 ## 배포 단계
@@ -185,20 +182,15 @@ async def init():
 asyncio.run(init())
 ```
 
-### Step 6: 애플리케이션 실행
+### Step 6: MCP 서버 실행
 
 ```bash
-# Streamlit Web UI
-streamlit run web/app.py
+# MCP 서버 시작 (포트 7777)
+PYTHONPATH=./src python3 -m medical_mcp.sse_server --host 0.0.0.0 --port 7777
 
-# 포트 지정
-streamlit run web/app.py --server.port 8501
-
-# 외부 접속 허용
-streamlit run web/app.py --server.address 0.0.0.0
+# Health check
+curl http://localhost:7777/health
 ```
-
-**접속:** http://localhost:8501
 
 ## 검증 체크리스트
 
@@ -212,7 +204,7 @@ echo "=== Spine GraphRAG v1.25.0 Deployment Verification ==="
 # 1. Python 환경
 echo -e "\n[1/5] Python Environment"
 python --version
-pip show anthropic neo4j streamlit | grep -E "^(Name|Version)"
+pip show anthropic neo4j openai | grep -E "^(Name|Version)"
 
 # 2. Neo4j 연결
 echo -e "\n[2/5] Neo4j Connection"
@@ -263,7 +255,7 @@ print('✅ Claude API OK')
 
 # 5. 버전 확인
 echo -e "\n[5/5] Version Check"
-grep "Version" CLAUDE.md | head -1
+python -c "import src; print(f'Version: {src.__version__}')"
 
 echo -e "\n=== Verification Complete ==="
 ```
@@ -373,7 +365,7 @@ python3 -m venv .venv && source .venv/bin/activate && \
 pip install -r requirements.txt && \
 cp .env.example .env && \
 echo "Edit .env with your API keys, then run:" && \
-echo "docker-compose up -d && sleep 30 && python scripts/init_neo4j.py && streamlit run web/app.py"
+echo "Start Neo4j, then: python scripts/init_neo4j.py && PYTHONPATH=./src python3 -m medical_mcp.sse_server"
 ```
 
 ## 관련 문서

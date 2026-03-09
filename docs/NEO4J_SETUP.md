@@ -15,7 +15,7 @@ Complete setup guide for Neo4j graph database infrastructure. Since v1.14+, Neo4
 ### 1. Start Neo4j Container
 
 ```bash
-cd /Users/sangminpark/Documents/rag_research
+cd /path/to/project
 docker-compose up -d
 ```
 
@@ -101,7 +101,7 @@ NEO4J_DATABASE=neo4j
 
 ### Docker Compose Configuration
 
-File: `/Users/sangminpark/Documents/rag_research/docker-compose.yml`
+File: `/path/to/project/docker-compose.yml`
 
 Key settings:
 - **Image**: neo4j:5.26-community

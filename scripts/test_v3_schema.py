@@ -170,7 +170,7 @@ async def main():
         pdf_path = Path(sys.argv[1])
     else:
         # Use default test PDF
-        default_pdfs = list(Path("/Users/sangminpark/Desktop/rag_research/data/uploads").glob("*.pdf"))
+        default_pdfs = list(Path("/path/to/project/data/uploads").glob("*.pdf"))
         if default_pdfs:
             pdf_path = default_pdfs[0]
             print(f"Using default PDF: {pdf_path.name}")

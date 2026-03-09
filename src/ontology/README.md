@@ -206,7 +206,7 @@ pytest tests/test_ontology.py::TestSNOMEDLinker::test_extract_entities -v
 See `examples/ontology_demo.py` for complete usage examples:
 
 ```bash
-cd /Users/sangminpark/Desktop/rag_research
+cd /path/to/project
 python examples/ontology_demo.py
 ```
 

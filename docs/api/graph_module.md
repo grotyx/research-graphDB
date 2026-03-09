@@ -4,7 +4,7 @@
 
 The Graph module provides Neo4j-based knowledge graph functionality for spine surgery research. It includes node/relationship schema, entity normalization, relationship building, taxonomy management, and Neo4j client operations.
 
-**Module Path**: `/Users/sangminpark/Desktop/rag_research/src/graph/`
+**Module Path**: `src/src/graph/`
 
 **Key Components**:
 - `spine_schema.py` - Node and relationship definitions
@@ -939,7 +939,7 @@ async with Neo4jClient() as client:
 
 ### Unit Tests
 
-Located in `/Users/sangminpark/Desktop/rag_research/tests/graph/`
+Located in `src/tests/graph/`
 
 ```bash
 # Run graph module tests

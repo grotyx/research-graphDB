@@ -25,7 +25,7 @@ Successfully implemented a comprehensive integration testing suite for the Spine
 
 ### 1. End-to-End Pipeline Tests (`test_e2e_pipeline.py`)
 
-**File**: `/Users/sangminpark/Desktop/rag_research/tests/integration/test_e2e_pipeline.py`
+**File**: `/path/to/project/tests/integration/test_e2e_pipeline.py`
 **Tests**: ~15 tests
 **Coverage**: Complete data flow from PDF to response
 
@@ -58,7 +58,7 @@ test_response_generation_with_evidence()
 
 ### 2. Scenario-Based Tests (`test_scenarios.py`)
 
-**File**: `/Users/sangminpark/Desktop/rag_research/tests/integration/test_scenarios.py`
+**File**: `/path/to/project/tests/integration/test_scenarios.py`
 **Tests**: ~12 tests
 **Coverage**: Real-world usage patterns
 
@@ -86,7 +86,7 @@ test_response_generation_with_evidence()
 
 ### 3. Performance Benchmarks (`test_performance.py`)
 
-**File**: `/Users/sangminpark/Desktop/rag_research/tests/integration/test_performance.py`
+**File**: `/path/to/project/tests/integration/test_performance.py`
 **Tests**: ~13 tests
 **Coverage**: Latency, throughput, memory usage
 
@@ -112,7 +112,7 @@ test_response_generation_with_evidence()
 
 ### 4. Test Fixtures (`tests/fixtures/`)
 
-**Directory**: `/Users/sangminpark/Desktop/rag_research/tests/fixtures/`
+**Directory**: `/path/to/project/tests/fixtures/`
 **Files**: 3 fixture files
 **Coverage**: Sample data and mock responses
 
@@ -143,7 +143,7 @@ test_response_generation_with_evidence()
 
 ```bash
 # Run all integration tests (fast mode)
-cd /Users/sangminpark/Desktop/rag_research
+cd /path/to/project
 pytest tests/integration/ -v -m "not slow"
 
 # Run with coverage
@@ -218,7 +218,7 @@ pytest -v -m "not slow"
 
 ### README
 
-**File**: `/Users/sangminpark/Desktop/rag_research/tests/integration/README.md`
+**File**: `/path/to/project/tests/integration/README.md`
 **Content**:
 - Test structure and organization
 - Running tests (all variations)

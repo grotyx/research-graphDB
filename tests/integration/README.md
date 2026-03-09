@@ -252,7 +252,7 @@ If you see import errors:
 
 ```bash
 # Ensure src/ is in PYTHONPATH
-export PYTHONPATH=/Users/sangminpark/Desktop/rag_research:$PYTHONPATH
+export PYTHONPATH=/path/to/project:$PYTHONPATH
 
 # Or install in development mode
 pip install -e .
