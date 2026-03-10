@@ -75,7 +75,7 @@ class Neo4jConfig:
     """Neo4j 연결 설정."""
     uri: str = "bolt://localhost:7687"
     username: str = "neo4j"
-    password: str = field(default="password", repr=False)
+    password: str = field(default="", repr=False)
     database: str = "neo4j"
     max_connection_lifetime: int = 3600
     max_connection_pool_size: int = 50
@@ -87,7 +87,7 @@ class Neo4jConfig:
         return cls(
             uri=os.environ.get("NEO4J_URI", "bolt://localhost:7687"),
             username=os.environ.get("NEO4J_USERNAME", "neo4j"),
-            password=os.environ.get("NEO4J_PASSWORD", "password"),
+            password=os.environ.get("NEO4J_PASSWORD", ""),
             database=os.environ.get("NEO4J_DATABASE", "neo4j"),
         )
 

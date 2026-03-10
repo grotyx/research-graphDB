@@ -399,7 +399,8 @@ Examples of correct mapping:
 - "Biportal endoscopic lumbar decompression" → use "UBE"
 - "estimated intraoperative blood loss" → use "Blood Loss"
 """
-    except Exception:
+    except Exception as e:
+        logger.warning(f"Failed to build controlled vocabulary prompt: {e}")
         return ""
 
 
@@ -1300,7 +1301,7 @@ class UnifiedPDFProcessor:
     """
 
     # 기본 폴백 모델
-    DEFAULT_FALLBACK_MODEL = "claude-sonnet-4-5-20250929"
+    DEFAULT_FALLBACK_MODEL = os.getenv("CLAUDE_FALLBACK_MODEL", "claude-sonnet-4-5-20250929")
 
     def __init__(
         self,

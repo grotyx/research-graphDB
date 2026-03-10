@@ -62,7 +62,7 @@ class Neo4jConfig:
 
     uri: str = "bolt://localhost:7687"
     username: str = "neo4j"
-    password: str = "password"
+    password: str = ""
     database: str = "neo4j"
     max_connection_pool_size: int = 50
     connection_timeout: int = 30
@@ -85,7 +85,7 @@ class LLMVisionConfig:
         max_pdf_pages: Maximum PDF pages to process
     """
 
-    model: str = "gemini-2.5-flash"
+    model: str = field(default_factory=lambda: os.environ.get("GEMINI_MODEL", "gemini-2.5-flash"))
     timeout: int = 120
     max_pdf_pages: int = 100
 
@@ -106,8 +106,8 @@ class LLMConfig:
         vision: Vision model configuration
     """
 
-    provider: str = "gemini"
-    model: str = "gemini-2.5-flash-preview-05-20"
+    provider: str = field(default_factory=lambda: os.environ.get("LLM_PROVIDER", "claude"))
+    model: str = field(default_factory=lambda: os.environ.get("CLAUDE_MODEL", "claude-haiku-4-5-20251001"))
     api_key: str = ""
     temperature: float = 0.1
     max_tokens: int = 32768  # Claude 4.5는 최대 64K 지원
@@ -462,10 +462,10 @@ class ConfigManager:
             config: Parsed configuration to validate
         """
         # Check Neo4j password is not default
-        if config.neo4j.password == "password":
+        if not config.neo4j.password:
             logger.warning(
-                "Neo4j password is set to default 'password'. "
-                "Set NEO4J_PASSWORD environment variable for production."
+                "Neo4j password is empty. "
+                "Set NEO4J_PASSWORD environment variable."
             )
 
         # Check LLM API key is present
@@ -629,7 +629,7 @@ class ConfigManager:
         neo4j = Neo4jConfig(
             uri=neo4j_data.get("uri", "bolt://localhost:7687"),
             username=neo4j_data.get("username", "neo4j"),
-            password=neo4j_data.get("password", "password"),
+            password=neo4j_data.get("password", ""),
             database=neo4j_data.get("database", "neo4j"),
             max_connection_pool_size=neo4j_data.get("max_connection_pool_size", 50),
             connection_timeout=neo4j_data.get("connection_timeout", 30),
@@ -642,8 +642,8 @@ class ConfigManager:
         llm_data = data.get("llm", {})
         vision_data = llm_data.get("vision", {})
         llm = LLMConfig(
-            provider=llm_data.get("provider", "gemini"),
-            model=llm_data.get("model", "gemini-2.5-flash-preview-05-20"),
+            provider=llm_data.get("provider", os.environ.get("LLM_PROVIDER", "claude")),
+            model=llm_data.get("model", os.environ.get("CLAUDE_MODEL", "claude-haiku-4-5-20251001")),
             api_key=llm_data.get("api_key", ""),
             temperature=llm_data.get("temperature", 0.1),
             max_tokens=llm_data.get("max_tokens", 32768),
@@ -651,7 +651,7 @@ class ConfigManager:
             max_retries=llm_data.get("max_retries", 3),
             retry_delay=llm_data.get("retry_delay", 1.0),
             vision=LLMVisionConfig(
-                model=vision_data.get("model", "gemini-2.5-flash"),
+                model=vision_data.get("model", os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")),
                 timeout=vision_data.get("timeout", 120),
                 max_pdf_pages=vision_data.get("max_pdf_pages", 100),
             ),

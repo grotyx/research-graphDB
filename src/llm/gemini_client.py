@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 class GeminiConfig:
     """Gemini API 설정."""
     api_key: str = field(default="", repr=False)
-    model: str = "gemini-2.5-flash"
+    model: str = field(default_factory=lambda: os.environ.get("GEMINI_MODEL", "gemini-2.5-flash"))
     max_retries: int = 3
     requests_per_minute: int = 2000
     tokens_per_minute: int = 4_000_000

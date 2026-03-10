@@ -33,9 +33,11 @@ from core.exceptions import LLMError
 # ============================================================================
 
 @pytest.fixture(autouse=True)
-def set_gemini_api_key():
-    """Set GEMINI_API_KEY for all tests."""
-    with patch.dict(os.environ, {"GEMINI_API_KEY": "test-api-key-12345"}):
+def isolate_gemini_env():
+    """Set GEMINI_API_KEY and remove GEMINI_MODEL so defaults are tested."""
+    env = {"GEMINI_API_KEY": "test-api-key-12345"}
+    with patch.dict(os.environ, env, clear=False):
+        os.environ.pop("GEMINI_MODEL", None)
         yield
 
 

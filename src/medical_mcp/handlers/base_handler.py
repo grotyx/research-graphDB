@@ -61,7 +61,7 @@ class BaseHandler:
             Path(self.server.project_root / "data").resolve() if hasattr(self.server, 'project_root') else None,
             Path.cwd().resolve(),
         ]
-        if not any(d and str(path).startswith(str(d)) for d in allowed_dirs if d):
+        if not any(d and path.is_relative_to(d) for d in allowed_dirs if d):
             logger.warning(f"Path traversal attempt blocked: {file_path}")
             return None, {"success": False, "error": "접근 불가: 허용된 디렉토리 외부 경로입니다"}
 
