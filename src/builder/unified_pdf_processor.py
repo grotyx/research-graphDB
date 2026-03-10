@@ -1301,7 +1301,7 @@ class UnifiedPDFProcessor:
     """
 
     # 기본 폴백 모델
-    DEFAULT_FALLBACK_MODEL = "claude-sonnet-4-5-20250929"
+    DEFAULT_FALLBACK_MODEL = os.getenv("CLAUDE_FALLBACK_MODEL", "claude-sonnet-4-5-20250929")
 
     def __init__(
         self,

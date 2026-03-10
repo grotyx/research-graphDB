@@ -85,7 +85,7 @@ class LLMVisionConfig:
         max_pdf_pages: Maximum PDF pages to process
     """
 
-    model: str = "gemini-2.5-flash"
+    model: str = field(default_factory=lambda: os.environ.get("GEMINI_MODEL", "gemini-2.5-flash"))
     timeout: int = 120
     max_pdf_pages: int = 100
 
@@ -106,8 +106,8 @@ class LLMConfig:
         vision: Vision model configuration
     """
 
-    provider: str = "gemini"
-    model: str = "gemini-2.5-flash-preview-05-20"
+    provider: str = field(default_factory=lambda: os.environ.get("LLM_PROVIDER", "claude"))
+    model: str = field(default_factory=lambda: os.environ.get("CLAUDE_MODEL", "claude-haiku-4-5-20251001"))
     api_key: str = ""
     temperature: float = 0.1
     max_tokens: int = 32768  # Claude 4.5는 최대 64K 지원
@@ -642,8 +642,8 @@ class ConfigManager:
         llm_data = data.get("llm", {})
         vision_data = llm_data.get("vision", {})
         llm = LLMConfig(
-            provider=llm_data.get("provider", "gemini"),
-            model=llm_data.get("model", "gemini-2.5-flash-preview-05-20"),
+            provider=llm_data.get("provider", os.environ.get("LLM_PROVIDER", "claude")),
+            model=llm_data.get("model", os.environ.get("CLAUDE_MODEL", "claude-haiku-4-5-20251001")),
             api_key=llm_data.get("api_key", ""),
             temperature=llm_data.get("temperature", 0.1),
             max_tokens=llm_data.get("max_tokens", 32768),
@@ -651,7 +651,7 @@ class ConfigManager:
             max_retries=llm_data.get("max_retries", 3),
             retry_delay=llm_data.get("retry_delay", 1.0),
             vision=LLMVisionConfig(
-                model=vision_data.get("model", "gemini-2.5-flash"),
+                model=vision_data.get("model", os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")),
                 timeout=vision_data.get("timeout", 120),
                 max_pdf_pages=vision_data.get("max_pdf_pages", 100),
             ),

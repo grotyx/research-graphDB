@@ -33,7 +33,7 @@ class TestNeo4jConfig:
 
         assert config.uri == "bolt://localhost:7687"
         assert config.username == "neo4j"
-        assert config.password == "password"
+        assert config.password == ""
         assert config.database == "neo4j"
         assert config.max_connection_pool_size == 50
 
