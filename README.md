@@ -478,6 +478,16 @@ See [TERMINOLOGY_ONTOLOGY.md](docs/TERMINOLOGY_ONTOLOGY.md) Section 9 for the ex
 
 ---
 
+## Author
+
+**Professor Sang-Min Park, M.D., Ph.D.**
+
+Department of Orthopaedic Surgery, Seoul National University Bundang Hospital, Seoul National University College of Medicine
+
+[https://sangmin.me/](https://sangmin.me/)
+
+---
+
 ## License
 
 This project is provided for **research and personal use only**.
