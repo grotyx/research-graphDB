@@ -38,3 +38,11 @@ htmlcov/
 
 # Tmux
 tmux-*.log
+
+# Private/Internal (not for public repo)
+CLAUDE.md
+user-claude.md
+.claude/
+archive/
+web/
+.streamlit/

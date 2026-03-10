@@ -399,7 +399,8 @@ Examples of correct mapping:
 - "Biportal endoscopic lumbar decompression" → use "UBE"
 - "estimated intraoperative blood loss" → use "Blood Loss"
 """
-    except Exception:
+    except Exception as e:
+        logger.warning(f"Failed to build controlled vocabulary prompt: {e}")
         return ""
 
 

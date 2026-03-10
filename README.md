@@ -12,7 +12,7 @@
 
 Medical GraphRAG transforms medical research papers into a structured knowledge graph, enabling evidence-based retrieval through the combination of **graph relationships** and **vector similarity search** in a single Neo4j database.
 
-The system uses **SNOMED-CT** (Systematized Nomenclature of Medicine - Clinical Terms) as its ontology backbone, making it applicable across all medical specialties — not limited to any single domain.
+The system uses **SNOMED-CT** (Systematized Nomenclature of Medicine - Clinical Terms) as its ontology backbone. While the architecture is domain-agnostic, the **current SNOMED mappings and extraction schema are configured for spine surgery** (696 curated mappings covering procedures, pathologies, outcomes, and anatomy). Adapting to other medical specialties requires replacing the mapping and normalization files — see [Adapting to Other Specialties](#adapting-to-other-specialties) below.
 
 ### What It Does
 
@@ -308,7 +308,7 @@ research-graphDB/
 ├── scripts/                # Operations & maintenance
 │   ├── init_neo4j.py              # Schema/index initialization
 │   ├── add_pdfs.py                # Single PDF ingestion
-│   ├── batch_ingest.py            # Bulk PDF ingestion
+│   ├── batch_ingest.py            # Bulk PubMed ingestion
 │   ├── enrich_graph_snomed.py     # SNOMED code enrichment
 │   ├── build_ontology.py          # IS_A hierarchy construction
 │   ├── repair_ontology.py         # Ontology integrity repair
@@ -449,6 +449,32 @@ Paper₂ ──MEASURES▶ Pain Reduction (p<0.05)
 |-----------|---------|---------|
 | google-genai | >=1.0.0 | Gemini fallback LLM |
 | sentence-transformers | >=2.2.0 | Local embedding models |
+
+---
+
+## Current Domain: Spine Surgery
+
+This release comes pre-configured with **696 SNOMED-CT mappings for spine surgery**, covering:
+
+- **218 Interventions**: TLIF, UBE, OLIF, Laminectomy, Osteotomy, Pedicle Screw Fixation, etc.
+- **214 Pathologies**: Lumbar Stenosis, Disc Herniation, Scoliosis, Cervical Myelopathy, etc.
+- **195 Outcomes**: VAS, ODI, Cobb Angle, Fusion Rate, JOA Score, etc.
+- **69 Anatomy**: Cervical (C1-C7), Thoracic (T1-T12), Lumbar (L1-L5), Sacral regions
+
+The extraction schema (`SpineMetadata`), normalization categories, and LLM prompts are all tuned for spine surgery literature.
+
+### Adapting to Other Specialties
+
+The **architecture is domain-agnostic** — Graph+Vector search, IS_A hierarchy, hybrid ranking, and MCP tools work with any medical domain. To adapt for another specialty (e.g., cardiology, oncology):
+
+| File to Change | What to Replace |
+|---------------|-----------------|
+| `src/ontology/spine_snomed_mappings.py` | SNOMED mappings for target domain |
+| `src/graph/entity_normalizer.py` | Normalization categories & aliases |
+| `src/graph/types/enums.py` | `SpineSubDomain` → domain-specific enum |
+| `src/builder/unified_pdf_processor.py` | `SpineMetadata` dataclass + LLM prompts |
+
+See [TERMINOLOGY_ONTOLOGY.md](docs/TERMINOLOGY_ONTOLOGY.md) Section 9 for the extension guide.
 
 ---
 

@@ -232,7 +232,7 @@ def main():
         sys.exit(1)
 
     parser = argparse.ArgumentParser(description="Medical KAG REST API Server")
-    parser.add_argument("--host", default="0.0.0.0", help="Host to bind to")
+    parser.add_argument("--host", default="127.0.0.1", help="Host to bind to (use 0.0.0.0 for network access)")
     parser.add_argument("--port", type=int, default=8080, help="Port to bind to")
     args = parser.parse_args()
 
