@@ -142,6 +142,14 @@ PUBMED_MAX_CONCURRENT=5           # PubMed 동시 처리 수 (1-10)
 | [MCP_USAGE_GUIDE](docs/MCP_USAGE_GUIDE.md) | MCP 도구 사용 가이드 |
 | [QC_CHECKLIST](docs/QC_CHECKLIST.md) | 품질 검증 체크리스트 |
 
+## Author
+
+**Professor Sang-Min Park, M.D., Ph.D.**
+
+Department of Orthopaedic Surgery, Seoul National University Bundang Hospital, Seoul National University College of Medicine
+
+[https://sangmin.me/](https://sangmin.me/)
+
 ## License
 
 This project is provided for **research and personal use only**.
