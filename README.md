@@ -45,10 +45,7 @@ docker-compose up -d
 # 3. 스키마 초기화 (Neo4j 기동 후 30초 대기)
 python scripts/init_neo4j.py
 
-# 4. Web UI 실행
-streamlit run web/app.py
-
-# 5. 테스트
+# 4. 테스트
 PYTHONPATH=./src python3 -m pytest tests/ --ignore=tests/archive --tb=short -q
 ```
 
@@ -112,7 +109,6 @@ rag_research/
 │   ├── ontology/        # SNOMED-CT 온톨로지 (696개 매핑)
 │   ├── orchestrator/    # 쿼리 라우팅/Cypher 생성
 │   └── external/        # 외부 API (PubMed)
-├── web/                 # Streamlit UI
 ├── scripts/             # 운영 스크립트 (init, repair, enrich)
 ├── tests/               # 테스트 (3,741 tests)
 └── docs/                # 문서
