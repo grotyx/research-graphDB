@@ -62,7 +62,7 @@ class Neo4jConfig:
 
     uri: str = "bolt://localhost:7687"
     username: str = "neo4j"
-    password: str = "password"
+    password: str = ""
     database: str = "neo4j"
     max_connection_pool_size: int = 50
     connection_timeout: int = 30
@@ -462,10 +462,10 @@ class ConfigManager:
             config: Parsed configuration to validate
         """
         # Check Neo4j password is not default
-        if config.neo4j.password == "password":
+        if not config.neo4j.password:
             logger.warning(
-                "Neo4j password is set to default 'password'. "
-                "Set NEO4J_PASSWORD environment variable for production."
+                "Neo4j password is empty. "
+                "Set NEO4J_PASSWORD environment variable."
             )
 
         # Check LLM API key is present
@@ -629,7 +629,7 @@ class ConfigManager:
         neo4j = Neo4jConfig(
             uri=neo4j_data.get("uri", "bolt://localhost:7687"),
             username=neo4j_data.get("username", "neo4j"),
-            password=neo4j_data.get("password", "password"),
+            password=neo4j_data.get("password", ""),
             database=neo4j_data.get("database", "neo4j"),
             max_connection_pool_size=neo4j_data.get("max_connection_pool_size", 50),
             connection_timeout=neo4j_data.get("connection_timeout", 30),

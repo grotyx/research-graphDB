@@ -364,7 +364,7 @@ Configuration for Neo4j connection.
 class Neo4jConfig:
     uri: str = "bolt://localhost:7687"
     username: str = "neo4j"
-    password: str = "password"
+    password: str = ""  # Set via NEO4J_PASSWORD env var
     database: str = "neo4j"
     max_connection_lifetime: int = 3600
     max_connection_pool_size: int = 50
