@@ -169,27 +169,61 @@ PYTHONPATH=./src python3 -m pytest tests/ --ignore=tests/archive --tb=short -q
 
 ---
 
-## MCP Server
+## MCP Server — AI-Powered Research Assistant
 
-The system exposes 10 tools via the [Model Context Protocol (MCP)](https://modelcontextprotocol.io/), allowing AI assistants like Claude to interact with the knowledge graph.
+This system is designed as an **[MCP (Model Context Protocol)](https://modelcontextprotocol.io/) server**, meaning it works as a **backend knowledge engine for AI assistants** like Claude Desktop, Claude Code, or any MCP-compatible client. Instead of a traditional web UI, you interact with your medical literature database through natural language conversations with Claude.
+
+Think of it as giving Claude a **personal medical literature database** — Claude can search papers, analyze evidence, compare interventions, format references, and help write academic papers, all backed by a structured knowledge graph.
+
+### How It Works with Claude
+
+```
+┌─────────────────┐     MCP Protocol      ┌──────────────────────┐
+│  Claude Desktop  │ ◄──────────────────► │  Medical GraphRAG    │
+│  or Claude Code  │    (SSE / stdio)      │  MCP Server          │
+│                  │                        │                      │
+│  "Compare TLIF   │  ──── search ────►   │  Neo4j Knowledge     │
+│   vs PLIF for    │                       │  Graph (696 SNOMED   │
+│   stenosis"      │  ◄── evidence ────   │  concepts, papers,   │
+│                  │                        │  embeddings)         │
+└─────────────────┘                        └──────────────────────┘
+```
 
 ### Start the Server
 
+**Option A: stdio mode** (Claude Desktop / Claude Code local)
+```json
+// .mcp.json or Claude Desktop config
+{
+  "mcpServers": {
+    "medical-graphrag": {
+      "type": "stdio",
+      "command": "python3",
+      "args": ["-m", "medical_mcp.medical_kag_server"],
+      "cwd": "/path/to/research-graphDB",
+      "env": {
+        "PYTHONPATH": "/path/to/research-graphDB/src"
+      }
+    }
+  }
+}
+```
+
+**Option B: SSE mode** (remote access, multi-user)
 ```bash
 # Start MCP server on port 7777
-PYTHONPATH=./src python3 -m medical_mcp.sse_server --host 0.0.0.0 --port 7777
+PYTHONPATH=./src python3 -m medical_mcp.sse_server --port 7777
 
 # Verify it's running
 curl http://localhost:7777/health
 ```
 
-### Connect from Claude Code
-
+**Option C: Connect from Claude Code**
 ```bash
 claude mcp add --transport sse medical-graphrag http://YOUR_SERVER_IP:7777/sse --scope project
 ```
 
-### Available Tools
+### 10 MCP Tools
 
 | Tool | Description | Key Actions |
 |------|-------------|-------------|
@@ -203,6 +237,68 @@ claude mcp add --transport sse medical-graphrag http://YOUR_SERVER_IP:7777/sse -
 | `extended` | Extended entities | patient_cohorts, followup, cost, quality_metrics |
 | `reference` | Reference formatting | format, format_multiple, list_styles, preview |
 | `writing_guide` | Academic writing guide | section_guide, checklist, expert, draft_response |
+
+### Usage Examples
+
+Once the MCP server is connected, you can interact with Claude naturally:
+
+#### Literature Search & Evidence Review
+
+> **You:** "Lumbar stenosis에 대한 수술적 치료의 최신 근거를 찾아줘"
+>
+> **Claude:** *(uses `search` tool)* — Finds relevant papers from the knowledge graph, ranked by evidence level and relevance. Returns structured results with p-values, effect sizes, and evidence grades.
+
+> **You:** "Find Level 1 evidence for minimally invasive spine surgery outcomes"
+>
+> **Claude:** *(uses `search` with evidence filter)* — Filters for RCTs and meta-analyses, returning papers with statistical significance data.
+
+#### Intervention Comparison
+
+> **You:** "TLIF vs PLIF for single-level lumbar fusion — compare outcomes"
+>
+> **Claude:** *(uses `graph` → compare, `intervention` → comparable)* — Traverses the knowledge graph to find papers studying both techniques, compares reported outcomes (VAS, ODI, fusion rate, complications), and synthesizes the evidence.
+
+> **You:** "UBE의 상위 카테고리와 관련 수술법을 보여줘"
+>
+> **Claude:** *(uses `intervention` → hierarchy)* — Shows the SNOMED IS_A hierarchy: UBE → Endoscopic Spine Surgery → Minimally Invasive Surgery, with sibling techniques like BESS, PELD.
+
+#### PubMed Integration
+
+> **You:** "PubMed에서 'cervical disc arthroplasty long-term outcomes' 검색하고 최근 5년 논문 가져와"
+>
+> **Claude:** *(uses `pubmed` → search, import_by_pmids)* — Searches PubMed, imports matching papers, extracts metadata via LLM, builds graph relationships, and generates embeddings automatically.
+
+> **You:** "PMID 38012345, 37654321을 데이터베이스에 추가해줘"
+>
+> **Claude:** *(uses `pubmed` → import_by_pmids)* — Fetches papers from PubMed, processes them through the full pipeline (LLM extraction → SNOMED mapping → graph construction → embedding).
+
+#### Evidence Conflict Detection
+
+> **You:** "Fusion vs motion preservation에 대한 상반된 근거가 있어?"
+>
+> **Claude:** *(uses `conflict` → detect, synthesize)* — Identifies contradictory findings across papers, applies GRADE framework to assess certainty, and explains potential reasons for discrepancies (study design, population, follow-up period).
+
+#### Academic Writing Support
+
+> **You:** "Systematic review의 Methods 섹션 작성 가이드를 PRISMA 기준으로 알려줘"
+>
+> **Claude:** *(uses `writing_guide` → checklist, section_guide)* — Provides PRISMA checklist items for the Methods section, with specific guidance for medical writing.
+
+> **You:** "이 논문의 참고문헌을 Spine 저널 형식으로 포맷해줘"
+>
+> **Claude:** *(uses `reference` → format_multiple)* — Formats all references in Spine journal citation style (numbered Vancouver-based format).
+
+#### Graph Exploration & Evidence Chains
+
+> **You:** "Cervical myelopathy → surgical treatment → outcomes의 evidence chain을 보여줘"
+>
+> **Claude:** *(uses `graph` → evidence_chain)* — Traces multi-hop paths: which papers treat cervical myelopathy, what interventions they use (laminoplasty, ACDF, corpectomy), and what outcomes they report, with evidence levels at each step.
+
+> **You:** "데이터베이스 현황 알려줘"
+>
+> **Claude:** *(uses `document` → stats)* — Returns: total papers, entity counts by type, SNOMED coverage, evidence level distribution, and graph connectivity statistics.
+
+See [MCP_USAGE_GUIDE](docs/MCP_USAGE_GUIDE.md) for the complete tool reference.
 
 ---
 
