@@ -692,6 +692,7 @@ spine_snomed_mappings.py의 SNOMED 키가 entity_normalizer.py의 reverse map에
 
 | 일자 | 버전 | 신규 발견 | 해소 | 잔여 Open | 잔여 Accepted | 비고 |
 |------|------|----------|------|----------|--------------|------|
+| 2026-03-13 | v1.25.0 | 3 | 0 | 3 | 2 | QC-2026-005(CLAUDE.md web/pages 미기재, Low), 006(presentation/ untracked, Info), 007(CHANGELOG Post-Release 중복, Info). 3D Graph 페이지 추가 후 스캔. |
 | 2026-03-02 | v1.25.0 | 4 | 4 | 1 | 2 | QC-2026-001~004 발견 및 전체 해소. 001: DEPLOYMENT.md v1.24.0→v1.25.0, 002: type hints 추가, 003: MCP Docker restart, 004: 30개 orphan SNOMED canonical 추가 |
 | 2026-02-28 | v1.24.1 | 7 | 7 | 1 | 2 | QC-2025-001~007 발견 및 전체 해소. 001: CLAUDE.md 참조 제거, 002: MCP Docker 재시작, 003: GRAPH_SCHEMA 버전 라벨, 004: TERMINOLOGY 합계, 005: CHANGELOG 버전, 006: search action 문서화, 007: query_parser→tiered_search |
 | 2026-02-28 | v1.24.0 | 7 | 5 | 2 | 2 | 7건 발견: QC-2024-001(DEPLOYMENT SNOMED), 002(TRD 버전), 003(운영문서 버전), 004(TERMINOLOGY root), 005(미커밋), 006(.gitignore), 007(IS_A 행). 5건 즉시 수정(001,002,004,006,007). 003 보류, 005 커밋 대기. |
