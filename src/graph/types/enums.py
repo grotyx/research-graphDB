@@ -26,12 +26,17 @@ class SpineSubDomain(Enum):
 
 
 class EvidenceLevel(Enum):
-    """근거 수준 (Oxford Centre for Evidence-Based Medicine)."""
+    """근거 수준 (Oxford Centre for Evidence-Based Medicine).
+
+    9-level scale used across study_classifier, models, tiered_search, multi_factor_ranker.
+    """
     LEVEL_1A = "1a"  # Meta-analysis of RCTs
     LEVEL_1B = "1b"  # Individual RCT
     LEVEL_2A = "2a"  # Systematic review of cohort studies
     LEVEL_2B = "2b"  # Individual cohort study
-    LEVEL_3 = "3"    # Case-control study
+    LEVEL_2C = "2c"  # Outcomes research
+    LEVEL_3A = "3a"  # Systematic review of case-control studies
+    LEVEL_3B = "3b"  # Individual case-control study
     LEVEL_4 = "4"    # Case series
     LEVEL_5 = "5"    # Expert opinion
 
@@ -273,6 +278,7 @@ class InterventionCategory(Enum):
     TUMOR_RESECTION = "tumor_resection"
     VERTEBROPLASTY = "vertebroplasty"
     MOTION_PRESERVATION = "motion_preservation"
+    NAVIGATION = "navigation"
     OTHER = "other"
 
 

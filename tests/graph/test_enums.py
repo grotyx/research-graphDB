@@ -39,14 +39,16 @@ class TestSpineSubDomain:
 
 class TestEvidenceLevel:
     def test_member_count(self):
-        assert len(EvidenceLevel) == 7
+        assert len(EvidenceLevel) == 9
 
     def test_values(self):
         assert EvidenceLevel.LEVEL_1A.value == "1a"
         assert EvidenceLevel.LEVEL_1B.value == "1b"
         assert EvidenceLevel.LEVEL_2A.value == "2a"
         assert EvidenceLevel.LEVEL_2B.value == "2b"
-        assert EvidenceLevel.LEVEL_3.value == "3"
+        assert EvidenceLevel.LEVEL_2C.value == "2c"
+        assert EvidenceLevel.LEVEL_3A.value == "3a"
+        assert EvidenceLevel.LEVEL_3B.value == "3b"
         assert EvidenceLevel.LEVEL_4.value == "4"
         assert EvidenceLevel.LEVEL_5.value == "5"
 
@@ -215,7 +217,7 @@ class TestOutcomeType:
 
 class TestInterventionCategory:
     def test_member_count(self):
-        assert len(InterventionCategory) == 8
+        assert len(InterventionCategory) == 9
 
     def test_values(self):
         assert InterventionCategory.FUSION.value == "fusion"

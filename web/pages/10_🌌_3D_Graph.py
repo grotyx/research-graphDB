@@ -53,9 +53,38 @@ EDGE_COLORS = {
     "default": "#475569",
 }
 
+# Allowlist for Cypher label interpolation (CA-001 fix)
+_ALLOWED_ENTITY_TYPES = {"Intervention", "Pathology", "Outcome", "Anatomy"}
+
 
 # ═══════════════════════════════════════════════════════════════
-# DATA LOADERS
+# HELPERS
+# ═══════════════════════════════════════════════════════════════
+
+def _safe_query(client, cypher: str, params: dict) -> list[dict]:
+    """Run Neo4j query with error handling (CA-003 fix)."""
+    try:
+        return client.run_query(cypher, params)
+    except Exception as e:
+        st.error(f"Neo4j query error: {e}")
+        return []
+
+
+def _build_node(node_id: str, label: str, group: str, val: int = 3,
+                desc: str = "", category: str = "") -> dict:
+    """Build a node dict (CA-007 fix: shared helper)."""
+    return {
+        "id": node_id,
+        "label": label[:40] + "..." if len(label) > 40 else label,
+        "group": group,
+        "val": val,
+        "desc": desc,
+        **({"category": category} if category else {}),
+    }
+
+
+# ═══════════════════════════════════════════════════════════════
+# DATA LOADERS (CA-005: @st.cache_data where possible)
 # ═══════════════════════════════════════════════════════════════
 
 def load_intervention_outcome(client, sig_only: bool = False,
@@ -93,7 +122,7 @@ def load_intervention_outcome(client, sig_only: bool = False,
     LIMIT $limit
     """
 
-    records = client.run_query(cypher, params)
+    records = _safe_query(client, cypher, params)
 
     nodes, edges, seen = [], [], set()
 
@@ -102,19 +131,20 @@ def load_intervention_outcome(client, sig_only: bool = False,
         pc = rec["paper_count"] or 1
 
         if i_name not in seen:
-            nodes.append({
-                "id": i_name, "label": i_name, "group": "Intervention",
-                "category": rec["i_cat"] or "", "val": 2 + min(pc, 15),
-                "desc": f"Category: {rec['i_cat'] or 'N/A'}\nPapers: {pc}"
-            })
+            nodes.append(_build_node(
+                i_name, i_name, "Intervention",
+                val=2 + min(pc, 15),
+                desc=f"Category: {rec['i_cat'] or 'N/A'}\nPapers: {pc}",
+                category=rec["i_cat"] or ""
+            ))
             seen.add(i_name)
 
         if o_name not in seen:
-            nodes.append({
-                "id": o_name, "label": o_name, "group": "Outcome",
-                "category": rec["o_type"] or "", "val": 3,
-                "desc": f"Type: {rec['o_type'] or 'N/A'}"
-            })
+            nodes.append(_build_node(
+                o_name, o_name, "Outcome", val=3,
+                desc=f"Type: {rec['o_type'] or 'N/A'}",
+                category=rec["o_type"] or ""
+            ))
             seen.add(o_name)
 
         direction = rec["direction"] or "unchanged"
@@ -141,11 +171,16 @@ def load_intervention_outcome(client, sig_only: bool = False,
 
 def load_ontology(client, entity_type: str = "All", limit: int = 300) -> dict:
     """Load IS_A ontology hierarchy."""
-    type_filter = ""
     params = {"limit": limit}
 
+    # CA-001 fix: allowlist guard instead of f-string interpolation
     if entity_type != "All":
+        if entity_type not in _ALLOWED_ENTITY_TYPES:
+            st.error(f"Invalid entity type: {entity_type}")
+            return {"nodes": [], "links": []}
         type_filter = f"WHERE '{entity_type}' IN labels(child) AND '{entity_type}' IN labels(parent)"
+    else:
+        type_filter = ""
 
     cypher = f"""
     MATCH (child)-[r:IS_A]->(parent)
@@ -155,7 +190,7 @@ def load_ontology(client, entity_type: str = "All", limit: int = 300) -> dict:
     LIMIT $limit
     """
 
-    records = client.run_query(cypher, params)
+    records = _safe_query(client, cypher, params)
 
     nodes, edges, seen = [], [], set()
 
@@ -164,17 +199,11 @@ def load_ontology(client, entity_type: str = "All", limit: int = 300) -> dict:
         pn, pt = rec["parent_name"], rec["parent_type"]
 
         if cn not in seen:
-            nodes.append({
-                "id": cn, "label": cn, "group": ct,
-                "val": 3, "desc": f"Type: {ct}"
-            })
+            nodes.append(_build_node(cn, cn, ct, val=3, desc=f"Type: {ct}"))
             seen.add(cn)
 
         if pn not in seen:
-            nodes.append({
-                "id": pn, "label": pn, "group": pt,
-                "val": 5, "desc": f"Type: {pt} (Parent)"
-            })
+            nodes.append(_build_node(pn, pn, pt, val=5, desc=f"Type: {pt} (Parent)"))
             seen.add(pn)
 
         edges.append({
@@ -201,7 +230,7 @@ def load_full_graph(client, limit: int = 150) -> dict:
            labels(target)[0] AS tgt_type,
            rel_type
     """
-    records = client.run_query(cypher, {"limit": limit})
+    records = _safe_query(client, cypher, {"limit": limit})
 
     nodes, edges, seen = [], [], set()
 
@@ -213,22 +242,15 @@ def load_full_graph(client, limit: int = 150) -> dict:
 
         if sid not in seen:
             title = rec["src_title"] or sid
-            nodes.append({
-                "id": sid,
-                "label": title[:40] + "..." if len(title) > 40 else title,
-                "group": "Paper", "val": 4,
-                "desc": title
-            })
+            nodes.append(_build_node(sid, title, "Paper", val=4, desc=title))
             seen.add(sid)
 
         if tid not in seen:
             lbl = rec["tgt_label"] or str(tid)
-            nodes.append({
-                "id": tid,
-                "label": lbl[:35] if len(lbl) > 35 else lbl,
-                "group": rec["tgt_type"] or "Other", "val": 3,
-                "desc": f"{rec['tgt_type']}: {lbl}"
-            })
+            nodes.append(_build_node(
+                tid, lbl, rec["tgt_type"] or "Other", val=3,
+                desc=f"{rec['tgt_type']}: {lbl}"
+            ))
             seen.add(tid)
 
         edges.append({
@@ -246,13 +268,13 @@ def load_full_graph(client, limit: int = 150) -> dict:
            r.direction AS dir, r.is_significant AS is_sig
     LIMIT $limit
     """
-    for rec in client.run_query(affects, {"limit": limit}):
+    for rec in _safe_query(client, affects, {"limit": limit}):
         s, t = rec["src"], rec["tgt"]
         if s not in seen:
-            nodes.append({"id": s, "label": s, "group": "Intervention", "val": 3, "desc": s})
+            nodes.append(_build_node(s, s, "Intervention", val=3, desc=s))
             seen.add(s)
         if t not in seen:
-            nodes.append({"id": t, "label": t, "group": "Outcome", "val": 3, "desc": t})
+            nodes.append(_build_node(t, t, "Outcome", val=3, desc=t))
             seen.add(t)
         d = rec["dir"] or "unchanged"
         edges.append({
@@ -279,7 +301,7 @@ def load_paper_entity_network(client, limit: int = 100) -> dict:
            labels(target)[0] AS target_type,
            rel_type
     """
-    records = client.run_query(cypher, {"limit": limit})
+    records = _safe_query(client, cypher, {"limit": limit})
 
     nodes, edges, seen = [], [], set()
 
@@ -293,21 +315,18 @@ def load_paper_entity_network(client, limit: int = 100) -> dict:
             title = rec["title"] or pid
             year = rec["year"] or ""
             ev = rec["evidence_level"] or ""
-            nodes.append({
-                "id": pid,
-                "label": title[:35] + "..." if len(title) > 35 else title,
-                "group": "Paper", "val": 5,
-                "desc": f"{title}\nYear: {year}\nEvidence: {ev}"
-            })
+            nodes.append(_build_node(
+                pid, title, "Paper", val=5,
+                desc=f"{title}\nYear: {year}\nEvidence: {ev}"
+            ))
             seen.add(pid)
 
         if tid not in seen:
             lbl = rec["target_label"] or str(tid)
-            nodes.append({
-                "id": tid, "label": lbl,
-                "group": rec["target_type"] or "Other", "val": 3,
-                "desc": f"{rec['target_type']}: {lbl}"
-            })
+            nodes.append(_build_node(
+                tid, lbl, rec["target_type"] or "Other", val=3,
+                desc=f"{rec['target_type']}: {lbl}"
+            ))
             seen.add(tid)
 
         edges.append({
@@ -356,6 +375,7 @@ def render_3d_graph(graph_data: dict, height: int = 800,
              .linkDirectionalParticleColor(link => link.color || '#475569');
     """ if link_particles else ""
 
+    # CA-013 fix: Load SpriteText BEFORE 3d-force-graph uses it
     html = f"""
     <!DOCTYPE html>
     <html>
@@ -455,6 +475,8 @@ def render_3d_graph(graph_data: dict, height: int = 800,
         <button class="ctrl-btn" id="btn-labels" onclick="toggleLabels()">Labels</button>
     </div>
 
+    <!-- CA-013 fix: Load SpriteText BEFORE it is used -->
+    <script src="https://unpkg.com/three-spritetext@1.8.2/dist/three-spritetext.min.js"></script>
     <script src="https://unpkg.com/3d-force-graph@1.73.3/dist/3d-force-graph.min.js"></script>
     <script>
     const NODE_COLORS = {node_colors_js};
@@ -481,6 +503,18 @@ def render_3d_graph(graph_data: dict, height: int = 800,
     let hoverNode = null;
     let showLabels = true;
     let autoRotate = false;
+
+    // SpriteText helper
+    function makeSpriteLabel(text) {{
+        if (typeof SpriteText === 'undefined' || !showLabels) return undefined;
+        const sprite = new SpriteText(text || '');
+        sprite.color = '#cbd5e1';
+        sprite.textHeight = 2.5;
+        sprite.backgroundColor = 'rgba(15,23,42,0.6)';
+        sprite.padding = 1;
+        sprite.borderRadius = 2;
+        return sprite;
+    }}
 
     // Create graph
     const container = document.getElementById('graph');
@@ -520,7 +554,6 @@ def render_3d_graph(graph_data: dict, height: int = 800,
             highlightLinks.clear();
             if (node) {{
                 highlightNodes.add(node);
-                // Add neighbors
                 graphData.links.forEach(link => {{
                     const src = typeof link.source === 'object' ? link.source : graphData.nodes.find(n => n.id === link.source);
                     const tgt = typeof link.target === 'object' ? link.target : graphData.nodes.find(n => n.id === link.target);
@@ -550,7 +583,6 @@ def render_3d_graph(graph_data: dict, height: int = 800,
                     }}
                 }});
             }}
-            // Count connections
             let connections = 0;
             graphData.links.forEach(link => {{
                 const sid = typeof link.source === 'object' ? link.source.id : link.source;
@@ -561,7 +593,6 @@ def render_3d_graph(graph_data: dict, height: int = 800,
             document.getElementById('info-body').innerHTML = html;
             info.style.display = 'block';
 
-            // Camera focus
             const distance = 120;
             const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
             Graph.cameraPosition(
@@ -579,19 +610,10 @@ def render_3d_graph(graph_data: dict, height: int = 800,
                  .linkWidth(Graph.linkWidth());
         }});
 
-    // Node labels (3D text sprites)
+    // Node labels (3D text sprites) — SpriteText is already loaded above
     if ({str(show_labels).lower()}) {{
-        Graph.nodeThreeObject(node => {{
-            if (!showLabels) return undefined;
-            const sprite = new SpriteText(node.label || '');
-            sprite.color = '#cbd5e1';
-            sprite.textHeight = 2.5;
-            sprite.backgroundColor = 'rgba(15,23,42,0.6)';
-            sprite.padding = 1;
-            sprite.borderRadius = 2;
-            return sprite;
-        }})
-        .nodeThreeObjectExtend(true);
+        Graph.nodeThreeObject(node => makeSpriteLabel(node.label))
+             .nodeThreeObjectExtend(true);
     }}
 
     // Tooltip
@@ -637,36 +659,14 @@ def render_3d_graph(graph_data: dict, height: int = 800,
         showLabels = !showLabels;
         const btn = document.getElementById('btn-labels');
         btn.classList.toggle('active', showLabels);
-        // Re-render node objects
-        Graph.nodeThreeObject(Graph.nodeThreeObject());
+        Graph.nodeThreeObject(node => makeSpriteLabel(node.label))
+             .nodeThreeObjectExtend(true);
     }}
 
     // Handle resize
     window.addEventListener('resize', () => {{
         Graph.width(container.clientWidth);
     }});
-    </script>
-
-    <!-- SpriteText dependency for 3D labels -->
-    <script src="https://unpkg.com/three-spritetext@1.8.2/dist/three-spritetext.min.js"></script>
-    <script>
-    // Re-apply labels after SpriteText loads
-    if ({str(show_labels).lower()}) {{
-        setTimeout(() => {{
-            Graph.nodeThreeObject(node => {{
-                if (!showLabels) return undefined;
-                if (typeof SpriteText === 'undefined') return undefined;
-                const sprite = new SpriteText(node.label || '');
-                sprite.color = '#cbd5e1';
-                sprite.textHeight = 2.5;
-                sprite.backgroundColor = 'rgba(15,23,42,0.6)';
-                sprite.padding = 1;
-                sprite.borderRadius = 2;
-                return sprite;
-            }})
-            .nodeThreeObjectExtend(true);
-        }}, 500);
-    }}
     </script>
     </body>
     </html>
@@ -721,14 +721,16 @@ def main():
     if view_mode == "Intervention → Outcome":
         sig_only = st.sidebar.checkbox("Significant only (p<0.05)", value=False)
 
-        i_records = neo4j_client.run_query(
+        i_records = _safe_query(
+            neo4j_client,
             "MATCH (i:Intervention) RETURN DISTINCT i.name AS name ORDER BY name LIMIT 100", {}
         )
         interventions = ["All"] + [r["name"] for r in i_records]
         sel = st.sidebar.selectbox("Intervention", interventions, index=0)
         intervention_filter = sel if sel != "All" else None
 
-        p_records = neo4j_client.run_query(
+        p_records = _safe_query(
+            neo4j_client,
             "MATCH (p:Pathology) RETURN DISTINCT p.name AS name ORDER BY name LIMIT 50", {}
         )
         pathologies = ["All"] + [r["name"] for r in p_records]
