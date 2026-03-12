@@ -2,6 +2,19 @@
 
 ## Version History
 
+### v1.25.0 Post-Release: 3D Interactive Graph Visualization (2026-03-12)
+
+- **3D Knowledge Graph 페이지 추가** (`web/pages/10_🌌_3D_Graph.py`)
+  - WebGL 기반 3D force-directed graph (3d-force-graph 라이브러리, CDN 로드)
+  - 마우스 드래그 3D 회전, 스크롤 줌, 노드 클릭 카메라 포커스
+  - 노드 호버 시 연결된 노드/링크만 하이라이트 (나머지 fade)
+  - 링크 위 파티클 애니메이션 효과
+  - 4가지 뷰 모드: Intervention→Outcome, Ontology(IS_A), Full Graph, Paper Network
+  - DAG 레이아웃 지원 (top-down, bottom-up, left-right, radial)
+  - 3D 스프라이트 텍스트 라벨 (on/off 토글)
+  - Auto Rotate 모드, 5가지 배경 테마 선택
+  - 노드 크기 = 논문 수 반영, 엣지 색상 = direction(improved/worsened)
+
 ### v1.25.0 Post-Release: MCP Transport SSE → Streamable HTTP 전환 (2026-03-04)
 
 - **MCP Transport 전환**: SSE (long-lived stream) → Streamable HTTP (stateless HTTP POST)
