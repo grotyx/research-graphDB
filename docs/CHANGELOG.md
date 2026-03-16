@@ -2,6 +2,27 @@
 
 ## Version History
 
+### v1.25.0 Post-Release: Evaluation Framework + Publication Plan (2026-03-16)
+
+- **논문 출판 계획 수립** (`docs/PUBLICATION_PLAN.md`): 6편 논문, 3 Phase 로드맵
+  - 문헌 검색 기반 positioning (15편 관련 논문 분석)
+  - v2 평가: RAGAS 기반 End-to-End 답변 품질 (Faithfulness, Citation Fidelity, Hallucination Rate)
+  - 참고: Wu 2025 ACL (Medical Graph RAG), medRxiv 2025 (CKD GraphRAG)
+- **Evaluation 프레임워크 구축** (`evaluation/`)
+  - `metrics.py`: P@K, R@K, NDCG@10, MRR, ELA — 28개 유닛 테스트 통과
+  - `baselines.py`: B1(Keyword), B2(Vector-only), B3(LLM Direct), B4(GraphRAG) 4종
+  - `benchmark.py`: CLI 벤치마크 실행기 + 결과 저장
+  - `annotator_helper.py`: Gold Standard 후보 논문 자동 검색
+  - `import_to_neo4j.py` + `update_summaries.py`: PubMed → Neo4j 임포트 도구
+- **Gold Standard 질문 29개** (`evaluation/gold_standard/questions.json`)
+  - 5개 sub-domain: DG(10), DF(5), TR(5), TU(4), BS(5)
+  - 5가지 유형: 비교(30%), 단일근거(25%), 합병증(20%), 적응증(15%), 최신근거(10%)
+  - 517편 후보 논문 자동 생성 (`annotation_sheet.json`)
+- **PubMed 60편 임포트**: TR+20, TU+20, BS+20 (최신 + top journal 위주)
+  - Claude Code CLI로 entity 추출 (Haiku API 비용 0)
+  - 60편 모두 summary, main_conclusion, abstract_embedding(3072d) 포함
+  - Neo4j DB: 542 → 624편 (I:677, P:463, O:2833, A:208)
+
 ### v1.25.0 Post-Release: QA 전체 스캔 + SNOMED 확장 + 리팩토링 (2026-03-16)
 
 - **SNOMED 매핑 확장**: 696 → 735개 (+39)

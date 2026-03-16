@@ -221,6 +221,7 @@ rag_research/
 │   ├── orchestrator/    # 쿼리 라우팅 (query_pattern_router, cypher_generator)
 │   ├── external/        # 외부 API (pubmed_client)
 │   └── storage/         # (Deprecated) 하위 호환성용
+├── evaluation/          # 벤치마크 프레임워크 (metrics, baselines, gold_standard)
 ├── web/                 # Streamlit UI
 ├── tests/               # 테스트
 └── docs/                # 문서
@@ -269,6 +270,17 @@ rag_research/
 | `scripts/repair_ontology.py` | 온톨로지 무결성 수복 (`--dry-run`, `--force`, `--entity-type`) |
 | `scripts/normalize_entities.py` | 엔티티 정규화 (중복 병합, 쓰레기 정리, Outcome IS_A 링크, `--dry-run`, `--force`, `--phase`) |
 
+### Evaluation Framework
+
+| Module | Description |
+|--------|-------------|
+| `evaluation/metrics.py` | P@K, R@K, NDCG@10, MRR, ELA 메트릭 (28 tests) |
+| `evaluation/baselines.py` | B1(Keyword), B2(Vector), B3(LLM Direct), B4(GraphRAG) |
+| `evaluation/benchmark.py` | CLI 벤치마크 실행기 (`python -m evaluation.benchmark`) |
+| `evaluation/annotator_helper.py` | Gold Standard 후보 논문 자동 검색 |
+| `evaluation/import_to_neo4j.py` | PubMed 논문 + entity → Neo4j 임포트 |
+| `evaluation/gold_standard/` | 29개 질문, 517편 후보, annotation 데이터 |
+
 ## Documentation
 
 본 프로젝트는 계층적 문서 구조를 갖습니다. **CLAUDE.md가 오케스트라 파일**로서 모든 문서를 조율합니다.
@@ -293,6 +305,7 @@ rag_research/
 | [developer_guide.md](docs/developer_guide.md) | 개발자 (개발 가이드) |
 
 ### 추가 참고
+- [PUBLICATION_PLAN.md](docs/PUBLICATION_PLAN.md) - **논문 출판 계획 (6편, RAGAS 평가, 타임라인)**
 - [QC_CHECKLIST.md](docs/QC_CHECKLIST.md) - **QC 체크리스트 (버전/문서/코드 일관성 검증)**
 - [CODE_AUDIT.md](docs/CODE_AUDIT.md) - **Code Audit (보안/성능/설계 심층 분석)**
 - [DATA_VALIDATION.md](docs/DATA_VALIDATION.md) - **Data Validation (Neo4j 데이터 무결성/완전성 검증)**
