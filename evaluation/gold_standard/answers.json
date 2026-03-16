@@ -1,0 +1,34 @@
+{
+  "version": "0.1.0",
+  "description": "Expert-annotated answers - PLACEHOLDER. To be filled by spine surgery specialists.",
+  "status": "pending_annotation",
+  "instructions": {
+    "annotators": "2-3 spine surgery specialists independently annotate",
+    "process": [
+      "1. For each question, search the Neo4j database and identify relevant papers",
+      "2. Mark each paper as relevant (1) or not relevant (0)",
+      "3. Optionally assign graded relevance: 3=highly relevant, 2=relevant, 1=marginally relevant",
+      "4. Record evidence level for each relevant paper",
+      "5. Inter-annotator agreement will be measured with Fleiss' kappa"
+    ],
+    "relevance_criteria": {
+      "3": "Directly answers the question with primary data (RCT, cohort, meta-analysis on the exact topic)",
+      "2": "Provides relevant evidence (related intervention, similar pathology, or indirect comparison)",
+      "1": "Marginally relevant (review article mentioning the topic, different population, or tangential)"
+    }
+  },
+  "answers": {
+    "DG-001": {
+      "relevant_paper_ids": [],
+      "relevance_scores": {},
+      "annotator_notes": "PENDING: Expert annotation required",
+      "expected_evidence_levels": ["1b", "2a", "2b"]
+    },
+    "DG-002": {
+      "relevant_paper_ids": [],
+      "relevance_scores": {},
+      "annotator_notes": "PENDING",
+      "expected_evidence_levels": ["1a", "1b", "2a"]
+    }
+  }
+}

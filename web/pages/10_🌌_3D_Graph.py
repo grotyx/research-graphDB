@@ -114,6 +114,8 @@ def load_intervention_outcome(client, sig_only: bool = False,
     {where_clause}
     OPTIONAL MATCH (paper:Paper)-[:INVESTIGATES]->(i)
     WITH i, o, r, count(DISTINCT paper) AS paper_count
+    WITH i, o, r, paper_count, rand() AS rnd
+    ORDER BY rnd
     RETURN i.name AS i_name, i.category AS i_cat,
            o.name AS o_name, o.type AS o_type,
            r.direction AS direction, r.p_value AS p_value,
@@ -152,9 +154,15 @@ def load_intervention_outcome(client, sig_only: bool = False,
         effect = rec["effect_size"]
         desc_parts = [f"Direction: {direction}"]
         if p_val is not None:
-            desc_parts.append(f"p={p_val:.4f}")
+            try:
+                desc_parts.append(f"p={float(p_val):.4f}")
+            except (ValueError, TypeError):
+                desc_parts.append(f"p={p_val}")
         if effect is not None:
-            desc_parts.append(f"ES={effect:.2f}")
+            try:
+                desc_parts.append(f"ES={float(effect):.2f}")
+            except (ValueError, TypeError):
+                desc_parts.append(f"ES={effect}")
         if rec["is_sig"]:
             desc_parts.append("Significant")
 
@@ -475,9 +483,9 @@ def render_3d_graph(graph_data: dict, height: int = 800,
         <button class="ctrl-btn" id="btn-labels" onclick="toggleLabels()">Labels</button>
     </div>
 
-    <!-- CA-013 fix: Load SpriteText BEFORE it is used -->
-    <script src="https://unpkg.com/three-spritetext@1.8.2/dist/three-spritetext.min.js"></script>
+    <!-- 3d-force-graph first (bundles THREE.js), then SpriteText (needs THREE) -->
     <script src="https://unpkg.com/3d-force-graph@1.73.3/dist/3d-force-graph.min.js"></script>
+    <script src="https://unpkg.com/three-spritetext@1.8.2/dist/three-spritetext.min.js"></script>
     <script>
     const NODE_COLORS = {node_colors_js};
     const graphData = {{

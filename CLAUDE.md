@@ -238,11 +238,12 @@ rag_research/
 | `pubmed_downloader.py` | v1.23.0: PubMed 검색/다운로드 (pubmed_bulk_processor에서 분리) |
 | `pubmed_processor.py` | v1.23.0: PubMed 논문 LLM 처리/청크 생성 (pubmed_bulk_processor에서 분리) |
 | `relationship_builder.py` | Paper → Graph 구축 |
-| `entity_normalizer.py` | 용어 정규화 (UBE↔BESS), SNOMED 자동 링크 |
+| `entity_normalizer.py` | 용어 정규화 (UBE↔BESS), SNOMED 자동 링크 (로직만, 데이터는 normalization_maps.py) |
+| `normalization_maps.py` | 정규화 매핑 데이터 (INTERVENTION/PATHOLOGY/OUTCOME/ANATOMY_ALIASES 등 8개 상수) |
 | `taxonomy_manager.py` | Intervention IS_A 계층 관리 |
 | `graph/snomed_enricher.py` | SNOMED 업데이트, TREATS 백필, Anatomy 정리 통합 모듈 |
 | `graph/types/schema.py` | Neo4j 스키마, 인덱스, Cypher 템플릿 |
-| `spine_snomed_mappings.py` | SNOMED-CT 매핑 (696개: I:218, P:214, O:195, A:69) — Single Source of Truth |
+| `spine_snomed_mappings.py` | SNOMED-CT 매핑 (735개: I:235, P:231, O:200, A:69) — Single Source of Truth |
 | `medical_kag_server.py` | MCP 서버 Facade (10개 도구, Tool Registry 디스패치 → 11개 핸들러) |
 | `handlers/base_handler.py` | BaseHandler 공통 클래스 + safe_execute 데코레이터 |
 | `solver/hybrid_ranker.py` | Evidence-based 3-way 랭킹 (semantic 0.4 + authority 0.3 + graph_relevance 0.3) |

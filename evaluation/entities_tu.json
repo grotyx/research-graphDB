@@ -1,0 +1,182 @@
+[
+  {
+    "pmid": "40231408",
+    "interventions": ["Surgery", "Chemotherapy", "Radiation Therapy"],
+    "pathologies": ["Primary Spinal Tumor", "Osteosarcoma", "Chondrosarcoma", "Chordoma", "Undifferentiated Pleomorphic Sarcoma", "Ewing Sarcoma"],
+    "outcomes": ["Survival", "Margin Status"],
+    "anatomy": [],
+    "study_design": "Retrospective Cohort Study",
+    "evidence_level": "2b"
+  },
+  {
+    "pmid": "41668571",
+    "interventions": ["Decompression", "Instrumentation", "Occipitocervical Fusion"],
+    "pathologies": ["Craniovertebral Junction Lesion", "Spinal Cord Compression", "Spinal Instability"],
+    "outcomes": ["SINS Score", "Neurological Status"],
+    "anatomy": ["Craniovertebral Junction"],
+    "study_design": "Retrospective Cohort Study",
+    "evidence_level": "2b"
+  },
+  {
+    "pmid": "41550133",
+    "interventions": ["Separation Surgery", "Intraoperative Radiotherapy"],
+    "pathologies": ["Spinal Metastasis", "Epidural Spinal Cord Compression"],
+    "outcomes": ["Pain", "Neurological Status", "Local Control", "Complication Rate"],
+    "anatomy": [],
+    "study_design": "Prospective Cohort Study",
+    "evidence_level": "2a"
+  },
+  {
+    "pmid": "41391601",
+    "interventions": ["Decompression", "Instrumentation", "Minimally Invasive Surgery"],
+    "pathologies": ["Spinal Metastasis"],
+    "outcomes": ["Neurological Status", "Mortality", "Blood Loss", "SINS Score"],
+    "anatomy": [],
+    "study_design": "Retrospective Cohort Study",
+    "evidence_level": "2b"
+  },
+  {
+    "pmid": "41835249",
+    "interventions": ["Palliative Surgery", "Bone Modifying Agents"],
+    "pathologies": ["Spinal Metastasis", "Lung Cancer Spinal Metastasis"],
+    "outcomes": ["Pain", "Neurological Status", "Survival", "Quality of Life"],
+    "anatomy": [],
+    "study_design": "Retrospective Cohort Study",
+    "evidence_level": "2b"
+  },
+  {
+    "pmid": "41822117",
+    "interventions": ["Laminectomy", "Microsurgical Resection", "Radiation Therapy", "Chemotherapy"],
+    "pathologies": ["Intramedullary Spinal Cord Metastasis", "Lung Adenocarcinoma Spinal Metastasis"],
+    "outcomes": ["Neurological Status", "Ambulatory Status", "Survival", "Recurrence Rate"],
+    "anatomy": ["Cervical"],
+    "study_design": "Case Report",
+    "evidence_level": "3"
+  },
+  {
+    "pmid": "41793771",
+    "interventions": ["En Bloc Resection", "Stereotactic Radiosurgery", "Proton Therapy", "Carbon Ion Therapy", "Immunotherapy"],
+    "pathologies": ["Chordoma"],
+    "outcomes": ["Local Control", "Recurrence Rate", "Survival", "Margin Status"],
+    "anatomy": ["Sacral", "Mobile Spine"],
+    "study_design": "Narrative Review",
+    "evidence_level": "4"
+  },
+  {
+    "pmid": "41725136",
+    "interventions": ["Spinal Fusion", "Instrumentation", "Decompression"],
+    "pathologies": ["Spinal Metastasis"],
+    "outcomes": ["Pain", "Mechanical Stability", "Functional Status"],
+    "anatomy": [],
+    "study_design": "Narrative Review",
+    "evidence_level": "4"
+  },
+  {
+    "pmid": "41669581",
+    "interventions": ["En Bloc Spondylectomy", "Posterior Instrumentation"],
+    "pathologies": ["Spinal Metastasis", "Adenoid Cystic Carcinoma Spinal Metastasis"],
+    "outcomes": ["Local Control", "Recurrence Rate", "Neurological Status"],
+    "anatomy": ["Thoracic"],
+    "study_design": "Case Report",
+    "evidence_level": "3"
+  },
+  {
+    "pmid": "41660310",
+    "interventions": ["Laminectomy", "Microsurgical Resection", "Radiation Therapy"],
+    "pathologies": ["Primary Meningeal Melanoma"],
+    "outcomes": ["Neurological Status", "Margin Status"],
+    "anatomy": ["Thoracic"],
+    "study_design": "Case Report",
+    "evidence_level": "3"
+  },
+  {
+    "pmid": "41634828",
+    "interventions": ["Hemicorporectomy"],
+    "pathologies": ["Chordoma"],
+    "outcomes": ["Survival", "Complication Rate", "Margin Status", "Functional Status"],
+    "anatomy": ["Sacral"],
+    "study_design": "Case Report",
+    "evidence_level": "3"
+  },
+  {
+    "pmid": "41616301",
+    "interventions": ["En Bloc Resection", "Subtotal Resection"],
+    "pathologies": ["Myxopapillary Ependymoma"],
+    "outcomes": ["Recurrence Rate", "Local Control", "Margin Status"],
+    "anatomy": ["Lumbar"],
+    "study_design": "Case Series",
+    "evidence_level": "3"
+  },
+  {
+    "pmid": "41805927",
+    "interventions": ["Stereotactic Radiosurgery"],
+    "pathologies": ["Primary Intradural Spinal Tumor", "Schwannoma", "Meningioma", "Hemangioblastoma", "Neurofibroma"],
+    "outcomes": ["Local Control", "Recurrence Rate"],
+    "anatomy": [],
+    "study_design": "Meta-Analysis",
+    "evidence_level": "1a"
+  },
+  {
+    "pmid": "40231517",
+    "interventions": ["Palliative Surgery"],
+    "pathologies": ["Spinal Metastasis"],
+    "outcomes": ["Mortality", "Complication Rate"],
+    "anatomy": [],
+    "study_design": "Prospective Cohort Study",
+    "evidence_level": "2a"
+  },
+  {
+    "pmid": "40449839",
+    "interventions": ["En Bloc Spondylectomy", "Separation Surgery", "Stereotactic Radiosurgery"],
+    "pathologies": ["Spinal Metastasis"],
+    "outcomes": ["Survival", "Recurrence Rate", "Blood Loss", "Complication Rate"],
+    "anatomy": [],
+    "study_design": "Meta-Analysis",
+    "evidence_level": "1a"
+  },
+  {
+    "pmid": "40243341",
+    "interventions": ["Stereotactic Radiosurgery", "Separation Surgery"],
+    "pathologies": ["Spinal Metastasis", "Epidural Spinal Cord Compression"],
+    "outcomes": ["Local Control", "Survival", "Myelopathy Rate"],
+    "anatomy": [],
+    "study_design": "Retrospective Cohort Study",
+    "evidence_level": "2b"
+  },
+  {
+    "pmid": "40002531",
+    "interventions": ["Separation Surgery", "Radiation Therapy", "Carbon Fiber Instrumentation"],
+    "pathologies": ["Spinal Tumor"],
+    "outcomes": ["Local Control", "Recurrence Rate"],
+    "anatomy": [],
+    "study_design": "Narrative Review",
+    "evidence_level": "4"
+  },
+  {
+    "pmid": "40540793",
+    "interventions": ["En Bloc Spondylectomy", "Posterior Spinal Fusion", "Anterior Fusion"],
+    "pathologies": ["Giant Cell Tumor", "Primary Spinal Tumor", "Chordoma", "Spinal Metastasis"],
+    "outcomes": ["Recurrence Rate", "Instrumentation Failure", "Complication Rate"],
+    "anatomy": ["Thoracic", "Lumbar"],
+    "study_design": "Retrospective Cohort Study",
+    "evidence_level": "2b"
+  },
+  {
+    "pmid": "40353162",
+    "interventions": ["Separation Surgery", "Stereotactic Radiosurgery", "Carbon Fiber Instrumentation", "Posterior Instrumented Fusion"],
+    "pathologies": ["Chordoma"],
+    "outcomes": ["Recurrence Rate", "Local Control"],
+    "anatomy": ["Lumbar"],
+    "study_design": "Case Series",
+    "evidence_level": "3"
+  },
+  {
+    "pmid": "39417983",
+    "interventions": ["En Bloc Resection", "Intralesional Resection", "Charged-Particle Therapy"],
+    "pathologies": ["Chordoma"],
+    "outcomes": ["Local Control", "Survival", "Complication Rate", "Recurrence Rate"],
+    "anatomy": ["Cervical", "Thoracic", "Lumbar"],
+    "study_design": "Retrospective Cohort Study",
+    "evidence_level": "2b"
+  }
+]

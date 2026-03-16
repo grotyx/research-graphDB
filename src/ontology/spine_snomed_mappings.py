@@ -39,7 +39,7 @@ EXTENSION_RANGES = {
     "taxonomy_root": (640, 699),  # 9000000000006xx (v1.24.0: Ontology root/intermediate concepts)
     "procedure_ext2": (700, 799),   # v1.25.0: Intervention 확장 (+100 slots)
     "observable_ext": (800, 899),   # v1.25.0: Outcome 확장 (+100 slots)
-    "disorder_ext": (900, 949),     # v1.25.0: Pathology 확장 (+50 slots)
+    "disorder_ext": (900, 999),     # v1.25.0: Pathology 확장 (+100 slots)
 }
 
 
@@ -2344,6 +2344,184 @@ SPINE_INTERVENTION_SNOMED: dict[str, SNOMEDMapping] = {
         abbreviations=["ULIF"],
         korean_term="편측 요추체간 유합술",
     ),
+    # ============================================================
+    # v1.25.0: SNOMED Proposer - Auto/Review Applied (2026-03-16)
+    # ============================================================
+    "Assisted Ventilation": SNOMEDMapping(
+        code="900000000000724",
+        term="Assisted ventilation",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="122465003",  # Spine Surgery (general procedure)
+        is_extension=True,
+        synonyms=["Mechanical ventilation support", "Ventilatory assistance",
+                  "Assisted mechanical ventilation"],
+        korean_term="보조 환기",
+    ),
+    "Absorbable Collagen Sponge": SNOMEDMapping(
+        code="900000000000725",
+        term="Absorbable collagen sponge",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="122465003",  # Spine Surgery (surgical material)
+        is_extension=True,
+        synonyms=["Collagen sponge", "Absorbable collagen matrix",
+                  "ACS", "Collagen carrier"],
+        abbreviations=["ACS"],
+        korean_term="흡수성 콜라겐 스펀지",
+    ),
+    "Annular Closure Device": SNOMEDMapping(
+        code="900000000000726",
+        term="Annular closure device insertion",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="122465003",  # Spine Surgery
+        is_extension=True,
+        synonyms=["Annular closure devices", "Annulus closure device",
+                  "ACD insertion", "Barricaid"],
+        abbreviations=["ACD"],
+        korean_term="섬유륜 폐쇄 장치 삽입",
+    ),
+    "Anti-inflammatory Gelatin Sponge": SNOMEDMapping(
+        code="900000000000727",
+        term="Anti-inflammatory impregnated gelatin sponge",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="122465003",  # Spine Surgery
+        is_extension=True,
+        synonyms=["Anti-inflammatory-impregnated gelatin sponge",
+                  "Medicated gelatin sponge", "Drug-eluting sponge"],
+        korean_term="항염증 함침 젤라틴 스펀지",
+    ),
+    "Anterior Column Realignment": SNOMEDMapping(
+        code="900000000000728",
+        term="Anterior column realignment",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="179097009",  # Spinal Deformity Correction/Osteotomy
+        is_extension=True,
+        synonyms=["ACR", "Anterior column realignment procedure",
+                  "Lateral ACR", "ACR technique"],
+        abbreviations=["ACR"],
+        korean_term="전방 주 재정렬술",
+    ),
+    "3D Printing": SNOMEDMapping(
+        code="900000000000729",
+        term="Three-dimensional printing",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="900000000000708",  # 3D-Printed Implant
+        is_extension=True,
+        synonyms=["3D printing", "Additive manufacturing",
+                  "Rapid prototyping", "3D-printed surgical guide"],
+        abbreviations=["3DP", "AM"],
+        korean_term="3차원 프린팅",
+    ),
+    # AI/ML Interventions (parent: AI-Assisted Procedure 900000000000666)
+    "AI-Assisted Assessment": SNOMEDMapping(
+        code="900000000000730",
+        term="Artificial intelligence assisted assessment",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="900000000000666",  # AI-Assisted Procedure
+        is_extension=True,
+        synonyms=["AI-assisted assessment", "AI assessment",
+                  "Artificial intelligence evaluation"],
+        korean_term="인공지능 보조 평가",
+    ),
+    "AI-based Body-Part Classification": SNOMEDMapping(
+        code="900000000000731",
+        term="AI-based anatomical structure classification",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="900000000000666",  # AI-Assisted Procedure
+        is_extension=True,
+        synonyms=["AI body-part classification", "AI anatomical classification",
+                  "DL body region classification"],
+        korean_term="인공지능 기반 해부학적 구조 분류",
+    ),
+    "AI-based Image Classification": SNOMEDMapping(
+        code="900000000000732",
+        term="AI-based image classification",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="900000000000666",  # AI-Assisted Procedure
+        is_extension=True,
+        synonyms=["AI image classification", "Deep learning image classification",
+                  "Automated image classification"],
+        korean_term="인공지능 기반 영상 분류",
+    ),
+    "AI-based Projection Detection": SNOMEDMapping(
+        code="900000000000733",
+        term="AI-based projection detection",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="900000000000666",  # AI-Assisted Procedure
+        is_extension=True,
+        synonyms=["AI projection detection", "Automated projection detection",
+                  "DL projection classification"],
+        korean_term="인공지능 기반 투사 방향 감지",
+    ),
+    "AI-based Spine Imaging Analysis": SNOMEDMapping(
+        code="900000000000734",
+        term="AI-based spine imaging analysis",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="900000000000666",  # AI-Assisted Procedure
+        is_extension=True,
+        synonyms=["AI spine imaging", "DL spine analysis",
+                  "Automated spine imaging analysis"],
+        korean_term="인공지능 기반 척추 영상 분석",
+    ),
+    "AI-based Ultrasound Analysis": SNOMEDMapping(
+        code="900000000000735",
+        term="AI-based ultrasound analysis",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="900000000000666",  # AI-Assisted Procedure
+        is_extension=True,
+        synonyms=["AI ultrasound analysis", "DL ultrasound analysis",
+                  "Automated ultrasound interpretation"],
+        korean_term="인공지능 기반 초음파 분석",
+    ),
+    "AI-based Vertebral Body Measurement": SNOMEDMapping(
+        code="900000000000736",
+        term="AI-based vertebral body measurement",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="900000000000666",  # AI-Assisted Procedure
+        is_extension=True,
+        synonyms=["AI vertebral measurement", "Automated vertebral body measurement",
+                  "DL vertebral body analysis"],
+        korean_term="인공지능 기반 추체 측정",
+    ),
+    "AI-based Vertebral Body Identification": SNOMEDMapping(
+        code="900000000000737",
+        term="AI-based vertebral body identification",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="900000000000666",  # AI-Assisted Procedure
+        is_extension=True,
+        synonyms=["AI vertebral identification", "Automated vertebral labeling",
+                  "DL vertebral body identification"],
+        korean_term="인공지능 기반 추체 식별",
+    ),
+    "Automated Cervical Alignment Measurement": SNOMEDMapping(
+        code="900000000000738",
+        term="Automated cervical alignment measurement",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="900000000000666",  # AI-Assisted Procedure
+        is_extension=True,
+        synonyms=["AI cervical alignment", "Automated cervical measurement",
+                  "DL cervical alignment analysis"],
+        korean_term="자동화 경추 정렬 측정",
+    ),
+    "Automated Radiograph Analysis": SNOMEDMapping(
+        code="900000000000739",
+        term="Automated radiograph analysis using artificial intelligence",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="900000000000666",  # AI-Assisted Procedure
+        is_extension=True,
+        synonyms=["Automated radiograph analysis", "AI radiograph analysis",
+                  "DL X-ray analysis"],
+        korean_term="인공지능 이용 자동화 방사선 사진 분석",
+    ),
+    "AI-based Measurement System": SNOMEDMapping(
+        code="900000000000740",
+        term="AI-based measurement system",
+        semantic_type=SNOMEDSemanticType.PROCEDURE,
+        parent_code="900000000000666",  # AI-Assisted Procedure
+        is_extension=True,
+        synonyms=["AI measurement system", "Automated measurement system",
+                  "DL measurement platform"],
+        korean_term="인공지능 기반 측정 시스템",
+    ),
 }
 
 
@@ -4494,6 +4672,179 @@ SPINE_PATHOLOGY_SNOMED: dict[str, SNOMEDMapping] = {
                   "Cervical kyphotic deformity", "Decreased cervical lordosis"],
         korean_term="경추 전만 소실",
     ),
+    # ============================================================
+    # v1.25.0: SNOMED Proposer - Auto/Review Applied (2026-03-16)
+    # ============================================================
+    "Axial Spondyloarthritis": SNOMEDMapping(
+        code="900000000000936",
+        term="Axial spondyloarthritis",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="49049000",  # Degenerative Spine Disease (inflammatory spine)
+        is_extension=True,
+        synonyms=["Axial SpA", "Axial spondyloarthropathy",
+                  "Ankylosing spondylitis spectrum"],
+        abbreviations=["axSpA"],
+        korean_term="축성 척추관절염",
+    ),
+    "Cerebrospinal Fluid Leakage": SNOMEDMapping(
+        code="900000000000937",
+        term="Cerebrospinal fluid leakage",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="4556007",  # Postoperative Complication
+        is_extension=True,
+        synonyms=["CSF leakage", "CSFL", "CSF leak", "Dural tear with CSF leak",
+                  "Cerebrospinal fluid fistula"],
+        abbreviations=["CSFL"],
+        korean_term="뇌척수액 누출",
+    ),
+    "Cervical Deformity": SNOMEDMapping(
+        code="900000000000938",
+        term="Cervical spine deformity",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000642",  # Spinal Deformity
+        is_extension=True,
+        synonyms=["Cervical deformity", "Cervical spinal deformity",
+                  "Cervical kyphosis", "Cervical malalignment deformity"],
+        korean_term="경추 변형",
+    ),
+    "Degenerative Spinal Pathology": SNOMEDMapping(
+        code="900000000000939",
+        term="Degenerative spinal pathology",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="49049000",  # Degenerative Spine Disease
+        is_extension=True,
+        synonyms=["Degenerative spinal condition", "Degenerative spine pathology",
+                  "Degenerative spinal disorder"],
+        korean_term="퇴행성 척추 병변",
+    ),
+    "Degenerative Stenosis": SNOMEDMapping(
+        code="900000000000940",
+        term="Degenerative spinal stenosis",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="76107001",  # Spinal Stenosis
+        is_extension=True,
+        synonyms=["Degenerative stenosis", "Degenerative lumbar stenosis",
+                  "Degenerative spinal canal stenosis"],
+        korean_term="퇴행성 척추관 협착증",
+    ),
+    "Disc Protrusion": SNOMEDMapping(
+        code="900000000000941",
+        term="Intervertebral disc protrusion",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000652",  # Disc Herniation
+        is_extension=True,
+        synonyms=["Disc protrusion", "Disc bulge", "Disc bulging",
+                  "Broad-based disc protrusion"],
+        korean_term="추간판 팽출",
+    ),
+    "Facet Joint Degeneration": SNOMEDMapping(
+        code="900000000000942",
+        term="Facet joint degeneration",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="81680005",  # Facet Arthropathy
+        is_extension=True,
+        synonyms=["Facet degeneration", "Facet joint arthrosis",
+                  "Zygapophyseal joint degeneration", "Facet joint osteoarthritis"],
+        korean_term="후관절 퇴행",
+    ),
+    "Cervical Instability": SNOMEDMapping(
+        code="900000000000943",
+        term="Cervical vertebral instability",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000251",  # Vertebral instability
+        is_extension=True,
+        synonyms=["Cervical instability", "Cervical spine instability",
+                  "Cervical segmental instability"],
+        korean_term="경추 불안정성",
+    ),
+    "Cauda Equina Herniation": SNOMEDMapping(
+        code="900000000000944",
+        term="Herniation of cauda equina",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="192970008",  # Cauda Equina Syndrome
+        is_extension=True,
+        synonyms=["Cauda equina herniation", "Cauda equina nerve root herniation",
+                  "Intradural cauda equina herniation"],
+        korean_term="마미 탈출",
+    ),
+    "Cervical Malalignment": SNOMEDMapping(
+        code="900000000000945",
+        term="Cervical malalignment",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000642",  # Spinal Deformity
+        is_extension=True,
+        synonyms=["Cervical spine malalignment", "Cervical sagittal malalignment",
+                  "C2-C7 malalignment"],
+        korean_term="경추 부정렬",
+    ),
+    "Complex Spinal Stenosis": SNOMEDMapping(
+        code="900000000000946",
+        term="Complex spinal stenosis with multi-segmental involvement",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="76107001",  # Spinal Stenosis
+        is_extension=True,
+        synonyms=["Complex spinal stenosis", "Multi-level spinal stenosis",
+                  "Multi-segmental stenosis"],
+        korean_term="복합 척추관 협착증 (다분절)",
+    ),
+    "Endplate Defects": SNOMEDMapping(
+        code="900000000000947",
+        term="Defect of vertebral endplate",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000907",  # Vertebral Endplate Degeneration
+        is_extension=True,
+        synonyms=["Endplate defects", "Endplate lesion", "Vertebral endplate defect",
+                  "Modic change"],
+        korean_term="종판 결손",
+    ),
+    "Buttock Pain": SNOMEDMapping(
+        code="900000000000948",
+        term="Buttock pain",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="279039007",  # Low Back Pain
+        is_extension=True,
+        synonyms=["Buttock pain", "Gluteal pain", "Pain in buttock",
+                  "Sacroiliac referred pain"],
+        korean_term="둔부 통증",
+    ),
+    "DDD Requiring Interbody Fusion": SNOMEDMapping(
+        code="900000000000949",
+        term="Degenerative disc disease with indication for interbody fusion",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="77547008",  # DDD
+        is_extension=True,
+        synonyms=["DDD requiring fusion", "DDD with fusion indication",
+                  "Degenerative disc disease requiring interbody fusion"],
+        korean_term="추체간 유합 적응증의 퇴행성 추간판 질환",
+    ),
+    "Anatomical Variation": SNOMEDMapping(
+        code="116003000",
+        term="Anatomical variation",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        synonyms=["Anatomic variation", "Anatomical variant",
+                  "Congenital anatomical variation"],
+        korean_term="해부학적 변이",
+    ),
+    "Armpit-type LDH": SNOMEDMapping(
+        code="900000000000950",
+        term="Axillary-type lumbar disc herniation",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="73589001",  # Lumbar Disc Herniation
+        is_extension=True,
+        synonyms=["Armpit-type LDH", "Axillary-type disc herniation",
+                  "Shoulder-type disc herniation"],
+        korean_term="겨드랑이형 요추 추간판 탈출증",
+    ),
+    "Fastidious Bacterial Infection": SNOMEDMapping(
+        code="900000000000951",
+        term="Fastidious bacterial spinal infection",
+        semantic_type=SNOMEDSemanticType.DISORDER,
+        parent_code="900000000000644",  # Spinal Infection
+        is_extension=True,
+        synonyms=["Fastidious bacterial infection", "Culture-negative spinal infection",
+                  "Difficult-to-culture bacterial spondylodiscitis"],
+        korean_term="난배양 세균성 척추 감염",
+    ),
 }
 
 
@@ -6505,6 +6856,57 @@ SPINE_OUTCOME_SNOMED: dict[str, SNOMEDMapping] = {
         synonyms=["AI performance", "Machine learning performance",
                   "Model performance metric"],
         korean_term="AI/ML 성능 결과",
+    ),
+    # ============================================================
+    # v1.25.0: SNOMED Proposer - Auto/Review Applied (2026-03-16)
+    # ============================================================
+    "Age (years)": SNOMEDMapping(
+        code="900000000000810",
+        term="Age",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        is_extension=True,
+        synonyms=["Age (years)", "Patient age", "Age at surgery",
+                  "Chronological age"],
+        korean_term="연령",
+    ),
+    "Body Weight": SNOMEDMapping(
+        code="900000000000811",
+        term="Body weight",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        is_extension=True,
+        synonyms=["Body weight", "Weight", "Body mass",
+                  "Patient weight"],
+        korean_term="체중",
+    ),
+    "AI Model Detection Accuracy": SNOMEDMapping(
+        code="900000000000812",
+        term="AI model detection accuracy",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        parent_code="900000000000809",  # AI/ML Performance Outcome
+        is_extension=True,
+        synonyms=["AI Model Detection Accuracy (HL512)", "AI detection accuracy",
+                  "Model detection performance", "Object detection accuracy"],
+        korean_term="AI 모델 검출 정확도",
+    ),
+    "AI Model Segmentation Accuracy": SNOMEDMapping(
+        code="900000000000813",
+        term="AI model segmentation accuracy",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        parent_code="900000000000809",  # AI/ML Performance Outcome
+        is_extension=True,
+        synonyms=["AI Model Segmentation Accuracy (HL512)", "AI segmentation accuracy",
+                  "Model segmentation performance", "Dice score"],
+        korean_term="AI 모델 분할 정확도",
+    ),
+    "Automated Spinopelvic Parameter Measurements": SNOMEDMapping(
+        code="900000000000814",
+        term="Automated measurement of spinopelvic parameters",
+        semantic_type=SNOMEDSemanticType.OBSERVABLE_ENTITY,
+        parent_code="900000000000809",  # AI/ML Performance Outcome
+        is_extension=True,
+        synonyms=["Automated Spinal–Pelvic Parameter Measurements",
+                  "AI spinopelvic measurement", "Automated sagittal parameter measurement"],
+        korean_term="자동화 골반-척추 매개변수 측정",
     ),
 }
 

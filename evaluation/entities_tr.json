@@ -1,0 +1,182 @@
+[
+  {
+    "pmid": "41798250",
+    "interventions": ["Percutaneous Fixation", "Short-Segment Fixation", "Long-Segment Fixation", "Minimally Invasive Surgery", "Cement Augmentation", "Implant Removal"],
+    "pathologies": ["Thoracolumbar Burst Fracture"],
+    "outcomes": ["Kyphosis Correction"],
+    "anatomy": ["Thoracolumbar"],
+    "study_design": "Narrative Review",
+    "evidence_level": "4"
+  },
+  {
+    "pmid": "41521067",
+    "interventions": ["Short-Segment Fixation", "Intermediate Screw Fixation"],
+    "pathologies": ["Thoracolumbar Burst Fracture", "Osteoporotic Vertebral Fracture"],
+    "outcomes": ["Range of Motion", "Implant Stress", "Hardware Failure", "Screw Loosening"],
+    "anatomy": ["Thoracolumbar", "Thoracic"],
+    "study_design": "Case Series",
+    "evidence_level": "5"
+  },
+  {
+    "pmid": "41520781",
+    "interventions": ["Kyphoplasty", "Percutaneous Fixation", "Intermediate Screw Fixation"],
+    "pathologies": ["Osteoporotic Vertebral Fracture", "Thoracolumbar Burst Fracture"],
+    "outcomes": ["VAS", "ODI", "Kyphosis Correction", "Vertebral Height Restoration", "Cement Leakage"],
+    "anatomy": ["Thoracolumbar"],
+    "study_design": "Retrospective Cohort Study",
+    "evidence_level": "2b"
+  },
+  {
+    "pmid": "41452373",
+    "interventions": ["Short-Segment Fixation", "Intermediate Screw Fixation"],
+    "pathologies": ["Thoracolumbar Burst Fracture"],
+    "outcomes": ["VAS", "ODI", "Kyphosis Correction", "Vertebral Height Restoration", "Blood Loss", "Operative Time"],
+    "anatomy": ["Thoracolumbar"],
+    "study_design": "Randomized Controlled Trial",
+    "evidence_level": "1b"
+  },
+  {
+    "pmid": "41242608",
+    "interventions": ["Minimally Invasive Posterior Fixation"],
+    "pathologies": ["Thoracolumbar Burst Fracture", "Intervertebral Vacuum Phenomenon", "Disc Injury"],
+    "outcomes": ["VAS", "ODI"],
+    "anatomy": ["Thoracolumbar"],
+    "study_design": "Retrospective Cohort Study",
+    "evidence_level": "2b"
+  },
+  {
+    "pmid": "41711950",
+    "interventions": [],
+    "pathologies": ["Odontoid Fracture", "Cervical Fracture", "Cardiac Arrest"],
+    "outcomes": ["Mortality", "Return of Spontaneous Circulation"],
+    "anatomy": ["Cervical", "C1-C2"],
+    "study_design": "Retrospective Cohort Study",
+    "evidence_level": "2b"
+  },
+  {
+    "pmid": "40673686",
+    "interventions": ["Operative Treatment", "Nonoperative Treatment"],
+    "pathologies": ["Odontoid Fracture"],
+    "outcomes": ["Mortality", "Length of Stay", "Complications"],
+    "anatomy": ["Cervical", "C1-C2"],
+    "study_design": "Retrospective Cohort Study",
+    "evidence_level": "2b"
+  },
+  {
+    "pmid": "41825068",
+    "interventions": ["Decompression Surgery"],
+    "pathologies": ["Spinal Cord Injury", "Cervical Fracture"],
+    "outcomes": ["Time to Surgery"],
+    "anatomy": ["Cervical"],
+    "study_design": "Retrospective Cohort Study",
+    "evidence_level": "2b"
+  },
+  {
+    "pmid": "41727900",
+    "interventions": ["Anterior Cervical Discectomy and Fusion", "Posterior Cervical Laminoplasty", "Corticosteroid Therapy"],
+    "pathologies": ["Cervical Spinal Stenosis", "Spinal Cord Reperfusion Injury"],
+    "outcomes": ["Neurological Recovery"],
+    "anatomy": ["Cervical"],
+    "study_design": "Case Report",
+    "evidence_level": "3"
+  },
+  {
+    "pmid": "41704584",
+    "interventions": ["Foreign Body Removal", "Decompression Surgery"],
+    "pathologies": ["Penetrating Spinal Cord Injury"],
+    "outcomes": ["Neurological Recovery"],
+    "anatomy": ["Cervical"],
+    "study_design": "Case Report",
+    "evidence_level": "3"
+  },
+  {
+    "pmid": "41684738",
+    "interventions": ["Decompression Surgery"],
+    "pathologies": ["Thoracolumbar Fracture", "Spinal Cord Injury"],
+    "outcomes": ["AIS Grade Improvement", "SCIM-III", "Neurological Recovery"],
+    "anatomy": ["Thoracolumbar"],
+    "study_design": "Retrospective Cohort Study",
+    "evidence_level": "2b"
+  },
+  {
+    "pmid": "41625210",
+    "interventions": ["Decompression Surgery"],
+    "pathologies": ["Spinal Cord Injury"],
+    "outcomes": ["Bladder Function", "Sexual Function", "Motor Score", "Time to Surgery"],
+    "anatomy": [],
+    "study_design": "Retrospective Cohort Study",
+    "evidence_level": "2b"
+  },
+  {
+    "pmid": "41522823",
+    "interventions": ["Laminectomy", "Decompression Surgery", "Corticosteroid Therapy"],
+    "pathologies": ["White Cord Syndrome", "Cervical Spinal Stenosis", "Spinal Cord Reperfusion Injury"],
+    "outcomes": ["Neurological Recovery"],
+    "anatomy": ["Cervical"],
+    "study_design": "Case Report",
+    "evidence_level": "3"
+  },
+  {
+    "pmid": "41830910",
+    "interventions": ["Percutaneous Fixation", "Vertebroplasty", "Kyphoplasty"],
+    "pathologies": ["Thoracolumbar Burst Fracture"],
+    "outcomes": ["Kyphosis Correction", "VAS"],
+    "anatomy": ["Thoracolumbar"],
+    "study_design": "Retrospective Cohort Study",
+    "evidence_level": "2b"
+  },
+  {
+    "pmid": "41810398",
+    "interventions": ["Percutaneous Fixation", "O-Arm Navigation", "Long-Segment Fixation"],
+    "pathologies": ["Thoracolumbar Fracture", "Ankylosing Spondylitis", "Diffuse Idiopathic Skeletal Hyperostosis"],
+    "outcomes": ["Screw Placement Accuracy", "Radiation Exposure", "Operative Time"],
+    "anatomy": ["Thoracolumbar"],
+    "study_design": "Retrospective Cohort Study",
+    "evidence_level": "2b"
+  },
+  {
+    "pmid": "41685255",
+    "interventions": ["Anterior Fixation", "Posterior Fixation", "Combined Anterior-Posterior Fixation"],
+    "pathologies": ["Cervicothoracic Junction Fracture"],
+    "outcomes": [],
+    "anatomy": ["Cervicothoracic Junction"],
+    "study_design": "Narrative Review",
+    "evidence_level": "4"
+  },
+  {
+    "pmid": "41653476",
+    "interventions": [],
+    "pathologies": ["Subaxial Cervical Fracture"],
+    "outcomes": [],
+    "anatomy": ["Cervical"],
+    "study_design": "Systematic Review",
+    "evidence_level": "1a"
+  },
+  {
+    "pmid": "41640695",
+    "interventions": ["Anterior Cervical Discectomy and Fusion", "Posterior Fixation"],
+    "pathologies": ["Floating Lateral Mass Fracture", "Subaxial Cervical Fracture"],
+    "outcomes": [],
+    "anatomy": ["Cervical"],
+    "study_design": "Narrative Review",
+    "evidence_level": "4"
+  },
+  {
+    "pmid": "41609460",
+    "interventions": ["Anterior Cervical Discectomy and Fusion", "Operative Stabilization"],
+    "pathologies": ["Cervical Facet Fracture"],
+    "outcomes": ["MRI Instability Score"],
+    "anatomy": ["Cervical"],
+    "study_design": "Retrospective Cohort Study",
+    "evidence_level": "2b"
+  },
+  {
+    "pmid": "41580985",
+    "interventions": ["Anterior Cervical Discectomy and Fusion", "Posterior Fusion", "Anterior Fixation"],
+    "pathologies": ["Subaxial Cervical Fracture", "Cervical Facet Fracture"],
+    "outcomes": [],
+    "anatomy": ["Cervical"],
+    "study_design": "Narrative Review",
+    "evidence_level": "4"
+  }
+]

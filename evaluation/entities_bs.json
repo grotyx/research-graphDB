@@ -1,0 +1,182 @@
+[
+  {
+    "pmid": "41759085",
+    "interventions": ["Augmented Reality Navigation", "Virtual Reality Training", "3D-Printed Implant", "Endoscopic Spine Surgery", "Robotic-Assisted Surgery", "Navigation-Assisted Surgery"],
+    "pathologies": [],
+    "outcomes": ["Screw Accuracy", "Surgical Training Outcomes", "Radiation Exposure", "Recovery Time"],
+    "anatomy": [],
+    "study_design": "Narrative Review",
+    "evidence_level": "4"
+  },
+  {
+    "pmid": "40876831",
+    "interventions": ["Stem Cell Therapy", "Chemokine Therapy", "Intradiscal Injection"],
+    "pathologies": ["Disc Degeneration"],
+    "outcomes": ["Disc Regeneration", "Histologic Degeneration Score"],
+    "anatomy": ["Lumbar"],
+    "study_design": "Animal Study",
+    "evidence_level": "5"
+  },
+  {
+    "pmid": "40418168",
+    "interventions": ["3D-Printed Cage", "PEEK Cage", "TLIF"],
+    "pathologies": ["Pseudarthrosis"],
+    "outcomes": ["Fusion Rate"],
+    "anatomy": ["Lumbar"],
+    "study_design": "Randomized Controlled Trial",
+    "evidence_level": "1b"
+  },
+  {
+    "pmid": "41519467",
+    "interventions": ["Robotic-Assisted Surgery", "3D-Printed Navigation Guide", "Pedicle Screw Fixation"],
+    "pathologies": [],
+    "outcomes": ["Screw Accuracy", "Screw Deviation Distance", "Screw Deviation Angle", "Implantation Time"],
+    "anatomy": ["Thoracic"],
+    "study_design": "Biomechanical Study",
+    "evidence_level": "5"
+  },
+  {
+    "pmid": "41569672",
+    "interventions": ["Machine Learning Prediction Model", "Spinal Deformity Correction"],
+    "pathologies": ["Adult Spinal Deformity", "Scoliosis"],
+    "outcomes": ["Patient Satisfaction", "SRS-22r", "WOMAC", "Sagittal Vertical Axis"],
+    "anatomy": [],
+    "study_design": "Retrospective Cohort Study",
+    "evidence_level": "2b"
+  },
+  {
+    "pmid": "41384339",
+    "interventions": ["ACDF", "Machine Learning Prediction Model"],
+    "pathologies": [],
+    "outcomes": ["Fusion Rate", "Range of Motion"],
+    "anatomy": ["Cervical"],
+    "study_design": "Case-Control Study",
+    "evidence_level": "2b"
+  },
+  {
+    "pmid": "41396203",
+    "interventions": ["Augmented Reality Navigation", "Pedicle Screw Fixation"],
+    "pathologies": [],
+    "outcomes": ["Screw Accuracy"],
+    "anatomy": ["Lumbosacral"],
+    "study_design": "Retrospective Cohort Study",
+    "evidence_level": "2b"
+  },
+  {
+    "pmid": "41093539",
+    "interventions": ["Augmented Reality Navigation", "Pedicle Screw Fixation"],
+    "pathologies": [],
+    "outcomes": ["Screw Accuracy", "Angular Error", "Translational Error"],
+    "anatomy": ["Cervical", "Thoracic", "Lumbar", "Sacral"],
+    "study_design": "Biomechanical Study",
+    "evidence_level": "5"
+  },
+  {
+    "pmid": "40183132",
+    "interventions": ["Navigation-Assisted Surgery", "Augmented Reality Navigation", "Robotic-Assisted Surgery"],
+    "pathologies": [],
+    "outcomes": ["Screw Accuracy", "Complication Rate"],
+    "anatomy": ["Cervical"],
+    "study_design": "Narrative Review",
+    "evidence_level": "4"
+  },
+  {
+    "pmid": "39950782",
+    "interventions": ["MIS-TLIF", "Expandable Cage", "Navigation-Assisted Surgery", "Augmented Reality Navigation", "Robotic-Assisted Surgery", "Endoscopic Spine Surgery"],
+    "pathologies": [],
+    "outcomes": ["Fusion Rate", "Operative Time", "Blood Loss", "Complication Rate", "Opioid Use"],
+    "anatomy": ["Lumbar"],
+    "study_design": "Narrative Review",
+    "evidence_level": "4"
+  },
+  {
+    "pmid": "39231739",
+    "interventions": ["Robotic-Assisted Surgery", "Augmented Reality Navigation", "Pedicle Screw Fixation"],
+    "pathologies": [],
+    "outcomes": ["Screw Accuracy"],
+    "anatomy": ["Lumbosacral"],
+    "study_design": "Prospective Cohort Study",
+    "evidence_level": "2a"
+  },
+  {
+    "pmid": "40728666",
+    "interventions": ["Microscopic Discectomy"],
+    "pathologies": ["Lumbar Disc Herniation", "Modic Changes"],
+    "outcomes": ["VAS", "Roland-Morris Disability Questionnaire", "Low Back Pain"],
+    "anatomy": ["Lumbar"],
+    "study_design": "Retrospective Cohort Study",
+    "evidence_level": "2b"
+  },
+  {
+    "pmid": "40409593",
+    "interventions": ["Stem Cell Therapy", "Platelet-Rich Plasma", "Nucleus Pulposus Replacement", "Hydrogel Implant", "Total Disc Replacement", "Spinal Fusion"],
+    "pathologies": ["Disc Degeneration", "Low Back Pain"],
+    "outcomes": ["Pain Relief", "Disc Regeneration", "Disc Height"],
+    "anatomy": [],
+    "study_design": "Narrative Review",
+    "evidence_level": "4"
+  },
+  {
+    "pmid": "40174800",
+    "interventions": ["Stem Cell Therapy", "Intradiscal Injection", "Hyaluronic Acid"],
+    "pathologies": ["Disc Degeneration", "Chronic Low Back Pain"],
+    "outcomes": ["VAS", "ODI", "EQ-5D", "Opioid Use"],
+    "anatomy": ["Lumbar"],
+    "study_design": "Randomized Controlled Trial",
+    "evidence_level": "1b"
+  },
+  {
+    "pmid": "39358812",
+    "interventions": ["Stem Cell Therapy", "Extracellular Vesicle Therapy"],
+    "pathologies": ["Disc Degeneration"],
+    "outcomes": ["Cell Proliferation", "Apoptosis", "Gene Expression"],
+    "anatomy": [],
+    "study_design": "Basic Science Study",
+    "evidence_level": "5"
+  },
+  {
+    "pmid": "41074955",
+    "interventions": ["Allograft Bone Graft", "Demineralized Bone Matrix", "Spinal Deformity Correction"],
+    "pathologies": ["Adult Spinal Deformity", "Pseudarthrosis"],
+    "outcomes": ["Pseudarthrosis Rate", "Screw Loosening", "Rod Breakage"],
+    "anatomy": [],
+    "study_design": "Retrospective Cohort Study",
+    "evidence_level": "2b"
+  },
+  {
+    "pmid": "39618155",
+    "interventions": ["Lumbar Fusion"],
+    "pathologies": ["Pseudarthrosis"],
+    "outcomes": ["Revision Surgery Rate"],
+    "anatomy": ["Lumbar"],
+    "study_design": "Retrospective Cohort Study",
+    "evidence_level": "2b"
+  },
+  {
+    "pmid": "41429734",
+    "interventions": ["Robotic-Assisted Surgery", "Pedicle Screw Fixation"],
+    "pathologies": ["Early-Onset Scoliosis"],
+    "outcomes": ["Screw Accuracy", "Operative Time", "Blood Loss", "Complication Rate", "Cobb Angle"],
+    "anatomy": [],
+    "study_design": "Retrospective Cohort Study",
+    "evidence_level": "2b"
+  },
+  {
+    "pmid": "39173914",
+    "interventions": ["Augmented Reality Navigation", "Pedicle Screw Fixation"],
+    "pathologies": [],
+    "outcomes": ["Screw Accuracy", "Angular Error", "Translational Error"],
+    "anatomy": ["Cervical"],
+    "study_design": "Biomechanical Study",
+    "evidence_level": "5"
+  },
+  {
+    "pmid": "39159220",
+    "interventions": ["Lumbar Fusion"],
+    "pathologies": ["Modic Changes", "Disc Degeneration", "Low Back Pain"],
+    "outcomes": ["Microbiota Composition", "Metabolomic Profile"],
+    "anatomy": ["Lumbar"],
+    "study_design": "Basic Science Study",
+    "evidence_level": "5"
+  }
+]

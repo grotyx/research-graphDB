@@ -2,6 +2,16 @@
 
 ## Version History
 
+### v1.25.0 Post-Release: QA 전체 스캔 + SNOMED 확장 + 리팩토링 (2026-03-16)
+
+- **SNOMED 매핑 확장**: 696 → 735개 (+39)
+  - LLM SNOMED Proposer로 62개 후보 생성 → 39개 적용 (auto-apply 10 + review 29)
+  - Intervention +17 (AI/ML 11, 수술재료/술기 6), Pathology +17, Outcome +5
+  - IS_A 커버리지 개선: I 57.1→59.3%, P 50.7→53.1%
+- **entity_normalizer.py 분리**: 4,888줄 → 1,366줄 (로직) + normalization_maps.py 3,543줄 (데이터)
+- **DV 데이터 수복 9건**: 고아Chunk 5건, 중복엔티티 15쌍 병합, IS_A순환 해소, TREATS paper_count 2808건 갱신, DOI중복Paper 4건 병합, tier정규화 228건, study_design정규화 48건, TREATS백필 67건
+- **QA 전체 결과**: QC 14P/1W/0F, CA 17P/4W/0F, DV 11P/10W/5F→전부 해소
+
 ### v1.25.0 Post-Release: 3D Interactive Graph Visualization (2026-03-12)
 
 - **3D Knowledge Graph 페이지 추가** (`web/pages/10_🌌_3D_Graph.py`)

@@ -328,6 +328,34 @@ def vis_network_graph(
                 border-color: #3b82f6;
                 color: #3b82f6;
             }}
+            /* Fullscreen styles */
+            #graph-container:fullscreen,
+            #graph-container:-webkit-full-screen {{
+                width: 100vw !important;
+                height: 100vh !important;
+                border-radius: 0;
+                border: none;
+                background: white;
+            }}
+            #graph-container:fullscreen #mynetwork,
+            #graph-container:-webkit-full-screen #mynetwork {{
+                width: 100vw !important;
+                height: 100vh !important;
+            }}
+            .fullscreen-btn {{
+                padding: 8px 12px;
+                background: #1e40af;
+                border: 1px solid #1e40af;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 12px;
+                color: white;
+                transition: all 0.2s;
+                font-weight: 500;
+            }}
+            .fullscreen-btn:hover {{
+                background: #1d4ed8;
+            }}
             #loading {{
                 position: absolute;
                 top: 50%;
@@ -371,6 +399,7 @@ def vis_network_graph(
                 <button class="control-btn" onclick="network.fit()">Fit View</button>
                 <button class="control-btn" onclick="togglePhysics()">Toggle Physics</button>
                 <button class="control-btn" onclick="resetHighlight()">Reset</button>
+                <button class="fullscreen-btn" onclick="toggleFullscreen()">&#x26F6; Fullscreen</button>
             </div>
 
             <div id="node-info">
@@ -506,6 +535,38 @@ def vis_network_graph(
                 }});
                 network.fit();
             }}
+
+            // Fullscreen toggle
+            function toggleFullscreen() {{
+                const container = document.getElementById('graph-container');
+                if (!document.fullscreenElement && !document.webkitFullscreenElement) {{
+                    if (container.requestFullscreen) {{
+                        container.requestFullscreen();
+                    }} else if (container.webkitRequestFullscreen) {{
+                        container.webkitRequestFullscreen();
+                    }}
+                }} else {{
+                    if (document.exitFullscreen) {{
+                        document.exitFullscreen();
+                    }} else if (document.webkitExitFullscreen) {{
+                        document.webkitExitFullscreen();
+                    }}
+                }}
+            }}
+
+            // Resize network on fullscreen change
+            document.addEventListener('fullscreenchange', function() {{
+                setTimeout(function() {{
+                    network.redraw();
+                    network.fit();
+                }}, 100);
+            }});
+            document.addEventListener('webkitfullscreenchange', function() {{
+                setTimeout(function() {{
+                    network.redraw();
+                    network.fit();
+                }}, 100);
+            }});
 
             // Focus on highlighted nodes if any
             const highlightedIds = {json.dumps(list(highlight_set))};
