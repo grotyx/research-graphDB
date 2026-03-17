@@ -339,7 +339,8 @@ mechanism 쿼리 ("how does fusion work"): semantic 0.6 + graph 0.3 + authority 
 | **현재** | Docker volume 기반 (수동 백업) |
 | **개선** | 자동 일일 백업 스크립트, 복구 절차 문서화 |
 
-**상태:** 🔴 미착수
+**상태:** ✅ 완료 (v1.29.0) — `scripts/neo4j_backup.py` 신규, APOC JSON export + volume tar 이중 백업, restore/list/cleanup 지원
+**관련 파일:** `scripts/neo4j_backup.py`
 
 ---
 
