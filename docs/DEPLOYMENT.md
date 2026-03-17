@@ -1,4 +1,4 @@
-# Spine GraphRAG v1.25.0 - Deployment Guide
+# Spine GraphRAG v1.26.1 - Deployment Guide
 
 다른 컴퓨터로 프로젝트를 이전하기 위한 가이드입니다.
 
@@ -6,9 +6,9 @@
 
 | 항목 | 값 |
 |------|-----|
-| **Version** | 1.25.0 |
+| **Version** | 1.26.1 |
 | **Date** | 2026-03-02 |
-| **SNOMED Mappings** | 696개 (I:218, P:214, O:195, A:69) + 패턴 매핑 |
+| **SNOMED Mappings** | 735개 (I:235, P:231, O:200, A:69) + 패턴 매핑 |
 | **Storage** | Neo4j (Graph + Vector 통합, ChromaDB 완전 제거) |
 
 ### 주요 기능
@@ -16,7 +16,7 @@
 - **PubMed + DOI 3단계 Fallback**: PubMed → Crossref/DOI → Basic 순서로 항상 서지 보강
 - **Crossref 서지 검색**: DOI 없이 제목+저자로 논문 검색
 - **인용 논문 항상 저장**: 모든 enrichment 실패 시에도 Paper 노드 생성
-- **SNOMED-CT 매핑**: 696개 매핑 (I:218, P:214, O:195, A:69)
+- **SNOMED-CT 매핑**: 735개 매핑 (I:235, P:231, O:200, A:69)
 - **Neo4j Vector Index**: HNSW 3072d 통합 그래프+벡터 검색
 - **Academic Writing Guide**: 9개 EQUATOR 체크리스트 지원
 - **DOI Fulltext Fetcher**: Crossref + Unpaywall API로 전문 자동 조회
@@ -40,7 +40,7 @@ rag_research/
 │   ├── builder/               # PDF/텍스트 처리, 인용 분석
 │   ├── graph/                 # Neo4j 클라이언트, 관계 빌더, 정규화 엔진
 │   │   └── entity_normalizer.py      # 정규화 엔진
-│   ├── ontology/              # SNOMED-CT 매핑 (696개)
+│   ├── ontology/              # SNOMED-CT 매핑 (735개)
 │   │   └── spine_snomed_mappings.py  # 전체 매핑 정의
 │   ├── medical_mcp/           # MCP 서버 (10개 통합 도구)
 │   ├── solver/                # 검색/추론 모듈
@@ -87,12 +87,12 @@ rsync -avz --progress \
 cd /path/to
 tar --exclude='.venv' --exclude='__pycache__' --exclude='.git' \
     --exclude='logs' \
-    -czvf rag_research_v1.25.0.tar.gz rag_research/
+    -czvf rag_research_v1.26.1.tar.gz rag_research/
 
-scp rag_research_v1.25.0.tar.gz user@newserver:~/
+scp rag_research_v1.26.1.tar.gz user@newserver:~/
 
 # 새 서버에서 압축 해제
-ssh user@newserver "cd ~ && tar -xzvf rag_research_v1.25.0.tar.gz"
+ssh user@newserver "cd ~ && tar -xzvf rag_research_v1.26.1.tar.gz"
 ```
 
 ### Step 2: Python 환경 설정
@@ -207,7 +207,7 @@ streamlit run web/app.py --server.address 0.0.0.0
 # 저장: verify_deployment.sh
 # 실행: bash verify_deployment.sh
 
-echo "=== Spine GraphRAG v1.25.0 Deployment Verification ==="
+echo "=== Spine GraphRAG v1.26.1 Deployment Verification ==="
 
 # 1. Python 환경
 echo -e "\n[1/5] Python Environment"

@@ -52,9 +52,9 @@ def mock_server():
 
     # Search engine
     server.search_engine = MagicMock()
-    server.search_engine.search.return_value = SearchOutput(
+    server.search_engine.search = AsyncMock(return_value=SearchOutput(
         results=[], total_found=0
-    )
+    ))
 
     # Ranker
     server.ranker = MagicMock()

@@ -76,10 +76,9 @@ class SearchHandler(BaseHandler):
         Returns:
             검색 결과 딕셔너리
         """
-        # Input bounds
+        # Input validation
+        self.validate_string_length(query, "query", max_length=MAX_QUERY_LENGTH)
         top_k = min(top_k, 100)
-        if query and len(query) > MAX_QUERY_LENGTH:
-            return {"error": f"Query too long ({len(query)} chars). Maximum: {MAX_QUERY_LENGTH} chars."}
 
         # 0. Query expansion using SNOMED-CT concept hierarchy
         expanded_query = query
@@ -120,7 +119,7 @@ class SearchHandler(BaseHandler):
             min_evidence_level=min_evidence_level,
             top_k=top_k
         )
-        search_output = self.search_engine.search(search_input)
+        search_output = await self.search_engine.search(search_input)
 
         # 4. 랭킹 (SearchResult 변환 필요)
         if search_output.results:
@@ -297,8 +296,7 @@ class SearchHandler(BaseHandler):
         Returns:
             그래프 검색 결과
         """
-        if query and len(query) > MAX_QUERY_LENGTH:
-            return {"error": f"Query too long ({len(query)} chars). Maximum: {MAX_QUERY_LENGTH} chars."}
+        self.validate_string_length(query, "query", max_length=MAX_QUERY_LENGTH)
 
         if not self.graph_searcher:
             return {
@@ -428,8 +426,7 @@ class SearchHandler(BaseHandler):
         Returns:
             Full search response with adaptive ranking, synthesis, conflicts
         """
-        if query and len(query) > MAX_QUERY_LENGTH:
-            return {"error": f"Query too long ({len(query)} chars). Maximum: {MAX_QUERY_LENGTH} chars."}
+        self.validate_string_length(query, "query", max_length=MAX_QUERY_LENGTH)
 
         self._require_neo4j()
 

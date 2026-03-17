@@ -253,7 +253,7 @@ class TieredHybridSearch:
         else:
             logger.info("TieredHybridSearch: Neo4j Vector not enabled")
 
-    def search(self, input_data: SearchInput) -> SearchOutput:
+    async def search(self, input_data: SearchInput) -> SearchOutput:
         """계층적 하이브리드 검색 수행.
 
         Args:
@@ -268,14 +268,14 @@ class TieredHybridSearch:
 
         # 검색 전략에 따라 실행
         if input_data.tier_strategy == SearchTier.TIER1_ONLY:
-            results = self._search_tier(
+            results = await self._search_tier(
                 input_data, tier=1, top_k=input_data.top_k
             )
             tier1_count = len(results)
 
         elif input_data.tier_strategy == SearchTier.TIER1_THEN_TIER2:
             # Tier 1 먼저 검색
-            tier1_results = self._search_tier(
+            tier1_results = await self._search_tier(
                 input_data, tier=1, top_k=input_data.top_k
             )
             tier1_count = len(tier1_results)
@@ -284,7 +284,7 @@ class TieredHybridSearch:
             # 결과 부족시 Tier 2 검색
             if len(results) < input_data.top_k:
                 remaining = input_data.top_k - len(results)
-                tier2_results = self._search_tier(
+                tier2_results = await self._search_tier(
                     input_data, tier=2, top_k=remaining
                 )
                 tier2_count = len(tier2_results)
@@ -292,10 +292,10 @@ class TieredHybridSearch:
 
         else:  # ALL_TIERS
             # 양쪽 모두 검색 후 병합
-            tier1_results = self._search_tier(
+            tier1_results = await self._search_tier(
                 input_data, tier=1, top_k=input_data.top_k
             )
-            tier2_results = self._search_tier(
+            tier2_results = await self._search_tier(
                 input_data, tier=2, top_k=input_data.top_k
             )
 
@@ -339,7 +339,7 @@ class TieredHybridSearch:
             vector_backend=SearchBackend.NEO4J
         )
 
-    def _search_tier(
+    async def _search_tier(
         self,
         input_data: SearchInput,
         tier: int,
@@ -359,7 +359,7 @@ class TieredHybridSearch:
 
         # v1.14.17: Neo4j Hybrid Search 우선 사용 (그래프 필터 + 벡터 검색 통합)
         if self.use_neo4j_hybrid and self.neo4j_client:
-            hybrid_results = self._neo4j_hybrid_search(input_data, tier, top_k)
+            hybrid_results = await self._neo4j_hybrid_search(input_data, tier, top_k)
             if hybrid_results:
                 return hybrid_results
             # Hybrid 검색 실패 시 벡터 검색으로 폴백
@@ -367,7 +367,7 @@ class TieredHybridSearch:
 
         # 벡터 검색 (v5.3: Neo4j 또는 VectorDB)
         if self.use_neo4j_vector and self.neo4j_client:
-            vector_results = self._neo4j_vector_search(input_data, tier, top_k)
+            vector_results = await self._neo4j_vector_search(input_data, tier, top_k)
         else:
             vector_results = self._vector_search(input_data, tier, top_k)
 
@@ -457,7 +457,7 @@ class TieredHybridSearch:
 
         return results
 
-    def _neo4j_vector_search(
+    async def _neo4j_vector_search(
         self,
         input_data: SearchInput,
         tier: int,
@@ -510,20 +510,15 @@ class TieredHybridSearch:
         if input_data.min_evidence_level:
             evidence_levels = self._get_acceptable_levels(input_data.min_evidence_level)
 
-        # Neo4j 벡터 검색 수행 (동기 래퍼 사용)
+        # Neo4j 벡터 검색 수행
         try:
-            import asyncio
-            # 동기 래퍼: run_until_complete로 async Neo4j 호출 실행
-            loop = asyncio.get_event_loop()
-            raw_results = loop.run_until_complete(
-                self.neo4j_client.vector_search_chunks(
-                    embedding=query_embedding,
-                    top_k=top_k,
-                    tier=tier_str,
-                    evidence_levels=evidence_levels,
-                    min_year=input_data.min_year,
-                    min_score=0.5
-                )
+            raw_results = await self.neo4j_client.vector_search_chunks(
+                embedding=query_embedding,
+                top_k=top_k,
+                tier=tier_str,
+                evidence_levels=evidence_levels,
+                min_year=input_data.min_year,
+                min_score=0.5
             )
         except Exception as e:
             logger.error(f"Neo4j vector search failed: {e}", exc_info=True)
@@ -564,7 +559,7 @@ class TieredHybridSearch:
         logger.info(f"Neo4j vector search: {len(results)} results for tier{tier}")
         return results
 
-    def _neo4j_hybrid_search(
+    async def _neo4j_hybrid_search(
         self,
         input_data: SearchInput,
         tier: int,
@@ -661,7 +656,6 @@ class TieredHybridSearch:
         # IS_A hierarchy expansion via GraphContextExpander (v1.25.0: 병렬 처리)
         if self.context_expander:
             try:
-                import asyncio
                 _expand_tasks = []
                 if graph_filters.get("intervention"):
                     _expand_tasks.append(("intervention", graph_filters["intervention"], "Intervention"))
@@ -673,13 +667,9 @@ class TieredHybridSearch:
                     _expand_tasks.append(("anatomy", graph_filters["anatomy"], "Anatomy"))
 
                 if _expand_tasks:
-                    # 개별 entity IS_A 확장 (순차 실행 — 동기 컨텍스트에서 안전)
-                    loop = asyncio.get_event_loop()
                     for _key, _name, _type in _expand_tasks:
                         try:
-                            variants = loop.run_until_complete(
-                                self.context_expander.expand_by_ontology(_name, _type, depth=2)
-                            )
+                            variants = await self.context_expander.expand_by_ontology(_name, _type, depth=2)
                             if variants and len(variants) > 1:
                                 plural_key = f"{_key[:-1]}ies" if _key.endswith("y") else f"{_key}s"
                                 graph_filters[plural_key] = variants
@@ -690,20 +680,15 @@ class TieredHybridSearch:
             except Exception as e:
                 logger.warning(f"IS_A expansion failed, using original filters: {e}")
 
-        # Neo4j hybrid_search 수행 (동기 래퍼)
+        # Neo4j hybrid_search 수행
         try:
-            import asyncio
-            # 동기 래퍼: run_until_complete로 async Neo4j 호출 실행
-            loop = asyncio.get_event_loop()
-            raw_results = loop.run_until_complete(
-                self.neo4j_client.hybrid_search(
-                    embedding=query_embedding,
-                    graph_filters=graph_filters if graph_filters else None,
-                    top_k=top_k,
-                    graph_weight=self.graph_weight,
-                    vector_weight=self.vector_weight,
-                    snomed_codes=snomed_codes or None,
-                )
+            raw_results = await self.neo4j_client.hybrid_search(
+                embedding=query_embedding,
+                graph_filters=graph_filters if graph_filters else None,
+                top_k=top_k,
+                graph_weight=self.graph_weight,
+                vector_weight=self.vector_weight,
+                snomed_codes=snomed_codes or None,
             )
         except Exception as e:
             logger.error(f"Neo4j hybrid search failed: {e}", exc_info=True)

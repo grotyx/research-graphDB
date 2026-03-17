@@ -2,6 +2,15 @@
 
 ## Version History
 
+### v1.26.2 (2026-03-17)
+
+- **QC/CA 전체 스캔 + 수정**
+  - `tiered_search.py` sync-in-async 수정: `loop.run_until_complete()` → proper `async/await` (RuntimeWarning 41→10건 감소)
+  - MCP 입력 길이 검증 추가: `BaseHandler.validate_string_length/validate_list_length` (query 10K, identifier 1K, list 100)
+  - 7개 문서 버전 동기화 1.25.0→1.26.2, SNOMED 통계 696→735 갱신 (GRAPH_SCHEMA, TERMINOLOGY_ONTOLOGY, DEPLOYMENT)
+  - MCP Docker 컨테이너 v1.25.0→v1.26.2 재시작
+  - 테스트: 3,769 passed, 0 failed, warnings 41→10
+
 ### v1.26.1 (2026-03-17)
 
 - **`/pubmed-import` 스킬 추가** (`.claude/skills/pubmed-import/`)

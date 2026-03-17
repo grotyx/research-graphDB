@@ -227,6 +227,8 @@ class PubMedHandler(BaseHandler):
         Returns:
             검색 결과 딕셔너리
         """
+        self.validate_string_length(query, "query", max_length=self.MAX_STRING_LENGTH)
+
         if not self.pubmed_client:
             return {"success": False, "error": "PubMed client not available"}
 
@@ -294,6 +296,8 @@ class PubMedHandler(BaseHandler):
         Returns:
             검색 결과 및 임포트 결과 (선택 시)
         """
+        self.validate_string_length(query, "query", max_length=self.MAX_STRING_LENGTH)
+
         if not PUBMED_BULK_AVAILABLE:
             return {"success": False, "error": "PubMed Bulk Processor not available"}
 
@@ -522,6 +526,12 @@ class PubMedHandler(BaseHandler):
         if not pmids:
             return {"success": False, "error": "No PMIDs provided"}
 
+        self.validate_list_length(pmids, "pmids", max_items=self.MAX_LIST_ITEMS)
+        for pmid in pmids:
+            self.validate_string_length(
+                str(pmid), "pmid", max_length=self.MAX_IDENTIFIER_LENGTH
+            )
+
         # Create a fresh Neo4j client to avoid event loop conflicts
         # when called from Streamlit via run_async()
         async with await self._get_fresh_neo4j_client() as fresh_neo4j:
@@ -629,6 +639,8 @@ class PubMedHandler(BaseHandler):
             - pubmed_results: PubMed에서 새로 찾은 결과
             - import_summary: 자동 임포트 결과 (auto_import=True 시)
         """
+        self.validate_string_length(query, "query", max_length=self.MAX_STRING_LENGTH)
+
         result = {
             "success": True,
             "query": query,

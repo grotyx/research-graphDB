@@ -23,8 +23,63 @@ logger = logging.getLogger("medical-kag")
 class BaseHandler:
     """Base class for all MCP server handlers."""
 
+    # Default limits for input validation
+    MAX_STRING_LENGTH = 10000
+    MAX_IDENTIFIER_LENGTH = 1000
+    MAX_LIST_ITEMS = 100
+
     def __init__(self, server: "MedicalKAGServer"):
         self.server = server
+
+    def validate_string_length(
+        self,
+        value: str,
+        field_name: str,
+        max_length: int = 10000,
+    ) -> None:
+        """Validate that a string input does not exceed the maximum length.
+
+        Args:
+            value: The string value to validate.
+            field_name: Name of the field (for error messages).
+            max_length: Maximum allowed length in characters.
+
+        Raises:
+            ValidationError: If the string exceeds max_length.
+        """
+        if value and len(value) > max_length:
+            raise ValidationError(
+                message=(
+                    f"{field_name} too long ({len(value)} chars). "
+                    f"Maximum: {max_length} chars."
+                ),
+                error_code=ErrorCode.VAL_INVALID_VALUE,
+            )
+
+    def validate_list_length(
+        self,
+        items: list,
+        field_name: str,
+        max_items: int = 100,
+    ) -> None:
+        """Validate that a list does not exceed the maximum number of items.
+
+        Args:
+            items: The list to validate.
+            field_name: Name of the field (for error messages).
+            max_items: Maximum allowed number of items.
+
+        Raises:
+            ValidationError: If the list exceeds max_items.
+        """
+        if items and len(items) > max_items:
+            raise ValidationError(
+                message=(
+                    f"{field_name} has too many items ({len(items)}). "
+                    f"Maximum: {max_items} items."
+                ),
+                error_code=ErrorCode.VAL_INVALID_VALUE,
+            )
 
     @property
     def neo4j_client(self):

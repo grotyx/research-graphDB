@@ -1,6 +1,6 @@
 # Spine GraphRAG Schema
 
-> **Version**: 1.25.0
+> **Version**: 1.26.1
 
 ## Node Types
 
@@ -56,8 +56,8 @@
 | TREATS | Intervention → Pathology | indication, source_paper_ids, paper_count | — | 수술법이 치료하는 질환 (v1.16.1 구현, v1.16.4 속성 통일) |
 | IS_A | Entity → Entity (same type) | auto_generated, source, created_at | SNOMED IS_A 확장 (ontology_distance 0/1/2) | Taxonomy 계층 관계 (4 entity types) |
 | HAS_CHUNK | Paper → Chunk | | — | 논문의 텍스트 청크 |
-| MENTIONS | Chunk → Intervention\|Pathology\|Outcome\|Anatomy | | — | 청크가 언급하는 의학 엔티티 (v1.25.0 구현) |
-| APPLIED_TO | Intervention → Anatomy | | — | 수술법이 적용되는 해부학적 위치 (v1.25.0 구현) |
+| MENTIONS | Chunk → Intervention\|Pathology\|Outcome\|Anatomy | | — | 청크가 언급하는 의학 엔티티 (v1.26.1 구현) |
+| APPLIED_TO | Intervention → Anatomy | | — | 수술법이 적용되는 해부학적 위치 (v1.26.1 구현) |
 
 ### Paper-to-Paper Relationships
 
@@ -268,7 +268,7 @@ final_score = 0.4 * semantic_score + 0.3 * authority_score + 0.3 * graph_relevan
 | Pathology | 214 | 73 | 141 |
 | Outcome | 195 | 38 | 157 |
 | Anatomy | 69 | 29 | 40 |
-| **Total** | **696** | **193** | **503** |
+| **Total** | **735** | **193** | **503** |
 
 ### 주요 매핑 카테고리
 
@@ -391,7 +391,7 @@ Epidural Hematoma: 900000000000505
 | **SNOMED 노드** | 별도 `:SNOMED_Concept` 노드 생성 | 도메인 노드에 `snomed_code` 속성 내장 |
 | **연결 방식** | `(:Entity)-[:HAS_SNOMED_CONCEPT]->(:SNOMED_Concept)` 엣지 | `snomed_code` / `snomed_term` 속성 필터 |
 | **IS_A 계층** | `(:SNOMED_Concept)-[:IS_A]->(:SNOMED_Concept)` (개념 간) | `(:Intervention)-[:IS_A]->(:Intervention)` (동일 레이블 내) |
-| **데이터 소스** | RF2 전체 import (36만+ 개념) | Python dict 696개 도메인 특화 매핑 |
+| **데이터 소스** | RF2 전체 import (36만+ 개념) | Python dict 735개 도메인 특화 매핑 |
 | **검색 연동** | SNOMED_Concept 그래프 경로 탐색 | 속성 필터 + IS_A 다중 홉 확장 |
 
 ### 노드 구조 비교
@@ -460,7 +460,7 @@ ORDER BY score DESC
 |------|------|
 | **단순성** | 별도 SNOMED 노드 계층 없이 도메인 노드만으로 그래프 구성 |
 | **단일 저장소** | Neo4j 하나에 Graph + Vector 통합, 별도 SNOMED 트리플 스토어 불필요 |
-| **도메인 특화** | 36만+ RF2 전체 대신 척추 외과 696개 핵심 개념만 관리 |
+| **도메인 특화** | 36만+ RF2 전체 대신 척추 외과 735개 핵심 개념만 관리 |
 | **Vector+Graph 통합** | 벡터 유사도 검색과 IS_A 계층 탐색을 단일 Cypher 쿼리에서 처리 |
 
 #### 단점
@@ -489,9 +489,9 @@ ORDER BY score DESC
 | `HAS_BODY_STRUCTURE` | Paper 경유 간접: `(Intervention)<-[:INVESTIGATES]-(:Paper)-[:INVOLVES]->(Anatomy)` | 직접 링크 없음, 2홉 경로 |
 | `ASSOCIATED_WITH` | 미구현 (Cost↔Intervention에 동명 관계 있으나 SNOMED 의미 아님) | 미구현 |
 
-### v1.25.0 구현 완료
+### v1.26.1 구현 완료
 
-다음 항목은 v1.25.0에서 구현 완료:
+다음 항목은 v1.26.1에서 구현 완료:
 
 | 구현 항목 | 설명 | 상태 |
 |-----------|------|------|

@@ -395,14 +395,16 @@ class TestMergeResultsRRF:
 class TestSearchTierFallback:
     """Test _search_tier fallback logic."""
 
-    def test_no_backends_returns_empty(self):
+    @pytest.mark.asyncio
+    async def test_no_backends_returns_empty(self):
         """No backends configured returns empty."""
         engine = TieredHybridSearch()
         input_data = SearchInput(query="test")
-        results = engine._search_tier(input_data, tier=1, top_k=10)
+        results = await engine._search_tier(input_data, tier=1, top_k=10)
         assert results == []
 
-    def test_vector_only_returns_vector(self):
+    @pytest.mark.asyncio
+    async def test_vector_only_returns_vector(self):
         """Vector DB only returns vector results."""
         data = [
             {"id": "c1", "document_id": "d1", "text": "text", "tier": 1,
@@ -411,11 +413,12 @@ class TestSearchTierFallback:
         ]
         engine = TieredHybridSearch(vector_db=MockVectorDB(data))
         input_data = SearchInput(query="test")
-        results = engine._search_tier(input_data, tier=1, top_k=10)
+        results = await engine._search_tier(input_data, tier=1, top_k=10)
         assert len(results) > 0
         assert all(r.search_source == SearchSource.VECTOR for r in results)
 
-    def test_graph_only_with_entities(self):
+    @pytest.mark.asyncio
+    async def test_graph_only_with_entities(self):
         """Graph DB only returns graph results when entities provided."""
         data = [
             {"id": "g1", "document_id": "d1", "text": "spine surgery",
@@ -425,11 +428,12 @@ class TestSearchTierFallback:
         entities = [MedicalEntity(text="spine", entity_type=EntityType.ANATOMY)]
         engine = TieredHybridSearch(graph_db=MockGraphDB(data))
         input_data = SearchInput(query="spine surgery", entities=entities)
-        results = engine._search_tier(input_data, tier=1, top_k=10)
+        results = await engine._search_tier(input_data, tier=1, top_k=10)
         assert len(results) > 0
         assert all(r.search_source == SearchSource.GRAPH for r in results)
 
-    def test_graph_without_entities_skipped(self):
+    @pytest.mark.asyncio
+    async def test_graph_without_entities_skipped(self):
         """Graph DB is skipped when no entities provided."""
         data = [
             {"id": "g1", "document_id": "d1", "text": "spine surgery",
@@ -439,7 +443,7 @@ class TestSearchTierFallback:
         engine = TieredHybridSearch(graph_db=MockGraphDB(data))
         # No entities provided
         input_data = SearchInput(query="spine surgery")
-        results = engine._search_tier(input_data, tier=1, top_k=10)
+        results = await engine._search_tier(input_data, tier=1, top_k=10)
         assert results == []
 
 
@@ -450,7 +454,8 @@ class TestSearchTierFallback:
 class TestSearchOutputStatistics:
     """Test search output statistics calculation."""
 
-    def test_vector_and_graph_counts(self):
+    @pytest.mark.asyncio
+    async def test_vector_and_graph_counts(self):
         """Test vector_results and graph_results counts."""
         data = [
             {"id": "c1", "document_id": "d1", "text": "spine surgery outcomes",
@@ -463,7 +468,7 @@ class TestSearchOutputStatistics:
             graph_db=MockGraphDB(data),
         )
 
-        result = engine.search(SearchInput(
+        result = await engine.search(SearchInput(
             query="spine surgery outcomes",
             entities=entities,
             tier_strategy=SearchTier.TIER1_ONLY,
@@ -661,7 +666,8 @@ class TestMockGraphDBEdgeCases:
 class TestFullSearchWorkflow:
     """Test complete search workflow edge cases."""
 
-    def test_tier1_only_with_insufficient_results(self):
+    @pytest.mark.asyncio
+    async def test_tier1_only_with_insufficient_results(self):
         """TIER1_ONLY with limited data."""
         data = [
             {"id": "c1", "document_id": "d1", "text": "result",
@@ -669,7 +675,7 @@ class TestFullSearchWorkflow:
              "evidence_level": "1b", "publication_year": 2023, "score": 0.9}
         ]
         engine = TieredHybridSearch(vector_db=MockVectorDB(data))
-        result = engine.search(SearchInput(
+        result = await engine.search(SearchInput(
             query="test",
             tier_strategy=SearchTier.TIER1_ONLY,
             top_k=10,
@@ -678,7 +684,8 @@ class TestFullSearchWorkflow:
         assert result.tier1_count == 1
         assert result.tier2_count == 0
 
-    def test_tier1_then_tier2_expands_when_insufficient(self):
+    @pytest.mark.asyncio
+    async def test_tier1_then_tier2_expands_when_insufficient(self):
         """TIER1_THEN_TIER2 expands to tier2 when tier1 has too few results."""
         data = [
             {"id": "c1", "document_id": "d1", "text": "tier1 result",
@@ -689,7 +696,7 @@ class TestFullSearchWorkflow:
              "evidence_level": "2b", "publication_year": 2022, "score": 0.8},
         ]
         engine = TieredHybridSearch(vector_db=MockVectorDB(data))
-        result = engine.search(SearchInput(
+        result = await engine.search(SearchInput(
             query="test",
             tier_strategy=SearchTier.TIER1_THEN_TIER2,
             top_k=10,
@@ -697,7 +704,8 @@ class TestFullSearchWorkflow:
         assert result.tier1_count == 1
         assert result.tier2_count == 1
 
-    def test_all_tiers_merges_via_rrf(self):
+    @pytest.mark.asyncio
+    async def test_all_tiers_merges_via_rrf(self):
         """ALL_TIERS strategy merges both tiers via RRF."""
         data = [
             {"id": "c1", "document_id": "d1", "text": "tier1 result",
@@ -708,7 +716,7 @@ class TestFullSearchWorkflow:
              "evidence_level": "2b", "publication_year": 2022, "score": 0.8},
         ]
         engine = TieredHybridSearch(vector_db=MockVectorDB(data))
-        result = engine.search(SearchInput(
+        result = await engine.search(SearchInput(
             query="test",
             tier_strategy=SearchTier.ALL_TIERS,
             top_k=10,
@@ -717,7 +725,8 @@ class TestFullSearchWorkflow:
         assert result.tier2_count >= 0
         assert result.search_strategy_used == SearchTier.ALL_TIERS
 
-    def test_combined_filters(self):
+    @pytest.mark.asyncio
+    async def test_combined_filters(self):
         """Year + evidence + original preference all applied together."""
         data = [
             {"id": "c1", "document_id": "d1", "text": "good result",
@@ -728,7 +737,7 @@ class TestFullSearchWorkflow:
              "evidence_level": "4", "publication_year": 2015, "score": 0.8},
         ]
         engine = TieredHybridSearch(vector_db=MockVectorDB(data))
-        result = engine.search(SearchInput(
+        result = await engine.search(SearchInput(
             query="test",
             tier_strategy=SearchTier.TIER1_ONLY,
             prefer_original=True,
@@ -742,7 +751,8 @@ class TestFullSearchWorkflow:
             assert r.chunk.publication_year >= 2020
             assert r.evidence_level in ["1a", "1b", "2a", "2b"]
 
-    def test_no_prefer_original(self):
+    @pytest.mark.asyncio
+    async def test_no_prefer_original(self):
         """prefer_original=False skips original prioritization."""
         data = [
             {"id": "c1", "document_id": "d1", "text": "citation result",
@@ -753,7 +763,7 @@ class TestFullSearchWorkflow:
              "evidence_level": "2b", "publication_year": 2022, "score": 0.80},
         ]
         engine = TieredHybridSearch(vector_db=MockVectorDB(data))
-        result = engine.search(SearchInput(
+        result = await engine.search(SearchInput(
             query="test",
             tier_strategy=SearchTier.TIER1_ONLY,
             prefer_original=False,

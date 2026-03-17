@@ -102,15 +102,17 @@ class TestTieredHybridSearch:
         """DB 없는 검색 엔진."""
         return TieredHybridSearch()
 
-    def test_empty_results_without_db(self, search_engine_no_db):
+    @pytest.mark.asyncio
+    async def test_empty_results_without_db(self, search_engine_no_db):
         """DB 없이 빈 결과."""
-        result = search_engine_no_db.search(SearchInput(query="test"))
+        result = await search_engine_no_db.search(SearchInput(query="test"))
         assert result.total_found == 0
         assert result.results == []
 
-    def test_tier1_only_search(self, search_engine):
+    @pytest.mark.asyncio
+    async def test_tier1_only_search(self, search_engine):
         """Tier 1만 검색."""
-        result = search_engine.search(SearchInput(
+        result = await search_engine.search(SearchInput(
             query="spine surgery outcomes",
             tier_strategy=SearchTier.TIER1_ONLY,
             top_k=10
@@ -120,9 +122,10 @@ class TestTieredHybridSearch:
         for r in result.results:
             assert r.tier == 1
 
-    def test_tier1_then_tier2_search(self, search_engine):
+    @pytest.mark.asyncio
+    async def test_tier1_then_tier2_search(self, search_engine):
         """Tier 1 우선 검색."""
-        result = search_engine.search(SearchInput(
+        result = await search_engine.search(SearchInput(
             query="spine surgery",
             tier_strategy=SearchTier.TIER1_THEN_TIER2,
             top_k=10
@@ -138,9 +141,10 @@ class TestTieredHybridSearch:
                 tier2_found = True
                 assert tier1_found, "Tier 2 should come after Tier 1"
 
-    def test_all_tiers_search(self, search_engine):
+    @pytest.mark.asyncio
+    async def test_all_tiers_search(self, search_engine):
         """전체 계층 검색."""
-        result = search_engine.search(SearchInput(
+        result = await search_engine.search(SearchInput(
             query="spine surgery",
             tier_strategy=SearchTier.ALL_TIERS,
             top_k=10
@@ -150,9 +154,10 @@ class TestTieredHybridSearch:
         tiers = {r.tier for r in result.results}
         assert len(tiers) >= 1  # 최소 하나의 Tier
 
-    def test_prefer_original_content(self, search_engine):
+    @pytest.mark.asyncio
+    async def test_prefer_original_content(self, search_engine):
         """원본 콘텐츠 우선."""
-        result = search_engine.search(SearchInput(
+        result = await search_engine.search(SearchInput(
             query="spine surgery",
             tier_strategy=SearchTier.ALL_TIERS,
             prefer_original=True,
@@ -170,9 +175,10 @@ class TestTieredHybridSearch:
                         # 원본 없이 인용만 있을 수 있음
                         pass
 
-    def test_evidence_level_filter(self, search_engine):
+    @pytest.mark.asyncio
+    async def test_evidence_level_filter(self, search_engine):
         """Evidence Level 필터링."""
-        result = search_engine.search(SearchInput(
+        result = await search_engine.search(SearchInput(
             query="spine surgery",
             tier_strategy=SearchTier.ALL_TIERS,
             min_evidence_level="2b",
@@ -183,9 +189,10 @@ class TestTieredHybridSearch:
         for r in result.results:
             assert r.evidence_level in acceptable
 
-    def test_year_filter(self, search_engine):
+    @pytest.mark.asyncio
+    async def test_year_filter(self, search_engine):
         """연도 필터링."""
-        result = search_engine.search(SearchInput(
+        result = await search_engine.search(SearchInput(
             query="spine surgery",
             tier_strategy=SearchTier.ALL_TIERS,
             min_year=2022,
@@ -195,9 +202,10 @@ class TestTieredHybridSearch:
         for r in result.results:
             assert r.chunk.publication_year >= 2022
 
-    def test_top_k_limit(self, search_engine):
+    @pytest.mark.asyncio
+    async def test_top_k_limit(self, search_engine):
         """결과 수 제한."""
-        result = search_engine.search(SearchInput(
+        result = await search_engine.search(SearchInput(
             query="spine surgery",
             tier_strategy=SearchTier.ALL_TIERS,
             top_k=2
@@ -205,9 +213,10 @@ class TestTieredHybridSearch:
 
         assert len(result.results) <= 2
 
-    def test_search_statistics(self, search_engine):
+    @pytest.mark.asyncio
+    async def test_search_statistics(self, search_engine):
         """검색 통계."""
-        result = search_engine.search(SearchInput(
+        result = await search_engine.search(SearchInput(
             query="spine surgery",
             tier_strategy=SearchTier.TIER1_THEN_TIER2,
             top_k=10
@@ -232,14 +241,15 @@ class TestSearchWithEntities:
         graph_db = MockGraphDB(mock_data)
         return TieredHybridSearch(vector_db=vector_db, graph_db=graph_db)
 
-    def test_search_with_entities(self, search_engine):
+    @pytest.mark.asyncio
+    async def test_search_with_entities(self, search_engine):
         """엔티티가 있는 검색."""
         entities = [
             MedicalEntity(text="spine", entity_type=EntityType.ANATOMY),
             MedicalEntity(text="surgery", entity_type=EntityType.PROCEDURE),
         ]
 
-        result = search_engine.search(SearchInput(
+        result = await search_engine.search(SearchInput(
             query="spine surgery outcomes",
             entities=entities,
             tier_strategy=SearchTier.ALL_TIERS,
