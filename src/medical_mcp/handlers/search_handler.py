@@ -159,7 +159,7 @@ class SearchHandler(BaseHandler):
                     section=chunk.section,
                     source_type=source_type_enum,
                     evidence_level=evidence_level_enum,
-                    publication_year=getattr(chunk, 'publication_year', 0),
+                    publication_year=int(getattr(chunk, 'publication_year', 0) or 0),
                     title=getattr(chunk, 'title', None)  # v1.14.30: title 필드 추가
                 )
                 converted_results.append(converted)

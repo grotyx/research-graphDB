@@ -1109,6 +1109,11 @@ class HybridRanker:
 
         # Recency boost
         year = getattr(vr, 'publication_year', None)
+        if year is not None:
+            try:
+                year = int(year)
+            except (ValueError, TypeError):
+                year = None
         recency_boost = get_recency_boost(year) if year else 1.0
 
         # Sample size boost (if available)
