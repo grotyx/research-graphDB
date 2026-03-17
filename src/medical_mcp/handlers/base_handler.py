@@ -100,8 +100,9 @@ class BaseHandler:
     def validate_file_path(self, file_path: str) -> tuple[Optional[Path], Optional[dict]]:
         """Validate file path against allowed directories (path traversal defense).
 
-        Resolves the path and checks it falls within allowed directories
-        (project data dir + cwd).
+        Resolves the path and checks:
+        1. No '..' components remain after resolution (traversal attempt)
+        2. Path falls within allowed directories (project data dir, cwd, or home dir)
 
         Args:
             file_path: Raw file path string to validate.
@@ -109,18 +110,44 @@ class BaseHandler:
         Returns:
             (resolved_path, None) if valid, or (None, error_dict) if blocked.
         """
-        path = Path(file_path).resolve()
+        if not file_path or not file_path.strip():
+            return None, {"success": False, "error": "파일 경로가 비어 있습니다"}
 
-        # v1.15: Path traversal 방지 — 허용 디렉토리 검증
-        allowed_dirs = [
-            Path(self.server.project_root / "data").resolve() if hasattr(self.server, 'project_root') else None,
-            Path.cwd().resolve(),
-        ]
-        if not any(d and path.is_relative_to(d) for d in allowed_dirs if d):
-            logger.warning(f"Path traversal attempt blocked: {file_path}")
-            return None, {"success": False, "error": "접근 불가: 허용된 디렉토리 외부 경로입니다"}
+        raw_path = Path(file_path)
+        resolved = raw_path.resolve()
 
-        return path, None
+        # Check 1: Reject if raw path contains '..' that escapes (compare raw vs resolved)
+        # If someone passes '/data/pdf/../../etc/passwd', raw parts will contain '..'
+        if ".." in raw_path.parts:
+            logger.warning(f"Path traversal attempt blocked (.. component): {file_path}")
+            return None, {
+                "success": False,
+                "error": "경로에 '..' 구성요소를 사용할 수 없습니다 (path traversal 방지)",
+            }
+
+        # Check 2: Resolved path must be within allowed directories
+        allowed_dirs: list[Path] = []
+
+        # Project data directory
+        if hasattr(self.server, "project_root"):
+            allowed_dirs.append(Path(self.server.project_root / "data").resolve())
+
+        # Current working directory
+        allowed_dirs.append(Path.cwd().resolve())
+
+        # User home directory (lightweight local-MCP defense)
+        home = Path.home().resolve()
+        if home != Path("/").resolve():
+            allowed_dirs.append(home)
+
+        if not any(resolved.is_relative_to(d) for d in allowed_dirs):
+            logger.warning(f"Path traversal attempt blocked (outside allowed dirs): {file_path}")
+            return None, {
+                "success": False,
+                "error": "접근 불가: 허용된 디렉토리 외부 경로입니다",
+            }
+
+        return resolved, None
 
     @staticmethod
     def _format_error(error: str, **kwargs) -> dict:

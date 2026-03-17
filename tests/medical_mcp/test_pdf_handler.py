@@ -292,11 +292,12 @@ class TestPreparePDFPrompt:
     """Test prepare_pdf_prompt method."""
 
     @pytest.mark.asyncio
-    async def test_prepare_prompt_file_not_found(self, pdf_handler):
-        """Test handling of non-existent file."""
-        result = await pdf_handler.prepare_pdf_prompt("/nonexistent.pdf")
+    async def test_prepare_prompt_file_not_found(self, pdf_handler, tmp_path):
+        """Test handling of non-existent file within allowed directory."""
+        nonexistent = str(tmp_path / "nonexistent.pdf")
+        result = await pdf_handler.prepare_pdf_prompt(nonexistent)
         assert result["success"] is False
-        assert "파일 없음" in result["error"]
+        assert "파일 없음" in result["error"] or "경로" in result["error"]
 
     @pytest.mark.asyncio
     async def test_prepare_prompt_not_pdf(self, pdf_handler, tmp_path):

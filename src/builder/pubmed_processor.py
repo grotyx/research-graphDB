@@ -879,8 +879,8 @@ class PubMedPaperProcessor:
                 )
                 if rows and rows[0].get("el"):
                     paper_el = rows[0]["el"]
-            except Exception:
-                pass
+            except Exception as e:
+                logger.debug("Failed to fetch evidence_level for paper %s: %s", paper_id, e)
 
             chunk_nodes = []
             for i, (chunk, embedding) in enumerate(zip(text_chunks, embeddings)):

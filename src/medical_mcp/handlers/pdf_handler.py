@@ -379,7 +379,9 @@ class PDFHandler(BaseHandler):
         """
         import fitz  # pymupdf
 
-        path = Path(file_path)
+        path, error = self.validate_file_path(file_path)
+        if error:
+            return error
 
         if not path.exists():
             return {"success": False, "error": f"파일 없음: {file_path}"}

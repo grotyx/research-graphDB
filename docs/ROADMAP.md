@@ -115,7 +115,7 @@ evidence 쿼리 ("Level 1 evidence for"): authority 0.5 + semantic 0.3 + graph 0
 mechanism 쿼리 ("how does fusion work"): semantic 0.6 + graph 0.3 + authority 0.1
 ```
 
-**상태:** 🔴 미착수
+**상태:** ✅ 완료 (v1.27.0) — `QUERY_TYPE_WEIGHTS` 4개 프로필, `get_weights_for_query_type()`, `search(query_type=)` 파라미터 추가
 **관련 파일:** `solver/hybrid_ranker.py`, `orchestrator/query_pattern_router.py`
 
 ---
@@ -173,7 +173,7 @@ mechanism 쿼리 ("how does fusion work"): semantic 0.6 + graph 0.3 + authority 
 - 동일 paper 내 chunk간 cosine similarity > 0.95 → 중복 제거
 - statistics 없는 results chunk → key_finding=false로 수정
 
-**상태:** 🔴 미착수
+**상태:** ✅ 완료 (v1.27.0) — `builder/chunk_validator.py` 신규, ChunkValidator(길이필터, tier강등, 통계검증, 중복탐지)
 
 ---
 
@@ -265,10 +265,10 @@ mechanism 쿼리 ("how does fusion work"): semantic 0.6 + graph 0.3 + authority 
 
 | 항목 | 내용 |
 |------|------|
-| **현재** | 3,769 tests, 67% 파일 커버리지. 대형 무테스트 파일 24개 |
-| **우선순위** | `unified_pdf_processor.py`(1,907줄), `agentic_rag.py`(1,606줄), `patient_context_parser.py`(521줄) |
+| **현재** | 3,802 tests, 67% 파일 커버리지. 대형 무테스트 파일 24개 |
+| **우선순위** | `unified_pdf_processor.py`(1,907줄), `core/embedding.py`(517줄), `search_dao.py`(348줄) |
 
-**상태:** 🔴 미착수 (CA-NEW-004)
+**상태:** ✅ 완료 (v1.27.0) — 127개 신규 테스트 (embedding 51, search_dao 35, pdf_processor 41). 3,929 tests total
 
 ---
 
@@ -343,25 +343,51 @@ mechanism 쿼리 ("how does fusion work"): semantic 0.6 + graph 0.3 + authority 
 
 ---
 
+### 7.3 pdf_handler Path Traversal 방어 (중간)
+
+| 항목 | 내용 |
+|------|------|
+| **현재** | MCP pdf_handler가 파일 경로를 직접 받지만 path traversal (`../`) 방어 없음 |
+| **개선** | `resolve().is_relative_to(base_dir)` 패턴 적용 |
+| **난이도** | 낮음 |
+
+**상태:** ✅ 완료 (v1.27.0) — `validate_file_path()` 강화, `prepare_pdf_prompt()` 적용
+**관련 파일:** `src/medical_mcp/handlers/pdf_handler.py`, `src/medical_mcp/handlers/base_handler.py`
+
+---
+
+### 7.4 relationship_builder N+1 배치화 (중간)
+
+| 항목 | 내용 |
+|------|------|
+| **현재** | `relationship_builder.py`에 7개 N+1 sequential DB write 패턴 |
+| **개선** | `UNWIND` 배치 쿼리 또는 `asyncio.gather()` 병렬화 |
+| **효과** | 대량 임포트 시 2-5x 속도 개선 |
+
+**상태:** ✅ 완료 (v1.27.0) — 5개 N+1 패턴 UNWIND 배치화, `_batch_create_is_a_relations()` 헬퍼 추가
+**관련 파일:** `src/graph/relationship_builder.py`
+
+---
+
 ## 우선순위 요약
 
 ### 즉시 (Impact ⬆️, Effort ⬇️)
 
 | # | 항목 | 효과 | 난이도 |
 |---|------|------|--------|
-| 1 | **1.1 Contextual Embedding Prefix** | retrieval 49% 개선 | 낮음 |
-| 2 | **1.2 Cross-Encoder Reranker** | NDCG 10-20% 개선 | 낮음 |
-| 3 | **1.3 HyDE** | 복잡 쿼리 개선 | 중간 |
-| 4 | **4.1 SNOMED Normalizer 동기화** | 정규화 품질 | 낮음 |
+| 1 | ~~1.1 Contextual Embedding Prefix~~ | ~~retrieval 49% 개선~~ | ✅ v1.27.0 |
+| 2 | ~~1.2 Cross-Encoder Reranker~~ | ~~NDCG 10-20% 개선~~ | ✅ v1.27.0 |
+| 3 | ~~1.3 HyDE~~ | ~~복잡 쿼리 개선~~ | ✅ v1.27.0 |
+| 4 | ~~4.1 SNOMED Normalizer 동기화~~ | ~~정규화 품질~~ | ✅ v1.27.0 |
 | 5 | **6.1 Gold Standard Annotation** | 논문용 정량 결과 | 중간 (수작업) |
 
 ### 다음 스프린트 (Impact ⬆️, Effort ➡️)
 
 | # | 항목 | 효과 | 난이도 |
 |---|------|------|--------|
-| 6 | **2.1 Hybrid Ranker 동적 가중치** | 쿼리별 최적화 | 중간 |
+| 6 | ~~2.1 Hybrid Ranker 동적 가중치~~ | ~~쿼리별 최적화~~ | ✅ v1.27.0 |
 | 7 | **6.2 Baseline 벤치마크** | 논문 데이터 | 중간 |
-| 8 | **3.1 Chunk Quality Validation** | precision 향상 | 중간 |
+| 8 | ~~3.1 Chunk Quality Validation~~ | ~~precision 향상~~ | ✅ v1.27.0 |
 
 ### 장기 (Impact ⬆️, Effort ⬆️)
 
@@ -370,7 +396,7 @@ mechanism 쿼리 ("how does fusion work"): semantic 0.6 + graph 0.3 + authority 
 | 9 | **2.3 Agentic RAG** | 다단계 추론 | 높음 |
 | 10 | **2.2 Evidence Synthesis 강화** | 메타분석 자동화 | 높음 |
 | 11 | **6.3 RAGAS 평가** | 전체 시스템 평가 | 중간 |
-| 12 | **5.4 테스트 커버리지** | 코드 품질 | 높음 |
+| 12 | ~~5.4 테스트 커버리지~~ | ~~코드 품질~~ | ✅ v1.27.0 |
 
 ---
 
@@ -386,4 +412,4 @@ mechanism 쿼리 ("how does fusion work"): semantic 0.6 + graph 0.3 + authority 
 
 ---
 
-*Last updated: 2026-03-17 by v1.26.2 QC/CA 스캔 결과 + RAG 기법 비교 분석 반영*
+*Last updated: 2026-03-17 by v1.27.0 QA 스캔 + ROADMAP 5개 항목 구현 완료 (2.1, 3.1, 5.4, 7.3, 7.4)*

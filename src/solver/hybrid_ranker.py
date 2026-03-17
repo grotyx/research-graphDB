@@ -15,6 +15,12 @@ v1.0: Evidence-based Ranking (SIMPLIFIED)
 - Non-research document support
 
 v1.14.12: Neo4j Vector Index가 유일한 벡터 저장소
+
+v1.2: Dynamic weight adjustment by query type (ROADMAP 2.1)
+- comparison: graph 0.5 + authority 0.3 + semantic 0.2
+- evidence: authority 0.5 + semantic 0.3 + graph 0.2
+- mechanism: semantic 0.6 + authority 0.2 + graph 0.2
+- default: semantic 0.4 + authority 0.3 + graph 0.3
 """
 
 import logging
@@ -64,6 +70,39 @@ DEFAULT_AUTHORITY_WEIGHT: float = 0.4   # Authority score weight (v1.0 legacy)
 SEMANTIC_WEIGHT_V11: float = 0.4        # Semantic score weight in v1.1 formula
 AUTHORITY_WEIGHT_V11: float = 0.3       # Authority score weight in v1.1 formula
 GRAPH_RELEVANCE_WEIGHT_V11: float = 0.3 # Graph relevance weight (ontology distance + relationships)
+
+# v1.2: Query-type-aware weight profiles (ROADMAP 2.1)
+# Each profile: {"semantic": float, "authority": float, "graph_relevance": float}
+# All profiles must sum to 1.0
+QUERY_TYPE_WEIGHTS: dict[str, dict[str, float]] = {
+    "comparison": {          # "TLIF vs UBE" — graph structure is critical
+        "semantic": 0.2,
+        "authority": 0.3,
+        "graph_relevance": 0.5,
+    },
+    "evidence": {            # "Level 1 evidence for" — authority matters most
+        "semantic": 0.3,
+        "authority": 0.5,
+        "graph_relevance": 0.2,
+    },
+    "mechanism": {           # "how does fusion work" — semantic similarity dominates
+        "semantic": 0.6,
+        "authority": 0.2,
+        "graph_relevance": 0.2,
+    },
+    "default": {             # General queries — balanced (current v1.1 weights)
+        "semantic": SEMANTIC_WEIGHT_V11,
+        "authority": AUTHORITY_WEIGHT_V11,
+        "graph_relevance": GRAPH_RELEVANCE_WEIGHT_V11,
+    },
+}
+
+# Mapping from QueryPatternRouter patterns to weight profile keys
+_PATTERN_TO_WEIGHT_KEY: dict[str, str] = {
+    "treatment_comparison": "comparison",
+    "evidence_filter": "evidence",
+    # patient_specific, indication_query, outcome_rate, general -> default
+}
 
 # Ontology distance scoring (IS_A hops)
 ONTOLOGY_DISTANCE_SCORES = {
@@ -127,6 +166,41 @@ SOURCE_CREDIBILITY = {
 
 # Deprecated (v1.0) - kept for reference
 # SIGNIFICANCE_BOOST = 1.5  # Removed: No longer using p-value
+
+
+# ============================================================================
+# Query-Type Weight Resolution (v1.2)
+# ============================================================================
+
+def get_weights_for_query_type(query_type: str) -> dict[str, float]:
+    """Return ranking weights for the given query type.
+
+    Resolves a query type string (from QueryPatternRouter or free-form)
+    to a weight profile dict with keys: semantic, authority, graph_relevance.
+
+    Accepts both weight profile keys ("comparison", "evidence", "mechanism")
+    and QueryPattern enum values ("treatment_comparison", "evidence_filter").
+
+    Args:
+        query_type: Query type identifier. Case-insensitive.
+
+    Returns:
+        Dict with keys "semantic", "authority", "graph_relevance",
+        each a float, summing to 1.0.
+    """
+    key = query_type.lower().strip()
+
+    # Direct match on profile key
+    if key in QUERY_TYPE_WEIGHTS:
+        return QUERY_TYPE_WEIGHTS[key].copy()
+
+    # Map QueryPattern enum values to profile keys
+    mapped = _PATTERN_TO_WEIGHT_KEY.get(key)
+    if mapped:
+        return QUERY_TYPE_WEIGHTS[mapped].copy()
+
+    # Fallback to default
+    return QUERY_TYPE_WEIGHTS["default"].copy()
 
 
 # ============================================================================
@@ -361,11 +435,12 @@ class HybridRanker:
         1. Neo4j hybrid_search(): 그래프 필터링 + 벡터 검색 통합 쿼리
         2. 단일 트랜잭션으로 처리 (더 빠른 응답)
 
-    점수 계산 (v1.1):
+    점수 계산 (v1.2):
         - Authority 점수: Evidence Level × Study Design × Sample Size × Recency × Citations
         - Semantic 점수: Vector Similarity × Metadata Boosts
         - Graph Relevance 점수: Ontology Distance + Relationship Bonus + Evidence Strength
-        - 최종 점수 = 0.4 × Semantic + 0.3 × Authority + 0.3 × Graph Relevance
+        - 최종 점수 = w_s × Semantic + w_a × Authority + w_g × Graph Relevance
+        - Weights are dynamically selected by query_type (comparison/evidence/mechanism/default)
     """
 
     def __init__(
@@ -409,6 +484,29 @@ class HybridRanker:
         if self.use_neo4j_hybrid:
             logger.info("HybridRanker: Using Neo4j integrated hybrid search (v5.3)")
 
+    def _apply_query_type_weights(self, query_type: Optional[str]) -> tuple[float, float, float]:
+        """Resolve ranking weights for a query type.
+
+        If query_type is provided, returns the corresponding weight profile.
+        Otherwise returns the instance's default weights.
+
+        Args:
+            query_type: Optional query type string (e.g. "comparison",
+                "evidence", "mechanism", "treatment_comparison").
+
+        Returns:
+            Tuple of (semantic_weight, authority_weight, graph_relevance_weight).
+        """
+        if query_type:
+            weights = get_weights_for_query_type(query_type)
+            logger.debug(
+                f"Query-type weights for '{query_type}': "
+                f"semantic={weights['semantic']}, authority={weights['authority']}, "
+                f"graph_relevance={weights['graph_relevance']}"
+            )
+            return weights["semantic"], weights["authority"], weights["graph_relevance"]
+        return self.semantic_weight, self.authority_weight, self.graph_relevance_weight
+
     async def search(
         self,
         query: str,
@@ -420,6 +518,7 @@ class HybridRanker:
         evidence_levels: Optional[list[str]] = None,
         graph_filters: Optional[dict] = None,
         snomed_codes: Optional[list[str]] = None,
+        query_type: Optional[str] = None,
     ) -> list[HybridResult]:
         """Hybrid 검색 수행.
 
@@ -436,9 +535,49 @@ class HybridRanker:
                 - pathology: Pathology 이름
                 - min_year: 최소 연도
             snomed_codes: Optional SNOMED codes for IS_A hierarchy expansion
+            query_type: Optional query type for dynamic weight adjustment (v1.2).
+                Accepted values: "comparison", "evidence", "mechanism",
+                "treatment_comparison", "evidence_filter", or None (default weights).
 
         Returns:
             통합 점수 기준 정렬된 HybridResult 목록
+        """
+        # v1.2: Apply query-type-aware weights
+        sem_w, auth_w, graph_w = self._apply_query_type_weights(query_type)
+        prev_weights = (self.semantic_weight, self.authority_weight, self.graph_relevance_weight)
+        self.semantic_weight, self.authority_weight, self.graph_relevance_weight = sem_w, auth_w, graph_w
+
+        try:
+            return await self._search_inner(
+                query=query,
+                query_embedding=query_embedding,
+                top_k=top_k,
+                graph_weight=graph_weight,
+                vector_weight=vector_weight,
+                min_p_value=min_p_value,
+                evidence_levels=evidence_levels,
+                graph_filters=graph_filters,
+                snomed_codes=snomed_codes,
+            )
+        finally:
+            # Restore original weights to avoid side effects
+            self.semantic_weight, self.authority_weight, self.graph_relevance_weight = prev_weights
+
+    async def _search_inner(
+        self,
+        query: str,
+        query_embedding: list[float],
+        top_k: int = 10,
+        graph_weight: float = 0.6,
+        vector_weight: float = 0.4,
+        min_p_value: float = 0.05,
+        evidence_levels: Optional[list[str]] = None,
+        graph_filters: Optional[dict] = None,
+        snomed_codes: Optional[list[str]] = None,
+    ) -> list[HybridResult]:
+        """Internal search implementation (uses instance weights).
+
+        See search() for parameter documentation.
         """
         # v5.3: Neo4j 통합 Hybrid Search 사용
         if self.use_neo4j_hybrid:
@@ -1285,12 +1424,13 @@ class HybridRanker:
             "neo4j_hybrid_enabled": self.use_neo4j_hybrid,  # v5.3
             "search_backend": "neo4j_hybrid" if self.use_neo4j_hybrid else "neo4j_cypher",
             "ranking_version": "v1.0",  # backward compat key
-            "ranking_formula": "v1.1",  # actual formula version
+            "ranking_formula": "v1.2",  # actual formula version
             "weights": {
                 "semantic": self.semantic_weight,
                 "authority": self.authority_weight,
                 "graph_relevance": self.graph_relevance_weight,
             },
+            "query_type_profiles": list(QUERY_TYPE_WEIGHTS.keys()),
         }
 
         return stats

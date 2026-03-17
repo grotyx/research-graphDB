@@ -132,7 +132,14 @@ class TestRelationshipBuilder:
         client.create_investigates_relation = AsyncMock(return_value={"relationships_created": 1})
         client.create_affects_relation = AsyncMock(return_value={"relationships_created": 1})
         client.get_intervention_hierarchy = AsyncMock(return_value=[])
-        client.run_query = AsyncMock(return_value=[{"created": 0}])
+        # run_query returns batch count from $batch param when present
+        async def _mock_run_query(cypher, params=None, **kwargs):
+            if params and "batch" in params:
+                return [{"created": len(params["batch"])}]
+            if params and "items" in params:
+                return [{"created": len(params["items"])}]
+            return [{"created": 0}]
+        client.run_query = AsyncMock(side_effect=_mock_run_query)
         return client
 
     @pytest.fixture
@@ -207,7 +214,7 @@ class TestRelationshipBuilder:
 
     @pytest.mark.asyncio
     async def test_create_studies_relations(self, builder):
-        """Test create_studies_relations."""
+        """Test create_studies_relations (batched via UNWIND)."""
         pathologies = ["Lumbar Stenosis", "Spondylolisthesis"]
 
         count = await builder.create_studies_relations(
@@ -216,17 +223,20 @@ class TestRelationshipBuilder:
         )
 
         assert count == 2
-        assert builder.client.create_studies_relation.call_count == 2
 
-        # Check first call (primary)
-        first_call = builder.client.create_studies_relation.call_args_list[0]
-        assert first_call.kwargs["paper_id"] == "test_001"
-        assert first_call.kwargs["pathology_name"] == "Lumbar Stenosis"
-        assert first_call.kwargs["is_primary"] is True
-
-        # Check second call (not primary)
-        second_call = builder.client.create_studies_relation.call_args_list[1]
-        assert second_call.kwargs["is_primary"] is False
+        # Verify run_query was called with batch containing both pathologies
+        calls = builder.client.run_query.call_args_list
+        # Find the STUDIES batch call
+        studies_call = next(
+            c for c in calls
+            if c[0][0] and "STUDIES" in c[0][0]
+        )
+        params = studies_call[0][1]
+        assert params["paper_id"] == "test_001"
+        assert len(params["batch"]) == 2
+        assert params["batch"][0]["pathology_name"] == "Lumbar Stenosis"
+        assert params["batch"][0]["is_primary"] is True
+        assert params["batch"][1]["is_primary"] is False
 
     @pytest.mark.asyncio
     async def test_create_studies_relations_normalization(self, builder):
@@ -238,14 +248,19 @@ class TestRelationshipBuilder:
             pathologies=pathologies
         )
 
-        # Both should normalize to same pathology
-        calls = builder.client.create_studies_relation.call_args_list
-        assert calls[0].kwargs["pathology_name"] == "Lumbar Disc Herniation"
-        assert calls[1].kwargs["pathology_name"] == "Lumbar Disc Herniation"
+        # Both should normalize to same pathology in the batch
+        calls = builder.client.run_query.call_args_list
+        studies_call = next(
+            c for c in calls
+            if c[0][0] and "STUDIES" in c[0][0]
+        )
+        batch = studies_call[0][1]["batch"]
+        assert batch[0]["pathology_name"] == "Lumbar Disc Herniation"
+        assert batch[1]["pathology_name"] == "Lumbar Disc Herniation"
 
     @pytest.mark.asyncio
     async def test_create_investigates_relations(self, builder):
-        """Test create_investigates_relations."""
+        """Test create_investigates_relations (batched via UNWIND)."""
         interventions = ["TLIF", "PLIF", "ALIF"]
 
         count = await builder.create_investigates_relations(
@@ -254,7 +269,13 @@ class TestRelationshipBuilder:
         )
 
         assert count == 3
-        assert builder.client.create_investigates_relation.call_count == 3
+        # Verify batch was passed to run_query
+        calls = builder.client.run_query.call_args_list
+        inv_call = next(
+            c for c in calls
+            if c[0][0] and "INVESTIGATES" in c[0][0]
+        )
+        assert len(inv_call[0][1]["batch"]) == 3
 
     @pytest.mark.asyncio
     async def test_create_investigates_relations_normalization(self, builder):
@@ -266,14 +287,19 @@ class TestRelationshipBuilder:
             interventions=interventions
         )
 
-        # Both should normalize to UBE
-        calls = builder.client.create_investigates_relation.call_args_list
-        assert calls[0].kwargs["intervention_name"] == "UBE"
-        assert calls[1].kwargs["intervention_name"] == "UBE"
+        # Both should normalize to UBE in the batch
+        calls = builder.client.run_query.call_args_list
+        inv_call = next(
+            c for c in calls
+            if c[0][0] and "INVESTIGATES" in c[0][0]
+        )
+        batch = inv_call[0][1]["batch"]
+        assert batch[0]["intervention_name"] == "UBE"
+        assert batch[1]["intervention_name"] == "UBE"
 
     @pytest.mark.asyncio
     async def test_create_affects_relations(self, builder):
-        """Test create_affects_relations."""
+        """Test create_affects_relations (batched via UNWIND)."""
         outcomes = [
             ExtractedOutcome(
                 name="VAS",
@@ -298,15 +324,20 @@ class TestRelationshipBuilder:
         )
 
         assert count == 2
-        assert builder.client.create_affects_relation.call_count == 2
 
-        # Check first call
-        first_call = builder.client.create_affects_relation.call_args_list[0]
-        assert first_call.kwargs["intervention_name"] == "TLIF"
-        assert first_call.kwargs["outcome_name"] == "VAS"
-        assert first_call.kwargs["value"] == "2.3"
-        assert first_call.kwargs["p_value"] == 0.001
-        assert first_call.kwargs["is_significant"] is True
+        # Verify batch was passed to run_query
+        calls = builder.client.run_query.call_args_list
+        affects_call = next(
+            c for c in calls
+            if c[0][0] and "AFFECTS" in c[0][0]
+        )
+        params = affects_call[0][1]
+        assert params["intervention_name"] == "TLIF"
+        assert len(params["batch"]) == 2
+        assert params["batch"][0]["outcome_name"] == "VAS"
+        assert params["batch"][0]["properties"]["value"] == "2.3"
+        assert params["batch"][0]["properties"]["p_value"] == 0.001
+        assert params["batch"][0]["properties"]["is_significant"] is True
 
     @pytest.mark.asyncio
     async def test_create_affects_relations_outcome_normalization(self, builder):
@@ -321,9 +352,14 @@ class TestRelationshipBuilder:
             paper_id="test_006"
         )
 
-        # Should normalize to VAS
-        call = builder.client.create_affects_relation.call_args
-        assert call.kwargs["outcome_name"] == "VAS"
+        # Should normalize to VAS in the batch
+        calls = builder.client.run_query.call_args_list
+        affects_call = next(
+            c for c in calls
+            if c[0][0] and "AFFECTS" in c[0][0]
+        )
+        batch = affects_call[0][1]["batch"]
+        assert batch[0]["outcome_name"] == "VAS"
 
     @pytest.mark.asyncio
     async def test_link_intervention_to_taxonomy_exists(self, builder):

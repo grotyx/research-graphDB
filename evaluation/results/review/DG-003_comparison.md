@@ -3,340 +3,322 @@
 ---
 
 ## B1: Keyword Search
-
 **Papers retrieved**: 10
-**Evidence levels**: ['2b', '2b', '2b', '2b', '2b', '2b', '2b', '3', '2a', '1a']
+**Evidence levels**: ['2b', '2b', '2b', '2b', '2b', '2b', '2b', '3', '1a', '1a']
 
 ### Cited Papers
-- [2b] pubmed_41101647: Spinal Disc Disease Risk Among Electronic Cigarette, Heat-Not-Burn Cigarette, and Combustible Cigarette Users: A Population-Based Retrospective Cohort Study
-- [2b] pubmed_41067601: Incidence and Risk Factors for Native Vertebral Osteomyelitis in the United States: A Longitudinal National Claims Database Study
-- [2b] pubmed_41436676: Adjacent Segment Disease Risk Factors Following Lateral Lumbar Interbody Fusion: Focus on Cage Elevation and Comparison with Decompression
-- [2b] pubmed_41310214: Risk Scoring System for Adjacent Vertebral Fractures Following Percutaneous Vertebroplasty in Osteoporotic Vertebral Fractures
-- [2b] pubmed_40153849: Risk Factors for Proximal Junctional Kyphosis and Proximal Junctional Failure Following Adult Spinal Deformity Correction: A Comprehensive Analysis Using Inverse Probability Weighting
-- [2b] pubmed_40085928: Buttock Pain in Lumbar Disc Herniation: Occurrence, Clinical Characteristics, Risk Factors, and Surgical Outcomes Following Endoscopic Discectomy
-- [2b] pubmed_40152447: Opioid Utilization After Thoracic and Lumbar Spine Fractures: A Retrospective Cohort Study Identifying Risk Factors for Sustained Use
-- [3] pubmed_40103372: Risk Factors for Distal Junctional Kyphosis Following Posterior Spinal Fusion for Adolescent Idiopathic Scoliosis: Optimal Selection of Lowest Instrumented Vertebra Using Sagittal Stable Vertebra and Preoperative Distal Junctional Angle
-- [2a] pubmed_40511611: Risk Factors for Postoperative Coronal Malalignment in Degenerative Lumbar Scoliosis: A Systematic Review and Meta-Analysis
-- [1a] pubmed_41017260: C5 Palsy After Cervical Decompressive Surgery: A Systematic Review and Meta-Analysis of Incidence, Risk Factors, and Outcomes Across Surgical Approaches
+- [2b] pubmed_41101647: Spinal Disc Disease Risk Among Electronic Cigarette, Heat-Not-Burn Cigarette, an
+- [2b] pubmed_41067601: Incidence and Risk Factors for Native Vertebral Osteomyelitis in the United Stat
+- [2b] pubmed_41436676: Adjacent Segment Disease Risk Factors Following Lateral Lumbar Interbody Fusion:
+- [2b] pubmed_41310214: Risk Scoring System for Adjacent Vertebral Fractures Following Percutaneous Vert
+- [2b] pubmed_40153849: Risk Factors for Proximal Junctional Kyphosis and Proximal Junctional Failure Fo
+- [2b] pubmed_40085928: Buttock Pain in Lumbar Disc Herniation: Occurrence, Clinical Characteristics, Ri
+- [2b] pubmed_40152447: Opioid Utilization After Thoracic and Lumbar Spine Fractures: A Retrospective Co
+- [3] pubmed_40103372: Risk Factors for Distal Junctional Kyphosis Following Posterior Spinal Fusion fo
+- [1a] pubmed_40511611: Risk Factors for Postoperative Coronal Malalignment in Degenerative Lumbar Scoli
+- [1a] pubmed_41017260: C5 Palsy After Cervical Decompressive Surgery: A Systematic Review and Meta-Anal
 
 ### Answer
 
 # Evidence Synthesis: Risk Factors for Cage Subsidence After MIS-TLIF
 
-## Critical Evidence Gap
+## Summary
+Unfortunately, **no papers in the provided evidence base directly address cage subsidence after MIS-TLIF or its impact on clinical outcomes**. The retrieved literature focuses on adjacent segment disease, junctional kyphosis, vertebral fractures, and other complication domains, but does not include specific data on subsidence mechanisms, risk factors, or clinical correlates in minimally invasive transforaminal lumbar interbody fusion.
 
-**The provided literature does NOT contain studies specifically addressing cage subsidence after minimally invasive transforaminal lumbar interbody fusion (MIS-TLIF).**
+## Potentially Relevant Indirect Evidence
 
-While the retrieved papers include relevant spine surgery studies examining risk factors and clinical outcomes in related procedures, none directly investigate:
-- Cage subsidence as an outcome measure
-- MIS-TLIF surgical technique specifically
-- The relationship between subsidence and clinical outcomes
+**Adjacent Segment Disease Risk Factors** [pubmed_41436676] (Evidence: 2b, 2025)
+- This study examines risk factors following lateral lumbar interbody fusion, including cage elevation as a variable
+- While focused on adjacent segment disease rather than subsidence, it may contain data on cage positioning parameters that could be tangentially relevant
+- **Limitation**: Does not directly address subsidence as an outcome or its consequences
 
-## Potentially Related Evidence
+## Evidence Gaps Identified
 
-The closest relevant paper addressing adjacent segment pathology following lumbar interbody fusion is:
+The following gaps prevent a comprehensive answer:
+1. **No MIS-TLIF-specific subsidence data** - No papers examine subsidence rates or risk factors in minimally invasive TLIF populations
+2. **No subsidence-outcome correlation studies** - No evidence on whether cage subsidence affects clinical outcomes (pain, fusion rates, reoperation rates)
+3. **No mechanistic analysis** - No discussion of bone quality, cage design, insertion technique, or other biological/technical factors contributing to subsidence
 
-**[pubmed_41436676]** - Adjacent Segment Disease Risk Factors Following Lateral Lumbar Interbody Fusion (Evidence level 2b, 2025)
-- Examines cage elevation and adjacent segment disease following interbody fusion
-- Focuses on lateral approach rather than transforaminal approach
-- Does not specifically address cage subsidence
+## Clinical Recommendation
 
-## Recommendations for Evidence
-
-To answer this clinical question adequately, you would need primary literature specifically examining:
-1. Radiographic measurement of cage subsidence after MIS-TLIF
-2. Patient and procedural factors associated with increased subsidence risk
-3. Clinical outcome correlations (pain, function, reoperation rates)
-4. Biomechanical and patient characteristics predicting subsidence
-
-**No recommendations can be made based on the current evidence set provided.**
+To answer this clinical question adequately, literature specifically addressing **MIS-TLIF cage subsidence, bone mineral density interactions, cage material properties, and clinical outcome correlations** would be required. The current evidence base does not support synthesis on this topic.
 
 ---
 
 ## B2: Vector-only RAG
-
 **Papers retrieved**: 10
-**Evidence levels**: ['5', '5', '5', '5', '5', '5', '5', '5', '5', '5']
+**Evidence levels**: ['2b', '2b', '5', '2b', '5', '5', '2a', '3', '5', '2b']
 
 ### Cited Papers
-- [5] pubmed_41782914: Predictors of Cage Subsidence Following Stand-Alone Oblique Interbody Fusion (SA-OLIF) in Non-Osteoporotic Patients
-- [5] pubmed_38754736: Endplate Bone Quality Score as a Predictor of Cage Subsidence Following Oblique Lumbar Interbody Fusion
-- [5] pubmed_36420402: Biomechanical Analysis of Cage Number and Position in Minimally Invasive Transforaminal Interbody Fusion: A Finite Element Study
-- [5] pubmed_41677169: Is Cigarette Smoking Associated With Impaired Fusion After Transforaminal Lumbar Interbody Fusion With Adjunctive Posterolateral Arthrodesis?
-- [5] pubmed_37224957: Effects of 3 Lumbar Interbody Fusion Techniques on Complications in Osteoporotic Spine Under Whole-Body Vibration: A Finite Element Analysis
-- [5] pubmed_32169009: Cage subsidence in transforaminal lumbar interbody fusion (TLIF): Finite element analysis of cage height and placement
-- [5] pubmed_36944178: Transforaminal Lumbar Interbody Fusion Using Double Banana-Shaped Cages: Clinical Outcomes and Biomechanical Analysis
-- [5] pubmed_38927794: Biomechanical Analysis of Cage Dislodgment in Posterior Lumbar Interbody Fusion: A Finite Element Study of Different Cage Arrangements
-- [5] pubmed_36726086: Biomechanical characteristics of various tissue structures of different sizes of 3D printed Cage in lumbar interbody fusion: a finite element analysis
-- [5] pubmed_41436676: Adjacent Segment Disease Risk Factors Following Lateral Lumbar Interbody Fusion: Focus on Cage Elevation and Comparison with Decompression
+- [2b] pubmed_41782914: Predictors of Cage Subsidence Following Stand-Alone Oblique Interbody Fusion (SA
+- [2b] pubmed_38754736: Endplate Bone Quality Score as a Predictor of Cage Subsidence Following Oblique 
+- [5] pubmed_36420402: Biomechanical Analysis of Cage Number and Position in Minimally Invasive Transfo
+- [2b] pubmed_41677169: Is Cigarette Smoking Associated With Impaired Fusion After Transforaminal Lumbar
+- [5] pubmed_37224957: Effects of 3 Lumbar Interbody Fusion Techniques on Complications in Osteoporotic
+- [5] pubmed_32169009: Cage subsidence in transforaminal lumbar interbody fusion (TLIF): Finite element
+- [2a] pubmed_36944178: Transforaminal Lumbar Interbody Fusion Using Double Banana-Shaped Cages: Clinica
+- [3] pubmed_38927794: Biomechanical Analysis of Cage Dislodgment in Posterior Lumbar Interbody Fusion:
+- [5] pubmed_36726086: Biomechanical characteristics of various tissue structures of different sizes of
+- [2b] pubmed_41436676: Adjacent Segment Disease Risk Factors Following Lateral Lumbar Interbody Fusion:
 
 ### Answer
 
 # Risk Factors for Cage Subsidence After MIS-TLIF and Clinical Outcomes
 
-## Patient-Related Risk Factors
+## Risk Factors for Cage Subsidence
 
-### Bone Quality and Structural Factors
-**Endplate Bone Quality**: Preoperative endplate bone quality score is a strong predictor of cage subsidence [pubmed_38754736]. This can be assessed from routine preoperative MRI without additional imaging cost, enabling preoperative risk stratification [pubmed_38754736].
+### Patient-Related Factors
 
-**Sarcopenia, Age, and BMD**: In non-osteoporotic patients, sarcopenia, advanced age, and lower bone mineral density were examined as potential risk factors using multivariate logistic regression analysis [pubmed_41782914]. However, within one TLIF study population, age demonstrated no statistically significant association with cage subsidence rates, and BMI showed no associations with subsidence [pubmed_41677169].
+**Bone Quality and Density:**
+- Lower bone mineral density was identified as a potential risk factor for cage subsidence in multivariate logistic regression analysis [pubmed_41782914, Evidence 2b]
+- Endplate bone quality score (EBQ) is a strong predictor of cage subsidence, assessable from routine preoperative MRI without additional imaging cost, enabling preoperative risk stratification [pubmed_38754736, Evidence 2b]
+- Osteoporotic bone demonstrates higher subsidence risk due to lower mechanical strength [pubmed_32169009, Evidence 5]
 
-**Osteoporotic Bone**: Due to lower mechanical strength of osteoporotic bone, the risk of cage subsidence is higher [pubmed_32169009]. PLIF's greater cage-bone interface stress suggests higher subsidence risk in osteoporotic spine [pubmed_37224957].
+**Sarcopenia and Age:**
+- Sarcopenia was examined as a potential risk factor in multivariate analysis [pubmed_41782914, Evidence 2b]
+- Advanced age was examined as a potential risk factor [pubmed_41782914, Evidence 2b]
+- However, in TLIF with posterolateral arthrodesis, age demonstrated no statistically significant association with cage subsidence rates [pubmed_41677169, Evidence 2b]
 
-### Smoking Status
-Cigarette smoking was examined in association with fusion outcomes in TLIF with posterolateral arthrodesis [pubmed_41677169], though specific subsidence data were not detailed.
+**Body Mass Index:**
+- BMI showed no significant association with cage subsidence rates in TLIF with posterolateral fusion [pubmed_41677169, Evidence 2b]
 
-## Surgical/Technical Risk Factors
+**Smoking:**
+- Not specifically analyzed as a subsidence risk factor in the provided papers
 
-### Cage Design and Configuration
-**Single vs. Double Cages**: TLIF with double banana-shaped cages resulted in significantly less cage subsidence (11.8%) compared to single banana-shaped cages (19.9%) at 12-month follow-up (p=0.002) [pubmed_36944178]. Biomechanical analysis revealed maximum endplate stress in single-cage model was 1.72 times greater than double-cage model under neutral axial loading, with differences more pronounced during extension (2.64-fold) and side bending (2.30-fold) [pubmed_36944178].
+### Surgical Technique and Device Factors
 
-**Cage Height and Position**: Oblique asymmetric cage placement and the use of a greater cage may increase the risk of cage subsidence [pubmed_32169009]. Greater cage resulted in higher simulated stress levels [pubmed_32169009].
+**Cage Design and Number:**
+- Double banana-shaped cages result in significantly less cage subsidence (11.8%) compared to single banana-shaped cages (19.9%) at 12-month follow-up (p=0.002) [pubmed_36944178, Evidence 2a]
+- Biomechanical analysis showed maximum endplate stress in single-cage models was 1.72 times greater than in double-cage models under neutral axial loading, with even greater differences during extension (2.64-fold) and side bending (2.30-fold) [pubmed_36944178, Evidence 2a]
+
+**Cage Placement and Position:**
+- Oblique asymmetric cage placement may increase subsidence risk [pubmed_32169009, Evidence 5]
+- Posterior cage placement is an independent risk factor for adjacent segment disease (HR 1.06; p=0.032) [pubmed_41436676, Evidence 2b]
+- Greater cage elevation is an independent risk factor for adjacent segment disease (HR 1.28; p=0.012) [pubmed_41436676, Evidence 2b]
+
+**Cage Height:**
+- Greater cage height may increase subsidence risk, with greater cage resulting in higher simulated segmental lumbar lordosis [pubmed_32169009, Evidence 5]
+
+### PLIF-Specific Finding
+
+- PLIF's greatest cage-bone interface stress suggests higher subsidence risk, which can lead to loss of disc height, increased segmental kyphosis, and potential late neurologic deterioration [pubmed_37224957, Evidence 5]
 
 ## Impact on Clinical Outcomes
 
-### Subsidence Prevalence
-Cage subsidence (>2 mm height loss) is a common complication in OLIF, occurring in approximately 32.7-32.9% of cases [pubmed_41782914, pubmed_38754736].
+### Prevalence of Subsidence
+- Cage subsidence (>2 mm height loss) occurs in approximately one-third of interbody fusion patients:
+  - 32.7% in SA-OLIF in non-osteoporotic patients [pubmed_41782914]
+  - 32.9% in OLIF [pubmed_38754736]
+  - 11.8-19.9% in TLIF with banana-shaped cages [pubmed_36944178]
 
-### Mechanisms of Clinical Deterioration
-Cage subsidence can result in:
-- Loss of disc height [pubmed_37224957, pubmed_38927794]
-- Increased segmental kyphosis [pubmed_37224957]
-- Vertebral fusion segment instability [pubmed_38927794]
-- Reduced fusion segment height, altered spinal curvature, and nerve compression leading to recurrent symptoms and neurological complications [pubmed_36726086]
+### Mechanical and Structural Consequences
+- Cage subsidence can result in:
+  - Loss of disc height [pubmed_37224957]
+  - Increased segmental kyphosis [pubmed_37224957]
+  - Instability of the vertebral fusion segment [pubmed_38927794]
+  - Reduced fusion segment height, altered spinal curvature, and nerve compression [pubmed_36726086]
 
-### Adjacent Segment Disease
-Greater cage elevation was identified as an independent risk factor for adjacent segment disease (hazard ratio 1.28; p=0.012), as was posterior cage placement (HR 1.06; p=0.032) [pubmed_41436676].
+### Clinical Sequelae
+- Potential late neurologic deterioration [pubmed_37224957]
+- Recurrent symptoms and neurological complications [pubmed_36726086]
+- Association with adjacent segment disease, particularly with posterior cage placement and greater cage elevation [pubmed_41436676]
 
 ## Evidence Gaps
 
-The retrieved literature consists entirely of Level 5 evidence (retrospective cohort and finite element analysis studies). There is limited high-level evidence directly comparing outcomes between different subsidence rates, and clinical outcome data (pain, function, reoperation rates) specifically attributable to cage subsidence in MIS-TLIF are not detailed in the provided papers.
+- Limited clinical outcome data on functional disability or pain scores associated with subsidence
+- Minimal information on long-term follow-up impacts (>12 months)
+- Sparse data on intervention strategies to prevent subsidence once identified
+- Limited direct comparison of subsidence rates across different MIS-TLIF approaches
+- Lack of data on smoking as a specific risk factor for MIS-TLIF subsidence
 
 ---
 
 ## B3: LLM Direct (No KG)
-
 **Papers retrieved**: 0
 ### Answer
 
-# Risk Factors for Cage Subsidence After MIS-TLIF and Clinical Outcomes
+# Risk Factors for Cage Subsidence After MIS-TLIF
 
-## DEFINITION AND PREVALENCE
+## Biomechanical and Device-Related Factors
 
-Cage subsidence is radiographic evidence of vertebral body penetration by the interbody cage, occurring in 10-75% of MIS-TLIF cases depending on measurement methodology (Kepler et al. 2014, systematic review showing wide variability in definitions affecting reported rates).
+### Cage Design and Material
+- **Footprint and endplate contact**: Smaller cage footprints significantly increase subsidence risk (Miao et al., 2013, biomechanical cadaveric study) - cages with smaller surface area showed 3-4x greater subsidence in axial loading
+- **Cage height**: Insufficient height relative to disc space predisposes to subsidence, particularly with aggressive distraction (Kakutani et al., 2016, retrospective analysis of 67 patients)
+- **Material composition**: Peek cages demonstrate lower subsidence rates than titanium alloy in biomechanical models (Oliveira et al., 2012, in vitro study)
 
----
+### Interbody Implant Positioning
+- **Anterior cage placement**: Anterior positioning correlates with increased subsidence compared to centered placement (Park et al., 2010, Level 3, 52-patient series)
+- **Coronal alignment**: Off-midline positioning increases asymmetric loading and subsidence risk
 
-## PATIENT-RELATED RISK FACTORS
+## Patient and Bone-Related Factors
 
-### Bone Quality Factors
+### Bone Quality
+- **Osteoporosis**: Strongest independent predictor of subsidence
+  - Nakashima et al., 2015 (Level 3, 44 patients): BMD <-2.5 SD increased subsidence >3mm by 4.8x
+  - Xu et al., 2017 (prospective, 58 patients): Osteoporotic patients had subsidence rates of 68% vs. 28% in non-osteoporotic
+- **Vertebral body mineral density**: Direct correlation with subsidence severity (Crawford et al., 2016, 63-patient retrospective analysis)
 
-**Osteoporosis**
-- Major risk factor; low bone mineral density (BMD) significantly increases subsidence risk (Tobert et al. 2015, retrospective cohort found BMD T-score as independent predictor, p<0.05)
-- Elderly patients >65 years show higher subsidence rates (Aoki et al. 2014, comparative study showing age-dependent bone quality effects)
+### Vertebral Morphology
+- **Endplate degeneration**: Grade III-IV endplate changes associated with increased subsidence (Kakutani et al., 2016)
+- **Hernia defects**: Pre-existing vertebral body endplate defects increase subsidence risk
+- **Disc space height**: Severe preoperative collapse correlates with greater subsidence magnitude
 
-**Age**
-- Advanced age correlates with increased subsidence (Pitzen et al. 2006, biomechanical/clinical correlation study)
-- Accelerated subsidence in patients >70 years documented
+### Age and Demographics
+- **Age >60 years**: Associated with increased subsidence rates (Tsai et al., 2014, Level 3, 38 patients; 52% subsidence >3mm vs. 28% <60 years)
+- **BMI**: Obesity marginally increases risk but not statistically significant in most series (Adogwa et al., 2014)
 
-**Sex**
-- Female gender associated with higher rates due to osteoporosis prevalence (Lin et al. 2019, retrospective series, n=187)
-
-### Metabolic Factors
-
-**Smoking Status**
-- Smoking impairs bone healing and healing response (Glassman et al. 2011, Spine Outcomes Research Trial data showing negative effects on fusion)
-- Nicotine reduces osteoblast differentiation
-
-**Obesity**
-- Mixed evidence; some studies show increased biomechanical load-related subsidence (Marchi et al. 2014, MIS-TLIF outcomes data, though primarily addresses other complications)
-
----
-
-## SURGICAL AND IMPLANT-RELATED FACTORS
-
-### Cage Characteristics
-
-**Cage Size/Design**
-- Undersized cages increase subsidence risk (Puvanesarajah et al. 2014, biomechanical analysis showing load concentration with smaller footprints)
-- Larger footprint cages (>250mm²) reduce subsidence incidence (Aoki et al. 2014, comparative study, p<0.05)
-- Cage material: PEEK vs. titanium—titanium provides better bone contact and reduced subsidence in some studies (Aoki et al. 2014)
-
-**Cage Positioning**
-- Anterior-positioned cages in endplate center show less subsidence than lateral positioning (Puvanesarajah et al. 2014)
-- Offset positioning increases shear forces predisposing to subsidence
+## Surgical Technique Factors
 
 ### Endplate Preparation
+- **Inadequate endplate decortication**: Insufficient endplate removal reduces bony contact (Aoki et al., 2012, biomechanical study)
+- **Endplate violation**: Excessive reaming causing cortical breach increases subsidence (Tobert et al., 2014, radiographic analysis)
 
-**Endplate Disruption**
-- Excessive endplate removal/disruption paradoxically increases subsidence (Tobert et al. 2015)
-- Preservation of vertebral endplate integrity reduces subsidence rates
-- Aggressive reaming increases subsidence risk (Lin et al. 2019, showing cartilaginous endplate violation effects)
+### Disc Space Distraction
+- **Excessive distraction force**: Overly aggressive restoration causes greater subsidence as disc heals (Asazuma et al., 2016, 52-patient series, Level 3)
+- **Distraction magnitude >4mm**: Associated with higher subsidence rates in early studies
 
-**Bony Endplate Removal**
-- Removal of bony endplate increases subsidence compared to cartilaginous endplate preservation (Deutsch et al. 2012, biomechanical cadaveric study)
+### Fusion Level
+- **L5-S1 location**: Higher subsidence rates than L4-L5 (Nakashima et al., 2015; Tsai et al., 2014)
+  - L5-S1: 62% incidence vs. L4-L5: 35% incidence
+  - Related to higher loads and osteoporotic bone at lumbosacral junction
 
-### Instrumentation
+## Impact on Clinical Outcomes
 
-**Posterior Supplemental Fixation**
-- Pedicle screw fixation (PSF) reduces subsidence severity (Villavicencio et al. 2011, MIS-TLIF comparative study showing lower subsidence with instrumentation)
-- MIS-TLIF with PSF shows 20-30% subsidence incidence vs. 40-50% without fixation (Lin et al. 2019)
-- Bilateral pedicle screws more protective than unilateral
+### Pain and Functional Outcomes
 
-**Standalone (ALIF-style) vs. With Posterior Fixation**
-- Standalone MIS-TLIF at higher risk for subsidence (Mummaneni et al. 2014, Health Outcomes Survey, showing fusion success improved with dual-level fixation)
+**Minimal Subsidence (<2-3mm) Impact**
+- Yoshii et al., 2016 (prospective, 64 patients): <2mm subsidence showed no significant difference in ODI improvement at 2 years (VAS improved 6.8 vs. 6.4 points)
+- Adogwa et al., 2014 (Level 3, 67 patients): <3mm subsidence group: mean ODI improvement 24 points vs. 21 points in >3mm group (not significant, p=0.31)
 
----
+**Moderate Subsidence (3-5mm) Impact**
+- Kakutani et al., 2016: Subsidence 3-5mm showed ODI improvement of 19 ± 15 points vs. <3mm: 23 ± 14 points (p=0.08, borderline)
+- Park et al., 2018 (Level 3, 96 patients): Stratified analysis showed no significant pain differences with 3-5mm subsidence
 
-## SURGICAL TECHNIQUE FACTORS
+**Severe Subsidence (>5mm) Impact**
+- Nakashima et al., 2015: >5mm subsidence associated with 1.8x greater risk of persistent leg pain (p<0.05)
+- Gok et al., 2015 (48-patient series): >5mm subsidence showed 34% had inadequate pain relief vs. 12% with <5mm (p=0.04)
 
-### Interbody Approach Level
+### Radiographic Outcomes and Disc Height Loss
 
-**Lumbar Level Variation**
-- L5-S1 higher subsidence incidence than L4-L5 (due to increased biomechanical load) (Aoki et al. 2014)
-- L3-L4 lowest risk
+- **Progressive height loss**: Subsidence typically occurs in first 3-6 months then plateaus (Aoki et al., 2016, Level 3, longitudinal study)
+  - Initial: average 2.8mm in first 3 months
+  - By 2 years: average 3.4mm (minimal additional loss after 6 months)
 
-### Number of Levels Fused
+- **Disc height restoration**: >50% loss of initially restored height in 15-25% of cases (Nakashima et al., 2015; Yoshii et al., 2016)
 
-**Multilevel Fusion**
-- Increased subsidence with each additional level (Kepler et al. 2014, systematic review noting progressive load transfer)
-- Two-level MIS-TLIF: significantly higher subsidence in upper level (Kepler et al. 2014)
+### Adjacent Segment Disease Risk
 
----
+- **Increased ASD risk**: Severe subsidence (>5mm) and progressive height loss associated with increased ASD rates
+  - Marchi et al., 2014 (Level 3, 95 MIS-TLIF patients): Subsidence >3mm increased symptomatic ASD by 2.3x at 5 years
+  - Tobert et al., 2014: >4mm subsidence: 28% radiographic ASD vs. 8% in <4mm group (p=0.03)
 
-## CLINICAL OUTCOMES IMPACT
+### Fusion Success and Non-union
 
-### Pain and Disability Outcomes
+- **Mild subsidence not significantly associated with non-union** when endplate bony contact maintained
+- Xue et al., 2016 (Level 3, 63 patients): Fusion rates 97% in <3mm subsidence vs. 94% in >3mm (not significant)
+- **Severe subsidence with loss of endplate contact**: Increased non-union risk and reoperation rates (Kakutani et al., 2016; 8.5% revision rate in >5mm subsidence group)
 
-**Asymptomatic Subsidence**
-- Mild-to-moderate subsidence (<3mm) does NOT significantly impact pain outcomes in majority of patients (Tobert et al. 2015, clinical correlation study)
-- Kepler et al. 2014 systematic review: no significant difference in VAS pain scores between subsidence and non-subsidence groups (average difference <1 point on 10-point scale)
+## Management Implications
 
-**Symptomatic Subsidence**
-- **Severe subsidence (>4-5mm)** associated with worse clinical outcomes:
-  - Increased leg pain and radiculopathy (Aoki et al. 2014, p<0.05)
-  - Greater functional limitation (Oswestry Disability Index [ODI] correlation)
-  - Higher re-operation rates (Lin et al. 2019, 18% re-operation in severe subsidence vs. 5% in mild)
+**Prevention Strategies** (Evidence Level 3-4):
+- Adequate endplate preparation and decortication (Aoki et al., 2012)
+- Avoid excessive distraction in osteoporotic bone
+- Consider larger footprint cages in compromised bone
+- Use trabecular metal or porous implants in osteoporosis (emerging data)
 
-### Fusion Success
-
-**Fusion Rates**
-- Asymptomatic subsidence does not compromise fusion rates (Kepler et al. 2014)
-- Severe subsidence associated with pseudarthrosis in some cases (Tobert et al. 2015)
-- Lin et al. 2019: fusion failure rate 12% in severe subsidence (>4mm) vs. 3% in mild (<2mm)
-
-**Segmental Height Maintenance**
-- Progressive subsidence correlates with segmental kyphosis development (Aoki et al. 2014)
-- Loss of >4mm segmental height associated with sagittal imbalance in multilevel cases
-
-### Adjacent Segment Pathology
-
-**Adjacent Segment Disease (ASD)**
-- Severe subsidence increases ASD risk through altered biomechanics (Kepler et al. 2014)
-- Kyphotic realignment from subsidence increases adjacent level loads (Tobert et al. 2015)
-- Villavicencio et al. 2011: 22% ASD incidence in severe subsidence vs. 8% in mild (p<0.05)
-
-### Reoperation Rates
-
-**Revision Surgery**
-- Lin et al. 2019: reoperation rates:
-  - Mild subsidence (<2mm): 5%
-  - Moderate (2-4mm): 8-10%
-  - Severe (>4mm): 15-18%
-- Most common indications: persistent radiculopathy, adjacent segment disease
+**Monitoring**:
+- Subsidence typically clinically insignificant if <3-4mm (Yoshii et al., 2016; Kakutani et al., 2016)
+- Symptomatic subsidence >5mm may warrant intervention consideration
 
 ---
 
-## PREVENTION STRATEGIES (BASED ON RISK FACTORS)
-
-| Risk Factor | Evidence-Based Prevention | Citation |
-|---|---|---|
-| Osteoporosis | Preoperative optimization, bone grafting, larger cages | Tobert et al. 2015 |
-| Endplate disruption | Minimize aggressive reaming, preserve endplate | Deutsch et al. 2012 |
-| Undersized cage | Use appropriately sized cage (>250mm²) | Puvanesarajah et al. 2014 |
-| Standalone approach | Add pedicle screw fixation | Lin et al. 2019 |
-| Low-grade subsidence | Observation/conservative management | Kepler et al. 2014 |
-| Severe subsidence risk | Consider bone morphogenetic protein (BMP) or allograft | Tobert et al. 2015 |
+## Summary Evidence Level
+Most data are **Level 3-4** (retrospective/case series). High-quality RCTs specifically examining subsidence impact on clinical outcomes remain limited. Current consensus suggests **<3-4mm subsidence is generally clinically benign**, while **>5mm warrants closer monitoring** for adjacent segment effects and progressive instability.
 
 ---
 
-## SUMMARY: CLINICAL SIGNIFICANCE
-
-**Key Points:**
-1. **Asymptomatic mild-moderate subsidence (<3mm)**: Minimal clinical impact; observe
-2. **Severe subsidence (>4-5mm)**: Associated with 15-18% reoperation rates, worse functional outcomes, and ASD risk
-3. **Modifiable risk factors**: Endplate preservation, appropriate cage sizing, supplemental fixation, and bone quality optimization reduce subsidence severity and clinical complications
-4. **Evidence Level**: Mix of Level II-III studies (
-
----
-
-## B4: GraphRAG (Full System)
-
+## B4: GraphRAG + HyDE (Full System)
 **Papers retrieved**: 10
-**Evidence levels**: ['1a', '1a', '1a', '2a', '2b', '2b', '2b', '2b', '2b', '2b']
+**Evidence levels**: ['1a', '1a', '2a', '1a', '2b', '2b', '2b', '2b', '2b', '2b']
 
 ### Cited Papers
-- [1a] pubmed_39895414: Network meta-analysis comparing endoscopic posterolateral fusion and lateral interbody fusion for lumbar degenerative disease: a systematic review of six minimally invasive surgical techniques
-- [1a] pubmed_40433998: Impact of Obesity on Lumbar Spinal Fusion Outcomes: A Systematic Review and Meta-Analysis
-- [1a] pubmed_39399091: Bone graft substitutes used in anterior lumbar interbody fusion: a systematic review of fusion rates and postoperative complications
-- [2a] pubmed_23646277: Cost-effectiveness of interbody fusion with bone morphogenetic protein for the treatment of degenerative spondylolisthesis: a systematic review
-- [2b] pubmed_41782914: Predictors of Cage Subsidence Following Stand-Alone Oblique Interbody Fusion (SA-OLIF) in Non-Osteoporotic Patients
-- [2b] pubmed_38754736: Endplate Bone Quality Score as a Predictor of Cage Subsidence Following Oblique Lumbar Interbody Fusion
-- [2b] pubmed_41677169: Is Cigarette Smoking Associated With Impaired Fusion After Transforaminal Lumbar Interbody Fusion With Adjunctive Posterolateral Arthrodesis?
-- [2b] pubmed_36944178: Transforaminal Lumbar Interbody Fusion Using Double Banana-Shaped Cages: Clinical Outcomes and Biomechanical Analysis
-- [2b] pubmed_41436676: Adjacent Segment Disease Risk Factors Following Lateral Lumbar Interbody Fusion: Focus on Cage Elevation and Comparison with Decompression
-- [2b] pubmed_36522754: Comparative Assessment of Percutaneous Transfacet Screws and Percutaneous Bilateral Pedicle Screws in Oblique Lateral Interbody Fusion for Degenerative Lumbar Spine Diseases
+- [1a] pubmed_23646277: Cost-effectiveness of interbody fusion with bone morphogenetic protein for the t
+- [1a] pubmed_39895414: Network meta-analysis comparing endoscopic posterolateral fusion and lateral int
+- [2a] pubmed_36944178: Transforaminal Lumbar Interbody Fusion Using Double Banana-Shaped Cages: Clinica
+- [1a] pubmed_40433998: Impact of Obesity on Lumbar Spinal Fusion Outcomes: A Systematic Review and Meta
+- [2b] pubmed_41782914: Predictors of Cage Subsidence Following Stand-Alone Oblique Interbody Fusion (SA
+- [2b] pubmed_38509573: Learning Curve and Complications in Unilateral Biportal Endoscopic Transforamina
+- [2b] pubmed_38754736: Endplate Bone Quality Score as a Predictor of Cage Subsidence Following Oblique 
+- [2b] pubmed_41677169: Is Cigarette Smoking Associated With Impaired Fusion After Transforaminal Lumbar
+- [2b] pubmed_36522754: Comparative Assessment of Percutaneous Transfacet Screws and Percutaneous Bilate
+- [2b] pubmed_41782590: Failed Back Surgery Syndrome: A Retrospective Analysis of 95 Spinal Surgeries wi
 
 ### Answer
 
 # Risk Factors for Cage Subsidence After MIS-TLIF and Clinical Outcomes
+
+## Cage Subsidence Incidence
+
+Cage subsidence is a well-documented complication following minimally invasive interbody fusion procedures:
+
+- **Overall incidence**: Cage subsidence (>2 mm height loss) occurred in 32.7% of stand-alone oblique lumbar interbody fusion cases in non-osteoporotic patients [pubmed_41782914]
+- **Endoscopic TLIF**: Only 1.08% subsidence rate (2 cases) in a unilateral biportal endoscopic TLIF series, both occurring during the learning phase [pubmed_38509573]
+- **Lateral fusion approaches**: Cage subsidence or replacement was commonly observed, particularly with stand-alone approaches without internal fixation support [pubmed_39895414]
 
 ## Identified Risk Factors
 
 ### Patient-Related Factors
+1. **Bone quality parameters** [pubmed_38754736]:
+   - Low bone mineral density (BMD) identified as significant risk factor
+   - Endplate bone quality (EBQ) score associated with subsidence risk following OLIF
 
-**Age and BMI:**
-In a TLIF cohort with adjunctive posterolateral arthrodesis, multivariate analysis found **no statistically significant association between age and cage subsidence**, nor between BMI and subsidence rates [pubmed_41677169]. This suggests these commonly cited risk factors may not universally predict subsidence outcomes in TLIF populations.
+2. **Age and sarcopenia** [pubmed_41782914]:
+   - Advanced age examined as potential risk factor
+   - Sarcopenia identified as predictor of cage subsidence in multivariate analysis
 
-**Smoking Status:**
-The same study examined cigarette smoking but did not identify it as a significant predictor of fusion quality or cage subsidence in TLIF patients [pubmed_41677169].
+3. **Bone mineral density** [pubmed_41782914]:
+   - Lower BMD examined as potential predictor of subsidence
 
-### Bone Quality Factors
-
-**Endplate Bone Quality:**
-While this evidence comes from OLIF rather than TLIF specifically, endplate bone quality assessed on preoperative MRI was identified as a strong predictor of cage subsidence. Cage subsidence occurred in approximately **32.9% of patients** in the OLIF cohort, and endplate bone quality could be readily assessed without additional imaging cost [pubmed_38754736].
-
-**Sarcopenia and Bone Mineral Density:**
-In stand-alone OLIF (another minimally invasive interbody approach), sarcopenia, advanced age, and lower bone mineral density were examined as potential risk factors for cage subsidence (>2 mm height loss occurring in 32.7% of cases), though specific multivariate results were not detailed in the retrieved abstract [pubmed_41782914].
+4. **Non-significant factors** [pubmed_41677169]:
+   - Age demonstrated no statistically significant association with cage subsidence
+   - BMI showed no associations with cage subsidence rates
 
 ### Surgical Technique Factors
 
-**Cage Design (TLIF-specific):**
-Cage configuration significantly influenced subsidence rates in TLIF procedures:
-- **Double banana-shaped cages: 11.8% subsidence** at 12 months
-- **Single banana-shaped cages: 19.9% subsidence** at 12 months (p=0.002)
+1. **Fixation method** [pubmed_36522754]:
+   - Stand-alone approaches showed greater subsidence than supplemental fixation
+   - Transfacet screw (TFS) fixation: 16% subsidence from immediate postoperative baseline
+   - Bilateral pedicle screw (BPS) fixation: 10% subsidence from immediate postoperative baseline
 
-Biomechanical analysis showed maximum endplate stress in single-cage models was **1.72 times greater** than double-cage models under neutral loading, and stress differences were more pronounced during extension (2.64-fold) and side bending (2.30-fold) [pubmed_36944178].
+2. **Endplate preparation** [pubmed_38509573]:
+   - Inadequate endplate protection during early surgical learning phase correlated with subsidence
+   - Endplate preparation quality critical to preventing subsidence
+
+3. **Cage characteristics** [pubmed_36944178]:
+   - Cage shape and material influence subsidence risk
+   - Cage position and disc height correction important factors
 
 ## Impact on Clinical Outcomes
 
-### Fusion Achievement
+### Fusion Achievement Despite Subsidence
+Despite cage subsidence occurrence, clinical fusion rates remained high:
+- **Transfacet screw group**: 91% fusion rate [pubmed_36522754]
+- **Bilateral pedicle screw group**: 100% fusion rate [pubmed_36522754]
 
-Despite cage subsidence occurring in a substantial proportion of patients, **fusion rates remained high**: in lateral interbody fusion procedures with subsidence, fusion rates of **91-100%** were achieved, indicating successful bony consolidation was not necessarily compromised by subsidence [pubmed_36522754].
+### Maintenance of Disc Height Gains
+Even with moderate subsidence, disc height improvements were maintained:
+- TFS group: +2.2 mm net gain (+26% above preoperative) despite 16% subsidence [pubmed_36522754]
+- BPS group: +3.7 mm net gain (+42% above preoperative) despite 10% subsidence [pubmed_36522754]
 
-### Adjacent Segment Disease Risk
+### Requirement for Secondary Surgery
+- Severe cage subsidence with replacement required secondary surgery in some cases [pubmed_39895414]
+- The clinical significance of subsidence appears related to magnitude and whether it progresses to cage migration
 
-While not specific to TLIF, in lateral interbody fusion procedures, posterior cage placement (HR 1.06, p=0.032) and **greater cage elevation (HR 1.28, p=0.012)** were identified as independent risk factors for adjacent segment disease development [pubmed_41436676].
+## Critical Gaps in Evidence
 
-### General Complication Burden
-
-In PLIF and TLIF procedures overall, common complications include subsidence, osteolysis, postoperative radiculopathy, heterotopic ossification, dural tear, and implant migration, with **overall complication rates varying from 8% to 80% (average 36.4%)** [pubmed_23646277].
-
-## Evidence Gaps
-
-- **Limited TLIF-specific data:** Most subsidence risk factor data comes from OLIF or lateral interbody fusion studies rather than TLIF specifically
-- **Long-term clinical impact unclear:** Whether cage subsidence requires reoperation or causes functional decline in TLIF patients is not addressed in these papers
-- **Technique comparison:** The superior fusion rates with double banana-shaped cages in TLIF warrant further clinical outcome studies beyond biomechanical analysis
-- **Obesity impact:** While obesity affects fusion outcomes generally [pubmed_40433998], specific subsidence risk in obese TLIF patients requires investigation
+1. **TLIF-specific data**: Most subsidence literature addresses OLIF, LLIF, and stand-alone approaches; direct TLIF risk factor data is limited
+2. **Long-term outcomes**: Limited data on how subsidence affects long-term clinical outcomes (pain, function) versus radiographic findings
+3. **Optimal fixation strategy**: Insufficient comparison of supplemental fixation methods specifically for MIS-TLIF
+4. **Endplate assessment methods**: EBQ scoring reliability across different imaging protocols not fully established [pubmed_38754736]
 
 ---

@@ -111,21 +111,40 @@ async def generate_answer_b3_llm_direct(question: str) -> tuple[str, list[dict]]
 async def generate_answer_b4_graphrag(
     neo4j_client: Any, question: str, top_k: int = 10
 ) -> tuple[str, list[dict]]:
-    """B4: Full GraphRAG — hybrid search + ranking."""
-    embedding = await _get_embedding(question)
+    """B4: Full GraphRAG — TieredHybridSearch + HyDE + 3-way ranking."""
+    from solver.tiered_search import TieredHybridSearch, SearchInput, SearchTier
 
-    rows = await neo4j_client.hybrid_search(
-        embedding=embedding, top_k=top_k * 3
+    search = TieredHybridSearch(
+        neo4j_client=neo4j_client,
+        config={"use_neo4j_hybrid": True},
     )
 
-    # Dedup by paper
-    seen = {}
-    for r in rows:
-        pid = r.get("paper_id", "")
-        if pid and pid not in seen:
-            seen[pid] = r
+    search_input = SearchInput(
+        query=question,
+        top_k=top_k * 3,
+        tier_strategy=SearchTier.TIER1_THEN_TIER2,
+        use_hyde=True,
+    )
 
-    papers_list = sorted(seen.values(), key=lambda x: x.get("final_score", 0), reverse=True)[:top_k]
+    output = await search.search(search_input)
+
+    # Dedup by paper (document_id)
+    seen: dict[str, dict] = {}
+    for r in output.results:
+        pid = r.chunk.document_id or ""
+        if not pid:
+            continue
+        score = r.score
+        if pid not in seen or score > seen[pid].get("score", 0):
+            seen[pid] = {
+                "paper_id": pid,
+                "title": r.chunk.title or "",
+                "evidence_level": str(r.chunk.evidence_level.value if hasattr(r.chunk.evidence_level, 'value') else r.chunk.evidence_level) if r.chunk.evidence_level else "unknown",
+                "content": r.chunk.text[:500] if r.chunk.text else "",
+                "score": score,
+            }
+
+    papers_list = sorted(seen.values(), key=lambda x: x.get("score", 0), reverse=True)[:top_k]
 
     if not papers_list:
         return "No relevant papers found for this query.", []
@@ -133,11 +152,11 @@ async def generate_answer_b4_graphrag(
     context_parts = []
     papers = []
     for r in papers_list:
-        title = r.get("paper_title", "Unknown")
-        el = r.get("evidence_level", "unknown")
-        content = r.get("content", "")[:500]
-        pid = r.get("paper_id", "")
-        score = r.get("final_score", 0)
+        title = r["title"]
+        el = r["evidence_level"]
+        content = r["content"]
+        pid = r["paper_id"]
+        score = r["score"]
         context_parts.append(f"[{pid}] {title} (Evidence: {el}, Score: {score:.3f})\n{content}")
         papers.append({"paper_id": pid, "title": title, "evidence_level": el, "score": score})
 
@@ -227,7 +246,7 @@ def save_answers(results: dict[str, list[GeneratedAnswer]], output_dir: Path = N
         ]
         path = output_dir / f"{baseline}.json"
         with open(path, "w") as f:
-            json.dump(data, f, indent=2, ensure_ascii=False)
+            json.dump(data, f, indent=2, ensure_ascii=False, default=str)
         logger.info("Saved %s: %d answers → %s", baseline, len(data), path)
 
 

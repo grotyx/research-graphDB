@@ -771,6 +771,97 @@ class RelationshipBuilder:
 
         return False
 
+    def _prepare_is_a_item(
+        self,
+        entity_name: str,
+        entity_type: str,
+        norm_result: NormalizationResult,
+    ) -> Optional[dict]:
+        """Prepare IS_A batch item from SNOMED parent_code (no DB call).
+
+        Looks up the parent concept name and returns a dict suitable for
+        _batch_create_is_a_relations, or None if no parent found.
+
+        Args:
+            entity_name: Normalized entity name
+            entity_type: Entity type label ("Pathology", "Outcome", "Anatomy", "Intervention")
+            norm_result: Normalization result (may contain parent_code)
+
+        Returns:
+            Dict with keys {child_name, parent_name, label} or None
+        """
+        _VALID_IS_A_TYPES = {"Pathology", "Outcome", "Anatomy", "Intervention"}
+        if entity_type not in _VALID_IS_A_TYPES:
+            return None
+
+        parent_code = norm_result.parent_code
+        parent_name = None
+
+        if parent_code and _SNOMED_MAPPINGS_AVAILABLE:
+            type_key = entity_type.lower()
+            parent_name = _SNOMED_CODE_TO_NAME.get((type_key, parent_code))
+
+        if not parent_name:
+            parent_name = self._get_parent_name_from_snomed(
+                entity_name, entity_type.lower()
+            )
+
+        if not parent_name or parent_name == entity_name:
+            return None
+
+        return {
+            "child_name": entity_name,
+            "parent_name": parent_name,
+            "label": entity_type,
+        }
+
+    async def _batch_create_is_a_relations(
+        self,
+        is_a_batch: list[dict],
+    ) -> int:
+        """Batch-create IS_A relationships via UNWIND (CA-NEW-005).
+
+        Groups items by entity label and executes one UNWIND query per label.
+
+        Args:
+            is_a_batch: List of dicts with keys {child_name, parent_name, label}
+
+        Returns:
+            Number of IS_A relations created
+        """
+        if not is_a_batch:
+            return 0
+
+        # Group by label (UNWIND query needs fixed label in Cypher)
+        by_label: dict[str, list[dict]] = {}
+        for item in is_a_batch:
+            by_label.setdefault(item["label"], []).append(item)
+
+        total = 0
+        for label, items in by_label.items():
+            try:
+                cypher = f"""
+                UNWIND $items AS row
+                MERGE (child:{label} {{name: row.child_name}})
+                MERGE (parent:{label} {{name: row.parent_name}})
+                MERGE (child)-[r:IS_A]->(parent)
+                ON CREATE SET r.auto_generated = true,
+                              r.created_at = datetime()
+                RETURN count(r) AS created
+                """
+                result = await self.client.run_query(
+                    cypher,
+                    {"items": [{"child_name": i["child_name"], "parent_name": i["parent_name"]} for i in items]},
+                )
+                created = result[0].get("created", 0) if result else 0
+                total += created
+                if created:
+                    logger.debug(f"Batch IS_A: {created} {label} relations created")
+            except Exception as e:
+                logger.warning(f"Failed to batch-create IS_A for {label}: {e}")
+
+        return total
+
     def _is_review_paper(self, metadata: "ExtractedMetadata") -> bool:
         """Check if the paper is a review (systematic review / meta-analysis).
 
@@ -1199,6 +1290,7 @@ class RelationshipBuilder:
         """Paper → Pathology (STUDIES) 관계 생성.
 
         v1.9: SNOMED-CT 코드 지원 추가
+        v1.27.1: UNWIND 배치로 N+1 제거 (CA-NEW-005)
 
         Args:
             paper_id: 논문 ID
@@ -1207,41 +1299,59 @@ class RelationshipBuilder:
         Returns:
             생성된 관계 수
         """
-        count = 0
-
         # 중첩 리스트 평탄화 및 문자열 변환
         flat_pathologies = []
         for item in pathologies:
             if isinstance(item, list):
-                # 중첩 리스트인 경우 평탄화
                 flat_pathologies.extend([str(p) for p in item if p])
             elif item:
                 flat_pathologies.append(str(item))
 
+        if not flat_pathologies:
+            return 0
+
+        # Phase 1: Normalize all entities (sequential — LLM fallback may have side effects)
+        batch: list[dict] = []
+        is_a_batch: list[dict] = []
         for idx, pathology in enumerate(flat_pathologies):
-            # 정규화 (SNOMED 코드 포함, v1.20.0: LLM 폴백)
             norm_result = await self._normalize_with_fallback(pathology, "pathology")
             pathology_name = norm_result.normalized
+            batch.append({
+                "pathology_name": pathology_name,
+                "is_primary": idx == 0,
+                "snomed_code": norm_result.snomed_code or None,
+                "snomed_term": norm_result.snomed_term or None,
+            })
+            # Collect IS_A data
+            is_a_item = self._prepare_is_a_item(pathology_name, "Pathology", norm_result)
+            if is_a_item:
+                is_a_batch.append(is_a_item)
 
-            # 첫 번째를 primary로 설정
-            is_primary = (idx == 0)
+        # Phase 2: Batch STUDIES relations (single UNWIND query)
+        count = 0
+        try:
+            cypher = """
+            UNWIND $batch AS row
+            MATCH (p:Paper {paper_id: $paper_id})
+            MERGE (path:Pathology {name: row.pathology_name})
+            ON CREATE SET path.snomed_code = row.snomed_code,
+                          path.snomed_term = row.snomed_term
+            ON MATCH SET path.snomed_code = COALESCE(path.snomed_code, row.snomed_code),
+                         path.snomed_term = COALESCE(path.snomed_term, row.snomed_term)
+            MERGE (p)-[r:STUDIES]->(path)
+            SET r.is_primary = row.is_primary
+            RETURN count(r) AS created
+            """
+            result = await self.client.run_query(
+                cypher, {"batch": batch, "paper_id": paper_id}
+            )
+            count = result[0].get("created", 0) if result else len(batch)
+        except Exception as e:
+            logger.warning(f"Failed to batch-create STUDIES relations: {e}")
+            return 0
 
-            try:
-                await self.client.create_studies_relation(
-                    paper_id=paper_id,
-                    pathology_name=pathology_name,
-                    is_primary=is_primary,
-                    snomed_code=norm_result.snomed_code if norm_result.snomed_code else None,
-                    snomed_term=norm_result.snomed_term if norm_result.snomed_term else None
-                )
-                count += 1
-
-                # Auto-create IS_A relationship from SNOMED parent_code
-                await self._auto_create_is_a_relation(
-                    pathology_name, "Pathology", norm_result
-                )
-            except Exception as e:
-                logger.warning(f"Failed to create STUDIES relation for {pathology_name}: {e}")
+        # Phase 3: Batch IS_A relations
+        await self._batch_create_is_a_relations(is_a_batch)
 
         return count
 
@@ -1252,6 +1362,8 @@ class RelationshipBuilder:
     ) -> int:
         """Paper → Anatomy (INVOLVES) 관계 생성.
 
+        v1.27.1: UNWIND 배치로 N+1 제거 (CA-NEW-005)
+
         Args:
             paper_id: 논문 ID
             anatomy_levels: 해부학적 위치 목록 (예: ["L4-5", "Lumbar"])
@@ -1259,8 +1371,6 @@ class RelationshipBuilder:
         Returns:
             생성된 관계 수
         """
-        count = 0
-
         # 중첩 리스트 평탄화 및 문자열 변환
         flat_anatomy = []
         for item in anatomy_levels:
@@ -1269,34 +1379,55 @@ class RelationshipBuilder:
             elif item:
                 flat_anatomy.append(str(item))
 
+        if not flat_anatomy:
+            return 0
+
+        # Phase 1: Normalize all entities (synchronous — no LLM fallback for anatomy)
+        batch: list[dict] = []
+        is_a_batch: list[dict] = []
         for anatomy in flat_anatomy:
             if not anatomy:
                 continue
-
-            # 정규화 (SNOMED 코드 포함) — v1.19.5
             norm_result = self._normalize_cached(anatomy, "anatomy")
             anatomy_name = norm_result.normalized
-
-            # 레벨과 영역 추출
             level, region = self._parse_anatomy_level(anatomy_name)
+            batch.append({
+                "anatomy_name": anatomy_name,
+                "level": level,
+                "region": region,
+                "snomed_code": norm_result.snomed_code or None,
+                "snomed_term": norm_result.snomed_term or None,
+            })
+            is_a_item = self._prepare_is_a_item(anatomy_name, "Anatomy", norm_result)
+            if is_a_item:
+                is_a_batch.append(is_a_item)
 
-            try:
-                await self.client.create_involves_relation(
-                    paper_id=paper_id,
-                    anatomy_name=anatomy_name,
-                    level=level,
-                    region=region,
-                    snomed_code=norm_result.snomed_code if norm_result.snomed_code else None,
-                    snomed_term=norm_result.snomed_term if norm_result.snomed_term else None,
-                )
-                count += 1
+        if not batch:
+            return 0
 
-                # Auto-create IS_A relationship from SNOMED parent_code
-                await self._auto_create_is_a_relation(
-                    anatomy_name, "Anatomy", norm_result
-                )
-            except Exception as e:
-                logger.warning(f"Failed to create INVOLVES relation for {anatomy}: {e}")
+        # Phase 2: Batch INVOLVES relations (single UNWIND query)
+        count = 0
+        try:
+            cypher = """
+            UNWIND $batch AS row
+            MATCH (p:Paper {paper_id: $paper_id})
+            MERGE (a:Anatomy {name: row.anatomy_name})
+            ON CREATE SET a.level = row.level, a.region = row.region
+            SET a.snomed_code = COALESCE(row.snomed_code, a.snomed_code),
+                a.snomed_term = COALESCE(row.snomed_term, a.snomed_term)
+            MERGE (p)-[r:INVOLVES]->(a)
+            RETURN count(r) AS created
+            """
+            result = await self.client.run_query(
+                cypher, {"batch": batch, "paper_id": paper_id}
+            )
+            count = result[0].get("created", 0) if result else len(batch)
+        except Exception as e:
+            logger.warning(f"Failed to batch-create INVOLVES relations: {e}")
+            return 0
+
+        # Phase 3: Batch IS_A relations
+        await self._batch_create_is_a_relations(is_a_batch)
 
         return count
 
@@ -1335,6 +1466,8 @@ class RelationshipBuilder:
     ) -> int:
         """Paper → Intervention (INVESTIGATES) 관계 생성.
 
+        v1.27.1: UNWIND 배치로 N+1 제거 (CA-NEW-005)
+
         Args:
             paper_id: 논문 ID
             interventions: 수술법 목록
@@ -1342,8 +1475,6 @@ class RelationshipBuilder:
         Returns:
             생성된 관계 수
         """
-        count = 0
-
         # 중첩 리스트 평탄화 및 문자열 변환
         flat_interventions = []
         for item in interventions:
@@ -1352,28 +1483,53 @@ class RelationshipBuilder:
             elif item:
                 flat_interventions.append(str(item))
 
+        if not flat_interventions:
+            return 0
+
+        # Phase 1: Normalize all entities (sequential — LLM fallback may have side effects)
+        batch: list[dict] = []
+        is_a_batch: list[dict] = []
         for intervention in flat_interventions:
-            # 정규화 (SNOMED 코드 포함, v1.20.0: LLM 폴백)
             norm_result = await self._normalize_with_fallback(intervention, "intervention")
             intervention_name = norm_result.normalized
+            batch.append({
+                "intervention_name": intervention_name,
+                "is_comparison": False,
+                "category": norm_result.category or None,
+                "snomed_code": norm_result.snomed_code or None,
+                "snomed_term": norm_result.snomed_term or None,
+            })
+            is_a_item = self._prepare_is_a_item(intervention_name, "Intervention", norm_result)
+            if is_a_item:
+                is_a_batch.append(is_a_item)
 
-            try:
-                await self.client.create_investigates_relation(
-                    paper_id=paper_id,
-                    intervention_name=intervention_name,
-                    is_comparison=False,  # 추후 PICO의 comparison에서 판단
-                    category=norm_result.category if norm_result.category else None,
-                    snomed_code=norm_result.snomed_code if norm_result.snomed_code else None,
-                    snomed_term=norm_result.snomed_term if norm_result.snomed_term else None
-                )
-                count += 1
+        # Phase 2: Batch INVESTIGATES relations (single UNWIND query)
+        count = 0
+        try:
+            cypher = """
+            UNWIND $batch AS row
+            MATCH (p:Paper {paper_id: $paper_id})
+            MERGE (i:Intervention {name: row.intervention_name})
+            ON CREATE SET i.category = row.category,
+                          i.snomed_code = row.snomed_code,
+                          i.snomed_term = row.snomed_term
+            ON MATCH SET i.category = COALESCE(i.category, row.category),
+                         i.snomed_code = COALESCE(i.snomed_code, row.snomed_code),
+                         i.snomed_term = COALESCE(i.snomed_term, row.snomed_term)
+            MERGE (p)-[r:INVESTIGATES]->(i)
+            SET r.is_comparison = row.is_comparison
+            RETURN count(r) AS created
+            """
+            result = await self.client.run_query(
+                cypher, {"batch": batch, "paper_id": paper_id}
+            )
+            count = result[0].get("created", 0) if result else len(batch)
+        except Exception as e:
+            logger.warning(f"Failed to batch-create INVESTIGATES relations: {e}")
+            return 0
 
-                # Auto-create IS_A relationship from SNOMED parent_code
-                await self._auto_create_is_a_relation(
-                    intervention_name, "Intervention", norm_result
-                )
-            except Exception as e:
-                logger.warning(f"Failed to create INVESTIGATES relation for {intervention_name}: {e}")
+        # Phase 3: Batch IS_A relations
+        await self._batch_create_is_a_relations(is_a_batch)
 
         return count
 
@@ -1520,6 +1676,7 @@ class RelationshipBuilder:
 
         Claude와 Gemini PDF 처리기 결과 모두 지원 (Unified Schema v4.0).
         v1.9: SNOMED-CT 코드 지원 추가
+        v1.27.1: UNWIND 배치로 N+1 제거 (CA-NEW-005)
 
         Args:
             intervention: 수술법 이름
@@ -1529,62 +1686,80 @@ class RelationshipBuilder:
         Returns:
             생성된 관계 수
         """
-        count = 0
-
         # 수술법 정규화 (v1.20.0: LLM 폴백)
         norm_intervention = await self._normalize_with_fallback(intervention, "intervention")
         intervention_name = norm_intervention.normalized
 
+        # Phase 1: Normalize all outcomes and prepare batch data
+        batch: list[dict] = []
+        is_a_batch: list[dict] = []
         for outcome in outcomes:
-            # 빈 outcome.name 가드
             if not outcome.name or not outcome.name.strip():
                 continue
-            # 결과변수 정규화 (SNOMED 코드 포함, v1.20.0: LLM 폴백)
             norm_outcome = await self._normalize_with_fallback(outcome.name, "outcome")
             outcome_name = norm_outcome.normalized
 
-            # Mark NULL statistics as "not_reported" rather than leaving NULL
             effect_size = outcome.effect_size or "not_reported"
             confidence_interval = outcome.confidence_interval or "not_reported"
             direction = outcome.direction or self._determine_direction_from_outcome(outcome)
 
-            # Auto-determine is_significant from p_value when available
             is_significant = outcome.is_significant
             if not is_significant and outcome.p_value is not None:
                 is_significant = outcome.p_value < 0.05
 
-            try:
-                await self.client.create_affects_relation(
-                    intervention_name=intervention_name,
-                    outcome_name=outcome_name,
-                    source_paper_id=paper_id,
-                    # 기본 값
-                    value=outcome.value,
-                    value_control=outcome.value_control,
-                    p_value=outcome.p_value,
-                    effect_size=effect_size,
-                    confidence_interval=confidence_interval,
-                    is_significant=is_significant,
-                    direction=direction,
-                    # v4.0 추가 필드
-                    baseline=outcome.baseline,
-                    final=outcome.final,
-                    value_intervention=outcome.value_intervention,
-                    value_difference=outcome.value_difference,
-                    category=outcome.category,
-                    timepoint=outcome.timepoint,
-                    # v1.9: SNOMED 코드
-                    snomed_code=norm_outcome.snomed_code if norm_outcome.snomed_code else None,
-                    snomed_term=norm_outcome.snomed_term if norm_outcome.snomed_term else None
-                )
-                count += 1
+            batch.append({
+                "outcome_name": outcome_name,
+                "snomed_code": norm_outcome.snomed_code or None,
+                "snomed_term": norm_outcome.snomed_term or None,
+                "properties": {
+                    "source_paper_id": paper_id,
+                    "value": outcome.value,
+                    "value_control": outcome.value_control,
+                    "p_value": outcome.p_value,
+                    "effect_size": effect_size,
+                    "confidence_interval": confidence_interval,
+                    "is_significant": is_significant,
+                    "direction": direction,
+                    "baseline": outcome.baseline,
+                    "final": outcome.final,
+                    "value_intervention": outcome.value_intervention,
+                    "value_difference": outcome.value_difference,
+                    "category": outcome.category,
+                    "timepoint": outcome.timepoint,
+                },
+            })
+            is_a_item = self._prepare_is_a_item(outcome_name, "Outcome", norm_outcome)
+            if is_a_item:
+                is_a_batch.append(is_a_item)
 
-                # Auto-create IS_A relationship from SNOMED parent_code
-                await self._auto_create_is_a_relation(
-                    outcome_name, "Outcome", norm_outcome
-                )
-            except Exception as e:
-                logger.warning(f"Failed to create AFFECTS relation for {outcome_name}: {e}")
+        if not batch:
+            return 0
+
+        # Phase 2: Batch AFFECTS relations (single UNWIND query)
+        count = 0
+        try:
+            cypher = """
+            UNWIND $batch AS row
+            MATCH (i:Intervention {name: $intervention_name})
+            MERGE (o:Outcome {name: row.outcome_name})
+            ON CREATE SET o.snomed_code = row.snomed_code,
+                          o.snomed_term = row.snomed_term
+            ON MATCH SET o.snomed_code = COALESCE(o.snomed_code, row.snomed_code),
+                         o.snomed_term = COALESCE(o.snomed_term, row.snomed_term)
+            MERGE (i)-[r:AFFECTS]->(o)
+            SET r += row.properties
+            RETURN count(r) AS created
+            """
+            result = await self.client.run_query(
+                cypher, {"batch": batch, "intervention_name": intervention_name}
+            )
+            count = result[0].get("created", 0) if result else len(batch)
+        except Exception as e:
+            logger.warning(f"Failed to batch-create AFFECTS relations: {e}")
+            return 0
+
+        # Phase 3: Batch IS_A relations
+        await self._batch_create_is_a_relations(is_a_batch)
 
         return count
 
@@ -3203,6 +3378,8 @@ class RelationshipBuilder:
     ) -> int:
         """Create QualityMetric nodes and HAS_QUALITY_METRIC relationships.
 
+        v1.27.1: UNWIND 배치로 N+1 제거 (CA-NEW-005)
+
         Args:
             paper_id: Paper ID
             quality_metrics: List of quality metric dicts with keys:
@@ -3218,46 +3395,53 @@ class RelationshipBuilder:
         Returns:
             Number of relationships created
         """
-        count = 0
+        if not quality_metrics:
+            return 0
 
+        items = []
         for qm_dict in quality_metrics:
             name = qm_dict.get("name")
             if not name:
                 continue
             name = self._normalize_secondary_entity(name)
+            items.append({
+                "name": name,
+                "assessment_tool": qm_dict.get("assessment_tool", ""),
+                "overall_score": qm_dict.get("overall_score", 0.0),
+                "max_score": qm_dict.get("max_score", 0.0),
+                "overall_rating": qm_dict.get("overall_rating", ""),
+                "grade_certainty": qm_dict.get("grade_certainty", ""),
+                "assessed_by": qm_dict.get("assessed_by", ""),
+                "assessment_type": qm_dict.get("assessment_type", ""),
+            })
 
-            try:
-                # Create QualityMetric node
-                await self.client.run_query(
-                    CREATE_QUALITY_METRIC_CYPHER,
-                    {
-                        "name": name,
-                        "source_paper_id": paper_id,
-                        "assessment_tool": qm_dict.get("assessment_tool", ""),
-                        "overall_score": qm_dict.get("overall_score", 0.0),
-                        "max_score": qm_dict.get("max_score", 0.0),
-                        "overall_rating": qm_dict.get("overall_rating", ""),
-                        "grade_certainty": qm_dict.get("grade_certainty", ""),
-                    }
-                )
+        if not items:
+            return 0
 
-                # Create HAS_QUALITY_METRIC relationship
-                await self.client.run_query(
-                    CREATE_HAS_QUALITY_METRIC_REL_CYPHER,
-                    {
-                        "paper_id": paper_id,
-                        "metric_name": name,
-                        "assessed_by": qm_dict.get("assessed_by", ""),
-                        "assessment_type": qm_dict.get("assessment_type", ""),
-                    }
-                )
-
-                count += 1
-
-            except Exception as e:
-                logger.warning(f"Failed to create quality metric {name}: {e}")
-
-        return count
+        try:
+            # Single UNWIND query: create QualityMetric nodes + HAS_QUALITY_METRIC relations
+            await self.client.run_query(
+                """
+                UNWIND $items AS item
+                MERGE (qm:QualityMetric {name: item.name, source_paper_id: $paper_id})
+                ON CREATE SET
+                    qm.assessment_tool = item.assessment_tool,
+                    qm.overall_score = item.overall_score,
+                    qm.max_score = item.max_score,
+                    qm.overall_rating = item.overall_rating,
+                    qm.grade_certainty = item.grade_certainty
+                WITH qm, item
+                MATCH (p:Paper {paper_id: $paper_id})
+                MERGE (p)-[r:HAS_QUALITY_METRIC]->(qm)
+                ON CREATE SET r.assessed_by = item.assessed_by,
+                              r.assessment_type = item.assessment_type
+                """,
+                {"items": items, "paper_id": paper_id}
+            )
+            return len(items)
+        except Exception as e:
+            logger.warning(f"Failed to batch-create quality metric relationships: {e}")
+            return 0
 
 
 # 사용 예시

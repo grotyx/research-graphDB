@@ -692,7 +692,8 @@ spine_snomed_mappings.py의 SNOMED 키가 entity_normalizer.py의 reverse map에
 
 | 일자 | 버전 | 신규 발견 | 해소 | 잔여 Open | 잔여 Accepted | 비고 |
 |------|------|----------|------|----------|--------------|------|
-| 2026-03-17 | v1.27.0 | 5 | 5 | 0 | 2 | QC-2027-001~005: TERMINOLOGY 버전 v1.25.0→v1.27.0, SNOMED 세부카운트 218/214/195→235/231/200, EMBEDDING_CONTEXTUAL_PREFIX env var 추가, 12 orphan SNOMED(info), 89 reverse-map(info). 전부 즉시 해소. 3802 tests passed. |
+| 2026-03-17 | v1.27.0 | 5 | 5 | 0 | 2 | QC-2027-001~005(2차): TERMINOLOGY v1.25.0→v1.27.0, .env.example에 PUBMED_EMAIL/API_KEY/MCP_MAX_USER_CACHE 추가. 전부 즉시 해소. 3802 tests passed. |
+| 2026-03-17 | v1.27.0 | 5 | 5 | 0 | 2 | QC-2027-001~005(1차): TERMINOLOGY 버전 v1.25.0→v1.27.0, SNOMED 세부카운트 218/214/195→235/231/200, EMBEDDING_CONTEXTUAL_PREFIX env var 추가, 12 orphan SNOMED(info), 89 reverse-map(info). 전부 즉시 해소. 3802 tests passed. |
 | 2026-03-17 | v1.26.2 | 6 | 6 | 0 | 2 | QC-005~010: 7개 문서 버전 1.25.0→1.26.2, SNOMED 696→735, .env.example, MCP Docker 재시작, SNOMED orphan 51건. 전부 해소. |
 | 2026-03-13 | v1.25.0 | 3 | 0 | 3 | 2 | QC-2026-005(CLAUDE.md web/pages 미기재, Low), 006(presentation/ untracked, Info), 007(CHANGELOG Post-Release 중복, Info). 3D Graph 페이지 추가 후 스캔. |
 | 2026-03-02 | v1.25.0 | 4 | 4 | 1 | 2 | QC-2026-001~004 발견 및 전체 해소. 001: DEPLOYMENT.md v1.24.0→v1.25.0, 002: type hints 추가, 003: MCP Docker restart, 004: 30개 orphan SNOMED canonical 추가 |
