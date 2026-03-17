@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/badge/License-Research%20%26%20Personal%20Use-blue)](#license)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-green)](#requirements)
 [![Neo4j](https://img.shields.io/badge/Neo4j-5.15%2B-blue)](#requirements)
-[![Version](https://img.shields.io/badge/Version-1.25.0-orange)](#changelog)
+[![Version](https://img.shields.io/badge/Version-1.26.0-orange)](#changelog)
 
 ---
 
