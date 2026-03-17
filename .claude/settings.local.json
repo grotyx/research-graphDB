@@ -11,7 +11,8 @@
       "WebFetch(domain:media.springer.com)",
       "WebFetch(domain:raw.githubusercontent.com)",
       "Bash(git fetch:*)",
-      "Bash(PYTHONPATH=./src:. python3 -m pytest:*)"
+      "Bash(PYTHONPATH=./src:. python3 -m pytest:*)",
+      "Bash(PYTHONPATH=./src:. python3 evaluation/answer_generator.py --baselines B1,B2,B3,B4 --questions 5 --top-k 10)"
     ]
   }
 }
