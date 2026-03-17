@@ -2,6 +2,18 @@
 
 ## Version History
 
+### v1.26.1 (2026-03-17)
+
+- **`/pubmed-import` 스킬 추가** (`.claude/skills/pubmed-import/`)
+  - PubMed 검색 → 결과 확인 → Sonnet 병렬 추출 → Neo4j 임포트
+  - Haiku API 대신 Claude Code Sonnet subagent 사용 (API 비용 무료)
+  - 동일 추출 프롬프트 (`unified_pdf_processor.py` EXTRACTION_PROMPT) 활용
+- **Fulltext 저장 기능** (`data/fulltext/`)
+  - PMC/DOI fulltext를 `data/fulltext/{pmid}.txt`로 별도 보관
+- **Taxonomy 리프 노드 연결**: PubMed 20편 임포트 → 미연결 리프 57→36개 (37% 감소)
+- **DV 데이터 수복 7건**: DOI 중복 6쌍 삭제, Chunk paper_id 93건 복구, 고아 Chunk 10건 삭제, 대소문자 중복 16건 병합, study_design 26건 정규화, TREATS 74건 백필 + 3,219건 갱신, 고립 Paper 5건 복구
+- **Public README 전면 개편** (`grotyx/research-graphDB`): 실전 워크플로우 5개, 파이프라인 다이어그램, DB 유지보수 섹션 추가
+
 ### v1.26.0 (2026-03-17)
 
 - **3D Interactive Graph Visualization** (`web/pages/10_🌌_3D_Graph.py`)
