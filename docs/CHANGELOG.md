@@ -2,6 +2,33 @@
 
 ## Version History
 
+### v1.26.0 (2026-03-17)
+
+- **3D Interactive Graph Visualization** (`web/pages/10_🌌_3D_Graph.py`)
+  - WebGL 기반 3D force-directed graph (3d-force-graph CDN)
+  - 4가지 뷰 모드: Intervention→Outcome, Ontology(IS_A), Full Graph, Paper Network
+  - DAG 레이아웃, 노드 하이라이트, 파티클 애니메이션, Auto Rotate
+- **Evaluation Framework** (`evaluation/`)
+  - `metrics.py`: P@K, R@K, NDCG@10, MRR, ELA — 28개 유닛 테스트
+  - `baselines.py`: B1(Keyword), B2(Vector), B3(LLM Direct), B4(GraphRAG)
+  - Gold Standard 29개 질문, 517편 후보 논문
+  - `benchmark.py`: CLI 벤치마크 실행기
+- **Publication Plan** (`docs/PUBLICATION_PLAN.md`): 4편 핵심 논문 로드맵
+- **PubMed 80편 신규 임포트**
+  - Evaluation용 60편 (TR+20, TU+20, BS+20) + Taxonomy 리프 연결용 20편
+  - DB: Paper 542 → 638, Chunk 9,022 → 9,869, 관계 33,321 → 40,076
+- **SNOMED 매핑 확장**: 696 → 735개 (+39)
+  - LLM Proposer 62개 후보 → 39개 적용
+  - entity_normalizer 분리: 4,888줄 → 1,366줄(로직) + normalization_maps.py 3,543줄(데이터)
+- **MCP Transport**: SSE → Streamable HTTP 전환 (연결 안정성 개선)
+- **DV 데이터 수복 16건**
+  - DOI 중복 Paper 10건 삭제, 대소문자 중복 엔티티 31쌍 병합
+  - IS_A 순환 해소, TREATS 백필 141건, paper_count 갱신 6,000+건
+  - Chunk paper_id 복구 307건, 고아 Chunk 30건 삭제
+  - study_design 정규화 74건, tier 변환 398건
+- **QC/CA/DV 전체 스캔**: 전 항목 PASS (Known Accepted 제외)
+- **Taxonomy 리프 노드 개선**: 57 → 36개 미연결 (37% 감소)
+
 ### v1.25.0 Post-Release: Evaluation Framework + Publication Plan (2026-03-16)
 
 - **논문 출판 계획 수립** (`docs/PUBLICATION_PLAN.md`): 6편 논문, 3 Phase 로드맵

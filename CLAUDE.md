@@ -5,7 +5,7 @@
 Spine GraphRAG는 Neo4j 그래프 데이터베이스를 사용한 단일 저장소 시스템입니다.
 척추 수술 분야의 의학 논문을 처리하여 구조화된 지식 그래프를 구축하고, 근거 기반 검색을 지원합니다.
 
-**Version**: 1.25.0 | **Status**: Production Ready
+**Version**: 1.26.0 | **Status**: Production Ready
 **Docs**: [PRD](docs/PRD.md) | [TRD](docs/TRD_v3_GraphRAG.md) | [Changelog](docs/CHANGELOG.md)
 
 ### Architecture (Single-Store: Neo4j Only)
@@ -304,8 +304,27 @@ rag_research/
 | [user_guide.md](docs/user_guide.md) | 최종 사용자 (Web UI) |
 | [developer_guide.md](docs/developer_guide.md) | 개발자 (개발 가이드) |
 
+### 논문 관리
+
+논문 출판 **계획/진행상황**은 이 repo에, **실제 논문 원고**는 별도 폴더에서 관리:
+
+| 위치 | 역할 |
+|------|------|
+| `docs/PUBLICATION_PLAN.md` | 출판 계획 + 진행상황 추적 |
+| `evaluation/` | 벤치마크 코드, 질문, 데이터 |
+| `/Users/sangminpark/OneDrive/03. Research/01. 진행중인 연구/medical_kag/` | **논문 원고 관리** |
+
+```
+medical_kag/                          # OneDrive 논문 폴더
+├── writing_guide/                    # Academic Writing Guide (GitHub clone)
+├── P1_System_Architecture/           # Paper 1: System (JMIR)
+├── P2_SNOMED_Ontology/               # Paper 2: SNOMED (IJMI)
+├── P3_Evidence_Synthesis/            # Paper 3: Evidence Chain (Spine J)
+└── P4_Clinical_Decision_Support/     # Paper 4: CDS (Neurosurg Focus)
+```
+
 ### 추가 참고
-- [PUBLICATION_PLAN.md](docs/PUBLICATION_PLAN.md) - **논문 출판 계획 (6편, RAGAS 평가, 타임라인)**
+- [PUBLICATION_PLAN.md](docs/PUBLICATION_PLAN.md) - **논문 출판 계획 (4편 핵심, RAGAS 평가, 타임라인)**
 - [QC_CHECKLIST.md](docs/QC_CHECKLIST.md) - **QC 체크리스트 (버전/문서/코드 일관성 검증)**
 - [CODE_AUDIT.md](docs/CODE_AUDIT.md) - **Code Audit (보안/성능/설계 심층 분석)**
 - [DATA_VALIDATION.md](docs/DATA_VALIDATION.md) - **Data Validation (Neo4j 데이터 무결성/완전성 검증)**
