@@ -255,29 +255,29 @@ class SearchDAO:
         WITH c, p, vector_score, snomed_boost, ontology_distance,
              CASE p.evidence_level
                  WHEN '1a' THEN 1.0
-                 WHEN '1b' THEN 0.9
-                 WHEN '2a' THEN 0.8
-                 WHEN '2b' THEN 0.7
+                 WHEN '1b' THEN 1.0
+                 WHEN '2a' THEN 0.9
+                 WHEN '2b' THEN 0.75
                  WHEN '3' THEN 0.5
                  WHEN '4' THEN 0.3
-                 ELSE 0.1
+                 ELSE 0.15
              END as evidence_score
         WITH c, p, vector_score, evidence_score * snomed_boost as graph_score,
              ($graph_weight * evidence_score * snomed_boost + $vector_weight * vector_score) as final_score,
              ontology_distance
             """
         else:
-            # 그래프 점수 계산 (evidence level 기반, 기존 방식)
+            # 그래프 점수 계산 (evidence level 기반)
             query += """
         WITH c, p, vector_score,
              CASE p.evidence_level
                  WHEN '1a' THEN 1.0
-                 WHEN '1b' THEN 0.9
-                 WHEN '2a' THEN 0.8
-                 WHEN '2b' THEN 0.7
+                 WHEN '1b' THEN 1.0
+                 WHEN '2a' THEN 0.9
+                 WHEN '2b' THEN 0.75
                  WHEN '3' THEN 0.5
                  WHEN '4' THEN 0.3
-                 ELSE 0.1
+                 ELSE 0.15
              END as graph_score
         WITH c, p, vector_score, graph_score,
              ($graph_weight * graph_score + $vector_weight * vector_score) as final_score,
