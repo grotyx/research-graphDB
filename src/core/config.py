@@ -162,6 +162,10 @@ class SearchConfig:
         tier2_boost: Tier 2 result boost factor
         section_boost: Section-based boost factors
         evidence_boost: Evidence level boost settings
+        use_hyde: Enable HyDE (Hypothetical Document Embedding) for vector search
+        use_reranker: Enable cross-encoder reranking of search results
+        reranker_provider: Reranker provider ("cohere" or "none")
+        reranker_model: Reranker model name
     """
 
     default_top_k: int = 10
@@ -170,6 +174,10 @@ class SearchConfig:
     tier2_boost: float = 1.0
     section_boost: dict = field(default_factory=dict)
     evidence_boost: dict = field(default_factory=dict)
+    use_hyde: bool = False
+    use_reranker: bool = False
+    reranker_provider: str = "cohere"
+    reranker_model: str = "rerank-v3.5"
 
 
 @dataclass
@@ -681,6 +689,10 @@ class ConfigManager:
             tier2_boost=search_data.get("tier2_boost", 1.0),
             section_boost=search_data.get("section_boost", {}),
             evidence_boost=search_data.get("evidence_boost", {}),
+            use_hyde=search_data.get("use_hyde", False),
+            use_reranker=search_data.get("use_reranker", False),
+            reranker_provider=search_data.get("reranker_provider", "cohere"),
+            reranker_model=search_data.get("reranker_model", "rerank-v3.5"),
         )
 
         # Parse ranker config

@@ -2,6 +2,27 @@
 
 ## Version History
 
+### v1.27.0 (2026-03-17)
+
+- **Contextual Embedding Prefix** (`core/embedding.py`, `builder/pubmed_processor.py`)
+  - Chunk 임베딩 시 `[title | section | year]` prefix 추가 (Anthropic contextual retrieval 기법)
+  - 비대칭 설계: chunk에만 prefix 적용, search query는 그대로
+  - 환경변수 `EMBEDDING_CONTEXTUAL_PREFIX=true/false`로 on/off (기본: true)
+  - 기존 chunk 영향 없음 (신규 임포트에만 적용)
+- **HyDE (Hypothetical Document Embedding)** (`solver/tiered_search.py`)
+  - 검색 전 LLM(Haiku)이 가상 답변 생성 → 가상 답변을 임베딩하여 검색
+  - `use_hyde=True`로 활성화 (기본: false), SearchConfig에서 설정
+  - 복잡한 비교/메커니즘 질문에서 검색 정확도 향상
+- **Cross-Encoder Reranker** (`solver/reranker.py` 신규)
+  - Cohere Rerank API (rerank-v3.5) 기반 교차 인코더 재순위
+  - `use_reranker=True`로 활성화, Cohere 미설치 시 graceful fallback
+  - 초기 검색 top-30 → rerank → top-10 반환
+  - `pip install .[rerank]`로 Cohere 의존성 설치
+- **SNOMED Normalizer 동기화** (`graph/normalization_maps.py`)
+  - 51개 orphan SNOMED 키 해소: I+17, P+17, O+5 canonical 추가, 12개 기존 alias 확인
+  - last-write-wins 충돌 1건 해소 (Facet Joint Degeneration)
+- **테스트 +33**: contextual prefix 16, reranker 11, HyDE 7 → 총 3,802 tests
+
 ### v1.26.2 (2026-03-17)
 
 - **QC/CA 전체 스캔 + 수정**

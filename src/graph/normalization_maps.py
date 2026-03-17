@@ -1122,6 +1122,77 @@ INTERVENTION_ALIASES = {
         "Unilateral Lumbar Interbody Fusion",
         "unilateral lumbar interbody fusion",
     ],
+    # ========================================
+    # v1.26.2: SNOMED orphan sync — 17 new intervention canonicals
+    # ========================================
+    "3D Printing": [
+        "3D printing", "3D-printed implant", "3D printed",
+        "Additive manufacturing",
+    ],
+    "AI-Assisted Assessment": [
+        "AI-assisted assessment", "AI-assisted evaluation",
+        "AI assessment",
+    ],
+    "AI-based Body-Part Classification": [
+        "AI-based body-part classification",
+        "AI body part classification",
+    ],
+    "AI-based Image Classification": [
+        "AI-based image classification",
+        "AI image classification",
+    ],
+    "AI-based Measurement System": [
+        "AI-based measurement system",
+        "AI measurement system", "Automated measurement system",
+    ],
+    "AI-based Projection Detection": [
+        "AI-based projection detection",
+        "AI projection detection",
+    ],
+    "AI-based Spine Imaging Analysis": [
+        "AI-based spine imaging analysis",
+        "AI spine imaging", "AI-based spinal imaging",
+    ],
+    "AI-based Ultrasound Analysis": [
+        "AI-based ultrasound analysis",
+        "AI ultrasound analysis",
+    ],
+    "AI-based Vertebral Body Identification": [
+        "AI-based vertebral body identification",
+        "AI vertebral identification",
+    ],
+    "AI-based Vertebral Body Measurement": [
+        "AI-based vertebral body measurement",
+        "AI vertebral measurement",
+    ],
+    "Absorbable Collagen Sponge": [
+        "absorbable collagen sponge", "ACS",
+        "Collagen sponge",
+    ],
+    "Annular Closure Device": [
+        "annular closure device", "ACD",
+        "Annulus closure device",
+    ],
+    "Anterior Column Realignment": [
+        "anterior column realignment", "ACR",
+        "Anterior column release",
+    ],
+    "Anti-inflammatory Gelatin Sponge": [
+        "anti-inflammatory gelatin sponge",
+        "Gelatin sponge",
+    ],
+    "Assisted Ventilation": [
+        "assisted ventilation", "Mechanical ventilation",
+        "Ventilatory support",
+    ],
+    "Automated Cervical Alignment Measurement": [
+        "automated cervical alignment measurement",
+        "Automated cervical alignment",
+    ],
+    "Automated Radiograph Analysis": [
+        "automated radiograph analysis",
+        "Automated X-ray analysis", "Automated radiographic analysis",
+    ],
     # Note: These SNOMED keys are already reachable as aliases of other canonicals
     # (no need for separate canonical entries — would cause last-write-wins conflicts):
     # "Posterior Column Osteotomy" → alias of SPO
@@ -2355,6 +2426,28 @@ OUTCOME_ALIASES = {
         "AI/ML performance outcome", "AI performance",
         "ML performance", "Model performance outcome",
     ],
+    # ========================================
+    # v1.26.2: SNOMED orphan sync — 5 new outcome canonicals
+    # ========================================
+    "AI Model Detection Accuracy": [
+        "AI model detection accuracy", "Detection accuracy",
+        "AI detection performance",
+    ],
+    "AI Model Segmentation Accuracy": [
+        "AI model segmentation accuracy", "Segmentation accuracy",
+        "AI segmentation performance",
+    ],
+    "Age (years)": [
+        "age (years)", "Age", "Patient age",
+    ],
+    "Automated Spinopelvic Parameter Measurements": [
+        "automated spinopelvic parameter measurements",
+        "Automated spinopelvic measurements",
+        "AI spinopelvic parameters",
+    ],
+    "Body Weight": [
+        "body weight", "Weight", "Patient weight", "BMI",
+    ],
     # Note: These SNOMED keys are already reachable as aliases of other canonicals
     # (no need for separate canonical entries — would cause last-write-wins conflicts):
     # "DVT" → alias of Deep Vein Thrombosis
@@ -3376,6 +3469,78 @@ PATHOLOGY_ALIASES = {
         "Myeloma vertebral fracture",
         "Multiple myeloma spine fracture",
         "골수종 척추 골절",
+    ],
+    # ========================================
+    # v1.26.2: SNOMED orphan sync — 17 new pathology canonicals
+    # ========================================
+    "Anatomical Variation": [
+        "anatomical variation", "Anatomic variation",
+        "Anatomical variant",
+    ],
+    "Armpit-type LDH": [
+        "armpit-type LDH", "Armpit type disc herniation",
+        "Axillary-type disc herniation",
+    ],
+    "Axial Spondyloarthritis": [
+        "axial spondyloarthritis", "axSpA",
+        "Axial spondylitis", "축성 척추관절염",
+    ],
+    "Buttock Pain": [
+        "buttock pain", "Gluteal pain",
+        "둔부 통증",
+    ],
+    "Cauda Equina Herniation": [
+        "cauda equina herniation", "Cauda equina entrapment",
+        "마미 탈출",
+    ],
+    "Cerebrospinal Fluid Leakage": [
+        "cerebrospinal fluid leakage", "CSF leak", "CSF leakage",
+        "Dural tear with CSF leak", "뇌척수액 누출",
+    ],
+    "Cervical Deformity": [
+        "cervical deformity", "Cervical spine deformity",
+        "경추 변형",
+    ],
+    "Cervical Instability": [
+        "cervical instability", "Cervical spine instability",
+        "C-spine instability", "경추 불안정",
+    ],
+    "Cervical Malalignment": [
+        "cervical malalignment", "Cervical misalignment",
+        "Cervical sagittal malalignment", "경추 정렬 이상",
+    ],
+    "Complex Spinal Stenosis": [
+        "complex spinal stenosis",
+        "Complex stenosis", "Multilevel stenosis",
+    ],
+    "DDD Requiring Interbody Fusion": [
+        "DDD requiring interbody fusion",
+        "Degenerative disc disease requiring fusion",
+    ],
+    "Degenerative Spinal Pathology": [
+        "degenerative spinal pathology",
+        "Degenerative spine disease", "Degenerative spine pathology",
+        "퇴행성 척추 질환",
+    ],
+    "Degenerative Stenosis": [
+        "degenerative stenosis", "Degenerative spinal stenosis",
+        "퇴행성 협착증",
+    ],
+    "Disc Protrusion": [
+        "disc protrusion", "Disc bulging",
+        "Disc bulge", "추간판 팽륜",
+    ],
+    "Endplate Defects": [
+        "endplate defects", "Endplate defect",
+        "Vertebral endplate defect", "종판 결손",
+    ],
+    "Facet Joint Degeneration": [
+        "facet joint degeneration", "Facet degeneration",
+        "Facet joint degenerative change", "후관절 퇴행",
+    ],
+    "Fastidious Bacterial Infection": [
+        "fastidious bacterial infection",
+        "Fastidious organism infection",
     ],
     # Note: These SNOMED keys are already reachable as aliases of other canonicals
     # (no need for separate canonical entries — would cause last-write-wins conflicts):

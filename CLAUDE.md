@@ -5,7 +5,7 @@
 Spine GraphRAG는 Neo4j 그래프 데이터베이스를 사용한 단일 저장소 시스템입니다.
 척추 수술 분야의 의학 논문을 처리하여 구조화된 지식 그래프를 구축하고, 근거 기반 검색을 지원합니다.
 
-**Version**: 1.26.2 | **Status**: Production Ready
+**Version**: 1.27.0 | **Status**: Production Ready
 **Docs**: [PRD](docs/PRD.md) | [TRD](docs/TRD_v3_GraphRAG.md) | [Changelog](docs/CHANGELOG.md)
 
 ### Architecture (Single-Store: Neo4j Only)
@@ -328,6 +328,7 @@ medical_kag/                          # OneDrive 논문 폴더
 
 ### 추가 참고
 - [PUBLICATION_PLAN.md](docs/PUBLICATION_PLAN.md) - **논문 출판 계획 (4편 핵심, RAGAS 평가, 타임라인)**
+- [ROADMAP.md](docs/ROADMAP.md) - **개선 로드맵 (Retrieval, Reasoning, Chunking, Evaluation TODO)**
 - [QC_CHECKLIST.md](docs/QC_CHECKLIST.md) - **QC 체크리스트 (버전/문서/코드 일관성 검증)**
 - [CODE_AUDIT.md](docs/CODE_AUDIT.md) - **Code Audit (보안/성능/설계 심층 분석)**
 - [DATA_VALIDATION.md](docs/DATA_VALIDATION.md) - **Data Validation (Neo4j 데이터 무결성/완전성 검증)**

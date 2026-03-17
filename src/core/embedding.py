@@ -4,6 +4,11 @@ Supports:
 - OpenAI text-embedding-3-large (3072 dimensions) - PRIMARY
 - MedTE (768 dimensions) - LEGACY
 - SentenceTransformers models
+
+Contextual Embedding Prefix (v1.27):
+- Chunks are embedded with a context prefix: "[title | section | year] content"
+- Search queries are embedded WITHOUT prefix (asymmetric design)
+- This improves retrieval by encoding paper/section context into the embedding
 """
 
 import os
@@ -39,6 +44,93 @@ class EmbeddedChunk:
     chunk: "Chunk"
     embedding: list[float]
     model_name: str
+
+
+# =============================================================================
+# Contextual Embedding Prefix
+# =============================================================================
+
+# Default: contextual prefix is enabled for new imports
+CONTEXTUAL_PREFIX_ENABLED = os.getenv("EMBEDDING_CONTEXTUAL_PREFIX", "true").lower() in ("true", "1", "yes")
+
+
+def build_context_prefix(
+    title: str = "",
+    section: str = "",
+    year: int | str = 0,
+) -> str:
+    """Build a context prefix string for chunk embedding.
+
+    The prefix encodes paper-level context (title, section, year) so the
+    embedding captures *which* paper/section a chunk belongs to.  This is
+    prepended to the chunk content ONLY during embedding generation; the
+    stored chunk content remains unchanged.
+
+    Args:
+        title: Paper title (truncated to 120 chars).
+        section: Section type (e.g. "abstract", "results").
+        year: Publication year.
+
+    Returns:
+        Prefix string like "[Title | section | 2025] " or "" if no context.
+    """
+    parts: list[str] = []
+    if title:
+        # Truncate very long titles to avoid wasting embedding tokens
+        parts.append(title[:120])
+    if section:
+        parts.append(section)
+    if year and str(year) != "0":
+        parts.append(str(year))
+
+    if not parts:
+        return ""
+    return f"[{' | '.join(parts)}] "
+
+
+def apply_context_prefix(
+    contents: list[str],
+    title: str = "",
+    section: str | None = None,
+    sections: list[str] | None = None,
+    year: int | str = 0,
+    enabled: bool | None = None,
+) -> list[str]:
+    """Apply contextual prefix to a list of chunk contents for embedding.
+
+    This is a convenience wrapper used by callers that embed multiple chunks.
+    The prefix is prepended to each content string so the embedding model sees
+    the paper context, but the original content strings are NOT mutated.
+
+    Args:
+        contents: Raw chunk content strings.
+        title: Paper title.
+        section: Single section type applied to ALL chunks (mutually exclusive with sections).
+        sections: Per-chunk section types (must match len(contents)).
+        year: Publication year.
+        enabled: Override the global CONTEXTUAL_PREFIX_ENABLED flag.
+
+    Returns:
+        New list of prefixed content strings (or originals if disabled).
+    """
+    if enabled is None:
+        enabled = CONTEXTUAL_PREFIX_ENABLED
+    if not enabled:
+        return contents
+
+    if sections is not None:
+        assert len(sections) == len(contents), (
+            f"sections length ({len(sections)}) != contents length ({len(contents)})"
+        )
+        return [
+            build_context_prefix(title, sec, year) + c
+            for c, sec in zip(contents, sections)
+        ]
+    else:
+        prefix = build_context_prefix(title, section or "", year)
+        if not prefix:
+            return contents
+        return [prefix + c for c in contents]
 
 
 # =============================================================================

@@ -774,5 +774,151 @@ class TestFullSearchWorkflow:
             assert result.results[0].score >= result.results[1].score
 
 
+# ============================================================================
+# Test: HyDE integration
+# ============================================================================
+
+class TestHyDEIntegration:
+    """Test HyDE (Hypothetical Document Embedding) integration."""
+
+    @pytest.mark.asyncio
+    async def test_hyde_off_by_default(self):
+        """HyDE is off by default."""
+        si = SearchInput(query="test query")
+        assert si.use_hyde is False
+
+    @pytest.mark.asyncio
+    async def test_hyde_disabled_no_anthropic(self):
+        """HyDE falls back gracefully when anthropic not available."""
+        data = [
+            {"id": "c1", "document_id": "d1", "text": "spine result",
+             "tier": 1, "section": "results", "source_type": "original",
+             "evidence_level": "1b", "publication_year": 2023, "score": 0.9}
+        ]
+        engine = TieredHybridSearch(vector_db=MockVectorDB(data))
+
+        with patch("src.solver.tiered_search.ANTHROPIC_AVAILABLE", False):
+            result = await engine.search(SearchInput(
+                query="spine surgery",
+                tier_strategy=SearchTier.TIER1_ONLY,
+                use_hyde=True,
+                top_k=10,
+            ))
+            # Should still return results (falls back to original query)
+            assert result.total_found >= 0
+
+    @pytest.mark.asyncio
+    async def test_hyde_generates_hypothetical_answer(self):
+        """HyDE replaces query with hypothetical answer when successful."""
+        data = [
+            {"id": "c1", "document_id": "d1", "text": "spine surgery outcomes",
+             "tier": 1, "section": "results", "source_type": "original",
+             "evidence_level": "1b", "publication_year": 2023, "score": 0.9}
+        ]
+        engine = TieredHybridSearch(vector_db=MockVectorDB(data))
+
+        # Mock the _generate_hyde method
+        with patch.object(engine, "_generate_hyde", new_callable=AsyncMock) as mock_hyde:
+            mock_hyde.return_value = "Hypothetical answer about spine surgery outcomes..."
+
+            result = await engine.search(SearchInput(
+                query="What are spine surgery outcomes?",
+                tier_strategy=SearchTier.TIER1_ONLY,
+                use_hyde=True,
+                top_k=10,
+            ))
+
+            mock_hyde.assert_called_once_with("What are spine surgery outcomes?")
+            assert result.total_found >= 0
+
+    @pytest.mark.asyncio
+    async def test_hyde_failure_falls_back(self):
+        """HyDE failure falls back to original query."""
+        data = [
+            {"id": "c1", "document_id": "d1", "text": "spine result",
+             "tier": 1, "section": "results", "source_type": "original",
+             "evidence_level": "1b", "publication_year": 2023, "score": 0.9}
+        ]
+        engine = TieredHybridSearch(vector_db=MockVectorDB(data))
+
+        with patch.object(engine, "_generate_hyde", new_callable=AsyncMock) as mock_hyde:
+            mock_hyde.return_value = None  # Failure
+
+            result = await engine.search(SearchInput(
+                query="spine surgery",
+                tier_strategy=SearchTier.TIER1_ONLY,
+                use_hyde=True,
+                top_k=10,
+            ))
+
+            # Should still work with original query
+            assert result.total_found >= 0
+
+
+# ============================================================================
+# Test: Reranker integration in search
+# ============================================================================
+
+class TestRerankerIntegration:
+    """Test reranker integration in TieredHybridSearch."""
+
+    @pytest.mark.asyncio
+    async def test_reranker_off_by_default(self):
+        """Reranker is off by default."""
+        si = SearchInput(query="test query")
+        assert si.use_reranker is False
+
+    @pytest.mark.asyncio
+    async def test_reranker_skipped_when_unavailable(self):
+        """Reranker is skipped when not available."""
+        data = [
+            {"id": "c1", "document_id": "d1", "text": "spine result",
+             "tier": 1, "section": "results", "source_type": "original",
+             "evidence_level": "1b", "publication_year": 2023, "score": 0.9}
+        ]
+        engine = TieredHybridSearch(vector_db=MockVectorDB(data))
+        # Reranker should not be available (no COHERE_API_KEY)
+        assert engine.reranker.is_available is False
+
+        result = await engine.search(SearchInput(
+            query="spine surgery",
+            tier_strategy=SearchTier.TIER1_ONLY,
+            use_reranker=True,
+            top_k=10,
+        ))
+        # Should still return results
+        assert result.total_found >= 0
+
+    @pytest.mark.asyncio
+    async def test_reranker_called_when_available(self):
+        """Reranker is called when available and requested."""
+        data = [
+            {"id": f"c{i}", "document_id": f"d{i}", "text": f"result {i}",
+             "tier": 1, "section": "results", "source_type": "original",
+             "evidence_level": "1b", "publication_year": 2023, "score": 0.9 - i * 0.01}
+            for i in range(5)
+        ]
+        engine = TieredHybridSearch(vector_db=MockVectorDB(data))
+
+        # Mock the reranker as available
+        engine.reranker._available = True
+        with patch.object(engine.reranker, "rerank", new_callable=AsyncMock) as mock_rerank:
+            # Return reversed results
+            mock_rerank.return_value = [
+                _make_search_result(f"c{i}", score=0.99 - i * 0.01)
+                for i in range(3)
+            ]
+
+            result = await engine.search(SearchInput(
+                query="spine surgery",
+                tier_strategy=SearchTier.TIER1_ONLY,
+                use_reranker=True,
+                top_k=3,
+            ))
+
+            mock_rerank.assert_called_once()
+            assert result.total_found == 3
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

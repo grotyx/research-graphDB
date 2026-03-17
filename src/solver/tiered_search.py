@@ -3,6 +3,7 @@
 v5.3: Neo4j Vector Index 통합 지원
 v1.14.12: Neo4j Vector Index가 유일한 벡터 저장소
 v1.14.17: Neo4j hybrid_search 통합 - 그래프 필터링 + 벡터 검색 단일 쿼리
+v1.27.0: HyDE (Hypothetical Document Embedding) + Cross-Encoder Reranker
 """
 
 import logging
@@ -53,8 +54,25 @@ except ImportError:
     openai = None  # type: ignore
 
 from .query_parser import MedicalEntity, ParsedQuery
+from .reranker import Reranker
+
+# Optional Anthropic import for HyDE
+try:
+    import anthropic
+    ANTHROPIC_AVAILABLE = True
+except ImportError:
+    ANTHROPIC_AVAILABLE = False
+    anthropic = None  # type: ignore
 
 logger = logging.getLogger(__name__)
+
+# HyDE system prompt for generating hypothetical answers
+HYDE_SYSTEM_PROMPT = (
+    "You are a spine surgery expert. Based on your knowledge of medical literature, "
+    "write a short paragraph (3-5 sentences) answering the following question. "
+    "Be specific, cite plausible findings, and use medical terminology. "
+    "Do not hedge or qualify excessively."
+)
 
 
 class SearchTier(Enum):
@@ -121,6 +139,8 @@ class SearchInput:
     min_evidence_level: Optional[str] = None
     recency_weight: float = 0.1
     min_year: Optional[int] = None
+    use_hyde: bool = False
+    use_reranker: bool = False
 
 
 @dataclass
@@ -236,6 +256,14 @@ class TieredHybridSearch:
             except ImportError:
                 logger.debug("GraphContextExpander not available")
 
+        # Reranker (Cross-Encoder)
+        reranker_provider = self.config.get("reranker_provider", "cohere")
+        reranker_model = self.config.get("reranker_model", "rerank-v3.5")
+        self.reranker = Reranker(provider=reranker_provider, model=reranker_model)
+
+        # HyDE: Lazy-initialized Anthropic client
+        self._anthropic_client = None
+
         # Lazy-initialized OpenAI client for embedding generation
         self._openai_client = None
 
@@ -265,6 +293,48 @@ class TieredHybridSearch:
         results: list[SearchResult] = []
         tier1_count = 0
         tier2_count = 0
+
+        # HyDE: Generate hypothetical answer and replace query for embedding
+        if input_data.use_hyde:
+            hyde_text = await self._generate_hyde(input_data.query)
+            if hyde_text:
+                logger.info(f"HyDE: generated hypothetical answer ({len(hyde_text)} chars)")
+                # Create a modified input with the hypothetical answer as query
+                # (the original query is preserved for graph filters / reranking)
+                input_data = SearchInput(
+                    query=hyde_text,
+                    parsed_query=input_data.parsed_query,
+                    entities=input_data.entities,
+                    top_k=input_data.top_k,
+                    tier_strategy=input_data.tier_strategy,
+                    prefer_original=input_data.prefer_original,
+                    min_evidence_level=input_data.min_evidence_level,
+                    recency_weight=input_data.recency_weight,
+                    min_year=input_data.min_year,
+                    use_hyde=False,  # Prevent recursive HyDE
+                    use_reranker=input_data.use_reranker,
+                )
+            else:
+                logger.warning("HyDE: failed to generate hypothetical answer, using original query")
+
+        # Determine reranker fetch size: if reranking, fetch more candidates
+        original_top_k = input_data.top_k
+        use_reranker = input_data.use_reranker and self.reranker.is_available
+        if use_reranker:
+            # Fetch 3x candidates for reranking, minimum 30
+            input_data = SearchInput(
+                query=input_data.query,
+                parsed_query=input_data.parsed_query,
+                entities=input_data.entities,
+                top_k=max(original_top_k * 3, 30),
+                tier_strategy=input_data.tier_strategy,
+                prefer_original=input_data.prefer_original,
+                min_evidence_level=input_data.min_evidence_level,
+                recency_weight=input_data.recency_weight,
+                min_year=input_data.min_year,
+                use_hyde=False,
+                use_reranker=False,  # Prevent re-entry
+            )
 
         # 검색 전략에 따라 실행
         if input_data.tier_strategy == SearchTier.TIER1_ONLY:
@@ -321,8 +391,18 @@ class TieredHybridSearch:
         if input_data.min_year:
             results = self._filter_by_year(results, input_data.min_year)
 
+        # Cross-Encoder Reranking (after all filtering, before top_k truncation)
+        if use_reranker and results:
+            results = await self.reranker.rerank(
+                query=input_data.query,
+                results=results,
+                top_k=original_top_k,
+            )
+            logger.info(f"Reranker: returned {len(results)} results (requested {original_top_k})")
+
         # top_k 제한
-        results = results[:input_data.top_k]
+        final_top_k = original_top_k if use_reranker else input_data.top_k
+        results = results[:final_top_k]
 
         # 벡터/그래프 결과 통계
         vector_count = sum(1 for r in results if r.search_source in [SearchSource.VECTOR, SearchSource.BOTH])
@@ -338,6 +418,49 @@ class TieredHybridSearch:
             search_strategy_used=input_data.tier_strategy,
             vector_backend=SearchBackend.NEO4J
         )
+
+    async def _generate_hyde(self, query: str) -> Optional[str]:
+        """Generate a hypothetical document using LLM for HyDE.
+
+        Uses Claude Haiku to generate a plausible answer paragraph,
+        which is then embedded instead of the raw query for better
+        vector similarity matching.
+
+        Args:
+            query: Original search query.
+
+        Returns:
+            Hypothetical answer text, or None if generation fails.
+        """
+        if not ANTHROPIC_AVAILABLE:
+            logger.warning("HyDE: anthropic package not installed")
+            return None
+
+        try:
+            if self._anthropic_client is None:
+                api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+                if not api_key:
+                    logger.warning("HyDE: ANTHROPIC_API_KEY not set")
+                    return None
+                self._anthropic_client = anthropic.AsyncAnthropic(api_key=api_key)
+
+            model = os.environ.get("CLAUDE_MODEL", "claude-haiku-4-5-20251001")
+            response = await self._anthropic_client.messages.create(
+                model=model,
+                max_tokens=512,
+                temperature=0.3,
+                system=HYDE_SYSTEM_PROMPT,
+                messages=[{"role": "user", "content": query}],
+            )
+
+            # Extract text from response
+            if response.content and len(response.content) > 0:
+                return response.content[0].text
+            return None
+
+        except Exception as e:
+            logger.warning(f"HyDE: LLM generation failed: {e}")
+            return None
 
     async def _search_tier(
         self,
