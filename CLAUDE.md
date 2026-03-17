@@ -151,17 +151,45 @@ LLM_MAX_CONCURRENT=5     # LLM API 동시 호출 수 (1-20, 기본 5)
 
 ## Git Workflow
 
+### 버전 체계 (Semantic Versioning)
+
+```
+1.X.Y 형식
+│ │ └── Y: 패치 — 버그 수정, QA 수정, 문서 정리 (자동 올림)
+│ └──── X: 마이너 — 새 기능 추가, ROADMAP 항목 구현 (자동 올림)
+└────── 1: 메이저 — 대규모 아키텍처 변경 (사용자 지시 시에만 올림)
+```
+
+### 버전 올리는 기준
+
+| 변경 유형 | 버전 | 예시 | 자동/수동 |
+|-----------|------|------|-----------|
+| **버그 수정** | Y +1 (패치) | `1.28.0 → 1.28.1` | 자동 |
+| QA 수정 (QC/CA/DV) | Y +1 (패치) | 문서 동기화, 테스트 수정, 데이터 정리 | 자동 |
+| 문서 정리 / 리팩토링 | Y +1 (패치) | Clean up, Update | 자동 |
+| **새 기능 추가** | X +1 (마이너) | `1.28.1 → 1.29.0` | 자동 |
+| ROADMAP 항목 구현 | X +1 (마이너) | Dynamic weights, Chunk validator | 자동 |
+| 대규모 테스트 추가 (+100개 이상) | X +1 (마이너) | 핵심 모듈 테스트 커버리지 | 자동 |
+| **메이저 업데이트** | 1 → 2 | 아키텍처 변경, 스키마 마이그레이션 | **사용자 지시 시에만** |
+
+> **중요**: 메이저 버전(맨 앞 숫자)은 사용자가 명시적으로 올리라고 할 때만 변경합니다.
+
 ### 커밋 규칙
 
 ```bash
-# 커밋 메시지 형식
-vX.Y.Z: 변경 요약 (기능 추가/수정 시)
+# 커밋 메시지 형식 — 버전 변경 포함
+vX.Y.Z: 변경 요약 (새 기능 추가 시)
+
+# 커밋 메시지 형식 — 버전 변경 없는 중간 커밋
 Fix: 버그 수정 설명
+QA scan + fix: QC/CA/DV 이슈 수정
 Clean up / Update: 문서/리팩토링
 
 # 예시
-v1.16.0: PubMed + DOI fallback integration
+v1.29.0: HyDE + Reranker integration
+v1.28.1: Fix TREATS paper_count drift, orphan chunk cleanup
 Fix test failures: pubmed_bulk_processor import chain
+QA scan + fix: 5 QC issues, 3 DV data fixes
 Clean up redundant/outdated docs, update CLAUDE.md references
 ```
 
@@ -171,17 +199,25 @@ Clean up redundant/outdated docs, update CLAUDE.md references
 
 | 파일 | 위치 |
 |------|------|
-| `src/__init__.py` | `__version__ = "X.Y.Z"` |
+| `src/__init__.py` | `__version__ = "X.Y.Z"` (Source of Truth) |
 | `pyproject.toml` | `version = "X.Y.Z"` |
 | `CLAUDE.md` | `**Version**: X.Y.Z` |
 | `.env.example` | `# Version: X.Y.Z` |
 | `docs/CHANGELOG.md` | 최상단에 새 버전 항목 추가 |
+| `docs/DEPLOYMENT.md` | 상단 버전 테이블 |
+| `docs/NEO4J_SETUP.md` | 상단 Version 태그 |
+| `docs/user_guide.md` | 상단 버전 정보 |
+| `docs/PRD.md` | 버전 정보 |
+| `docs/TERMINOLOGY_ONTOLOGY.md` | 버전 정보 |
+| `docs/GRAPH_SCHEMA.md` | 버전 정보 |
+| `docs/MCP_USAGE_GUIDE.md` | 버전 정보 |
+| `docs/ROADMAP.md` | 상단 Version |
 
 ### 커밋 전 체크
 
 ```bash
 # 테스트 실행
-PYTHONPATH=./src ./.venv/bin/python -m pytest tests/ --tb=short
+PYTHONPATH=./src python3 -m pytest tests/ --ignore=tests/archive --tb=short -q
 
 # 커밋 & 푸시
 git add <files>
@@ -194,6 +230,7 @@ git push origin main
 - `main` 브랜치에 직접 푸시 (단독 개발)
 - `.env`, `data/`, `.venv/` 는 절대 커밋하지 않음 (`.gitignore`에 포함)
 - 버전 변경 시 [QC 체크리스트](docs/QC_CHECKLIST.md) 실행 권장
+- 시스템 python3 사용 (`/opt/homebrew/bin/python3`), .venv 없음
 
 ## Protected Data Folders
 
