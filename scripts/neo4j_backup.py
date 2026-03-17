@@ -92,13 +92,28 @@ def docker_exec(cmd: str, *, timeout: int = 300) -> subprocess.CompletedProcess:
 
 
 def cypher_exec(query: str, *, timeout: int = 300) -> subprocess.CompletedProcess:
-    """Execute a Cypher query via cypher-shell inside the container."""
-    neo4j_password = os.environ.get("NEO4J_PASSWORD", "")
+    """Execute a Cypher query via cypher-shell inside the container.
+
+    Password is passed via environment variable to avoid shell exposure.
+    """
+    neo4j_password = os.environ.get("NEO4J_PASSWORD")
+    if not neo4j_password:
+        raise RuntimeError(
+            "NEO4J_PASSWORD environment variable is not set. "
+            "Export it before running this script."
+        )
     cmd = (
-        f'cypher-shell -u neo4j -p "{neo4j_password}" '
+        'cypher-shell -u neo4j -p "$NEO4J_PASSWORD" '
         f'-d {NEO4J_DATABASE} "{query}"'
     )
-    return docker_exec(cmd, timeout=timeout)
+    return run_cmd(
+        [
+            "docker", "exec",
+            "-e", f"NEO4J_PASSWORD={neo4j_password}",
+            CONTAINER_NAME, "bash", "-c", cmd,
+        ],
+        timeout=timeout,
+    )
 
 
 def ensure_backup_dir(backup_dir: Path) -> None:

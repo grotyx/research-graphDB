@@ -51,25 +51,37 @@ async def get_papers_missing_embedding(
                p.year AS year
         ORDER BY p.paper_id
     """
+    params: dict = {}
     if max_papers:
-        query += f"\nLIMIT {max_papers}"
+        query += "\nLIMIT $limit"
+        params["limit"] = max_papers
 
     async with driver.session() as session:
-        result = await session.run(query)
+        result = await session.run(query, params)
         return [record.data() async for record in result]
 
 
-async def store_embedding(driver, paper_id: str, embedding: list[float]) -> None:
-    """Store abstract_embedding on a Paper node."""
+async def store_embeddings_batch(
+    driver, papers: list[dict], embeddings: list[list[float]]
+) -> int:
+    """Store abstract_embedding for a batch of Paper nodes via UNWIND.
+
+    Returns the number of successfully updated papers.
+    """
+    rows = [
+        {"paper_id": p["paper_id"], "embedding": emb}
+        for p, emb in zip(papers, embeddings)
+    ]
+    query = """
+        UNWIND $rows AS row
+        MATCH (p:Paper {paper_id: row.paper_id})
+        SET p.abstract_embedding = row.embedding
+        RETURN count(p) AS updated
+    """
     async with driver.session() as session:
-        await session.run(
-            """
-            MATCH (p:Paper {paper_id: $pid})
-            SET p.abstract_embedding = $embedding
-            """,
-            pid=paper_id,
-            embedding=embedding,
-        )
+        result = await session.run(query, {"rows": rows})
+        record = await result.single()
+        return record["updated"] if record else 0
 
 
 async def main() -> None:
@@ -156,16 +168,21 @@ async def main() -> None:
                 failed += len(batch)
                 continue
 
-            # Store each embedding
-            for p, emb in zip(batch, embeddings):
-                try:
-                    await store_embedding(driver, p["paper_id"], emb)
-                    success += 1
-                except Exception as e:
-                    logger.error(
-                        f"Failed to store embedding for {p['paper_id']}: {e}"
+            # Store embeddings in a single UNWIND batch
+            try:
+                updated = await store_embeddings_batch(driver, batch, embeddings)
+                success += updated
+                if updated < len(batch):
+                    failed += len(batch) - updated
+                    logger.warning(
+                        f"Batch {batch_num}: only {updated}/{len(batch)} "
+                        f"papers matched for update"
                     )
-                    failed += 1
+            except Exception as e:
+                logger.error(
+                    f"Batch {batch_num}/{total_batches} store failed: {e}"
+                )
+                failed += len(batch)
 
             # Progress logging
             processed = batch_start + len(batch)

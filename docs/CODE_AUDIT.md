@@ -645,6 +645,7 @@ Phase 4 (병렬)         Phase 5 (병렬)         Phase 6 (병렬)
 
 | 일자 | 버전 | 신규 발견 | 해소 | 잔여 Deferred | 잔여 Accepted | 비고 |
 |------|------|----------|------|--------------|--------------|------|
+| 2026-03-18 | v1.29.0 | 7 | 3 | 2 | 4 | CA-NEW-001~007. 즉시해소: 001(LIMIT param binding), 002(neo4j_backup password→env var), 004(backfill N+1→UNWIND). Deferred: 005(RAGAS sequential batch), 006(agentic_rag 2090줄 God File). Info: 003(llm_cache logger), 007(scripts 테스트 없음). 8.3/10. |
 | 2026-03-17 | v1.27.0 | 10 | 4 | 3 | 4 | CA-NEW-001~010(2차 전체스캔). 즉시해소: 001(path traversal→deferred), 003(silent exception→logger.debug), 004(logger.error exc_info→info), 010(quickumls→info). Deferred: CA-NEW-001(path traversal), CA-NEW-005(N+1 batching), CA-NEW-008(core module tests). 7.7/10 점수. |
 | 2026-03-17 | v1.27.0 | 3 | 3 | 0 | 4 | CA-NEW-005(assert→ValueError), CA-NEW-006(embedding 코드 중복→_get_query_embedding), CA-NEW-007(stale evidence weight tests 2건). 전부 즉시 해소. 3802 tests, warnings 10. |
 | 2026-03-17 | v1.26.2 | 2 | 2 | 0 | 4 | CA-NEW-001(tiered_search sync-in-async→async/await, warnings 41→10), CA-NEW-002(MCP input length validation). 전부 해소. |
