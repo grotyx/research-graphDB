@@ -580,6 +580,34 @@ class TieredHybridSearch:
 
         return results
 
+    def _get_query_embedding(self, query: str) -> list[float] | None:
+        """Generate OpenAI embedding for a query string.
+
+        Returns:
+            3072-dim embedding list, or None on failure.
+        """
+        try:
+            if not OPENAI_AVAILABLE:
+                logger.error("openai package not installed - required for search (3072d index)")
+                return None
+            if self._openai_client is None:
+                api_key = os.environ.get("OPENAI_API_KEY")
+                if not api_key:
+                    logger.error("OPENAI_API_KEY not set - required for search (3072d index)")
+                    return None
+                self._openai_client = openai.OpenAI(api_key=api_key)
+            response = self._openai_client.embeddings.create(
+                model="text-embedding-3-large",
+                input=query,
+                dimensions=3072
+            )
+            embedding = response.data[0].embedding
+            logger.debug(f"Generated OpenAI embedding ({len(embedding)} dims) for query")
+            return embedding
+        except Exception as e:
+            logger.error(f"Failed to generate OpenAI embedding: {e}", exc_info=True)
+            return None
+
     async def _neo4j_vector_search(
         self,
         input_data: SearchInput,
@@ -603,28 +631,8 @@ class TieredHybridSearch:
             return []
 
         # 쿼리 임베딩 생성
-        # v1.14.16: Neo4j Vector Index는 3072차원 OpenAI text-embedding-3-large 사용
-        # (기존 MedTE 768차원에서 변경됨 - 저장된 임베딩과 일치시키기 위해)
-        # v1.14.26: OpenAI 임베딩 필수 (Neo4j 인덱스가 3072d이므로 MedTE 768d는 사용 불가)
-        try:
-            if not OPENAI_AVAILABLE:
-                logger.error("openai package not installed - required for vector search (3072d index)")
-                return []
-            if self._openai_client is None:
-                api_key = os.environ.get("OPENAI_API_KEY")
-                if not api_key:
-                    logger.error("OPENAI_API_KEY not set - required for vector search (3072d index)")
-                    return []
-                self._openai_client = openai.OpenAI(api_key=api_key)
-            response = self._openai_client.embeddings.create(
-                model="text-embedding-3-large",
-                input=input_data.query,
-                dimensions=3072
-            )
-            query_embedding = response.data[0].embedding
-            logger.debug(f"Generated OpenAI embedding ({len(query_embedding)} dims) for query")
-        except Exception as e:
-            logger.error(f"Failed to generate OpenAI embedding: {e}. Vector search disabled.", exc_info=True)
+        query_embedding = self._get_query_embedding(input_data.query)
+        if query_embedding is None:
             return []
 
         # 필터 구성
@@ -706,25 +714,8 @@ class TieredHybridSearch:
             return []
 
         # 쿼리 임베딩 생성
-        try:
-            if not OPENAI_AVAILABLE:
-                logger.error("openai package not installed - required for hybrid search (3072d index)")
-                return []
-            if self._openai_client is None:
-                api_key = os.environ.get("OPENAI_API_KEY")
-                if not api_key:
-                    logger.error("OPENAI_API_KEY not set - required for hybrid search (3072d index)")
-                    return []
-                self._openai_client = openai.OpenAI(api_key=api_key)
-            response = self._openai_client.embeddings.create(
-                model="text-embedding-3-large",
-                input=input_data.query,
-                dimensions=3072
-            )
-            query_embedding = response.data[0].embedding
-            logger.debug(f"Generated OpenAI embedding ({len(query_embedding)} dims) for hybrid search")
-        except Exception as e:
-            logger.error(f"Failed to generate OpenAI embedding for hybrid search: {e}", exc_info=True)
+        query_embedding = self._get_query_embedding(input_data.query)
+        if query_embedding is None:
             return []
 
         # 그래프 필터 구성

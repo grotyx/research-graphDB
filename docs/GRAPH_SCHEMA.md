@@ -264,9 +264,9 @@ final_score = 0.4 * semantic_score + 0.3 * authority_score + 0.3 * graph_relevan
 
 | Category | Total | Official SNOMED | Extension Codes |
 |----------|-------|-----------------|-----------------|
-| Intervention | 218 | 53 | 165 |
-| Pathology | 214 | 73 | 141 |
-| Outcome | 195 | 38 | 157 |
+| Intervention | 235 | 53 | 165 |
+| Pathology | 231 | 73 | 141 |
+| Outcome | 200 | 38 | 157 |
 | Anatomy | 69 | 29 | 40 |
 | **Total** | **735** | **193** | **503** |
 

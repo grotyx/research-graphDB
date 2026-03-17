@@ -86,7 +86,7 @@ class TestApplyContextPrefix:
         assert result == contents
 
     def test_sections_length_mismatch_raises(self):
-        with pytest.raises(AssertionError):
+        with pytest.raises(ValueError):
             apply_context_prefix(
                 ["a", "b"],
                 sections=["abstract"],

@@ -119,9 +119,10 @@ def apply_context_prefix(
         return contents
 
     if sections is not None:
-        assert len(sections) == len(contents), (
-            f"sections length ({len(sections)}) != contents length ({len(contents)})"
-        )
+        if len(sections) != len(contents):
+            raise ValueError(
+                f"sections length ({len(sections)}) != contents length ({len(contents)})"
+            )
         return [
             build_context_prefix(title, sec, year) + c
             for c, sec in zip(contents, sections)

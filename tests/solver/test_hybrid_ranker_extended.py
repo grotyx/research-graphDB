@@ -495,10 +495,10 @@ class TestHelperBoundaryConditions:
         assert weight == 0.1
 
     def test_evidence_weight_level_5(self):
-        """Level 5 gets 0.1."""
+        """Level 5 gets 0.15 (basic science / biomechanical)."""
         paper = PaperNode(paper_id="p1", title="T", evidence_level="5")
         weight = get_evidence_weight(paper)
-        assert weight == 0.1
+        assert weight == 0.15
 
     def test_evidence_weight_none_non_journal(self):
         """None evidence + non-journal gets 0.30."""

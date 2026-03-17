@@ -302,10 +302,10 @@ class TestHelperScoringFunctions:
         assert weight == 1.0
 
     def test_evidence_weight_level_1b(self):
-        """Level 1b (RCT) gets 0.9."""
+        """Level 1b (RCT) gets 1.0 (equal to 1a per v1.27.0 weight update)."""
         paper = PaperNode(paper_id="p1", title="RCT", evidence_level="1b")
         weight = get_evidence_weight(paper)
-        assert weight == 0.9
+        assert weight == 1.0
 
     def test_evidence_weight_none(self):
         """No evidence level defaults to 0.50 for journal articles."""
