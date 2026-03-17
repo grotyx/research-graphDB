@@ -64,14 +64,14 @@ for d in details:
 ```bash
 PYTHONPATH=./src python3 << 'SCRIPT'
 import asyncio
-from builder.pmc_fulltext_fetcher import PMCFulltextFetcher
-from builder.doi_fulltext_fetcher import DOIFullTextFetcher
+from builder.pmc_fulltext_fetcher import PMCFullTextFetcher
+from builder.doi_fulltext_fetcher import DOIFulltextFetcher
 
 async def fetch(pmids, dois):
-    pmc = PMCFulltextFetcher()
+    pmc = PMCFullTextFetcher()
     results = await pmc.fetch_fulltext_batch(pmids, concurrency=3)
     # DOI fallback for papers without PMC fulltext
-    doi_fetcher = DOIFullTextFetcher()
+    doi_fetcher = DOIFulltextFetcher()
     for doi in dois_without_pmc:
         result = await doi_fetcher.fetch(doi, fetch_pmc=False)
     return results
