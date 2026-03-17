@@ -1,4 +1,4 @@
-# Spine GraphRAG v1.26.1 - Deployment Guide
+# Spine GraphRAG v1.27.0 - Deployment Guide
 
 다른 컴퓨터로 프로젝트를 이전하기 위한 가이드입니다.
 
@@ -6,7 +6,7 @@
 
 | 항목 | 값 |
 |------|-----|
-| **Version** | 1.26.1 |
+| **Version** | 1.27.0 |
 | **Date** | 2026-03-02 |
 | **SNOMED Mappings** | 735개 (I:235, P:231, O:200, A:69) + 패턴 매핑 |
 | **Storage** | Neo4j (Graph + Vector 통합, ChromaDB 완전 제거) |
@@ -87,12 +87,12 @@ rsync -avz --progress \
 cd /path/to
 tar --exclude='.venv' --exclude='__pycache__' --exclude='.git' \
     --exclude='logs' \
-    -czvf rag_research_v1.26.1.tar.gz rag_research/
+    -czvf rag_research_v1.27.0.tar.gz rag_research/
 
-scp rag_research_v1.26.1.tar.gz user@newserver:~/
+scp rag_research_v1.27.0.tar.gz user@newserver:~/
 
 # 새 서버에서 압축 해제
-ssh user@newserver "cd ~ && tar -xzvf rag_research_v1.26.1.tar.gz"
+ssh user@newserver "cd ~ && tar -xzvf rag_research_v1.27.0.tar.gz"
 ```
 
 ### Step 2: Python 환경 설정
@@ -207,7 +207,7 @@ streamlit run web/app.py --server.address 0.0.0.0
 # 저장: verify_deployment.sh
 # 실행: bash verify_deployment.sh
 
-echo "=== Spine GraphRAG v1.26.1 Deployment Verification ==="
+echo "=== Spine GraphRAG v1.27.0 Deployment Verification ==="
 
 # 1. Python 환경
 echo -e "\n[1/5] Python Environment"

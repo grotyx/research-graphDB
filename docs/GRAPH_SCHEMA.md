@@ -1,6 +1,6 @@
 # Spine GraphRAG Schema
 
-> **Version**: 1.26.1
+> **Version**: 1.27.0
 
 ## Node Types
 
@@ -56,8 +56,8 @@
 | TREATS | Intervention → Pathology | indication, source_paper_ids, paper_count | — | 수술법이 치료하는 질환 (v1.16.1 구현, v1.16.4 속성 통일) |
 | IS_A | Entity → Entity (same type) | auto_generated, source, created_at | SNOMED IS_A 확장 (ontology_distance 0/1/2) | Taxonomy 계층 관계 (4 entity types) |
 | HAS_CHUNK | Paper → Chunk | | — | 논문의 텍스트 청크 |
-| MENTIONS | Chunk → Intervention\|Pathology\|Outcome\|Anatomy | | — | 청크가 언급하는 의학 엔티티 (v1.26.1 구현) |
-| APPLIED_TO | Intervention → Anatomy | | — | 수술법이 적용되는 해부학적 위치 (v1.26.1 구현) |
+| MENTIONS | Chunk → Intervention\|Pathology\|Outcome\|Anatomy | | — | 청크가 언급하는 의학 엔티티 (v1.27.0 구현) |
+| APPLIED_TO | Intervention → Anatomy | | — | 수술법이 적용되는 해부학적 위치 (v1.27.0 구현) |
 
 ### Paper-to-Paper Relationships
 
@@ -489,9 +489,9 @@ ORDER BY score DESC
 | `HAS_BODY_STRUCTURE` | Paper 경유 간접: `(Intervention)<-[:INVESTIGATES]-(:Paper)-[:INVOLVES]->(Anatomy)` | 직접 링크 없음, 2홉 경로 |
 | `ASSOCIATED_WITH` | 미구현 (Cost↔Intervention에 동명 관계 있으나 SNOMED 의미 아님) | 미구현 |
 
-### v1.26.1 구현 완료
+### v1.27.0 구현 완료
 
-다음 항목은 v1.26.1에서 구현 완료:
+다음 항목은 v1.27.0에서 구현 완료:
 
 | 구현 항목 | 설명 | 상태 |
 |-----------|------|------|
