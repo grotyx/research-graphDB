@@ -1,0 +1,166 @@
+{
+  "B1": [
+    {
+      "query_id": "DG-001",
+      "baseline": "B1",
+      "faithfulness": 0.85,
+      "citation_fidelity": 0.9,
+      "answer_relevancy": 0.75,
+      "completeness": 0.65,
+      "hallucination_rate": 0.0,
+      "evidence_level_score": 3.8,
+      "num_claims": 18,
+      "num_citations": 10,
+      "num_hallucinated": 0
+    },
+    {
+      "query_id": "DG-002",
+      "baseline": "B1",
+      "faithfulness": 0.95,
+      "citation_fidelity": 0.9,
+      "answer_relevancy": 0.85,
+      "completeness": 0.6,
+      "hallucination_rate": 0.0,
+      "evidence_level_score": 3.4,
+      "num_claims": 12,
+      "num_citations": 10,
+      "num_hallucinated": 0
+    },
+    {
+      "query_id": "DG-003",
+      "baseline": "B1",
+      "faithfulness": 0.85,
+      "citation_fidelity": 0.75,
+      "answer_relevancy": 0.7,
+      "completeness": 0.55,
+      "hallucination_rate": 0.0,
+      "evidence_level_score": 4.3,
+      "num_claims": 12,
+      "num_citations": 10,
+      "num_hallucinated": 0
+    }
+  ],
+  "B2": [
+    {
+      "query_id": "DG-001",
+      "baseline": "B2",
+      "faithfulness": 0.65,
+      "citation_fidelity": 0.6,
+      "answer_relevancy": 0.75,
+      "completeness": 0.55,
+      "hallucination_rate": 0.0,
+      "evidence_level_score": 1.4,
+      "num_claims": 18,
+      "num_citations": 10,
+      "num_hallucinated": 0
+    },
+    {
+      "query_id": "DG-002",
+      "baseline": "B2",
+      "faithfulness": 0.75,
+      "citation_fidelity": 0.7,
+      "answer_relevancy": 0.85,
+      "completeness": 0.55,
+      "hallucination_rate": 0.0,
+      "evidence_level_score": 1.0,
+      "num_claims": 12,
+      "num_citations": 6,
+      "num_hallucinated": 0
+    },
+    {
+      "query_id": "DG-003",
+      "baseline": "B2",
+      "faithfulness": 0.62,
+      "citation_fidelity": 0.58,
+      "answer_relevancy": 0.85,
+      "completeness": 0.72,
+      "hallucination_rate": 0.0,
+      "evidence_level_score": 1.0,
+      "num_claims": 47,
+      "num_citations": 10,
+      "num_hallucinated": 0
+    }
+  ],
+  "B3": [
+    {
+      "query_id": "DG-001",
+      "baseline": "B3",
+      "faithfulness": 0.15,
+      "citation_fidelity": 0.1,
+      "answer_relevancy": 0.85,
+      "completeness": 0.75,
+      "hallucination_rate": 1.0,
+      "evidence_level_score": 0.0,
+      "num_claims": 38,
+      "num_citations": 6,
+      "num_hallucinated": 6
+    },
+    {
+      "query_id": "DG-002",
+      "baseline": "B3",
+      "faithfulness": 0.35,
+      "citation_fidelity": 0.25,
+      "answer_relevancy": 0.9,
+      "completeness": 0.85,
+      "hallucination_rate": 1.0,
+      "evidence_level_score": 0.0,
+      "num_claims": 47,
+      "num_citations": 16,
+      "num_hallucinated": 16
+    },
+    {
+      "query_id": "DG-003",
+      "baseline": "B3",
+      "faithfulness": 0.25,
+      "citation_fidelity": 0.15,
+      "answer_relevancy": 0.95,
+      "completeness": 0.85,
+      "hallucination_rate": 1.0,
+      "evidence_level_score": 0.0,
+      "num_claims": 87,
+      "num_citations": 28,
+      "num_hallucinated": 28
+    }
+  ],
+  "B4": [
+    {
+      "query_id": "DG-001",
+      "baseline": "B4",
+      "faithfulness": 0.85,
+      "citation_fidelity": 0.8,
+      "answer_relevancy": 0.7,
+      "completeness": 0.6,
+      "hallucination_rate": 0.0,
+      "evidence_level_score": 7.0,
+      "num_claims": 18,
+      "num_citations": 10,
+      "num_hallucinated": 0
+    },
+    {
+      "query_id": "DG-002",
+      "baseline": "B4",
+      "faithfulness": 0.75,
+      "citation_fidelity": 0.8,
+      "answer_relevancy": 0.85,
+      "completeness": 0.6,
+      "hallucination_rate": 0.0,
+      "evidence_level_score": 6.0,
+      "num_claims": 12,
+      "num_citations": 5,
+      "num_hallucinated": 0
+    },
+    {
+      "query_id": "DG-003",
+      "baseline": "B4",
+      "faithfulness": 0.65,
+      "citation_fidelity": 0.6,
+      "answer_relevancy": 0.75,
+      "completeness": 0.7,
+      "hallucination_rate": 0.0,
+      "evidence_level_score": 5.0,
+      "num_claims": 28,
+      "num_citations": 10,
+      "num_hallucinated": 0
+    }
+  ]
+}

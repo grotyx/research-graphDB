@@ -30,7 +30,7 @@ try:
     from graph.spine_schema import PaperNode
     from graph.relationship_builder import RelationshipBuilder, SpineMetadata
     from graph.entity_normalizer import EntityNormalizer
-    from core.embedding import EmbeddingGenerator
+    from core.embedding import EmbeddingGenerator, apply_context_prefix
     from storage import TextChunk
 except ImportError:
     try:
@@ -40,7 +40,7 @@ except ImportError:
         from src.graph.spine_schema import PaperNode
         from src.graph.relationship_builder import RelationshipBuilder, SpineMetadata
         from src.graph.entity_normalizer import EntityNormalizer
-        from src.core.embedding import EmbeddingGenerator
+        from src.core.embedding import EmbeddingGenerator, apply_context_prefix
         from src.storage import TextChunk
     except ImportError:
         UnifiedPDFProcessor = None
@@ -590,7 +590,14 @@ class PubMedPaperProcessor:
             return 0
 
         contents = [c.content for c in text_chunks]
-        embeddings = self.embedding_generator.embed_batch(contents)
+        # Contextual embedding prefix: prepend [title | section | year] for richer embeddings
+        prefixed = apply_context_prefix(
+            contents,
+            title=base_metadata.get("title", ""),
+            sections=[c.section for c in text_chunks],
+            year=base_metadata.get("publication_year", 0),
+        )
+        embeddings = self.embedding_generator.embed_batch(prefixed)
 
         total_added = await self._store_chunks_to_neo4j(paper_id, text_chunks, embeddings)
 
@@ -630,7 +637,14 @@ class PubMedPaperProcessor:
             )]
 
         contents = [c.content for c in chunks]
-        embeddings = self.embedding_generator.embed_batch(contents)
+        # Contextual embedding prefix for abstract chunks
+        prefixed = apply_context_prefix(
+            contents,
+            title=metadata.get("title", ""),
+            sections=[c.section for c in chunks],
+            year=metadata.get("publication_year", 0),
+        )
+        embeddings = self.embedding_generator.embed_batch(prefixed)
 
         text_chunks = []
         for chunk in chunks:
@@ -748,7 +762,14 @@ class PubMedPaperProcessor:
             return 0
 
         contents = [c.content for c in text_chunks]
-        embeddings = self.embedding_generator.embed_batch(contents)
+        # Contextual embedding prefix for fulltext chunks
+        prefixed = apply_context_prefix(
+            contents,
+            title=metadata.get("title", ""),
+            sections=[c.section for c in text_chunks],
+            year=metadata.get("publication_year", 0),
+        )
+        embeddings = self.embedding_generator.embed_batch(prefixed)
 
         total_added = await self._store_chunks_to_neo4j(paper_id, text_chunks, embeddings)
         return total_added
@@ -814,7 +835,14 @@ class PubMedPaperProcessor:
             text_chunks.append(text_chunk)
 
         contents = [c.content for c in text_chunks]
-        embeddings = self.embedding_generator.embed_batch(contents)
+        # Contextual embedding prefix for DOI fulltext chunks
+        prefixed = apply_context_prefix(
+            contents,
+            title=metadata.get("title", ""),
+            sections=[c.section for c in text_chunks],
+            year=metadata.get("publication_year", 0),
+        )
+        embeddings = self.embedding_generator.embed_batch(prefixed)
 
         total_added = await self._store_chunks_to_neo4j(paper_id, text_chunks, embeddings)
         logger.debug(f"Added {total_added} text chunks for paper {paper_id}")
@@ -842,6 +870,18 @@ class PubMedPaperProcessor:
         try:
             from graph.spine_schema import ChunkNode
 
+            # Paper의 evidence_level을 chunk에 전파
+            paper_el = "5"
+            try:
+                rows = await self.neo4j.run_query(
+                    "MATCH (p:Paper {paper_id: $pid}) RETURN p.evidence_level AS el",
+                    {"pid": paper_id},
+                )
+                if rows and rows[0].get("el"):
+                    paper_el = rows[0]["el"]
+            except Exception:
+                pass
+
             chunk_nodes = []
             for i, (chunk, embedding) in enumerate(zip(text_chunks, embeddings)):
                 chunk_node = ChunkNode(
@@ -851,7 +891,7 @@ class PubMedPaperProcessor:
                     embedding=embedding,
                     tier=chunk.tier,
                     section=chunk.section,
-                    evidence_level=getattr(chunk, 'evidence_level', "5"),
+                    evidence_level=paper_el,
                     is_key_finding=getattr(chunk, 'is_key_finding', False),
                     page_num=getattr(chunk, 'page_num', 0),
                     chunk_index=i,
@@ -1126,10 +1166,39 @@ class PubMedPaperProcessor:
 # Standalone Utility Functions
 # =============================================================================
 
-def infer_evidence_level(publication_types: list[str]) -> str:
-    """Publication types에서 근거 수준 추론."""
-    types_lower = [pt.lower() for pt in publication_types]
+def infer_evidence_level(
+    publication_types: list[str],
+    study_design: str = "",
+    title: str = "",
+) -> str:
+    """Publication types, study_design, title에서 근거 수준 추론.
 
+    우선순위: study_design > publication_types > title keywords
+    study_design이 정확하면 그에 맞는 EL을 반환.
+    """
+    # 1. study_design 기반 (가장 정확)
+    sd = (study_design or "").strip()
+    SD_TO_EL = {
+        "Meta-Analysis": "1a",
+        "Systematic Review": "1a",
+        "Randomized Controlled Trial": "1b",
+        "Prospective Cohort Study": "2a",
+        "Retrospective Cohort Study": "2b",
+        "Case-Control Study": "2b",
+        "Cross-Sectional Study": "2b",
+        "Case Series": "3",
+        "Case Report": "3",
+        "Narrative Review": "4",
+        "Expert Opinion": "4",
+        "Biomechanical Study": "5",
+        "Basic Science Study": "5",
+        "Animal Study": "5",
+    }
+    if sd in SD_TO_EL:
+        return SD_TO_EL[sd]
+
+    # 2. publication_types 기반 (PubMed MeSH)
+    types_lower = [pt.lower() for pt in publication_types]
     if any("meta-analysis" in pt for pt in types_lower):
         return "1a"
     elif any("systematic review" in pt for pt in types_lower):
@@ -1141,11 +1210,28 @@ def infer_evidence_level(publication_types: list[str]) -> str:
     elif any("cohort" in pt for pt in types_lower):
         return "2b"
     elif any("case-control" in pt for pt in types_lower):
-        return "3"
+        return "2b"
     elif any("case report" in pt for pt in types_lower):
-        return "4"
-    elif any("review" in pt for pt in types_lower):
+        return "3"
+
+    # 3. title 기반 fallback
+    t = (title or "").lower()
+    if "meta-analysis" in t or "meta analysis" in t:
+        return "1a"
+    elif "systematic review" in t:
+        return "1a"
+    elif "randomized" in t or "randomised" in t:
+        return "1b"
+    elif "prospective" in t:
+        return "2a"
+    elif "case report" in t:
+        return "3"
+    elif "case series" in t:
+        return "3"
+    elif "biomechan" in t or "cadaver" in t or "finite element" in t:
         return "5"
+    elif "review" in t:
+        return "4"
 
     return "5"
 

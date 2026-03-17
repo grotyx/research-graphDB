@@ -73,7 +73,12 @@ async def import_papers(dry_run: bool = False) -> dict:
         paper_id = f"pubmed_{pmid}"
         sub_domain = paper.get("sub_domain", "Unknown")
         study_design = ent.get("study_design", "Other")
-        evidence_level = ent.get("evidence_level", "5")
+        # study_design 기반으로 evidence_level 보정
+        evidence_level = _infer_evidence_level(
+            study_design=study_design,
+            title=paper.get("title", ""),
+            fallback=ent.get("evidence_level", "5"),
+        )
 
         if dry_run:
             intv = ent.get("interventions", [])
@@ -213,6 +218,42 @@ async def import_papers(dry_run: bool = False) -> dict:
 
     await neo4j.__aexit__(None, None, None)
     return stats
+
+
+def _infer_evidence_level(study_design: str, title: str = "", fallback: str = "5") -> str:
+    """study_design 기반 evidence_level 추론. study_design이 불명이면 title fallback."""
+    SD_TO_EL = {
+        "Meta-Analysis": "1a",
+        "Systematic Review": "1a",
+        "Randomized Controlled Trial": "1b",
+        "Prospective Cohort Study": "2a",
+        "Retrospective Cohort Study": "2b",
+        "Case-Control Study": "2b",
+        "Cross-Sectional Study": "2b",
+        "Case Series": "3",
+        "Case Report": "3",
+        "Narrative Review": "4",
+        "Expert Opinion": "4",
+        "Biomechanical Study": "5",
+        "Basic Science Study": "5",
+        "Animal Study": "5",
+    }
+    if study_design in SD_TO_EL:
+        return SD_TO_EL[study_design]
+
+    t = title.lower()
+    if "meta-analysis" in t or "meta analysis" in t:
+        return "1a"
+    elif "systematic review" in t:
+        return "1a"
+    elif "randomized" in t or "randomised" in t:
+        return "1b"
+    elif "case report" in t:
+        return "3"
+    elif "biomechan" in t or "cadaver" in t or "finite element" in t:
+        return "5"
+
+    return fallback
 
 
 async def _merge_entity_and_link(

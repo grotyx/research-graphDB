@@ -84,23 +84,35 @@ class KeywordSearch(BaselineSearch):
                 cypher, {"query": escaped, "top_k": top_k}
             )
         except Exception:
-            # Fallback: CONTAINS search if fulltext index not available
+            # Fallback: CONTAINS search with extracted keywords
             logger.warning("Fulltext index unavailable, falling back to CONTAINS")
-            cypher = """
-            MATCH (p:Paper)
-            WHERE toLower(p.title) CONTAINS toLower($query)
-               OR toLower(p.abstract) CONTAINS toLower($query)
-            RETURN p.paper_id AS paper_id,
-                   p.title AS title,
-                   1.0 AS score,
-                   p.evidence_level AS evidence_level,
-                   p.publication_year AS year,
-                   p.study_design AS study_design
-            LIMIT $top_k
-            """
-            rows = await self.client.run_query(
-                cypher, {"query": query, "top_k": top_k}
-            )
+            keywords = _extract_keywords(query)
+            all_rows = []
+            for kw in keywords[:5]:
+                cypher = """
+                MATCH (p:Paper)
+                WHERE toLower(p.title) CONTAINS toLower($keyword)
+                RETURN p.paper_id AS paper_id,
+                       p.title AS title,
+                       1.0 AS score,
+                       p.evidence_level AS evidence_level,
+                       p.year AS year,
+                       p.study_design AS study_design
+                LIMIT $limit
+                """
+                kw_rows = await self.client.run_query(
+                    cypher, {"keyword": kw, "limit": top_k}
+                )
+                all_rows.extend(kw_rows)
+            # Dedup
+            seen_ids = set()
+            rows = []
+            for r in all_rows:
+                pid = r.get("paper_id", "")
+                if pid and pid not in seen_ids:
+                    seen_ids.add(pid)
+                    rows.append(r)
+            rows = rows[:top_k]
 
         return [
             BaselineResult(
@@ -320,6 +332,21 @@ class GraphRAGSearch(BaselineSearch):
 # ============================================================================
 # Helper functions
 # ============================================================================
+
+def _extract_keywords(query: str) -> list[str]:
+    """Extract meaningful medical keywords from a clinical question."""
+    stop_words = {
+        "what", "is", "the", "are", "for", "in", "of", "and", "or", "a", "an",
+        "to", "from", "with", "by", "on", "at", "how", "does", "do", "which",
+        "that", "this", "than", "versus", "vs", "between", "after", "before",
+        "current", "evidence", "best", "role", "impact", "effect", "based",
+        "compared", "comparing", "outcomes", "results", "regarding", "terms",
+        "clinical", "surgical", "treatment", "management", "regarding",
+    }
+    words = re.findall(r"[A-Za-z0-9-]+", query)
+    keywords = [w for w in words if w.lower() not in stop_words and len(w) > 2]
+    return keywords
+
 
 def _escape_lucene(query: str) -> str:
     """Escape Lucene special characters for fulltext search."""

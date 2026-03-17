@@ -67,10 +67,10 @@ class TestInferEvidenceLevel:
         assert infer_evidence_level(["Cohort Studies"]) == "2b"
 
     def test_case_control(self):
-        assert infer_evidence_level(["Case-Control Studies"]) == "3"
+        assert infer_evidence_level(["Case-Control Studies"]) == "2b"
 
     def test_case_report(self):
-        assert infer_evidence_level(["Case Report"]) == "4"
+        assert infer_evidence_level(["Case Report"]) == "3"
 
     def test_review(self):
         assert infer_evidence_level(["Review"]) == "5"
