@@ -1,6 +1,6 @@
 # Neo4j Setup Guide for Spine GraphRAG
 
-> **Version**: 1.27.0 | **Last Updated**: 2026-03-02
+> **Version**: 1.28.0 | **Last Updated**: 2026-03-17
 
 Complete setup guide for Neo4j graph database infrastructure. Since v1.14+, Neo4j serves as the **unified storage** for both graph relationships and vector embeddings (HNSW index).
 

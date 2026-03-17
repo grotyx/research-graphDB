@@ -16,7 +16,8 @@ Step 1: SEARCH  — PubMed 검색 + 결과 표시
 Step 2: SELECT  — 사용자가 임포트할 논문 선택
 Step 3: FETCH   — Abstract + Fulltext 다운로드 (PMC/DOI)
 Step 4: EXTRACT — Sonnet subagent로 병렬 구조화 추출 (Haiku와 동일 프롬프트)
-Step 5: IMPORT  — Neo4j 그래프 구축 + 임베딩 생성
+Step 5: VALIDATE — ChunkValidator로 chunk 품질 검증
+Step 6: IMPORT  — Neo4j 그래프 구축 + Contextual Embedding + SNOMED 매핑
 ```
 
 ## 사용법
@@ -124,39 +125,122 @@ Agent(
 **병렬 처리**: 최대 5개씩 Sonnet agent를 동시에 실행합니다.
 각 agent의 결과(JSON)를 파싱하여 `data/extracted/{year}_{author}_{title}.json`에 저장합니다.
 
-### Step 5: IMPORT (Neo4j 구축)
+### Step 5: VALIDATE (Chunk 품질 검증)
+
+추출된 chunks를 ChunkValidator로 검증합니다:
+
+```python
+from builder.chunk_validator import ChunkValidator
+
+validator = ChunkValidator()
+validated_chunks = validator.validate_chunks(
+    chunks=data.get('chunks', []),
+    embeddings=None  # 임베딩 전이므로 dedup은 Step 6 이후 별도 실행
+)
+data['chunks'] = validated_chunks
+stats = validator.get_validation_stats()
+print(f"Validated: {stats['total_input']}→{stats['total_output']} chunks "
+      f"(rejected: {stats['rejected_short']}, demoted: {stats['demoted_tier']})")
+```
+
+### Step 6: IMPORT (Neo4j 구축 + Contextual Embedding)
 
 추출된 JSON을 Neo4j에 임포트합니다:
 
 ```bash
 PYTHONPATH=./src python3 << 'SCRIPT'
-import asyncio, json
+import asyncio, json, os
+from dotenv import load_dotenv
+load_dotenv()
+
 from graph.neo4j_client import Neo4jClient
 from graph.relationship_builder import RelationshipBuilder
-from core.embedding import EmbeddingClient
+from core.embedding import OpenAIEmbeddingGenerator, apply_context_prefix
 
 async def import_paper(extracted_json_path):
     neo4j = Neo4jClient()
     await neo4j.connect()
     builder = RelationshipBuilder(neo4j)
-    embedder = EmbeddingClient()
+    embedder = OpenAIEmbeddingGenerator()
 
     with open(extracted_json_path) as f:
         data = json.load(f)
 
-    # Build graph relationships
-    result = await builder.build_from_extracted(data)
+    # 1. Build graph relationships (uses UNWIND batch queries)
+    paper_data = data.get('metadata', {})
+    result = await builder.build_from_paper(data)
 
-    # Generate embeddings for chunks
-    for chunk in data.get('chunks', []):
-        embedding = await embedder.embed(chunk['content'])
-        # Store chunk with embedding in Neo4j
+    # 2. Apply contextual embedding prefix to chunks
+    chunks = data.get('chunks', [])
+    title = paper_data.get('title', '')
+    year = paper_data.get('year', '')
+    contents = [c['content'] for c in chunks]
+    sections = [c.get('section', '') for c in chunks]
+
+    # Prepend "[title | section | year] " to each chunk for contextual embedding
+    prefixed_contents = apply_context_prefix(
+        contents=contents,
+        title=title,
+        sections=sections,
+        year=year
+    )
+
+    # 3. Generate embeddings (OpenAI text-embedding-3-large, 3072d)
+    embeddings = await embedder.embed_batch(prefixed_contents)
+
+    # 4. Store chunks with embeddings in Neo4j
+    paper_id = paper_data.get('paper_id', '')
+    for i, chunk in enumerate(chunks):
+        await neo4j.run_query(
+            """MERGE (c:Chunk {chunk_id: $chunk_id})
+               SET c.content = $content, c.embedding = $embedding,
+                   c.paper_id = $paper_id, c.tier = $tier,
+                   c.evidence_level = $evidence_level
+               WITH c
+               MATCH (p:Paper {paper_id: $paper_id})
+               MERGE (p)-[:HAS_CHUNK]->(c)""",
+            {
+                "chunk_id": f"{paper_id}_chunk_{i}",
+                "content": chunk['content'],
+                "embedding": embeddings[i],
+                "paper_id": paper_id,
+                "tier": chunk.get('tier', 'tier2'),
+                "evidence_level": data.get('metadata', {}).get('evidence_level', '4')
+            }
+        )
 
     await neo4j.close()
     return result
 
 asyncio.run(import_paper('data/extracted/file.json'))
 SCRIPT
+```
+
+## Post-Import: SNOMED 매핑 + TREATS 백필
+
+임포트 후 반드시 실행:
+
+```bash
+# SNOMED 코드 적용 + IS_A 계층 구축
+PYTHONPATH=./src python3 scripts/enrich_graph_snomed.py
+
+# TREATS 관계 백필 (paper_count 갱신)
+PYTHONPATH=./src python3 -c "
+import asyncio, os
+from dotenv import load_dotenv; load_dotenv()
+from neo4j import GraphDatabase
+driver = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', os.environ['NEO4J_PASSWORD']))
+with driver.session() as s:
+    r = s.run('''
+        MATCH (i:Intervention)-[t:TREATS]->(p:Pathology)
+        WITH i, p, t, size([(i)<-[:INVESTIGATES]-(paper:Paper)-[:STUDIES]->(p) | paper]) AS actual
+        WHERE t.paper_count <> actual
+        SET t.paper_count = actual
+        RETURN count(*) AS updated
+    ''')
+    print(f'TREATS paper_count updated: {r.single()[\"updated\"]}')
+driver.close()
+"
 ```
 
 ## EXTRACTION_PROMPT
@@ -180,6 +264,9 @@ fulltext를 받은 논문은 `data/fulltext/` 디렉토리에 저장합니다:
 ## 주의사항
 
 1. **임베딩은 OpenAI API 필요**: chunk embedding(3072d)은 OpenAI API를 사용합니다. 이 부분은 API 호출이 필요합니다.
-2. **기존 논문 중복 체크**: 임포트 전에 Neo4j에서 PMID/DOI 중복을 확인합니다.
-3. **JSON 검증**: Sonnet 출력이 유효한 JSON인지 파싱 검증합니다.
-4. **SNOMED 매핑**: 임포트 후 `scripts/enrich_graph_snomed.py` 실행을 권장합니다.
+2. **Contextual Prefix 자동 적용**: v1.27.0부터 chunk 임베딩 시 `[title | section | year]` prefix가 자동 적용됩니다.
+3. **기존 논문 중복 체크**: 임포트 전에 Neo4j에서 PMID/DOI 중복을 확인합니다.
+4. **JSON 검증**: Sonnet 출력이 유효한 JSON인지 파싱 검증합니다.
+5. **ChunkValidator**: 추출 후 chunk 품질 검증 (길이 필터, tier 강등, 통계 검증).
+6. **SNOMED 매핑**: 임포트 후 `scripts/enrich_graph_snomed.py` 실행 필수.
+7. **TREATS 백필**: 새 논문 추가 후 paper_count 갱신 필수.

@@ -2,6 +2,27 @@
 
 ## Version History
 
+### v1.28.0 (2026-03-17)
+
+- **Hybrid Ranker Dynamic Weights** (ROADMAP 2.1): Query-type-aware weight profiles (comparison/evidence/mechanism/default) via `QUERY_TYPE_WEIGHTS` and `search(query_type=)` parameter
+- **Chunk Quality Validation** (ROADMAP 3.1): New `builder/chunk_validator.py` — ChunkValidator with length filter, tier demotion, statistics check, near-duplicate detection
+- **Path Traversal Defense** (ROADMAP 7.3): Enhanced `validate_file_path()` in BaseHandler, applied to all MCP file-path-accepting methods
+- **N+1 Query Batching** (ROADMAP 7.4): 5 sequential DB write patterns in `relationship_builder.py` converted to Cypher UNWIND batch operations (2-5x import speedup)
+- **Test Coverage**: +162 new tests (3,802 → 3,964 total)
+  - `test_embedding.py` (51): contextual prefix, OpenAI generator, cosine similarity
+  - `test_search_dao.py` (35): vector/hybrid search filters, delegation, edge cases
+  - `test_unified_pdf_processor_core.py` (41): JSON repair, dataclasses, validation
+  - `test_chunk_validator.py` (35): all 4 validation rules, full pipeline, stats
+- **QA Fixes**:
+  - QC: TERMINOLOGY_ONTOLOGY.md version sync, .env.example env vars (PUBMED_EMAIL/API_KEY, MCP_MAX_USER_CACHE)
+  - CA: Silent exception in pubmed_processor → logger.debug (CA-NEW-003)
+  - DV: Orphan test chunks cleanup, case-insensitive entity merges, TREATS paper_count recount, study_design normalization, evidence_level fix (pmid_34559764 "unknown"→"5")
+- **QA Scores**:
+  - QC: CLEAN (all versions synced, 3,964 tests passed)
+  - CA: 9.5/10 (up from 7.7 — security, error handling, dependencies all 10/10)
+  - DV: Level of Evidence consistency confirmed (638 papers, all canonical values)
+- **Skill Update**: `pubmed-import` skill updated — correct class names (OpenAIEmbeddingGenerator, build_from_paper), added ChunkValidator step, contextual embedding prefix, TREATS backfill
+
 ### v1.27.0 (2026-03-17)
 
 - **Contextual Embedding Prefix** (`core/embedding.py`, `builder/pubmed_processor.py`)

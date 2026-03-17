@@ -1,6 +1,6 @@
 # Medical KAG System - 요구사항 정의서 (PRD)
 
-> **Version**: 1.27.0
+> **Version**: 1.28.0
 
 ## 프로젝트 개요
 
