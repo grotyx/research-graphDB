@@ -82,12 +82,12 @@ DIRECTION_UNCHANGED_BOOST: float = 0.9  # Direction boost for unchanged outcomes
 # Evidence Level Weights (OCEBM hierarchy)
 EVIDENCE_LEVEL_WEIGHTS = {
     "1a": 1.00,   # Systematic review/Meta-analysis
-    "1b": 0.90,   # RCT
-    "2a": 0.80,   # Cohort study
-    "2b": 0.70,   # Case-control
+    "1b": 1.00,   # RCT (동등 — 질문에 맞는 RCT가 관련 없는 MA보다 가치 있을 수 있음)
+    "2a": 0.90,   # Prospective cohort study
+    "2b": 0.75,   # Retrospective cohort / Case-control
     "3": 0.50,    # Case series
-    "4": 0.30,    # Expert opinion
-    "5": 0.10,    # Unknown/Not applicable
+    "4": 0.30,    # Case report / Expert opinion / Narrative review
+    "5": 0.15,    # Basic science / Biomechanical / Animal
 }
 
 # Study Design Weights (from PRD Section 7.2)

@@ -231,7 +231,7 @@ def _infer_evidence_level(study_design: str, title: str = "", fallback: str = "5
         "Case-Control Study": "2b",
         "Cross-Sectional Study": "2b",
         "Case Series": "3",
-        "Case Report": "3",
+        "Case Report": "4",
         "Narrative Review": "4",
         "Expert Opinion": "4",
         "Biomechanical Study": "5",

@@ -1187,7 +1187,7 @@ def infer_evidence_level(
         "Case-Control Study": "2b",
         "Cross-Sectional Study": "2b",
         "Case Series": "3",
-        "Case Report": "3",
+        "Case Report": "4",
         "Narrative Review": "4",
         "Expert Opinion": "4",
         "Biomechanical Study": "5",
@@ -1212,7 +1212,7 @@ def infer_evidence_level(
     elif any("case-control" in pt for pt in types_lower):
         return "2b"
     elif any("case report" in pt for pt in types_lower):
-        return "3"
+        return "4"
 
     # 3. title 기반 fallback
     t = (title or "").lower()
@@ -1225,7 +1225,7 @@ def infer_evidence_level(
     elif "prospective" in t:
         return "2a"
     elif "case report" in t:
-        return "3"
+        return "4"
     elif "case series" in t:
         return "3"
     elif "biomechan" in t or "cadaver" in t or "finite element" in t:
