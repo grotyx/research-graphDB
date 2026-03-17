@@ -437,3 +437,151 @@ class TestEdgeCases:
         assert params["min_year"] == 2020
         assert params["min_score"] == 0.7
         assert params["limit"] == 20
+
+
+# ===========================================================================
+# Tests: multi_vector_search
+# ===========================================================================
+
+class TestMultiVectorSearch:
+    """Test multi_vector_search method."""
+
+    @pytest.mark.asyncio
+    async def test_basic_multi_vector_search(self, dao, mock_run_query, sample_embedding):
+        """Basic multi-vector search merges chunk and paper results."""
+        # First call: chunk search, second call: paper search
+        mock_run_query.side_effect = [
+            [
+                {"chunk_id": "c1", "paper_id": "p1", "content": "chunk1", "tier": "tier1",
+                 "section": "abstract", "evidence_level": "1b", "is_key_finding": True,
+                 "paper_title": "Paper 1", "paper_year": 2023, "score": 0.95},
+                {"chunk_id": "c2", "paper_id": "p2", "content": "chunk2", "tier": "tier1",
+                 "section": "results", "evidence_level": "2a", "is_key_finding": False,
+                 "paper_title": "Paper 2", "paper_year": 2022, "score": 0.85},
+            ],
+            [
+                {"chunk_id": "c3", "paper_id": "p3", "content": "chunk3", "tier": "tier1",
+                 "section": "abstract", "evidence_level": "2b", "is_key_finding": False,
+                 "paper_title": "Paper 3", "paper_year": 2021, "score": 0.90},
+                {"chunk_id": "c1", "paper_id": "p1", "content": "chunk1", "tier": "tier1",
+                 "section": "abstract", "evidence_level": "1b", "is_key_finding": True,
+                 "paper_title": "Paper 1", "paper_year": 2023, "score": 0.88},
+            ],
+        ]
+
+        result = await dao.multi_vector_search(sample_embedding, top_k=10)
+
+        assert mock_run_query.call_count == 2
+        # c1 appears in both lists -> highest RRF score
+        assert len(result) == 3
+        assert result[0]["chunk_id"] == "c1"  # in both lists
+
+    @pytest.mark.asyncio
+    async def test_multi_vector_deduplicates(self, dao, mock_run_query, sample_embedding):
+        """Duplicate chunk_ids are deduplicated with combined RRF score."""
+        mock_run_query.side_effect = [
+            [{"chunk_id": "c1", "paper_id": "p1", "content": "x", "score": 0.9,
+              "tier": "tier1", "section": "abstract", "evidence_level": "1b",
+              "is_key_finding": False, "paper_title": "T", "paper_year": 2023}],
+            [{"chunk_id": "c1", "paper_id": "p1", "content": "x", "score": 0.8,
+              "tier": "tier1", "section": "abstract", "evidence_level": "1b",
+              "is_key_finding": False, "paper_title": "T", "paper_year": 2023}],
+        ]
+
+        result = await dao.multi_vector_search(sample_embedding, top_k=10)
+        assert len(result) == 1
+        # RRF score = 1/(60+0+1) + 1/(60+0+1) = 2/61
+        expected_rrf = 2.0 / 61.0
+        assert abs(result[0]["score"] - expected_rrf) < 1e-9
+
+    @pytest.mark.asyncio
+    async def test_multi_vector_chunk_query_failure_returns_paper_only(
+        self, dao, mock_run_query, sample_embedding
+    ):
+        """If chunk query fails, paper results are still returned."""
+        mock_run_query.side_effect = [
+            RuntimeError("Chunk index error"),
+            [{"chunk_id": "c1", "paper_id": "p1", "content": "x", "score": 0.8,
+              "tier": "tier1", "section": "abstract", "evidence_level": "2a",
+              "is_key_finding": False, "paper_title": "T", "paper_year": 2023}],
+        ]
+
+        result = await dao.multi_vector_search(sample_embedding, top_k=10)
+        assert len(result) == 1
+        assert result[0]["chunk_id"] == "c1"
+
+    @pytest.mark.asyncio
+    async def test_multi_vector_paper_query_failure_returns_chunks(
+        self, dao, mock_run_query, sample_embedding
+    ):
+        """If paper query fails, chunk results are still returned."""
+        mock_run_query.side_effect = [
+            [{"chunk_id": "c1", "paper_id": "p1", "content": "x", "score": 0.9,
+              "tier": "tier1", "section": "results", "evidence_level": "1a",
+              "is_key_finding": True, "paper_title": "T", "paper_year": 2024}],
+            RuntimeError("Paper index error"),
+        ]
+
+        result = await dao.multi_vector_search(sample_embedding, top_k=10)
+        assert len(result) == 1
+
+    @pytest.mark.asyncio
+    async def test_multi_vector_both_fail_returns_empty(
+        self, dao, mock_run_query, sample_embedding
+    ):
+        """If both queries fail, returns empty list."""
+        mock_run_query.side_effect = [
+            RuntimeError("Chunk fail"),
+            RuntimeError("Paper fail"),
+        ]
+
+        result = await dao.multi_vector_search(sample_embedding, top_k=10)
+        assert result == []
+
+    @pytest.mark.asyncio
+    async def test_multi_vector_empty_results(self, dao, mock_run_query, sample_embedding):
+        """Both queries return empty -> empty result."""
+        mock_run_query.side_effect = [[], []]
+        result = await dao.multi_vector_search(sample_embedding, top_k=10)
+        assert result == []
+
+    @pytest.mark.asyncio
+    async def test_multi_vector_uses_both_indexes(self, dao, mock_run_query, sample_embedding):
+        """Queries use chunk_embedding_index and paper_abstract_index."""
+        mock_run_query.side_effect = [[], []]
+        await dao.multi_vector_search(sample_embedding)
+
+        assert mock_run_query.call_count == 2
+        chunk_query = mock_run_query.call_args_list[0][0][0]
+        paper_query = mock_run_query.call_args_list[1][0][0]
+        assert "chunk_embedding_index" in chunk_query
+        assert "paper_abstract_index" in paper_query
+
+    @pytest.mark.asyncio
+    async def test_multi_vector_respects_top_k(self, dao, mock_run_query, sample_embedding):
+        """Result count respects top_k limit."""
+        mock_run_query.side_effect = [
+            [{"chunk_id": f"c{i}", "paper_id": f"p{i}", "content": f"x{i}", "score": 0.9 - i * 0.01,
+              "tier": "tier1", "section": "abstract", "evidence_level": "2a",
+              "is_key_finding": False, "paper_title": f"T{i}", "paper_year": 2023}
+             for i in range(10)],
+            [],
+        ]
+
+        result = await dao.multi_vector_search(sample_embedding, top_k=3)
+        assert len(result) == 3
+
+    @pytest.mark.asyncio
+    async def test_multi_vector_custom_rrf_k(self, dao, mock_run_query, sample_embedding):
+        """Custom rrf_k changes scoring."""
+        mock_run_query.side_effect = [
+            [{"chunk_id": "c1", "paper_id": "p1", "content": "x", "score": 0.9,
+              "tier": "tier1", "section": "abstract", "evidence_level": "1b",
+              "is_key_finding": False, "paper_title": "T", "paper_year": 2023}],
+            [],
+        ]
+
+        result = await dao.multi_vector_search(sample_embedding, top_k=10, rrf_k=10)
+        # RRF with k=10: 1/(10+0+1) = 1/11
+        expected = 1.0 / 11.0
+        assert abs(result[0]["score"] - expected) < 1e-9

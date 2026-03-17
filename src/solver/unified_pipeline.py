@@ -483,6 +483,13 @@ class UnifiedSearchPipeline:
         # Perform hybrid search
         if self.hybrid_ranker and options.enable_adaptive:
             # Use HybridRanker for raw results
+            # v1.28.0: Pass query_type for dynamic weight adjustment
+            _query_type_str: Optional[str] = None
+            if parsed_query and hasattr(parsed_query, 'pattern'):
+                _query_type_str = parsed_query.pattern.value
+            elif query_type and hasattr(query_type, 'value'):
+                _query_type_str = query_type.value
+
             hybrid_results = await self.hybrid_ranker.search(
                 query=query,
                 query_embedding=query_embedding,
@@ -491,6 +498,7 @@ class UnifiedSearchPipeline:
                 vector_weight=options.vector_weight or 0.4,
                 snomed_codes=snomed_codes or None,
                 graph_filters=graph_filters,
+                query_type=_query_type_str,
             )
 
             # Convert HybridResult to format for AdaptiveRanker

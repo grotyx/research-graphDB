@@ -2,6 +2,26 @@
 
 ## Version History
 
+### v1.29.0 (2026-03-17)
+
+#### New Features
+- **Multi-Vector Retrieval** (ROADMAP 1.5): RRF-based chunk + paper abstract embedding fusion via `search_dao.multi_vector_search()`, `use_multi_vector=True` option
+- **Agentic RAG** (ROADMAP 2.3): Clinical query decomposition (`ClinicalQueryDecomposer`), parallel sub-query execution, result aggregation (`ResultAggregator`), `agentic_solve()` pipeline
+- **Evidence Synthesis Enhancement** (ROADMAP 2.2): Weighted effect size (inverse-variance, Cochrane method), I² heterogeneity test, forest plot data generation
+- **Dynamic Weights Integration** (#4): `unified_pipeline.py` now passes query type to `hybrid_ranker.search(query_type=)` for query-aware ranking
+- **ChunkValidator Pipeline Integration** (#5): Automatic chunk quality validation in `pubmed_processor.store_llm_chunks()` before embedding
+
+#### Infrastructure
+- **Cache Circular Dependency Fix** (ROADMAP 5.3): `llm/cache.py` → `core/llm_cache.py` canonical location, backward-compat re-export shim
+- **Paper Embedding Batch Script** (#9): `scripts/backfill_paper_embeddings.py` with --dry-run, --max-papers, contextual prefix support
+
+#### Test Coverage
+- +65 new tests (3,964 → 4,029 total)
+  - `test_agentic_rag_decomposer.py` (20): query decomposition, aggregation, pipeline
+  - `test_evidence_synthesizer_meta.py` (32): weighted effect size, I², forest plot
+  - `test_search_dao.py` (+10): multi-vector RRF fusion, dedup, partial failures
+  - `test_tiered_search.py` (+4): multi-vector flag integration
+
 ### v1.28.0 (2026-03-17)
 
 - **Hybrid Ranker Dynamic Weights** (ROADMAP 2.1): Query-type-aware weight profiles (comparison/evidence/mechanism/default) via `QUERY_TYPE_WEIGHTS` and `search(query_type=)` parameter

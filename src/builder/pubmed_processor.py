@@ -46,6 +46,18 @@ except ImportError:
         UnifiedPDFProcessor = None
         EntityNormalizer = None
 
+# v1.28.0: Optional ChunkValidator for quality filtering before embedding
+try:
+    from builder.chunk_validator import ChunkValidator
+    CHUNK_VALIDATOR_AVAILABLE = True
+except ImportError:
+    try:
+        from src.builder.chunk_validator import ChunkValidator
+        CHUNK_VALIDATOR_AVAILABLE = True
+    except ImportError:
+        CHUNK_VALIDATOR_AVAILABLE = False
+        ChunkValidator = None  # type: ignore
+
 try:
     from graph.types.enums import normalize_study_design
 except ImportError:
@@ -544,6 +556,23 @@ class PubMedPaperProcessor:
         """
         if not chunks_data:
             return 0
+
+        # v1.28.0: Validate chunks before embedding (quality filter)
+        if CHUNK_VALIDATOR_AVAILABLE and ChunkValidator:
+            try:
+                validator = ChunkValidator()
+                original_count = len(chunks_data)
+                chunks_data = validator.validate_chunks(chunks_data)
+                stats = validator.get_validation_stats()
+                if original_count != len(chunks_data):
+                    logger.info(
+                        f"ChunkValidator: {original_count}->{len(chunks_data)} "
+                        f"(rejected={stats.get('rejected_short', 0)}, "
+                        f"demoted={stats.get('demoted_tier', 0)}, "
+                        f"stats_cleared={stats.get('cleared_key_finding', 0)})"
+                    )
+            except Exception as e:
+                logger.warning(f"ChunkValidator failed, using unvalidated chunks: {e}")
 
         text_chunks = []
         base_metadata = build_chunk_metadata(paper)

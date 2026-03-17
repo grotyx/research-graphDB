@@ -839,6 +839,288 @@ class EvidenceSynthesizer:
 
         return rec
 
+    # =========================================================================
+    # Meta-Analysis Methods (v1.27.0)
+    # =========================================================================
+
+    def calculate_weighted_effect_size(self, studies: list[dict]) -> dict:
+        """Calculate inverse-variance weighted mean effect size (Cochrane method).
+
+        Uses the inverse-variance method: each study's weight is 1/variance,
+        where variance is derived from the confidence interval width.
+
+        Args:
+            studies: List of study dicts, each with keys:
+                - effect_size (float): Point estimate (e.g., mean difference)
+                - ci_lower (float): Lower bound of 95% CI
+                - ci_upper (float): Upper bound of 95% CI
+                - n (int, optional): Sample size (used as fallback weight)
+
+        Returns:
+            Dict with keys:
+                - weighted_mean: Inverse-variance weighted mean effect size
+                - ci_lower: 95% CI lower bound of pooled estimate
+                - ci_upper: 95% CI upper bound of pooled estimate
+                - total_weight: Sum of weights
+                - n_studies: Number of studies included
+                - weights: Per-study weights (normalized to sum to 1)
+
+        Raises:
+            ValidationError: If studies list is empty or missing required fields
+        """
+        if not studies:
+            raise ValidationError("At least one study is required")
+
+        weights: list[float] = []
+        effect_sizes: list[float] = []
+
+        for i, study in enumerate(studies):
+            es = study.get("effect_size")
+            if es is None:
+                raise ValidationError(f"Study {i} missing 'effect_size'")
+
+            ci_lower = study.get("ci_lower")
+            ci_upper = study.get("ci_upper")
+
+            if ci_lower is not None and ci_upper is not None:
+                # SE = (CI_upper - CI_lower) / (2 * 1.96)
+                se = (ci_upper - ci_lower) / 3.92
+                if se <= 0:
+                    # Degenerate CI, use sample-size fallback
+                    n = study.get("n", 1)
+                    w = max(n, 1)
+                else:
+                    variance = se ** 2
+                    w = 1.0 / variance
+            else:
+                # Fallback: use sample size as weight
+                n = study.get("n", 1)
+                w = max(n, 1)
+
+            weights.append(w)
+            effect_sizes.append(float(es))
+
+        total_weight = sum(weights)
+        if total_weight <= 0:
+            total_weight = len(weights)
+            weights = [1.0] * len(weights)
+
+        # Weighted mean
+        weighted_mean = sum(es * w for es, w in zip(effect_sizes, weights)) / total_weight
+
+        # SE of pooled estimate = 1 / sqrt(sum of weights)
+        pooled_se = 1.0 / math.sqrt(total_weight) if total_weight > 0 else 0.0
+
+        # Normalize weights
+        norm_weights = [w / total_weight for w in weights]
+
+        return {
+            "weighted_mean": weighted_mean,
+            "ci_lower": weighted_mean - 1.96 * pooled_se,
+            "ci_upper": weighted_mean + 1.96 * pooled_se,
+            "total_weight": total_weight,
+            "n_studies": len(studies),
+            "weights": norm_weights,
+        }
+
+    def calculate_i_squared(self, studies: list[dict]) -> dict:
+        """Calculate I-squared heterogeneity statistic (Cochrane Handbook method).
+
+        Computes Cochran's Q statistic, degrees of freedom, I-squared, and
+        a chi-squared p-value for the Q statistic.
+
+        Args:
+            studies: List of study dicts, each with keys:
+                - effect_size (float): Point estimate
+                - ci_lower (float): Lower bound of 95% CI
+                - ci_upper (float): Upper bound of 95% CI
+                - n (int, optional): Sample size (fallback weight)
+
+        Returns:
+            Dict with keys:
+                - i_squared: I-squared percentage (0-100), clamped to [0, 100]
+                - q_statistic: Cochran's Q value
+                - df: Degrees of freedom (k - 1)
+                - p_value: Chi-squared p-value for Q
+                - interpretation: Human-readable interpretation string
+
+        Raises:
+            ValidationError: If fewer than 2 studies provided
+        """
+        if len(studies) < 2:
+            return {
+                "i_squared": 0.0,
+                "q_statistic": 0.0,
+                "df": 0,
+                "p_value": 1.0,
+                "interpretation": "Cannot assess heterogeneity with fewer than 2 studies.",
+            }
+
+        # Compute weights and effect sizes
+        weights: list[float] = []
+        effect_sizes: list[float] = []
+
+        for study in studies:
+            es = float(study.get("effect_size", 0.0))
+            ci_lower = study.get("ci_lower")
+            ci_upper = study.get("ci_upper")
+
+            if ci_lower is not None and ci_upper is not None:
+                se = (ci_upper - ci_lower) / 3.92
+                if se > 0:
+                    w = 1.0 / (se ** 2)
+                else:
+                    w = max(study.get("n", 1), 1)
+            else:
+                w = max(study.get("n", 1), 1)
+
+            weights.append(w)
+            effect_sizes.append(es)
+
+        # Weighted mean
+        total_w = sum(weights)
+        if total_w <= 0:
+            total_w = len(weights)
+            weights = [1.0] * len(weights)
+
+        weighted_mean = sum(es * w for es, w in zip(effect_sizes, weights)) / total_w
+
+        # Cochran's Q
+        q = sum(w * (es - weighted_mean) ** 2 for es, w in zip(effect_sizes, weights))
+        df = len(studies) - 1
+
+        # I-squared
+        if q > df and q > 0:
+            i_sq = ((q - df) / q) * 100.0
+        else:
+            i_sq = 0.0
+        i_sq = max(0.0, min(100.0, i_sq))
+
+        # P-value from chi-squared distribution (approximation)
+        p_value = self._chi2_survival(q, df)
+
+        # Interpretation (Cochrane Handbook thresholds)
+        if i_sq < 25:
+            interpretation = "Low heterogeneity (I^2 < 25%). Studies are consistent."
+        elif i_sq < 50:
+            interpretation = "Moderate heterogeneity (25% <= I^2 < 50%). Some inconsistency."
+        elif i_sq < 75:
+            interpretation = "Substantial heterogeneity (50% <= I^2 < 75%). Notable inconsistency."
+        else:
+            interpretation = "Considerable heterogeneity (I^2 >= 75%). Results vary substantially."
+
+        return {
+            "i_squared": round(i_sq, 2),
+            "q_statistic": round(q, 4),
+            "df": df,
+            "p_value": round(p_value, 4),
+            "interpretation": interpretation,
+        }
+
+    def generate_forest_plot_data(self, studies: list[dict]) -> dict:
+        """Generate structured data suitable for forest plot visualization.
+
+        Produces per-study rows and a summary diamond for rendering a
+        standard forest plot (e.g., with matplotlib or a web frontend).
+
+        Args:
+            studies: List of study dicts, each with keys:
+                - study_label (str): Display label (e.g., "Smith 2020")
+                - effect_size (float): Point estimate
+                - ci_lower (float): 95% CI lower bound
+                - ci_upper (float): 95% CI upper bound
+                - n (int, optional): Sample size
+                - weight (float, optional): Override weight (auto-calculated if absent)
+
+        Returns:
+            Dict with keys:
+                - studies: List of per-study dicts with label, es, ci, weight_pct
+                - summary: Dict with pooled effect size, CI, and diamond coordinates
+                - heterogeneity: I-squared result dict
+                - n_studies: Number of studies
+                - null_line: Reference line value (0.0 for mean difference)
+        """
+        if not studies:
+            return {
+                "studies": [],
+                "summary": None,
+                "heterogeneity": {"i_squared": 0.0, "q_statistic": 0.0, "df": 0, "p_value": 1.0, "interpretation": "No studies."},
+                "n_studies": 0,
+                "null_line": 0.0,
+            }
+
+        # Compute pooled effect
+        pooled = self.calculate_weighted_effect_size(studies)
+        norm_weights = pooled["weights"]
+
+        # Compute heterogeneity
+        heterogeneity = self.calculate_i_squared(studies)
+
+        # Build per-study rows
+        rows: list[dict] = []
+        for i, study in enumerate(studies):
+            rows.append({
+                "label": study.get("study_label", f"Study {i + 1}"),
+                "effect_size": study.get("effect_size", 0.0),
+                "ci_lower": study.get("ci_lower", study.get("effect_size", 0.0)),
+                "ci_upper": study.get("ci_upper", study.get("effect_size", 0.0)),
+                "n": study.get("n"),
+                "weight_pct": round(norm_weights[i] * 100, 1),
+            })
+
+        # Summary diamond
+        summary = {
+            "effect_size": pooled["weighted_mean"],
+            "ci_lower": pooled["ci_lower"],
+            "ci_upper": pooled["ci_upper"],
+            "label": f"Overall (I^2={heterogeneity['i_squared']:.0f}%)",
+            "diamond": {
+                "center": pooled["weighted_mean"],
+                "left": pooled["ci_lower"],
+                "right": pooled["ci_upper"],
+            },
+        }
+
+        return {
+            "studies": rows,
+            "summary": summary,
+            "heterogeneity": heterogeneity,
+            "n_studies": len(studies),
+            "null_line": 0.0,
+        }
+
+    @staticmethod
+    def _chi2_survival(x: float, df: int) -> float:
+        """Approximate chi-squared survival function P(X > x) for df degrees of freedom.
+
+        Uses the Wilson-Hilferty normal approximation for the chi-squared distribution.
+        Accurate for df >= 2 and reasonable for df = 1.
+
+        Args:
+            x: Chi-squared statistic value
+            df: Degrees of freedom
+
+        Returns:
+            Approximate p-value (survival probability)
+        """
+        if df <= 0 or x <= 0:
+            return 1.0
+
+        # Wilson-Hilferty approximation: transform chi2 to standard normal
+        k = float(df)
+        z = ((x / k) ** (1.0 / 3.0) - (1.0 - 2.0 / (9.0 * k))) / math.sqrt(2.0 / (9.0 * k))
+
+        # Standard normal CDF approximation (Abramowitz and Stegun)
+        # P(Z > z) = 1 - Phi(z)
+        if z < -8.0:
+            return 1.0
+        if z > 8.0:
+            return 0.0
+
+        # Use math.erfc for accurate tail probability
+        p_value = 0.5 * math.erfc(z / math.sqrt(2.0))
+        return max(0.0, min(1.0, p_value))
+
     async def generate_summary(self, result: SynthesisResult) -> str:
         """자연어 요약 생성.
 

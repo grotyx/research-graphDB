@@ -4,6 +4,7 @@ v5.3: Neo4j Vector Index 통합 지원
 v1.14.12: Neo4j Vector Index가 유일한 벡터 저장소
 v1.14.17: Neo4j hybrid_search 통합 - 그래프 필터링 + 벡터 검색 단일 쿼리
 v1.27.0: HyDE (Hypothetical Document Embedding) + Cross-Encoder Reranker
+v1.27.1: Multi-Vector Retrieval (chunk + paper abstract RRF fusion)
 """
 
 import logging
@@ -141,6 +142,7 @@ class SearchInput:
     min_year: Optional[int] = None
     use_hyde: bool = False
     use_reranker: bool = False
+    use_multi_vector: bool = False
 
 
 @dataclass
@@ -313,6 +315,7 @@ class TieredHybridSearch:
                     min_year=input_data.min_year,
                     use_hyde=False,  # Prevent recursive HyDE
                     use_reranker=input_data.use_reranker,
+                    use_multi_vector=input_data.use_multi_vector,
                 )
             else:
                 logger.warning("HyDE: failed to generate hypothetical answer, using original query")
@@ -334,6 +337,7 @@ class TieredHybridSearch:
                 min_year=input_data.min_year,
                 use_hyde=False,
                 use_reranker=False,  # Prevent re-entry
+                use_multi_vector=input_data.use_multi_vector,
             )
 
         # 검색 전략에 따라 실행
@@ -487,6 +491,13 @@ class TieredHybridSearch:
                 return hybrid_results
             # Hybrid 검색 실패 시 벡터 검색으로 폴백
             logger.warning("Neo4j hybrid search returned no results, falling back to vector search")
+
+        # Multi-vector search: chunk + paper abstract RRF fusion
+        if input_data.use_multi_vector and self.neo4j_client:
+            multi_results = await self._neo4j_multi_vector_search(input_data, tier, top_k)
+            if multi_results:
+                return multi_results
+            logger.warning("Multi-vector search returned no results, falling back to single vector search")
 
         # 벡터 검색 (v5.3: Neo4j 또는 VectorDB)
         if self.use_neo4j_vector and self.neo4j_client:
@@ -849,6 +860,86 @@ class TieredHybridSearch:
             ))
 
         logger.info(f"Neo4j hybrid search: {len(results)} results for tier{tier} (filters: {list(graph_filters.keys())})")
+        return results
+
+    async def _neo4j_multi_vector_search(
+        self,
+        input_data: SearchInput,
+        tier: int,
+        top_k: int
+    ) -> list[SearchResult]:
+        """Multi-vector search using chunk + paper abstract embeddings.
+
+        Calls SearchDAO.multi_vector_search() which fuses chunk and paper
+        abstract vector results via RRF, then filters by tier.
+
+        Args:
+            input_data: Search input.
+            tier: Tier (1 or 2).
+            top_k: Number of results to return.
+
+        Returns:
+            Search results from multi-vector RRF fusion.
+        """
+        if not self.neo4j_client:
+            logger.warning("Neo4j client not available for multi-vector search")
+            return []
+
+        query_embedding = self._get_query_embedding(input_data.query)
+        if query_embedding is None:
+            return []
+
+        try:
+            raw_results = await self.neo4j_client.multi_vector_search(
+                embedding=query_embedding,
+                top_k=top_k * 2,  # fetch extra, filter by tier below
+                min_score=0.5,
+                rrf_k=self.rrf_k,
+            )
+        except Exception as e:
+            logger.error(f"Multi-vector search failed: {e}", exc_info=True)
+            return []
+
+        # Filter by tier and convert to SearchResult
+        results = []
+        for raw in raw_results:
+            chunk_tier = raw.get("tier", "tier1")
+            tier_num = 1 if chunk_tier == "tier1" else 2
+            if tier_num != tier:
+                continue
+
+            try:
+                evidence_level = EvidenceLevel(raw.get("evidence_level", "5"))
+            except ValueError:
+                evidence_level = EvidenceLevel.LEVEL_5
+
+            chunk = ChunkInfo(
+                chunk_id=raw.get("chunk_id", ""),
+                document_id=raw.get("paper_id", ""),
+                text=raw.get("content", ""),
+                tier=tier,
+                section=raw.get("section", "other"),
+                source_type=SourceType.ORIGINAL,
+                evidence_level=evidence_level,
+                publication_year=raw.get("paper_year") or 2020,
+                title=raw.get("paper_title"),
+                authors=None,
+            )
+
+            results.append(SearchResult(
+                chunk=chunk,
+                score=raw.get("score", 0.0),
+                tier=tier,
+                source_type=chunk.source_type.value,
+                evidence_level=chunk.evidence_level.value,
+                search_source=SearchSource.VECTOR,
+                vector_score=raw.get("score", 0.0),
+            ))
+
+            if len(results) >= top_k:
+                break
+
+        logger.info(f"Multi-vector search: {len(results)} results for tier{tier}")
         return results
 
     def _graph_search(

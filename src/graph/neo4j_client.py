@@ -692,6 +692,19 @@ class Neo4jClient:
             snomed_codes=snomed_codes,
         )
 
+    async def multi_vector_search(
+        self,
+        embedding: list[float],
+        top_k: int = 10,
+        min_score: float = 0.5,
+        rrf_k: int = 60,
+    ) -> list[dict]:
+        """Multi-vector search (chunk + paper abstract). Delegates to SearchDAO."""
+        return await self.search.multi_vector_search(
+            embedding=embedding, top_k=top_k,
+            min_score=min_score, rrf_k=rrf_k,
+        )
+
     async def get_chunk_count(self, paper_id: Optional[str] = None) -> int:
         """청크 수 조회.
 

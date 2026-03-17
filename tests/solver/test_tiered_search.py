@@ -428,3 +428,47 @@ class TestConfiguration:
         assert engine.vector_weight == 0.7
         assert engine.graph_weight == 0.3
         assert engine.tier1_min_results == 3
+
+
+class TestMultiVectorSearch:
+    """Tests for multi-vector search integration in TieredHybridSearch."""
+
+    def test_search_input_has_use_multi_vector(self):
+        """SearchInput has use_multi_vector field defaulting to False."""
+        si = SearchInput(query="test")
+        assert si.use_multi_vector is False
+
+    def test_search_input_multi_vector_true(self):
+        """SearchInput can be created with use_multi_vector=True."""
+        si = SearchInput(query="test", use_multi_vector=True)
+        assert si.use_multi_vector is True
+
+    @pytest.mark.asyncio
+    async def test_multi_vector_false_no_effect(self):
+        """When use_multi_vector=False, standard vector search is used."""
+        mock_data = make_mock_data()
+        vector_db = MockVectorDB(mock_data)
+        engine = TieredHybridSearch(vector_db=vector_db)
+
+        result = await engine.search(SearchInput(
+            query="spine surgery",
+            tier_strategy=SearchTier.TIER1_ONLY,
+            use_multi_vector=False,
+        ))
+        # Should get results from standard mock vector DB
+        assert result.total_found > 0
+
+    @pytest.mark.asyncio
+    async def test_multi_vector_true_without_neo4j_falls_back(self):
+        """When use_multi_vector=True but no neo4j_client, falls back to standard search."""
+        mock_data = make_mock_data()
+        vector_db = MockVectorDB(mock_data)
+        engine = TieredHybridSearch(vector_db=vector_db)
+
+        result = await engine.search(SearchInput(
+            query="spine surgery",
+            tier_strategy=SearchTier.TIER1_ONLY,
+            use_multi_vector=True,
+        ))
+        # Should fall back to MockVectorDB since no neo4j_client
+        assert result.total_found > 0

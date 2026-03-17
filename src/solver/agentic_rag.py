@@ -34,6 +34,7 @@ import asyncio
 import time
 import uuid
 from abc import ABC, abstractmethod
+from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Optional, Any, List, Dict
@@ -43,6 +44,22 @@ from .evidence_synthesizer import EvidenceSynthesizer, EvidenceStrength
 from .query_parser import QueryParser
 
 from core.exceptions import ValidationError, ErrorCode
+
+# Try to import TieredHybridSearch for sub-query execution
+try:
+    from .tiered_search import TieredHybridSearch, SearchInput, SearchOutput
+    TIERED_SEARCH_AVAILABLE = True
+except ImportError:
+    TIERED_SEARCH_AVAILABLE = False
+    TieredHybridSearch = None  # type: ignore
+
+# Try to import HybridRanker for result ranking
+try:
+    from .hybrid_ranker import HybridRanker
+    HYBRID_RANKER_AVAILABLE = True
+except ImportError:
+    HYBRID_RANKER_AVAILABLE = False
+    HybridRanker = None  # type: ignore
 
 # Try to import dependencies
 try:
@@ -1019,6 +1036,312 @@ Respond with JSON:
 
 
 # =============================================================================
+# Clinical Query Decomposer
+# =============================================================================
+
+# Clinical query decomposition patterns for rule-based fallback
+_DECOMPOSITION_PATTERNS = {
+    "patient_demographics": [
+        "age", "male", "female", "elderly", "pediatric", "adolescent",
+        "years old", "yr", "yo", "세", "남", "여",
+    ],
+    "pathology": [
+        "stenosis", "herniation", "spondylolisthesis", "fracture", "tumor",
+        "deformity", "scoliosis", "kyphosis", "myelopathy", "radiculopathy",
+        "disc", "instability", "infection", "metastasis",
+    ],
+    "comorbidity": [
+        "diabetes", "dm", "osteoporosis", "obesity", "bmi", "hypertension",
+        "renal", "cardiac", "smoking", "copd",
+    ],
+    "intervention": [
+        "surgery", "surgical", "operation", "approach", "technique",
+        "tlif", "plif", "olif", "alif", "xlif", "ube", "laminectomy",
+        "discectomy", "fusion", "decompression", "arthroplasty",
+    ],
+    "outcome": [
+        "outcome", "result", "complication", "vas", "odi", "joa",
+        "fusion rate", "blood loss", "operative time", "length of stay",
+        "reoperation", "mortality", "satisfaction", "prognosis",
+    ],
+    "anatomy": [
+        "cervical", "thoracic", "lumbar", "sacral", "l1", "l2", "l3",
+        "l4", "l5", "c3", "c4", "c5", "c6", "c7", "t1", "t12",
+    ],
+}
+
+
+@dataclass
+class SubQuery:
+    """A decomposed sub-query with its aspect label.
+
+    Attributes:
+        query: The sub-query text for search execution
+        aspect: Category label (e.g. 'pathology', 'comorbidity', 'outcome')
+        priority: Execution priority (higher = more important)
+    """
+    query: str
+    aspect: str
+    priority: int = 5
+
+
+class ClinicalQueryDecomposer:
+    """Decomposes complex clinical queries into focused sub-queries.
+
+    Supports both LLM-based and rule-based decomposition.
+
+    Example:
+        >>> decomposer = ClinicalQueryDecomposer()
+        >>> subs = decomposer.decompose(
+        ...     "50-year-old female, L4-5 stenosis with DM, best surgery?"
+        ... )
+        >>> for sq in subs:
+        ...     print(f"[{sq.aspect}] {sq.query}")
+        [pathology] L4-5 stenosis surgical options
+        [comorbidity] diabetes mellitus spine surgery complications
+        [outcome] age 50 female lumbar surgery outcomes
+    """
+
+    def __init__(
+        self,
+        llm_client: Optional[Any] = None,
+    ):
+        """Initialize decomposer.
+
+        Args:
+            llm_client: Optional LLM client for advanced decomposition.
+                        Falls back to rule-based if None.
+        """
+        self.llm_client = llm_client
+
+    async def decompose(self, query: str) -> List[SubQuery]:
+        """Decompose a clinical query into sub-queries.
+
+        Args:
+            query: Complex clinical query string
+
+        Returns:
+            List of SubQuery objects. Returns single-element list for simple queries.
+        """
+        if self.llm_client:
+            try:
+                return await self._decompose_llm(query)
+            except Exception as e:
+                logger.warning(f"LLM decomposition failed, falling back to rules: {e}")
+
+        return self._decompose_rules(query)
+
+    async def _decompose_llm(self, query: str) -> List[SubQuery]:
+        """LLM-based query decomposition.
+
+        Args:
+            query: Complex clinical query
+
+        Returns:
+            List of SubQuery objects
+        """
+        prompt = f"""You are a spine surgery expert. Decompose this clinical query into
+independent search sub-queries that can be executed in parallel.
+
+Query: {query}
+
+Rules:
+- Each sub-query should focus on ONE aspect (pathology, intervention, comorbidity, outcome, demographics)
+- Write sub-queries in English medical terminology
+- Each sub-query should be self-contained and searchable
+- Keep each sub-query under 15 words
+- Return 2-5 sub-queries
+
+Respond with JSON:
+{{
+  "sub_queries": [
+    {{"query": "sub-query text", "aspect": "pathology|intervention|comorbidity|outcome|demographics", "priority": 1-10}}
+  ]
+}}"""
+
+        schema = {
+            "type": "OBJECT",
+            "properties": {
+                "sub_queries": {
+                    "type": "ARRAY",
+                    "items": {
+                        "type": "OBJECT",
+                        "properties": {
+                            "query": {"type": "STRING"},
+                            "aspect": {"type": "STRING"},
+                            "priority": {"type": "INTEGER"},
+                        },
+                    },
+                }
+            },
+        }
+
+        result = await self.llm_client.generate_json(prompt, schema)
+        sub_queries = []
+        for item in result.get("sub_queries", []):
+            sub_queries.append(SubQuery(
+                query=item["query"],
+                aspect=item.get("aspect", "general"),
+                priority=item.get("priority", 5),
+            ))
+
+        return sub_queries if sub_queries else [SubQuery(query=query, aspect="general", priority=10)]
+
+    def _decompose_rules(self, query: str) -> List[SubQuery]:
+        """Rule-based query decomposition using clinical patterns.
+
+        Args:
+            query: Clinical query string
+
+        Returns:
+            List of SubQuery objects
+        """
+        query_lower = query.lower()
+        detected_aspects: Dict[str, List[str]] = defaultdict(list)
+
+        # Detect which aspects are present in the query
+        for aspect, keywords in _DECOMPOSITION_PATTERNS.items():
+            for kw in keywords:
+                if kw in query_lower:
+                    detected_aspects[aspect].append(kw)
+
+        # If fewer than 2 aspects detected, no decomposition needed
+        if len(detected_aspects) < 2:
+            return [SubQuery(query=query, aspect="general", priority=10)]
+
+        sub_queries: List[SubQuery] = []
+        priority = 10
+
+        # Build sub-queries for each detected aspect
+        # Pathology + intervention = primary question
+        pathology_terms = detected_aspects.get("pathology", [])
+        intervention_terms = detected_aspects.get("intervention", [])
+        anatomy_terms = detected_aspects.get("anatomy", [])
+
+        if pathology_terms and intervention_terms:
+            anatomy_str = f"{anatomy_terms[0]} " if anatomy_terms else ""
+            sub_queries.append(SubQuery(
+                query=f"{anatomy_str}{pathology_terms[0]} {intervention_terms[0]} options evidence",
+                aspect="pathology_intervention",
+                priority=priority,
+            ))
+            priority -= 1
+
+        # Comorbidity sub-query
+        comorbidity_terms = detected_aspects.get("comorbidity", [])
+        if comorbidity_terms:
+            intervention_str = intervention_terms[0] if intervention_terms else "spine surgery"
+            sub_queries.append(SubQuery(
+                query=f"{comorbidity_terms[0]} {intervention_str} complications risk",
+                aspect="comorbidity",
+                priority=priority,
+            ))
+            priority -= 1
+
+        # Outcome sub-query
+        outcome_terms = detected_aspects.get("outcome", [])
+        if outcome_terms:
+            intervention_str = intervention_terms[0] if intervention_terms else "spine surgery"
+            sub_queries.append(SubQuery(
+                query=f"{intervention_str} {outcome_terms[0]} results",
+                aspect="outcome",
+                priority=priority,
+            ))
+            priority -= 1
+
+        # Demographics sub-query
+        demo_terms = detected_aspects.get("patient_demographics", [])
+        if demo_terms and (pathology_terms or intervention_terms):
+            context_str = pathology_terms[0] if pathology_terms else intervention_terms[0]
+            sub_queries.append(SubQuery(
+                query=f"{demo_terms[0]} {context_str} spine surgery outcomes",
+                aspect="demographics",
+                priority=priority,
+            ))
+            priority -= 1
+
+        # If no sub-queries were generated (shouldn't happen but be safe)
+        if not sub_queries:
+            return [SubQuery(query=query, aspect="general", priority=10)]
+
+        return sub_queries
+
+
+# =============================================================================
+# Result Aggregator
+# =============================================================================
+
+class ResultAggregator:
+    """Aggregates and deduplicates results from multiple sub-query searches.
+
+    Merges search results from parallel sub-query executions, removes duplicates
+    by paper_id, and combines scores using weighted averaging.
+    """
+
+    @staticmethod
+    def aggregate(
+        sub_results: List[Dict[str, Any]],
+        max_results: int = 20,
+    ) -> List[Dict[str, Any]]:
+        """Merge and deduplicate results from multiple sub-queries.
+
+        Args:
+            sub_results: List of dicts, each with keys:
+                - 'aspect': str label of the sub-query aspect
+                - 'results': list of result dicts with at least 'paper_id', 'title', 'score'
+            max_results: Maximum number of results to return
+
+        Returns:
+            Deduplicated, sorted list of result dicts with combined scores.
+        """
+        paper_map: Dict[str, Dict[str, Any]] = {}
+
+        for sub in sub_results:
+            aspect = sub.get("aspect", "general")
+            results = sub.get("results", [])
+
+            for r in results:
+                pid = r.get("paper_id", "")
+                if not pid:
+                    continue
+
+                if pid in paper_map:
+                    # Merge: accumulate scores, track aspects
+                    existing = paper_map[pid]
+                    existing["combined_score"] += r.get("score", 0.0)
+                    existing["match_count"] += 1
+                    existing["matched_aspects"].add(aspect)
+                else:
+                    paper_map[pid] = {
+                        "paper_id": pid,
+                        "title": r.get("title", ""),
+                        "score": r.get("score", 0.0),
+                        "combined_score": r.get("score", 0.0),
+                        "match_count": 1,
+                        "matched_aspects": {aspect},
+                        "evidence_level": r.get("evidence_level", "5"),
+                        "year": r.get("year", 0),
+                        "metadata": r.get("metadata", {}),
+                    }
+
+        # Normalize combined scores and apply multi-aspect bonus
+        aggregated = []
+        for paper in paper_map.values():
+            n = paper["match_count"]
+            # Average score + bonus for matching multiple aspects
+            base_score = paper["combined_score"] / n
+            aspect_bonus = min(0.2, (n - 1) * 0.1)  # Up to 0.2 bonus
+            paper["final_score"] = min(1.0, base_score + aspect_bonus)
+            paper["matched_aspects"] = list(paper["matched_aspects"])
+            aggregated.append(paper)
+
+        # Sort by final_score descending
+        aggregated.sort(key=lambda x: x["final_score"], reverse=True)
+
+        return aggregated[:max_results]
+
+
+# =============================================================================
 # Agent Orchestrator
 # =============================================================================
 
@@ -1551,6 +1874,167 @@ async def quick_solve(
     """
     orchestrator = AgentOrchestrator(neo4j_client, llm_client=llm_client)
     return await orchestrator.solve(query)
+
+
+async def agentic_solve(
+    query: str,
+    neo4j_client: Optional[Any] = None,
+    llm_client: Optional[Any] = None,
+    max_results: int = 20,
+) -> Dict[str, Any]:
+    """Full agentic RAG pipeline: decompose -> search -> aggregate -> synthesize.
+
+    This is the primary entry point for the Agentic RAG system. It decomposes
+    complex clinical queries into focused sub-queries, executes each through
+    TieredHybridSearch (falling back to UnifiedSearchPipeline), aggregates
+    and deduplicates results, and optionally synthesizes evidence.
+
+    Args:
+        query: Complex clinical query (e.g.,
+            "50-year-old female, L4-5 stenosis + DM, best surgery?")
+        neo4j_client: Neo4j client instance
+        llm_client: LLM client for decomposition and synthesis
+        max_results: Maximum aggregated results to return
+
+    Returns:
+        Dict with keys:
+            - sub_queries: list of decomposed sub-query dicts
+            - sub_results: per-sub-query search results
+            - aggregated: merged, deduplicated, ranked results
+            - synthesis: evidence synthesis (if available)
+            - reasoning_chain: list of reasoning step dicts
+
+    Example:
+        >>> result = await agentic_solve(
+        ...     "50세 여성, L4-5 stenosis + DM, 최적 수술법은?",
+        ...     neo4j_client=client
+        ... )
+        >>> for paper in result["aggregated"][:5]:
+        ...     print(f"{paper['title']} (score={paper['final_score']:.2f})")
+    """
+    start_time = time.time()
+    reasoning_chain: List[Dict[str, Any]] = []
+
+    # --- Step 1: Decompose ---
+    decomposer = ClinicalQueryDecomposer(llm_client=llm_client)
+    sub_queries = await decomposer.decompose(query)
+
+    reasoning_chain.append({
+        "step": "decompose",
+        "thought": f"Decomposed query into {len(sub_queries)} sub-queries",
+        "sub_queries": [{"query": sq.query, "aspect": sq.aspect} for sq in sub_queries],
+    })
+
+    logger.info(
+        f"Agentic RAG: decomposed into {len(sub_queries)} sub-queries",
+    )
+
+    # --- Step 2: Execute sub-queries in parallel ---
+    sub_results: List[Dict[str, Any]] = []
+
+    async def _execute_sub_query(sq: SubQuery) -> Dict[str, Any]:
+        """Execute a single sub-query through available search infrastructure."""
+        results_list: List[Dict[str, Any]] = []
+
+        # Try TieredHybridSearch first
+        if TIERED_SEARCH_AVAILABLE and neo4j_client:
+            try:
+                tiered = TieredHybridSearch(neo4j_client=neo4j_client, use_neo4j_vector=True)
+                search_input = SearchInput(query=sq.query, top_k=10)
+                search_output: SearchOutput = await tiered.search(search_input)
+
+                for sr in search_output.results:
+                    results_list.append({
+                        "paper_id": sr.chunk.document_id,
+                        "title": sr.chunk.title or "",
+                        "score": sr.score,
+                        "evidence_level": sr.evidence_level,
+                        "text_snippet": sr.chunk.text[:200] if sr.chunk.text else "",
+                    })
+            except Exception as e:
+                logger.warning(f"TieredSearch failed for sub-query '{sq.query[:50]}': {e}")
+
+        # Fallback to UnifiedSearchPipeline
+        if not results_list and neo4j_client:
+            try:
+                pipeline = UnifiedSearchPipeline(neo4j_client)
+                options = SearchOptions(top_k=10, include_synthesis=False)
+                response: SearchResponse = await pipeline.search(sq.query, options)
+
+                for r in response.results:
+                    results_list.append({
+                        "paper_id": r.paper_id,
+                        "title": r.title,
+                        "score": r.final_score,
+                        "evidence_level": getattr(r, "evidence_level", "5"),
+                    })
+            except Exception as e:
+                logger.warning(f"UnifiedPipeline failed for sub-query '{sq.query[:50]}': {e}")
+
+        return {
+            "aspect": sq.aspect,
+            "query": sq.query,
+            "results": results_list,
+        }
+
+    # Execute all sub-queries concurrently
+    tasks = [_execute_sub_query(sq) for sq in sub_queries]
+    sub_results = await asyncio.gather(*tasks)
+
+    reasoning_chain.append({
+        "step": "search",
+        "thought": f"Executed {len(sub_results)} sub-queries",
+        "result_counts": {sr["aspect"]: len(sr["results"]) for sr in sub_results},
+    })
+
+    # --- Step 3: Aggregate ---
+    aggregated = ResultAggregator.aggregate(list(sub_results), max_results=max_results)
+
+    reasoning_chain.append({
+        "step": "aggregate",
+        "thought": f"Aggregated to {len(aggregated)} unique papers",
+        "top_papers": [p["paper_id"] for p in aggregated[:5]],
+    })
+
+    # --- Step 4: Synthesize (optional) ---
+    synthesis = None
+    if neo4j_client and aggregated:
+        try:
+            synthesizer = EvidenceSynthesizer(neo4j_client, llm_client=llm_client)
+            # Try to extract intervention/outcome from the original query
+            parser = QueryParser()
+            parsed = parser.parse(query)
+            interventions = [e.text for e in parsed.entities if e.entity_type == "intervention"]
+            outcomes = [e.text for e in parsed.entities if e.entity_type == "outcome"]
+
+            if interventions and outcomes:
+                synth_result = await synthesizer.synthesize(
+                    intervention=interventions[0],
+                    outcome=outcomes[0],
+                )
+                synthesis = synth_result.to_dict()
+                reasoning_chain.append({
+                    "step": "synthesize",
+                    "thought": f"Synthesized evidence: {synth_result.direction} "
+                               f"(GRADE {synth_result.grade_rating})",
+                })
+        except Exception as e:
+            logger.warning(f"Evidence synthesis failed: {e}")
+
+    duration_s = time.time() - start_time
+
+    return {
+        "sub_queries": [{"query": sq.query, "aspect": sq.aspect} for sq in sub_queries],
+        "sub_results": list(sub_results),
+        "aggregated": aggregated,
+        "synthesis": synthesis,
+        "reasoning_chain": reasoning_chain,
+        "metadata": {
+            "duration_s": duration_s,
+            "total_sub_queries": len(sub_queries),
+            "total_aggregated": len(aggregated),
+        },
+    }
 
 
 # =============================================================================

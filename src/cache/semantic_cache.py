@@ -11,7 +11,7 @@ from typing import Optional
 
 import numpy as np
 
-from llm.cache import LLMCache, generate_cache_key
+from core.llm_cache import LLMCache, generate_cache_key
 
 logger = logging.getLogger(__name__)
 
@@ -322,7 +322,7 @@ if __name__ == "__main__":
     import asyncio
 
     async def main():
-        from src.llm.cache import LLMCache
+        from core.llm_cache import LLMCache
         from .embedding_cache import EmbeddingCache
 
         # Initialize caches

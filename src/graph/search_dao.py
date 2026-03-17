@@ -312,6 +312,140 @@ class SearchDAO:
             logger.error(f"Hybrid search failed: {e}", exc_info=True)
             return []
 
+    async def multi_vector_search(
+        self,
+        embedding: list[float],
+        top_k: int = 10,
+        min_score: float = 0.5,
+        rrf_k: int = 60,
+    ) -> list[dict]:
+        """Multi-vector search using chunk + paper abstract embeddings with RRF fusion.
+
+        Searches both the chunk_embedding_index and paper_abstract_index,
+        then merges results using Reciprocal Rank Fusion (RRF) to produce a
+        single ranked list. Paper-level results are mapped back to their
+        chunks so the return format is consistent with vector_search_chunks().
+
+        Args:
+            embedding: Query embedding (3072d OpenAI).
+            top_k: Number of results to return.
+            min_score: Minimum cosine similarity threshold.
+            rrf_k: RRF constant (default 60).
+
+        Returns:
+            Chunk result dicts ranked by combined RRF score.
+        """
+        # --- 1. Chunk-level vector search ---
+        chunk_query = """
+        CALL db.index.vector.queryNodes('chunk_embedding_index', $top_k_fetch, $embedding)
+        YIELD node as c, score
+        WHERE score >= $min_score
+        OPTIONAL MATCH (paper:Paper {paper_id: c.paper_id})
+        RETURN c.chunk_id as chunk_id,
+               c.paper_id as paper_id,
+               c.content as content,
+               c.tier as tier,
+               c.section as section,
+               c.evidence_level as evidence_level,
+               c.is_key_finding as is_key_finding,
+               paper.title as paper_title,
+               paper.year as paper_year,
+               score
+        ORDER BY score DESC
+        LIMIT $limit
+        """
+        chunk_params: dict[str, Any] = {
+            "embedding": embedding,
+            "top_k_fetch": top_k * 3,
+            "min_score": min_score,
+            "limit": top_k * 2,  # fetch extra for RRF merge
+        }
+
+        # --- 2. Paper abstract-level vector search ---
+        paper_query = """
+        CALL db.index.vector.queryNodes('paper_abstract_index', $top_k_fetch, $embedding)
+        YIELD node as p, score as paper_score
+        WHERE paper_score >= $min_score
+        MATCH (p)-[:HAS_CHUNK]->(c:Chunk)
+        RETURN c.chunk_id as chunk_id,
+               c.paper_id as paper_id,
+               c.content as content,
+               c.tier as tier,
+               c.section as section,
+               c.evidence_level as evidence_level,
+               c.is_key_finding as is_key_finding,
+               p.title as paper_title,
+               p.year as paper_year,
+               paper_score as score
+        ORDER BY paper_score DESC, c.tier ASC
+        LIMIT $limit
+        """
+        paper_params: dict[str, Any] = {
+            "embedding": embedding,
+            "top_k_fetch": top_k * 2,
+            "min_score": min_score,
+            "limit": top_k * 2,
+        }
+
+        # Execute both queries
+        try:
+            chunk_results = await self._run_query(chunk_query, chunk_params)
+        except Exception as e:
+            logger.error(f"Multi-vector chunk search failed: {e}", exc_info=True)
+            chunk_results = []
+
+        try:
+            paper_results = await self._run_query(paper_query, paper_params)
+        except Exception as e:
+            logger.warning(f"Multi-vector paper search failed (fallback to chunk only): {e}")
+            paper_results = []
+
+        # --- 3. RRF Fusion ---
+        # Build rank maps keyed by chunk_id
+        chunk_ranks: dict[str, int] = {}
+        chunk_data: dict[str, dict] = {}
+        for rank, row in enumerate(chunk_results):
+            cid = row.get("chunk_id", "")
+            if cid:
+                chunk_ranks[cid] = rank
+                chunk_data[cid] = row
+
+        paper_ranks: dict[str, int] = {}
+        for rank, row in enumerate(paper_results):
+            cid = row.get("chunk_id", "")
+            if cid:
+                if cid not in paper_ranks:  # first occurrence = best rank
+                    paper_ranks[cid] = rank
+                if cid not in chunk_data:
+                    chunk_data[cid] = row
+
+        # Calculate RRF scores
+        all_chunk_ids = set(chunk_ranks.keys()) | set(paper_ranks.keys())
+        rrf_scores: dict[str, float] = {}
+        for cid in all_chunk_ids:
+            score = 0.0
+            if cid in chunk_ranks:
+                score += 1.0 / (rrf_k + chunk_ranks[cid] + 1)
+            if cid in paper_ranks:
+                score += 1.0 / (rrf_k + paper_ranks[cid] + 1)
+            rrf_scores[cid] = score
+
+        # Sort by RRF score and return top_k
+        sorted_ids = sorted(rrf_scores.keys(), key=lambda x: rrf_scores[x], reverse=True)
+
+        results = []
+        for cid in sorted_ids[:top_k]:
+            row = chunk_data[cid]
+            row = dict(row)  # copy to avoid mutating cached result
+            row["score"] = rrf_scores[cid]
+            results.append(row)
+
+        logger.info(
+            f"Multi-vector search: {len(chunk_results)} chunk + "
+            f"{len(paper_results)} paper results -> {len(results)} merged"
+        )
+        return results
+
     async def get_intervention_hierarchy(self, intervention_name: str) -> list[dict]:
         """수술법 계층 조회."""
         return await self._run_query(
