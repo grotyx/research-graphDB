@@ -645,6 +645,8 @@ Phase 4 (병렬)         Phase 5 (병렬)         Phase 6 (병렬)
 
 | 일자 | 버전 | 신규 발견 | 해소 | 잔여 Deferred | 잔여 Accepted | 비고 |
 |------|------|----------|------|--------------|--------------|------|
+| 2026-03-17 | v1.27.0 | 3 | 3 | 0 | 4 | CA-NEW-005(assert→ValueError), CA-NEW-006(embedding 코드 중복→_get_query_embedding), CA-NEW-007(stale evidence weight tests 2건). 전부 즉시 해소. 3802 tests, warnings 10. |
+| 2026-03-17 | v1.26.2 | 2 | 2 | 0 | 4 | CA-NEW-001(tiered_search sync-in-async→async/await, warnings 41→10), CA-NEW-002(MCP input length validation). 전부 해소. |
 | 2026-03-13 | v1.25.0 | 13 | 7 | 0 | 4 | 3D Graph 페이지 추가 후 스캔. CA-001(Cypher injection→allowlist), CA-003(try/except), CA-005(@st.cache_data 미적용→_safe_query), CA-007(중복→_build_node), CA-011(streamlit pyproject.toml→[web] 추가), CA-013(SpriteText 로드순서) 즉시 수정. CA-002,004,006,008,009,010,012 Low/Info 보류 |
 | 2026-03-02 | v1.25.0 | 3 | 3+D-011 | 0 | 4 | CA-NEW-001(logger.error exc_info 5곳 수정), CA-NEW-002(LLM Exception→LLMError 3곳), CA-NEW-003(retry util 추출→core/http_utils.py). D-011(test coverage 1,019 tests 추가) 해소 |
 | 2026-02-28 | v1.24.1 | 0 | 2 | 1 | 4 | D-012(tool_definitions.py 추출, 4059→3708줄) 해소. D-013(pickle→numpy) 해소. D-011(test coverage) 잔여 |
