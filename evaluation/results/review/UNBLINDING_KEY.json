@@ -88,5 +88,35 @@
     "B2": "System B",
     "B4": "System C",
     "B3": "System D"
+  },
+  "GR-001": {
+    "B4": "System A",
+    "B1": "System B",
+    "B3": "System C",
+    "B2": "System D"
+  },
+  "GR-002": {
+    "B2": "System A",
+    "B4": "System B",
+    "B3": "System C",
+    "B1": "System D"
+  },
+  "GR-003": {
+    "B2": "System A",
+    "B4": "System B",
+    "B1": "System C",
+    "B3": "System D"
+  },
+  "GR-004": {
+    "B4": "System A",
+    "B3": "System B",
+    "B2": "System C",
+    "B1": "System D"
+  },
+  "GR-005": {
+    "B1": "System A",
+    "B2": "System B",
+    "B3": "System C",
+    "B4": "System D"
   }
 }

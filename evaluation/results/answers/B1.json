@@ -1193,5 +1193,55 @@
       "2b"
     ],
     "generation_time_ms": 5095
+  },
+  {
+    "query_id": "GR-001",
+    "question": "What are all the surgical interventions available for lumbar spinal stenosis, and how do their complication profiles compare?",
+    "baseline": "B1",
+    "answer": "Error: No module named 'baselines'",
+    "cited_papers": [],
+    "num_papers_retrieved": 0,
+    "evidence_levels": [],
+    "generation_time_ms": 0
+  },
+  {
+    "query_id": "GR-002",
+    "question": "What outcomes are shared between TLIF and PLIF, and which outcomes are unique to each procedure?",
+    "baseline": "B1",
+    "answer": "Error: No module named 'baselines'",
+    "cited_papers": [],
+    "num_papers_retrieved": 0,
+    "evidence_levels": [],
+    "generation_time_ms": 0
+  },
+  {
+    "query_id": "GR-003",
+    "question": "Trace the complete evidence chain for UBE in treating lumbar disc herniation: what pathologies does it treat, what outcomes are affected, and what is the evidence level for each?",
+    "baseline": "B1",
+    "answer": "Error: No module named 'baselines'",
+    "cited_papers": [],
+    "num_papers_retrieved": 0,
+    "evidence_levels": [],
+    "generation_time_ms": 0
+  },
+  {
+    "query_id": "GR-004",
+    "question": "Which interventions in the spine surgery database share the most outcome measures with cervical disc replacement (CDR)?",
+    "baseline": "B1",
+    "answer": "Error: No module named 'baselines'",
+    "cited_papers": [],
+    "num_papers_retrieved": 0,
+    "evidence_levels": [],
+    "generation_time_ms": 0
+  },
+  {
+    "query_id": "GR-005",
+    "question": "For a patient with degenerative spondylolisthesis at L4-5, what does the evidence say about all available fusion techniques, their fusion rates, and complication profiles?",
+    "baseline": "B1",
+    "answer": "Error: No module named 'baselines'",
+    "cited_papers": [],
+    "num_papers_retrieved": 0,
+    "evidence_levels": [],
+    "generation_time_ms": 0
   }
 ]
