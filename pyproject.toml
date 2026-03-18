@@ -1,6 +1,6 @@
 [project]
 name = "spine-graphrag"
-version = "1.29.0"
+version = "1.30.0"
 description = "Spine GraphRAG - Neo4j based medical literature knowledge graph system"
 readme = "README.md"
 requires-python = ">=3.10"

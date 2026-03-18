@@ -1,6 +1,6 @@
 # Spine GraphRAG - 개선 로드맵
 
-> **Version**: 1.29.0 | **Updated**: 2026-03-17
+> **Version**: 1.30.0 | **Updated**: 2026-03-17
 > **목적**: 시스템 보완사항, 개선 방향, 기술 부채를 우선순위별로 정리
 > **상태**: 🔴 미착수 | 🟡 진행중 | ✅ 완료 | ⏸️ 보류
 
@@ -95,7 +95,7 @@ async def rerank(self, query: str, results: list, top_k: int = 10):
 | **효과** | 다른 granularity에서의 매칭으로 recall 증가 |
 | **난이도** | 중간 (추가 벡터 인덱스 + 결과 병합) |
 
-**상태:** ✅ 완료 (v1.29.0) — `search_dao.multi_vector_search()` RRF 기반 chunk+paper 임베딩 병합, `use_multi_vector=True` 옵션
+**상태:** ✅ 완료 (v1.30.0) — `search_dao.multi_vector_search()` RRF 기반 chunk+paper 임베딩 병합, `use_multi_vector=True` 옵션
 
 ---
 
@@ -128,7 +128,7 @@ mechanism 쿼리 ("how does fusion work"): semantic 0.6 + graph 0.3 + authority 
 | **개선** | 가중 평균 효과 크기 계산, 이질성 검정(I²), forest plot 데이터 생성 |
 | **효과** | 메타분석 수준의 근거 종합 자동화 |
 
-**상태:** ✅ 완료 (v1.29.0) — `calculate_weighted_effect_size()`, `calculate_i_squared()`, `generate_forest_plot_data()` 추가 (Cochrane method)
+**상태:** ✅ 완료 (v1.30.0) — `calculate_weighted_effect_size()`, `calculate_i_squared()`, `generate_forest_plot_data()` 추가 (Cochrane method)
 **관련 파일:** `solver/conflict_detector.py`, `solver/evidence_synthesizer.py`
 
 ---
@@ -141,7 +141,7 @@ mechanism 쿼리 ("how does fusion work"): semantic 0.6 + graph 0.3 + authority 
 | **개선** | 복잡한 질문을 하위 질문으로 분해 → 각각 검색 → 결과 통합 추론 |
 | **효과** | "50세 여성, L4-5 stenosis + DM, 최적 수술법은?" 같은 다단계 질문 처리 |
 
-**상태:** ✅ 완료 (v1.29.0) — `ClinicalQueryDecomposer`, `ResultAggregator`, `agentic_solve()` 파이프라인 구현
+**상태:** ✅ 완료 (v1.30.0) — `ClinicalQueryDecomposer`, `ResultAggregator`, `agentic_solve()` 파이프라인 구현
 **관련 파일:** `solver/agentic_rag.py`, `orchestrator/query_pattern_router.py`
 
 ---
@@ -339,7 +339,7 @@ mechanism 쿼리 ("how does fusion work"): semantic 0.6 + graph 0.3 + authority 
 | **현재** | Docker volume 기반 (수동 백업) |
 | **개선** | 자동 일일 백업 스크립트, 복구 절차 문서화 |
 
-**상태:** ✅ 완료 (v1.29.0) — `scripts/neo4j_backup.py` 신규, APOC JSON export + volume tar 이중 백업, restore/list/cleanup 지원
+**상태:** ✅ 완료 (v1.30.0) — `scripts/neo4j_backup.py` 신규, APOC JSON export + volume tar 이중 백업, restore/list/cleanup 지원
 **관련 파일:** `scripts/neo4j_backup.py`
 
 ---
@@ -394,8 +394,8 @@ mechanism 쿼리 ("how does fusion work"): semantic 0.6 + graph 0.3 + authority 
 
 | # | 항목 | 효과 | 난이도 |
 |---|------|------|--------|
-| 9 | ~~2.3 Agentic RAG~~ | ~~다단계 추론~~ | ✅ v1.29.0 |
-| 10 | ~~2.2 Evidence Synthesis 강화~~ | ~~메타분석 자동화~~ | ✅ v1.29.0 |
+| 9 | ~~2.3 Agentic RAG~~ | ~~다단계 추론~~ | ✅ v1.30.0 |
+| 10 | ~~2.2 Evidence Synthesis 강화~~ | ~~메타분석 자동화~~ | ✅ v1.30.0 |
 | 11 | **6.3 RAGAS 평가** | 전체 시스템 평가 | 중간 |
 | 12 | ~~5.4 테스트 커버리지~~ | ~~코드 품질~~ | ✅ v1.27.0 |
 

@@ -2,6 +2,19 @@
 
 ## Version History
 
+### v1.30.0: GraphRAG Pattern 2 + Graph-specific Questions + Evaluation (2026-03-18)
+
+- **B4 Pipeline 전면 교체**: Pattern 3 (dual merge) → **Pattern 2 (Graph Filter → Vector Rank)**
+  - Entity extraction (Haiku) → Graph filtering (STUDIES/INVESTIGATES) → Vector ranking
+  - Graph는 "범위 좁히기", Vector는 "순위 결정" — 역할 분리
+  - GraphRAG-FI (EMNLP 2025) 방법론 참고
+- **Evidence Chain 답변 형식**: Intervention→Pathology→Outcome 구조화 답변
+- **PubMed fallback**: DB에 3편 미만이면 PubMed 실시간 보완
+- **Graph-specific 질문 5개** (GR-001~005): multi_intervention_comparison, structured_comparison, evidence_chain, graph_traversal, comprehensive_evidence
+- **BS 논문 30편 임포트**: Modic(10), Smoking(10), Stem Cell(10) → DB 773편
+- **Phase B 평가표 수정**: blinding 위반 요소 제거, 시스템 정체 누출 방지
+- **Blinded 평가 프레임워크**: prompt + scoring log + CSV for GPT/Gemini/Claude/PSM/PHJ
+
 ### v1.29.0 Post-Release: LLM Reranker + DB 확장 + 평가 파이프라인 (2026-03-18)
 
 - **LLM Reranker 추가** (`solver/reranker.py`): Haiku 기반 질문 적합성 재정렬
