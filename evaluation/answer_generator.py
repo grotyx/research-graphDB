@@ -11,8 +11,10 @@ import asyncio
 import json
 import logging
 import os
+import re
 from dataclasses import dataclass, field
 from datetime import datetime
+from typing import Any, Optional
 from pathlib import Path
 from typing import Any, Optional
 
@@ -111,33 +113,39 @@ async def generate_answer_b3_llm_direct(question: str) -> tuple[str, list[dict]]
 async def generate_answer_b4_graphrag(
     neo4j_client: Any, question: str, top_k: int = 10
 ) -> tuple[str, list[dict]]:
-    """B4: GraphRAG Pattern 2 -- Graph Filter -> Vector Rank.
+    """B4: GraphRAG Pattern 2 v2 -- HyDE + Graph Filter(Union) + Direct Chunk Retrieval.
 
     Pipeline:
-        Step 1: LLM extracts entities (interventions, pathologies, outcomes)
-        Step 2: Graph filter — find papers connected via STUDIES/INVESTIGATES
-        Step 3: Broaden if too few papers found
-        Step 4: Vector rank within filtered papers
-        Step 5: PubMed fallback if still < 3 papers
-        Step 6: Generate answer with evidence chain structure
+        Step 1: HyDE — generate hypothetical answer for better embedding
+        Step 2: LLM extracts entities (with robust fallback)
+        Step 3: Graph filter — UNION (not intersection) of intervention/pathology papers
+        Step 4: Direct chunk retrieval from filtered papers (no vector index dependency)
+        Step 5: Vector rank the retrieved chunks
+        Step 6: PubMed fallback if still < 3 papers
+        Step 7: Generate answer with evidence chain structure
     """
-    # Step 1: Extract entities from question using Haiku
-    entities = await _extract_entities_from_question(question)
-    logger.info("B4 entities: %s", entities)
+    # Step 1: HyDE — generate hypothetical answer for better embedding
+    hyde_text = await _generate_hyde(question)
+    embed_query = hyde_text if hyde_text else question
+    logger.info("B4 HyDE: %s", "generated" if hyde_text else "skipped")
 
-    # Step 2: Graph filter — find papers connected to extracted entities
+    # Step 2: Extract entities with robust fallback
+    entities = await _extract_entities_from_question(question)
+    logger.info("B4 entities: I=%d P=%d", len(entities.get("interventions",[])), len(entities.get("pathologies",[])))
+
+    # Step 3: Graph filter — UNION of intervention and pathology papers
     paper_ids = await _graph_filter_papers(neo4j_client, entities)
     logger.info("B4 graph filter: %d papers", len(paper_ids))
 
-    # Step 3: If graph filter returns too few, broaden with keyword matching
-    if len(paper_ids) < 5:
+    # Step 3b: Broaden if too few
+    if len(paper_ids) < 10:
         paper_ids = await _broaden_search(neo4j_client, entities, paper_ids)
         logger.info("B4 after broadening: %d papers", len(paper_ids))
 
-    # Step 4: Vector rank within filtered papers
-    embedding = await _get_embedding(question)
+    # Step 4+5: Direct chunk retrieval + vector ranking
+    embedding = await _get_embedding(embed_query)
     chunks = await _vector_search_within_papers(
-        neo4j_client, embedding, paper_ids, top_k * 2
+        neo4j_client, embedding, paper_ids, top_k * 3
     )
 
     # Step 5: PubMed fallback if still < 3 papers
@@ -309,6 +317,28 @@ async def _get_embedding(text: str) -> list[float]:
     return response.data[0].embedding
 
 
+async def _generate_hyde(question: str) -> Optional[str]:
+    """Generate hypothetical answer for HyDE (Hypothetical Document Embedding)."""
+    import anthropic
+
+    try:
+        client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+        response = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=500,
+            system=(
+                "You are a spine surgery expert. Write a short paragraph (3-5 sentences) "
+                "answering the following question based on your knowledge. "
+                "Include specific study types, outcomes, and findings."
+            ),
+            messages=[{"role": "user", "content": question}],
+        )
+        return response.content[0].text
+    except Exception as e:
+        logger.warning("HyDE generation failed: %s", e)
+        return None
+
+
 def _detect_query_type(question: str) -> str:
     """Detect query type from question text for dynamic weight selection."""
     q = question.lower()
@@ -382,43 +412,82 @@ async def _extract_entities_from_question(question: str) -> dict:
     client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
     response = client.messages.create(
         model="claude-haiku-4-5-20251001",
-        max_tokens=500,
+        max_tokens=1000,
         system=(
             "Extract medical entities from the spine surgery question. "
-            "Return ONLY a JSON object with three keys:\n"
-            '- "interventions": list of surgical procedures or treatments\n'
-            '- "pathologies": list of diseases or conditions\n'
-            '- "outcomes": list of clinical outcome measures\n\n'
-            "IMPORTANT RULES:\n"
-            "- Include BOTH abbreviations AND full names: e.g., ['UBE', 'TLIF', 'Biportal Endoscopic']\n"
-            "- Keep each entity SHORT (1-3 words max)\n"
-            "- Include common synonyms: e.g., 'CDR' and 'Cervical Disc Replacement'\n"
-            "- If a category has no entities, return an empty list."
+            "Return ONLY a valid JSON object with three keys:\n"
+            '- "interventions": max 5 most important surgical procedures (SHORT names)\n'
+            '- "pathologies": max 3 most important conditions (SHORT names)\n'
+            '- "outcomes": max 5 most important outcome measures (SHORT names)\n\n'
+            "RULES:\n"
+            "- Include abbreviations: e.g., 'UBE', 'TLIF', 'CDR', 'ACDF'\n"
+            "- Keep each entity 1-3 words max\n"
+            "- If question asks about 'all interventions' or is very broad, "
+            "extract the main topic entity only (e.g., pathology)\n"
+            "- If a category has no entities, return an empty list []"
         ),
         messages=[{"role": "user", "content": question}],
     )
 
-    text = response.content[0].text
-    # Parse JSON from response (handle markdown code blocks)
-    text = text.strip()
-    if text.startswith("```"):
-        text = text.split("\n", 1)[1] if "\n" in text else text[3:]
-        if text.endswith("```"):
-            text = text[:-3]
-        text = text.strip()
+    text = response.content[0].text.strip()
+
+    # Robust JSON parsing
+    # Remove markdown code blocks
+    if "```" in text:
+        match = re.search(r"```(?:json)?\s*([\s\S]*?)```", text)
+        if match:
+            text = match.group(1).strip()
+
+    # Try to find JSON object in text
+    json_match = re.search(r"\{[\s\S]*\}", text)
+    if json_match:
+        text = json_match.group()
 
     try:
         result = json.loads(text)
     except json.JSONDecodeError:
-        logger.warning("Failed to parse entity extraction: %s", text[:200])
-        result = {"interventions": [], "pathologies": [], "outcomes": []}
+        # Fallback: extract keywords from question directly
+        logger.warning("Entity extraction JSON failed, using keyword fallback")
+        result = _keyword_entity_fallback(question)
 
-    # Ensure all keys exist
+    # Ensure all keys exist and limit sizes
     for key in ("interventions", "pathologies", "outcomes"):
         if key not in result:
             result[key] = []
+        # Limit to prevent over-extraction
+        result[key] = result[key][:8]
 
     return result
+
+
+def _keyword_entity_fallback(question: str) -> dict:
+    """Fallback entity extraction using keyword patterns when LLM fails."""
+    q = question.lower()
+    interventions = []
+    pathologies = []
+
+    # Common spine surgery interventions
+    int_keywords = [
+        "ube", "tlif", "plif", "alif", "xlif", "llif", "acdf", "cdr",
+        "laminectomy", "laminoplasty", "discectomy", "microdiscectomy",
+        "fusion", "decompression", "vertebroplasty", "kyphoplasty",
+        "pso", "vcr", "osteotomy", "foraminotomy",
+    ]
+    for kw in int_keywords:
+        if kw in q:
+            interventions.append(kw.upper() if len(kw) <= 4 else kw.title())
+
+    # Common pathologies
+    path_keywords = [
+        "stenosis", "herniation", "myelopathy", "spondylolisthesis",
+        "fracture", "tumor", "metastasis", "deformity", "scoliosis",
+        "subsidence", "pseudarthrosis",
+    ]
+    for kw in path_keywords:
+        if kw in q:
+            pathologies.append(kw.title())
+
+    return {"interventions": interventions[:5], "pathologies": pathologies[:3], "outcomes": []}
 
 
 async def _graph_filter_papers(
@@ -468,13 +537,15 @@ async def _graph_filter_papers(
             if pid:
                 path_papers.add(pid)
 
-    # Intersection: papers that match BOTH intervention AND pathology
-    if int_papers and path_papers:
+    # Union: papers matching intervention OR pathology
+    # (intersection was too narrow — many relevant papers lost)
+    paper_ids = int_papers | path_papers
+
+    # If union is very large (>200), prefer intersection if it has enough
+    if len(paper_ids) > 200 and len(int_papers & path_papers) >= 20:
         paper_ids = int_papers & path_papers
-    elif int_papers:
-        paper_ids = int_papers
-    elif path_papers:
-        paper_ids = path_papers
+        logger.info("Graph filter: using intersection (%d) instead of union (%d)",
+                     len(paper_ids), len(int_papers | path_papers))
 
     return paper_ids
 
@@ -544,8 +615,7 @@ async def _vector_search_within_papers(
 
     paper_id_list = list(paper_ids)
 
-    # Use vector index, then filter by paper_id
-    # Query a large pool since we filter post-hoc (need enough to find filtered papers)
+    # Strategy 1: Vector index search, filtered by paper_id
     query_top_k = min(max(top_k * 10, len(paper_ids) * 3), 500)
 
     query = """
@@ -565,6 +635,28 @@ async def _vector_search_within_papers(
         "paper_ids": paper_id_list,
         "limit": top_k,
     })
+
+    # Strategy 2: If vector index missed papers, directly fetch chunks from filtered papers
+    found_pids = {r.get("paper_id") for r in rows if r.get("paper_id")}
+    missing_pids = [pid for pid in paper_id_list if pid not in found_pids]
+
+    if missing_pids and len(rows) < top_k:
+        logger.info("Vector search missed %d papers, fetching directly", len(missing_pids))
+        direct_query = """
+        MATCH (p:Paper)-[:HAS_CHUNK]->(c:Chunk)
+        WHERE p.paper_id IN $missing_pids
+          AND c.tier = 'tier1'
+        RETURN c.content AS content, c.paper_id AS paper_id,
+               p.title AS title, p.evidence_level AS evidence_level,
+               p.year AS year, 0.5 AS score
+        LIMIT $limit
+        """
+        direct_rows = await neo4j_client.run_query(direct_query, {
+            "missing_pids": missing_pids[:20],
+            "limit": top_k - len(rows),
+        })
+        rows.extend(direct_rows)
+
     return rows
 
 
