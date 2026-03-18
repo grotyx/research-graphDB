@@ -261,86 +261,93 @@ One retrospective comparative analysis (Evidence: 2b) of recurrent lumbar disc h
 
 ---
 
-## B4: GraphRAG + HyDE (Full System)
+## B4: GraphRAG + HyDE + LLM Reranker
 **Papers retrieved**: 10
-**Evidence levels**: ['1a', '1a', '1a', '1a', '1a', '1a', '1b', '1a', '1b', '1a']
+**Evidence levels**: ['1a', '1a', '1a', '1a', '1a', '1b', '1a', '1a', '1b', '1b']
 
 ### Cited Papers
 - [1a] pubmed_41666862: Endoscopic Discectomy versus Microdiscectomy for Lumbar Disc Herniation: A Syste
 - [1a] pubmed_31529215: Network Meta-Analysis of Complication Rates for Discectomy Techniques in Symptom
 - [1a] pubmed_34213864: Network Meta-Analysis of Surgical Approaches for Lumbar Disc Herniation: Compara
-- [1a] pubmed_40611244: Network Meta-Analysis of Treatments for Lumbar Disc Herniation: Comparing Surgic
 - [1a] pubmed_41452813: Unilateral Biportal Endoscopic Discectomy versus Conventional Microdiscectomy fo
-- [1a] pubmed_38190892: Endoscopic versus Microscopic Decompression for Treatment of Lumbar Spinal Steno
-- [1b] pubmed_40708286: Efficacy and Safety of Full Endoscopic Lumbar Discectomy Combined with Platelet-
-- [1a] pubmed_39577647: Network Meta-Analysis of Surgical Approaches for Lumbar Spinal Stenosis: Compari
-- [1b] pubmed_41002072: Biportal Endoscopic Laminectomy versus Microscopic Laminectomy for Lumbar Spinal
+- [1a] pubmed_40611244: Network Meta-Analysis of Treatments for Lumbar Disc Herniation: Comparing Surgic
+- [1b] pubmed_40797374: Biportal Endoscopic Spine Surgery versus Conventional Open Surgery for Lumbar De
 - [1a] pubmed_40155927: Network Meta-Analysis Comparing Tubular Microdiscectomy, Percutaneous Transforam
+- [1a] pubmed_40568817: Comparison of the Biportal Endoscopic Versus Tubular Approach for the Treatment 
+- [1b] pubmed_36155241: Biportal Endoscopic Discectomy versus Open Microscopic Discectomy for Single-Lev
+- [1b] pubmed_40306720: Biportal Endoscopic Discectomy versus Microdiscectomy for Single-Level Lumbar Di
 
 ### Answer
 
-# Surgical Treatment of Lumbar Disc Herniation: Microdiscectomy vs. Endoscopic Discectomy
+# Surgical Treatment of Lumbar Disc Herniation: Microdiscectomy versus Endoscopic Discectomy
 
-## Summary of Evidence Quality
-The evidence base comprises multiple high-quality systematic reviews and network meta-analyses (Evidence level 1a-1b), providing robust comparative data on these techniques.
+## Evidence Summary
 
----
-
-## Clinical Outcomes
-
-### Pain Relief
-**Endoscopic approaches show superior or equivalent pain reduction:**
-- Percutaneous endoscopic discectomy (PED) demonstrates "superior pain relief compared to percutaneous discectomy" [pubmed_34213864]
-- Endoscopic decompression shows "nonsignificant trends favoring endoscopic" approaches for back pain and leg pain in stenosis models [pubmed_38190892]
-- Endoscopic decompression achieved superior short-term pain reduction (VAS) with SUCRA rankings of 88.70% [pubmed_39577647]
-
-### Functional Outcomes
-**Evidence suggests functional equivalence between approaches:**
-- Biportal endoscopic laminectomy vs. microscopic laminectomy: "anatomical benefits do not translate into superior functional outcomes or pain relief from the patient's perspective" [pubmed_41002072] (RCT evidence, 1b)
-- Unilateral biportal endoscopic discectomy meta-analysis compared to microdiscectomy but specific functional outcome comparisons not detailed [pubmed_41452813]
+Based on the provided systematic reviews and meta-analyses (all Level 1a-1b evidence), here is the comparative evidence:
 
 ---
 
-## Perioperative Outcomes (Favoring Endoscopic Approaches)
+## Clinical Efficacy
 
-**Blood Loss & Hospital Stay:**
-- Blood loss reduction: 33.29 mL (p=0.0032) [pubmed_38190892]
-- Hospital stay reduction: 1.79 days (p=0.001) [pubmed_38190892]
+### Pain Relief & Functional Outcomes
+**Percutaneous Endoscopic Discectomy (PED) appears superior for pain relief:**
+- PED is recommended as the preferred surgical approach, demonstrating "superior pain relief compared to percutaneous discectomy" [pubmed_34213864]
+- Among surgical options overall, endoscopic discectomy with internal fixation (EDF) showed "best performance" in treating lumbar disc herniation [pubmed_40611244]
 
-**Complications:**
-
-| Outcome | Result | Source |
-|---------|--------|--------|
-| Dural tear rate | Lowest in PED | [pubmed_34213864] |
-| Surgical site infection | RR 0.23 (p=0.001) favoring endoscopic | [pubmed_38190892] |
-| Overall complication rates | Analyzed across five techniques | [pubmed_31529215] |
-| Durotomy rate | RR 0.63 (p=0.0184) favoring endoscopic | [pubmed_38190892] |
+### Non-Inferiority of Endoscopic Approaches
+**Biportal endoscopic discectomy (BED) is non-inferior to microdiscectomy:**
+- BED was "non-inferior to microscopic discectomy over a 12 month period" [pubmed_36155241, Evidence 1b]
+- BED is "as effective as MD in treating single-level lumbar disc herniation" [pubmed_40306720, Evidence 1b]
 
 ---
 
-## Recommended Approach
+## Safety & Complication Profiles
 
-**Best Evidence Recommendation:**
-PED is "recommended as the preferred surgical approach for lumbar disc herniation treatment" based on "optimal balance of safety and efficacy" with "superior pain relief" and "lowest probable rates of dural tear and intraoperative complications" [pubmed_34213864]
+### Infection & Tissue Trauma
+Endoscopic techniques show advantages:
+- Endoscopic techniques offer "reduced tissue trauma, lower infection rates, and shorter hospital stays" [pubmed_41666862]
+- PED demonstrates "the lowest probable rates of dural tear and intraoperative complications" [pubmed_34213864]
 
-Alternative consideration: "Tubular discectomy should be considered when minimizing postoperative complications" is a secondary priority [pubmed_34213864]
+### Wound Complications
+**BED demonstrated specific advantages:**
+- BED "has distinct advantages in terms of postoperative wound complications" [pubmed_40306720]
+- BED shows "reduced muscle damage" with "slight advantage" in minimizing tissue injury [pubmed_36155241]
+- BED offers "benefits in terms of early postoperative surgical site pain, scar aesthetics, and muscle preservation as indicated by CPK levels" [pubmed_40306720]
 
-Endoscopic discectomy with internal fixation (EDF) "was found to be significantly superior to conservative treatments, with EDF showing the best performance" [pubmed_40611244]
-
----
-
-## Evidence Gaps
-
-1. **Long-term functional outcomes** beyond short-term pain measures are not comprehensively reported
-2. **Patient-reported outcome differences** appear minimal despite anatomical advantages [pubmed_41002072]
-3. **Specific reoperation rates** between microdiscectomy and endoscopic approaches not consistently reported
-4. **Learning curve effects** and surgeon experience not addressed in comparisons
-5. **Cost-effectiveness** analysis not included in retrieved papers
+### Postoperative Pain Considerations
+- Clinical implications of "surgical site pain should be carefully considered" with BED [pubmed_36155241]
 
 ---
 
-## Conclusion
+## Hospital Course
+- Endoscopic approaches associated with "shorter hospital stays" [pubmed_41666862]
 
-While endoscopic discectomy demonstrates clear advantages in perioperative metrics (reduced blood loss, shorter hospital stays, lower infection rates, reduced dural tear rates), functional pain relief outcomes appear **clinically equivalent** to microdiscectomy in available RCT evidence. PED is recommended as preferred first-line approach based on safety profile combined with efficacy.
+---
+
+## Surgical Limitations & Context
+
+### Microdiscectomy Remains Standard
+- "Microdiscectomy remains the gold standard surgical treatment for lumbar disc herniation, utilizing operating microscope magnification for precision" [pubmed_41666862]
+
+### Technical Challenges with Open Approaches
+- Open microdiscectomy necessitates "paraspinal muscle stripping and partial laminectomy, carrying risks of postoperative spinal biomechanical instability, epidural fibrosis, and cerebrospinal fluid leakage" [pubmed_40155927]
+
+---
+
+## Evidence Gaps & Limitations
+
+1. **Study Design Quality**: Most included studies comparing biportal endoscopy to open surgery "were retrospective rather than randomized controlled trials" (6 of 8 studies) [pubmed_40797374]
+
+2. **Surgical Variability**: "Inconsistent definitions and techniques for open and biportal endoscopic surgery, as well as variations in follow-up protocols, may have affected comparability" [pubmed_40797374]
+
+3. **Surgeon Experience**: "Surgeon experience and surgical approach (transforaminal vs. interlaminar vs. posterior) likely influence outcomes" [pubmed_40797374]
+
+4. **Limited Long-term Data**: Follow-up periods vary; most evidence extends to 12 months
+
+---
+
+## Clinical Recommendation
+
+Based on Level 1a-1b evidence, **percutaneous endoscopic discectomy is recommended as the preferred approach**, offering superior pain relief with lower complication rates. **Biportal endoscopic discectomy is a safe, non-inferior alternative to microdiscectomy** with advantages in wound healing and muscle preservation, though microdiscectomy remains an established standard approach with proven efficacy.
 
 ---

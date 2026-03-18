@@ -258,9 +258,9 @@ class TieredHybridSearch:
             except ImportError:
                 logger.debug("GraphContextExpander not available")
 
-        # Reranker (Cross-Encoder)
-        reranker_provider = self.config.get("reranker_provider", "cohere")
-        reranker_model = self.config.get("reranker_model", "rerank-v3.5")
+        # Reranker (LLM-based by default, Cohere as alternative)
+        reranker_provider = self.config.get("reranker_provider", "llm")
+        reranker_model = self.config.get("reranker_model", "claude-haiku-4-5-20251001")
         self.reranker = Reranker(provider=reranker_provider, model=reranker_model)
 
         # HyDE: Lazy-initialized Anthropic client

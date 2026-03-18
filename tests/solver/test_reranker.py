@@ -100,7 +100,8 @@ class TestRerankerWithMockCohere:
     @pytest.mark.asyncio
     async def test_rerank_reorders_results(self):
         """Reranker reorders results based on relevance scores."""
-        r = Reranker(provider="none")  # Start disabled
+        r = Reranker(provider="cohere")  # Start as cohere
+        r.provider = "cohere"
         r._available = True  # Force available
 
         # Mock the Cohere client
@@ -134,7 +135,8 @@ class TestRerankerWithMockCohere:
     @pytest.mark.asyncio
     async def test_rerank_exception_returns_original(self):
         """Reranker returns original order on exception."""
-        r = Reranker(provider="none")
+        r = Reranker(provider="cohere")
+        r.provider = "cohere"
         r._available = True
 
         mock_client = MagicMock()

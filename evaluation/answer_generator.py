@@ -111,19 +111,27 @@ async def generate_answer_b3_llm_direct(question: str) -> tuple[str, list[dict]]
 async def generate_answer_b4_graphrag(
     neo4j_client: Any, question: str, top_k: int = 10
 ) -> tuple[str, list[dict]]:
-    """B4: Full GraphRAG — TieredHybridSearch + HyDE + 3-way ranking."""
+    """B4: Full GraphRAG — TieredHybridSearch + HyDE + LLM Reranker + 3-way ranking."""
     from solver.tiered_search import TieredHybridSearch, SearchInput, SearchTier
 
     search = TieredHybridSearch(
         neo4j_client=neo4j_client,
-        config={"use_neo4j_hybrid": True},
+        config={
+            "use_neo4j_hybrid": True,
+            "reranker_provider": "llm",
+            "reranker_model": "claude-haiku-4-5-20251001",
+        },
     )
+
+    # Detect query type for dynamic weight adjustment
+    query_type = _detect_query_type(question)
 
     search_input = SearchInput(
         query=question,
         top_k=top_k * 3,
         tier_strategy=SearchTier.TIER1_THEN_TIER2,
         use_hyde=True,
+        use_reranker=True,
     )
 
     output = await search.search(search_input)
@@ -271,6 +279,22 @@ async def _get_embedding(text: str) -> list[float]:
         dimensions=3072,
     )
     return response.data[0].embedding
+
+
+def _detect_query_type(question: str) -> str:
+    """Detect query type from question text for dynamic weight selection."""
+    q = question.lower()
+    comparison_keywords = ["versus", " vs ", "compared", "comparing", "comparison", "vs."]
+    evidence_keywords = ["evidence for", "evidence of", "rct", "meta-analysis", "systematic review"]
+    mechanism_keywords = ["risk factor", "mechanism", "pathogenesis", "why does", "how does"]
+
+    if any(kw in q for kw in comparison_keywords):
+        return "comparison"
+    elif any(kw in q for kw in evidence_keywords):
+        return "evidence"
+    elif any(kw in q for kw in mechanism_keywords):
+        return "mechanism"
+    return "default"
 
 
 async def _generate_with_llm(question: str, context: str) -> str:
