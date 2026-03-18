@@ -877,7 +877,9 @@ class TestRerankerIntegration:
              "evidence_level": "1b", "publication_year": 2023, "score": 0.9}
         ]
         engine = TieredHybridSearch(vector_db=MockVectorDB(data))
-        # Reranker should not be available (no COHERE_API_KEY)
+        # Force reranker to use Cohere provider (no COHERE_API_KEY → unavailable)
+        from solver.reranker import Reranker
+        engine.reranker = Reranker(provider="cohere")
         assert engine.reranker.is_available is False
 
         result = await engine.search(SearchInput(
