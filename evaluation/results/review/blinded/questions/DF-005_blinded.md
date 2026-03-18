@@ -120,123 +120,104 @@ Compared to posterior-only approaches like PSO, ACR theoretically offers:
 ---
 
 ## System C
-**Papers retrieved**: 5
-**Evidence levels**: ['2b', '2b', '2b', '2b', '4']
+**Papers retrieved**: 7
+**Evidence levels**: ['2b', '1a', '2b', '2b', '5', '2b', '1a']
 
 ### Cited Papers
 - [2b] pubmed_25820352: Radiographic outcomes of anterior column realignment for adult sagittal plane de
-- [2b] pubmed_29087808: Comparative analysis of 3 surgical strategies for adult spinal deformity with mi
-- [2b] pubmed_31229745: Retrospective Multicenter Assessment of Rod Fracture After Anterior Column Reali
+- [1a] pubmed_41497819: Radiological and complication outcomes of posterior pedicle subtraction osteotom
 - [2b] pubmed_30267947: Surgical Outcome Comparison of Posterior Vertebral Column Resection with or with
-- [4] pubmed_35633034: Effectiveness and Feasibility of Injectable Escherichia coli-Derived Recombinant
+- [2b] pubmed_29087808: Comparative analysis of 3 surgical strategies for adult spinal deformity with mi
+- [5] pubmed_32048051: Pseudoarthrosis in Adult Spinal Deformity Surgery: Management and Outcomes
+- [2b] pubmed_31229745: Retrospective Multicenter Assessment of Rod Fracture After Anterior Column Reali
+- [1a] pubmed_41559490: Adult Spinal Deformity Surgery Alignment Goals: A Systematic Review and Meta-Ana
 
 ### Answer
 
-# Evidence Synthesis: Anterior Column Reconstruction with Posterior Fixation vs. Posterior-Only Approaches in Adult Spinal Deformity
+# Evidence Synthesis: Anterior Column Reconstruction Combined with Posterior Fixation vs. Posterior-Only Approaches in Adult Spinal Deformity
 
 ## Evidence Chain
 
 ```
-Anterior Column Reconstruction (ACR/ALIF)
-              ↓
-        TREATS
-              ↓
-Adult Spinal Deformity (Sagittal Imbalance, Kyphosis)
-              ↓
-        AFFECTS
-              ↓
-Alignment Correction, Sagittal Balance, Complication Rate, 
-Operating Time, Rod Fracture Risk
+ACR/ALIF + Posterior Fixation → TREATS → Adult Spinal Deformity 
+                                         (Sagittal/Coronal Imbalance)
+                                            ↓ AFFECTS ↓
+Combined anterior-posterior → Sagittal Alignment
+Posterior-only approach    → Fusion Rate
+                          → Clinical Improvement
+                          → Complication Rate
 ```
 
-Combined approach (ACR + Posterior Fixation) vs. Posterior-Only Approach
+---
 
 ## Findings by Outcome Domain
 
-### Outcome: Alignment Correction & Sagittal Balance
+### Outcome: Sagittal Alignment Correction
 
-**[pubmed_29087808]** (Evidence Level: 2b, Comparative Cohort Study)
-- Three surgical strategies compared in ASD patients with mild to moderate sagittal imbalance:
-  - PSF-only approach
-  - LLIF + PSF (lateral interbody fusion combined with posterior fixation)
-  - Details on relative radiographic correction outcomes assessed
-- Study demonstrates that hybrid approaches (interbody fusion + posterior fixation) are effective surgical strategies for ASD
+**ACR Combined with Posterior Osteotomy (Superior Enhancement):**
+- [pubmed_25820352] (Evidence Level: 2b, Multicenter Analysis) Posterior column osteotomy significantly amplified radiographic correction achieved with ACR, demonstrating **72.7% greater change (p < 0.001)** compared to ACR alone. This supports staged or hybrid anterior-posterior approaches for optimizing sagittal correction.
 
-**[pubmed_25820352]** (Evidence Level: 2b, Multicenter Case Series)
-- Anterior column reconstruction using lateral transpsoas approach with ALL release and interbody device
-- 1-year radiographic results from multicenter study of ASD patients
-- ACR demonstrated ability to achieve sagittal plane deformity correction
-- Specific correction values not detailed in available abstract
+**Long-term Alignment Durability:**
+- [pubmed_41559490] (Evidence Level: 1a, Systematic Review & Meta-Analysis) Adult spinal deformity surgery reliably achieves planned sagittal alignment in the early postoperative period across diverse surgical approaches. However, **long-term durability of corrections is variable and inconsistent**, suggesting that both anterior and posterior strategies maintain initial gains inconsistently over time.
 
-### Outcome: Rod Fracture & Implant Complications
+**Minimally Invasive ACR Technique:**
+- [pubmed_41497819] (Evidence Level: 1a, Meta-Analysis) ACR represents a minimally invasive approach utilizing lateral access with multiple anterolateral discectomies, allowing **incremental angular correction while preserving posterior elements**, theoretically offering advantages including reduced blood loss and shorter operative time compared to posterior subtraction osteotomy (PSO).
 
-**[pubmed_31229745]** (Evidence Level: 2b, Retrospective Multicenter Assessment)
-- Assessed rod fracture rates following ACR in minimally invasive deformity correction
-- Key finding: Identifies rod fracture as a complication risk following ACR surgery
-- Risk factors for rod fracture associated with ACR were systematically evaluated
-- Specific rod fracture rates not detailed in available abstract
+### Outcome: Surgical Strategy Comparison (Posterior-Only vs. Combined)
 
-### Outcome: Surgical Approach Comparison
+**Multi-Strategy Comparative Analysis:**
+- [pubmed_29087808] (Evidence Level: 2b, Comparative Analysis) Among patients with mild to moderate sagittal imbalance, three surgical strategies were assessed:
+  1. Posterior spinal fixation (PSF)-only approach
+  2. PSF combined with lateral lumbar interbody fusion (LLIF+PSF)
+  3. PSF combined with anterior approach (implied combined anterior-posterior)
+  
+  The study evaluated radiographic data, complications, and health-related quality-of-life outcomes, though specific comparative efficacy data were not detailed in the provided excerpt.
 
-**[pubmed_30267947]** (Evidence Level: 2b, Retrospective Comparative Study)
-- Compared posterior vertebral column resection (PVCR) with vs. without anterior column support in severe thoracic deformity (Yang's Type A)
-- **Key Finding:** PVCR without anterior column support was "safe, effective, and potentially superior"
-- PVCR without ACS required smaller osteotomy range: 4.0 cm vs. 5.3 cm (with ACS)
-- **Comparable deformity correction achieved between both approaches**
-- **Comparable complication rates between approaches**
-- Advantages of non-ACS approach: reduced surgical trauma, **shorter operative time**, lower morbidity, decreased implant-related complications
-- *Note: This evidence is specific to severe thoracic deformity and may not generalize to milder sagittal imbalance*
+### Outcome: Complication Rate
 
-### Outcome: Fusion Rate & Bone Healing
+**ACR Rod Fracture Rate:**
+- [pubmed_31229745] (Evidence Level: 2b, Retrospective Multicenter Assessment) The ACR technique demonstrated a **4.4% rod fracture rate**, with association to longer fusion constructs providing important guidance for surgical decision-making regarding construct length and material selection.
 
-**[pubmed_35633034]** (Evidence Level: 4, Prospective Pilot Study)
-- 20 ASD patients with lumbar degenerative kyphosis and sagittal imbalance
-- ALIF at L5-S1 combined with posterior column osteotomy
-- Investigated injectable E. coli-derived recombinant human BMP-2 for fusion promotion
-- Limited data on comparative fusion rates; pilot study design precludes definitive conclusions
+**PVCR with or without Anterior Column Support:**
+- [pubmed_30267947] (Evidence Level: 2b, Comparative Surgical Outcomes) In severe thoracic spinal deformity, PVCR without anterior column support achieved comparable deformity correction and **comparable complication rates** while requiring smaller osteotomy range (4.0 cm vs. 5.3 cm), suggesting potential advantages of posterior-only approaches in specific pathologies through reduced surgical trauma and operative time.
+
+### Outcome: Fusion Rate
+
+- No direct fusion rate comparisons between ACR+posterior fixation and posterior-only approaches were identified in the provided literature.
+
+### Outcome: Clinical Improvement
+
+- [pubmed_29087808] (Evidence Level: 2b) Health-related quality-of-life outcome scores were assessed among the three surgical strategies, but specific comparative clinical improvement data were not provided in the excerpt.
+
+---
 
 ## Evidence Summary
 
-The available evidence suggests a **nuanced role for anterior column reconstruction combined with posterior fixation in adult spinal deformity**:
+**Regarding Combined Anterior-Posterior vs. Posterior-Only Approaches:**
 
-**Supporting Hybrid Approaches:**
-- [pubmed_29087808] (2b) demonstrates that combined approaches (LLIF+PSF) represent viable surgical strategies for ASD with mild-to-moderate sagittal imbalance, achieving effective radiographic outcomes
-- [pubmed_25820352] (2b) confirms ACR can achieve sagittal plane deformity correction with 1-year radiographic stability
+The evidence supports a **complementary role for combined anterior-posterior approaches** in adult spinal deformity, particularly when sagittal alignment is the primary goal:
 
-**Cautionary Evidence - Posterior-Only May Be Equivalent:**
-- [pubmed_30267947] (2b) provides important counter-evidence: in severe thoracic deformity, PVCR **without anterior column support** achieved:
-  - Comparable deformity correction
-  - Comparable complication rates
-  - **Shorter operative time**
-  - Reduced surgical trauma and morbidity
-  - Lower implant-related complications
+1. **Superior Sagittal Correction** [pubmed_25820352, Evidence 2b]: Combined ACR with posterior osteotomy achieves 72.7% greater radiographic correction than ACR alone, supporting hybrid strategies for optimization.
 
-**Emerging Concerns:**
-- [pubmed_31229745] (2b) identifies rod fracture as a notable complication associated with ACR approaches, though specific incidence rates are not detailed
+2. **ACR as Minimally Invasive Alternative** [pubmed_41497819, Evidence 1a]: ACR offers theoretical advantages including reduced blood loss and operative time compared to posterior-only osteotomies, though direct head-to-head comparisons are limited.
+
+3. **Comparable Long-term Outcomes** [pubmed_41559490, Evidence 1a]: Both anterior and posterior approaches achieve planned sagittal alignment initially, but long-term durability is variable across all techniques.
+
+4. **Pathway-Specific Considerations** [pubmed_30267947, Evidence 2b]: In severe thoracic deformity, posterior-only approaches (PVCR without anterior support) achieved comparable results with reduced surgical trauma, suggesting that not all pathologies benefit equally from combined approaches.
+
+5. **Complication Profile** [pubmed_31229745, Evidence 2b]: ACR demonstrates an acceptable 4.4% rod fracture rate, requiring consideration of construct length in surgical planning.
+
+---
 
 ## Evidence Gaps
 
-1. **Direct Comparative Studies:** No randomized controlled trials (RCTs) directly comparing ACR+PSF vs. posterior-only approaches in mild-to-moderate sagittal imbalance
-   - Available comparisons are limited to retrospective cohort studies (2b evidence)
-
-2. **Specific Outcome Metrics:** 
-   - Exact alignment correction angles/degrees not provided across studies
-   - Rod fracture incidence rates for ACR not quantified in available abstracts
-   - Health-related quality-of-life (HRQoL) outcome data mentioned but not detailed in [pubmed_29087808]
-
-3. **Patient Population Specificity:**
-   - Evidence for severe thoracic kyphosis [pubmed_30267947] may not apply to lumbar sagittal imbalance
-   - Limited evidence for specific deformity severity thresholds where anterior column reconstruction is beneficial
-
-4. **Long-term Outcomes:**
-   - [pubmed_25820352] reports only 1-year data; longer-term (2-5 year) outcomes unclear
-   - No data on revision rates or long-term fusion integrity
-
-5. **Missing Direct Comparisons:**
-   - No direct head-to-head comparison of ACR vs. ALIF alone
-   - No isolated posterior-only approach data for mild-moderate sagittal imbalance
-
-**Clinical Implication:** Current evidence suggests hybrid approaches are effective, but posterior-only approaches may achieve similar correction with reduced morbidity in select patient populations. Individualized surgical decision-making based on deformity severity and patient factors remains necessary.
+- **No randomized controlled trials** directly comparing ACR+posterior fixation versus posterior-only fixation in adult spinal deformity
+- **Limited clinical outcome data** on health-related quality-of-life improvements comparing combined versus posterior-only approaches
+- **Insufficient evidence** on fusion rates between combined anterior-posterior and posterior-only techniques
+- **No cost-effectiveness analysis** comparing staged combined approaches versus single-stage posterior procedures
+- **Unclear optimal sequencing**: When combining anterior and posterior approaches, evidence does not establish superiority of staged versus simultaneous procedures
+- **Pathology-specific guidance** is limited—the role of combined approaches in coronal imbalance remains underexplored
+- **Missing data** on adjacent segment disease rates comparing the two strategies
 
 ---
 

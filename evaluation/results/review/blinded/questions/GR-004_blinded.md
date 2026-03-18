@@ -3,18 +3,16 @@
 ---
 
 ## System A
-**Papers retrieved**: 9
-**Evidence levels**: ['1a', '1a', '1a', '1a', '1a', '1a', '1a', '1a', '1a']
+**Papers retrieved**: 7
+**Evidence levels**: ['1a', '1a', '1a', '1a', '1a', '1a', '1a']
 
 ### Cited Papers
 - [1a] pubmed_31863642: Cervical Disc Arthroplasty versus Anterior Cervical Discectomy and Fusion for Ce
-- [1a] pubmed_40797275: Long-term effectiveness and safety of cervical disc arthroplasty compared to ant
-- [1a] pubmed_29595628: Anterior Cervical Artificial Disc Replacement Versus Anterior Cervical Decompres
-- [1a] pubmed_40882232: Anterior Cervical Discectomy and Fusion versus Cervical Disc Arthroplasty for De
 - [1a] pubmed_29753897: Anterior Cervical Discectomy and Fusion versus Anterior Cervical Disc Replacemen
-- [1a] pubmed_28700452: Anterior cervical discectomy and fusion, cervical disc replacement, and minimall
+- [1a] pubmed_40797275: Long-term effectiveness and safety of cervical disc arthroplasty compared to ant
+- [1a] pubmed_40882232: Anterior Cervical Discectomy and Fusion versus Cervical Disc Arthroplasty for De
+- [1a] pubmed_29595628: Anterior Cervical Artificial Disc Replacement Versus Anterior Cervical Decompres
 - [1a] pubmed_31431880: Total Disc Replacement versus Anterior Cervical Discectomy and Fusion for Adjace
-- [1a] pubmed_35113188: Comparison of Outcomes Between Artificial Cervical Disc Replacement and Anterior
 - [1a] pubmed_30062947: Total disc replacement versus anterior cervical discectomy and fusion: a systema
 
 ### Answer
@@ -24,118 +22,75 @@
 ## Evidence Chain
 
 ```
-CDR/ACDR/TDR → TREATS → Cervical Degenerative Disc Disease
-                          (Cervical Spondylosis, Disc Herniation, 
-                           Cervical Radiculopathy)
-                    ↓
-              AFFECTS
-                    ↓
-         Multiple Outcome Domains:
-    • Pain (VAS, Arm Pain, Neck Pain)
-    • Function (NDI, JOA)
-    • Motion (ROM at surgical level)
-    • Degeneration (ASD, Secondary Surgery)
-    • Safety (Dysphagia, C5 Palsy, Complications)
-    • Satisfaction (Patient Satisfaction, Fusion Rate)
+CDR (Arthroplasty) → TREATS → Cervical Disc Disease
+                              ↓
+                    Myelopathy/Radiculopathy
+                              ↓
+                    AFFECTS → NDI, Neck Pain, Arm Pain,
+                              Functional Status, Adjacent 
+                              Segment Disease
+                    
+ACDF → TREATS → Cervical Disc Disease
+                              ↓
+                    Same pathologies
+                              ↓
+                    AFFECTS → Same outcome measures
 ```
 
 ## Findings by Outcome Domain
 
 ### Outcome: Neck Disability Index (NDI)
+- [pubmed_31863642] (Evidence: 1a, Systematic Review and Meta-Analysis): CDR vs ACDF showed NO significant difference (MD -2.88, 95% CI [-5.93, 0.17], p=0.06)
+- [pubmed_29753897] (Evidence: 1a, Systematic Review and Meta-Analysis): CDR vs ACDF showed equivalent functional improvement (NDI MD -0.55, p=0.33)
+- [pubmed_29595628] (Evidence: 1a, Systematic Review and Meta-Analysis): Bi-level disease - CDR superior to ACDF (SMD 0.41, 95% CI: 0.29-0.52, p<0.00001)
+- [pubmed_31431880] (Evidence: 1a, Systematic Review and Meta-Analysis): TDR vs ACDF at final follow-up showed no significant difference (TDR 14.97 vs ACDF 20.09, P=0.11)
 
-- [pubmed_31863642] (Evidence Level: 1a, Meta-analysis) CDA demonstrated significant superiority over ACDF in NDI score in US subgroup (MD -4.71, 95% CI [-7.38, -2.04], p=0.0005)
-- [pubmed_40797275] (Evidence Level: 1a, Meta-analysis) CDA showed superior efficacy compared to ACDF; specific NDI values not detailed but mentioned as key efficacy measure
-- [pubmed_29753897] (Evidence Level: 1a, Meta-analysis) ACDR provided equivalent functional improvement to ACDF (NDI MD -0.55, p=0.33)
-- [pubmed_30062947] (Evidence Level: 1a, Systematic review) TDR demonstrated significant advantages in functional outcomes (NDI) at medium-to-long-term follow-up (4-7 years) compared to ACDF
+### Outcome: Neck Pain (VAS)
+- [pubmed_31863642] (Evidence: 1a, Systematic Review and Meta-Analysis): CDR superior to ACDF (MD -5.50, 95% CI [-8.49, -2.52], p=0.0003)
+- [pubmed_29753897] (Evidence: 1a, Systematic Review and Meta-Analysis): CDR provided equivalent pain relief to ACDF (VAS MD -0.50, p=0.08)
 
-### Outcome: Visual Analog Scale (VAS) - Pain Relief
+### Outcome: Arm Pain (VAS)
+- [pubmed_31863642] (Evidence: 1a, Systematic Review and Meta-Analysis): CDR superior to ACDF (MD -3.78, 95% CI [-7.04, -0.53], p=0.02)
 
-- [pubmed_29753897] (Evidence Level: 1a, Meta-analysis) ACDR provided equivalent pain relief to ACDF (VAS MD -0.50, p=0.08)
-- [pubmed_31431880] (Evidence Level: 1a, Meta-analysis) VAS neck at final follow-up showed comparable improvement: TDR 1.36 (95% CI: 0.83-1.88) vs ACDF 2.39 (95% CI: 1.52-3.26), P=0.152
-- [pubmed_31431880] (Evidence Level: 1a, Meta-analysis) VAS upper limb similarly improved in both groups: TDR 1.56 (95% CI: 0.86-2.25) vs ACDF 1.99 (95% CI: 1.54-2.43), P=0.200
+### Outcome: Functional Status (SF-36 Physical Component)
+- [pubmed_31863642] (Evidence: 1a, Systematic Review and Meta-Analysis): CDR improves physical function compared to ACDF (MD 1.93, 95% CI [0.53, 3.xx])
 
-### Outcome: Range of Motion (ROM)
+### Outcome: Range of Motion (Motion Preservation)
+- [pubmed_40797275] (Evidence: 1a, Systematic Review and Meta-Analysis): CDR significantly preserved ROM at operated segment vs ACDF (WMD 10.37 degrees, p<0.01)
+- [pubmed_29753897] (Evidence: 1a, Systematic Review and Meta-Analysis): CDR significantly preserved cervical motion vs ACDF (MD 13.83, p<0.00001)
+- [pubmed_31431880] (Evidence: 1a, Systematic Review and Meta-Analysis): TDR maintained ROM of replaced segment (7.51°, 95% CI: 4.96-10.07)
 
-- [pubmed_40797275] (Evidence Level: 1a, Meta-analysis) CDA significantly preserved range of motion at the operated segment compared to ACDF (WMD 10.37 degrees, p<0.01)
-- [pubmed_29753897] (Evidence Level: 1a, Meta-analysis) ACDR superior preserved cervical motion compared to ACDF (MD 13.83 degrees, p<0.00001)
-- [pubmed_31431880] (Evidence Level: 1a, Meta-analysis) C2-C7 range of motion was significantly higher in TDR group (40.16°, 95% CI: 33.99-46.34) compared to ACDF (35.10°, 95% CI: 32.51-37.69), difference of 5.06° (P=0.001)
+### Outcome: Neurological Success
+- [pubmed_40797275] (Evidence: 1a, Systematic Review and Meta-Analysis): CDR superior to ACDF (OR 1.60, 95% CI: 1.30-1.98, p<0.01)
 
-### Outcome: Adjacent Segment Degeneration (ASD) / Secondary Surgery
+### Outcome: Adjacent Segment Disease
+- [pubmed_29753897] (Evidence: 1a, Systematic Review and Meta-Analysis): CDR significantly reduced ASD compared to ACDF (OR 0.27, p=0.001)
+- [pubmed_31431880] (Evidence: 1a, Systematic Review and Meta-Analysis): Assessed as primary outcome comparing TDR vs ACDF
 
-- [pubmed_31863642] (Evidence Level: 1a, Meta-analysis) CDA demonstrated significant reduction in symptomatic ASD over ACDF in US subgroup (OR 0.40, 95% CI [0.28, 0.58], p<0.00001)
-- [pubmed_31863642] (Evidence Level: 1a, Meta-analysis) CDA significantly reduced total secondary surgery (OR 0.48, 95% CI [0.35, 0.66], p<0.00001) and adjacent level surgery (OR 0.35, 95% CI [0.26, 0.48]) compared to ACDF
-- [pubmed_31863642] (Evidence Level: 1a, Meta-analysis) Secondary surgery at index level reduced with CDA (OR 0.39, 95% CI [0.29, 0.53], p<0.00001)
-- [pubmed_29753897] (Evidence Level: 1a, Meta-analysis) ACDR significantly reduced adjacent segment disease compared to ACDF (OR 0.27, p=0.001)
-- [pubmed_30062947] (Evidence Level: 1a, Systematic review) TDR showed substantial reduction in adjacent segment disease development compared to ACDF
-- [pubmed_29753897] (Evidence Level: 1a, Meta-analysis) ACDR significantly reduced reoperation rates compared to ACDF (OR 0.25, p<0.00001)
-
-### Outcome: Neurological Recovery/Success
-
-- [pubmed_40797275] (Evidence Level: 1a, Meta-analysis) Neurological success rates were significantly higher in CDA compared to ACDF (OR 1.60, 95% CI: 1.30-1.98, p<0.01), attributed to restoration of normal intervertebral height and preservation of spinal functional units
-
-### Outcome: Complications (Including Dysphagia)
-
-- [pubmed_29753897] (Evidence Level: 1a, Meta-analysis) ACDR significantly reduced complications compared to ACDF (OR 0.62, p=0.006)
-- [pubmed_30062947] (Evidence Level: 1a, Systematic review) TDR showed advantages in symptom relief including dysphagia compared to ACDF at medium-to-long-term follow-up
-
-### Outcome: Patient Satisfaction
-
-- [pubmed_30062947] (Evidence Level: 1a, Systematic review) TDR demonstrated higher patient satisfaction compared to ACDF at medium-to-long-term follow-up (4-7 years)
-
-### Outcome: Quality of Life (SF-36)
-
-- [pubmed_30062947] (Evidence Level: 1a, Systematic review) TDR showed advantages in quality of life (SF-36 physical component) compared to ACDF at medium-to-long-term follow-up
-
-### Outcome: Hospital Stay/Blood Loss
-
-- [pubmed_29753897] (Evidence Level: 1a, Meta-analysis) ACDR and ACDF showed no differences in hospital stay or blood loss
-- [pubmed_35113188] (Evidence Level: 1a, Meta-analysis) Comparable length of hospital stay found in both ACDR and ACDF groups
-
-### Outcome: Secondary Surgical Procedures
-
-- [pubmed_28700452] (Evidence Level: 1a, Meta-analysis) CDR demonstrated the lowest rate of secondary surgical procedures (P=0.0178) among motion-preserving alternatives
+### Outcome: Complications and Reoperation Rates
+- [pubmed_29753897] (Evidence: 1a, Systematic Review and Meta-Analysis): CDR reduced complications (OR 0.62, p=0.006) and reoperation rates (OR 0.25, p<0.00001) vs ACDF
 
 ## Evidence Summary
 
-**Interventions Sharing Most Outcome Measures with CDR (Cervical Disc Replacement):**
+**ACDF shares the MOST outcome measures with CDR**, appearing in all six retrieved meta-analyses as the primary comparison intervention. Both interventions are evaluated across:
 
-1. **Anterior Cervical Discectomy and Fusion (ACDF)** - PRIMARY COMPARATOR
-   - Shares assessment across ALL major outcome domains
-   - Most extensively studied comparison in the literature
-   - Evidence Level: 1a across all papers
-   - Direct head-to-head comparisons in 8 systematic reviews/meta-analyses
+1. **Primary functional outcomes**: NDI (5 studies), VAS neck pain (2 studies), VAS arm pain (1 study)
+2. **Secondary functional outcomes**: SF-36 physical component (1 study)
+3. **Biomechanical outcomes**: Range of motion preservation (3 studies)
+4. **Safety outcomes**: Neurological success (1 study), complications/reoperation rates (1 study), adjacent segment disease (2 studies)
 
-2. **Total Disc Replacement (TDR)** - CLOSELY RELATED (synonym for CDR in some contexts)
-   - Shares outcome measures: NDI, VAS (neck and upper limb), ROM, ASD, complications, patient satisfaction, SF-36, dysphagia
-   - Evidence Level: 1a
-   - Papers [pubmed_31431880], [pubmed_30062947]
-
-3. **Cervical Disc Arthroplasty (CDA)** - CLOSELY RELATED (synonym variant)
-   - Shares outcome measures: NDI, VAS, ROM, ASD, secondary surgery rates, neurological recovery, complications
-   - Evidence Level: 1a
-   - Papers [pubmed_31863642], [pubmed_40797275], [pubmed_29753897]
-
-**Outcome Measures Most Consistently Reported Across CDR Comparisons:**
-- NDI (Functional outcome) [5 papers]
-- VAS (Pain relief) [4 papers]
-- ROM (Motion preservation) [3 papers]
-- ASD/Secondary Surgery (Degenerative outcomes) [5 papers]
-- Complications (Safety) [3 papers]
-- Patient Satisfaction [1 paper]
-- Neurological Recovery [1 paper]
-- Quality of Life [1 paper]
+**Evidence Level Summary**:
+- All comparisons are supported by Level 1a evidence (systematic reviews and meta-analyses of RCTs)
+- CDR demonstrates superior or equivalent outcomes to ACDF across most domains, with particular advantages in pain reduction, motion preservation, and reducing adjacent segment disease
+- Functional disability (NDI) shows mixed results depending on disease level (equivalent for single-level, superior for bi-level)
 
 ## Evidence Gaps
 
-- **Japanese Orthopedic Association (JOA) Scale**: Not reported in any of the provided papers comparing CDR/ACDR/TDR to other interventions; Japanese studies may use this metric but are absent from these reviews
-- **Subsidence**: No specific quantification of subsidence rates provided in outcome comparisons across papers
-- **C5 Palsy**: Not specifically measured as a distinct outcome in the retrieved meta-analyses
-- **Fusion Rate**: Not applicable to motion-preserving CDR; only relevant for ACDF comparison but not explicitly detailed
-- **Multilevel vs Single-level Disease**: [pubmed_29753897] addresses bilevel disease but represents minority of evidence
-- **Posterior Cervical Procedures**: [pubmed_28700452] mentions minimally invasive posterior cervical foraminotomy but provides limited comparative data
-- **Long-term Outcomes (>7 years)**: Most follow-up data cited as 4-7 years; longer-term safety and efficacy data gaps noted in [pubmed_30062947]
-- **Hybrid Surgery Outcomes**: No papers specifically addressing hybrid surgery (combination of CDR and fusion) in the provided dataset
-- **Cervical Corpectomy Comparison**: Not compared to CDR in provided papers
+- **No direct comparison of CDR with Laminectomy** - laminectomy is listed in interventions but not compared to CDR in any provided papers
+- **Limited data on Fusion as distinct from ACDF** - fusion appears as a broader category but specific ACDF/non-ACDF fusion comparisons are not separately analyzed
+- **Long-term outcomes (>5 years)**: Limited data on sustained differences in adjacent segment disease beyond mid-term follow-up
+- **Cost-effectiveness analysis**: None of the retrieved papers address economic outcomes or cost comparisons
+- **Patient-specific outcomes**: No stratification by myelopathy vs. radiculopathy presentations across outcome measures
 
 ---
 

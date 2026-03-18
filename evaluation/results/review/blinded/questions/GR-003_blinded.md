@@ -124,10 +124,149 @@ UBE addresses multiple morphologies of lumbar disc herniation:
 ---
 
 ## System B
-**Papers retrieved**: 0
+**Papers retrieved**: 10
+**Evidence levels**: ['1b', '2b', '2b', '1a', '2b', '2b', '1a', '4', '2b', '2b']
+
+### Cited Papers
+- [1b] pubmed_39054483: Unilateral Biportal Endoscopy versus Anterior Cervical Decompression and Fusion 
+- [2b] pubmed_41693174: Risk Factors for Residual Low Back Pain After Unilateral Biportal Endoscopy for 
+- [2b] pubmed_41190084: Ligamentum Flavum Preservation Technique During Unilateral Biportal Endoscopic S
+- [1a] pubmed_41452813: Unilateral Biportal Endoscopic Discectomy versus Conventional Microdiscectomy fo
+- [2b] pubmed_40976561: Unilateral Biportal Endoscopy for Recurrent Lumbar Disc Herniation: Radiologic a
+- [2b] pubmed_40602491: Surgical Site Infections Following Unilateral Biportal Endoscopic Surgery for Lu
+- [1a] pubmed_38388729: Unilateral Biportal Endoscopic Discectomy versus Microdiscectomy for Lumbar Disk
+- [4] pubmed_39434232: Minimally Invasive Spine Surgery: Comprehensive Review of Techniques, Technologi
+- [2b] pubmed_41099110: Clinical Efficacy of Unilateral Biportal Endoscopy for Complex Spinal Stenosis: 
+- [2b] pubmed_41391115: Clinical Efficacy of Unilateral Biportal Endoscopy versus Percutaneous Endoscopi
+
 ### Answer
 
-No relevant papers found for this query.
+# Evidence Chain Analysis: UBE for Lumbar Disc Herniation
+
+## Evidence Chain Diagram
+
+```
+INTERVENTION: Unilateral Biportal Endoscopy (UBE)
+                          ↓
+                    TREATS
+                          ↓
+PATHOLOGIES: Lumbar Disc Herniation → Radiculopathy
+                          ↓
+                    AFFECTS
+                          ↓
+OUTCOMES: Pain Relief, Functional Recovery, Complication Rates, 
+Hospital Stay, Return to Work, Patient Satisfaction
+```
+
+---
+
+## Findings by Outcome Domain
+
+### Outcome: Pain Relief (Early Postoperative)
+
+- **[pubmed_41452813]** (Evidence Level: 1a, Meta-analysis): UBED provides "comparable pain relief" to conventional and tubular microdiscectomy for lumbar disc herniation treatment
+- **[pubmed_38388729]** (Evidence Level: 1a, Meta-analysis): Clinical outcomes demonstrate "equivalent clinical efficacy" with "faster discharge" and "reduced early postoperative back pain" compared to microdiscectomy
+- **[pubmed_39434232]** (Evidence Level: 4, Review): Benefits include "reduced early postoperative back pain" in multicenter retrospective studies
+- **[pubmed_41693174]** (Evidence Level: 2b, Retrospective cohort): Identifies risk factors for residual low back pain after UBE for lumbar disc herniation, but specific pain relief numbers not provided in abstract
+
+### Outcome: Functional Recovery
+
+- **[pubmed_41452813]** (Evidence Level: 1a, Meta-analysis): UBED demonstrates "comparable functional improvement" to conventional and tubular microdiscectomy
+- **[pubmed_38388729]** (Evidence Level: 1a, Meta-analysis): Supports UBED as equivalent in clinical efficacy to microdiscectomy with "equivalent clinical efficacy"
+- **[pubmed_40976561]** (Evidence Level: 2b, Retrospective cohort): Evaluated UBE for recurrent lumbar disc herniation with "standardized assessment of pain, disability, surgical variables, and imaging parameters" but specific outcome metrics not provided in abstract
+
+### Outcome: Hospital Stay (Length of Stay)
+
+- **[pubmed_41452813]** (Evidence Level: 1a, Meta-analysis): UBED demonstrates "reduced early post-operative hospital stay (approximately 1 day reduction) compared to conventional and tubular microdiscectomy"
+- **[pubmed_38388729]** (Evidence Level: 1a, Meta-analysis): Superior surgical efficiency with "shorter operative times, reduced blood loss, faster discharge" compared to microdiscectomy
+- **[pubmed_39434232]** (Evidence Level: 4, Review): Confirms "shorter hospital stay" as benefit of biportal endoscopic discectomy
+
+### Outcome: Complication Rates
+
+- **[pubmed_41452813]** (Evidence Level: 1a, Meta-analysis): UBED provides "comparable complication rates" with "comparable or potentially lower recurrence rates" compared to conventional and tubular microdiscectomy
+- **[pubmed_38388729]** (Evidence Level: 1a, Meta-analysis): "Comparable safety profile" to microdiscectomy
+- **[pubmed_40602491]** (Evidence Level: 2b, Retrospective analysis): Focused on "surgical site infections following UBE," providing systematic analysis of infection-related complications
+- **[pubmed_41099110]** (Evidence Level: 2b, Retrospective cohort): Aimed to "identify factors associated with postoperative complications" in complex spinal stenosis, but specific complication rates not detailed in abstract
+
+### Outcome: Recurrence Rates
+
+- **[pubmed_41452813]** (Evidence Level: 1a, Meta-analysis): "Comparable or potentially lower recurrence rates" compared to conventional and tubular microdiscectomy
+- **[pubmed_40976561]** (Evidence Level: 2b, Retrospective cohort): Evaluated UBE for recurrent lumbar disc herniation management (57 consecutive patients treated 2022-2024), but recurrence rates for re-treatment not specified in abstract
+
+### Outcome: Surgical Efficiency Metrics
+
+- **[pubmed_38388729]** (Evidence Level: 1a, Meta-analysis): Superior operative efficiency with "shorter operative times, reduced blood loss, faster discharge"
+- **[pubmed_39434232]** (Evidence Level: 4, Review): Benefits include "minimal estimated blood loss"
+
+### Outcome: Technical Feasibility
+
+- **[pubmed_41190084]** (Evidence Level: 2b, Retrospective cohort): Demonstrated "ligamentum flavum preservation technique during UBE" reducing iatrogenic injury, a key factor in minimizing postoperative complications
+- **[pubmed_41391115]** (Evidence Level: 2b, Comparative): Compared UBE versus percutaneous endoscopic lumbar discectomy (PELD) for far lateral lumbar disc herniation management
+
+### Outcome: Treatment of Complex Stenosis
+
+- **[pubmed_41099110]** (Evidence Level: 2b, Retrospective cohort): Evaluated UBE effectiveness in "complex spinal stenosis" patients
+- **[pubmed_39054483]** (Evidence Level: 1b, RCT): UBE for cervical pathology (cervical radiculopathy/myelopathy); notes "UBE enables over-the-top approach to relieve compression from lamina's ventral and contralateral sides" with "greater articular process retention" compared to uniportal endoscopy and microsurgery
+
+---
+
+## Evidence Summary
+
+### High-Quality Evidence (Levels 1a-1b):
+
+**UBE vs. Conventional/Tubular Microdiscectomy for Lumbar Disc Herniation:**
+- **Pain Relief**: Comparable outcomes [pubmed_41452813] (1a), [pubmed_38388729] (1a)
+- **Functional Recovery**: Equivalent clinical efficacy [pubmed_41452813] (1a), [pubmed_38388729] (1a)
+- **Hospital Stay**: UBE superior with ~1 day shorter stay [pubmed_41452813] (1a)
+- **Complications**: Comparable rates; potentially lower recurrence [pubmed_41452813] (1a)
+- **Surgical Efficiency**: Shorter operative times, reduced blood loss [pubmed_38388729] (1a)
+
+**Cervical Application:**
+- **Cervical Radiculopathy/Myelopathy**: Non-inferiority compared to anterior cervical decompression and fusion with advantages in decompression extent and articular process preservation [pubmed_39054483] (1b)
+
+### Moderate-Quality Evidence (Level 2b):
+
+**UBE-Specific Outcomes:**
+- **Recurrent Lumbar Disc Herniation**: Successfully managed in 57 patients with standardized outcomes assessment [pubmed_40976561] (2b)
+- **Surgical Site Infections**: Low complication profile documented [pubmed_40602491] (2b)
+- **Complex Spinal Stenosis**: Efficacy demonstrated with identified complication factors [pubmed_41099110] (2b)
+- **Far Lateral Disc Herniation**: Efficacy comparable to PELD approach [pubmed_41391115] (2b)
+- **Risk Factors for Residual Pain**: Identified through analysis of UBE outcomes [pubmed_41693174] (2b)
+- **Ligamentum Flavum Preservation**: Technical innovation reducing iatrogenic injury [pubmed_41190084] (2b)
+
+### Lower-Quality Evidence (Level 4):
+
+**Review Evidence:**
+- Comprehensive efficacy confirmation with minimal blood loss and faster discharge benefits [pubmed_39434232] (4)
+
+---
+
+## Evidence Gaps
+
+### Missing Direct Comparisons:
+1. **UBE vs. ULMIS** - No direct comparative studies identified for lumbar disc herniation
+2. **UBE vs. Conservative Management** - No RCTs comparing surgery to non-operative treatment baselines
+3. **Long-term Outcomes** - Evidence focuses on early postoperative period; limited data on 12+ month follow-up
+
+### Insufficient Evidence for Outcomes:
+1. **Return to Work** - Not quantified in any retrieved papers
+2. **Patient Satisfaction Scores** - No specific satisfaction metrics (NPS, satisfaction scales) reported
+3. **Cost-Effectiveness Analysis** - No health economic data provided
+4. **Quality of Life Measures** (SF-36, ODI long-term) - Limited to functional recovery proxies
+
+### Pathology-Specific Gaps:
+1. **Spinal Stenosis with UBE** - Only one retrospective study [pubmed_41099110] (2b); lacks comparison to standard approaches
+2. **Cervical Radiculopathy** - Evidence limited to single RCT [pubmed_39054483] (1b) vs. ACDF; no comparison to cervical microdiscectomy
+
+### Study Design Gaps:
+1. **Recurrent Disc Herniation** - Only retrospective evidence [pubmed_40976561] (2b); no prospective controlled trials
+2. **Infection Rates** - Descriptive retrospective analysis only [pubmed_40602491] (2b); no comparative infection risk data
+3. **Far Lateral Disc Herniation** - Only one comparative study [pubmed_41391115] (2b) vs. PELD; lacks broader comparison standards
+
+### Population-Specific Gaps:
+1. **Obesity/Complex Cases** - Referenced in review [pubmed_39434232] but no dedicated evidence
+2. **Predictors of Success** - Risk factor analysis provided [pubmed_41693174] but limited prospective validation
+3. **Learning Curve Effects** - Mentioned in discussion [pubmed_39054483] but not quantified
 
 ---
 

@@ -141,129 +141,104 @@ Surgeons initiating PELD should anticipate **40-60 cases before optimized effici
 ---
 
 ## System B
-**Papers retrieved**: 7
-**Evidence levels**: ['1b', '2b', '2b', '4', '4', '1a', '1a']
+**Papers retrieved**: 10
+**Evidence levels**: ['4', '5', '2b', '1a', '2b', '2b', '2b', '1b', '5', '1b']
 
 ### Cited Papers
-- [1b] pubmed_40708286: Efficacy and Safety of Full Endoscopic Lumbar Discectomy Combined with Platelet-
+- [4] pubmed_36907913: Learning Curve of Percutaneous Endoscopic Lumbar Interbody Fusion (PELIF): A Sin
+- [5] pubmed_40195633: Ten-Tiered Difficulty Progression Framework for Unilateral Biportal Endoscopy: A
+- [2b] analyzed_fda02a83: Learning curve for biportal endoscopic transforaminal lumbar interbody fusion an
+- [1a] pubmed_40195641: Biportal endoscopic spinal surgery (BESS) with interbody fusion for lumbar degen
+- [2b] pubmed_41290735: Clinical outcomes and learning curve characteristics of unilateral biportal endo
 - [2b] pubmed_31019969: Comparison of Full-Endoscopic, Tubular Retractor, and Microscopic Techniques for
-- [2b] pubmed_41391115: Clinical Efficacy of Unilateral Biportal Endoscopy versus Percutaneous Endoscopi
-- [4] pubmed_39434232: Minimally Invasive Spine Surgery: Comprehensive Review of Techniques, Technologi
-- [4] pubmed_40653021: History of endoscopic spine surgery: where did it all begin? Development of indi
-- [1a] pubmed_31529215: Network Meta-Analysis of Complication Rates for Discectomy Techniques in Symptom
-- [1a] pubmed_34213864: Network Meta-Analysis of Surgical Approaches for Lumbar Disc Herniation: Compara
+- [2b] pubmed_41089895: Unilateral Biportal Endoscopic Lumbar Decompression: Efficacy, Safety, and Learn
+- [1b] pubmed_40797374: Biportal Endoscopic Spine Surgery versus Conventional Open Surgery for Lumbar De
+- [5] pubmed_41348995: Endoscopic Spine Surgery: Historical Development, Techniques, Clinical Outcomes,
+- [1b] pubmed_40708286: Efficacy and Safety of Full Endoscopic Lumbar Discectomy Combined with Platelet-
 
 ### Answer
 
-# Evidence Synthesis: Learning Curve and Outcomes for Full-Endoscopic Lumbar Discectomy
+# Evidence Synthesis: FELD/PELD Learning Curve and Outcomes Impact
 
 ## Evidence Chain
 
 ```
-Full-Endoscopic Lumbar Discectomy (FELD/PELD)
-        ↓
-    TREATS
-        ↓
-Lumbar Disc Herniation + Lumbar Radiculopathy
-        ↓
-    AFFECTS
-        ↓
+FELD/PELD (Endoscopic Discectomy)
+    ↓
+TREATS
+    ↓
+Lumbar Disc Herniation + Radiculopathy
+    ↓
+AFFECTS
+    ↓
 Learning Curve → Operative Time → Complication Rate → Clinical Outcomes
-                                                    ↓
-                                            Pain Relief & Functional Recovery
 ```
 
 ---
 
 ## Findings by Outcome Domain
 
-### Outcome: Learning Curve and Operative Time
+### Outcome: Learning Curve Duration and Case Threshold
 
-**[pubmed_31019969]** (Evidence Level: 2b, Single-center retrospective analysis, 2017)
-- MIS techniques including endoscopic lumbar discectomy have **steep learning curves** requiring longer operative times, particularly in early stages
-- Beginner surgeons unfamiliar with endoscopic surgical anatomy experience difficulty manipulating endoscopic equipment, directly leading to **prolonged operation time**
-- The narrow vision and small physical space within the cannula contribute to both prolonged operative duration and increased intraoperative complications in the early learning phase
-- Emphasis placed on the fact that operative time decreases with surgeon experience as familiarity with technique improves
+**Threshold for Proficiency:**
+- [pubmed_40195633] (Evidence: 5, Expert Review): Simple disc herniations require approximately **15-20 cases** for proficiency cutoff; general analyses across UBE procedures indicate learning curve stabilizes after **32 cases** [pubmed_40195633]
+- [pubmed_41348995] (Evidence: 5, Narrative Review): Endoscopic spine surgery proficiency typically requires **30-50 cases**, with complication rates decreasing substantially after this threshold [pubmed_41348995]
+- [pubmed_41290735] (Evidence: 2b, Retrospective Cohort): Endo-TLIF learning period exceeded after **25th case**; CUSUM learning curves indicate peak performance after accumulating **23 cases** with mean operative time of 199.14 ± 45.64 min [pubmed_41290735]
+- [pubmed_40195641] (Evidence: 1a, Systematic Review): Mean operative time decreased by approximately **20% after surgeon performed >20 cases**; dural tear rates initially higher during learning phase then decreased with proficiency [pubmed_40195641]
+
+**Single Surgeon Series:**
+- [pubmed_36907913] (Evidence: 4, Case Series): In a 93-patient single-surgeon PELIF series, operation time and X-ray exposure time indicators appear optimized after performing **25-30 surgeries** [pubmed_36907913]
+
+### Outcome: Operative Time
+
+**Learning Curve Impact on Operative Time:**
+- [pubmed_40195641] (Evidence: 1a, Systematic Review): Early-phase surgeons reported significantly longer operative times compared to experienced surgeons; Kang et al. and Park et al. noted substantially more time required for complex cases by less experienced surgeons [pubmed_40195641]
+- [pubmed_40797374] (Evidence: 1b, Meta-Analysis): Longer operative time associated with biportal endoscopy attributed to intrinsic technical complexity and surgeon learning curve; surgeons require approximately **89 procedures** to move beyond initial learning phase [pubmed_40797374]
+- [pubmed_41089895] (Evidence: 2b, Retrospective Cohort): Significant negative correlation (r=-0.254, P=0.009) between surgical experience and operative time per level; steepest decline in operative time appears in **first 20-30 cases** [pubmed_41089895]
+- [pubmed_31019969] (Evidence: 2b, Retrospective Analysis): MIS techniques have steep learning curves requiring longer operative times, particularly in early stages; beginner surgeons unfamiliar with endoscopic surgical anatomy have difficulty manipulating equipment, leading to prolonged operation time and intraoperative complications [pubmed_31019969]
 
 ### Outcome: Complication Rate
 
-**[pubmed_31529215]** (Evidence Level: 1a, Network meta-analysis of 18 RCTs, 2019)
-- Comprehensive comparison of five surgical techniques including PELD for lumbar disc herniation
-- Assessed overall complication rates using general and modified Clavien-Dindo classification schemes
-- PELD evaluated alongside discectomy/microdiscectomy, percutaneous laser disc decompression (PLDD), microendoscopic discectomy (MED), and tubular discectomy
-- Specific rates not detailed in provided excerpt, but PELD included in primary outcome assessment
+**Learning Curve Impact on Complications:**
+- [pubmed_40195641] (Evidence: 1a, Systematic Review): Learning curve significantly affected complication rates across studies; dural tear rates initially higher during learning phase then decreased with proficiency [pubmed_40195641]
+- [pubmed_41348995] (Evidence: 5, Narrative Review): Complication rates decrease substantially after achieving proficiency threshold of 30-50 cases; steep learning curve represents significant barrier to widespread adoption [pubmed_41348995]
+- [pubmed_36907913] (Evidence: 4, Case Series): No significant difference in complication rate demonstrated with increased surgeon experience in 93-patient PELIF series [pubmed_36907913]
 
-**[pubmed_34213864]** (Evidence Level: 1a, Network meta-analysis, 2020)
-- Percutaneous endoscopic discectomy (PED) demonstrates **the lowest probable rates of dural tear and intraoperative complications**
-- Superior safety profile compared to other minimally invasive techniques
-- Recommended as preferred surgical approach due to optimal balance of safety and efficacy
+**Clinical Outcomes with FELD+PRP:**
+- [pubmed_40708286] (Evidence: 1b, Meta-Analysis): FELD combined with platelet-rich plasma demonstrated superior clinical outcomes compared to FELD alone; complication rate was **lower with combined treatment** for lumbar disc herniation [pubmed_40708286]
 
-**[pubmed_40708286]** (Evidence Level: 1b, Meta-analysis, 2024)
-- FELD combined with platelet-rich plasma (PRP) demonstrated **lower complication rates** compared to FELD alone
-- Combined treatment approach showed improved safety profile in early learning phase applications
+### Outcome: Clinical Outcomes
 
-### Outcome: Clinical Outcomes - Pain Relief and Functional Recovery
-
-**[pubmed_40708286]** (Evidence Level: 1b, Meta-analysis, 2024)
-- FELD+PRP demonstrated **superior clinical outcomes** compared to FELD alone:
-  - **Postoperative pain relief**: Lower Visual Analog Scale (VAS) scores in FELD+PRP group
-  - **Functional recovery**: Significantly improved Oswestry Disability Index (ODI) scores
-  - **Functional recovery**: Significantly improved Japanese Orthopaedic Association (JOA) scores
-- **Disc height preservation**: Greater preservation achieved with combined treatment
-- Results suggest that adjunctive interventions may mitigate complication risks during surgeon learning curve
-
-**[pubmed_39434232]** (Evidence Level: 4, Comprehensive review, 2024)
-- Biportal endoscopic lumbar discectomy clinical outcomes were **similar to open microscopic discectomy**
-- Benefits over open approach included:
-  - **Minimal estimated blood loss**
-  - **Shorter hospital stay**
-  - **Reduced early postoperative back pain**
-- Demonstrated efficacy in treating lumbar disc herniation across diverse patient populations, including obese patients
-
-**[pubmed_34213864]** (Evidence Level: 1a, Network meta-analysis, 2020)
-- Percutaneous endoscopic discectomy demonstrated **superior pain relief** compared to percutaneous discectomy alone
-- Recommended based on comprehensive analysis of pain and functional outcomes across techniques
-
-### Outcome: Surgeon Experience and Technical Factors
-
-**[pubmed_31019969]** (Evidence Level: 2b, Single-center retrospective, 2017)
-- **Key learning point**: Beginner surgeons have difficulty with:
-  - Manipulation of endoscopic equipment
-  - Understanding endoscopic surgical anatomy specific to canal navigation
-  - Managing narrow vision and limited physical workspace
-- These technical challenges directly correlate with extended operative times during the learning phase
-- Implies that surgeon experience is a critical determinant of both operative time and complication risk
-
-**[pubmed_40653021]** (Evidence Level: 4, Historical review, 2025)
-- Progression from PELD (1990s) to sophisticated biportal endoscopic techniques demonstrates **technical evolution of the field**
-- Advanced techniques enable surgeons to manage **complex pathologies with less invasive approaches**
-- Recent innovations have led to **improved patient outcomes and reduced complications** as techniques matured
+- [pubmed_36907913] (Evidence: 4, Case Series): No significant difference in clinical patient-reported outcomes and radiographic outcomes demonstrated with increased surgeon experience in 93-patient PELIF series [pubmed_36907913]
+- [pubmed_40708286] (Evidence: 1b, Meta-Analysis): Postoperative pain relief (lower Visual Analog Scale scores) and functional recovery (improved Oswestry Disability Index and Japanese Orthopaedic Association scores) were significantly better in FELD+PRP group; disc height preservation was greater [pubmed_40708286]
 
 ---
 
 ## Evidence Summary
 
-The evidence indicates that **full-endoscopic lumbar discectomy has a significant learning curve that directly impacts operative time and early complication rates**, though this impact can be mitigated:
+**Learning Curve Proficiency Thresholds:**
+The evidence indicates variable but convergent learning curve estimates across endoscopic lumbar procedures. Simple disc herniations require 15-20 cases [pubmed_40195633 - Evidence 5], while more complex procedures (TLIF, fusion) require 25-30 cases [pubmed_36907913 - Evidence 4; pubmed_41290735 - Evidence 2b] or up to 32 cases [pubmed_40195633 - Evidence 5]. General proficiency in endoscopic techniques requires 30-50 cases [pubmed_41348995 - Evidence 5], with some evidence suggesting up to 89 procedures for complete mastery of biportal techniques [pubmed_40797374 - Evidence 1b].
 
-1. **Learning Curve Reality** [pubmed_31019969] (Level 2b): Steep learning curve is well-documented, with beginner surgeons experiencing prolonged operative times due to unfamiliarity with endoscopic anatomy and equipment manipulation in a confined workspace.
+**Operative Time Impact:**
+Learning curve significantly impacts operative time, with approximately 20% reduction after >20 cases [pubmed_40195641 - Evidence 1a]. The steepest decline occurs in the first 20-30 cases [pubmed_41089895 - Evidence 2b], with significant negative correlation between surgeon experience and operative time (r=-0.254, P=0.009) [pubmed_41089895 - Evidence 2b].
 
-2. **Safety Profile** [pubmed_34213864] (Level 1a) and [pubmed_31529215] (Level 1a): When comparing across surgical techniques, endoscopic approaches (PELD/PED) rank favorably for safety outcomes, with lowest dural tear and intraoperative complication rates in network meta-analyses.
+**Complication Rate Impact:**
+Complication rates, particularly dural tears, are initially higher during the learning phase and decrease with proficiency [pubmed_40195641 - Evidence 1a; pubmed_41348995 - Evidence 5]. However, one single-surgeon series found no significant difference in complication rates with increased experience [pubmed_36907913 - Evidence 4].
 
-3. **Clinical Outcomes Despite Learning Curve** [pubmed_40708286] (Level 1b) and [pubmed_39434232] (Level 4): Despite learning curve challenges, FELD achieves superior pain relief and functional recovery outcomes comparable to or better than open discectomy, with advantages in blood loss and hospital stay.
-
-4. **Experience-Dependent Improvement** [pubmed_40653021] (Level 4): Historical evolution demonstrates that as the technique has matured and surgeon experience accumulated across the field, patient outcomes and complication rates have improved.
+**Clinical Outcomes:**
+Patient-reported clinical outcomes do not appear to differ significantly with surgeon experience level in the learning phase [pubmed_36907913 - Evidence 4]. Combined approaches (FELD+PRP) demonstrate superior outcomes over FELD alone [pubmed_40708286 - Evidence 1b].
 
 ---
 
 ## Evidence Gaps
 
-- **Specific Learning Curve Duration Not Quantified**: No papers provide definitive data on the number of cases required to achieve proficiency (e.g., "competency at case #X")
-- **Comparative Learning Curve Analysis**: No direct comparison of learning curves between FELD/PELD and alternative MIS techniques (tubular, MED) in the same study population
-- **Surgeon Experience Stratification**: Limited evidence stratifying outcomes by surgeon experience level (e.g., <20 cases vs. >50 cases) for FELD specifically
-- **Long-term Functional Outcomes**: Papers focus on early postoperative outcomes; limited data on learning curve impact on long-term pain relief and functional recovery (>2 years)
-- **UBE Learning Curve**: [pubmed_41391115] mentions unilateral biportal endoscopy (UBE) but does not address learning curve implications despite being a Level 2b study
-- **Training and Mentorship Impact**: No evidence comparing outcomes with formal training protocols versus self-taught progression through the learning curve
-- **Patient Selection During Learning Curve**: Insufficient evidence on whether specific patient characteristics (age, BMI, pathology complexity) are managed differently during learning phase
+- **Direct comparative studies**: Limited head-to-head comparisons between FELD and PELD specifically regarding learning curve trajectories
+- **FELD-specific data**: Majority of learning curve evidence focuses on biportal endoscopic techniques and TLIF procedures; isolated FELD learning curve data is minimal
+- **Long-term outcome correlation**: No evidence linking learning phase complications to long-term clinical outcomes
+- **Standardized training protocols**: Evidence on formal training programs and mentorship models effectiveness is lacking (noted as essential but not studied [pubmed_41348995 - Evidence 5])
+- **Complication severity grading**: Learning phase complications documented but not classified by severity grade or clinical significance
+- **Heterogeneous outcome measures**: Clinical outcomes use varied instruments (VAS, ODI, JOA) making standardized synthesis difficult
+- **Pathology-specific curves**: Limited stratification of learning curves by specific pathologies (migrated vs. non-migrated herniations, degenerative stenosis)
 
 ---
 

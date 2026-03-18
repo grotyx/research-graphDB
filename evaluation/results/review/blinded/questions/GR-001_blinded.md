@@ -3,10 +3,156 @@
 ---
 
 ## System A
-**Papers retrieved**: 0
+**Papers retrieved**: 10
+**Evidence levels**: ['1a', '1a', '1a', '2b', '1a', '1a', '1a', '1a', '1a', '4']
+
+### Cited Papers
+- [1a] pubmed_39577647: Network Meta-Analysis of Surgical Approaches for Lumbar Spinal Stenosis: Compari
+- [1a] pubmed_39575449: Minimally Invasive Laminectomy versus Open Laminectomy for Lumbar Spinal Stenosi
+- [1a] pubmed_26824399: Surgery for lumbar spinal stenosis
+- [2b] pubmed_41276834: Radiological and clinical outcomes comparing midline lumbar fusion with cortical
+- [1a] pubmed_35046008: Non-operative treatment for lumbar spinal stenosis with neurogenic claudication:
+- [1a] pubmed_39379938: Comparative effectiveness and safety of surgical interventions for degenerative 
+- [1a] pubmed_41354742: Minimally Invasive Tubular Decompression versus Open Laminectomy for Lumbar Spin
+- [1a] pubmed_39030552: Effectiveness and safety of different posterior decompression techniques for lum
+- [1a] pubmed_38190892: Endoscopic versus Microscopic Decompression for Treatment of Lumbar Spinal Steno
+- [4] pubmed_39434232: Minimally Invasive Spine Surgery: Comprehensive Review of Techniques, Technologi
+
 ### Answer
 
-No relevant papers found for this query.
+# Surgical Interventions for Lumbar Spinal Stenosis: Complication Profile Comparison
+
+## Evidence Chain
+
+```
+SURGICAL INTERVENTIONS (Laminectomy, TLIF, PLIF, Laminoplasty, 
+Decompression techniques) 
+    ↓
+TREATS
+    ↓
+LUMBAR SPINAL STENOSIS
+    ↓
+AFFECTS
+    ↓
+OUTCOMES (Complication rates, Infection rates, Neurological outcomes, 
+Functional outcomes, Reoperation rates)
+```
+
+---
+
+## Findings by Outcome Domain
+
+### Outcome: Complication Rates (Overall)
+
+**Open vs. Minimally Invasive Approaches:**
+- **[pubmed_41354742]** (Evidence Level: 1a, Meta-analysis, 2025): Minimally invasive tubular decompression demonstrated significantly lower overall complication rates compared to open laminectomy (OR 0.42, 95% CI 0.21–0.86), representing a 58% relative reduction in complications.
+
+- **[pubmed_39575449]** (Evidence Level: 1a, Systematic Review, 2024): Minimally invasive laminectomy may have lower reoperation and complication rates than open laminectomy due to less bone disruption providing better biomechanical stability.
+
+- **[pubmed_26824399]** (Evidence Level: 1a, Cochrane Review, 2016): Surgical complication rates varied widely across studies, with some reporting no major complications while others reported complications in 10-24% of surgical participants, including spinous process fracture, coronary ischaemia, respiratory distress, haematoma, stroke, and death from pulmonary oedema.
+
+**Network Meta-Analysis Ranking:**
+- **[pubmed_39379938]** (Evidence Level: 1a, Network Meta-analysis, 2024): Endoscopic-assisted laminotomy was identified as the safest intervention compared to laminectomy for short-term follow-up, though sustainability after 6 months was unclear.
+
+- **[pubmed_39030552]** (Evidence Level: 1a, Bayesian Network Meta-analysis, 2024): Single-portal technique (SPO) ranked highest for combined effectiveness and safety metrics, with favorable blood loss profile (59.6%).
+
+---
+
+### Outcome: Surgical Site Infections
+
+- **[pubmed_41354742]** (Evidence Level: 1a, Meta-analysis, 2025): Minimally invasive tubular decompression showed significantly reduced surgical site infections compared to open laminectomy (OR 0.28, 95% CI 0.11–0.69), representing a 72% relative reduction.
+
+---
+
+### Outcome: Blood Loss and Operative Morbidity
+
+- **[pubmed_41354742]** (Evidence Level: 1a, Meta-analysis, 2025): Minimally invasive tubular decompression resulted in decreased estimated blood loss compared to open laminectomy (MD −46.65 mL, 95% CI −80.89 to −12.41).
+
+- **[pubmed_39030552]** (Evidence Level: 1a, Bayesian Network Meta-analysis, 2024): Among decompression techniques, UL (unilateral laminotomy) provided the shortest hospitalization (75.9%) and minimal blood loss compared to other approaches.
+
+- **[pubmed_39577647]** (Evidence Level: 1a, Network Meta-analysis, 2024): Laminotomy and traditional laminectomy represent older open decompression approaches with higher operative morbidity compared to newer techniques, though decompression-alone approaches are appropriate for stenosis without instability.
+
+---
+
+### Outcome: Hospital Length of Stay
+
+- **[pubmed_41354742]** (Evidence Level: 1a, Meta-analysis, 2025): Minimally invasive tubular decompression resulted in shorter hospital length of stay compared to open laminectomy (MD −1.39 days, 95% CI −1.99 to −0.79).
+
+- **[pubmed_39434232]** (Evidence Level: 4, Review, 2024): Cochrane review found minimally invasive techniques associated with shorter hospital stays compared to open decompression, though no significant differences in long-term functional outcomes.
+
+---
+
+### Outcome: Reoperation Rates
+
+- **[pubmed_39575449]** (Evidence Level: 1a, Systematic Review, 2024): Minimally invasive laminectomy demonstrated lower reoperation rates than open laminectomy.
+
+- **[pubmed_26824399]** (Evidence Level: 1a, Cochrane Review, 2016): Risk of reoperation was noted as a potential complication in surgical treatment groups.
+
+---
+
+### Outcome: Neurological and Functional Outcomes
+
+**Leg Pain and Disability:**
+- **[pubmed_39030552]** (Evidence Level: 1a, Bayesian Network Meta-analysis, 2024): Single-portal approach (SPO) ranked highest for pain relief (back VAS 59.1%, leg VAS 59.1%) and disability reduction (ODI 86.6%).
+
+- **[pubmed_41354742]** (Evidence Level: 1a, Meta-analysis, 2025): Patient-reported outcome measures using Oswestry Disability Index (ODI) and VAS-leg pain scores were comparable between minimally invasive and open approaches, though specific numbers not fully detailed.
+
+- **[pubmed_39434232]** (Evidence Level: 4, Review, 2024): Cochrane analysis found no significant differences between minimally invasive and open decompression in terms of leg pain, disability, or walking ability at long-term follow-up; however, minimally invasive techniques showed less low back pain in the short term.
+
+**Short-term vs. Long-term:**
+- **[pubmed_39379938]** (Evidence Level: 1a, Network Meta-analysis, 2024): Endoscopic-assisted laminotomy demonstrated superiority in improving physical function at short-term follow-up compared to laminectomy, but sustainability after 6 months was unclear due to insufficient data.
+
+- **[pubmed_35046008]** (Evidence Level: 1a, Systematic Review, 2020): Laminectomy improves outcomes only at 2-year follow-up compared with conservative care (based on meta-analysis of 2 trials), with one study showing no difference at 8-year follow-up.
+
+---
+
+## Summary of Available Surgical Interventions
+
+**Decompression-Alone Techniques:**
+- Traditional open laminectomy
+- Minimally invasive laminectomy (MIL)
+- Laminotomy
+- Endoscopic-assisted laminotomy
+- Minimally invasive tubular decompression
+
+**Combined Decompression + Fusion Techniques:**
+- TLIF (Transforaminal Lumbar Interbody Fusion)
+- PLIF (Posterior Lumbar Interbody Fusion)
+- Midline lumbar fusion with cortical bone trajectory screws
+
+**Other Techniques:**
+- Laminoplasty
+- Single-portal approach (SPO)
+- Unilateral laminotomy (UL)
+
+---
+
+## Evidence Summary
+
+**Overall Safety Profile:** Minimally invasive decompression techniques demonstrate superior perioperative safety compared to open laminectomy [pubmed_41354742] (1a), with particular advantages in infection reduction (72% lower), blood loss (46.65 mL less), and hospital length of stay (1.39 days shorter). However, long-term functional outcomes at >6 months show minimal differences between approaches [pubmed_39434232] (4).
+
+**Most Effective Technique:** Endoscopic-assisted laminotomy and single-portal approach (SPO) emerged as safest and most effective for short-term improvement [pubmed_39379938] (1a), [pubmed_39030552] (1a), though open laminectomy remains effective with 10-24% complication rates [pubmed_26824399] (1a).
+
+**Clinical Context:** Decompression-alone approaches are appropriate for stenosis without instability, while fusion-based approaches (TLIF, PLIF) provide stability benefits but require longer operative time and carry fusion-related complications [pubmed_39577647] (1a).
+
+---
+
+## Evidence Gaps
+
+1. **Long-term sustainability of minimally invasive superiority:** [pubmed_39379938] explicitly notes insufficient data to determine whether endoscopic-assisted laminotomy's short-term advantages persist beyond 6 months.
+
+2. **Direct head-to-head comparisons:** Limited direct comparative data between:
+   - TLIF vs. PLIF vs. Laminectomy in the same populations
+   - Laminoplasty vs. other decompression techniques (not thoroughly addressed in provided papers)
+   - Endoscopic-assisted laminotomy vs. minimally invasive tubular decompression
+
+3. **Fusion-specific complications:** [pubmed_41276834] (2b) references fusion-related complications but provides limited detail on fusion-specific complication rates compared to decompression-alone.
+
+4. **Infection risk stratification:** While [pubmed_41354742] shows lower infection rates with minimally invasive approaches, specific risk factors for infection (osteoporosis, age, surgical duration) are not comprehensively analyzed across all techniques.
+
+5. **Stenosis with instability outcomes:** Limited evidence comparing outcomes specifically in patients with both stenosis AND spondylolisthesis across all intervention types [pubmed_39577647] notes this distinction but lacks comprehensive data.
+
+6. **Conservative treatment comparison:** [pubmed_35046008] notes laminectomy benefits fade by 8-year follow-up compared to conservative care, but detailed long-term cost-effectiveness and outcomes are not synthesized across all surgical options.
 
 ---
 

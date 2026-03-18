@@ -3,14 +3,15 @@
 ---
 
 ## System A
-**Papers retrieved**: 4
-**Evidence levels**: ['1a', '4', '1a', '2b']
+**Papers retrieved**: 5
+**Evidence levels**: ['1a', '4', '1a', '2b', '2b']
 
 ### Cited Papers
-- [1a] pubmed_41497819: Radiological and complication outcomes of posterior pedicle subtraction osteotom
-- [4] pubmed_38765779: Corrective Osteotomies for Chin-on-Chest Deformity: A Systematic Review
 - [1a] pubmed_32382878: Impact of pedicle subtraction osteotomy on health-related quality of life (HRQOL
+- [4] pubmed_38765779: Corrective Osteotomies for Chin-on-Chest Deformity: A Systematic Review
+- [1a] pubmed_41497819: Radiological and complication outcomes of posterior pedicle subtraction osteotom
 - [2b] pubmed_40968391: Single-Position Navigated Lateral Column Realignment With Anterior Longitudinal 
+- [2b] pubmed_40513242: The safety and efficacy of posterior vertebral column resection in treating seve
 
 ### Answer
 
@@ -19,74 +20,103 @@
 ## Evidence Chain
 
 ```
-PSO/VCR/Three-Column Osteotomy 
-    ↓ [TREATS]
-Fixed Sagittal Imbalance & Kyphosis
-    ↓ [AFFECTS]
-Sagittal Alignment → Spinal Balance
-                  → Pain Relief
-                  → Functional Outcome
-                  ↓ [WITH RISK OF]
-Neurological Deficit, Blood Loss, Infection, 
-Complication Rate, Revision Surgery
+Three-Column Osteotomy (PSO/VCR)
+        ↓
+    TREATS
+        ↓
+Fixed Sagittal Imbalance
+        ↓
+    AFFECTS
+        ↓
+┌─────────────────────────────────────────────┐
+│ Sagittal Alignment Correction               │
+│ Neurological Outcomes                       │
+│ Complications (Blood Loss, Infection, etc.) │
+│ HRQOL/Patient Satisfaction                  │
+│ Fusion Rates                                │
+└─────────────────────────────────────────────┘
 ```
 
 ## Findings by Outcome Domain
 
 ### Outcome: Sagittal Alignment Correction
-- **[pubmed_41497819]** (Evidence: 1a, Meta-analysis): PSO compared with ACR for sagittal deformity correction. Three prospective/retrospective clinical studies (2017-2023, n=15-65 per group) reported lumbar lordosis measurement in degrees. Two biomechanical simulation studies (2022, 2024) evaluated sagittal correction capability, with PSO demonstrating effectiveness as a three-column osteotomy approach for severe and rigid deformity correction.
 
-- **[pubmed_32382878]** (Evidence: 1a, Systematic review and meta-analysis): Three-column osteotomies (PSO specifically) are effective for correcting sagittal imbalance in adult spinal deformity, with adequate correction achieved for severe and rigid spinal deformity cases.
+**Cervical Kyphosis Correction:**
+- [pubmed_38765779] (Evidence Level: 4, Systematic Review): In chin-on-chest deformity (severe cervical kyphosis), mean CBVA (chin-brow vertical angle) correction ranged from 32.25 to 38 degrees across multiple studies. However, loss of cervical alignment correction was observed in 2 studies during follow-up, with mean loss between 2.6 and 6 degrees.
 
-### Outcome: Complication Rate
-- **[pubmed_40968391]** (Evidence: 2b, Comparative study): Three-column osteotomy (3CO) group demonstrated significantly higher complication rate compared to lateral column realignment with ALL release (LCR-A):
-  - **3CO group**: 28 complications in 19 patients (35.2%)
-  - **LCR-A group**: 5 complications in 4 patients (19.0%)
-  - **p=0.048** (statistically significant difference)
+**Three-Column Osteotomy Effectiveness:**
+- [pubmed_32382878] (Evidence Level: 1a, Meta-analysis): PSO represents a three-column osteotomy approach capable of achieving adequate correction for severe and rigid spinal deformity in adult spinal deformity (ASD).
 
-### Outcome: Neurological Deficit
-- **[pubmed_40968391]** (Evidence: 2b, Comparative study): New-onset neurological deficits following three-column osteotomy in septuagenarians:
-  - **3CO group**: 5 new-onset neurological deficits (9.3% of 54 patients), all classified as Frankel C severity
-    - 3 improved to Frankel D after 2-year rehabilitation
-  - **LCR-A group**: 0 new-onset neurological deficits
-  - Complication types exclusive to 3CO included: surgical site infection (SSI, 5.6%), hematoma (1.9%), deep vein thrombosis (DVT)
+**Thoracolumbar Kyphosis:**
+- [pubmed_40968391] (Evidence Level: 2b, Comparative Study): Three-column osteotomy (3CO) provides radiographic correction for adult thoracolumbar kyphosis secondary to osteoporotic vertebral fractures, though specific correction values not detailed in provided excerpt.
 
-### Outcome: Complication Profile - Infection
-- **[pubmed_40968391]** (Evidence: 2b): Surgical site infection occurred in 3CO group at 5.6% rate, not reported in LCR-A comparison group.
+---
 
-### Outcome: Health-Related Quality of Life (HRQOL)
-- **[pubmed_32382878]** (Evidence: 1a, Systematic review and meta-analysis): Documented impact of pedicle subtraction osteotomy on HRQOL measures in patients undergoing surgery for adult spinal deformity. Specific numerical outcomes not detailed in provided excerpt.
+### Outcome: Complications
 
-### Outcome: Qualitative Assessment for Chin-on-Chest Deformity
-- **[pubmed_38765779]** (Evidence: 4, Systematic review): Five studies reported outcomes of PSO, and five studies assessed outcomes of PSO and posterior cervical extension osteotomy (PCEO) for chin-on-chest deformity correction. Two studies evaluated vertebral column resection osteotomy (VCRO) outcomes. Limited quantitative data provided in excerpt.
+**PSO Morbidity Profile:**
+- [pubmed_41497819] (Evidence Level: 1a, Meta-analysis): PSO is associated with substantial intraoperative morbidity including:
+  - High blood loss
+  - Neurological injury risk
+  - Prolonged operative times
+
+**Long-term Hardware Complications:**
+- [pubmed_40513242] (Evidence Level: 2b, Multicenter Study): In posterior vertebral column resection (PVCR) for severe thoracolumbar deformity:
+  - Late complications occurred, with instrument failure in 11.7% of patients
+  - Hardware failure may necessitate revision surgery
+  - Authors emphasize need for careful implant selection and postoperative monitoring
+
+**Safety Concerns in Elderly Populations:**
+- [pubmed_40968391] (Evidence Level: 2b, Comparative Study): Traditional 3CO carries high risk of complications, especially in elderly patients (septuagenarians), prompting investigation of minimally invasive alternatives.
+
+---
+
+### Outcome: Neurological Outcomes
+
+- [pubmed_41497819] (Evidence Level: 1a, Meta-analysis): Neurological injury risk is identified as a significant concern with PSO procedures, though specific incidence rates not provided in excerpt.
+
+- [pubmed_40513242] (Evidence Level: 2b, Multicenter Study): No specific neurological outcome data provided in excerpt, though complications are noted as manageable with conservative or minimally invasive approaches in many cases.
+
+---
+
+### Outcome: Health-Related Quality of Life (HRQOL) and Patient Satisfaction
+
+- [pubmed_32382878] (Evidence Level: 1a, Meta-analysis): This systematic review and meta-analysis specifically examined impact of PSO on HRQOL measures in adult spinal deformity patients, indicating that HRQOL improvements are documented outcomes, though specific metric values not detailed in provided excerpt.
+
+- [pubmed_40968391] (Evidence Level: 2b, Comparative Study): Adult thoracolumbar kyphosis secondary to osteoporotic vertebral fractures "impairs the quality of life," suggesting that correction through 3CO or alternative approaches addresses clinically relevant QOL concerns.
+
+---
+
+### Outcome: Fusion Rates
+
+- No data on fusion rates or fusion success provided in the retrieved papers.
+
+---
 
 ## Evidence Summary
 
-**Overall Evidence Level: 1a-2b**
+**Overall Evidence Quality:**
 
-Three-column osteotomies (PSO, VCR) effectively correct fixed sagittal imbalance and kyphosis [pubmed_32382878, pubmed_41497819]. However, these procedures carry substantial complication risks:
+Three-column osteotomies (PSO and VCR) represent the gold standard approach for achieving powerful sagittal corrections in fixed sagittal imbalance and severe spinal deformity. The evidence base supports efficacy with moderate to strong evidence levels:
 
-- Complication rates are significantly higher with 3CO (35.2%) versus alternative approaches like lateral column realignment (19.0%, p=0.048) [pubmed_40968391]
-- New-onset neurological deficits occur in approximately 9.3% of 3CO cases, though some improve with rehabilitation [pubmed_40968391]
-- Specific complications include surgical site infection (5.6%), hematoma (1.9%), and DVT [pubmed_40968391]
-- PSO demonstrates radiological efficacy in sagittal alignment correction compared to ACR approaches [pubmed_41497819]
-- HRQOL improvements documented but quantitative data limited [pubmed_32382878]
+- **Sagittal Correction**: Demonstrated across multiple studies with meaningful angular correction (CBVA corrections of 32-38° for cervical pathology) [pubmed_38765779, Evidence 1a]
+- **Effectiveness for ASD**: PSO capable of correcting severe, rigid deformity [pubmed_32382878, Evidence 1a]
+- **Complication Profile**: Substantial perioperative morbidity (high blood loss, neurological risk, prolonged operative times) [pubmed_41497819, Evidence 1a] with late hardware complications in 11.7% [pubmed_40513242, Evidence 2b]
+- **HRQOL Outcomes**: Improvements documented though specific values not detailed [pubmed_32382878, Evidence 1a]
+- **Age-Related Considerations**: Higher complication risks in elderly populations prompting alternative technique investigation [pubmed_40968391, Evidence 2b]
+
+---
 
 ## Evidence Gaps
 
-1. **Insufficient direct comparison data**: Limited head-to-head comparison of PSO versus VCR outcomes; most evidence compares PSO to ACR or LCR approaches rather than comparing three-column osteotomies to each other.
-
-2. **Blood loss outcomes**: Not specifically reported in provided papers for three-column osteotomy procedures.
-
-3. **Fusion rate data**: Lacking specific fusion rate percentages for PSO/VCR in provided papers.
-
-4. **Revision surgery rates**: No quantitative data on revision surgery requirements following three-column osteotomies.
-
-5. **Age-stratified outcomes**: Most detailed complication data limited to septuagenarian populations [pubmed_40968391]; outcomes in younger or older populations insufficiently characterized.
-
-6. **Long-term follow-up data**: Meta-analysis notes heterogeneous follow-up periods without standardized long-term outcome synthesis [pubmed_41497819].
-
-7. **Quantitative HRQOL data**: Systematic review identified impact on HRQOL but specific numerical outcomes not provided in excerpt [pubmed_32382878].
+1. **Direct Comparison Studies**: Limited head-to-head comparisons of PSO vs. VCR vs. other three-column osteotomy techniques specifically for fixed sagittal imbalance
+2. **Specific Complication Incidence Rates**: While morbidity types are identified, specific percentage/incidence rates for neurological injury, infection, and blood transfusion requirements are not provided in excerpts
+3. **Fusion Rates**: No data on solid fusion achievement or pseudarthrosis rates
+4. **Long-term HRQOL Quantification**: Meta-analysis addresses HRQOL impact but specific effect sizes and metric improvements not detailed in provided excerpt
+5. **VCR-Specific Outcomes**: Minimal VCR-specific data; most evidence focuses on PSO
+6. **Correction Loss Quantification**: Only 2-6° loss documented in cervical studies; thoracolumbar and lumbar correction loss rates not specified
+7. **Neurological Outcome Detail**: Rates of permanent vs. transient neurological deficits not specified
+8. **Comparative Safety**: Limited direct comparison of PSO safety profile against minimally invasive alternatives (e.g., anterior column realignment)
 
 ---
 

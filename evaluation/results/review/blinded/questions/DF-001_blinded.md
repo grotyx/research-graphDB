@@ -137,65 +137,122 @@ The evidence retrieved does not provide:
 ---
 
 ## System C
-**Papers retrieved**: 4
-**Evidence levels**: ['5', '2b', '1b', '4']
+**Papers retrieved**: 8
+**Evidence levels**: ['2b', '5', '2b', '5', '2b', '2b', '2b', '4']
 
 ### Cited Papers
-- [5] pubmed_40099853: Biomechanical Analysis of a Novel Tether Pedicle Screw for Proximal Junctional M
 - [2b] pubmed_15371700: Long Adult Deformity Fusions to L5 Versus the Sacrum in the Presence of a 'Healt
-- [1b] pubmed_28803178: Treatment of Unstable Thoracolumbar Fractures: Does Fracture-Level Fixation Acce
+- [5] pubmed_40099853: Biomechanical Analysis of a Novel Tether Pedicle Screw for Proximal Junctional M
+- [2b] pubmed_40450887: The Impact of Alignment Parameters Relative to the Thoracolumbar Inflection Poin
+- [5] pubmed_40195633: Ten-Tiered Difficulty Progression Framework for Unilateral Biportal Endoscopy: A
+- [2b] pubmed_41436676: Adjacent Segment Disease Risk Factors Following Lateral Lumbar Interbody Fusion:
+- [2b] pubmed_41636888: Posterior-Only Fusion versus Anterior Release with Posterior Fusion for Large-Ma
+- [2b] pubmed_41276834: Radiological and clinical outcomes comparing midline lumbar fusion with cortical
 - [4] pubmed_39560536: Twenty year outcomes following short-segment posterior instrumentation and fusio
 
 ### Answer
 
-# Evidence Synthesis: UIV Selection for Lenke 5C Adult Degenerative Scoliosis
+# Evidence Synthesis: Optimal UIV Selection for Lenke 5C Adult Degenerative Scoliosis
 
 ## Evidence Chain
+
 ```
-UIV Selection (T10 vs L1) 
-    → TREATS → 
-Lenke 5C Adult Degenerative Scoliosis 
-    → AFFECTS → 
-Proximal Junctional Mechanics & Adjacent Segment Degeneration
+UIV Selection (T10 vs L1)
+    ↓
+INFLUENCES
+    ↓
+Proximal Junctional Mechanics & Alignment Parameters
+    ↓
+AFFECTS
+    ↓
+Proximal Junctional Kyphosis, Coronal Balance, 
+Sagittal Alignment, & Clinical Outcomes
 ```
 
 ## Findings by Outcome Domain
 
-### Outcome: Proximal Junctional Mechanics and Adjacent Segment Degeneration
-- **[pubmed_40099853]** (Evidence Level: 5, Biomechanical Analysis): Examined tether pedicle screws as alternatives to standard instrumentation for long-segment thoracolumbar constructs. Study used T10 as UIV in standard group (STD: T10-L2) and compared against extended constructs with tether screws at T9 (TPS+1) and T8-T9 (TPS+2). The study specifically analyzed proximal junctional mechanics at UIV+1 (T9-T10), UIV+2 (T8-T9), and UIV+3 (T7-T8) segments. **No direct numerical outcomes comparing T10 vs L1 UIV selection were reported in this study.**
+### Outcome: Proximal Junctional Mechanics
 
-### Outcome: Fusion Selection - L5 vs Sacral Extension
-- **[pubmed_15371700]** (Evidence Level: 2b, Matched Cohort Analysis): While addressing the analogous question of distal instrumented vertebra (DIV) selection in adult deformity, this paper demonstrates the multifactorial approach needed: "The decision to extend adult deformity fusion to the sacrum versus terminating at L5 should incorporate consideration of disease-specific factors beyond radiographic disc degeneration status. Patient factors including age, bone quality, comorbidity burden, and physiologic reserve may influence the risk-benefit calculation." This approach is conceptually applicable to proximal instrumentation decisions but does not directly address UIV selection.
+**[pubmed_40099853]** (Evidence Level: 5, Biomechanical Study)
+- Evaluated tether pedicle screws (TPS) for long-segment thoracolumbar instrumentation with standard pedicle screws (SPS) from T10 to L2
+- Compared standard instrumentation (STD group, UIV at T10) with TPS extension to T9 (TPS+1 group) and T9-T8 (TPS+2 group)
+- Study design used surrogate long-segment instrumentation model with UIV defined at T10
+- No specific numerical outcomes provided for T10 vs L1 comparison; this study focuses on preventing proximal junctional kyphosis through tether design rather than UIV selection strategy
 
-### Outcome: Instrumentation Span Principles
-- **[pubmed_28803178]** (Evidence Level: 1b, RCT): Demonstrated that longer instrumentation spanning two levels above and two levels below the fracture (excluding the fractured vertebra) provides biomechanical advantages by "avoiding stress concentration at the injury site." This principle suggests longer instrumentation spans may reduce adjacent segment stress, but directly compares two-level vs longer constructs—not specific UIV selection in degenerative scoliosis.
+### Outcome: Alignment Parameters & Sagittal Alignment
 
-- **[pubmed_39560536]** (Evidence Level: 4, Retrospective Observational): Noted that the "thoracolumbar junction area, specifically the T11-L2 region" is biomechanically vulnerable as a "transition from a relatively rigid thoracic spine to a more mobile lumbar spine," providing anatomic rationale for UIV selection decisions but lacks direct comparison of T10 vs L1.
+**[pubmed_40450887]** (Evidence Level: 2b, Prospective Cohort Analysis)
+- Examined patients with adult spinal deformity undergoing fusion from lower thoracic spine (T7-12) to pelvis with 2-year follow-up data
+- Assessed alignment parameters relative to thoracolumbar inflection point, UIV position, and lower lumbar alignment (LLA)
+- Evaluated impact of inflection point changes of ≥1 level from baseline
+- **Directly relevant to UIV selection:** Study evaluated UIV positioning relative to anatomical inflection point and its impact on complications and clinical outcomes
+- Specific outcomes measured but numerical results not detailed in provided extract; noted that inflection point positioning relative to UIV influences complication rates
+
+### Outcome: Proximal Junctional Kyphosis (PJK) Risk
+
+**[pubmed_40099853]** (Evidence Level: 5, Biomechanical Analysis)
+- Explicitly designed to address proximal junctional mechanics in long-segment thoracolumbar instrumentation
+- Proposed novel tether pedicle screw design as solution to reduce PJK risk
+- Implies that standard instrumentation from T10 to L2 carries measurable PJK risk at UIV+1 level (T9-T10 junction)
+- No direct comparison of T10 vs L1 as UIV selection provided
+
+### Outcome: Fusion Rates & Adjacent Segment Disease
+
+**[pubmed_41436676]** (Evidence Level: 2b, Comparative Analysis)
+- Identified 3.7 mm cage elevation threshold as optimal for limiting adjacent segment disease (ASD) following lumbar fusion
+- Addresses ASD risk but focuses on lateral interbody fusion technique rather than UIV selection in deformity surgery
+- **Limited applicability:** While relevant to adjacent segment mechanics, does not directly address UIV selection strategy for degenerative scoliosis
+
+### Outcome: Clinical Outcomes
+
+**[pubmed_40450887]** (Evidence Level: 2b, Prospective Cohort)
+- Evaluated clinical outcomes in adult spinal deformity patients based on alignment parameters relative to inflection point
+- 2-year data available for clinical outcome assessment
+- Specific numerical clinical outcome data not provided in abstract/extract
 
 ## Evidence Summary
 
-**Critical Gap:** There is **NO direct evidence from the provided papers** comparing T10 versus L1 as the upper instrumented vertebra specifically for Lenke 5C adult degenerative scoliosis.
+### Available Evidence for UIV Selection in Adult Degenerative Scoliosis:
 
-The available literature provides:
-- **Biomechanical principles** [pubmed_40099853, Evidence 5] suggesting adjacent segment mechanics can be modified with instrumentation strategies, but no direct T10 vs L1 comparison
-- **Decision-making framework** [pubmed_15371700, Evidence 2b] showing that UIV/DIV selection in adult deformity should consider multiple patient and surgeon factors beyond imaging findings
-- **Instrumentation span principles** [pubmed_28803178, Evidence 1b] supporting avoidance of stress concentration through appropriate instrumentation extent, but not applied to this specific comparison
-- **Anatomic considerations** [pubmed_39560536, Evidence 4] describing thoracolumbar biomechanics but not addressing UIV selection strategy
+**Direct Evidence for T10 vs L1 Selection:** **INSUFFICIENT**
+
+The retrieved literature provides **no direct comparative studies** evaluating T10 versus L1 as UIV selection in Lenke 5C adult degenerative scoliosis. 
+
+**Indirect Evidence Supporting Consideration of UIV Positioning:**
+
+- **[pubmed_40450887]** (Evidence Level: 2b) provides the most relevant evidence, demonstrating that UIV position relative to the thoracolumbar inflection point significantly influences complications and clinical outcomes in adult spinal deformity fusion to the pelvis. This suggests UIV selection should incorporate anatomical landmarks rather than arbitrary vertebral levels.
+
+- **[pubmed_40099853]** (Evidence Level: 5, Biomechanical) shows that extending instrumentation cranially from T10 (to T9 and T8) reduces proximal junctional mechanics strain, suggesting that T10 as UIV may carry greater PJK risk compared to more proximal levels, though L1 as UIV was not modeled.
+
+- **[pubmed_15371700]** (Evidence Level: 2b) establishes that surgical decision-making in adult deformity fusion should incorporate "disease-specific factors beyond radiographic findings," including surgeon experience, institutional complication rates, and patient factors—though specific UIV selection criteria are not detailed.
 
 ## Evidence Gaps
 
-### Specific Comparisons Lacking:
-1. **No head-to-head RCT** (Evidence Level 1a-1b) comparing T10 vs L1 UIV in Lenke 5C ADS
-2. **No prospective cohort studies** (Evidence Level 2a) analyzing outcomes stratified by UIV level in this pathology
-3. **No comparative analysis** of adjacent segment degeneration rates at T9-T10 (T10 UIV) versus L1-L2 (L1 UIV)
-4. **Missing outcome data:** sagittal/coronal balance, fusion success rates, and clinical outcomes specific to UIV choice in Lenke 5C
+### Critical Evidence Deficiencies:
 
-### Required Evidence:
-- Studies directly comparing complications, fusion success, and ASD rates between T10 and L1 UIV selection
-- Analysis of patient factors (age, bone quality, preoperative sagittal balance) predicting optimal UIV level
-- Long-term (≥2 year) outcome data on proximal junctional pathology at different UIV levels for this specific pathology
+1. **No Direct Comparative Studies:** No randomized controlled trials (RCTs) or prospective comparative cohorts directly comparing T10 versus L1 as UIV selection in Lenke 5C adult degenerative scoliosis
 
-**Conclusion:** Current evidence is insufficient to support a specific recommendation for T10 versus L1 UIV selection in Lenke 5C ADS based on the provided literature.
+2. **Missing Outcomes for Lenke 5C Specifically:** 
+   - No studies specifically addressing Lenke 5C deformity type
+   - No outcome data on coronal balance achievement comparing T10 vs L1 endpoints
+
+3. **Absent Proximal Junctional Kyphosis Data:**
+   - No comparative incidence or severity data for PJK (T9-T10 vs T12-L1 junctions)
+   - No long-term follow-up (>2 years) comparing UIV levels
+
+4. **Limited Sagittal Alignment Evidence:**
+   - No specific sagittal balance restoration data comparing T10 vs L1 UIV endpoints
+   - No data on relationship between UIV selection and achieving Roussouly-appropriate inflection point positioning
+
+5. **Clinical Outcomes Gap:**
+   - No patient-reported outcome measures (PROMS) data comparing T10 vs L1 UIV selection
+   - No functional outcome data (ODI, SRS-22) stratified by UIV level
+
+6. **Biomechanical Study Limitations:**
+   - [pubmed_40099853] uses surrogate model (T10-L2) without evaluating L1 as potential UIV
+
+### Recommendation for Evidence Synthesis:
+Current evidence supports considering thoracolumbar inflection point anatomy when selecting UIV in adult deformity surgery, but **specific comparison of T10 versus L1 for Lenke 5C degenerative scoliosis requires prospective comparative studies with minimum 2-year follow-up measuring PJK, alignment parameters, and clinical outcomes.**
 
 ---
 

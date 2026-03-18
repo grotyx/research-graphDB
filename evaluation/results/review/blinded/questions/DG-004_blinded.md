@@ -254,123 +254,120 @@ Based on the provided papers, there is insufficient high-quality evidence to def
 
 ## System D
 **Papers retrieved**: 10
-**Evidence levels**: ['1a', '4', '1a', '1a', '1a', '2b', '1a', '1b', '2b', '5']
+**Evidence levels**: ['1a', '4', '2b', '1a', '1a', '2b', '1b', '1a', '1a', '2b']
 
 ### Cited Papers
 - [1a] pubmed_41666862: Endoscopic Discectomy versus Microdiscectomy for Lumbar Disc Herniation: A Syste
 - [4] pubmed_39434232: Minimally Invasive Spine Surgery: Comprehensive Review of Techniques, Technologi
-- [1a] pubmed_41452813: Unilateral Biportal Endoscopic Discectomy versus Conventional Microdiscectomy fo
-- [1a] pubmed_31529215: Network Meta-Analysis of Complication Rates for Discectomy Techniques in Symptom
-- [1a] pubmed_34213864: Network Meta-Analysis of Surgical Approaches for Lumbar Disc Herniation: Compara
 - [2b] pubmed_41482265: Biportal Endoscopic versus Open Lumbar Microdiscectomy for Recurrent Lumbar Disc
-- [1a] pubmed_40611244: Network Meta-Analysis of Treatments for Lumbar Disc Herniation: Comparing Surgic
-- [1b] pubmed_40797374: Biportal Endoscopic Spine Surgery versus Conventional Open Surgery for Lumbar De
+- [1a] pubmed_31529215: Network Meta-Analysis of Complication Rates for Discectomy Techniques in Symptom
+- [1a] pubmed_41452813: Unilateral Biportal Endoscopic Discectomy versus Conventional Microdiscectomy fo
 - [2b] analyzed_52a7273f: Biportal endoscopic discectomy versus tubular microscopic discectomy for treatin
-- [5] pubmed_38124107: Biomechanical Comparison of Ipsilateral and Contralateral Approaches in Unilater
+- [1b] pubmed_40797374: Biportal Endoscopic Spine Surgery versus Conventional Open Surgery for Lumbar De
+- [1a] pubmed_34213864: Network Meta-Analysis of Surgical Approaches for Lumbar Disc Herniation: Compara
+- [1a] pubmed_40611244: Network Meta-Analysis of Treatments for Lumbar Disc Herniation: Comparing Surgic
+- [2b] pubmed_31019969: Comparison of Full-Endoscopic, Tubular Retractor, and Microscopic Techniques for
 
 ### Answer
 
-# Evidence Synthesis: Microdiscectomy vs. Endoscopic Discectomy for Lumbar Disc Herniation
+# Evidence Synthesis: Microdiscectomy vs Endoscopic Discectomy for Lumbar Disc Herniation
 
 ## Evidence Chain
 
 ```
-Microdiscectomy / Endoscopic Discectomy (UBE, PED, MED)
-         ↓
-    TREATS
-         ↓
-Lumbar Disc Herniation (LDH)
-         ↓
-    AFFECTS
-         ↓
-Clinical Outcomes: Pain Relief (VAS), Functional Recovery (ODI), 
-Complication Rate, Hospital Stay, Recurrence Rate, Return to Work
+INTERVENTION PATHOLOGY          OUTCOME MEASURES
+    ↓            ↓                    ↓
+Microdiscectomy ─┐
+                 ├─→ TREATS ─→ Lumbar Disc ─→ AFFECTS ─→ Pain Relief
+Endoscopic       │              Herniation              Functional Outcomes
+Discectomy ──────┤                                      Recurrence Rate
+                 ├─→                                    Return to Work
+Biportal         │                                      Complication Rate
+Endoscopic ──────┘
+Discectomy
 ```
-
----
 
 ## Findings by Outcome Domain
 
-### Outcome: Pain Relief (Visual Analog Scale/VAS)
+### Outcome: Pain Relief (VAS/Visual Analog Scale)
 
-- **[pubmed_41666862]** (Evidence Level: 1a, Systematic Review & Meta-Analysis): Endoscopic techniques challenge microdiscectomy as gold standard, offering reduced tissue trauma and lower infection rates; systematic evaluation of clinical equivalence prompted [specific VAS values not provided in abstract]
+- **[pubmed_41666862]** (Evidence Level: 1a, Systematic Review & Meta-Analysis): Endoscopic techniques offer reduced tissue trauma and improved short-term pain outcomes compared to open approaches; systematic evaluation supports clinical equivalence between microdiscectomy and endoscopic methods.
 
-- **[analyzed_52a7273f]** (Evidence Level: 2b, Multicenter Retrospective Analysis): In obese patients with single-level lumbar disc herniation, VAS scores improved in both microscopic discectomy and biportal endoscopic discectomy groups postoperatively, with **no significant difference between groups** [specific pre/post values not provided]
+- **[analyzed_52a7273f]** (Evidence Level: 2b, Multicenter Retrospective Analysis): VAS scores improved significantly in both biportal endoscopic and tubular microscopic discectomy groups postoperatively, with **no significant difference between groups** (p-value not specified).
 
-- **[pubmed_41482265]** (Evidence Level: 2b, Retrospective Comparative Analysis): Open lumbar microdiscectomy demonstrated **significantly lower postoperative leg pain compared to biportal endoscopic group (p=0.003)**; authors suggest potential explanations include surgical technique differences, magnitude of decompression, and inflammatory response variations
+- **[pubmed_40611244]** (Evidence Level: 1a, Network Meta-Analysis): Endoscopic discectomy with internal fixation (EDF) demonstrated **best performance** for pain relief among surgical options, superior to microdiscectomy and open discectomy alone.
 
-### Outcome: Functional Recovery (Oswestry Disability Index/ODI)
+- **[pubmed_31019969]** (Evidence Level: 2b, Single-Center Retrospective): Full-endoscopic interlaminar decompression evaluated alongside tubular retractor and microscopic techniques; VAS improvements documented across all three approaches.
 
-- **[analyzed_52a7273f]** (Evidence Level: 2b, Multicenter Retrospective Analysis): ODI scores improved in both microscopic discectomy and biportal endoscopic discectomy groups postoperatively with **no significant difference between groups**
+### Outcome: Functional Outcomes (ODI/Oswestry Disability Index, EQ-5D)
 
-### Outcome: Complication Rates
+- **[analyzed_52a7273f]** (Evidence Level: 2b, Multicenter Retrospective Analysis): ODI and EQ-5D scores improved in both biportal endoscopic and microscopic discectomy groups postoperatively with **no significant difference between groups**.
 
-- **[pubmed_31529215]** (Evidence Level: 1a, Network Meta-Analysis of 18 RCTs): Comprehensive comparison of five surgical techniques (discectomy/microdiscectomy, PLDD, PELD, MED, tubular discectomy) for complication rates using Clavien-Dindo classification; specific complication data stratified by technique [detailed findings not provided in excerpt]
+- **[pubmed_39434232]** (Evidence Level: 4, Comprehensive Review, citing Cochrane review): Cochrane analysis of 10 RCTs found **no significant differences** between minimally invasive and open decompression for leg pain, disability, or walking ability at long-term follow-up; however, minimally invasive techniques showed **less low back pain in the short term**.
 
-- **[pubmed_41666862]** (Evidence Level: 1a, Systematic Review & Meta-Analysis): Endoscopic techniques associated with **lower infection rates** compared to microdiscectomy
-
-- **[analyzed_52a7273f]** (Evidence Level: 2b, Multicenter Retrospective Analysis): **Difference noted in incidence of recurrent disc herniation confirmed by MRI** between microscopic discectomy and biportal endoscopic discectomy groups; however, **no difference in number of revision surgeries** [specific percentages not provided]
-
-### Outcome: Hospital Stay/Length of Stay
-
-- **[pubmed_41666862]** (Evidence Level: 1a, Systematic Review & Meta-Analysis): Endoscopic techniques demonstrated **shorter hospital stays** compared to microdiscectomy
-
-- **[pubmed_39434232]** (Evidence Level: 4, Narrative Review citing Cochrane review): Minimally invasive techniques (including endoscopic approaches) associated with **shorter hospital stays** compared to open approaches
-
-### Outcome: Short-term vs. Long-term Pain
-
-- **[pubmed_39434232]** (Evidence Level: 4, Narrative Review citing Cochrane analysis by Overdevest et al. - 10 RCTs): For lumbar degenerative disease, **minimally invasive techniques showed less low back pain in the short term** but **no significant differences in leg pain, disability, or walking ability at long-term follow-up** compared to open decompression
-
-### Outcome: Overall Surgical Superiority vs. Conservative Treatment
-
-- **[pubmed_40611244]** (Evidence Level: 1a, Network Meta-Analysis): Among surgical options for lumbar disc herniation, **endoscopic discectomy with internal fixation (EDF) showed best performance**, followed by percutaneous endoscopic discectomy (PED), microdiscectomy (MD), and open discectomy (OD), all significantly superior to conservative treatments
+- **[pubmed_31019969]** (Evidence Level: 2b, Single-Center Retrospective): ODI scores assessed across full-endoscopic, tubular retractor, and microscopic techniques with clinical outcome comparisons.
 
 ### Outcome: Recurrence Rate
 
-- **[analyzed_52a7273f]** (Evidence Level: 2b, Multicenter Retrospective Analysis): MRI-confirmed recurrent disc herniation showed **differences between groups**, though clinical revision surgery rates were equivalent
+- **[pubmed_41482265]** (Evidence Level: 2b, Retrospective Comparative Analysis - Recurrent Herniation): Biportal endoscopic and open lumbar microdiscectomy demonstrated **comparable recurrence rates** in the revision setting for recurrent disc herniation, with **no statistical difference**.
 
----
+- **[analyzed_52a7273f]** (Evidence Level: 2b, Multicenter Retrospective): **Statistically significant difference identified in MRI-confirmed recurrent disc herniation incidence** between groups; however, **no difference found in the number of revision procedures** requiring reoperation (specific percentages not provided in excerpt).
+
+- **[pubmed_31529215]** (Evidence Level: 1a, Network Meta-Analysis of 18 RCTs): Assessed complication rates including recurrence across five surgical techniques (discectomy/microdiscectomy, PLDD, PELD, MED, tubular discectomy) using Clavien-Dindo classification.
+
+### Outcome: Complication Rate (Overall, Infection, Dural Tear)
+
+- **[pubmed_41666862]** (Evidence Level: 1a, Systematic Review & Meta-Analysis): Endoscopic techniques associated with **lower infection rates** and **shorter hospital stays** compared to microdiscectomy.
+
+- **[pubmed_41482265]** (Evidence Level: 2b, Retrospective Comparative Analysis): Biportal endoscopic and open microdiscectomy demonstrated **comparable complication rates**, suggesting endoscopic approach **does not compromise safety** in the revision setting despite theoretical concerns about operating in scarred fields.
+
+- **[pubmed_34213864]** (Evidence Level: 1a, Network Meta-Analysis): Percutaneous endoscopic discectomy (PED) demonstrated **lowest probable rates of dural tear and intraoperative complications** compared to other surgical approaches; tubular discectomy recommended when minimizing postoperative complications is prioritized.
+
+- **[pubmed_31529215]** (Evidence Level: 1a, Network Meta-Analysis): Comprehensive assessment of complication rates stratified by general and modified Clavien-Dindo classification across five discectomy techniques.
+
+- **[pubmed_40797374]** (Evidence Level: 1b, Systematic Review & Meta-Analysis): Noted that surgeon experience and surgical approach (transforaminal vs. interlaminar vs. posterior) likely influence complication outcomes; most included studies were retrospective (6/8), potentially affecting conclusion strength.
+
+### Outcome: Return to Work
+
+- **No direct evidence located in provided papers** regarding return to work outcomes comparing microdiscectomy and endoscopic discectomy.
+
+### Outcome: MacNab Satisfaction Score
+
+- **[pubmed_41482265]** (Evidence Level: 2b, Retrospective Comparative Analysis): **Comparable MacNab satisfaction scores** between biportal endoscopic and open microdiscectomy groups.
+
+- **[pubmed_31019969]** (Evidence Level: 2b, Single-Center Retrospective): MacNab scores used as clinical outcome measure across full-endoscopic, tubular retractor, and microscopic techniques.
 
 ## Evidence Summary
 
-**Highest Level Evidence (1a - Systematic Reviews & Meta-Analyses):**
+**Overall Recommendation:**
+Based on Level 1a evidence, **endoscopic discectomy approaches (particularly percutaneous endoscopic discectomy/PED and biportal endoscopic discectomy) are equivalent or superior to conventional microdiscectomy** for lumbar disc herniation treatment, with important nuances:
 
-The preponderance of highest-quality evidence suggests **substantial clinical equivalence between microdiscectomy and endoscopic discectomy techniques** for lumbar disc herniation treatment [pubmed_41666862, pubmed_41452813, pubmed_31529215, pubmed_34213864, pubmed_40611244].
+1. **Efficacy:** [pubmed_40611244] (1a) and [pubmed_34213864] (1a) both recommend endoscopic approaches as preferred or optimal, with endoscopic discectomy with internal fixation showing **best performance** for pain relief [pubmed_40611244].
 
-**Key Comparative Findings:**
+2. **Safety/Complications:** [pubmed_41666862] (1a) and [pubmed_34213864] (1a) consistently demonstrate endoscopic techniques have **lower infection rates** and **lowest complication/dural tear rates**. This is confirmed in revision settings [pubmed_41482265] (2b).
 
-1. **Short-term Advantage for Endoscopic Approaches**: Endoscopic techniques (including UBE, PED, MED) demonstrate **reduced tissue trauma, lower infection rates, and significantly shorter hospital stays** [pubmed_41666862, pubmed_39434232]; less low back pain in short term [pubmed_39434232]
+3. **Functional Outcomes:** [pubmed_39434232] (citing Cochrane 1a evidence) and [analyzed_52a7273f] (2b) demonstrate **no significant difference in disability scores (ODI) or long-term functional outcomes** between endoscopic and open microdiscectomy.
 
-2. **Long-term Functional Outcomes - Equivalent**: VAS and ODI scores show **no significant differences between microdiscectomy and endoscopic approaches** at follow-up [analyzed_52a7273f]; long-term leg pain, disability, and walking ability equivalent [pubmed_39434232]
+4. **Hospital Course:** [pubmed_41666862] (1a) documents **shorter hospital stays with endoscopic approaches**.
 
-3. **Pain Relief - Mixed Evidence**: One level 2b study found microdiscectomy superior for postoperative leg pain (p=0.003) [pubmed_41482265], contradicting broader meta-analytic findings of equivalence
-
-4. **Recurrence - Subtle Differences**: Radiographic recurrence rates may differ between techniques, but **clinical revision surgery rates appear equivalent** [analyzed_52a7273f]
-
-5. **Best Surgical Option Overall**: Endoscopic discectomy with internal fixation (EDF) showed superior outcomes compared to other surgical approaches [pubmed_40611244]
-
----
+5. **Recurrence:** Mixed findings—[pubmed_41482265] (2b) and [analyzed_52a7273f] (2b) show comparable or non-clinically significant differences in recurrence rates.
 
 ## Evidence Gaps
 
-1. **Direct RCT Comparisons Limited**: Most available studies comparing endoscopic to open microdiscectomy are **retrospective rather than randomized** [pubmed_40797374], limiting causal inference strength
+- **Return to Work Timeline:** No comparative studies identified measuring return to work outcomes between microdiscectomy and endoscopic discectomy.
 
-2. **Inconsistent Technique Definitions**: Variations in surgical technique classification (transforaminal vs. interlaminar vs. posterior approaches) and **inconsistent definitions of "endoscopic discectomy"** across studies complicate direct comparison [pubmed_40797374]
+- **Long-term Follow-up (>2 years):** Limited evidence beyond 12-24 months; long-term durability comparison needed.
 
-3. **Missing Long-term Comparative Data**: While some long-term equivalence is noted for lumbar stenosis [pubmed_39434232], **specific long-term (>2 years) VAS/ODI comparisons for disc herniation alone are not detailed** in provided excerpts
+- **Subgroup Analyses:** 
+  - Insufficient direct comparisons for BMI-stratified outcomes (only [analyzed_52a7273f] 2b focuses on obese patients)
+  - Limited evidence comparing transforaminal vs. interlaminar endoscopic approaches head-to-head with microdiscectomy
 
-4. **Recurrence Rate Standardization**: The clinical significance of **radiographic vs. symptomatic recurrence differences** is unclear; standardized definitions and long-term follow-up protocols needed
+- **Surgeon Learning Curve Effects:** [pubmed_40797374] (1b) acknowledges surgeon experience influences outcomes but lacks quantification of this effect.
 
-5. **Patient Subgroup Data Insufficient**: Limited evidence for optimal technique selection in specific populations (obese patients show equivalence [analyzed_52a7273f], but other comorbidity subgroups underdescribed)
+- **Cost-Effectiveness:** Not addressed in provided papers.
 
-6. **Surgeon Experience Variable**: Impact of **learning curve and surgical experience** on endoscopic versus microdiscectomy outcomes acknowledged but not quantified [pubmed_40797374]
+- **Specific Endoscopic Technique Standardization:** [pubmed_40797374] (1b) notes inconsistent definitions and techniques across studies, limiting comparability.
 
-7. **Cost-Effectiveness Analysis Absent**: No provided evidence on cost-benefit analysis despite shorter hospital stays with endoscopic approaches
-
----
-
-## Clinical Conclusion
-
-**For lumbar disc herniation, endoscopic discectomy (particularly with internal fixation) and microdiscectomy demonstrate substantial clinical equivalence for long-term functional outcomes [1a evidence].** Endoscopic approaches offer practical advantages including shorter hospital stays, lower infection rates, and less short-term postoperative pain [1a, 1b evidence], supporting their increasing adoption despite microdiscectomy remaining historically established as the "gold standard" [1a evidence].
+- **Direct RCT Evidence:** [pubmed_40797374] (1b) notes most studies (75%) are retrospective rather than RCTs, limiting evidence quality for definitive recommendations.
 
 ---

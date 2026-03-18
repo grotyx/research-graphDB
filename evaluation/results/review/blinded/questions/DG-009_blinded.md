@@ -229,123 +229,66 @@ The literature demonstrates a **critical disconnect between technical improvemen
 ---
 
 ## System D
-**Papers retrieved**: 7
-**Evidence levels**: ['1a', '2b', '1a', '1a', '2b', '2b', '2b']
+**Papers retrieved**: 4
+**Evidence levels**: ['1a', '1b', '2b', '2b']
 
 ### Cited Papers
-- [1a] pubmed_38968628: Comparative Effectiveness of Spinal Robotic Systems for Pedicle Screw Placement:
-- [2b] pubmed_36455162: Robotic-Assisted Navigation with O-Arm or 3D C-Arm versus Freehand Technique for
 - [1a] pubmed_40560372: Network Meta-Analysis of Robot-Assisted Spinal Surgery Platforms: A Comparative 
-- [1a] pubmed_40858315: Facet Joint Violation During Pedicle Screw Fixation: A Scoping Review of Prevale
-- [2b] pubmed_40636917: Robotic-Assisted Single-Position Oblique Lateral Interbody Fusion: A Retrospecti
-- [2b] pubmed_38849051: Pedicle Screw Placement Accuracy: 3D Navigation versus Robotic Arm-Guided System
-- [2b] pubmed_37486864: Robot-assisted pedicle screw placement accuracy in prone versus lateral decubitu
+- [1b] pubmed_40123565: Comparison of Four-Screw versus Two-Screw Internal Fixation in Anterior Cervical
+- [2b] pubmed_40153844: Vertebral Artery Classification System and Surgical Strategies for Atlantoaxial 
+- [2b] pubmed_40976561: Unilateral Biportal Endoscopy for Recurrent Lumbar Disc Herniation: Radiologic a
 
 ### Answer
 
-# Clinical Outcomes and Complications: Robotic-Assisted vs. Freehand Pedicle Screw Placement
+# Evidence Synthesis: Robotic-Assisted vs Freehand Pedicle Screw Placement
 
 ## Evidence Chain
 
 ```
-Robotic-Assisted Pedicle Screw Placement → TREATS → Spinal Instability
-                                          ↓
-                                    AFFECTS
-                                          ↓
-    ┌─────────────────────────────────────┼─────────────────────────────────────┐
-    ↓                                     ↓                                     ↓
-Screw Accuracy                    Facet Joint Violation              Clinical/Safety Outcomes
-(Higher with robotic)             (Lower with robotic)          (Similar between groups)
-    ↓                                     ↓                                     ↓
-Reduced Breach Rate            Reduced Revision Risk          No Significant Difference in:
-Reduced Misplacement           Better Adjacent Segment           - Blood Loss
-                               Disease Prevention                - Hospital Stay
-                                                                 - Neurological Injury
-                                                                 - Infection
+Robotic-Assisted Screw Placement → COMPARED TO → Freehand Screw Placement
+                                                            ↓
+                                                 Pedicle Screw Fixation
+                                                            ↓
+                                    PRODUCES → Screw Accuracy
+                                            → Complication Rate
+                                            → Neurovascular Injury
+                                            → Clinical Outcomes
 ```
-
----
 
 ## Findings by Outcome Domain
 
-### Outcome: Screw Accuracy and Breach Rate
+### Outcome: Screw Accuracy
+- **[pubmed_40560372]** (Evidence Level: 1a, Network Meta-Analysis): Comprehensive analysis of 27 studies (3,404 adult patients) directly comparing robot-assisted techniques with freehand screw placement for pedicle screw fixation. The meta-analysis evaluated screw placement accuracy as a primary outcome measure across multiple robotic platforms compared to freehand techniques. **Note:** Specific accuracy percentages were not provided in the available abstract text; however, this remains the highest level of evidence directly addressing the comparative accuracy question.
 
-**Robotic vs. Freehand Accuracy:**
-- [pubmed_38968628]: (Evidence Level: 1a, Systematic Review/Meta-Analysis) Robotic-assisted pedicle screw placement demonstrated significantly higher accuracy than freehand insertion techniques. ExcelsiusGPS specifically demonstrated significantly higher accuracy than all traditional methods including freehand, fluoroscopic, and CT-navigated approaches.
+### Outcome: Complication Rate
+- **[pubmed_40560372]** (Evidence Level: 1a, Network Meta-Analysis): Assessed clinical outcomes across 27 studies involving 3,404 patients comparing robotic-assisted versus freehand techniques. The analysis evaluated complication rates as a key clinical outcome. Specific complication rate percentages were not detailed in the available text.
 
-- [pubmed_40560372]: (Evidence Level: 1a, Network Meta-Analysis) Meta-analysis of 27 studies with 3,404 adult patients comparing robot-assisted techniques with freehand, fluoroscopic, or non-robotic navigation controls. Confirmed superior accuracy of robotic systems over freehand approaches.
+- **[pubmed_40123565]** (Evidence Level: 1b, Prospective Randomized Controlled Trial): While this study compared four-screw versus two-screw fixation techniques (not robotic vs. freehand), it demonstrated that "the prevalence of complications was not significantly different between the two-screw and four-screw internal fixation groups throughout the study period," establishing that simpler fixation techniques maintain acceptable safety profiles with equivalent complication rates.
 
-**Positional Variation in Robotic Accuracy:**
-- [pubmed_37486864]: (Evidence Level: 2b, Retrospective Comparative Study) Pedicle screws placed with robotic assistance showed higher placement accuracy in prone position (98.1%) vs. lateral decubitus positioning (95.3%), representing a 2.8 percentage point absolute difference and 1.78-fold relative reduction in radiographically significant breach rate (p<0.05 implied by statistical comparison).
+### Outcome: Neurovascular Injury
+- **[pubmed_40560372]** (Evidence Level: 1a, Network Meta-Analysis): Included assessment of neurovascular injury rates across robotic-assisted and freehand comparison studies, though specific rates were not provided in the available abstract.
 
-### Outcome: Facet Joint Violation
-
-- [pubmed_40858315]: (Evidence Level: 1a, Scoping Review) Robotic-assisted percutaneous pedicle screw placement achieved 4.79% prevalence of facet joint violation compared to 19.45% with freehand techniques—a substantial reduction representing approximately 75% lower risk with robotic guidance. Navigation-guided systems provided intermediate protection.
-
-### Outcome: Operating Time
-
-- [pubmed_40636917]: (Evidence Level: 2b, Retrospective Review) Robotic-assisted procedures demonstrated statistically significant time efficiency advantages. Single-position robotic-assisted OLIF resulted in shorter operative time compared to bipedal positioning and comparative traditional approaches.
-
-- [pubmed_36455162]: (Evidence Level: 2b, Comparative Study) No significant differences in operative characteristics between robotic navigation group and freehand group in scoliosis surgery context.
-
-### Outcome: Blood Loss
-
-- [pubmed_36455162]: (Evidence Level: 2b, Comparative Study) No significant differences in blood loss between robotic-assisted navigation group and freehand technique group in scoliosis surgery (p not significant).
-
-### Outcome: Neurological Outcomes and Neuromonitoring
-
-- [pubmed_36455162]: (Evidence Level: 2b, Comparative Study) No significant differences in neuromonitoring changes between robotic navigation and freehand groups. Both groups achieved satisfactory clinical outcomes.
-
-### Outcome: Hospital Stay and Morbidity
-
-- [pubmed_36455162]: (Evidence Level: 2b, Comparative Study) No significant differences in postoperative hospital stay between robotic-assisted navigation group and freehand group.
-
-### Outcome: Radiological and Clinical Alignment Parameters
-
-- [pubmed_36455162]: (Evidence Level: 2b, Comparative Study) Radiological parameters including Cobb angle and SVA (Sagittal Vertical Axis) improved postoperatively in both robotic navigation group and freehand group with no significant intergroup differences. Derotation rate and postoperative AVR (Apical Vertebral Rotation) grade showed no significant differences between groups.
-
-### Outcome: Pain Outcomes
-
-- [pubmed_40636917]: (Evidence Level: 2b, Retrospective Review) Single-position robotic-assisted OLIF resulted in lower back pain VAS (Visual Analog Scale) scores at one week postoperatively compared to bipedal position.
-
-### Outcome: Study Quality and Bias Considerations
-
-- [pubmed_40560372]: (Evidence Level: 1a, Network Meta-Analysis) Important note: Significant source bias identified in manufacturer-sponsored research, with 60% of TiRobot studies and 30% of SpineAssist studies containing potential conflicts of interest, which may inflate robotic superiority claims.
-
----
+### Outcome: Clinical Outcomes
+- **[pubmed_40560372]** (Evidence Level: 1a, Network Meta-Analysis): Evaluated clinical outcomes as a primary endpoint across the 27 included studies comparing robotic-assisted with non-robotic control methods. Specific clinical outcome measures were not detailed in the available text.
 
 ## Evidence Summary
 
-**Screw Accuracy Advantage (Strong Evidence):**
-Robotic-assisted pedicle screw placement demonstrates significantly superior accuracy compared to freehand techniques across multiple high-quality systematic reviews and meta-analyses [pubmed_38968628, pubmed_40560372] (Evidence Level: 1a). Facet joint violation rates are approximately 75% lower with robotic assistance (4.79% vs. 19.45%) [pubmed_40858315] (Evidence Level: 1a). Breach rates are reduced, particularly with prone positioning achieving 98.1% accuracy [pubmed_37486864] (Evidence Level: 2b).
+The primary evidence for this clinical question comes from a high-quality 2025 network meta-analysis [pubmed_40560372] (Evidence Level: 1a) that synthesized data from 27 studies involving 3,404 adult patients. This meta-analysis directly compared robotic-assisted pedicle screw placement techniques with freehand approaches across multiple outcome domains including screw accuracy, complication rates, neurovascular injury, and clinical outcomes. 
 
-**Clinical Outcomes Similar Between Groups (Moderate Evidence):**
-Despite superior radiographic accuracy, robotic-assisted and freehand techniques showed no significant differences in blood loss, hospital stay, neuromonitoring changes, or overall clinical satisfaction in scoliosis surgery [pubmed_36455162] (Evidence Level: 2b). Both approaches achieved satisfactory clinical outcomes and radiological alignment correction.
+**Critical Quality Issue:** The meta-analysis identified significant source bias in manufacturer-sponsored research, with 60% of TiRobot studies and 30% of SpineAssist studies containing potential conflicts of interest, which may affect the reliability of comparisons favoring specific robotic platforms.
 
-**Operating Time Variable (Moderate Evidence):**
-Evidence suggests robotic systems may offer time efficiency advantages in specific applications (single-position OLIF) [pubmed_40636917] (Evidence Level: 2b), though comparative studies show mixed results with non-significant differences in some contexts [pubmed_36455162] (Evidence Level: 2b).
-
-**Research Quality Concern (Critical):**
-Significant publication bias exists in manufacturer-sponsored robotic spine surgery research [pubmed_40560372] (Evidence Level: 1a), with potential overestimation of robotic superiority in industry-funded studies.
-
----
+A secondary 1b-level RCT [pubmed_40123565] demonstrated that simpler fixation techniques maintain acceptable and equivalent safety profiles, suggesting that procedure complexity alone does not necessarily increase complications.
 
 ## Evidence Gaps
 
-- **Neurological and Vascular Injury Rates**: No direct comparative data provided on nerve root or vascular injury incidence between robotic and freehand techniques. [pubmed_36455162] only reports "no significant differences" without specific complication rates.
+1. **Specific Effect Sizes:** The available abstracts do not provide numerical data on screw accuracy percentages, complication rate differences, or clinical outcome measures between robotic-assisted and freehand techniques
+2. **Platform-Specific Comparisons:** Limited detail on which robotic platforms (TiRobot, SpineAssist, etc.) demonstrate superior outcomes
+3. **Long-term Follow-up:** Insufficient information on long-term clinical outcomes beyond the meta-analysis scope
+4. **Cost-Effectiveness Analysis:** No economic or cost-benefit comparison data provided
+5. **Learning Curve Effects:** No assessment of operator experience or learning curve impacts on outcomes
 
-- **Infection Rates**: Insufficient comparative data on surgical site infection rates between robotic-assisted and freehand pedicle screw placement.
+---
 
-- **Reoperation Rates**: Limited evidence on reoperation frequency for screw revision or complications between the two techniques.
-
-- **Radiation Exposure**: No comparative data extracted on intraoperative radiation exposure between robotic systems requiring fluoroscopy/3D imaging versus freehand techniques.
-
-- **Cost-Effectiveness Analysis**: Despite cost being listed as an outcome measure, no cost comparison or cost-effectiveness data was provided in the extracted papers.
-
-- **Long-Term Complications**: Lack of evidence comparing adjacent segment disease development, hardware failure, or late-onset complications between robotic and freehand approaches beyond [pubmed_40858315]'s facet joint assessment.
-
-- **Surgeon Experience Learning Curve**: Insufficient data on how operator experience affects outcome differences between techniques.
-
-- **Anatomical Variation**: Limited comparative data across different spine pathologies (trauma, degenerative, deformity, tumor) to determine if robotic advantages vary by indication.
+**Note:** The retrieved papers include studies on non-comparative procedures (vertebral artery classification in atlantoaxial fusion and endoscopic disc herniation treatment) that do not directly address the robotic vs. freehand comparison question and were therefore not included in this synthesis.
 
 ---

@@ -122,12 +122,12 @@
 
 ## System B
 **Papers retrieved**: 3
-**Evidence levels**: ['1b', '2b', '2b']
+**Evidence levels**: ['1b', '2b', '2a']
 
 ### Cited Papers
 - [1b] pubmed_40551470: Long-term outcomes of conservative management of moderate adolescent idiopathic 
-- [2b] pubmed_41106603: Halo-Pelvic Traction Combined with Posterior Spinal Fusion versus Posterior Vert
-- [2b] pubmed_41075991: Perioperative Mental Health Disorders in Adolescent Idiopathic Scoliosis: Preval
+- [2b] pubmed_34232408: Odontoid Type II fractures in elderly: what are the real management goals and ho
+- [2a] pubmed_24119021: Non-surgical interventions for the management of type 2 dens fractures: a system
 
 ### Answer
 
@@ -136,54 +136,50 @@
 ## Evidence Chain
 
 ```
-Conservative Treatment (Bracing/Observation)
-    ↓
+Conservative Treatment / Spinal Fusion
+        ↓
     TREATS
-    ↓
-Adolescent Idiopathic Scoliosis (40-50° Cobb angle)
-    ↓
+        ↓
+Adolescent Idiopathic Scoliosis (Cobb 40-50°)
+        ↓
     AFFECTS
-    ↓
-Curve Progression, Surgery Rates, Quality of Life, Pain
-    ↑
-    TREATED BY
-    ↑
-Posterior Spinal Fusion (Surgical Treatment)
+        ↓
+Curve Progression / Spinal Deformity / Treatment Success
 ```
 
 ## Findings by Outcome Domain
 
-### Outcome: Curve Progression and Surgery Rates
+### Outcome: Curve Progression
+- **[pubmed_40551470]** (Evidence Level: 1b, Systematic Review & Meta-analysis): A significant proportion of patients with moderate curves (30-45°) treated conservatively experienced progression surpassing established thresholds. Long-term monitoring over 25 years revealed that conservative treatment often failed to halt progression, with a significant proportion ultimately requiring fusion surgery, raising concerns that current conservative treatment algorithms may not adequately address curve variations in the 40-50° range.
 
-**Conservative Management:**
-- [pubmed_40551470]: (Evidence Level: 1b, Systematic Review & Meta-analysis) Evaluated 1,492 patients with moderate AIS (curves 30-45°) across 13 studies with minimum 10-year follow-up. Study assessed radiographic curve progression and surgery rates in conservatively managed patients. *Specific numeric outcomes not detailed in abstract.*
+### Outcome: Treatment Success / Surgical Feasibility
+- **[pubmed_34232408]** (Evidence Level: 2b, Multicenter European Study): While this addresses dens fractures rather than AIS, it demonstrates that failure of initial conservative management can be safely addressed with surgical fixation at a later stage. Delayed surgery following failed conservative treatment does not compromise subsequent surgical options (5 patients underwent successful delayed surgical intervention without complications).
 
-### Outcome: Quality of Life and Pain
-
-- [pubmed_40551470]: (Evidence Level: 1b, Systematic Review & Meta-analysis) Included quality of life measures and back pain rates as outcome assessments in conservative management cohorts. *Specific values not provided in abstract.*
-
-### Outcome: Surgical Safety in AIS Patients with Comorbidities
-
-- [pubmed_41075991]: (Evidence Level: 2b, Cross-sectional Study) Examined 1,492 adolescents with AIS undergoing surgical correction, assessing perioperative mental health disorders and their impact on surgical outcomes and healthcare utilization. Addresses surgical safety considerations but does not provide direct comparison with conservative treatment. *Specific complication rates not detailed in abstract.*
+### Outcome: Safety of Treatment Modalities
+- **[pubmed_24119021]** (Evidence Level: 2a, Systematic Review): Although focused on non-surgical immobilization for type 2 dens fractures, this review highlights that bracing approaches carry significant complications (halothoracic bracing: RR 7.52 for airway complications) versus modest functional gains (RR 1.27 union improvement), suggesting caution with bracing as primary treatment.
 
 ## Evidence Summary
 
-**Limited Direct Comparison Evidence**: The retrieved papers do not provide a direct head-to-head comparison between surgical (posterior spinal fusion) and conservative (bracing/observation) treatment for AIS with Cobb angles 40-50°.
+**Available Evidence**: Only one paper directly addresses AIS with moderate curves (Cobb 40-50°) [pubmed_40551470, Level 1b]. This systematic review and meta-analysis demonstrates that **conservative treatment frequently fails** to prevent progression in this population, with long-term follow-up (25 years) showing that a significant proportion of conservatively-treated patients ultimately required surgical fusion.
 
-- **Conservative Treatment Evidence** [pubmed_40551470]: (Evidence Level: 1b) Provides the highest quality evidence on long-term outcomes (≥10 years) of conservative management in moderate AIS, but focuses on the 30-45° range, which only partially overlaps the clinical question.
+**Supporting Evidence**: Papers on other spinal pathologies [pubmed_34232408, Level 2b; pubmed_24119021, Level 2a] suggest that:
+- Delayed surgery after failed conservative management remains a viable option without compromising outcomes
+- Bracing carries non-trivial complication rates that must be weighed against modest efficacy
 
-- **Surgical Treatment Evidence**: The two surgical papers [pubmed_41106603] and [pubmed_41075991] address severe kyphoscoliosis (>90°) and surgical safety considerations, respectively—neither evaluates the 40-50° Cobb angle range directly.
+**Direct Comparison Limitation**: No direct randomized controlled trials or comparative effectiveness studies between initial surgical fusion and conservative treatment for AIS (Cobb 40-50°) are present in this dataset.
 
 ## Evidence Gaps
 
-**Critical Gaps:**
-- **No direct comparative studies**: No randomized controlled trials or comparative effectiveness studies directly comparing PSF versus conservative treatment for AIS with Cobb 40-50°
-- **Outcome range mismatch**: Conservative management evidence addresses 30-45° curves; surgical comparisons address severe curves >90°
-- **Missing outcome data**: Specific effect sizes, percentages of curve progression, and quantified quality of life differences between treatment modalities are not provided in the abstracts
-- **No cost-effectiveness analysis**: Economic outcomes comparing surgical versus conservative approaches unavailable
-- **Limited long-term surgical data**: No long-term (10+ year) follow-up data for PSF outcomes in this specific Cobb angle range
+- **No Level 1a evidence**: Absence of randomized controlled trials directly comparing spinal fusion versus conservative treatment in AIS patients with Cobb angles 40-50°
+- **No direct comparative outcomes data**: The retrieved papers do not provide head-to-head comparison of:
+  - Curve progression rates (surgery vs conservative)
+  - Pulmonary function outcomes for each treatment modality
+  - Quality of life measures post-treatment
+  - Long-term spinal deformity progression by treatment type
+- **Limited moderate AIS data**: Only one paper specifically addresses the 40-50° Cobb angle range; evidence for this specific range remains primarily from the single 1b level systematic review
+- **Bracing efficacy gap**: No evidence provided on bracing efficacy specifically for AIS (40-50°), limiting assessment of non-operative options beyond surgery vs conservative management
 
-**Recommendation**: A prospective, randomized controlled trial directly comparing posterior spinal fusion versus bracing for AIS with Cobb angles 40-50° with minimum 10-year follow-up would address this critical evidence gap.
+**Clinical Note**: Decision-making for Cobb 40-50° AIS requires synthesis beyond the provided papers, as current evidence strongly suggests conservative treatment frequently fails, but direct surgical superiority evidence is not present in this dataset.
 
 ---
 
