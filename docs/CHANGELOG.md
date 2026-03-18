@@ -14,6 +14,7 @@
 - **BS 논문 30편 임포트**: Modic(10), Smoking(10), Stem Cell(10) → DB 773편
 - **Phase B 평가표 수정**: blinding 위반 요소 제거, 시스템 정체 누출 방지
 - **Blinded 평가 프레임워크**: prompt + scoring log + CSV for GPT/Gemini/Claude/PSM/PHJ
+- **DV Recurring Fixes** (DV-NEW-066~069): 고아 test Chunk 10건 삭제, 대소문자 중복 엔티티 15쌍 APOC 병합 (I:11, O:3, A:1), study_design 정규화 14건 (other→Other, meta-analysis→Meta-Analysis), TREATS 누락 133건 백필
 
 ### v1.29.0 Post-Release: LLM Reranker + DB 확장 + 평가 파이프라인 (2026-03-18)
 
