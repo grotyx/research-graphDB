@@ -1,0 +1,62 @@
+{
+  "DG-001": {
+    "B3": "System A",
+    "B2": "System B",
+    "B4": "System C",
+    "B1": "System D"
+  },
+  "DG-002": {
+    "B4": "System A",
+    "B3": "System B",
+    "B1": "System C",
+    "B2": "System D"
+  },
+  "DG-003": {
+    "B2": "System A",
+    "B4": "System B",
+    "B3": "System C",
+    "B1": "System D"
+  },
+  "DG-004": {
+    "B2": "System A",
+    "B3": "System B",
+    "B1": "System C",
+    "B4": "System D"
+  },
+  "DG-005": {
+    "B2": "System A",
+    "B3": "System B",
+    "B4": "System C",
+    "B1": "System D"
+  },
+  "DG-006": {
+    "B2": "System A",
+    "B4": "System B",
+    "B3": "System C",
+    "B1": "System D"
+  },
+  "DG-007": {
+    "B3": "System A",
+    "B2": "System B",
+    "B1": "System C",
+    "B4": "System D"
+  },
+  "DG-008": {
+    "B2": "System A",
+    "B4": "System B",
+    "B1": "System C",
+    "B3": "System D"
+  },
+  "DG-009": {
+    "B1": "System A",
+    "B3": "System B",
+    "B2": "System C",
+    "B4": "System D"
+  },
+  "DG-010": {
+    "B3": "System A",
+    "B4": "System B",
+    "B1": "System C",
+    "B2": "System D"
+  }
+}

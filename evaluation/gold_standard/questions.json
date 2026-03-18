@@ -8,7 +8,7 @@
     "question": "Clinical question in English",
     "question_kr": "Clinical question in Korean (optional)",
     "domain": "degenerative | deformity | trauma | tumor | basic_science",
-    "type": "single_evidence | comparison | complication | indication | latest_evidence",
+    "type": "single_evidence | comparison | complication | indication | latest_evidence | multi_intervention_comparison | structured_comparison | evidence_chain | graph_traversal | comprehensive_evidence",
     "expected_entities": {
       "interventions": "Expected intervention names",
       "pathologies": "Expected pathology names",
@@ -394,6 +394,71 @@
         "outcomes": ["Screw Accuracy", "Operative Time", "Radiation Exposure", "Learning Curve"]
       },
       "difficulty": "medium"
+    },
+    {
+      "id": "GR-001",
+      "question": "What are all the surgical interventions available for lumbar spinal stenosis, and how do their complication profiles compare?",
+      "question_kr": "요추 척추관 협착증에 사용 가능한 모든 수술적 치료법과 합병증 프로파일 비교는?",
+      "domain": "degenerative",
+      "type": "multi_intervention_comparison",
+      "expected_entities": {
+        "interventions": ["Laminectomy", "TLIF", "UBE", "MIS Decompression", "LLIF"],
+        "pathologies": ["Lumbar Spinal Stenosis"],
+        "outcomes": ["Complication Rate", "Dural Tear", "Reoperation Rate", "ODI"]
+      },
+      "difficulty": "hard"
+    },
+    {
+      "id": "GR-002",
+      "question": "What outcomes are shared between TLIF and PLIF, and which outcomes are unique to each procedure?",
+      "question_kr": "TLIF와 PLIF가 공통으로 보고하는 outcome과 각각 고유한 outcome은?",
+      "domain": "degenerative",
+      "type": "structured_comparison",
+      "expected_entities": {
+        "interventions": ["TLIF", "PLIF"],
+        "pathologies": ["Degenerative Disc Disease", "Spondylolisthesis"],
+        "outcomes": ["Fusion Rate", "ODI", "VAS", "Blood Loss", "Operative Time"]
+      },
+      "difficulty": "hard"
+    },
+    {
+      "id": "GR-003",
+      "question": "Trace the complete evidence chain for UBE in treating lumbar disc herniation: what pathologies does it treat, what outcomes are affected, and what is the evidence level for each?",
+      "question_kr": "UBE가 요추 추간판 탈출증을 치료할 때의 완전한 근거 체인: 어떤 병태를 치료하고, 어떤 outcome에 영향을 미치며, 각각의 근거 수준은?",
+      "domain": "degenerative",
+      "type": "evidence_chain",
+      "expected_entities": {
+        "interventions": ["UBE"],
+        "pathologies": ["Lumbar Disc Herniation", "Lumbar Spinal Stenosis"],
+        "outcomes": ["VAS Leg", "VAS Back", "ODI", "Complication Rate", "Hospital Stay"]
+      },
+      "difficulty": "hard"
+    },
+    {
+      "id": "GR-004",
+      "question": "Which interventions in the spine surgery database share the most outcome measures with cervical disc replacement (CDR)?",
+      "question_kr": "척추 수술 데이터베이스에서 CDR과 가장 많은 outcome measure를 공유하는 intervention은?",
+      "domain": "degenerative",
+      "type": "graph_traversal",
+      "expected_entities": {
+        "interventions": ["Cervical Disc Replacement", "ACDF"],
+        "pathologies": ["Cervical Disc Disease"],
+        "outcomes": ["NDI", "VAS Arm", "Adjacent Segment Degeneration", "ROM", "Reoperation Rate"]
+      },
+      "difficulty": "hard"
+    },
+    {
+      "id": "GR-005",
+      "question": "For a patient with degenerative spondylolisthesis at L4-5, what does the evidence say about all available fusion techniques, their fusion rates, and complication profiles?",
+      "question_kr": "L4-5 퇴행성 척추전방전위증 환자에서 가능한 모든 유합술, 유합률, 합병증 프로파일에 대한 근거는?",
+      "domain": "degenerative",
+      "type": "comprehensive_evidence",
+      "expected_entities": {
+        "interventions": ["TLIF", "PLIF", "ALIF", "LLIF", "MIS-TLIF"],
+        "pathologies": ["Degenerative Spondylolisthesis"],
+        "outcomes": ["Fusion Rate", "Complication Rate", "ODI", "VAS", "Reoperation Rate"]
+      },
+      "difficulty": "hard"
     }
   ]
 }

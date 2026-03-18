@@ -111,52 +111,67 @@ async def generate_answer_b3_llm_direct(question: str) -> tuple[str, list[dict]]
 async def generate_answer_b4_graphrag(
     neo4j_client: Any, question: str, top_k: int = 10
 ) -> tuple[str, list[dict]]:
-    """B4: Full GraphRAG — TieredHybridSearch + HyDE + LLM Reranker + 3-way ranking."""
-    from solver.tiered_search import TieredHybridSearch, SearchInput, SearchTier
+    """B4: GraphRAG Pattern 2 -- Graph Filter -> Vector Rank.
 
-    search = TieredHybridSearch(
-        neo4j_client=neo4j_client,
-        config={
-            "use_neo4j_hybrid": True,
-            "reranker_provider": "llm",
-            "reranker_model": "claude-haiku-4-5-20251001",
-        },
+    Pipeline:
+        Step 1: LLM extracts entities (interventions, pathologies, outcomes)
+        Step 2: Graph filter — find papers connected via STUDIES/INVESTIGATES
+        Step 3: Broaden if too few papers found
+        Step 4: Vector rank within filtered papers
+        Step 5: PubMed fallback if still < 3 papers
+        Step 6: Generate answer with evidence chain structure
+    """
+    # Step 1: Extract entities from question using Haiku
+    entities = await _extract_entities_from_question(question)
+    logger.info("B4 entities: %s", entities)
+
+    # Step 2: Graph filter — find papers connected to extracted entities
+    paper_ids = await _graph_filter_papers(neo4j_client, entities)
+    logger.info("B4 graph filter: %d papers", len(paper_ids))
+
+    # Step 3: If graph filter returns too few, broaden with keyword matching
+    if len(paper_ids) < 5:
+        paper_ids = await _broaden_search(neo4j_client, entities, paper_ids)
+        logger.info("B4 after broadening: %d papers", len(paper_ids))
+
+    # Step 4: Vector rank within filtered papers
+    embedding = await _get_embedding(question)
+    chunks = await _vector_search_within_papers(
+        neo4j_client, embedding, paper_ids, top_k * 2
     )
 
-    # Detect query type for dynamic weight adjustment
-    query_type = _detect_query_type(question)
+    # Step 5: PubMed fallback if still < 3 papers
+    supplementary_context: list[str] = []
+    unique_pids = {c.get("paper_id", "") for c in chunks if c.get("paper_id")}
+    if len(unique_pids) < 3:
+        supplementary_context = await _pubmed_fallback(question)
+        logger.info("B4 PubMed fallback: %d supplementary abstracts", len(supplementary_context))
 
-    search_input = SearchInput(
-        query=question,
-        top_k=top_k * 3,
-        tier_strategy=SearchTier.TIER1_THEN_TIER2,
-        use_hyde=True,
-        use_reranker=True,
-    )
-
-    output = await search.search(search_input)
-
-    # Dedup by paper (document_id)
+    # Step 6: Dedup by paper, build context
     seen: dict[str, dict] = {}
-    for r in output.results:
-        pid = r.chunk.document_id or ""
+    for c in chunks:
+        pid = c.get("paper_id", "")
         if not pid:
             continue
-        score = r.score
+        score = c.get("score", 0.0)
         if pid not in seen or score > seen[pid].get("score", 0):
             seen[pid] = {
                 "paper_id": pid,
-                "title": r.chunk.title or "",
-                "evidence_level": str(r.chunk.evidence_level.value if hasattr(r.chunk.evidence_level, 'value') else r.chunk.evidence_level) if r.chunk.evidence_level else "unknown",
-                "content": r.chunk.text[:500] if r.chunk.text else "",
+                "title": c.get("title", "Unknown"),
+                "evidence_level": c.get("evidence_level", "unknown"),
+                "content": c.get("content", "")[:500],
+                "year": c.get("year"),
                 "score": score,
             }
 
-    papers_list = sorted(seen.values(), key=lambda x: x.get("score", 0), reverse=True)[:top_k]
+    papers_list = sorted(
+        seen.values(), key=lambda x: x.get("score", 0), reverse=True
+    )[:top_k]
 
-    if not papers_list:
+    if not papers_list and not supplementary_context:
         return "No relevant papers found for this query.", []
 
+    # Build context
     context_parts = []
     papers = []
     for r in papers_list:
@@ -165,11 +180,24 @@ async def generate_answer_b4_graphrag(
         content = r["content"]
         pid = r["paper_id"]
         score = r["score"]
-        context_parts.append(f"[{pid}] {title} (Evidence: {el}, Score: {score:.3f})\n{content}")
-        papers.append({"paper_id": pid, "title": title, "evidence_level": el, "score": score})
+        year = r.get("year", "N/A")
+        context_parts.append(
+            f"[{pid}] {title} (Evidence: {el}, Year: {year}, Score: {score:.3f})\n{content}"
+        )
+        papers.append({
+            "paper_id": pid, "title": title,
+            "evidence_level": el, "score": score,
+        })
+
+    # Append PubMed supplementary context
+    if supplementary_context:
+        context_parts.append("\n--- Supplementary PubMed Context ---")
+        context_parts.extend(supplementary_context)
 
     context = "\n\n".join(context_parts)
-    answer = await _generate_with_llm(question, context)
+
+    # Step 7: Generate answer with evidence chain structure
+    answer = await _generate_with_evidence_chain(question, context, entities)
     return answer, papers
 
 
@@ -333,6 +361,311 @@ def _build_context(results) -> str:
             f"[{r.paper_id}] {r.title} (Evidence: {r.evidence_level or 'unknown'}, Year: {r.year or 'N/A'})"
         )
     return "\n\n".join(parts)
+
+
+# ============================================================================
+# B4 Pattern 2 helpers
+# ============================================================================
+
+
+async def _extract_entities_from_question(question: str) -> dict:
+    """Extract interventions, pathologies, outcomes from question using Haiku.
+
+    Args:
+        question: Clinical question text.
+
+    Returns:
+        Dict with keys: interventions, pathologies, outcomes (each a list[str]).
+    """
+    import anthropic
+
+    client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+    response = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=500,
+        system=(
+            "Extract medical entities from the spine surgery question. "
+            "Return ONLY a JSON object with three keys:\n"
+            '- "interventions": list of surgical procedures or treatments mentioned\n'
+            '- "pathologies": list of diseases or conditions mentioned\n'
+            '- "outcomes": list of clinical outcome measures mentioned\n'
+            "Use standard medical terminology. Be concise. "
+            "If a category has no entities, return an empty list."
+        ),
+        messages=[{"role": "user", "content": question}],
+    )
+
+    text = response.content[0].text
+    # Parse JSON from response (handle markdown code blocks)
+    text = text.strip()
+    if text.startswith("```"):
+        text = text.split("\n", 1)[1] if "\n" in text else text[3:]
+        if text.endswith("```"):
+            text = text[:-3]
+        text = text.strip()
+
+    try:
+        result = json.loads(text)
+    except json.JSONDecodeError:
+        logger.warning("Failed to parse entity extraction: %s", text[:200])
+        result = {"interventions": [], "pathologies": [], "outcomes": []}
+
+    # Ensure all keys exist
+    for key in ("interventions", "pathologies", "outcomes"):
+        if key not in result:
+            result[key] = []
+
+    return result
+
+
+async def _graph_filter_papers(
+    neo4j_client: Any, entities: dict
+) -> set[str]:
+    """Find papers connected to extracted entities via STUDIES/INVESTIGATES.
+
+    Args:
+        neo4j_client: Neo4j client instance.
+        entities: Dict with interventions, pathologies, outcomes lists.
+
+    Returns:
+        Set of paper_id strings.
+    """
+    paper_ids: set[str] = set()
+
+    # Build entity names for matching (case-insensitive via toLower)
+    all_interventions = [e.lower() for e in entities.get("interventions", [])]
+    all_pathologies = [e.lower() for e in entities.get("pathologies", [])]
+    all_outcomes = [e.lower() for e in entities.get("outcomes", [])]
+
+    # Query papers linked to interventions via STUDIES
+    if all_interventions:
+        query = """
+        MATCH (p:Paper)-[:STUDIES]->(i:Intervention)
+        WHERE toLower(i.name) IN $names
+           OR ANY(name IN $names WHERE toLower(i.name) CONTAINS name)
+        RETURN DISTINCT p.paper_id AS paper_id
+        """
+        rows = await neo4j_client.run_query(query, {"names": all_interventions})
+        for row in rows:
+            pid = row.get("paper_id")
+            if pid:
+                paper_ids.add(pid)
+
+    # Query papers linked to pathologies via INVESTIGATES
+    if all_pathologies:
+        query = """
+        MATCH (p:Paper)-[:INVESTIGATES]->(pa:Pathology)
+        WHERE toLower(pa.name) IN $names
+           OR ANY(name IN $names WHERE toLower(pa.name) CONTAINS name)
+        RETURN DISTINCT p.paper_id AS paper_id
+        """
+        rows = await neo4j_client.run_query(query, {"names": all_pathologies})
+        for row in rows:
+            pid = row.get("paper_id")
+            if pid:
+                paper_ids.add(pid)
+
+    # Query papers linked to outcomes via MEASURES
+    if all_outcomes:
+        query = """
+        MATCH (p:Paper)-[:MEASURES]->(o:Outcome)
+        WHERE toLower(o.name) IN $names
+           OR ANY(name IN $names WHERE toLower(o.name) CONTAINS name)
+        RETURN DISTINCT p.paper_id AS paper_id
+        """
+        rows = await neo4j_client.run_query(query, {"names": all_outcomes})
+        for row in rows:
+            pid = row.get("paper_id")
+            if pid:
+                paper_ids.add(pid)
+
+    return paper_ids
+
+
+async def _broaden_search(
+    neo4j_client: Any, entities: dict, existing_ids: set[str]
+) -> set[str]:
+    """Broaden search by title keyword matching if graph filter too narrow.
+
+    Args:
+        neo4j_client: Neo4j client instance.
+        entities: Dict with interventions, pathologies, outcomes lists.
+        existing_ids: Already found paper_ids.
+
+    Returns:
+        Expanded set of paper_ids (union of existing + new).
+    """
+    paper_ids = set(existing_ids)
+
+    # Collect keywords from all entity lists
+    keywords = []
+    for entity_list in entities.values():
+        for entity in entity_list:
+            # Split multi-word entities into keywords
+            for word in entity.split():
+                if len(word) >= 3:
+                    keywords.append(word.lower())
+
+    if not keywords:
+        return paper_ids
+
+    # Search by title CONTAINS for each keyword
+    query = """
+    MATCH (p:Paper)
+    WHERE ANY(kw IN $keywords WHERE toLower(p.title) CONTAINS kw)
+    RETURN DISTINCT p.paper_id AS paper_id
+    LIMIT 50
+    """
+    rows = await neo4j_client.run_query(query, {"keywords": keywords})
+    for row in rows:
+        pid = row.get("paper_id")
+        if pid:
+            paper_ids.add(pid)
+
+    return paper_ids
+
+
+async def _vector_search_within_papers(
+    neo4j_client: Any,
+    embedding: list[float],
+    paper_ids: set[str],
+    top_k: int,
+) -> list[dict]:
+    """Vector search on chunks, filtered to specific paper_ids.
+
+    Args:
+        neo4j_client: Neo4j client instance.
+        embedding: Query embedding (3072d).
+        paper_ids: Set of paper_ids to restrict search to.
+        top_k: Number of results to return.
+
+    Returns:
+        List of dicts with content, paper_id, title, evidence_level, year, score.
+    """
+    if not paper_ids:
+        return []
+
+    paper_id_list = list(paper_ids)
+
+    # Use vector index, then filter by paper_id
+    # Query a larger pool since we filter post-hoc
+    query_top_k = min(top_k * 5, 200)
+
+    query = """
+    CALL db.index.vector.queryNodes('chunk_embedding_index', $query_top_k, $embedding)
+    YIELD node AS c, score
+    MATCH (p:Paper)-[:HAS_CHUNK]->(c)
+    WHERE p.paper_id IN $paper_ids
+    RETURN c.content AS content, c.paper_id AS paper_id,
+           p.title AS title, p.evidence_level AS evidence_level,
+           p.publication_year AS year, score
+    ORDER BY score DESC
+    LIMIT $limit
+    """
+    rows = await neo4j_client.run_query(query, {
+        "query_top_k": query_top_k,
+        "embedding": embedding,
+        "paper_ids": paper_id_list,
+        "limit": top_k,
+    })
+    return rows
+
+
+async def _pubmed_fallback(question: str) -> list[str]:
+    """Search PubMed for supplementary context when local DB has few results.
+
+    Args:
+        question: Original clinical question.
+
+    Returns:
+        List of formatted context strings from PubMed abstracts.
+    """
+    supplementary: list[str] = []
+    try:
+        from external.pubmed_client import PubMedClient
+
+        client = PubMedClient()
+        pmids = client.search(question[:100], max_results=5)
+        for pmid in pmids[:5]:
+            try:
+                details = client.fetch_paper_details(pmid)
+                abstract_snippet = (details.abstract or "")[:300]
+                if abstract_snippet:
+                    supplementary.append(
+                        f"[PubMed:{pmid}] {details.title}\n{abstract_snippet}"
+                    )
+            except Exception as e:
+                logger.warning("PubMed fetch failed for %s: %s", pmid, e)
+    except Exception as e:
+        logger.warning("PubMed fallback failed: %s", e)
+
+    return supplementary
+
+
+async def _generate_with_evidence_chain(
+    question: str, context: str, entities: dict
+) -> str:
+    """Generate structured answer with evidence chain format.
+
+    Args:
+        question: Clinical question.
+        context: Retrieved paper context.
+        entities: Extracted entities dict.
+
+    Returns:
+        Structured answer string with evidence chain, findings by outcome,
+        and evidence gaps.
+    """
+    import anthropic
+
+    # Build entity summary for the prompt
+    interventions = ", ".join(entities.get("interventions", [])) or "N/A"
+    pathologies = ", ".join(entities.get("pathologies", [])) or "N/A"
+    outcomes = ", ".join(entities.get("outcomes", [])) or "N/A"
+
+    client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+    response = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=3000,
+        system=(
+            "You are a spine surgery evidence synthesis system using a knowledge graph. "
+            "Answer the clinical question based ONLY on the provided papers. "
+            "Structure your answer in the following format:\n\n"
+            "## Evidence Chain\n"
+            "Show the relationship chain: Intervention -> TREATS -> Pathology -> AFFECTS -> Outcome\n"
+            "Use the extracted entities to build the chain diagram.\n\n"
+            "## Findings by Outcome Domain\n"
+            "For each relevant outcome measure, create a subsection:\n"
+            "### Outcome: [name]\n"
+            "- [paper_id]: (Evidence Level: X, Study Design) Key finding with numbers\n"
+            "List each paper's contribution to that outcome.\n\n"
+            "## Evidence Summary\n"
+            "Brief synthesis of the overall evidence with evidence level for each citation.\n\n"
+            "## Evidence Gaps\n"
+            "- List specific comparisons or outcomes with insufficient evidence\n"
+            "- Note if certain interventions lack direct comparison studies\n\n"
+            "Rules:\n"
+            "- ALWAYS cite paper_id in brackets [paper_id]\n"
+            "- ALWAYS include evidence level (1a, 1b, 2a, 2b, 3, 4) for each citation\n"
+            "- Include specific numbers (p-values, effect sizes, percentages) when available\n"
+            "- Do NOT use any knowledge outside the provided papers\n"
+            "- If PubMed supplementary context is provided, clearly label it as external"
+        ),
+        messages=[
+            {
+                "role": "user",
+                "content": (
+                    f"## Extracted Entities\n"
+                    f"Interventions: {interventions}\n"
+                    f"Pathologies: {pathologies}\n"
+                    f"Outcomes: {outcomes}\n\n"
+                    f"## Retrieved Papers\n\n{context}\n\n"
+                    f"## Clinical Question\n\n{question}"
+                ),
+            }
+        ],
+    )
+    return response.content[0].text
 
 
 # ============================================================================
