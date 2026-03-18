@@ -3,67 +3,67 @@
     "query_id": "DG-001",
     "question": "What is the evidence comparing UBE (biportal endoscopic) versus conventional TLIF for lumbar spinal stenosis in terms of ODI improvement and complication rates?",
     "baseline": "B4",
-    "answer": "# Evidence Synthesis: UBE versus Conventional TLIF for Lumbar Spinal Stenosis\n\n## ODI Improvement\n\n**Limited Direct Evidence:** The provided papers do not contain direct head-to-head comparisons of UBE-TLIF versus conventional open TLIF specifically for lumbar spinal stenosis with ODI as a primary outcome measure.\n\nHowever, relevant indirect evidence exists:\n\n**Biportal Endoscopy vs Open Surgery (General Lumbar Degenerative Disease):**\n- A systematic review and meta-analysis [pubmed_40797374] (Evidence level 1b) comparing biportal endoscopy to conventional open spine surgery for lumbar degenerative disease found that biportal endoscopy achieved \"comparable immediate and long-term postoperative outcomes with conventional open spine surgery,\" though specific ODI values were not detailed in the provided abstract.\n\n**Endoscopic TLIF Comparisons:**\n- A network meta-analysis [pubmed_41420307] (Evidence level 1a) comparing biportal endoscopic TLIF (BE-TLIF) and full endoscopic TLIF (FE-TLIF) to minimally invasive TLIF (MIS-TLIF) demonstrated that endoscopic techniques offered \"significantly greater back pain reduction\" and \"improved short-term functional outcomes,\" suggesting potential functional benefits over traditional approaches, though direct comparison to open TLIF was not made.\n\n## Complication Rates\n\n**No Direct Comparison Data:** The papers provided do not contain specific complication rate comparisons between UBE-TLIF and conventional open TLIF.\n\n**Relevant Indirect Data:**\n\n- For UBE-TLIF in spondylolisthesis with stenosis [pubmed_38752236] (Evidence level 1b), complications were mentioned as comparable between UBE-TLIF and endoscopic TLIF (Endo-TLIF), but absolute rates were not specified in the provided abstract.\n\n- For UBE versus uniportal endoscopy [pubmed_36991184] (Evidence level 1a meta-analysis of 184 patients): complications were assessed as a primary outcome, but specific complication rates were not detailed in the provided excerpt.\n\n- Endoscopic TLIF generally [pubmed_41420307] showed \"reduced perioperative blood loss\" compared to MIS-TLIF, suggesting favorable safety profiles, though this did not directly address traditional open TLIF.\n\n## Evidence Gaps\n\n1. **No RCTs directly comparing UBE-TLIF to conventional open TLIF** for lumbar spinal stenosis with spondylolisthesis\n2. **ODI improvement data unavailable** for direct comparison\n3. **Specific complication rate comparisons lacking** between these two approaches\n4. Most available evidence compares endoscopic techniques to each other or to MIS approaches, not to traditional open surgery\n\n## Clinical Implication\n\nWhile biportal endoscopic approaches appear to offer advantages in blood loss and hospital stay compared to MIS techniques, **direct evidence regarding ODI outcomes and complication profiles versus conventional TLIF remains absent from the provided literature.**",
+    "answer": "# Evidence Synthesis: UBE vs Conventional TLIF for Lumbar Spinal Stenosis\n\n## ODI Improvement\n\n**Limited Direct Evidence:**\nThe retrieved papers do not provide a direct head-to-head comparison of UBE-TLIF versus conventional open TLIF specifically for lumbar spinal stenosis with quantified ODI differences.\n\nHowever, relevant indirect evidence suggests:\n\n- **BE-TLIF vs MIS-TLIF:** A network meta-analysis [pubmed_41420307, Evidence 1a] demonstrated that biportal endoscopic TLIF (BE-TLIF) and full endoscopic TLIF (FE-TLIF) showed \"improved short-term functional outcomes\" compared to MIS-TLIF, though specific ODI values were not provided in the abstract.\n\n- **General LSS Outcomes:** Meta-analyses comparing minimally invasive approaches for lumbar spinal stenosis [pubmed_36991184, Evidence 1a] found ODI scores with \"no significant differences\" between uniportal and biportal endoscopic decompression (P-value not significant), suggesting minimal-access techniques achieve comparable functional outcomes.\n\n## Complication Rates\n\n**Limited Direct Comparison:**\n\nNo papers provided direct complication rate comparisons between UBE-TLIF and conventional open TLIF specifically.\n\n**Indirect Evidence:**\n\n- **Biportal vs Open Surgery:** One systematic review [pubmed_40797374, Evidence 1b] concluded that biportal endoscopy achieves \"comparable immediate and long-term postoperative outcomes with conventional open spine surgery for lumbar degenerative disease,\" but did not quantify complication rates.\n\n- **MI Tubular vs Open Laminectomy:** For decompression-only procedures, MI approaches showed \"lower overall complication rates (OR 0.42, 95% CI 0.21–0.86)\" versus open laminectomy [pubmed_41354742, Evidence 1a], but this does not directly address TLIF.\n\n## Summary of Evidence Gaps\n\n**Critical limitations:**\n- No high-quality studies directly comparing UBE-TLIF with conventional open TLIF for stenosis with quantified ODI or complication data\n- Available evidence is indirect and focuses on other comparisons (endoscopic technique variations or non-TLIF procedures)\n- The clinical question requires head-to-head RCT evidence not present in the retrieved literature",
     "cited_papers": [
       {
         "paper_id": "pubmed_38752236",
         "title": "Comparison of unilateral biportal endoscopic transforaminal lumbar interbody fusion and endoscopic transforaminal lumbar interbody fusion in the treatment of single-segment degenerative lumbar spinal stenosis with lumbar spondylolisthesis",
         "evidence_level": "1b",
-        "score": 0.933326244354248
+        "score": 0.9352588653564453
       },
       {
         "paper_id": "pubmed_41098550",
         "title": "Unilateral Biportal Endoscopy versus Unilateral Portal Endoscopy for Lumbar Spinal Stenosis: A Systematic Review and Meta-Analysis",
         "evidence_level": "1a",
-        "score": 0.9292180061340332
+        "score": 0.9278655052185059
       },
       {
         "paper_id": "pubmed_36991184",
         "title": "Uniportal versus Biportal Endoscopic Decompression for Lumbar Spinal Stenosis: A Systematic Review and Meta-Analysis",
         "evidence_level": "1a",
-        "score": 0.9284349441528319
+        "score": 0.9268260955810546
       },
       {
         "paper_id": "pubmed_39054483",
         "title": "Unilateral Biportal Endoscopy versus Anterior Cervical Decompression and Fusion for Treating Unilateral Cervical Radiculopathy or Coexisting Cervical Myelopathy: A Prospective Randomized Controlled Noninferiority Trial",
         "evidence_level": "1b",
-        "score": 0.922623062133789
+        "score": 0.9245136260986329
       },
       {
         "paper_id": "pubmed_41189000",
         "title": "Unilateral Biportal Endoscopic Decompression versus Percutaneous Endoscopic Lumbar Decompression for Degenerative Lumbar Spinal Stenosis: A Meta-Analysis",
         "evidence_level": "1a",
-        "score": 0.9206557273864746
+        "score": 0.917731761932373
       },
       {
         "paper_id": "pubmed_40797374",
         "title": "Biportal Endoscopic Spine Surgery versus Conventional Open Surgery for Lumbar Degenerative Disease: A Systematic Review and Meta-Analysis",
         "evidence_level": "1b",
-        "score": 0.9198609828948974
+        "score": 0.9171065807342529
       },
       {
         "paper_id": "pubmed_41420307",
         "title": "Clinical Efficacy and Safety of Minimally Invasive, Full Endoscopic, and Biportal Endoscopic Transforaminal Lumbar Interbody Fusion: A Network Meta-analysis",
         "evidence_level": "1a",
-        "score": 0.9132269859313964
+        "score": 0.9123584747314453
       },
       {
         "paper_id": "pubmed_41354742",
         "title": "Minimally Invasive Tubular Decompression versus Open Laminectomy for Lumbar Spinal Stenosis: A Systematic Review and Meta-Analysis",
         "evidence_level": "1a",
-        "score": 0.9098210334777832
-      },
-      {
-        "paper_id": "pubmed_41452813",
-        "title": "Unilateral Biportal Endoscopic Discectomy versus Conventional Microdiscectomy for Lumbar Disc Herniation: A Meta-Analysis",
-        "evidence_level": "1a",
-        "score": 0.9095092773437499
+        "score": 0.9087569236755371
       },
       {
         "paper_id": "pubmed_40568817",
         "title": "Comparison of the Biportal Endoscopic Versus Tubular Approach for the Treatment of Lumbar Degenerative Disease: A Systematic Review and Meta-Analysis",
         "evidence_level": "1a",
-        "score": 0.9054604530334471
+        "score": 0.9069054126739502
+      },
+      {
+        "paper_id": "pubmed_41452813",
+        "title": "Unilateral Biportal Endoscopic Discectomy versus Conventional Microdiscectomy for Lumbar Disc Herniation: A Meta-Analysis",
+        "evidence_level": "1a",
+        "score": 0.9050812721252441
       }
     ],
     "num_papers_retrieved": 10,
@@ -79,114 +79,163 @@
       "1a",
       "1a"
     ],
-    "generation_time_ms": 11647
+    "generation_time_ms": 9988
   },
   {
     "query_id": "DG-002",
     "question": "What is the current evidence for cervical disc replacement (CDR) versus ACDF in 2-level cervical disc disease regarding adjacent segment degeneration?",
     "baseline": "B4",
-    "answer": "# Evidence Summary: CDR vs ACDF for 2-Level Cervical Disc Disease and Adjacent Segment Degeneration\n\n## Direct Evidence on Adjacent Segment Disease (ASD)\n\nBased on the retrieved papers, **there is very limited direct evidence comparing CDR and ACDF specifically for adjacent segment degeneration in 2-level disease.**\n\n### Available Evidence:\n\n**Network Meta-Analysis Finding** [pubmed_40708283]\n- Study design: Network meta-analysis (Evidence level 1a)\n- **Important limitation**: This analysis specifically examined \"noncontiguous ACDF with spacer\" compared to other techniques\n- Key finding: \"all other comparisons had a lower risk of intermediate adjacent segment disease (ASD)\"\n- **Certainty of evidence: \"very low\"**\n- No direct CDR vs ACDF comparison was reported in the provided abstract\n\n**Return-to-Work Comparison** [pubmed_40066791]\n- Study design: Systematic review and meta-analysis (Evidence level 1a)\n- Focus: Return-to-work outcomes, not ASD\n- Notes CDR's \"motion-preserving design\" as a theoretical advantage, but does not provide ASD outcome data\n- No quantified data on adjacent segment degeneration rates\n\n## Critical Evidence Gaps\n\nThe provided papers **do not contain**:\n- Direct randomized controlled trials comparing CDR vs ACDF specifically for 2-level disease\n- Quantified rates of adjacent segment degeneration for either procedure\n- Long-term imaging or clinical outcomes data specific to this comparison\n- Biomechanical data comparing these two approaches\n\n## Conclusion\n\n**Current evidence is insufficient** to answer your question from these papers. A more comprehensive systematic review focusing specifically on adjacent segment disease outcomes in 2-level cervical pathology would be needed to compare CDR and ACDF effectiveness.",
+    "answer": "# Evidence for CDR vs ACDF in 2-Level Cervical Disc Disease: Adjacent Segment Degeneration\n\n## Overall Findings\n\nThe evidence demonstrates consistent superiority of cervical disc replacement (CDR/ACDR/CDA) over ACDF in reducing adjacent segment degeneration (ASD) in multilevel disease.\n\n---\n\n## Adjacent Segment Degeneration Rates\n\n### Combined ASD (Superior + Inferior)\n**Bi-level disease specifically:**\n- **RR 0.40 (95% CI: 0.35-0.46, p<0.00001)** - representing a **60% relative risk reduction** with ACDR compared to ACDF [pubmed_29595628] (Systematic review/meta-analysis, Evidence 1a)\n\n### Multilevel Disease (including 2-level):\n- **OR 0.27 (95% CI: 0.13-0.59, p=0.001)** favoring ACDR with low heterogeneity [pubmed_29753897] (Systematic review/meta-analysis, Evidence 1a)\n\n---\n\n## Clinical vs. Radiological ASD\n\n**Symptomatic ASD (clinically relevant):**\n- **OR 0.46 (95% CI: 0.34-0.63, p<0.00001)** across 6 studies with 1,628 participants - significantly lower clinical disease progression with CDA [pubmed_31863642] (Systematic review/meta-analysis, Evidence 1a)\n\n**Radiological findings:**\n- Superior ASD: No significant difference (OR 0.63, 95% CI: 0.28-1.43, p=0.27) [pubmed_31863642]\n- This discordance suggests radiological changes do not always translate to clinical symptoms\n\n---\n\n## Mechanism of Benefit\n\nMotion preservation at the index level with CDR appears protective:\n- **Range of motion:** 10.37 degrees greater in CDA versus ACDF [pubmed_40797275]\n- Mechanism: Preservation of intervertebral motion and restoration of cervical spine biomechanics closer to physiological state [pubmed_40797275] (Evidence 1a)\n\n---\n\n## Evidence Quality & Limitations\n\n- **All evidence from systematic reviews/meta-analyses** (Evidence level 1a)\n- Multiple consistent findings across independent analyses\n- The heterogeneity in radiological findings warrants caution in interpreting asymptomatic radiographic changes\n- Limited specific data exclusively for 2-level disease (most data combines 1-2 level disease)\n\n---\n\n## Clinical Bottom Line\n\nCurrent evidence strongly supports CDR over ACDF for reducing adjacent segment degeneration in multilevel cervical disc disease, with the most compelling evidence for **symptomatic ASD reduction** rather than radiological changes alone.",
     "cited_papers": [
       {
-        "paper_id": "pubmed_40708283",
-        "title": "Network Meta-Analysis of Noncontiguous Anterior Cervical Surgical Techniques for Noncontiguous Cervical Degenerative Disk Disease",
+        "paper_id": "pubmed_29595628",
+        "title": "Anterior Cervical Artificial Disc Replacement Versus Anterior Cervical Decompression and Fusion for Bi-Level Cervical Spondylosis: A Systematic Review and Meta-Analysis",
         "evidence_level": "1a",
-        "score": 0.9054758071899414
+        "score": 0.9562172889709473
       },
       {
-        "paper_id": "pubmed_40066791",
-        "title": "Return-to-Work Outcomes Between Anterior Cervical Discectomy and Fusion (ACDF) and Anterior Cervical Disk Replacement (CDR): A Systematic Review and Meta-Analysis",
+        "paper_id": "pubmed_29753897",
+        "title": "Anterior Cervical Discectomy and Fusion versus Anterior Cervical Disc Replacement for Multilevel Cervical Disc Disease: A Meta-Analysis and Systematic Review",
         "evidence_level": "1a",
-        "score": 0.8976161479949951
+        "score": 0.9516083717346191
       },
       {
-        "paper_id": "pubmed_39575449",
-        "title": "Minimally Invasive Laminectomy versus Open Laminectomy for Lumbar Spinal Stenosis: A Systematic Review of Clinical and Biomechanical Literature",
+        "paper_id": "pubmed_40797275",
+        "title": "Long-term effectiveness and safety of cervical disc arthroplasty compared to anterior cervical discectomy and fusion in single-segment cervical degenerative disc disease: a meta-analysis of randomized controlled trials",
         "evidence_level": "1a",
-        "score": 0.8735131263732909
-      }
-    ],
-    "num_papers_retrieved": 3,
-    "evidence_levels": [
-      "1a",
-      "1a",
-      "1a"
-    ],
-    "generation_time_ms": 8321
-  },
-  {
-    "query_id": "DG-003",
-    "question": "What are the risk factors for cage subsidence after MIS-TLIF and their impact on clinical outcomes?",
-    "baseline": "B4",
-    "answer": "# Risk Factors for Cage Subsidence After MIS-TLIF and Clinical Outcomes\n\n## Cage Subsidence Incidence\n\nCage subsidence is a well-documented complication following minimally invasive interbody fusion procedures:\n\n- **Overall incidence**: Cage subsidence (>2 mm height loss) occurred in 32.7% of stand-alone oblique lumbar interbody fusion cases in non-osteoporotic patients [pubmed_41782914]\n- **Endoscopic TLIF**: Only 1.08% subsidence rate (2 cases) in a unilateral biportal endoscopic TLIF series, both occurring during the learning phase [pubmed_38509573]\n- **Lateral fusion approaches**: Cage subsidence or replacement was commonly observed, particularly with stand-alone approaches without internal fixation support [pubmed_39895414]\n\n## Identified Risk Factors\n\n### Patient-Related Factors\n1. **Bone quality parameters** [pubmed_38754736]:\n   - Low bone mineral density (BMD) identified as significant risk factor\n   - Endplate bone quality (EBQ) score associated with subsidence risk following OLIF\n\n2. **Age and sarcopenia** [pubmed_41782914]:\n   - Advanced age examined as potential risk factor\n   - Sarcopenia identified as predictor of cage subsidence in multivariate analysis\n\n3. **Bone mineral density** [pubmed_41782914]:\n   - Lower BMD examined as potential predictor of subsidence\n\n4. **Non-significant factors** [pubmed_41677169]:\n   - Age demonstrated no statistically significant association with cage subsidence\n   - BMI showed no associations with cage subsidence rates\n\n### Surgical Technique Factors\n\n1. **Fixation method** [pubmed_36522754]:\n   - Stand-alone approaches showed greater subsidence than supplemental fixation\n   - Transfacet screw (TFS) fixation: 16% subsidence from immediate postoperative baseline\n   - Bilateral pedicle screw (BPS) fixation: 10% subsidence from immediate postoperative baseline\n\n2. **Endplate preparation** [pubmed_38509573]:\n   - Inadequate endplate protection during early surgical learning phase correlated with subsidence\n   - Endplate preparation quality critical to preventing subsidence\n\n3. **Cage characteristics** [pubmed_36944178]:\n   - Cage shape and material influence subsidence risk\n   - Cage position and disc height correction important factors\n\n## Impact on Clinical Outcomes\n\n### Fusion Achievement Despite Subsidence\nDespite cage subsidence occurrence, clinical fusion rates remained high:\n- **Transfacet screw group**: 91% fusion rate [pubmed_36522754]\n- **Bilateral pedicle screw group**: 100% fusion rate [pubmed_36522754]\n\n### Maintenance of Disc Height Gains\nEven with moderate subsidence, disc height improvements were maintained:\n- TFS group: +2.2 mm net gain (+26% above preoperative) despite 16% subsidence [pubmed_36522754]\n- BPS group: +3.7 mm net gain (+42% above preoperative) despite 10% subsidence [pubmed_36522754]\n\n### Requirement for Secondary Surgery\n- Severe cage subsidence with replacement required secondary surgery in some cases [pubmed_39895414]\n- The clinical significance of subsidence appears related to magnitude and whether it progresses to cage migration\n\n## Critical Gaps in Evidence\n\n1. **TLIF-specific data**: Most subsidence literature addresses OLIF, LLIF, and stand-alone approaches; direct TLIF risk factor data is limited\n2. **Long-term outcomes**: Limited data on how subsidence affects long-term clinical outcomes (pain, function) versus radiographic findings\n3. **Optimal fixation strategy**: Insufficient comparison of supplemental fixation methods specifically for MIS-TLIF\n4. **Endplate assessment methods**: EBQ scoring reliability across different imaging protocols not fully established [pubmed_38754736]",
-    "cited_papers": [
+        "score": 0.9495899677276611
+      },
       {
-        "paper_id": "pubmed_23646277",
-        "title": "Cost-effectiveness of interbody fusion with bone morphogenetic protein for the treatment of degenerative spondylolisthesis: a systematic review",
+        "paper_id": "pubmed_31863642",
+        "title": "Cervical Disc Arthroplasty versus Anterior Cervical Discectomy and Fusion for Cervical Disc Disease: A Systematic Review and Meta-Analysis",
         "evidence_level": "1a",
-        "score": 0.8844422817230224
+        "score": 0.9478345870971678
       },
       {
-        "paper_id": "pubmed_39895414",
-        "title": "Network meta-analysis comparing endoscopic posterolateral fusion and lateral interbody fusion for lumbar degenerative disease: a systematic review of six minimally invasive surgical techniques",
+        "paper_id": "pubmed_30992666",
+        "title": "Cervical Disc Arthroplasty Versus Anterior Cervical Discectomy and Fusion: A Meta-Analysis of Randomized Controlled Trials",
         "evidence_level": "1a",
-        "score": 0.8818901538848876
+        "score": 0.942902898788452
       },
       {
-        "paper_id": "pubmed_36944178",
-        "title": "Transforaminal Lumbar Interbody Fusion Using Double Banana-Shaped Cages: Clinical Outcomes and Biomechanical Analysis",
-        "evidence_level": "2a",
-        "score": 0.8723776054382324
-      },
-      {
-        "paper_id": "pubmed_40433998",
-        "title": "Impact of Obesity on Lumbar Spinal Fusion Outcomes: A Systematic Review and Meta-Analysis",
+        "paper_id": "pubmed_32309660",
+        "title": "Long-term Adjacent-level Operation Rates with Cervical Disc Arthroplasty versus Anterior Cervical Discectomy and Fusion: A Systematic Review and Meta-analysis",
         "evidence_level": "1a",
-        "score": 0.8721085548400878
+        "score": 0.9407713413238525
       },
       {
-        "paper_id": "pubmed_41782914",
-        "title": "Predictors of Cage Subsidence Following Stand-Alone Oblique Interbody Fusion (SA-OLIF) in Non-Osteoporotic Patients",
-        "evidence_level": "2b",
-        "score": 0.8443506240844726
+        "paper_id": "pubmed_35113188",
+        "title": "Comparison of Outcomes Between Artificial Cervical Disc Replacement and Anterior Cervical Discectomy and Fusion: A Systematic Review and Meta-Analysis",
+        "evidence_level": "1a",
+        "score": 0.9388096809387207
       },
       {
-        "paper_id": "pubmed_38509573",
-        "title": "Learning Curve and Complications in Unilateral Biportal Endoscopic Transforaminal Lumbar Interbody Fusion: A CUSUM and RA-CUSUM Analysis",
-        "evidence_level": "2b",
-        "score": 0.838010025024414
+        "paper_id": "pubmed_30285807",
+        "title": "Total disc replacement versus anterior cervical discectomy and fusion for cervical spondylosis: a meta-analysis",
+        "evidence_level": "1a",
+        "score": 0.937276268005371
       },
       {
-        "paper_id": "pubmed_38754736",
-        "title": "Endplate Bone Quality Score as a Predictor of Cage Subsidence Following Oblique Lumbar Interbody Fusion",
-        "evidence_level": "2b",
-        "score": 0.8338109970092773
+        "paper_id": "pubmed_31431880",
+        "title": "Total Disc Replacement versus Anterior Cervical Discectomy and Fusion for Adjacent Segment Disease: A Systematic Review and Meta-Analysis",
+        "evidence_level": "1a",
+        "score": 0.9343175888061523
       },
       {
-        "paper_id": "pubmed_41677169",
-        "title": "Is Cigarette Smoking Associated With Impaired Fusion After Transforaminal Lumbar Interbody Fusion With Adjunctive Posterolateral Arthrodesis?",
-        "evidence_level": "2b",
-        "score": 0.8284490585327148
-      },
-      {
-        "paper_id": "pubmed_36522754",
-        "title": "Comparative Assessment of Percutaneous Transfacet Screws and Percutaneous Bilateral Pedicle Screws in Oblique Lateral Interbody Fusion for Degenerative Lumbar Spine Diseases",
-        "evidence_level": "2b",
-        "score": 0.8231959342956542
-      },
-      {
-        "paper_id": "pubmed_41782590",
-        "title": "Failed Back Surgery Syndrome: A Retrospective Analysis of 95 Spinal Surgeries with Focus on Etiology, Risk Factors, and Management Outcomes",
-        "evidence_level": "2b",
-        "score": 0.8037702560424804
+        "paper_id": "pubmed_35085804",
+        "title": "Adjacent Segment Degeneration, Disease, and Reoperation Rates Following Anterior Cervical Discectomy and Fusion Versus Cervical Disc Arthroplasty: A Systematic Review and Meta-Analysis",
+        "evidence_level": "1a",
+        "score": 0.9339647769927979
       }
     ],
     "num_papers_retrieved": 10,
     "evidence_levels": [
       "1a",
       "1a",
-      "2a",
       "1a",
+      "1a",
+      "1a",
+      "1a",
+      "1a",
+      "1a",
+      "1a",
+      "1a"
+    ],
+    "generation_time_ms": 10591
+  },
+  {
+    "query_id": "DG-003",
+    "question": "What are the risk factors for cage subsidence after MIS-TLIF and their impact on clinical outcomes?",
+    "baseline": "B4",
+    "answer": "# Risk Factors for Cage Subsidence After MIS-TLIF and Clinical Outcomes\n\n## Identified Risk Factors\n\n### Patient Factors\n\n**Sarcopenia, Advanced Age, and Bone Mineral Density**\nIn a retrospective cohort study of 98 non-osteoporotic patients undergoing stand-alone oblique interbody fusion (SA-OLIF), cage subsidence (>2 mm height loss) occurred in 32.7% of cases [pubmed_41782914]. Sarcopenia, advanced age, and lower bone mineral density were examined as potential risk factors using multivariate logistic regression analysis, though specific statistical associations were not detailed in the available excerpt [pubmed_41782914].\n\n**Endplate Bone Quality (EBQ)**\nEndplate bone quality obtained from clinical MRI scans has been identified as a reliable method for determining regional bone mineral density and may predict cage subsidence risk following oblique lumbar interbody fusion [pubmed_38754736]. Low bone mineral density is noted as a significant risk factor for cage subsidence [pubmed_38754736].\n\n**Age and BMI - Null Findings**\nIn a TLIF cohort with adjunctive posterolateral arthrodesis, multivariate analysis found that age demonstrated no statistically significant association with fusion grades or cage subsidence, and BMI similarly showed no associations with interbody fusion quality or subsidence rates [pubmed_41677169].\n\n**Smoking Status**\nA study examining cigarette smoking and fusion outcomes after TLIF with posterolateral arthrodesis was included, though specific findings regarding subsidence were not provided in the available text [pubmed_41677169].\n\n### Surgical/Technical Factors\n\n**Endplate Preparation**\nIn unilateral biportal endoscopic TLIF (ULIF), cage subsidence occurred in 1.08% of cases (2 patients), both during the learning phase [pubmed_38509573]. The study identified that damage to the endplate or reduction in contact area between endplate and cage are possible factors for cage subsidence, with endplate preparation being described as \"the key to lumbar fusion\" [pubmed_38509573].\n\n**Cage Design and Positioning**\nRigid and stable interbody support is essential for achieving solid bony fusion and preventing cage subsidence, with cage shape, material, position, and surgical disc height correction identified as important influencing factors [pubmed_36944178].\n\n**Stand-Alone vs. Instrumented Approaches**\nStand-alone approaches without internal fixation support showed higher rates of cage subsidence, sometimes requiring secondary surgery in severe cases [pubmed_39895414].\n\n## Impact on Clinical Outcomes\n\n### Subsidence Rates Across Techniques\n\n**OLIF Approaches:**\n- Stand-alone OLIF: Higher subsidence rates requiring secondary surgery in severe cases [pubmed_39895414]\n- Moderate subsidence common in lateral fusion approaches [pubmed_36522754]\n\n**Oblique Lateral Interbody Fusion with Instrumentation:**\n- Transfacet screws (TFS) approach: 16% subsidence from immediate postoperative baseline, but maintained +2.2 mm (+26%) net disc height improvement over preoperative baseline with 91% fusion rates [pubmed_36522754]\n- Bilateral pedicle screws (BPS) approach: 10% subsidence with +3.7 mm (+42%) net disc height improvement and 100% fusion rates [pubmed_36522754]\n\n**Endoscopic TLIF:**\n- 1.08% subsidence rate with high fusion success [pubmed_38509573]\n\n### Overall Clinical Outcomes Despite Subsidence\n\n**Preserved Fusion Success:**\nIn OLIF procedures with instrumentation, despite moderate cage subsidence, high fusion rates (91-100%) indicated that successful bony consolidation was not compromised [pubmed_36522754].\n\n**Patient Satisfaction:**\nIn LLIF procedures with fusion assessment, 89.4% of patients reported being \"satisfied or very satisfied\" at 12 months post-surgery, with no revisions necessary for pseudarthrosis in the cohort studied [pubmed_31218198].\n\n### General Complication Context\n\nThe overall complication rate for PLIF and TLIF procedures varies from 8% to 80% with an average of 36.4%, with subsidence being one of several common complications (others include osteolysis, postoperative radiculopathy, heterotopic ossification, dural tear, and implant migration) [pubmed_23646277].\n\n## Evidence Gaps\n\n1. **Limited TLIF-specific data:** Most subsidence data comes from OLIF, LLIF, or mixed lateral fusion techniques rather than traditional TLIF specifically\n2. **Unclear mechanism of BMD impact:** While bone mineral density is identified as a risk factor, the quantitative relationship is not clearly established\n3. **Smoking impact unclear:** Smoking was examined in a TLIF study but specific subsidence findings were not provided [pubmed_41677169]\n4. **Limited data on clinical consequences:** While subsidence is well-documented, the relationship between subsidence magnitude and clinical pain/functional outcomes requires further investigation [pubmed_40433998]\n5. **Follow-up duration effects:** Whether follow-up duration affects nonunion/subsidence rates remains unclear [pubmed_40433998]",
+    "cited_papers": [
+      {
+        "paper_id": "pubmed_23646277",
+        "title": "Cost-effectiveness of interbody fusion with bone morphogenetic protein for the treatment of degenerative spondylolisthesis: a systematic review",
+        "evidence_level": "1a",
+        "score": 0.8876219272613526
+      },
+      {
+        "paper_id": "pubmed_39895414",
+        "title": "Network meta-analysis comparing endoscopic posterolateral fusion and lateral interbody fusion for lumbar degenerative disease: a systematic review of six minimally invasive surgical techniques",
+        "evidence_level": "1a",
+        "score": 0.8866816520690917
+      },
+      {
+        "paper_id": "pubmed_40433998",
+        "title": "Impact of Obesity on Lumbar Spinal Fusion Outcomes: A Systematic Review and Meta-Analysis",
+        "evidence_level": "1a",
+        "score": 0.874771499633789
+      },
+      {
+        "paper_id": "pubmed_36944178",
+        "title": "Transforaminal Lumbar Interbody Fusion Using Double Banana-Shaped Cages: Clinical Outcomes and Biomechanical Analysis",
+        "evidence_level": "2a",
+        "score": 0.871783800125122
+      },
+      {
+        "paper_id": "pubmed_41782914",
+        "title": "Predictors of Cage Subsidence Following Stand-Alone Oblique Interbody Fusion (SA-OLIF) in Non-Osteoporotic Patients",
+        "evidence_level": "2b",
+        "score": 0.842591905593872
+      },
+      {
+        "paper_id": "pubmed_38509573",
+        "title": "Learning Curve and Complications in Unilateral Biportal Endoscopic Transforaminal Lumbar Interbody Fusion: A CUSUM and RA-CUSUM Analysis",
+        "evidence_level": "2b",
+        "score": 0.8375871181488036
+      },
+      {
+        "paper_id": "pubmed_38754736",
+        "title": "Endplate Bone Quality Score as a Predictor of Cage Subsidence Following Oblique Lumbar Interbody Fusion",
+        "evidence_level": "2b",
+        "score": 0.8345673561096191
+      },
+      {
+        "paper_id": "pubmed_41677169",
+        "title": "Is Cigarette Smoking Associated With Impaired Fusion After Transforaminal Lumbar Interbody Fusion With Adjunctive Posterolateral Arthrodesis?",
+        "evidence_level": "2b",
+        "score": 0.8334328174591064
+      },
+      {
+        "paper_id": "pubmed_36522754",
+        "title": "Comparative Assessment of Percutaneous Transfacet Screws and Percutaneous Bilateral Pedicle Screws in Oblique Lateral Interbody Fusion for Degenerative Lumbar Spine Diseases",
+        "evidence_level": "2b",
+        "score": 0.8253044605255127
+      },
+      {
+        "paper_id": "pubmed_31218198",
+        "title": "Fusion Rates and Complications Associated with Recombinant Human Bone Morphogenetic Protein-2 in Lateral Lumbar Interbody Fusion",
+        "evidence_level": "2b",
+        "score": 0.8058320522308349
+      }
+    ],
+    "num_papers_retrieved": 10,
+    "evidence_levels": [
+      "1a",
+      "1a",
+      "1a",
+      "2a",
       "2b",
       "2b",
       "2b",
@@ -194,73 +243,73 @@
       "2b",
       "2b"
     ],
-    "generation_time_ms": 14456
+    "generation_time_ms": 14983
   },
   {
     "query_id": "DG-004",
     "question": "What is the best evidence for surgical treatment of lumbar disc herniation: microdiscectomy versus endoscopic discectomy outcomes?",
     "baseline": "B4",
-    "answer": "# Evidence Summary: Microdiscectomy versus Endoscopic Discectomy for Lumbar Disc Herniation\n\n## Overall Comparative Efficacy\n\n**Clinical Outcomes (Pain Relief & Function):**\nEndoscopic and microscopic approaches demonstrate **clinically equivalent functional outcomes**, despite theoretical anatomical advantages for endoscopy [pubmed_41666862, Evidence 1a]. A high-quality RCT found that anatomical benefits of smaller incisions and reduced soft tissue trauma in endoscopic techniques do **not translate into superior functional outcomes or pain relief** from the patient's perspective [pubmed_41002072, Evidence 1b].\n\n## Perioperative Advantages of Endoscopic Discectomy\n\n**Blood Loss:**\n- Endoscopic approaches show a reduction of **33.29 mL** compared to microscopic methods (p=0.0032) [pubmed_38190892, Evidence 1a]\n\n**Hospital Stay:**\n- Reduction of **1.79 days** with endoscopic approaches (p=0.001) [pubmed_38190892, Evidence 1a]\n- Shorter hospital stays consistently reported across multiple meta-analyses [pubmed_41666862, Evidence 1a]\n\n**Infection Rates:**\n- Surgical site infection reduction: **RR 0.23** (p=0.001) favoring endoscopic approaches [pubmed_38190892, Evidence 1a]\n- Lower overall infection rates with endoscopic techniques [pubmed_41666862, Evidence 1a]\n\n**Dural Tears:**\n- Durotomy rate reduction: **RR 0.63** (p=0.0184) favoring endoscopic decompression [pubmed_38190892, Evidence 1a]\n\n## Surgical Approach Recommendations\n\nBased on comparative network meta-analysis evidence:\n- **Percutaneous endoscopic discectomy (PED)** is recommended as the **preferred surgical approach** for lumbar disc herniation, demonstrating optimal balance of safety and efficacy with the **lowest probable rates of dural tear and intraoperative complications** [pubmed_34213864, Evidence 1a]\n\n- **Endoscopic discectomy with internal fixation (EDF)** showed the best performance compared to other surgical options including microdiscectomy [pubmed_40611244, Evidence 1a]\n\n## Evidence Gaps\n\n1. **Long-term follow-up:** Most studies focus on perioperative outcomes; longer-term functional equivalence (beyond 1-2 years) requires additional evidence\n2. **Surgeon experience:** Outcomes likely influenced by surgeon expertise [pubmed_40797374, Evidence 1b], but comparative data on learning curves are limited\n3. **Study design limitations:** Many included studies are retrospective rather than RCTs [pubmed_40797374, Evidence 1b]\n4. **Heterogeneity in techniques:** Variations in endoscopic approaches (transforaminal vs. interlaminar) and inconsistent technique definitions may affect comparability\n\n## Clinical Bottom Line\n\nEndoscopic discectomy offers **superior perioperative outcomes** (reduced blood loss, hospital stay, infection rate, and dural tear risk) compared to microdiscectomy, with **equivalent clinical pain relief and functional outcomes**. PED is the recommended preferred approach based on the best available evidence.",
+    "answer": "# Surgical Treatment of Lumbar Disc Herniation: Microdiscectomy vs. Endoscopic Discectomy\n\n## Summary of Evidence Quality\nThe evidence base comprises multiple high-quality systematic reviews and network meta-analyses (Evidence level 1a-1b), providing robust comparative data on these techniques.\n\n---\n\n## Clinical Outcomes\n\n### Pain Relief\n**Endoscopic approaches show superior or equivalent pain reduction:**\n- Percutaneous endoscopic discectomy (PED) demonstrates \"superior pain relief compared to percutaneous discectomy\" [pubmed_34213864]\n- Endoscopic decompression shows \"nonsignificant trends favoring endoscopic\" approaches for back pain and leg pain in stenosis models [pubmed_38190892]\n- Endoscopic decompression achieved superior short-term pain reduction (VAS) with SUCRA rankings of 88.70% [pubmed_39577647]\n\n### Functional Outcomes\n**Evidence suggests functional equivalence between approaches:**\n- Biportal endoscopic laminectomy vs. microscopic laminectomy: \"anatomical benefits do not translate into superior functional outcomes or pain relief from the patient's perspective\" [pubmed_41002072] (RCT evidence, 1b)\n- Unilateral biportal endoscopic discectomy meta-analysis compared to microdiscectomy but specific functional outcome comparisons not detailed [pubmed_41452813]\n\n---\n\n## Perioperative Outcomes (Favoring Endoscopic Approaches)\n\n**Blood Loss & Hospital Stay:**\n- Blood loss reduction: 33.29 mL (p=0.0032) [pubmed_38190892]\n- Hospital stay reduction: 1.79 days (p=0.001) [pubmed_38190892]\n\n**Complications:**\n\n| Outcome | Result | Source |\n|---------|--------|--------|\n| Dural tear rate | Lowest in PED | [pubmed_34213864] |\n| Surgical site infection | RR 0.23 (p=0.001) favoring endoscopic | [pubmed_38190892] |\n| Overall complication rates | Analyzed across five techniques | [pubmed_31529215] |\n| Durotomy rate | RR 0.63 (p=0.0184) favoring endoscopic | [pubmed_38190892] |\n\n---\n\n## Recommended Approach\n\n**Best Evidence Recommendation:**\nPED is \"recommended as the preferred surgical approach for lumbar disc herniation treatment\" based on \"optimal balance of safety and efficacy\" with \"superior pain relief\" and \"lowest probable rates of dural tear and intraoperative complications\" [pubmed_34213864]\n\nAlternative consideration: \"Tubular discectomy should be considered when minimizing postoperative complications\" is a secondary priority [pubmed_34213864]\n\nEndoscopic discectomy with internal fixation (EDF) \"was found to be significantly superior to conservative treatments, with EDF showing the best performance\" [pubmed_40611244]\n\n---\n\n## Evidence Gaps\n\n1. **Long-term functional outcomes** beyond short-term pain measures are not comprehensively reported\n2. **Patient-reported outcome differences** appear minimal despite anatomical advantages [pubmed_41002072]\n3. **Specific reoperation rates** between microdiscectomy and endoscopic approaches not consistently reported\n4. **Learning curve effects** and surgeon experience not addressed in comparisons\n5. **Cost-effectiveness** analysis not included in retrieved papers\n\n---\n\n## Conclusion\n\nWhile endoscopic discectomy demonstrates clear advantages in perioperative metrics (reduced blood loss, shorter hospital stays, lower infection rates, reduced dural tear rates), functional pain relief outcomes appear **clinically equivalent** to microdiscectomy in available RCT evidence. PED is recommended as preferred first-line approach based on safety profile combined with efficacy.",
     "cited_papers": [
       {
         "paper_id": "pubmed_41666862",
         "title": "Endoscopic Discectomy versus Microdiscectomy for Lumbar Disc Herniation: A Systematic Review and Meta-Analysis",
         "evidence_level": "1a",
-        "score": 0.9450938701629639
+        "score": 0.9461716651916503
       },
       {
         "paper_id": "pubmed_31529215",
         "title": "Network Meta-Analysis of Complication Rates for Discectomy Techniques in Symptomatic Lumbar Disc Herniation",
         "evidence_level": "1a",
-        "score": 0.9210385799407959
-      },
-      {
-        "paper_id": "pubmed_38190892",
-        "title": "Endoscopic versus Microscopic Decompression for Treatment of Lumbar Spinal Stenosis: A Systematic Review and Meta-Analysis",
-        "evidence_level": "1a",
-        "score": 0.9144593238830565
-      },
-      {
-        "paper_id": "pubmed_41452813",
-        "title": "Unilateral Biportal Endoscopic Discectomy versus Conventional Microdiscectomy for Lumbar Disc Herniation: A Meta-Analysis",
-        "evidence_level": "1a",
-        "score": 0.9140964984893798
+        "score": 0.916022777557373
       },
       {
         "paper_id": "pubmed_34213864",
         "title": "Network Meta-Analysis of Surgical Approaches for Lumbar Disc Herniation: Comparative Efficacy and Safety",
         "evidence_level": "1a",
-        "score": 0.9127553462982176
+        "score": 0.9135724544525146
       },
       {
         "paper_id": "pubmed_40611244",
         "title": "Network Meta-Analysis of Treatments for Lumbar Disc Herniation: Comparing Surgical and Conservative Approaches",
         "evidence_level": "1a",
-        "score": 0.9105790615081786
+        "score": 0.9124222278594971
       },
       {
-        "paper_id": "pubmed_40797374",
-        "title": "Biportal Endoscopic Spine Surgery versus Conventional Open Surgery for Lumbar Degenerative Disease: A Systematic Review and Meta-Analysis",
-        "evidence_level": "1b",
-        "score": 0.9072432041168212
+        "paper_id": "pubmed_41452813",
+        "title": "Unilateral Biportal Endoscopic Discectomy versus Conventional Microdiscectomy for Lumbar Disc Herniation: A Meta-Analysis",
+        "evidence_level": "1a",
+        "score": 0.9095396518707275
+      },
+      {
+        "paper_id": "pubmed_38190892",
+        "title": "Endoscopic versus Microscopic Decompression for Treatment of Lumbar Spinal Stenosis: A Systematic Review and Meta-Analysis",
+        "evidence_level": "1a",
+        "score": 0.9077682495117188
       },
       {
         "paper_id": "pubmed_40708286",
         "title": "Efficacy and Safety of Full Endoscopic Lumbar Discectomy Combined with Platelet-Rich Plasma for Lumbar Disc Herniation: A Meta-Analysis",
         "evidence_level": "1b",
-        "score": 0.9065305709838867
+        "score": 0.9066604137420653
       },
       {
         "paper_id": "pubmed_39577647",
         "title": "Network Meta-Analysis of Surgical Approaches for Lumbar Spinal Stenosis: Comparing Nine Intervention Methods",
         "evidence_level": "1a",
-        "score": 0.9047958850860596
+        "score": 0.9045288562774658
       },
       {
         "paper_id": "pubmed_41002072",
         "title": "Biportal Endoscopic Laminectomy versus Microscopic Laminectomy for Lumbar Spinal Stenosis: A Randomized Controlled Trial",
         "evidence_level": "1b",
-        "score": 0.9020057678222655
+        "score": 0.9026916980743407
+      },
+      {
+        "paper_id": "pubmed_40155927",
+        "title": "Network Meta-Analysis Comparing Tubular Microdiscectomy, Percutaneous Transforaminal Endoscopic Discectomy, and Open Microdiscectomy for Lumbar Disc Herniation",
+        "evidence_level": "1a",
+        "score": 0.9008522033691406
       }
     ],
     "num_papers_retrieved": 10,
@@ -272,85 +321,92 @@
       "1a",
       "1a",
       "1b",
-      "1b",
       "1a",
-      "1b"
+      "1b",
+      "1a"
     ],
-    "generation_time_ms": 13864
+    "generation_time_ms": 11997
   },
   {
     "query_id": "DG-005",
     "question": "What is the evidence for the use of BMP-2 in lumbar interbody fusion regarding fusion rates, complications, and cancer risk?",
     "baseline": "B4",
-    "answer": "# Evidence Summary: BMP-2 in Lumbar Interbody Fusion\n\n## FUSION RATES\n\n### Procedure-Specific Efficacy\n\n**ALIF (Anterior Lumbar Interbody Fusion):**\n- BMP-2 improves fusion rates from 79.1% to 96.9% [pubmed_26613283]\n- Literature reports fusion rates of 88.5-100% with rhBMP-2 [pubmed_39399091]\n\n**TLIF (Transforaminal Lumbar Interbody Fusion):**\n- Minimal benefit from BMP addition: only ~2% improvement [pubmed_26613283]\n- PLIF/TLIF combined: significant fusion rate improvement with adequate dosing [pubmed_32339767]\n\n**PLF (Posterolateral Lumbar Fusion):**\n- Higher doses (≥8.5 mg/level) required for significant improvement: 75.3% to 95.2% fusion rates [pubmed_26613283]\n\n**Percutaneous Endoscopic PE-PLIF:**\n- Fusion rate 86.27% with rhBMP-2 vs. 54.90% control (p=0.001) [pubmed_39593144]\n- RCT evidence (Level 1b) [pubmed_39593144]\n\n**Standard RCT Evidence:**\n- 2-year prospective RCT: 94.5% with rhBMP-2 vs. 88.7% control [pubmed_12394656]\n\n---\n\n## COMPLICATIONS\n\n### Major Safety Concerns\n\n**Overall Complication Rates (Meta-Analysis Evidence - Level 1a):**\n- General complications: 1.78-fold higher odds (p=0.004) [pubmed_25772092]\n- Heterotopic ossification: 5.57-fold higher (p=0.002) [pubmed_25772092]\n- Retrograde ejaculation: 3.31-fold higher (p=0.020) [pubmed_25772092]\n- Cervical swelling: 4.72-fold higher (p=0.011) [pubmed_25772092]\n\n**Specific Adverse Events (Level 1a evidence):**\n- Radiculopathy: up to 38% [pubmed_39399091]\n- Pseudoarthrosis OR: 1.44 [pubmed_39399091]\n- Ectopic bone formation and osteolysis [pubmed_23646277]\n- Radiculitis [pubmed_23646277]\n\n**FDA Data Discrepancy:**\n- Literature reports complications <0.5%, but FDA industry-sponsored trial data suggests actual range of 10-50% [pubmed_23646277]\n\n**Critical Systematic Review Finding:**\n- Level I and II evidence suggests \"clear increased risk of complications and adverse events\" with rhBMP-2 [pubmed_21729796]\n- Possible study design bias in original FDA trials noted [pubmed_21729796]\n\n### Dose-Dependent Safety Profile\n- Complication rates positively correlate with BMP dose across most procedures [pubmed_26613283]\n- ACDF shows favorable safety profile at lowest doses (0.2-0.6 mg/level) [pubmed_26613283]\n\n---\n\n## CANCER RISK\n\n**Evidence Status: INSUFFICIENT** - No specific cancer incidence data reported across the provided papers.\n\nThe only mention relates to:\n- \"Tumor incidence failed to reach statistical significance\" in rhBMP-2 vs. control comparison [pubmed_25772092]\n- No specific numbers or confidence intervals provided\n\n---\n\n## KEY EVIDENCE GAPS\n\n1. **Conflicting efficacy-safety balance**: 67% of literature highlights efficacy benefits [pubmed_39399091], but substantial evidence documents increased complications [pubmed_21729796, pubmed_25772092]\n\n2. **Study design limitations**: Original FDA trials appear biased; actual complication rates substantially underreported in published literature [pubmed_23646277, pubmed_21729796]\n\n3. **Procedure-specific recommendations unclear**: TLIF shows minimal benefit (2% improvement) [pubmed_26613283], suggesting selective use may be appropriate, but comparative cost-effectiveness limited [pubmed_23646277]\n\n4. **Long-term outcomes**: Most data limited to 2 years; extended follow-up needed [pubmed_12394656]",
+    "answer": "# Evidence Summary: rhBMP-2 in Lumbar Interbody Fusion\n\n## FUSION RATES\n\n**Efficacy Evidence:**\nrhBMP-2 demonstrates consistently high fusion rates across lumbar interbody fusion procedures:\n\n- **ALIF**: Fusion rates improve from 79.1% to 96.9% with rhBMP-2 addition [pubmed_26613283]\n- **TLIF/PLIF**: Fusion rates of 86.27% (rhBMP-2) versus 54.90% (control) in percutaneous endoscopic PLIF at 12 months [pubmed_39593144]\n- **Overall**: Literature reports fusion rates of 88.5-100% across studies utilizing rhBMP-2 [pubmed_39399091]\n- **Prospective RCT evidence**: 94.5% fusion rate with rhBMP-2 versus 88.7% with autogenous iliac crest bone graft [pubmed_12394656] (Level 1b evidence)\n\n**Dose-dependent efficacy**: TLIF shows minimal benefit from BMP addition (2% improvement), while PLF requires higher doses (≥8.5 mg/level) for significant improvement to 75.3%-95.2% [pubmed_26613283]\n\n---\n\n## COMPLICATIONS\n\n**Overall Complication Risk (Meta-analytic Evidence):**\nrhBMP-2 demonstrates significantly increased complication odds across multiple categories [pubmed_25772092] (Level 1a):\n- General complications: 1.78-fold higher (p=0.004)\n- Heterotopic ossification: 5.57-fold higher (p=0.002)\n- Retrograde ejaculation: 3.31-fold higher (p=0.020)\n- Cervical swelling: 4.72-fold higher (p=0.011)\n\n**Specific Complication Profiles:**\n- Radiculitis, ectopic bone formation, and osteolysis reported [pubmed_23646277]\n- Radiculopathy documented up to 38% in some studies [pubmed_39399091]\n- Pseudoarthrosis: OR 1.44 [pubmed_39399091]\n\n**Critical Discrepancy in Reporting:**\n- Published literature reports complications <0.5%, but FDA data reviewed by Carragee et al. suggest actual complications may range from 10-50% [pubmed_23646277]\n- FDA and industry-sponsored trial analysis indicates \"clear increased risk of complications and adverse events\" [pubmed_21729796] (Level 1a evidence)\n- Possible study design bias noted in original trials [pubmed_21729796]\n\n**Graft site morbidity eliminated**: Complete absence of donor site complications compared to autogenous bone graft [pubmed_12394656]\n\n---\n\n## CANCER RISK\n\n**Evidence Status**: Only 1 study addressed tumor incidence: [pubmed_25772092] reports that tumor incidence \"failed to reach statistical significance\" in their meta-analysis comparing rhBMP-2 to controls.\n\n**Gap in evidence**: Limited data specifically evaluating cancer risk. This outcome requires further investigation.\n\n---\n\n## SYNTHESIS\n\nrhBMP-2 reliably achieves high fusion rates and eliminates bone harvest morbidity, supporting efficacy as a bone graft substitute. However, substantial evidence indicates increased complications compared to controls, with a notable discrepancy between published reports and FDA surveillance data. The safety profile appears dose-dependent, with lower doses in ACDF showing favorable safety. Cancer risk remains inadequately characterized in available literature.",
     "cited_papers": [
-      {
-        "paper_id": "pubmed_25955186",
-        "title": "Fusion Rates in Anterior Lumbar Interbody Fusion, Posterior Lumbar Interbody/Transforaminal Lumbar Interbody Fusion, and Posterolateral Lumbar Fusion With and Without Recombinant Human Bone Morphogenetic Protein-2: A Systematic Review",
-        "evidence_level": "1a",
-        "score": 0.9289109230041503
-      },
       {
         "paper_id": "pubmed_39399091",
         "title": "Bone graft substitutes used in anterior lumbar interbody fusion: a systematic review of fusion rates and postoperative complications",
         "evidence_level": "1a",
-        "score": 0.9270754337310791
+        "score": 0.9286909580230713
       },
       {
-        "paper_id": "pubmed_26613283",
-        "title": "Dose-dependent effectiveness and morbidity of bone morphogenetic protein in spinal arthrodesis: a meta-analysis",
+        "paper_id": "pubmed_25955186",
+        "title": "Fusion Rates in Anterior Lumbar Interbody Fusion, Posterior Lumbar Interbody/Transforaminal Lumbar Interbody Fusion, and Posterolateral Lumbar Fusion With and Without Recombinant Human Bone Morphogenetic Protein-2: A Systematic Review",
         "evidence_level": "1a",
-        "score": 0.9217328548431396
-      },
-      {
-        "paper_id": "pubmed_21729796",
-        "title": "Recombinant Human Bone Morphogenetic Protein-2 in Spinal Fusion Surgery: A Systematic Review of Adverse Events from FDA Data and Industry-Sponsored Trials",
-        "evidence_level": "1a",
-        "score": 0.9190906047821044
-      },
-      {
-        "paper_id": "pubmed_32339767",
-        "title": "Minimally Effective Dose of Recombinant Human Bone Morphogenetic Protein-2 in Posterior and Transforaminal Lumbar Interbody Fusion: A Systematic Review and Meta-Analysis",
-        "evidence_level": "1a",
-        "score": 0.9180201530456542
-      },
-      {
-        "paper_id": "pubmed_12394656",
-        "title": "Lumbar fusion using rhBMP-2 and tapered titanium fusion cage: 2-year prospective randomized study",
-        "evidence_level": "1b",
-        "score": 0.9173786163330078
-      },
-      {
-        "paper_id": "pubmed_25772092",
-        "title": "Complications Associated with rhBMP-2 in Lumbar and Cervical Spine Fusion: A Meta-Analysis",
-        "evidence_level": "1a",
-        "score": 0.9168235301971435
+        "score": 0.9261815547943115
       },
       {
         "paper_id": "pubmed_23646277",
         "title": "Cost-effectiveness of interbody fusion with bone morphogenetic protein for the treatment of degenerative spondylolisthesis: a systematic review",
         "evidence_level": "1a",
-        "score": 0.9161843299865722
+        "score": 0.9222759246826171
+      },
+      {
+        "paper_id": "pubmed_26613283",
+        "title": "Dose-dependent effectiveness and morbidity of bone morphogenetic protein in spinal arthrodesis: a meta-analysis",
+        "evidence_level": "1a",
+        "score": 0.922151756286621
+      },
+      {
+        "paper_id": "pubmed_36045371",
+        "title": "Effectiveness and Safety of Escherichia coli-Derived Recombinant Human Bone Morphogenetic Protein-2 Combined with Hydroxyapatite in Transforaminal Lumbar Interbody Fusion: A Prospective, Assessor-Blinded, Multicenter, Randomized Controlled Trial Protocol",
+        "evidence_level": "1b",
+        "score": 0.9210295677185059
+      },
+      {
+        "paper_id": "pubmed_21729796",
+        "title": "Recombinant Human Bone Morphogenetic Protein-2 in Spinal Fusion Surgery: A Systematic Review of Adverse Events from FDA Data and Industry-Sponsored Trials",
+        "evidence_level": "1a",
+        "score": 0.9205579280853271
+      },
+      {
+        "paper_id": "pubmed_12394656",
+        "title": "Lumbar fusion using rhBMP-2 and tapered titanium fusion cage: 2-year prospective randomized study",
+        "evidence_level": "1b",
+        "score": 0.9186543464660644
+      },
+      {
+        "paper_id": "pubmed_25772092",
+        "title": "Complications Associated with rhBMP-2 in Lumbar and Cervical Spine Fusion: A Meta-Analysis",
+        "evidence_level": "1a",
+        "score": 0.9174330234527588
+      },
+      {
+        "paper_id": "pubmed_32339767",
+        "title": "Minimally Effective Dose of Recombinant Human Bone Morphogenetic Protein-2 in Posterior and Transforaminal Lumbar Interbody Fusion: A Systematic Review and Meta-Analysis",
+        "evidence_level": "1a",
+        "score": 0.9143611907958984
       },
       {
         "paper_id": "pubmed_39593144",
         "title": "Application of Recombinant Human Bone Morphogenetic Protein-2 (RhBMP-2) in Percutaneous Endoscopic Posterior Lumbar Interbody Fusion (PE-PLIF): A Randomized Controlled Study",
         "evidence_level": "1b",
-        "score": 0.9159957408905028
+        "score": 0.9113547801971436
       }
     ],
-    "num_papers_retrieved": 9,
+    "num_papers_retrieved": 10,
     "evidence_levels": [
-      "1a",
       "1a",
       "1a",
       "1a",
       "1a",
       "1b",
       "1a",
+      "1b",
+      "1a",
       "1a",
       "1b"
     ],
-    "generation_time_ms": 13819
+    "generation_time_ms": 12997
   }
 ]
