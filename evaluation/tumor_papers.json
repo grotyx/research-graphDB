@@ -1,0 +1,887 @@
+[
+  {
+    "pmid": "40449839",
+    "title": "En Bloc Spondylectomy versus Separation Surgery for Spinal Metastases: A Systematic Review and Meta-Analysis.",
+    "abstract": "BACKGROUND: Two main surgical techniques to treat spinal metastases are available: 1) en bloc spondylectomy, involving complete resection of the affected vertebrae, and 2) separation surgery with partial debulking followed by stereotactic body therapy (SBRT). Comparative outcomes between these approaches have not been well studied. METHODS: PubMed, Embase, Scopus, and Web of Science were searched from inception until January 2024 for studies comparing en bloc spondylectomy to separation surgery with SBRT for metastatic spinal tumors. Pooled odds ratios with 95% confidence intervals were calculated using random effects meta-analysis models. Overall survival and progression-free survival were analyzed using aggregated Kaplan-Meier and Cox proportional hazards methods. RESULTS: Thirty-two observational studies (1149 patients) were included. Six hundred forty-two patients underwent en bloc resection, and 507 patients had separation surgery with SBRT. En bloc procedures had increased intraoperative blood loss (mean difference 883 mL, P < 0.001) and postoperative infection risk (odds ratio: 1.44, 95% confidence interval: 0.54-2.33, P = 0.05) compared to separation surgery with SBRT. No differences were found for length of stay, progression-free survival, overall survival, or recurrence rates (all P > 0.05). CONCLUSIONS: Outcomes are comparable between en bloc spondylectomy and separation surgery with SBRT for spinal metastases, but en bloc techniques lead to a higher complication rate. Additional rigorous comparative effectiveness research is needed to refine patient selection criteria for these invasive procedures.",
+    "authors": "Ahmad K AlMekkawi, Ashlesha Bhojane, Brandon Edelbach, James P Caruso, Salah G Aoun",
+    "journal": "World neurosurgery",
+    "year": 2025,
+    "doi": "10.1016/j.wneu.2025.124129",
+    "publication_types": [
+      "Comparative Study",
+      "Journal Article",
+      "Meta-Analysis",
+      "Systematic Review"
+    ],
+    "mesh_terms": [
+      "Humans",
+      "Neurosurgical Procedures",
+      "Radiosurgery",
+      "Spinal Neoplasms",
+      "Treatment Outcome"
+    ]
+  },
+  {
+    "pmid": "40243341",
+    "title": "Efficacy and Safety of Donut-Shaped Circumferential Spine CyberKnife Stereotactic Body Radiotherapy for Metastatic Spine Disease.",
+    "abstract": "BACKGROUND AND OBJECTIVES: Spinal metastases (SM) with epidural spinal cord compression (ESCC) present a significant challenge because of the high risk of radiation-induced injury to critical structures such as the spinal cord and nerve roots. Traditional treatment approaches often avoid circumferential stereotactic body radiotherapy (SBRT) to reduce these risks. The efficacy and safety of donut-shaped circumferential SBRT, designed to target the spinal column while sparing the spinal cord, remains underexplored. The aim of this study was to evaluate the safety and efficacy of donut-shaped circumferential CyberKnife SBRT for SM, particularly in preventing radiation-induced myelopathy and achieving local tumor control (LTC). METHODS: We retrospectively analyzed data from patients treated with donut-shaped circumferential SBRT between 2014 and 2023. Key parameters examined included patient demographics, ESCC grade (Bilsky), prior treatments, clinical symptoms, and treatment parameters. We focused on SBRT dosimetric data, radiation exposure to the spinal cord and cauda equina, adherence to dose-volume constraints, and post-SBRT outcomes, including myelopathy and LTC. RESULTS: Forty-eight lesions in 43 patients (median age: 65; range: 20-78) were reviewed. One patient required separation surgery for severe ESCC (Bilsky grade 3). The median clinical target volume was 63.77 cm 3 , and the median margin dose was 24 Gy. Over a median follow-up of 8 months, LTC was 91.1% at 6 months, 87.1% at 1 year, 82.8% at 3 years, and 62.1% at 5 years. The median overall survival was 17 months. Of the 21 lesions exceeding dose constraints, only one patient exhibited clinical myelopathy, which correlated with local tumor recurrence. No radiographic myelopathy or other radiation-induced complications were observed. CONCLUSION: Donut-shaped circumferential CyberKnife SBRT is a safe and effective treatment of SM, achieving high LTC with minimal radiation-induced complications, including myelopathy.",
+    "authors": "David J Park, Isabelle Lee, Shreyas Annagiri, Kuan-Nien Chou, Aroosa Zamarud",
+    "journal": "Neurosurgery",
+    "year": 2025,
+    "doi": "10.1227/neu.0000000000003446",
+    "publication_types": [
+      "Journal Article"
+    ],
+    "mesh_terms": [
+      "Humans",
+      "Radiosurgery",
+      "Middle Aged",
+      "Female",
+      "Male",
+      "Aged",
+      "Spinal Neoplasms",
+      "Adult",
+      "Retrospective Studies",
+      "Treatment Outcome",
+      "Spinal Cord Compression",
+      "Young Adult"
+    ]
+  },
+  {
+    "pmid": "40002531",
+    "title": "Use of Carbon Fiber Implants to Improve the Safety and Efficacy of Radiation Therapy for Spine Tumor Patients.",
+    "abstract": "Current standard of care treatment for patients with spine tumors includes multidisciplinary approaches, including the following: (1) surgical tumor debulking, epidural spinal cord decompression, and spine stabilization techniques; (2) systemic chemo/targeted therapies; (3) radiation therapy; and (4) surveillance imaging for local disease control and recurrence. Titanium pedicle screw and rod fixation have become commonplace in the spine surgeon's armamentarium for the stabilization of the spine following tumor resection and separation surgery. However, the high degree of imaging artifacts seen with titanium implants on postoperative CT and MRI scans can significantly hinder the accurate delineation of vertebral anatomy and adjacent neurovascular structures to allow for the safe and effective planning of downstream radiation therapies and detection of disease recurrence. Carbon fiber-reinforced polyetheretherketone (CFR-PEEK) spine implants have emerged as a promising alternative to titanium due to the lack of artifact signals on CT and MRI, allowing for more accurate and safe postoperative radiation planning. In this article, we review the tenants of the surgical and radiation management of spine tumors and discuss the safety, efficacy, and current limitations of CFR-PEEK spine implants in the multidisciplinary management of spine oncology patients.",
+    "authors": "Fred C Lam, Santosh Guru, Deyaldeen AbuReesh, Yusuke S Hori, Cynthia Chuang",
+    "journal": "Brain sciences",
+    "year": 2025,
+    "doi": "10.3390/brainsci15020199",
+    "publication_types": [
+      "Journal Article",
+      "Review"
+    ],
+    "mesh_terms": []
+  },
+  {
+    "pmid": "39739070",
+    "title": "Radiation therapy, radiosurgery, chemotherapy and targeted therapies for metastatic spine tumors: WFNS Spine committee recommendations.",
+    "abstract": "OBJECTIVE: This review aims to formulate the most current, evidence-based recommendations regarding radiation therapy, radiosurgery, and chemotherapy for patients with metastatic spine tumors. METHODS: A systematic literature using PRISMA methodology was performed from 2010-2023 using the search terms \"radiosurgery,\" \"radiation therapy,\" \"external beam radiation therapy,\" or \"stereotactic body radiation therapy\" in conjunction with \"spinal,\" \"spine,\" \"metastasis,\" \"metastases,\" or \"metastatic.\" RESULTS: Spinal metastases should be managed in a multidisciplinary team consisting of spine surgeons, radiation oncologists, radiologists and oncologists. Patients identified as potential candidates for SRS/EBRT using internationally recognized frameworks and criteria should be assessed by surgeons to see if surgical cyto-reduction/ separation surgery can be achieved. Choices for treatment of recurrence include re-irradiation with SBRT vs EBRT, surgical debulking, additional chemotherapy or palliative care. There is a lack of current clinical evidence to support the routine use of targeted therapies in the management of metastatic spinal tumors. CONCLUSIONS: Improving the management of spinal metastasis will lead to increased quality of life and improved survival. This review provides current, evidence-based guidelines on radiation therapy, radiosurgery, and chemotherapy for patients with metastatic spine tumors.",
+    "authors": "Vashisht Sekar, Jamie Walsh, Luke H Pearson, Ori Barzilai, Salman Sharif",
+    "journal": "Neurosurgical review",
+    "year": 2024,
+    "doi": "10.1007/s10143-024-03123-3",
+    "publication_types": [
+      "Journal Article",
+      "Systematic Review"
+    ],
+    "mesh_terms": [
+      "Humans",
+      "Radiosurgery",
+      "Spinal Neoplasms",
+      "Practice Guidelines as Topic"
+    ]
+  },
+  {
+    "pmid": "39362605",
+    "title": "Validation of the prognostic index for spine metastasis (PRISM) for stratifying survival in patients treated with spinal stereotactic body radiation.",
+    "abstract": "PURPOSE: The Prognostic Index for Spinal Metastasis (PRISM) is a scoring system derived from prospective data from a single institution that stratifies patients undergoing spine stereotactic radiosurgery (SSRS) for spinal metastases into subgroups by overall (OS). We sought to further demonstrate its generalizability by performing validation with a large dataset from a second high-volume institution, Mayo Clinic. METHODS AND MATERIALS: Eight hundred seventy-nine patients-424 from Mayo Clinic and 455 from MD Anderson Cancer Center (MDACC)-who received SSRS between 2007 and 2019 were identified. Patients were stratified by PRISM criteria, and overall survival (OS) for the PRISM groups for each cohort was compared using Kaplan-Meier estimations and univariate Cox proportional analyses. Model calibration and concordance indices (C-indices) were calculated for each cohort to assess the quality of the scoring system. RESULTS: Patient and tumor characteristics varied significantly between both cohorts including histology, sex, performance status, and number of organs involved (all P < 0.001). Median OS was 30.3 and 22.1 months for the Mayo and MDACC cohorts, respectively. Kaplan-Meier survival curves revealed robust separation between prognostic groups within both cohorts. The Mayo cohort showed median OS of 57.1, 37.0, 23.7, and 8.8 months for Groups 1, 2, 3, and 4, respectively. Univariate analysis revealed hazard ratios of 3.0 (95 % confidence interval [CI], 1.9-4.9), 5.2 (95 % CI, 3.2-8.3), and 12.9 (95 % CI, 7.8-21.4) for groups 2, 3 and 4, respectively all P < 0.001). The C-indices were 0.69 and 0.66 for the unstratified and stratified scores for the Mayo cohort, and 0.70 and 0.68 for the MDACC cohort, respectively. CONCLUSION: These data demonstrate robust validation of the PRISM score to stratify OS in patients treated with SSRS by a large external cohort, despite substantial differences among the cohorts. Overall, the PRISM scoring may help guide optimal treatment selection for patients with spine metastases.",
+    "authors": "Marcus A Florez, Brian De, Roman Kowalchuk, Chad Tang, Andrew J Bishop",
+    "journal": "Radiotherapy and oncology : journal of the European Society for Therapeutic Radiology and Oncology",
+    "year": 2024,
+    "doi": "10.1016/j.radonc.2024.110570",
+    "publication_types": [
+      "Journal Article",
+      "Validation Study"
+    ],
+    "mesh_terms": [
+      "Humans",
+      "Spinal Neoplasms",
+      "Radiosurgery",
+      "Female",
+      "Male",
+      "Middle Aged",
+      "Aged",
+      "Prognosis",
+      "Aged, 80 and over",
+      "Adult",
+      "Kaplan-Meier Estimate",
+      "Survival Rate"
+    ]
+  },
+  {
+    "pmid": "38941648",
+    "title": "Obstacles to receiving postoperative radiation therapy following separation surgery for metastatic spine disease.",
+    "abstract": "OBJECTIVE: Obtaining timely postoperative radiotherapy (RT) following separation surgery is critical to avoid local recurrence of disease yet can be a challenge due to scheduling conflicts, insurance denials, and travel arrangements. In patients undergoing metastatic spine surgery for spinal cord compression, the authors sought to: 1) report the rate of postoperative RT, 2) describe reasons for patients not receiving postoperative RT, and 3) investigate factors that may predict whether a patient receives postoperative RT. METHODS: A single-center retrospective case series was undertaken of all patients who underwent metastatic spine surgery for extradural disease between January 2010 and January 2021. Inclusion criteria were patients with intermediate or radioresistant tumors with evidence of spinal cord compression who underwent surgery. The primary outcome was the occurrence of RT within 3 months following surgery. Multivariable logistic regression analysis was performed controlling for age, BMI, race, total number of decompressed levels, tumor size, other organ metastasis, and preoperative RT or chemotherapy to predict patients receiving postoperative RT. RESULTS: Of 239 patients undergoing spine surgery for metastatic disease, 113 (47.3%) received postoperative RT while 126 (52.7%) did not. In the postoperative RT group, 24 (21.2%) received stereotactic body radiation therapy while 89 (78.8%) received conventional external-beam radiation therapy. The most common reasons for patients not receiving postoperative RT included death or transfer to hospice (31.0%), RT not being recommended by radiation oncology (30.2%), and loss to follow-up (23.8%). On critical review with the radiation oncology department, the authors estimated that 101 of 126 (80.2%) patients who did not receive postoperative RT were potential candidates for postoperative RT. Patients who received postoperative RT had more documented inpatient (48.7% vs 32.5%, p < 0.001) and outpatient (100.0% vs 65.1%, p < 0.001) radiation oncology consultations than those who did not. Additionally, patients who received postoperative RT had a higher rate of postoperative chemotherapy (53.1% vs 25.4%, p < 0.001), while patients who did not receive postoperative RT had a higher rate of preoperative RT (7.1% vs 31.0%, p < 0.001). Multivariable analysis confirmed that patients who received preoperative RT had lower odds of undergoing postoperative RT (OR 0.14, 95% CI 0.06-0.34; p < 0.001), and patients who underwent postoperative chemotherapy had higher odds of undergoing postoperative RT (OR 3.83, 95% CI 2.05-7.17; p < 0.001). CONCLUSIONS: In the current study reflecting real-world care of patients with metastatic spine disease after undergoing separation surgery, 47% of patients did not receive postoperative RT, and 80% of those patients were potential candidates for postoperative RT. Radiation oncology consultation and postoperative chemotherapy were significantly associated with receiving postoperative RT, whereas preoperative RT was significantly associated with not receiving postoperative RT. The lack of timely postoperative RT highlights a potential gap in metastatic spine tumor care and underscores the necessity for prompt radiation oncology consultation and effective planning.",
+    "authors": "John E Dugan, Connor C Long, Hani Chanbour, Gabriel A Bendfeldt, Lakshmi Suryateja Gangavarapu",
+    "journal": "Journal of neurosurgery. Spine",
+    "year": 2024,
+    "doi": "10.3171/2024.4.SPINE231254",
+    "publication_types": [
+      "Journal Article"
+    ],
+    "mesh_terms": [
+      "Humans",
+      "Female",
+      "Spinal Neoplasms",
+      "Male",
+      "Middle Aged",
+      "Retrospective Studies",
+      "Aged",
+      "Spinal Cord Compression",
+      "Adult",
+      "Radiosurgery"
+    ]
+  },
+  {
+    "pmid": "37241225",
+    "title": "Fully Endoscopic Spine Separation Surgery in Metastatic Disease-Case Series, Technical Notes, and Preliminary Findings.",
+    "abstract": "",
+    "authors": "Kajetan Latka, Waldemar Kolodziej, Kornel Pawlak, Tomasz Sobolewski, Rafal Rajski",
+    "journal": "Medicina (Kaunas, Lithuania)",
+    "year": 2023,
+    "doi": "10.3390/medicina59050993",
+    "publication_types": [
+      "Case Reports",
+      "Journal Article"
+    ],
+    "mesh_terms": [
+      "Humans",
+      "Treatment Outcome",
+      "Spinal Neoplasms",
+      "Spine",
+      "Endoscopy",
+      "Radiosurgery"
+    ]
+  },
+  {
+    "pmid": "37079324",
+    "title": "Stereotactic Radiosurgery vs Conventional Radiotherapy for Localized Vertebral Metastases of the Spine: Phase 3 Results of NRG Oncology/RTOG 0631 Randomized Clinical Trial.",
+    "abstract": "IMPORTANCE: Spine metastasis can be treated with high-dose radiation therapy with advanced delivery technology for long-term tumor and pain control. OBJECTIVE: To assess whether patient-reported pain relief was improved with stereotactic radiosurgery (SRS) as compared with conventional external beam radiotherapy (cEBRT) for patients with 1 to 3 sites of vertebral metastases. DESIGN, SETTING, AND PARTICIPANTS: In this randomized clinical trial, patients with 1 to 3 vertebral metastases were randomized 2:1 to the SRS or cEBRT groups. This NRG 0631 phase 3 study was performed as multi-institutional enrollment within NRG Oncology. Eligibility criteria included the following: (1) solitary vertebral metastasis, (2) 2 contiguous vertebral levels involved, or (3) maximum of 3 separate sites. Each site may involve up to 2 contiguous vertebral bodies. A total of 353 patients enrolled in the trial, and 339 patients were analyzed. This analysis includes data extracted on March 9, 2020. INTERVENTIONS: Patients randomized to the SRS group were treated with a single dose of 16 or 18 Gy (to convert to rad, multiply by 100) given to the involved vertebral level(s) only, not including any additional spine levels. Patients assigned to cEBRT were treated with 8 Gy given to the involved vertebra plus 1 additional vertebra above and below. MAIN OUTCOMES AND MEASURES: The primary end point was patient-reported pain response defined as at least a 3-point improvement on the Numerical Rating Pain Scale (NRPS) without worsening in pain at the secondary site(s) or the use of pain medication. Secondary end points included treatment-related toxic effects, quality of life, and long-term effects on vertebral bone and spinal cord. RESULTS: A total of 339 patients (mean [SD] age of SRS group vs cEBRT group, respectively, 61.9 [13.1] years vs 63.7 [11.9] years; 114 [54.5%] male in SRS group vs 70 [53.8%] male in cEBRT group) were analyzed. The baseline mean (SD) pain score at the index vertebra was 6.06 (2.61) in the SRS group and 5.88 (2.41) in the cEBRT group. The primary end point of pain response at 3 months favored cEBRT (41.3% for SRS vs 60.5% for cEBRT; difference, -19 percentage points; 95% CI, -32.9 to -5.5; 1-sided P = .99; 2-sided P = .01). Zubrod score (a measure of performance status ranging from 0 to 4, with 0 being fully functional and asymptomatic, and 4 being bedridden) was the significant factor influencing pain response. There were no differences in the proportion of acute or late adverse effects. Vertebral compression fracture at 24 months was 19.5% with SRS and 21.6% with cEBRT (P = .59). There were no spinal cord complications reported at 24 months. CONCLUSIONS AND RELEVANCE: In this randomized clinical trial, superiority of SRS for the primary end point of patient-reported pain response at 3 months was not found, and there were no spinal cord complications at 2 years after SRS. This finding may inform further investigation of using spine radiosurgery in the setting of oligometastases, where durability of cancer control is essential. TRIAL REGISTRATION: ClinicalTrials.gov Identifier: NCT00922974.",
+    "authors": "Samuel Ryu, Snehal Deshmukh, Robert D Timmerman, Benjamin Movsas, Peter Gerszten",
+    "journal": "JAMA oncology",
+    "year": 2023,
+    "doi": "10.1001/jamaoncol.2023.0356",
+    "publication_types": [
+      "Randomized Controlled Trial",
+      "Journal Article",
+      "Research Support, N.I.H., Extramural"
+    ],
+    "mesh_terms": [
+      "Humans",
+      "Male",
+      "Adolescent",
+      "Female",
+      "Radiosurgery",
+      "Spinal Fractures",
+      "Quality of Life",
+      "Fractures, Compression",
+      "Spine",
+      "Pain"
+    ]
+  },
+  {
+    "pmid": "40540793",
+    "title": "Outcomes after total en bloc spondylectomy at a mean follow-up of 11 years.",
+    "abstract": "OBJECTIVE: Total en bloc spondylectomy (TES) of spinal tumors results in a large vertebral defect. Despite reconstruction and fusion, there is the potential concern for long-term mechanical stability. This retrospective cohort study investigated the long-term outcome of TES and reconstruction. METHODS: Twenty-three patients (mean age 40.0 ± 15.3 years) underwent TES for either primary spinal tumors or solitary metastasis and reconstruction with instrumented posterior spinal fusion and anterior fusion with titanium mesh cages at the authors' institution from November 2001 to April 2022. The mean follow-up was 11.5 ± 4.9 years. Primary diagnoses included giant cell tumors (n = 13), primary sarcomas (n = 3), hemangiopericytomas (n = 2), solitary metastases (n = 2), aneurysmal bone cyst (n = 1), hemangioma (n = 1), and chordoma (n = 1). Tumors were located in the lumbar (n = 10) or thoracic (n = 13) spine. Fifteen patients had 1 vertebral level resected, 2 patients had 2, 4 patients had 3, 1 patient had 4, and 1 patient had 5 levels resected. The mean operative duration was 751.7 ± 212.6 minutes, and the mean intraoperative blood loss was 2864.3 ± 2124.8 ml. The mean length of resected tumor was 51.6 ± 23.3 mm. Investigated outcomes were instrumentation failure, revision, and postoperative complications. RESULTS: Twelve patients required revision surgery, 8 of whom had instrumentation failure with rod fracture. The mean time to instrumentation failure was 7.6 ± 3.9 years. Instrumentation failure with rod fracture was associated with longer operation time (p = 0.031), more blood loss (p = 0.002), and a longer length of resected tumor (p = 0.035). No significant association was identified between instrumentation failure and radiological bony union, which was demonstrated in 73.9% of patients. The overall revision-free survivals were 67.0% and 48.8% at 5 and 10 years postoperatively, respectively. The 5- and 10-year instrumentation failure-free survivals were 85.2% and 65.7%, respectively. Local recurrence of the pathology occurred in 3 patients (13.0%), with a mean time to local recurrence of 3.4 ± 4.4 years. Kaplan-Meier analysis showed that 91.3% and 84.3% of the patients would be free from local recurrence at 5 and 10 years postoperatively, respectively. CONCLUSIONS: Although local recurrence was uncommon after TES, revision surgery, particularly for instrumentation failure, emerged as a common late complication following TES. Long resection length and long complicated operations increase the likelihood of future instrumentation failure. Radiological bony union does not guarantee long-term success of the construct.",
+    "authors": "Wai Kiu Thomas Liu, Yat Wa Wong, Kenny Yat Hong Kwan",
+    "journal": "Journal of neurosurgery. Spine",
+    "year": 2025,
+    "doi": "10.3171/2025.3.SPINE241451",
+    "publication_types": [
+      "Journal Article"
+    ],
+    "mesh_terms": [
+      "Humans",
+      "Male",
+      "Adult",
+      "Female",
+      "Spinal Neoplasms",
+      "Middle Aged",
+      "Retrospective Studies",
+      "Follow-Up Studies",
+      "Treatment Outcome",
+      "Spinal Fusion",
+      "Young Adult",
+      "Lumbar Vertebrae",
+      "Thoracic Vertebrae",
+      "Postoperative Complications",
+      "Plastic Surgery Procedures",
+      "Adolescent",
+      "Aged"
+    ]
+  },
+  {
+    "pmid": "40353162",
+    "title": "Hybrid therapy and use of carbon-fiber-reinforced polyetheretherketone instrumentation for management of mobile spine chordomas: A case series and review of the literature.",
+    "abstract": "BACKGROUND: Mobile spine chordomas demonstrate varied surgical risk profiles compared to their sacral analogs. Often, the limitation to performing an  METHODS: We present two illustrative cases highlighting the advantages of hybrid therapy (separation surgery and adjuvant SBRT) with CFR-PEEK instrumentation in the management of mobile spine chordoma. RESULTS: Case 1 is a 62-year-old female with an L4 chordoma who underwent separation surgery and L3-5 posterior instrumented fusion using CFR-PEEK instrumentation. Case 2 is a 68-year-old female with a L3 chordoma who underwent revision separation surgery encompassing completion of L3 partial corpectomy and CFR-PEEK screw exchange of prior L2-4 titanium instrumentation. Both patients received postoperative ablative SBRT. At 18-month postoperative time points, both patients were clinically stable, with no signs of tumor recurrence or progression. CONCLUSION: Mobile spine chordomas present a unique challenge in obtaining a margin negative ",
+    "authors": "Chi Shing Adrian Lam, Vicente de Paulo Martins Coelho, Seth Wilson, Joshua Palmer, Anas Bardeesi",
+    "journal": "Surgical neurology international",
+    "year": 2025,
+    "doi": "10.25259/SNI_53_2025",
+    "publication_types": [
+      "Journal Article"
+    ],
+    "mesh_terms": []
+  },
+  {
+    "pmid": "40231408",
+    "title": "Statistics of Primary Malignant Spine Tumors in Japan: A Retrospective Study Using the Bone and Soft Tissue Tumor Registry in Japan.",
+    "abstract": "STUDY DESIGN: A retrospective registry-based study. OBJECTIVE: To elucidate the nationwide epidemiology, treatment patterns, and prognosis of primary malignant spine tumors (PMST) using the Japanese Orthopaedic Association's Bone and Soft Tissue Tumor (BSTT) Registry. SUMMARY OF BACKGROUND DATA: PMSTs are rare, comprising a small proportion of primary malignant bone tumors. The surrounding anatomical structures make complete resection challenging, leading to poor prognoses. Studies using the Surveillance, Epidemiology, and End Results database have provided valuable epidemiological insights; however, limitations in the granularity and diversity of histologic subtypes persist, leaving detailed knowledge of PMSTs insufficiently clarified. METHODS: We analyzed 288 PMST cases from the BSTT Registry (2006-2019), evaluating patient demographics, tumor characteristics, treatment details, and prognostic outcomes. Kaplan-Meier methods estimated disease-specific survival (DSS), and Cox proportional hazards models identified prognostic factors. RESULTS: PMSTs accounted for 3.3% of primary malignant bone tumors. Common histologic subtypes included osteosarcoma (21.9%), chondrosarcoma (16.3%), chordoma (13.9%), and undifferentiated pleomorphic sarcoma (13.9%). Surgery was performed in 46.2% of cases, with intralesional margins in 54.1%. Chemotherapy and radiotherapy were administered in 42.0% and 54.9% of cases, respectively. The 5-year DSS was 47.5%. Adjusted analysis revealed favorable prognoses for chondrosarcoma [hazard ratio (HR): 0.23, 95% CI: 0.06-0.87, P =0.031], chordoma (HR: 0.27, 95% CI: 0.09-0.84, P =0.024), and Ewing sarcoma (HR: 0.42, 95% CI: 0.18-0.98, P =0.044) compared with osteosarcoma. Adults (40-64 yr) had better outcomes than the elderly (≥65 yr; HR: 0.43, 95% CI: 0.24-0.76, P =0.015). Advanced TNM stage (IVA + IVB) was an adverse prognostic factor (HR: 7.60, 95% CI: 1.85-31.18, P =0.005). CONCLUSIONS: PMSTs are rare and present diverse histologic subtypes with poor prognoses. This study emphasizes the need for further investigations to optimize PMST management and improve prognoses. LEVEL OF EVIDENCE: Level IIb.",
+    "authors": "Ryuto Tsuchiya, Koichi Ogura, Seiji Ohtori, Akira Kawai",
+    "journal": "Spine",
+    "year": 2026,
+    "doi": "10.1097/BRS.0000000000005361",
+    "publication_types": [
+      "Journal Article"
+    ],
+    "mesh_terms": [
+      "Humans",
+      "Retrospective Studies",
+      "Female",
+      "Male",
+      "Middle Aged",
+      "Registries",
+      "Spinal Neoplasms",
+      "Adult",
+      "Japan",
+      "Aged",
+      "Young Adult",
+      "Adolescent",
+      "Child",
+      "Aged, 80 and over",
+      "Child, Preschool",
+      "Prognosis",
+      "Soft Tissue Neoplasms"
+    ]
+  },
+  {
+    "pmid": "39417983",
+    "title": "Therapeutic strategies for mobile spine chordoma: en bloc Versus intralesional surgery with adjuvant charged-particle therapy.",
+    "abstract": "PURPOSE: The aim of this retrospective study is to analyze the impact of en bloc resection with negative margins versus intralesional resection plus adjuvant hadron-therapy (HT) on local control (LC) and overall survival (OS) in patients with mobile spine chordomas. Mechanical complications incidence as well as risk factors, and outcome differences are investigated as secondary endpoints. METHODS: 33 patients in a period from January 2013 to December 2021 were enrolled for the final analysis. The inclusion criteria were: lesions located in the mobile spine (C1-L5), age ≥ 15 years, minimum follow-up of 2 years, en bloc or intralesional surgical resection, virgin or recurrent chordomas, with only one previous surgical treatment. RESULTS: No difference was found in terms of LC between the two groups. The presence of pathologic fracture at pre-operative imaging and the presence of macroscopic residual tumor after surgery, independently from its entity, seemed to be associated with an increased risk of LR. No difference was found between planned en bloc and planned intralesional surgery in terms of mechanical complications occurrence. Eight patients (24.24%) had mechanical complications during the follow up period: male sex, presence of pathologic fracture at baseline, a combined surgical approach, the use of carbon fiber-only hardware appeared to be associated with an increased risk of mechanical complications after the primary surgery. CONCLUSIONS: En bloc resection, whenever possible, is always to be preferred for its widely recognized potential in LC and OS improvement. However, technology advances in high-dose conformal charged-particle therapy have allowed improvement of local control rates as an adjuvant therapy of intralesional surgery for mobile spine chordoma, with acceptable acute and chronic toxicity.",
+    "authors": "Mario De Robertis, Riccardo Ghermandi, Valerio Pipola, Cristiana Griffoni, Marco Cianchetti",
+    "journal": "Journal of neuro-oncology",
+    "year": 2025,
+    "doi": "10.1007/s11060-024-04841-w",
+    "publication_types": [
+      "Journal Article"
+    ],
+    "mesh_terms": [
+      "Humans",
+      "Chordoma",
+      "Male",
+      "Female",
+      "Spinal Neoplasms",
+      "Middle Aged",
+      "Retrospective Studies",
+      "Adult",
+      "Aged",
+      "Follow-Up Studies",
+      "Young Adult",
+      "Radiotherapy, Adjuvant",
+      "Combined Modality Therapy",
+      "Adolescent",
+      "Survival Rate",
+      "Heavy Ion Radiotherapy"
+    ]
+  },
+  {
+    "pmid": "38589502",
+    "title": "En-bloc spondylectomy in the lumbar spine: indications, results and complications in a series of 47 patients affected by primary malignant bone tumors.",
+    "abstract": "INTRODUCTION: Wide Surgery is the reference treatment for malignant and aggressive benign primary bone tumors in the spine. When located in the lumbar spine, En-Bloc Spondylectomy (EBS) remains a complex challenge. Moreover, surgery is complicated by the presence of the diaphragm in the thoracolumbar junction and the hinderance of the iliac wings at the lumbosacral levels. Therefore, EBS in the lumbar spine frequently requires combined approaches. The purpose of this study is to describe clinical presentation, tumor characteristics and results of a series of 47 consecutive patients affected by malignant primary bone tumors of the lumbar spine who underwent EBS. MATERIALS AND METHODS: 47 patients were reviewed. Complications were distinguished in early and late whether they occurred before or after 30 days from surgery. Overall survival (OS), disease-free survival (DFS) and local recurrence-free survival (LRFS) were calculated by the Kaplan-Meier product-limit method from surgery until relapse or death. RESULTS: 27 patients presented to observation after a first intralesional approach in a non-specialized center. Chordoma was the most represented histotype. Vertebrectomies were: 23 one-level, 10 two-level, 12 three-level and 2 four-level. Reconstructions were always carried out with screws and rods. The main postoperative complication was blood loss, while hardware failure was the main long-term complication. The 5-year LRFS was 75.5%, the 5-year DFS was 54.3%, and 5-year OS was 63.6%. CONCLUSIONS: The surgical margin obtained during the index surgery was statistically associated with Local Recurrence, DFS and OS, underlining the importance of treating patients in reference centers.",
+    "authors": "Alessandro Luzzati, Stefano Conti, Isabella Sperduti, Alessandra Scotto Di Uccio, Simone Mazzoli",
+    "journal": "Archives of orthopaedic and trauma surgery",
+    "year": 2024,
+    "doi": "10.1007/s00402-024-05274-w",
+    "publication_types": [
+      "Journal Article"
+    ],
+    "mesh_terms": [
+      "Humans",
+      "Spinal Neoplasms",
+      "Lumbar Vertebrae",
+      "Male",
+      "Middle Aged",
+      "Female",
+      "Adult",
+      "Aged",
+      "Adolescent",
+      "Young Adult",
+      "Postoperative Complications",
+      "Retrospective Studies",
+      "Child",
+      "Treatment Outcome",
+      "Chordoma"
+    ]
+  },
+  {
+    "pmid": "38367855",
+    "title": "En Bloc Surgery in the Thoracic Spine: Indications, Results, and Complications in a Series of Eighty-Five Patients Affected by Primary and Secondary Malignant Bone Tumors.",
+    "abstract": "BACKGROUND: En bloc resection remains the cornerstone treatment for malignant bone tumors affecting the spine. The thoracic spine poses unique challenges because of the proximity of crucial structures. This study assesses outcomes of patients who underwent en bloc spondylectomy for malignant bone tumors at the thoracic level. METHODS: We retrospectively reviewed 85 cases of primary and secondary bone tumors in the thoracic spine, undergoing en bloc spondylectomy from 1996 to 2016. Evaluation encompassed clinical presentation, tumor characteristics, surgical outcomes, complications, survival, and recurrence. RESULTS: Of 85 patients, 40 presented directly, whereas 45 had undergone previous intralesional surgery. Chondrosarcoma and chordoma comprised the most prevalent primary histologic types; thyroid and kidney carcinomas were the most frequent secondary tumors. Pain was reported in 75 patients at diagnosis. Margins were adequate in 54 cases and intralesional in 31. Immediate postoperative deaths amounted to 4. Major complications included substantial blood loss, neurologic deterioration, and paraplegia. The 5-year local recurrence-free survival was 58.7%, significantly influenced by the surgical margin: patients with wide margins experienced a 5-year local recurrence-free survival of 85.7%, whereas those with marginal and intralesional margins had rates of 56.7% and 45.6%, respectively; overall recurrence was 22.3%, with no notable disparities between previously treated and untreated patients. The 5-year overall survival was 63.2% and 56.2% for primary and secondary tumors, respectively. The overall survival was not significantly influenced by surgical margins. CONCLUSIONS: Managing malignant thoracic bone tumors poses significant challenges. This study underscores the criticality of achieving adequate margins, particularly after previous intralesional approaches.",
+    "authors": "Alessandro Luzzati, Carmela Pizzigallo, Isabella Sperduti, Alessandra Scotto di Uccio, Simone Mazzoli",
+    "journal": "World neurosurgery",
+    "year": 2024,
+    "doi": "10.1016/j.wneu.2024.02.032",
+    "publication_types": [
+      "Journal Article"
+    ],
+    "mesh_terms": [
+      "Humans",
+      "Male",
+      "Female",
+      "Middle Aged",
+      "Adult",
+      "Thoracic Vertebrae",
+      "Spinal Neoplasms",
+      "Retrospective Studies",
+      "Aged",
+      "Young Adult",
+      "Adolescent",
+      "Postoperative Complications",
+      "Treatment Outcome",
+      "Neoplasm Recurrence, Local",
+      "Child",
+      "Chondrosarcoma",
+      "Aged, 80 and over",
+      "Chordoma"
+    ]
+  },
+  {
+    "pmid": "37268958",
+    "title": "Midterm outcome after en bloc resection of C2 chordoma with transoral mandibular split and mesh cage reconstruction: a case report.",
+    "abstract": "INTRODUCTION: Chordomas are rare, locally aggressive tumors that often occur in the axial spine, especially in the sacrum. The treatment of chordomas located in the upper cervical spine is challenging. En bloc resection is the preferred surgical option for total tumor removal. CASE PRESENTATION: We report the case of a C2 chordoma in a 47-year-old Thai woman. She was treated with a two-stage, anterior-posterior, C2 total spondylectomy with titanium mesh cage reconstruction and radiotherapy. The first stage involved posterior stabilization from the occiput to C5, a total laminectomy, and removal of the posterior rings of the bilateral foramen transversarium to preserve the bilateral vertebral arteries. The second stage comprised a transoral mandibular split with en bloc resection of C2, followed by titanium mesh cage reconstruction and kick-off anterior cervical plating. At the 5 year follow-up, no tumor recurrence was identified on magnetic resonance imaging. The patient had no neurological deficits but still had minor complications from the anterior transoral mandibular split. CONCLUSIONS: Excellent midterm results were obtained using a transoral mandibular split with reconstruction and posterior spinal fusion from the occiput to the lower cervical spine coupled with adjuvant radiotherapy. We recommend this approach as the treatment of choice for chordoma in the upper cervical spine.",
+    "authors": "Ekkapoj Korwutthikulrangsri, Sunun Ongard, Jirachai Pisutbenya, Monchai Ruangchainikom, Werasak Sutipornpalangkul",
+    "journal": "Journal of medical case reports",
+    "year": 2023,
+    "doi": "10.1186/s13256-023-03958-2",
+    "publication_types": [
+      "Case Reports",
+      "Journal Article"
+    ],
+    "mesh_terms": [
+      "Female",
+      "Humans",
+      "Middle Aged",
+      "Chordoma",
+      "Surgical Mesh",
+      "Titanium",
+      "Spinal Neoplasms",
+      "Neoplasm Recurrence, Local",
+      "Cervical Vertebrae",
+      "Treatment Outcome"
+    ]
+  },
+  {
+    "pmid": "34562120",
+    "title": "En-bloc resection of a chordoma in L3 by a combined open posterior and less invasive retroperitoneal approach: technical description and case report.",
+    "abstract": "INTRODUCTION: To fulfill oncological criteria, extensive open anterior and posterior approaches are usually performed in the lumbar spine to obtain an appropriate en-bloc spondylectomy. It is commonly accepted that the price of a tumor-free margin includes such extensive incisions and soft-tissue damage, with consequent relevant blood loss and possible postoperative complications as delayed wound healing. In this article, a case of chordoma in L3 is presented, submitted to an oncologically appropriate en-bloc resection performed by an open posterior approach combined with a mini-retroperitoneal approach. The successful oncologic procedure was combined with a short and uneventful postoperative course. MATERIALS AND METHODS: The authors present the surgical technique and the possible challenges of minimally invasive anterior oncologic surgery as a contribution to a limited literature. RESULTS: Up to date, palliative care of single metastases has been the main setting in which anterior, minimally invasive surgery has been performed in the lumbar spine. The authors explained how, in selected cases, this approach can be performed in combination with an open posterior access for an oncologically appropriate treatment of a primary malignant tumor. CONCLUSION: Anterior, minimally invasive surgery can have a role in selected patients with primary malignant tumors of the lumbar spine. The surgical team should have extensive training both in oncologic and minimally invasive surgery.",
+    "authors": "Pedro Berjano, Alice Baroncini, Riccardo Cecchinato, Francesco Langella, Stefano Boriani",
+    "journal": "Archives of orthopaedic and trauma surgery",
+    "year": 2023,
+    "doi": "10.1007/s00402-021-04177-4",
+    "publication_types": [
+      "Case Reports",
+      "Journal Article"
+    ],
+    "mesh_terms": [
+      "Humans",
+      "Chordoma",
+      "Lumbar Vertebrae",
+      "Osteotomy",
+      "Minimally Invasive Surgical Procedures",
+      "Postoperative Complications",
+      "Spinal Neoplasms",
+      "Treatment Outcome"
+    ]
+  },
+  {
+    "pmid": "41668571",
+    "title": "[Principles of systematization and formation of surgical strategies for craniovertebral region lesions].",
+    "abstract": "UNLABELLED: Surgical treatment of craniovertebral junction (CVJ) lesions is a complex multidisciplinary problem. Despite diverse diseases and traumatic injuries of CVJ, many authors note universality of clinical manifestations. This allows for their systematization and formation of homogeneous groups based on dominant clinical syndrome. OBJECTIVE: To apply dominant clinical syndrome for systematizing CVJ lesions and formation of surgical strategies. MATERIAL AND METHODS: A retrospective analysis and systematization of patient groups with surgical CVJ lesions were conducted in 2 neurosurgical hospitals. The study included 181 patients with one of the five main CVJ lesions. Inclusion criteria were CVJ diseases and lesions: trauma - 76 (42%), developmental anomalies - 19 (10%), inflammatory and genetic diseases - 9 (5%), extradural tumors - 27 (15%), intradural tumors - 50 (28%). Systematization of material was based on the principle of dominant clinical syndrome. Two types of dominant clinical syndrome were distinguished: compression and instability. The specialized scales were used: the White & Panjabi criteria for trauma and anomalies, the Spinal Instability Neoplastic Score (SINS) for CVJ tumors, the Ranawat scale for rheumatoid arthritis, and the Kang scale for assessing compression of medulla oblongata and spinal cord. RESULTS: We distinguished 2 groups depending on dominant clinical syndrome: group 1 with compression (97 (54%) patients) and group 2 with instability (84 (46%) patients). Group I included 97 patients with trauma ( CONCLUSION: Anatomical, biomechanical, and clinical similarities allow for classification of surgical CVJ lesions based on dominant clinical syndrome. Identification of dominant clinical syndrome allows for appropriate surgical strategies, sequence of surgical stages and their timing.",
+    "authors": "V V Stepanenko, A V Trashin, V A Shamanin, K S Gordienko, Yu A Shulev",
+    "journal": "Zhurnal voprosy neirokhirurgii imeni N. N. Burdenko",
+    "year": 2026,
+    "doi": "10.17116/neiro20269001121",
+    "publication_types": [
+      "English Abstract",
+      "Journal Article"
+    ],
+    "mesh_terms": [
+      "Humans",
+      "Male",
+      "Female",
+      "Retrospective Studies",
+      "Middle Aged",
+      "Adult",
+      "Aged",
+      "Adolescent"
+    ]
+  },
+  {
+    "pmid": "41550133",
+    "title": "Pilot study of separation surgery with intraoperative radiotherapy (IORT) for spine metastasis.",
+    "abstract": "OBJECTIVE: This study aimed to introduce a novel modified separation surgery combined with intraoperative radiotherapy (MSS-IORT) treatment strategy for spinal metastasis and evaluate its efficacy and safety. METHODS: A prospective study was conducted from January 2023 to June 2024. Patients with spinal metastasis exhibiting epidural spinal cord compression (ESCC) ≥ 2 grades and spinal instability neoplastic score (SINS) ≥ 7 were enrolled and underwent MSS-IORT. During the procedure, a dose of 8-10 Gy of IORT was administered to the tumor-invaded vertebrae segments during modified separation surgery. Pain intensity was assessed using the visual analog scale (VAS) preoperatively and at 1 week, 3 months, 6 months, and 12 months postoperatively. Neurological function was evaluated  RESULTS: A total of 38 patients (median age: 60 years) with 46 involved vertebrae were treated with MSS-IORT. The mean operation time was 277.5 min, and the mean blood loss was 750 ml. After a mean follow-up of 174.5 days, the VAS score decreased significantly postoperatively and continued to decline over time. The KPS score increased significantly at 6 and 12 months, and the Frankel grade significantly improved at 12 months. Local control failure occurred in 3 patients, and 13 experienced adverse events without IORT. CONCLUSION: The MSS-IORT strategy demonstrates both safety and efficacy, representing a promising treatment option for spine metastases, particularly in patients with ESCC grades ≥ 2 and SINS ≥ 7.",
+    "authors": "Baiyi Liu, Dongsheng Wang, Jian Zhang, Bo Huang, Mingying Geng",
+    "journal": "Journal of bone oncology",
+    "year": 2026,
+    "doi": "10.1016/j.jbo.2025.100737",
+    "publication_types": [
+      "Journal Article"
+    ],
+    "mesh_terms": []
+  },
+  {
+    "pmid": "41452301",
+    "title": "Updating Prognostic Assessment for Spinal Metastases With a Combined Model of the Spinal Instability Neoplastic Score and the New Katagiri Score.",
+    "abstract": "Study DesignProspective Cohort Study.ObjectivesThe rapidly evolving landscape of cancer care alters the prognostic accuracy of established scoring systems for metastatic spinal tumors. This study aimed to provide a contemporary assessment of patient survival and examine the independent and complementary roles of the new Katagiri score (a systemic prognostic tool) and the Spinal Instability Neoplastic Score (SINS, a mechanical instability tool) in predicting 6-month mortality, laying a foundation for future combined prognostic model development.MethodsWe prospectively analyzed 151 patients with metastatic spinal tumors treated between 2021 and 2023. Demographic, clinical, and treatment data, including the new Katagiri score and SINS, were collected. The primary endpoint was 6-month mortality, which was evaluated using trend tests, correlation, and multivariate logistic regression.ResultsThe 6-month mortality rate was 25.17%. Higher scores in both the new Katagiri score and the SINS were significantly associated with an increased risk of 6-month mortality. Notably, no significant correlation was observed between the total Katagiri score and the total SINS. Stratified analyses showed that prognostic factors for early mortality differed across new Katagiri score risk groups, with varying influences from specific Katagiri score items, SINS components, and spinal metastasis levels. SINS-related factors had a significant impact in the high-risk group.ConclusionsThe new Katagiri score and SINS independently predicted 6-month mortality in our cohort. Our findings suggest that considering both complementary measures may further refine prognostic assessment, providing a rationale for future prospective model development and validation.",
+    "authors": "Kazuya Yokota, Yuzo Kugimoto, Kiyoshi Tarukado, Kazu Kobayakawa, Hirokazu Saiwai",
+    "journal": "Global spine journal",
+    "year": 2025,
+    "doi": "10.1177/21925682251410472",
+    "publication_types": [
+      "Journal Article"
+    ],
+    "mesh_terms": []
+  },
+  {
+    "pmid": "41391601",
+    "title": "Navigating the Surgical Dilemma in Metastatic Spine Disease: Does Age Influence Treatment Strategy and Outcomes?",
+    "abstract": "OBJECTIVE: Spinal metastases are increasingly common. Yet, the optimal surgical strategy-particularly in elderly patients-remains debated due to perioperative risks. This study examines demographics, clinical presentation, and surgical outcomes, focusing on age-related differences and management of patients with Spinal Instability Neoplastic Score (SINS) 7-12. METHODS: We retrospectively included all patients with spinal metastases operated in our department from 2015 to 2024. Data on demographics, neurological status, surgical approach, complications and 90-day mortality were collected. RESULTS: 217 patients (median age: 60 years, range: 5-88) were included. Lung (17%), breast (17%), and prostate (12%) were the most common primaries. Older patients presented with worse neurological deficits (Frankel A/B: 36% vs. 5%, P < 0.01) but had comparable short-term mortality (≥65 years: 15% vs. <65 years: 13%, P = 0.837) and lower intraoperative blood loss (260 ± 373 mL vs. 759 ± 860 mL, P < 0.001). Surgical approaches were similar across age groups, with instrumentation in 32% and minimally invasive techniques in 18%. Regarding SINS, older patients were more frequently categorized as potentially unstable (65% vs. 38%, P < 0.001) yet more frequently treated with decompression. Younger patients undergoing instrumentation predominantly had SINS 7-18. CONCLUSIONS: Age alone does not determine surgical success or survival in metastatic spine disease. Despite worse baseline status, older patients achieved short-term outcomes comparable to younger patients. Variation in managing SINS 7-12 suggests underuse of instrumentation in older patients underscoring the need for age-inclusive evidence-based guidelines integrating SINS with tumor biology, functional status and prognosis.",
+    "authors": "Meltem Ivren, Dilber Yalman, Basem Ishak, Sebastian Ille, Sandro M Krieg",
+    "journal": "World neurosurgery",
+    "year": 2026,
+    "doi": "10.1016/j.wneu.2025.124720",
+    "publication_types": [
+      "Journal Article"
+    ],
+    "mesh_terms": [
+      "Humans",
+      "Male",
+      "Female",
+      "Spinal Neoplasms",
+      "Aged",
+      "Middle Aged",
+      "Retrospective Studies",
+      "Adult",
+      "Aged, 80 and over",
+      "Treatment Outcome",
+      "Age Factors",
+      "Young Adult",
+      "Adolescent",
+      "Child",
+      "Child, Preschool",
+      "Neurosurgical Procedures"
+    ]
+  },
+  {
+    "pmid": "41217376",
+    "title": "Predictors of Kyphoplasty Failures Requiring Surgical Stabilization in Patients With Cancer With Pathological Vertebral Body Fractures.",
+    "abstract": "BACKGROUND AND OBJECTIVES: Pathological vertebral compression fractures (VCFs) cause significant morbidity in the population with cancer. Although both stabilization of fractures with kyphoplasty and pedicle screw fixation can alleviate pain and prevent neurological compromise in select patients, there are no criteria demarcating which patients can be treated with kyphoplasty alone vs pedicle screw fixation, particularly for those with intermediate spinal instability. The objective of this study was to identify predictors of kyphoplasty failure requiring subsequent surgical stabilization in patients with metastatic thoracolumbar VCFs. METHODS: Patients who underwent single or 2 level kyphoplasty for pathological VCFs between 2015 and 2020 were included in a retrospective analysis at a tertiary cancer center. The primary outcome measure was kyphoplasty failure, defined as return to the operating room for pedicle screw fixation. Hazard ratios (HR) were estimated in the competing risks setting. Thresholds for variables were identified where possible. RESULTS: Forty-two of 445 patients (9.8%) failed kyphoplasty, with an average time to failure of 318 days and a 5-year cumulative incidence of 10.3% (95% CI: 7.5%-13.6%). We found focal kyphotic angle (HR 1.09, 95% CI: 1.05-1.12, P < .0001), Spinal instability neoplastic score (HR 1.16, 95% CI: 1.05-1.28, P = .03), spinal canal compromise (HR 1.05, 95% CI: 1.03-1.07, P < .0001), and posterior element involvement (HR 1.93, 95% CI: 1.03-5.63, P = .04) to be significantly associated with increased risk of kyphoplasty failure even after mutual adjustment in the multivariable setting. There were no significant associations between kyphoplasty failure and sex, age at kyphoplasty, anatomic location, or quality of bone lesion. CONCLUSION: Kyphoplasty failure in metastatic VCFs is associated with specific radiographic markers of spinal instability. Patients with spinal instability neoplastic score ≥11, posterior-element involvement, canal compromise, and significant kyphosis may benefit from up-front surgical stabilization with pedicle screws, particularly for patients with anticipated long-term survival.",
+    "authors": "Graham M Winston, Rabih Bou Nassif, William C Newman, Eric Lis, Francois H Cornelis",
+    "journal": "Neurosurgery",
+    "year": 2025,
+    "doi": "10.1227/neu.0000000000003846",
+    "publication_types": [
+      "Journal Article"
+    ],
+    "mesh_terms": []
+  },
+  {
+    "pmid": "41137282",
+    "title": "A systematic review of the spinal instability neoplastic score and its relationship with peri-interventional patient-centered measures: The clinical impact of spinal instability.",
+    "abstract": "BACKGROUND: The spinal instability neoplastic score (SINS) provides a standardized assessment of spinal stability in patients with metastatic spine disease. Although intended to assist clinical decision-making, the relationships between SINS and patient-centered measures, such as pain intensity, functional status, and health-related quality of life (HRQoL), remain undefined. METHODS: This systematic review followed PRISMA guidelines. A comprehensive literature search was performed across PubMed, Scopus, Embase, and Web of Science databases using keywords related to SINS and spinal metastases. Studies assessing the relationships between SINS and pain intensity scores, functional status, and HRQoL were included. Data on study characteristics, type of interventions, and patient-centered measures were extracted. Risk of bias was assessed using the Newcastle-Ottawa Scale. A meta-analysis was not feasible due to significant treatment, outcome, and population heterogeneity. RESULTS: Thirteen studies (n = 1823; mean age 63.0 ± 12.5 years) were included. Five of six studies reported a significant association between higher baseline SINS scores and pain intensity, most commonly using the Visual Analog Scale and Numeric Rating, while 1 of 2 studies identified a predictive value of SINS for posttreatment pain. Nine studies evaluated peri-interventional functional status using 6 different tools; significant correlations with baseline SINS were identified for MD Anderson Symptom Inventory and Spine Oncology Study Group Outcomes Questionnaire 2.0, while no relationships were identified for the Barthel Index, Eastern Cooperative Oncology Group score, or Frankel scale. Further, stable postradiotherapy SINS was associated a higher baseline Karnofsky Performance Status (KPS). Three studies assessed HRQoL using either the European Organisation for Research and Treatment of Cancer Quality of Life Questionnaire-Core 30, the 36-Item Short Form Survey, or the EuroQol Five-Dimension Scale; 2 of these studies reported that higher SINS values were associated with lower baseline physical functioning. Of 13 studies, 12 were of moderate methodological quality. CONCLUSIONS: SINS demonstrated correlations with peri-interventional pain intensity, functional status, and HRQoL. Pretreatment correlations were generally more consistent. However, in radiotherapy-treated cohorts, stable posttreatment SINS was associated with higher baseline KPS, suggesting a potential predictive relationship between these measures.",
+    "authors": "Hassan Darabi, Harshit Arora, Henry Ruiz-Garcia, Aysha Alsahlawi, Jared T Wilcox",
+    "journal": "Medicine",
+    "year": 2025,
+    "doi": "10.1097/MD.0000000000044992",
+    "publication_types": [
+      "Journal Article",
+      "Systematic Review"
+    ],
+    "mesh_terms": [
+      "Humans",
+      "Spinal Neoplasms",
+      "Quality of Life",
+      "Pain Measurement",
+      "Joint Instability",
+      "Middle Aged",
+      "Patient-Centered Care"
+    ]
+  },
+  {
+    "pmid": "41260962",
+    "title": "Preoperative administration of denosumab is a feasible adjuvant option for the treatment of resectable giant cell tumor of bone in the spine: A multi-institutional study by the Japanese Musculoskeletal Oncology group.",
+    "abstract": "BACKGROUND: Although the significance of preoperative denosumab administration for giant cell tumor of bone (GCTB) is still controversial, sporadic reports have suggested a clinical benefit of administration prior to surgery for spinal GCTB. In this retrospective, multi-institutional study, we assessed the effects of preoperative denosumab administration for spinal GCTB. METHODS: Ten cases of GCTB in the spine with preoperative denosumab administration (the denosumab group) and 19 cases without preoperative denosumab administration (the control group) were included. Oncological outcomes (local recurrence, distant metastasis, and overall survival), duration of the surgery, intraoperative blood loss, functional outcomes as evaluated by the Frankel classification, perioperative complications, adverse events associated with denosumab administration, and margin status in resection cases were surveyed. RESULTS: The median frequency of preoperative denosumab administration was four times in the denosumab group. Curettage against resection and no preoperative denosumab administration were revealed as independent risks for local recurrence. Preoperative denosumab administration significantly reduced intraoperative blood loss. It also resulted in significantly better postoperative function. Periodontitis as an adverse effect of denosumab administration was found only in two cases in the control group, where it was applied for controlling local recurrence. Cases with local recurrence showed worse function at the final follow-up, suggesting the significant impact of local recurrence on function. The negative margin rate was significantly higher in the denosumab group. No significant difference was noted in the risk for metastasis and lethal events, duration of surgery, and incidence of postoperative complications between the two groups. CONCLUSIONS: Preoperative denosumab administration resulted in better local control, reduced intraoperative blood loss, and better function. The present data suggest that it has a clinical benefit in the treatment of spinal GCTB.",
+    "authors": "Takeshi Morii, Naofumi Asano, Robert Nakayama, Hiroaki Kimura, Makoto Endo",
+    "journal": "Journal of orthopaedic science : official journal of the Japanese Orthopaedic Association",
+    "year": 2025,
+    "doi": "10.1016/j.jos.2025.10.011",
+    "publication_types": [
+      "Journal Article"
+    ],
+    "mesh_terms": []
+  },
+  {
+    "pmid": "41127506",
+    "title": "Prognostic Significance of the Density and Spatial Distribution of Tumor-Associated Macrophages in Giant Cell Tumor of Bone and Their Association With Denosumab Treatment Responsiveness.",
+    "abstract": "Given the lack of reliable indicators for predicting prognosis and treatment response in giant cell tumor of bone (GCTB) patients, this study aimed to identify new prognostic factors by analyzing the effect of tumor-associated macrophages (TAMs) on prognosis and denosumab treatment responsiveness. The expression of CD68⁺TAMs, CD163⁺TAMs, and IRF8⁺TAMs was detected using polychromatic fluorescence immunohistochemistry in 162 GCTB samples. TAM density was quantified through computer-aided image analysis, and spatial parameters, including nearest neighbor distance (NND) and effective percentage (EP), were measured using HALO software. Results showed that higher densities of CD68⁺ and CD163⁺ TAMs were significantly associated with inferior progression-free survival (PFS). A smaller NND was linked to shorter PFS. Additionally, higher CD68⁺ EP was associated with poorer PFS, whereas higher CD163⁺ EP correlated with better PFS. Receiver operating characteristic curve analysis demonstrated that TAM parameters' predictive performance was comparable to Campanacci and surgical approach in three subgroups. The ineffective denosumab-treated group had significantly higher TAMs EP compared to the effective group. In conclusion, TAMs significantly influence the prognosis of GCTB patients and are correlated with certain invasive tumor phenotypes. Elevated TAMs levels may be associated with reduced efficacy of denosumab treatment.",
+    "authors": "Yi-Fan Yang, Jing-Ru Liu, Ying-Song Han, Guo-Qiang Zhu, Hua-Qing Niu",
+    "journal": "MedComm",
+    "year": 2025,
+    "doi": "10.1002/mco2.70419",
+    "publication_types": [
+      "Journal Article"
+    ],
+    "mesh_terms": []
+  },
+  {
+    "pmid": "40647420",
+    "title": "Which Clinical Factors Are Associated with the Post-Denosumab Size Reduction of Giant Cell Tumors? The Korean Society of Spinal Tumor (KSST) Multicenter Study 2023-02.",
+    "abstract": "BACKGROUND/OBJECTIVES: Denosumab has been considered effective for downstaging giant cell tumor of bone (GCTB), implying that it lowers the Campanacci grade rather than reducing tumor size. Preoperative tumor shrinkage holds therapeutic value by decreasing surgical complications. While previous studies have observed lesion shrinkage in some patients, no study has identified the types of patients likely to show treatment response. Thus, we sought to identify the clinical factors associated with post-denosumab GCTB size reduction. METHODS: The data for 45 GCTB patients (29 females [64%], 16 males [36%], median age 32 years [range: 17-65]) who received denosumab were analyzed. Lesions were in the extremities ( RESULTS: Campanacci grade III predicted proportional shrinkage (≥5%) in all patients (OR 4.819, 95% CI 1.121-20.714) and in extremity (OR 11.171, 95% CI 1.023-122.014) and primary lesions (OR 5.781, 95% CI 1.181-28.297), and aneurysmal bone cyst (ABC)-like change was associated with absolute shrinkage (≥5 mm) in all patients (OR 8.734, 95% CI 1.159-65.845) and primary lesions (OR 11.936, 95% CI 1.074-132.69). The longest tumor diameter of ≥7 cm predicted absolute shrinkage in all patients (OR 12.380, 95% CI 1.038-147.694) and for spinopelvic lesions (OR 20, 95% CI 1.676-238.63). CONCLUSIONS: ABC-like change, Campanacci grade III, and the longest tumor diameter might predict post-denosumab GCTB shrinkage in all patients, though shrinkage varies with lesion location and recurrence status. These factors could help clinicians tailor treatment strategies in different settings. Further research is needed to explore how clinical factors pharmacologically influence denosumab-induced GCTB shrinkage.",
+    "authors": "Min Wook Joo, Se-Jun Park, Wanlim Kim, Yongsung Kim, Jae Hwan Cho",
+    "journal": "Cancers",
+    "year": 2025,
+    "doi": "10.3390/cancers17132121",
+    "publication_types": [
+      "Journal Article"
+    ],
+    "mesh_terms": []
+  },
+  {
+    "pmid": "40390810",
+    "title": "Denosumab treatment of giant cell tumors in the spine induces woven bone formation.",
+    "abstract": "Giant cell tumors of bone (GCTB) are rare but aggressive, locally destructive tumors. They typically affect young people, significantly reducing their quality of life and increasing mortality rates. Giant cell tumors of bone are composed of osteoclast-like giant cells that respond to increased secretion of RANKL by stromal cells, triggering osteolysis. For over a decade, denosumab, a monoclonal antibody targeting this receptor activator, has been approved as a neo-adjuvant to facilitate surgical resection or in the setting of inoperable tumors. Denosumab treatment has shown rapid pain improvement and tumor size reduction in the spine. Although variable degrees of tumor mineralization have been observed in clinical applications of this drug, the nature of this newly formed mineralized tissue has yet to be determined. To characterize both mineralization and collagen organization in the newly formed bone, we conducted extensive analyses on 4 posttreatment giant cell tumor vertebral samples, involving quantitative backscattered imaging, electron probe microanalysis, and a novel method for determining the alignment of collagen fibrils using second harmonic generation. Additionally, biological mechanisms involved in bone mineralization and matrix formation were analyzed using histological staining and mass spectroscopy. Our results concluded that denosumab treatment after giant cell tumor of bone in the spine was associated with the formation of woven bone and increased mineral density in a matrix of disorganized collagen fibers characterized by increased collagen III content, with the response appearing to depend on patient age and extension of treatment. To our knowledge, this is the first comprehensive material-based study on the bone formed during denosumab treatment for GCTB, providing valuable information on how denosumab affects bone quality and how the reported methodology can be applied to similar studies.",
+    "authors": "Robyn Birch, Felipe Eltit, Dennis Xie, Qiong Wang, Nicolas Dea",
+    "journal": "JBMR plus",
+    "year": 2025,
+    "doi": "10.1093/jbmrpl/ziaf063",
+    "publication_types": [
+      "Journal Article"
+    ],
+    "mesh_terms": []
+  },
+  {
+    "pmid": "40379300",
+    "title": "Spinal giant cell tumour presenting as a posterior mediastinal mass.",
+    "abstract": "Posterior mediastinal masses frequently originate from neurogenic tumours; however, other possible causes include vascular abnormalities, cysts and primary bone tumours. We present a case involving a man in his 20s who experienced back pain, sudden sensorimotor weakness in both lower limbs and loss of bladder control. Imaging studies, including CT and MRI, identified a posterior mediastinal extramedullary mass associated with vertebral destruction and intrathecal extension. A biopsy of the mass confirmed it to be a giant cell tumour of bone. The patient was treated with denosumab, steroids and spinal decompression and was scheduled for definitive surgery. In young individuals presenting with a posterior mediastinal mass, signs of inflammation and early neurological symptoms, it is essential to consider primary bone tumours as a possible diagnosis.",
+    "authors": "Balaji K Vijay, Durgeshwar Gopal, Garg Pawan Kumar, Meenakshi Rao",
+    "journal": "BMJ case reports",
+    "year": 2025,
+    "doi": "10.1136/bcr-2024-262838",
+    "publication_types": [
+      "Journal Article",
+      "Case Reports"
+    ],
+    "mesh_terms": [
+      "Humans",
+      "Male",
+      "Giant Cell Tumor of Bone",
+      "Mediastinal Neoplasms",
+      "Magnetic Resonance Imaging",
+      "Tomography, X-Ray Computed",
+      "Spinal Neoplasms",
+      "Adult",
+      "Diagnosis, Differential",
+      "Back Pain",
+      "Thoracic Vertebrae",
+      "Decompression, Surgical",
+      "Denosumab"
+    ]
+  },
+  {
+    "pmid": "41835249",
+    "title": "Surgical management of spinal metastases from primary lung carcinoma: demographics, clinical characteristics, and outcomes-A retrospective analysis.",
+    "abstract": "OBJECTIVE: This study aims to evaluate the efficacy of palliative surgery in patients with spinal metastases from lung cancer and to identify prognostic factors affecting postoperative 1-year survival, providing clinical treatment references for these patients. METHODS: Clinical data of 55 patients with spinal metastases from lung cancer who underwent surgery at Shenzhen People's Hospital from January 2017 to December 2022 were analyzed. Improvements in preoperative and postoperative visual pain scores, ODI scores, and Frankel grades were assessed. Kaplan-Meier method was used to plot survival curves, and the Cox proportional hazards model was employed to analyze various factors influencing postoperative 1-year survival. RESULTS: Surgical treatment helped alleviate pain, maintain or improve neurological function, and enhance the quality of life. Among the 55 patients, 23 (41.82%) died, and 32 (58.18%) survived, with a median survival time of 16.83 months (95% CI: 9.88, 23.78) and a one-year survival rate of 58.18%.Factors influencing postoperative 1-year survival included ODI score one-month post-surgery, presence of visceral metastases, and postoperative bone modifying agents (BMA). Multivariate Cox proportional hazards model survival analysis indicated that the presence of visceral metastases and postoperative BMA were independent factors affecting one-year survival in these patients. CONCLUSION: Surgical treatment effectively alleviates pain, maintains or improves neurological function, and enhances the quality of life in patients with spinal metastases from lung cancer. The presence of visceral metastases and postoperative BMA are independent factors influencing postoperative 1-year survival.",
+    "authors": "Jun Li, Yuhan Zheng, Xiaohua Lv, Rong Zeng, Yating Zhao",
+    "journal": "Frontiers in surgery",
+    "year": 2026,
+    "doi": "10.3389/fsurg.2026.1743422",
+    "publication_types": [
+      "Journal Article"
+    ],
+    "mesh_terms": []
+  },
+  {
+    "pmid": "41822117",
+    "title": "Case Report: Management of cervical intramedullary spinal cord metastasis from NSCLC with a literature review.",
+    "abstract": "BACKGROUND: Intramedullary spinal cord metastases (ISCM) from non-small cell lung cancer (NSCLC) are rare and carry a grave prognosis. Cervical segment involvement is exceptionally uncommon, and its distinct clinicopathological profile is not well characterized. METHODS: We present the case of a 72-year-old male with a history of NSCLC who developed acute quadriparesis and sphincter dysfunction. Cervical magnetic resonance imaging (MRI) revealed a C7 intramedullary mass. The patient underwent C6-T1 laminectomy with microsurgical gross-total resection. Histopathology confirmed metastatic lung adenocarcinoma. We supplemented this case with a systematic literature review of NSCLC-derived ISCM cases to summarize demographic, clinical, and therapeutic outcomes. RESULTS: Histopathology confirmed metastatic lung adenocarcinoma. Postoperatively, the patient's neurological function improved. Although local recurrence was detected at 11 months and treated with salvage radiotherapy, the patient nevertheless maintained ambulatory function and was alive at the 18-month follow-up. Our literature review of 68 cases with complete data identified a male predominance (4.2:1 ratio) and a mean age of 58.1 years. The cervical spine was the most commonly involved segment (47.1%). Analysis of treatment modalities revealed that multimodal therapy, particularly the combination of surgery and chemotherapy (potentially incorporating modern agents such as immune checkpoint inhibitors), was associated with improved survival, with a mean overall survival of 15.0 months in this subgroup. This paradigm, centered around maximal safe resection, successfully achieved long-term functional preservation and survival. CONCLUSION: Cervical ISCM from NSCLC represents one of the most challenging complications in spinal oncology. This case, supported by our literature review, provides a surgical-led, multimodal management template for spine surgeons, demonstrating that aggressive yet strategic intervention can achieve favorable long-term neurological and survival outcomes.",
+    "authors": "Hua Liu, Long Chen, Feng Li, Mingjiu Zhang, Tao Zhang",
+    "journal": "Frontiers in surgery",
+    "year": 2026,
+    "doi": "10.3389/fsurg.2026.1760091",
+    "publication_types": [
+      "Case Reports",
+      "Journal Article"
+    ],
+    "mesh_terms": []
+  },
+  {
+    "pmid": "41793771",
+    "title": "Contemporary Management of Standard Chordoma Arising in the Mobile Spine and Sacrum.",
+    "abstract": "Chordomas are rare, slow-growing tumors originating from the notochord, commonly occurring in the sacrum and mobile spine. These tumors have a high rate of local recurrence and potential for metastasis. Local management continues to evolve. The primary treatment approach involves en bloc resection aiming for negative margins, but even with this aggressive strategy, late recurrences occur in up to 50% of cases within 10 to 15 years. Advanced radiation therapy techniques, such as stereotactic body radiation therapy, proton therapy, and carbon ion therapy, play an ever-increasing role as adjuvants to surgery, particularly when negative margins are not achieved, and, in select cases, as standalone treatment. Despite these advancements, chordomas remain challenging to treat due to their tendency for late recurrences and metastases. Emerging therapies such as immunotherapy provide hope for improved treatment with less morbidity. The management of chordoma requires a multidisciplinary approach integrating surgery, radiation therapy, and systemic therapies to optimize local control and long-term survival outcomes. Continued research and clinical trials are essential for improving treatment efficacy and developing novel therapeutic strategies for this locally aggressive tumor type.",
+    "authors": "Leo Mascarenhas, Bonnie Balzer, Anthony T Nguyen, Joseph H Schwab",
+    "journal": "The Journal of the American Academy of Orthopaedic Surgeons",
+    "year": 2026,
+    "doi": "10.5435/JAAOS-D-24-01119",
+    "publication_types": [
+      "Journal Article",
+      "Review"
+    ],
+    "mesh_terms": [
+      "Humans",
+      "Chordoma",
+      "Spinal Neoplasms",
+      "Sacrum",
+      "Radiosurgery",
+      "Neoplasm Recurrence, Local",
+      "Combined Modality Therapy"
+    ]
+  },
+  {
+    "pmid": "41725136",
+    "title": "AO Spine Clinical Practice Recommendations: An Overview of the Current State of Fusion Surgery for Patients With Spinal Metastasis: Is Fusion Necessary?",
+    "abstract": "Study DesignLiterature review with clinical recommendations.ObjectiveProviding a clear and concise overview based on the of key literature and consensus expert opinion on spinal fusion following stabilization for spine metastases and offer actionable recommendations on when to fuse and not fuse in this patient population.MethodsKey articles from the published literature on spinal metastases treated with stabilization followed by fusion were reviewed, and clinical recommendations were formulated. The recommendations are categorized as either strong or conditional based on an assessment of methodological quality and expert opinion. This assessment considers factors such as experience, risks, burdens, costs, patient values, and circumstances.ResultsFour articles were selected by practicing spinal oncology surgeons and each was evaluated for its methodological strength and its scientific evidence.ConclusionFusion rarely influences clinical outcomes in metastatic spine surgery. Treatment should prioritize mechanical stability, pain control, functional preservation, and timely continuation of oncologic therapy rather than pursuing bony arthrodesis. Fusion should be considered exclusively in select long-surviving patients, however routine attempts to enhance fusion or delay adjuvant therapy are not justified.[Formula: see text].",
+    "authors": "Federico Landriel, Fabio Cofano, Santiago Matías Hem, Syed Muhammed Karim, Ankit I Mehta",
+    "journal": "Global spine journal",
+    "year": 2026,
+    "doi": "10.1177/21925682261426936",
+    "publication_types": [
+      "Journal Article"
+    ],
+    "mesh_terms": []
+  },
+  {
+    "pmid": "41669581",
+    "title": "En Bloc Spondylectomy for T11 Metastasis of Nasal Adenocarcinoma: A Case Report.",
+    "abstract": "En bloc spondylectomy resection (EBR) has emerged as a potential option for achieving tumor-free margins and enhancing long-term outcomes in select cases of solitary spinal metastases, though the role of this treatment in metastatic spine disease remains debated. We present the case of a 49-year-old female with a prior history of adenoid cystic carcinoma of the nose who developed back pain two years later. Positron emission tomography-computed tomography (PET-CT) revealed a solitary T11 lesion, and a CT-guided biopsy confirmed metastasis. After meticulous surgical planning guided by the Weinstein-Boriani-Biagini (WBB) classification, an EBR of T11 was performed using a single posterior approach involving an ultrasonic bone scalpel, three-dimensional CT navigation, and intraoperative neuro-monitoring, followed by posterior stabilization and interbody reconstruction. The postoperative course was uneventful, and, at the 52-month follow-up, the patient remained neurologically intact with no local or systemic recurrence. This case underscores the significance of precise preoperative assessment and planning for achieving successful oncological and functional outcomes. Although technically demanding, EBR provides excellent local tumor control and durable results in carefully selected patients with solitary spinal metastases. The long-term disease-free survival in our patient highlights the potential value of this treatment for comprehensive metastatic spine management. Continued research and multicenter collaboration are necessary to standardize the criteria for patient selection, refine the surgical techniques, and establish evidence-based guidelines for the use of EBR to treat metastatic spinal tumors.",
+    "authors": "Ajay Krishnan, Mikeson Panthackel, Shivanand C Mayi, Ravi Ranjan Rai, Mirant B Dave",
+    "journal": "Cureus",
+    "year": 2026,
+    "doi": "10.7759/cureus.101215",
+    "publication_types": [
+      "Case Reports",
+      "Journal Article"
+    ],
+    "mesh_terms": []
+  },
+  {
+    "pmid": "41660310",
+    "title": "Microsurgical resection of a primary mixed intramedullary-extramedullary thoracic meningeal melanoma.",
+    "abstract": "BACKGROUND: Primary meningeal melanoma is an exceedingly rare malignant neoplasm arising from leptomeningeal melanocytes, accounting for only 0.06-0.1% of all central nervous system tumors. These melanocytes, derived from neural crest cells, typically localize within the ventral leptomeninges of the spinal cord and brainstem. Lesions most often occur in the cervical or thoracic spine and may mimic meningioma, schwannoma, or metastasis. Due to its rarity and nonspecific imaging features, diagnosis relies on histopathologic and molecular confirmation following surgical resection. Complete excision with adjuvant radiation remains the mainstay of treatment, though long-term outcomes are poorly defined due to limited reports. CASE DESCRIPTION: We present a 61-year-old woman with a multi-segmental thoracic lesion spanning T8-T12 causing progressive genital and low-back pain, paraparesis, and sensory deficits. Magnetic resonance imaging revealed a contrast-enhancing intradural lesion with ventral extramedullary and intramedullary components. The patient underwent T7-T12 laminectomies for microsurgical resection with continuous neuromonitoring. Following dural opening, the tumor was identified in the ventrolateral extramedullary space with focal invasion into the spinal cord. Resection of the extramedullary component of the tumor was first undertaken until the tumor coursed into the intramedullary compartment. Sharp dissection and meticulous pial entry allowed circumferential mobilization and safe removal of the intramedullary portion while preserving the spinal vasculature. A gross total resection was achieved. The patient had a transient exacerbation of her right lower extremity weakness, which improved back to baseline within a few weeks from surgery. Histopathology revealed a densely cellular melanocytic tumor with focal necrosis and low proliferative index. Genetic testing identified a guanine nucleotide binding protein, alpha q (GNAQ) missense variant, confirming primary meningeal melanoma. With no systemic disease, adjuvant fractionated radiation was planned. The patient's recovery was stable, and she was discharged to rehabilitation on postoperative day 9. CONCLUSION: This case highlights the surgical nuances and diagnostic considerations involved in treating rare mixed intramedullary-extramedullary meningeal melanomas of the thoracic spine.",
+    "authors": "Lauren Elizabeth Corliss, Deveney Franklin, Peter N Drossopoulos, Michael Galgano",
+    "journal": "Surgical neurology international",
+    "year": 2026,
+    "doi": "10.25259/SNI_1293_2025",
+    "publication_types": [
+      "Case Reports",
+      "Journal Article"
+    ],
+    "mesh_terms": []
+  },
+  {
+    "pmid": "41634828",
+    "title": "Hemicorporectomy: a case report on a last-resort surgical procedure.",
+    "abstract": "BACKGROUND: Hemicorporectomy is an exceptionally rare and radical procedure reserved for highly selected patients with locally advanced pelvic malignancies without distant metastasis. Dedifferentiated sacral chordoma represents an aggressive histological subtype that may preclude conventional en bloc resection due to extensive local invasion. In such extraordinary circumstances, hemicorporectomy may be considered as a last-resort surgical strategy. CASE PRESENTATION: A 67-year-old male patient was diagnosed with a dedifferentiated sacral chordoma exhibiting extensive invasion of pelvic organs and retroperitoneal extension up to the L4 level, without distant metastasis. Following multidisciplinary evaluation, curative-intent hemicorporectomy was deemed the only feasible treatment option. The procedure was performed in a single-stage anterior-to-posterior approach, incorporating contemporary reconstructive techniques, including urinary diversion and an anterolateral thigh musculocutaneous flap. Pathological examination confirmed dedifferentiated chordoma with clear surgical margins. The postoperative period was complicated by wound-related issues requiring surgical debridement and an episode of pulmonary edema. Despite these complications, the patient achieved functional stabilization, including independent sitting and wheelchair mobilization. At six months, pulmonary metastases were detected, and palliative care was initiated. The patient died nine months after surgery due to pulmonary complications. CONCLUSIONS: This case highlights that hemicorporectomy, though associated with significant morbidity, remains a viable curative or palliative option in carefully selected patients with locally advanced pelvic tumors. When performed with meticulous planning and multidisciplinary coordination, the procedure can provide meaningful short-term survival, symptom relief, and quality-of-life improvement in otherwise untreatable cases.",
+    "authors": "Fevzi Saglam, Muhammed Fatih Serttas, Recep Abdullah Erten, Hacı İbrahim Çimen, Hakan Saçlı",
+    "journal": "World journal of surgical oncology",
+    "year": 2026,
+    "doi": "10.1186/s12957-026-04216-7",
+    "publication_types": [
+      "Case Reports",
+      "Journal Article"
+    ],
+    "mesh_terms": [
+      "Humans",
+      "Male",
+      "Aged",
+      "Chordoma",
+      "Spinal Neoplasms",
+      "Sacrum",
+      "Nephrectomy",
+      "Fatal Outcome",
+      "Plastic Surgery Procedures",
+      "Prognosis"
+    ]
+  },
+  {
+    "pmid": "41616301",
+    "title": "Surgical treatment of myxopapillary ependymoma: an institutional case series of 56 patients.",
+    "abstract": "OBJECTIVE: The aim of this study was to review the management and outcomes of a consecutive cohort of patients with spinal myxopapillary ependymoma (MPE) treated at the authors' institution over a 23-year period. METHODS: A retrospective review of all patients treated surgically for spinal MPEs at a single institution between May 1998 and August 2021 was performed. Preoperative and postoperative clinical data, imaging, and/or radiology reports were reviewed to identify patient presentation and outcomes as well as tumor size, location, CSF dissemination, and other features. Method and extent of resection were characterized and related to preoperative tumor characteristics and outcomes. RESULTS: Fifty-six patients underwent 60 index surgical procedures at a single institution, including 4 surgeries for resection of a solitary drop sacral metastasis. The median postoperative follow-up was 126 months (range 22-304 months). En bloc gross-total resection (EGTR) was performed in 15 cases, marginal GTR (MGTR) in 17, piecemeal GTR (PGTR) in 6, piecemeal near-total resection (PNTR) in 9, and subtotal resection (STR) in 13 cases. Of the 55 primary filum terminale MPEs, 40 (73%) arose proximally, with their inferior tumor margin located at or above the L3 vertebral body. Nearly all patients who underwent EGTR (14/15) or MGTR (17/17) had MPEs that originated in the proximal filum terminale. In contrast, 10 of 13 patients who underwent STR had a distal MPE origin (below L3). CSF tumor dissemination, including drop metastases, was identified in 19.6% (11/56) of patients. Tumor size, especially width, significantly influenced the method of complete resection: the mean width of tumors resected with EGTR was 1.0 cm (range 0.4-1.7 cm) while the mean width of MGTR tumors was 1.5 cm (range 1.0-2.2 cm) (p < 0.001). Location, size, and marginal integrity of the tumor surface were important factors that influenced extent and quality of resection. CONCLUSIONS: MPEs are benign tumors that arise predominantly from the filum terminale. Resection can be curative, especially for well-marginated tumors arising from the proximal filum terminale. Despite their benign nature, the tumors' lack of a capsule, friable tumor consistency, and frequent direct contact with the CSF and cauda equina create a propensity for local recurrence and CSF dissemination, especially for larger and distally originating tumors. Thus, long-term follow-up is recommended for all patients as is early surgical intervention for small, incidental MPEs.",
+    "authors": "Evan F Joiner, Justin A Neira, Andrew K Chan, Jane E Kostadinov, Phoebe L Greenwald",
+    "journal": "Journal of neurosurgery. Spine",
+    "year": 2026,
+    "doi": "10.3171/2025.9.SPINE25650",
+    "publication_types": [
+      "Journal Article"
+    ],
+    "mesh_terms": []
+  },
+  {
+    "pmid": "41805927",
+    "title": "Stereotactic radiosurgery (SRS) for primary intradural spinal tumors: A systematic review and meta-analysis.",
+    "abstract": "While primary intradural spinal tumors (PIST) are commonly treated by surgery, the use of stereotactic radiosurgery (SRS) is typically considered when patients are either poor surgical candidates or have recurrent or unresectable tumors. However, the optimal use of SRS in the treatment of PISTs and its efficacy remains relatively unclear. Our aim with this study was to investigate the therapeutic response among PISTs treated with SRS. We performed a systematic literature search in five databases: Medline, Embase (Ovid), Scopus, Web of Science Advance and Cochrane Central from inception to July 8th 2024. We included studies that reported on outcomes among PISTs treated with SRS and meta-analyzed the proportions of recurrence and local control (LC) among them. The quality of included studies was assessed using the MINORS tool for non-randomized studies. We identified 14 studies and classified them by follow-up duration. 4 studies had mean or median follow-up times of less than 3 years (short-term follow-up) and 10 studies had greater than 3 years follow-up (long-term follow-up). The mean and median follow up times ranged from 33 to 54.3 months, and 18 to 60 months, respectively. The overall pooled proportion of short-term LC was 0.98 [95% CI: 0.90-1.00], while long-term LC was 0.94 [95% CI: 0.89; 0.97]. The overall pooled proportion of recurrence was 0.01 [95% CI: 0.00; 0.05] for short-term follow-up and 0.05 [95% CI: 0.03; 0.09] for long-term. Subgroup analyses included long-term LC for hemangioblastomas, meningiomas, schwannomas, and neurofibromas, as well as short-term recurrence for meningiomas and schwannomas. Among subgroups, meningiomas showed the best long-term LC and short-term recurrence, with pooled proportions of 0.99 [95% CI: 0.37; 1.00] and 0.02 [95% CI: 0.00; 0.14], respectively. Our results suggest that treating PISTs with SRS achieves favorable outcomes in terms of LC and recurrence. Meningiomas appear to have the best treatment response in terms of LC, which may be a result of their tumor characteristics. However, our findings should be interpreted with caution, as heterogeneity in how studies defined LC may introduce bias into the pooled estimates.",
+    "authors": "Emil O R Nordin, Vivek Sanker, Philip Heesen, Srinath Hariharan, Olga Ciobanu-Caraus",
+    "journal": "Neurosurgical review",
+    "year": 2026,
+    "doi": "10.1007/s10143-025-04131-7",
+    "publication_types": [
+      "Journal Article",
+      "Systematic Review",
+      "Meta-Analysis"
+    ],
+    "mesh_terms": [
+      "Humans",
+      "Radiosurgery",
+      "Spinal Cord Neoplasms",
+      "Treatment Outcome",
+      "Neoplasm Recurrence, Local"
+    ]
+  },
+  {
+    "pmid": "41706188",
+    "title": "Minimally invasive paramedian transmuscular approach for intracanal tumors: case series, microsurgical technique and outcomes.",
+    "abstract": "PURPOSE: Spinal tumors are rare and heterogeneous lesions of the central nervous system. Minimally invasive spinal surgery (MISS) offers several advantages over conventional open laminectomy, including reduced soft-tissue trauma, lower blood loss, and faster recovery. This study presents a 20-year, single-center experience with the minimally invasive paramedian transmuscular approach for spinal tumor resection, assessing its feasibility, safety, and effectiveness across all spinal levels. METHODS: A retrospective review was conducted of 61 patients who underwent minimally invasive resection of spinal tumors at a tertiary neurosurgical center. Demographic, radiological, operative, and postoperative data were analyzed. Intraoperative neuromonitoring was routinely used. Outcomes included extent of resection, complications, neurological status, and hospital stay. RESULTS: The mean age was 54.4 ± 13.5 years, with a predominance of females (70.5%). Most tumors were intradural extramedullary, primarily meningiomas and schwannomas. Gross-total resection was achieved in 85% of cases. The mean operative time was 148 min and mean blood loss 197 mL. Complications occurred in 9 patients, with clinically relevant cerebrospinal fluid-related events observed in 3.3%. New neurological deficits developed in 3.3% of patients. The mean hospital stay was 2.2 days. No perioperative mortality occurred, and tumor recurrence was observed in 4.9% during follow-up. CONCLUSION: The minimally invasive paramedian transmuscular approach allows safe resection of selected spinal tumors, including junctional lesions, while achieving high resection rates and acceptable perioperative morbidity. These findings support its use as a feasible surgical option in appropriately selected patients.",
+    "authors": "Maria Isabel Ocampo-Navia, Mariana Agudelo-Arrieta, Julián Alfonso Sierra-Peña, Daniela Castaño Bustos, Felipe Marín-Navas",
+    "journal": "European spine journal : official publication of the European Spine Society, the European Spinal Deformity Society, and the European Section of the Cervical Spine Research Society",
+    "year": 2026,
+    "doi": "10.1007/s00586-025-09719-7",
+    "publication_types": [
+      "Journal Article"
+    ],
+    "mesh_terms": []
+  },
+  {
+    "pmid": "41640647",
+    "title": "Totally Cystic Schwannoma in the Lumbar Spine: A Case Report.",
+    "abstract": "Totally cystic schwannomas are a rare condition described in the current case report. A 63-year-old woman with chronic lower back pain radiating to her left lower extremity was primarily managed incorrectly. Her magnetic resonance imaging (MRI) was performed, presenting an intradural cystic mass at L2-L3 with approximately 23 × 16 × 18 mm size and characteristics of hypointense and hyperintense views on T1-weighted imaging (T1WI), and T2WI, respectively. Additionally, Gadolinium-contrasted images showed a smooth and thin rim enhancement of the cyst. These characteristics were compatible with cystic schwannoma. Accordingly, L2-L3 laminectomy was done and the tumor was excised. The pathological study approved the diagnosis. At the 16-month follow-up, the patient experienced symptom relief with no sign of recurrence. Cystic schwannomas are rare benign tumors that can cause debilitating symptoms if not promptly diagnosed and treated. Contrast-enhanced MRI is essential for diagnosing these tumors, and surgical resection is the choice of treatment.",
+    "authors": "Marzieh Aalinezhad, Mostafa Haji Rezaei, Mohammad Saleh Jafarpishe, Peyman Hashemi, Mohammad Shahsavan",
+    "journal": "Advanced biomedical research",
+    "year": 2025,
+    "doi": "10.4103/abr.abr_167_24",
+    "publication_types": [
+      "Case Reports",
+      "Journal Article"
+    ],
+    "mesh_terms": []
+  },
+  {
+    "pmid": "41625119",
+    "title": "Lumbar intradural extramedullary plexiform schwannoma: A case report and literature review.",
+    "abstract": "BACKGROUND: Plexiform schwannomas are rare lesions with different histopathological variants (i.e., multifocal, intraneural, and multinodular). They comprise ~5% of schwannomas and rarely occur in the spinal canal. Here, a 40-year-old male presented with an exceedingly rare plexiform schwannoma. CASE DESCRIPTION: A 40-year-old male presented with low back pain, bilateral L3 radiculopathy, and mild L3-level hypoesthesias. The pre-operative lumbar magnetic resonance imaging (MRI) showed an intradural extramedullary, multinodular L3 mass, isointense on T1-weighted imaging, homogeneously hyperintense on T2-weighted imaging, and markedly enhancing with contrast. Gross total microsurgical resection was achieved through an L3 laminectomy. The histopathology revealed a plexiform schwannoma (World Health Organization Grade 1). The post-operative MRI confirmed complete tumor removal, and six months later, the patient remained asymptomatic. CONCLUSION: Microsurgical gross total resection is the mainstay treatment for rare symptomatic lumbar plexiform schwannomas.",
+    "authors": "Ana Brito-Seixas, Joana Martins, Pedro De Vasconcelos, Sérgio Livraghi, Martin Lorenzetti",
+    "journal": "Surgical neurology international",
+    "year": 2025,
+    "doi": "10.25259/SNI_1162_2025",
+    "publication_types": [
+      "Case Reports",
+      "Journal Article"
+    ],
+    "mesh_terms": []
+  },
+  {
+    "pmid": "41523252",
+    "title": "Factors associated with survival in patients with spinal metastases from lung cancer.",
+    "abstract": "The spine is a common site for metastases in lung cancer. Precise identification of factors associated with survival and reliable prediction of prognosis are essential for clinical decision-making in patients with spinal metastasis from lung cancer. A retrospective analysis was conducted on 148 lung cancer patients with spinal metastases between January 2018 and December 2020 to identify prognostic factors and develop a nomogram for predicting survival outcomes. Another 30 patients with spinal metastases due to lung cancer, treated between January 2021 and February 2022, served as an external validation cohort to assess the nomogram's predictive performance. Multivariate analysis identified Karnofsky Performance Status (KPS) score, carbohydrate antigen 125 (CA125), radiotherapy, chemotherapy, and targeted therapy as independent prognostic factors. The nomogram achieved a concordance index of 0.713. The AUCs for the nomogram in predicting 1-, 2-, and 3-year survival were 0.834, 0.750, and 0.733 in the training set; 0.803, 0.738, and 0.713 in the internal validation set; and 0.749, 0.738, and 0.729 in the external validation set. Calibration curves showed good agreement between predicted and observed outcomes. Compared with the modified Tokuhashi and Tomita scores, the nomogram demonstrated superior predictive accuracy and provided greater net clinical benefit in decision curve analysis, indicating good clinical utility. This model may aid individualized prognosis assessment and treatment planning in lung cancer patients with spinal metastases.",
+    "authors": "Wenjia Xia, Ming Li, Youtao Xu, Lin Xu",
+    "journal": "American journal of cancer research",
+    "year": 2025,
+    "doi": "10.62347/RGGC5283",
+    "publication_types": [
+      "Journal Article"
+    ],
+    "mesh_terms": []
+  },
+  {
+    "pmid": "40348282",
+    "title": "Predicting survival outcomes in renal cell carcinoma spinal metastases: a multicenter evaluation of existing prognostic systems.",
+    "abstract": "BACKGROUND CONTEXT: Survival prediction models for patients with spinal metastases are crucial for guiding clinical decision-making and optimizing treatment strategies. Renal cell carcinoma spinal metastases (RCC-SM) present unique challenges due to their distinct biological behavior and variable response to systemic therapies. PURPOSE: To externally validate existing prognostic scoring systems for predicting survival in patients with RCC-SM using multicenter data from China. STUDY DESIGN: Retrospective external validation study. PATIENT SAMPLE: A total of 103 patients with RCC-SM who underwent surgical treatment at 3 specialized spine oncology centers in China between 2015 and 2023. OUTCOME MEASURES: Survival at 90 days, 180 days, and 1 year postsurgery, assessed using area under the curve (AUC), calibration intercept and slope, and Brier scores. METHODS: Six prognostic scoring systems were evaluated, including Tomita, revised Tokuhashi, revised Katagiri, New England Spinal Metastasis Score, Skeletal Oncology Research Group (SORG) nomogram, and SORG machine learning (ML) model. Discrimination and calibration were assessed using ROC curves, calibration plots, and Brier scores. Cox regression identified independent prognostic factors. The study was funded by Henan Province Key Science and Technology Project (252102311081). A total amount of RMB 20,000 ($2,740) was received. RESULTS: SORG ML demonstrated the highest discriminative ability for 90-day survival (AUC: 0.765), while revised Tokuhashi performed best for 180-day survival (AUC: 0.754), and revised Katagiri for 1-year survival (AUC: 0.806). However, nearly all models exhibited underestimation of survival probabilities, particularly in high-risk subgroups. Independent prognostic factors included American Spinal Injury Association grade, visceral metastases, preoperative systemic therapy, preoperative radiotherapy, and neutrophil-to-lymphocyte ratio. CONCLUSIONS: Existing prognostic models for RCC-SM show varying predictive accuracy, with SORG ML and revised Katagiri performing best for short- and long-term survival, respectively. However, recalibration is needed to address underestimation, particularly in East Asian populations. Future models should incorporate dynamic treatment responses and molecular biomarkers to improve predictive accuracy and clinical utility.",
+    "authors": "Zhehuang Li, Feng Wei, Jinxin Hu, Youyu Zhang, Xiaoying Niu",
+    "journal": "The spine journal : official journal of the North American Spine Society",
+    "year": 2025,
+    "doi": "10.1016/j.spinee.2025.05.025",
+    "publication_types": [
+      "Evaluation Study",
+      "Journal Article",
+      "Multicenter Study",
+      "Validation Study"
+    ],
+    "mesh_terms": [
+      "Adult",
+      "Aged",
+      "Female",
+      "Humans",
+      "Male",
+      "Middle Aged",
+      "Carcinoma, Renal Cell",
+      "China",
+      "Kidney Neoplasms",
+      "Nomograms",
+      "Prognosis",
+      "Retrospective Studies",
+      "Spinal Neoplasms"
+    ]
+  },
+  {
+    "pmid": "40231517",
+    "title": "Risk factors for Early (Three-Month) Postoperative Mortality in Metastatic Spine Tumor Surgery: A JASA Multicenter Prospective Study.",
+    "abstract": "STUDY DESIGN: Prospective multicenter study. OBJECTIVE: To investigate risk factors for 3-month postoperative mortality in metastatic spinal tumor surgery, focusing on nutritional biomarkers and prognostic scores alongside clinical indicators. SUMMARY OF BACKGROUND DATA: Metastatic spinal tumors affect patient morbidity and mortality. Although prognostic tools exist, they have limitations, particularly in emergency situations requiring rapid assessment. Nutritional biomarkers and prognostic scores may influence outcomes, but their role in predicting early postoperative mortality after spinal tumor surgery, particularly in prospective, multicenter studies, warrants investigation. MATERIALS AND METHODS: Data from 336 patients undergoing palliative surgery for metastatic spinal tumors were collected from 35 centers. The primary outcome was three-month postoperative mortality. Univariate and multivariate logistic regression analyses with bootstrapping were performed to identify predictors of early mortality, including demographics, prognostic scores [revised Tokuhashi, Tomita, modified Glasgow Prognostic Score (mGPS), and the New England Spinal Metastasis Score (NESMS)], and nutritional biomarkers. The discriminative ability of these factors was evaluated using the receiver operating characteristic curve analysis. RESULTS: The three-month postoperative mortality rate was 15.5%, with primary cancer progression accounting for 54% of the deaths. Multivariate analysis revealed that high mGPS (OR=1.989, P =0.008) and low preoperative performance status (PS) (OR=1.412, P =0.034) were significant independent predictors of early mortality, the Tomita score showed a trend toward significance (OR=1.234, P =0.050). The mGPS demonstrated a high discriminative ability, with an area under the curve of 0.716. CONCLUSION: High mGPS and low preoperative PS are significant predictors of three-month postoperative mortality in patients undergoing surgery for metastatic spinal tumors. Incorporating the mGPS, which reflects nutritional and inflammatory status, into preoperative risk stratification is crucial for optimizing surgical decision-making. LEVEL OF EVIDENCE: Level II.",
+    "authors": "Takaaki Uto, Satoshi Kato, Noriaki Yokogawa, Takaki Shimizu, Satoru Demura",
+    "journal": "Spine",
+    "year": 2026,
+    "doi": "10.1097/BRS.0000000000005359",
+    "publication_types": [
+      "Journal Article",
+      "Multicenter Study"
+    ],
+    "mesh_terms": [
+      "Humans",
+      "Female",
+      "Spinal Neoplasms",
+      "Male",
+      "Prospective Studies",
+      "Risk Factors",
+      "Middle Aged",
+      "Aged",
+      "Adult",
+      "Postoperative Complications",
+      "Aged, 80 and over",
+      "Prognosis"
+    ]
+  },
+  {
+    "pmid": "39894281",
+    "title": "External validation of 12 existing survival prediction models for patients with spinal metastases.",
+    "abstract": "BACKGROUND CONTEXT: Survival prediction models for patients with spinal metastases may inform patients and clinicians in shared decision-making. PURPOSE: To externally validate all existing survival prediction models for patients with spinal metastases. DESIGN: Prospective cohort study using retrospective data. PATIENT SAMPLE: A total of 953 patients. OUTCOME MEASURES: Survival in months, area under the curve (AUC), and calibration intercept and slope. METHOD: This study included patients with spinal metastases referred to a single tertiary referral center between 2016 and 2021. Twelve models for predicting 3, 6, and 12-month survival were externally validated Bollen, Mizumoto, Modified Bauer, New England Spinal Metastasis Score, Original Bauer, Oswestry Spinal Risk Index (OSRI), PathFx, Revised Katagiri, Revised Tokuhashi, Skeletal Oncology Research Group Machine Learning Algorithm (SORG-MLA), Tomita, and Van der Linden. Discrimination was assessed using (AUC) and calibration using the intercept and slope. Calibration was considered appropriate if calibration measures were close to their ideal values with narrow confidence intervals. RESULTS: In total, 953 patients were included. Survival was 76.4% at 3 months (728/953), 62.2% at 6 months (593/953), and 50.3% at 12 months (479/953). Revised Katagiri yielded AUCs of 0.79 (95% CI, 0.76-0.82) to 0.81 (95% CI, 0.79-0.84), Bollen yielded AUCs of 0.76 (95% CI, 0.73-0.80) to 0.77 (95% CI, 0.75-0.80), and OSRI yielded AUCs of 0.75 (95% CI, 0.72-0.78) to 0.77 (95% CI, 0.74-0.79). The other 9 prediction models yielded AUCs ranging from 0.59 (95% CI, 0.55-0.63) to 0.76 (95% CI, 0.74-0.79). None of the 12 models yielded appropriate calibration. CONCLUSIONS: Twelve survival prediction models for patients with spinal metastases yielded poor to fair discrimination and poor calibration. Survival prediction models may inform decision-making in patients with spinal metastases, provided that recalibration using recent patient data is performed.",
+    "authors": "B J J Bindels, R H Kuijten, O Q Groot, E H Huele, R Gal",
+    "journal": "The spine journal : official journal of the North American Spine Society",
+    "year": 2025,
+    "doi": "10.1016/j.spinee.2025.01.014",
+    "publication_types": [
+      "Journal Article",
+      "Validation Study"
+    ],
+    "mesh_terms": [
+      "Humans",
+      "Spinal Neoplasms",
+      "Female",
+      "Male",
+      "Middle Aged",
+      "Aged",
+      "Retrospective Studies",
+      "Prospective Studies",
+      "Prognosis",
+      "Adult"
+    ]
+  },
+  {
+    "pmid": "39766146",
+    "title": "Determinants of Overall and Readmission-Free Survival in Patients with Metastatic Epidural Spinal Cord Compression.",
+    "abstract": "BACKGROUND: The aim of this study was to assess the surgical outcomes and survival of patients surgically treated for metastatic epidural spinal cord compression (MESCC), with a specific focus on identifying factors that influence overall survival and readmission-free survival. METHODS: All patients who underwent surgery for spine metastases at our department in the period 2018-2022 were included in the study. RESULTS: A total of 175 patients (n = 71 females, median age 67.15 years) were included. The most common primary tumors were lung carcinoma (n = 31), prostate carcinoma (n = 31), breast carcinoma (n = 28), multiple myeloma (n = 25), and renal cell carcinoma (n = 11). ECOG performance status was 0 (n = 7), 1 (n = 97), 2 (n = 27), 3 (n = 17), and 4 (n = 27). Pathological fractures were present in n = 108 patients. Decompression only was performed in n = 42, additional instrumentation in n = 133, and vertebral body replacement in n = 23. The most common complications were wound healing deficits and hardware failure. Preoperative motor deficits were present in n = 89 patients. Postoperatively, n = 122 improved, n = 43 was unchanged, and n = 10 deteriorated. Mean overall survival (OS) was 239.2 days, with a 30-day mortality rate of 18.3%. Favorable prognostic factors included Tomita score < 7, Frankel score A-C, ECOG 0-1, and Modified Tokuhashi score > 10 ( CONCLUSIONS: Patients undergoing decompression and/or stabilization for metastatic spinal tumors showed improved outcomes, with favorable prognosis linked to Tomita score < 7, Frankel score A-C, ECOG 0-1, and Modified Tokuhashi score > 10.",
+    "authors": "Mirza Pojskić, Benjamin Saß, Miriam H A Bopp, Sebastian Wilke, Christopher Nimsky",
+    "journal": "Cancers",
+    "year": 2024,
+    "doi": "10.3390/cancers16244248",
+    "publication_types": [
+      "Journal Article"
+    ],
+    "mesh_terms": []
+  }
+]

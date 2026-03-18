@@ -58,5 +58,35 @@
     "B4": "System B",
     "B1": "System C",
     "B2": "System D"
+  },
+  "DF-001": {
+    "B3": "System A",
+    "B2": "System B",
+    "B4": "System C",
+    "B1": "System D"
+  },
+  "DF-002": {
+    "B4": "System A",
+    "B3": "System B",
+    "B2": "System C",
+    "B1": "System D"
+  },
+  "DF-003": {
+    "B4": "System A",
+    "B2": "System B",
+    "B1": "System C",
+    "B3": "System D"
+  },
+  "DF-004": {
+    "B3": "System A",
+    "B4": "System B",
+    "B2": "System C",
+    "B1": "System D"
+  },
+  "DF-005": {
+    "B1": "System A",
+    "B2": "System B",
+    "B4": "System C",
+    "B3": "System D"
   }
 }

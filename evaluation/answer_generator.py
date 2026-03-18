@@ -386,11 +386,14 @@ async def _extract_entities_from_question(question: str) -> dict:
         system=(
             "Extract medical entities from the spine surgery question. "
             "Return ONLY a JSON object with three keys:\n"
-            '- "interventions": list of surgical procedures or treatments mentioned\n'
-            '- "pathologies": list of diseases or conditions mentioned\n'
-            '- "outcomes": list of clinical outcome measures mentioned\n'
-            "Use standard medical terminology. Be concise. "
-            "If a category has no entities, return an empty list."
+            '- "interventions": list of surgical procedures or treatments\n'
+            '- "pathologies": list of diseases or conditions\n'
+            '- "outcomes": list of clinical outcome measures\n\n'
+            "IMPORTANT RULES:\n"
+            "- Include BOTH abbreviations AND full names: e.g., ['UBE', 'TLIF', 'Biportal Endoscopic']\n"
+            "- Keep each entity SHORT (1-3 words max)\n"
+            "- Include common synonyms: e.g., 'CDR' and 'Cervical Disc Replacement'\n"
+            "- If a category has no entities, return an empty list."
         ),
         messages=[{"role": "user", "content": question}],
     )
@@ -432,52 +435,46 @@ async def _graph_filter_papers(
     """
     paper_ids: set[str] = set()
 
-    # Build entity names for matching (case-insensitive via toLower)
-    all_interventions = [e.lower() for e in entities.get("interventions", [])]
-    all_pathologies = [e.lower() for e in entities.get("pathologies", [])]
-    all_outcomes = [e.lower() for e in entities.get("outcomes", [])]
+    # Build entity names for matching (case-insensitive)
+    all_interventions = [e.lower().strip() for e in entities.get("interventions", []) if e.strip()]
+    all_pathologies = [e.lower().strip() for e in entities.get("pathologies", []) if e.strip()]
 
-    # Query papers linked to interventions via STUDIES
+    int_papers: set[str] = set()
+    path_papers: set[str] = set()
+
+    # Find papers linked to interventions (Paper→INVESTIGATES→Intervention)
     if all_interventions:
         query = """
-        MATCH (p:Paper)-[:STUDIES]->(i:Intervention)
-        WHERE toLower(i.name) IN $names
-           OR ANY(name IN $names WHERE toLower(i.name) CONTAINS name)
+        MATCH (p:Paper)-[:INVESTIGATES]->(i:Intervention)
+        WHERE ANY(name IN $names WHERE toLower(i.name) CONTAINS name)
         RETURN DISTINCT p.paper_id AS paper_id
         """
         rows = await neo4j_client.run_query(query, {"names": all_interventions})
         for row in rows:
             pid = row.get("paper_id")
             if pid:
-                paper_ids.add(pid)
+                int_papers.add(pid)
 
-    # Query papers linked to pathologies via INVESTIGATES
+    # Find papers linked to pathologies (Paper→STUDIES→Pathology)
     if all_pathologies:
         query = """
-        MATCH (p:Paper)-[:INVESTIGATES]->(pa:Pathology)
-        WHERE toLower(pa.name) IN $names
-           OR ANY(name IN $names WHERE toLower(pa.name) CONTAINS name)
+        MATCH (p:Paper)-[:STUDIES]->(pa:Pathology)
+        WHERE ANY(name IN $names WHERE toLower(pa.name) CONTAINS name)
         RETURN DISTINCT p.paper_id AS paper_id
         """
         rows = await neo4j_client.run_query(query, {"names": all_pathologies})
         for row in rows:
             pid = row.get("paper_id")
             if pid:
-                paper_ids.add(pid)
+                path_papers.add(pid)
 
-    # Query papers linked to outcomes via MEASURES
-    if all_outcomes:
-        query = """
-        MATCH (p:Paper)-[:MEASURES]->(o:Outcome)
-        WHERE toLower(o.name) IN $names
-           OR ANY(name IN $names WHERE toLower(o.name) CONTAINS name)
-        RETURN DISTINCT p.paper_id AS paper_id
-        """
-        rows = await neo4j_client.run_query(query, {"names": all_outcomes})
-        for row in rows:
-            pid = row.get("paper_id")
-            if pid:
-                paper_ids.add(pid)
+    # Intersection: papers that match BOTH intervention AND pathology
+    if int_papers and path_papers:
+        paper_ids = int_papers & path_papers
+    elif int_papers:
+        paper_ids = int_papers
+    elif path_papers:
+        paper_ids = path_papers
 
     return paper_ids
 
@@ -548,8 +545,8 @@ async def _vector_search_within_papers(
     paper_id_list = list(paper_ids)
 
     # Use vector index, then filter by paper_id
-    # Query a larger pool since we filter post-hoc
-    query_top_k = min(top_k * 5, 200)
+    # Query a large pool since we filter post-hoc (need enough to find filtered papers)
+    query_top_k = min(max(top_k * 10, len(paper_ids) * 3), 500)
 
     query = """
     CALL db.index.vector.queryNodes('chunk_embedding_index', $query_top_k, $embedding)
@@ -558,7 +555,7 @@ async def _vector_search_within_papers(
     WHERE p.paper_id IN $paper_ids
     RETURN c.content AS content, c.paper_id AS paper_id,
            p.title AS title, p.evidence_level AS evidence_level,
-           p.publication_year AS year, score
+           p.year AS year, score
     ORDER BY score DESC
     LIMIT $limit
     """
