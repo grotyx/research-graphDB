@@ -16,10 +16,75 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, Optional
 from pathlib import Path
-from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 EVAL_DIR = Path(__file__).parent
+
+# ============================================================================
+# LLM Configuration — set via .env
+# ============================================================================
+# EVAL_LLM_PROVIDER: "openai" or "anthropic"
+# EVAL_LLM_MODEL: model name (e.g., "gpt-5.4-mini", "claude-haiku-4-5-20251001")
+# Falls back to anthropic/claude-haiku if not set
+
+_llm_provider: Optional[str] = None
+_llm_model: Optional[str] = None
+_llm_client: Any = None
+
+
+def _get_llm_config() -> tuple[str, str]:
+    """Get LLM provider and model from env."""
+    global _llm_provider, _llm_model
+    if _llm_provider is None:
+        _llm_provider = os.getenv("EVAL_LLM_PROVIDER", "anthropic").lower()
+        _llm_model = os.getenv("EVAL_LLM_MODEL", "claude-haiku-4-5-20251001")
+        logger.info("Eval LLM: provider=%s, model=%s", _llm_provider, _llm_model)
+    return _llm_provider, _llm_model
+
+
+def _get_llm_client() -> Any:
+    """Get or create LLM client."""
+    global _llm_client
+    if _llm_client is not None:
+        return _llm_client
+
+    provider, model = _get_llm_config()
+    if provider == "openai":
+        from openai import OpenAI
+        _llm_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    else:
+        import anthropic
+        _llm_client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+    return _llm_client
+
+
+async def _call_llm(system_prompt: str, user_prompt: str, max_tokens: int = 4000) -> str:
+    """Unified LLM call — works with both OpenAI and Anthropic."""
+    provider, model = _get_llm_config()
+    client = _get_llm_client()
+
+    try:
+        if provider == "openai":
+            response = client.chat.completions.create(
+                model=model,
+                max_tokens=max_tokens,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt},
+                ],
+            )
+            return response.choices[0].message.content
+        else:
+            response = client.messages.create(
+                model=model,
+                max_tokens=max_tokens,
+                system=system_prompt,
+                messages=[{"role": "user", "content": user_prompt}],
+            )
+            return response.content[0].text
+    except Exception as e:
+        logger.error("LLM call failed: %s", e)
+        return f"Error: {e}"
 
 
 @dataclass
@@ -92,21 +157,16 @@ async def generate_answer_b2_vector(
 
 async def generate_answer_b3_llm_direct(question: str) -> tuple[str, list[dict]]:
     """B3: LLM direct — no knowledge graph."""
-    import anthropic
-
-    client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
-    response = client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        max_tokens=2000,
-        system=(
+    answer = await _call_llm(
+        system_prompt=(
             "You are a spine surgery expert. Answer the clinical question based on "
             "your medical knowledge. For each point, cite specific studies by first "
             "author and year. Be specific about study designs and evidence levels. "
             "Organize your response by outcome domain."
         ),
-        messages=[{"role": "user", "content": question}],
+        user_prompt=question,
+        max_tokens=4000,
     )
-    answer = response.content[0].text
     return answer, []  # No verifiable papers
 
 
@@ -322,18 +382,16 @@ async def _generate_hyde(question: str) -> Optional[str]:
     import anthropic
 
     try:
-        client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
-        response = client.messages.create(
-            model="claude-haiku-4-5-20251001",
-            max_tokens=500,
-            system=(
+        result = await _call_llm(
+            system_prompt=(
                 "You are a spine surgery expert. Write a short paragraph (3-5 sentences) "
                 "answering the following question based on your knowledge. "
                 "Include specific study types, outcomes, and findings."
             ),
-            messages=[{"role": "user", "content": question}],
+            user_prompt=question,
+            max_tokens=1000,
         )
-        return response.content[0].text
+        return result if not result.startswith("Error:") else None
     except Exception as e:
         logger.warning("HyDE generation failed: %s", e)
         return None
@@ -359,11 +417,8 @@ async def _generate_with_llm(question: str, context: str) -> str:
     """Generate answer using Claude Haiku with retrieved context."""
     import anthropic
 
-    client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
-    response = client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        max_tokens=2000,
-        system=(
+    return await _call_llm(
+        system_prompt=(
             "You are a spine surgery evidence synthesis system. Answer the clinical "
             "question based ONLY on the provided papers. For each claim:\n"
             "1. Cite the paper ID in brackets [paper_id]\n"
@@ -373,14 +428,9 @@ async def _generate_with_llm(question: str, context: str) -> str:
             "5. Acknowledge gaps in the evidence\n"
             "Do NOT use any knowledge outside the provided papers."
         ),
-        messages=[
-            {
-                "role": "user",
-                "content": f"## Retrieved Papers\n\n{context}\n\n## Clinical Question\n\n{question}",
-            }
-        ],
+        user_prompt=f"## Retrieved Papers\n\n{context}\n\n## Clinical Question\n\n{question}",
+        max_tokens=4000,
     )
-    return response.content[0].text
 
 
 def _build_context(results) -> str:
@@ -407,13 +457,8 @@ async def _extract_entities_from_question(question: str) -> dict:
     Returns:
         Dict with keys: interventions, pathologies, outcomes (each a list[str]).
     """
-    import anthropic
-
-    client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
-    response = client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        max_tokens=1000,
-        system=(
+    text = await _call_llm(
+        system_prompt=(
             "Extract medical entities from the spine surgery question. "
             "Return ONLY a valid JSON object with three keys:\n"
             '- "interventions": max 5 most important surgical procedures (SHORT names)\n'
@@ -426,10 +471,11 @@ async def _extract_entities_from_question(question: str) -> dict:
             "extract the main topic entity only (e.g., pathology)\n"
             "- If a category has no entities, return an empty list []"
         ),
-        messages=[{"role": "user", "content": question}],
+        user_prompt=question,
+        max_tokens=2000,
     )
 
-    text = response.content[0].text.strip()
+    text = text.strip()
 
     # Robust JSON parsing
     # Remove markdown code blocks
@@ -705,18 +751,13 @@ async def _generate_with_evidence_chain(
         Structured answer string with evidence chain, findings by outcome,
         and evidence gaps.
     """
-    import anthropic
-
     # Build entity summary for the prompt
     interventions = ", ".join(entities.get("interventions", [])) or "N/A"
     pathologies = ", ".join(entities.get("pathologies", [])) or "N/A"
     outcomes = ", ".join(entities.get("outcomes", [])) or "N/A"
 
-    client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
-    response = client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        max_tokens=3000,
-        system=(
+    return await _call_llm(
+        system_prompt=(
             "You are a spine surgery evidence synthesis system using a knowledge graph. "
             "Answer the clinical question based ONLY on the provided papers. "
             "Structure your answer in the following format:\n\n"
@@ -740,21 +781,16 @@ async def _generate_with_evidence_chain(
             "- Do NOT use any knowledge outside the provided papers\n"
             "- If PubMed supplementary context is provided, clearly label it as external"
         ),
-        messages=[
-            {
-                "role": "user",
-                "content": (
-                    f"## Extracted Entities\n"
-                    f"Interventions: {interventions}\n"
-                    f"Pathologies: {pathologies}\n"
-                    f"Outcomes: {outcomes}\n\n"
-                    f"## Retrieved Papers\n\n{context}\n\n"
-                    f"## Clinical Question\n\n{question}"
-                ),
-            }
-        ],
+        user_prompt=(
+            f"## Extracted Entities\n"
+            f"Interventions: {interventions}\n"
+            f"Pathologies: {pathologies}\n"
+            f"Outcomes: {outcomes}\n\n"
+            f"## Retrieved Papers\n\n{context}\n\n"
+            f"## Clinical Question\n\n{question}"
+        ),
+        max_tokens=6000,
     )
-    return response.content[0].text
 
 
 # ============================================================================
