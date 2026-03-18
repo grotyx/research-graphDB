@@ -2,6 +2,23 @@
 
 ## Version History
 
+### v1.29.0 Post-Release: LLM Reranker + DB 확장 + 평가 파이프라인 (2026-03-18)
+
+- **LLM Reranker 추가** (`solver/reranker.py`): Haiku 기반 질문 적합성 재정렬
+  - Cohere 대신 기존 Anthropic API 사용 (추가 비용 없음)
+  - 70편 후보 → 질문에 직접 관련된 논문만 상위로 재정렬
+  - DG-003 개선: BMP/obesity MA(무관) → cage subsidence predictor(관련)로 교체
+- **Query-type detection**: comparison/evidence/mechanism/default 자동 감지 → 동적 가중치
+- **DB 확장**: 638 → 743편 (+105편, 7개 부족 주제 PubMed 임포트)
+  - CDR/ACDF(15), Laminoplasty(15), ESI(15), Odontoid(15), Burst Fracture(15), SINS/Tumor(15), PSO/VCR(15)
+  - 정식 파이프라인: Haiku 추출 + fulltext + chunk embedding + relationship builder
+- **Evidence Level 수정**: study_design 기반 재분류(148편), Chunk EL 동기화(8120개)
+  - 1a=1b=1.0 (RCT=MA 동등), Case Report 3→4 (OCEBM 기준)
+  - search_dao.py Cypher 하드코딩 가중치도 동기화
+- **평가 파이프라인**: answer_generator.py + llm_judge.py + Phase B scoring sheet
+  - DG-001~005 × 4 baselines 답변 생성 + 3개 LLM Judge 채점 완료
+  - B4 평균 21.3/25 (1위), B2 20.1, B3 15.2, B1 13.9
+
 ### v1.29.0 (2026-03-17)
 
 #### New Features
