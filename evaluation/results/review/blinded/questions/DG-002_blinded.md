@@ -3,129 +3,23 @@
 ---
 
 ## System A
-**Papers retrieved**: 10
-**Evidence levels**: ['1a', '1a', '5', '1a', '1a', '1a', '1a', '1a', '1a', '1a']
+**Papers retrieved**: 9
+**Evidence levels**: ['1a', '1a', '1a', '1a', '1a', '1a', '1a', '1a', '1a']
 
 ### Cited Papers
-- [1a] pubmed_29595628: Anterior Cervical Artificial Disc Replacement Versus Anterior Cervical Decompres
 - [1a] pubmed_29753897: Anterior Cervical Discectomy and Fusion versus Anterior Cervical Disc Replacemen
-- [5] pubmed_35928322: Short review/perspective on Adjacent Segment Disease (ASD) following Cervical Fu
-- [1a] pubmed_31863642: Cervical Disc Arthroplasty versus Anterior Cervical Discectomy and Fusion for Ce
-- [1a] pubmed_40797275: Long-term effectiveness and safety of cervical disc arthroplasty compared to ant
+- [1a] pubmed_29595628: Anterior Cervical Artificial Disc Replacement Versus Anterior Cervical Decompres
 - [1a] pubmed_30992666: Cervical Disc Arthroplasty Versus Anterior Cervical Discectomy and Fusion: A Met
-- [1a] pubmed_30285807: Total disc replacement versus anterior cervical discectomy and fusion for cervic
-- [1a] pubmed_35113188: Comparison of Outcomes Between Artificial Cervical Disc Replacement and Anterior
-- [1a] pubmed_31431880: Total Disc Replacement versus Anterior Cervical Discectomy and Fusion for Adjace
+- [1a] pubmed_31863642: Cervical Disc Arthroplasty versus Anterior Cervical Discectomy and Fusion for Ce
 - [1a] pubmed_35085804: Adjacent Segment Degeneration, Disease, and Reoperation Rates Following Anterior
+- [1a] pubmed_40797275: Long-term effectiveness and safety of cervical disc arthroplasty compared to ant
+- [1a] pubmed_32309660: Long-term Adjacent-level Operation Rates with Cervical Disc Arthroplasty versus 
+- [1a] pubmed_30062947: Total disc replacement versus anterior cervical discectomy and fusion: a systema
+- [1a] pubmed_40882232: Anterior Cervical Discectomy and Fusion versus Cervical Disc Arthroplasty for De
 
 ### Answer
 
-# Evidence Synthesis: CDR vs ACDF for 2-Level Cervical Disc Disease and Adjacent Segment Degeneration
-
-## Evidence Chain
-
-```
-Intervention: CDR (Cervical Disc Replacement)
-         ↓
-    TREATS
-         ↓
-Pathology: 2-level cervical disc disease
-         ↓
-    AFFECTS
-         ↓
-Outcome: Adjacent Segment Degeneration (ASD)
-         ├─ Radiographic ASD
-         ├─ Symptomatic ASD
-         └─ Reoperation rates
-```
-
-## Findings by Outcome Domain
-
-### Outcome: Radiographic Adjacent Segment Degeneration
-
-**Pooled Meta-Analytic Results:**
-
-- **[pubmed_29595628]** (Evidence Level: 1a, Systematic Review/Meta-Analysis, 2017): CDR demonstrates **60% relative risk reduction** in combined ASD (both superior and inferior) compared to ACDF. RR 0.40 (95% CI: 0.35-0.46, p < 0.00001) - highly significant benefit for CDR.
-
-- **[pubmed_29753897]** (Evidence Level: 1a, Systematic Review/Meta-Analysis, 2018): CDR significantly reduces ASD rates. OR 0.27 (95% CI 0.13-0.59, p=0.001). Low heterogeneity supports robustness of finding.
-
-- **[pubmed_30992666]** (Evidence Level: 1a, Meta-Analysis of RCTs, 2018): Five studies (1,594 patients) showed CDR reduces ASD risk compared to ACDF. OR 0.33 (95% CI [0.21; 0.50], P<0.0001, I²=0.0%). Moderate quality evidence with no heterogeneity.
-
-- **[pubmed_40797275]** (Evidence Level: 1a, Meta-Analysis of RCTs, 2025): CDR significantly reduced ASD rates with **44% reduction** in degeneration rates. OR 0.56 (95% CI: 0.36-0.85, p=0.01). Mechanism attributed to preservation of intervertebral motion (10.37 degrees more range of motion in CDR).
-
-- **[pubmed_30285807]** (Evidence Level: 1a, Meta-Analysis, 2018): TDR/CDR decreased ASD rates compared to ACDF. OR = 0.58 (p<0.00001). Superiority becomes more apparent over longer follow-up periods.
-
-- **[pubmed_35085804]** (Evidence Level: 1a, Systematic Review/Meta-Analysis): ACDFs reported significantly higher ASD rates compared to CDAs: 6.1% vs. 3.8% (P < 0.001), representing **2.3 percentage point difference**.
-
-### Outcome: Symptomatic Adjacent Segment Disease (Clinical ASD)
-
-- **[pubmed_31863642]** (Evidence Level: 1a, Systematic Review/Meta-Analysis, 2019): Symptomatic ASD was **significantly lower with CDA** compared to ACDF. OR 0.46 (95% CI [0.34, 0.63], p<0.00001, 6 studies, 1,628 participants). This represents clinically meaningful disease prevention.
-
-- **[pubmed_30285807]** (Evidence Level: 1a, Meta-Analysis, 2018): Symptomatic adjacent segment disease (ASDis) showed **no significant difference** between TDR and ACDF. OR = 0.97 (p=0.91). Authors note this suggests symptomatic disease may reflect natural disease progression rather than surgical effect.
-
-### Outcome: Time-Dependent Response (Long-term Follow-up)
-
-- **[pubmed_35113188]** (Evidence Level: 1a, Systematic Review/Meta-Analysis): ASD was **similar in short- and mid-term follow-ups** between ACDR and ACDF. The **protective effect of disc replacement becomes evident primarily in long-term follow-up**.
-
-- **[pubmed_30285807]** (Evidence Level: 1a, Meta-Analysis, 2018): Superiority of TDR/CDR over ACDF **becomes more apparent over time** with longer follow-up periods showing stronger effects.
-
-### Outcome: Natural History of ASD
-
-- **[pubmed_35928322]** (Evidence Level: 5, Short Review/Perspective, 2022): Radiographic ASD occurs in **2-4% annually** following both ACDF and CDA. However, symptomatic disease and reoperation requirements are substantially lower at **1.43% and 0.24% respectively**. Motion-preserving design of CDA failed to achieve the theoretical benefit of reducing ASD compared to fusion at symptomatic levels.
-
-### Outcome: Recurrent ASD After Treatment
-
-- **[pubmed_31431880]** (Evidence Level: 1a, Systematic Review/Meta-Analysis, 2017): Limited evidence on recurrent ASD. Single study (Lee et al) found significantly less radiologic ASD following TDR (11%) compared to ACDF (36%, P=0.04) when treating primary ASD. Larger single-arm studies: TDR showed 9% recurrent ASD vs. ACDF 25%.
-
-## Evidence Summary
-
-### Overall Evidence for CDR vs ACDF in 2-Level Cervical Disc Disease
-
-**Radiographic Adjacent Segment Degeneration:** Strong evidence (Level 1a) consistently demonstrates **CDR superiority** across multiple meta-analyses:
-- Six independent meta-analyses of RCTs all show reduced radiographic ASD with CDR
-- Relative risk reductions range from 44-60%
-- Pooled odds ratios range from 0.27 to 0.58 (all p<0.01)
-- Benefit increases with longer follow-up periods [pubmed_30285807]
-
-**Symptomatic Adjacent Segment Disease:** Mixed evidence (Level 1a):
-- Symptomatic ASD significantly lower with CDR (OR 0.46, p<0.00001) [pubmed_31863642]
-- However, one meta-analysis found no significant difference in symptomatic disease (OR 0.97, p=0.91) [pubmed_30285807]
-- Natural history shows symptomatic ASD much lower than radiographic ASD (1.43% vs 2-4% annually) [pubmed_35928322]
-
-**Long-term Follow-up Data:** Strong evidence (Level 1a) indicates protective effect is **time-dependent**:
-- Protection becomes evident primarily in long-term follow-up [pubmed_35113188, pubmed_35928322]
-- Superiority becomes more apparent over time [pubmed_30285807]
-
-**Mechanism:** Evidence supports motion preservation as protective mechanism [pubmed_40797275]:
-- CDR maintains 10.37 degrees more range of motion
-- Preservation of cervical spine biomechanics closer to physiological state
-
-## Evidence Gaps
-
-### Specific Limitations for 2-Level Disease:
-
-1. **Limited disease-specific data:** The original question specifies **2-level cervical disc disease**, but only one identified paper [pubmed_29595628] specifically addresses bi-level/multilevel disease in its title. Most meta-analyses combine single and multilevel disease without stratified analysis.
-
-2. **Heterogeneous follow-up periods:** Inconsistent long-term follow-up across studies makes direct comparison of time-dependent effects difficult.
-
-3. **Symptomatic vs. Radiographic discordance:** 
-   - Conflicting evidence on symptomatic ASD outcomes [pubmed_31863642 vs pubmed_30285807]
-   - Unclear clinical relevance of radiographic findings that don't translate to symptoms
-
-4. **Study design limitations:**
-   - Moderate quality evidence noted [pubmed_30992666]
-   - Some analyses show moderate to high heterogeneity (I²=83%) [pubmed_31863642]
-   - Limited randomized controlled trials specifically for 2-level disease
-
-5. **Missing comparisons:**
-   - Limited evidence on treatment of recurrent/secondary ASD [pubmed_31431880]
-   - Insufficient head-to-head trials comparing specific CDR devices in multilevel disease
-
-6. **Natural history understanding:** 
-   - Why symptomatic ASD doesn't correlate with radiographic findings remains incompletely understood
-   - Role of patient selection factors not fully characterized
-
-**CRITICAL NOTE:** While extensive evidence supports CDR over ACDF for ASD prevention, the specific subset of **2-level cervical disc disease** has limited dedicated study data, with most evidence derived from pooled analyses that combine single-level and multilevel cohorts.
+Error: Error code: 400 - {'error': {'message': "Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.", 'type': 'invalid_request_error', 'param': 'max_tokens', 'code': 'unsupported_parameter'}}
 
 ---
 
@@ -133,62 +27,83 @@ Outcome: Adjacent Segment Degeneration (ASD)
 **Papers retrieved**: 0
 ### Answer
 
-# Cervical Disc Replacement vs ACDF for 2-Level Disease: Adjacent Segment Degeneration Evidence
+# Evidence for CDR vs ACDF: Adjacent Segment Degeneration (ASD)
 
-## Clinical Outcomes - Adjacent Segment Degeneration
+## Overview of Evidence Quality
 
-### Radiographic Adjacent Segment Disease
+The most robust evidence comparing CDR and ACDF for 2-level disease comes from FDA-approved randomized controlled trials (RCTs) with long-term follow-up, though high-quality data specific to 2-level disease remains limited.
 
-**Superior CDR outcomes:**
+## Adjacent Segment Degeneration Outcomes
 
-- **Hilibrand et al. (2009)** - Prospective IDE trial, 2-year data: CDR showed significantly lower adjacent segment degeneration (ASD) rates compared to ACDF (8% vs 11%, though not statistically significant at 2 years; p=0.06)
+### **Radiographic ASD**
 
-- **Janssen et al. (2015)** - Systematic review of level 1-2 evidence: CDR demonstrated lower radiographic ASD rates (10-15% for CDR vs 20-25% for ACDF at 2-year follow-up across multiple studies)
+**Favorable for CDR:**
 
-- **Zigler et al. (2012)** - PRESTIGE-CC trial extended follow-up: CDR showed significantly lower rates of moderate-to-severe ASD compared to ACDF at 4-year follow-up (11% vs 18%, p<0.05)
+- **FDA-approved trials (Zigler et al., 2013 - PRESTIGE)**: Two-level CDR showed lower rates of severe ASD compared to ACDF at 2-year follow-up (RCT, Level 1b evidence). The PRESTIGE study demonstrated symptomatic ASD requiring intervention occurred in approximately 5-8% of CDR vs 8-10% of ACDF patients, though differences weren't always statistically significant for 2-level cohorts specifically.
 
-### Clinical Adjacent Segment Symptomatology
+- **Mummaneni et al. (2007 - Charite IDC)**: Long-term follow-up (mean 4.3 years) showed ASD rates of 13% for CDR versus 26% for ACDF in single-level disease with suggestion of benefit maintained (RCT, Level 1b).
 
-- **Radcliff et al. (2012)** - Prospective IDE trial analysis: Symptomatic ASD requiring surgery occurred in <5% of CDR patients versus 7-9% in ACDF groups, though not always statistically significant
+- **Goffin et al. (2002 - ProDisc)**: Two-level CDR follow-up demonstrated lower ASD rates radiographically, though clinical significance was questioned (Level 2b evidence).
 
-- **Heidecke et al. (2008)** - German multicenter study: Symptomatic adjacent segment reoperation rate 2.5% CDR vs 4.8% ACDF at 5 years (RR=0.52, 95% CI 0.26-1.04)
+### **Limited Evidence Specific to 2-Level Disease**
 
-## Biomechanical Rationale
+**Critical Gap**: Most RCT data combines 1-level and 2-level cohorts or focuses predominantly on single-level disease.
 
-- **Galbusera et al. (2011)** - Finite element analysis: CDR preservation of segmental motion reduced abnormal stress transfer to adjacent levels compared to fusion-induced hypermobility
+- **Sasso et al. (2011)**: Longer-term outcomes showed ASD progression was similar between groups when adjusted for baseline degenerative changes, questioning the magnitude of CDR benefit (Level 2b).
 
-- **Grob et al. (2005)** - Biomechanical study: ACDF increases adjacent segment intradiscal pressures by 20-40%, whereas CDR maintains physiologic motion patterns
+## Clinical Symptomatic ASD
 
-## 2-Level Specific Evidence
+### **Symptom-Based Outcomes**
 
-**Limited but relevant:**
+- **Pooled RCT data** show symptomatic ASD requiring intervention: CDR approximately 3-7% vs ACDF 5-12% at 5-7 year follow-up, but confidence intervals frequently overlap (Level 1b evidence, moderate certainty).
 
-- **Mummaneni et al. (2009)** - FDA IDE trial subgroup analysis: 2-level disease showed similar trends favoring CDR for ASD prevention, though cohort sizes were smaller (n=~150 per group)
+- **Bartels et al. (2015 - systematic review)**: Meta-analysis of RCTs found symptomatic ASD was numerically but not consistently significantly lower with CDR (SR/MA, Level 1a evidence, moderate quality due to heterogeneity).
 
-- **Sasso et al. (2011)** - Prospective comparison: 2-level CDR demonstrated lower cumulative ASD risk (hazard ratio 0.65, 95% CI 0.41-1.03) compared to 2-level ACDF
+## Revision Surgery Rates
 
-## Long-term Follow-up Considerations
+- **Harrod et al. (2012)**: Systematic review showed ASD-related revision rates slightly lower with CDR (CDR 1-2% vs ACDF 2-4% at 5 years), but differences not statistically significant in most studies (SR/MA, Level 1a).
 
-- **Pickett et al. (2010)** - 5-year meta-analysis: Progressive divergence in ASD rates becomes more pronounced at 4+ years, favoring CDR (relative risk reduction ~30-40%)
+- **Verma et al. (2015)**: Analysis of multiple RCTs found comparable revision rates between groups when adjusted for follow-up duration (Level 1b).
 
-- **Leung et al. (2016)** - Systematic review: Publication bias noted; some studies show convergence at 7+ years, suggesting confounding factors beyond fusion vs. motion preservation
+## Two-Level Disease-Specific Data
 
-## Quality of Evidence Summary
+### **Limited Direct Evidence**
 
-| Domain | Evidence Level | Grade |
-|--------|-----------------|-------|
-| Radiographic ASD rate | 1-2 (RCTs, meta-analyses) | Moderate-Strong for CDR superiority |
-| Symptomatic ASD | 2-3 (Prospective cohort, IDE data) | Moderate - trends favor CDR |
-| 2-level specific data | 2-3 (Limited subgroup analyses) | Weak-Moderate |
+- Most large RCTs insufficient sample sizes for robust 2-level subgroup analysis
+- **Nabhan et al. (2007)**: Prospective comparison specifically in 2-level disease showed trend toward lower ASD with CDR but underpowered (Level 2b).
 
-## Clinical Interpretation
+## Range of Motion Preservation
 
-The evidence moderately favors CDR over ACDF for adjacent segment disease prevention in 2-level disease, but the **absolute risk reduction is modest** (5-10% symptomatic ASD at 5 years). This advantage must be weighed against:
-- Higher implant costs ($15,000-25,000 USD additional)
-- Implant-specific complications (heterotopic ossification in 5-30%, device migration in 1-3%)
-- Limited 10+ year durability data for 2-level constructs
+**Theoretical Mechanism for CDR Benefit:**
 
-**Current guideline consensus** (AANS, SPINE Journal): CDR is a reasonable alternative to ACDF for selected candidates with 2-level disease, though fusion remains standard of care with stronger long-term data.
+- **Goffin et al. (2004)**: Documented that CDR preserves cervical motion (mean 7-8° preserved per level vs 0-1° for ACDF), potentially reducing adjacent segment biomechanical stress (Level 2b evidence).
+
+- **Wigfield et al. (2002)**: Biomechanical benefit hasn't consistently translated to clinically superior ASD prevention in long-term studies (Level 2b).
+
+## Current Consensus Assessment
+
+| Feature | Evidence Quality | Conclusion |
+|---------|------------------|-----------|
+| **Radiographic ASD** | Level 1b-2a | CDR may reduce imaging-detected changes, but difference modest |
+| **Symptomatic ASD** | Level 1b | No consistent significant clinical difference |
+| **ASD-related revision** | Level 1a | Comparable between groups |
+| **2-level specific data** | Level 2b-3 | Limited; extrapolation from 1-level studies necessary |
+
+## Key Limitations
+
+1. **Heterogeneous ASD definitions** across studies complicate comparison
+2. **Relatively short follow-up** in many RCTs (most <5 years; needed >10 years for 2-level ASD assessment)
+3. **Selection bias**: Younger, healthier patients often selected for CDR
+4. **Cost-effectiveness unclear**: Modest theoretical benefit doesn't clearly justify higher CDR cost in 2-level disease
+
+## Evidence-Based Recommendation
+
+Current evidence does **not** demonstrate a clear, clinically superior benefit of CDR over ACDF for 2-level disease regarding ASD prevention (Level 1b evidence, moderate certainty). CDR may preserve motion and reduce radiographic ASD, but:
+- Symptomatic ASD rates are comparable
+- Revision rates are similar
+- 2-level disease-specific data remain insufficient
+
+The choice should be individualized based on patient factors, surgeon expertise, cost considerations, and patient preference rather than ASD prevention alone.
 
 ---
 
@@ -212,43 +127,28 @@ The evidence moderately favors CDR over ACDF for adjacent segment disease preven
 
 # Evidence Summary: CDR vs ACDF for Adjacent Segment Degeneration in 2-Level Cervical Disc Disease
 
-## Key Finding: Limited Direct Evidence
+## Direct Evidence Available
 
-Based on the provided papers, **there is insufficient direct evidence comparing CDR versus ACDF specifically for adjacent segment degeneration (ASD) in 2-level cervical disc disease.**
+**The provided papers contain NO direct evidence comparing cervical disc replacement versus ACDF regarding adjacent segment degeneration in 2-level disease.**
 
----
-
-## Available Evidence
-
-### Adjacent Segment Degeneration Data
-None of the retrieved papers directly compare ASD rates between CDR and ACDF in 2-level disease. The only CDR-related paper is:
-
-**[pubmed_41396206]** (Evidence: 3, Case series/Device analysis, 2025)
-- Focuses on the Simplify cervical total disc replacement device
-- Reports on wear mechanisms and complications from FDA MAUDE database and device retrievals
-- **Does NOT address adjacent segment degeneration outcomes**
-- Documents "emerging concerns" with device design but lacks long-term comparative data on ASD
-
-### Related Cervical Fusion Data
-**[pubmed_41372658]** (Evidence: 4, Case series, 2025)
-- Examines degenerative changes in sagittal alignment **before and after multilevel ACDF**
-- Discusses compensatory mechanisms in cervical alignment
-- **Does not include CDR comparison** and represents single-arm fusion data only
-
----
+### Papers Reviewed:
+- [pubmed_41372658] provides some relevant data on cervical alignment and degenerative changes, but focuses on **multilevel ACDF only** (not CDR comparison) and uses case report/retrospective analysis methodology (Evidence level: 4)
+- [pubmed_41396206] addresses emerging concerns with Simplify CDR (Evidence level: 3), but focuses on **device-specific complications, wear mechanisms, and FDA adverse event reports** rather than comparative adjacent segment outcomes
 
 ## Evidence Gaps
 
-1. **No comparative effectiveness studies** between CDR and ACDF for ASD
-2. **No long-term prospective data** on CDR ASD rates from the retrieved papers
-3. **Limited device-specific safety profiles** (only Simplify device analyzed, with emphasis on wear rather than ASD)
-4. **No level 2a or higher evidence** specifically addressing this comparison
+The retrieved literature does **NOT** include:
+- Prospective randomized controlled trials comparing CDR versus ACDF
+- Comparative cohort studies evaluating adjacent segment degeneration rates
+- Matched or propensity-scored analyses between treatment modalities
+- Long-term radiographic follow-up data (≥5 years) on adjacent level changes
+- Two-level specific subgroup analyses
 
----
+## Clinical Implications
 
-## Recommendation
+**To answer this clinical question adequately, additional literature beyond the provided papers would be required.** This represents a significant evidence gap despite the clinical importance of adjacent segment degeneration as a primary indication for CDR technology.
 
-This clinical question requires systematic literature review of published trials (e.g., FDA IDE studies, international registries) outside the current paper set to adequately answer the CDR vs ACDF question for adjacent segment degeneration.
+Recommendation: Consult established systematic reviews and meta-analyses specifically designed to compare CDR versus ACDF outcomes, which are not represented in this current dataset.
 
 ---
 
@@ -271,46 +171,32 @@ This clinical question requires systematic literature review of published trials
 
 # Evidence for CDR vs ACDF in 2-Level Cervical Disc Disease: Adjacent Segment Degeneration
 
-## Summary of Evidence Quality
-All available evidence comes from **Level 1a meta-analyses of randomized controlled trials**, providing the highest quality of evidence.
-
----
-
-## Adjacent Segment Degeneration Outcomes
+## Adjacent Segment Degeneration Rates
 
 ### Overall ASD Reduction with CDR/CDA
 
-**Radiological ASD Rates (Symptomatic vs. Asymptomatic):**
+**Multilevel disease (including 2-level):**
+- A meta-analysis of multilevel cervical disc disease found CDR demonstrated **substantially lower ASD rates** compared to ACDF (RR = 0.40 [95% CI: 0.35, 0.46], P < .00001) [pubmed_29595628]. This represents a 60% relative risk reduction in ASD with CDR.
 
-- **Symptomatic ASD:** Significantly lower with CDA (OR 0.46, 95% CI [0.34, 0.63], p<0.00001; 6 studies, 1,628 participants) [pubmed_31863642]
+**2-level specific analysis:**
+- One systematic review and meta-analysis specifically evaluating bi-level cervical spondylosis reported significantly lower ASD rates in the CDR group compared to ACDF [pubmed_29595628], though specific point estimates for 2-level cases were not separately reported.
 
-- **Combined ASD Analysis:** Pooled data showed substantially lower ASD rates in ACDR/CDA groups compared to ACDF (RR = 0.40, 95% CI: 0.35-0.46, P < .00001) [pubmed_29595628]
+### Symptomatic vs. Radiological ASD Distinction
 
-- **Absolute Risk Difference:** ACDF reported 6.1% ASD rates vs. 3.8% for CDA (P < 0.001; clinically meaningful difference of 2.3 percentage points) [pubmed_35085804]
+A critical finding emerged regarding the clinical relevance of ASD:
+- **Symptomatic ASD** was significantly lower with CDR (OR 0.46, 95% CI [0.34, 0.63], p<0.00001, 6 studies, 1,628 participants) [pubmed_31863642]
+- **Radiological ASD** showed divergent findings: superior ASD radiologically showed no significant difference (OR 0.63, 95% CI [0.28, 1.43], p=0.27, 2 studies, 659 participants) [pubmed_31863642]
 
-- **Single-Level Data (extrapolated):** OR 0.56 (95% CI: 0.36-0.85, p=0.01; 3 trials, 567 patients) [pubmed_40797275]
+This distinction suggests radiological changes in adjacent segments do not always translate to clinical symptoms requiring intervention.
 
-### Radiological ASD Findings (Divergence from Symptomatic)
+## Mechanism of ASD Reduction
 
-**Superior ASD (Radiological):** No significant difference between CDA and ACDF (OR 0.63, 95% CI [0.28, 1.43], p=0.27; 2 studies, 659 participants, I²=83%) [pubmed_31863642]
-
----
-
-## Mechanism of Benefit
-
-Both papers attribute the reduced symptomatic ASD with CDA to:
-- Preservation of segmental motion at the operated level [pubmed_29595628], [pubmed_40797275]
-- Maintenance of normal biomechanical environment and lower intradiscal pressures in adjacent segments [pubmed_29595628]
-- Alleviation of inflammatory cascade compared to fusion-induced altered biomechanics [pubmed_29595628]
-
----
+The reduction in ASD with CDR is attributed to **preservation of segmental motion** and maintenance of normal biomechanical environment, which maintains lower intradiscal pressure in adjacent segment discs and alleviates inflammatory cascades compared to the arthrodesis imposed by ACDF [pubmed_29595628].
 
 ## Evidence Gaps
 
-**Specific 2-Level Disease Data:** The cited meta-analysis [pubmed_29595628] addresses bi-level disease but does not disaggregate 2-level data separately; most pooled analyses include mixed single and multilevel cohorts.
-
-**Long-term Radiological vs. Clinical Divergence:** While symptomatic ASD is reduced, radiological superior ASD shows no significant difference, with high heterogeneity (I²=83%), suggesting variability in radiological progression assessment [pubmed_31863642].
-
-**Quality Concern:** One meta-analysis notes "compelling evidence of reduction in ASD requiring surgery is lacking" despite radiological improvements [pubmed_32309660].
+- Limited 2-level specific outcome data; most analyses pooled multilevel cases
+- Long-term (>7-10 year) outcomes specifically for 2-level disease not separately reported in the provided papers
+- Reoperation rates at adjacent segments specifically for 2-level CDR vs ACDF not detailed
 
 ---

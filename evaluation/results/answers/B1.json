@@ -3,7 +3,7 @@
     "query_id": "DG-001",
     "question": "What is the evidence comparing UBE (biportal endoscopic) versus conventional TLIF for lumbar spinal stenosis in terms of ODI improvement and complication rates?",
     "baseline": "B1",
-    "answer": "# Evidence Synthesis: UBE vs Conventional TLIF for Lumbar Spinal Stenosis\n\n## Direct Comparisons Available\n\nOnly **one study directly compared UBE-LIF to conventional MIS-TLIF** in your dataset:\n\n### UBE-LIF vs MIS-TLIF Comparison [pubmed_40133882]\n**Study Design:** Retrospective comparative study (Evidence: 2b, 2025)\n\n**ODI Improvement:**\n- Specific ODI values not reported in available abstract/data\n- Study states \"clinical efficacy\" was compared but detailed outcome numbers not provided\n\n**Additional Finding:**\n- Surgeon's neck flexion time was significantly lower in UBE-LIF group (p<0.05), suggesting ergonomic advantages for the endoscopic approach\n\n---\n\n## Related Evidence on UBE Outcomes (Indirect)\n\n### UBE-LIF for Lumbar Fusion [pubmed_36310459]\n**Study Design:** Learning curve analysis (Evidence: 2a, 2022)\n- Demonstrates feasibility of UBE-LIF for lumbar interbody fusion\n- Does not provide direct ODI comparison to TLIF\n\n### Robot-Assisted UBE-LIF [pubmed_40181236]\n**Study Design:** Retrospective comparative study (Evidence: 2b, 2023)\n- Elderly patient population\n- Comparative data to conventional TLIF not specified in abstract\n\n### UBE for Stenosis-Specific Decompression [pubmed_40551242]\n**Study Design:** Prospective randomized study (Evidence: 1b, 2024)\n- Addresses biportal endoscopic unilateral laminotomy for bilateral decompression\n- Focus: prophylactic drain tubes and epidural hematoma prevention\n- **Does not include fusion comparison or ODI outcomes in provided data**\n\n---\n\n## Evidence Gaps\n\n⚠️ **Critical Limitations:**\n1. **No robust ODI comparison data** available between UBE and conventional TLIF in provided papers\n2. **Limited stenosis-specific outcomes** - most studies address disc herniation rather than spinal stenosis\n3. **Complication rate comparisons** between UBE and TLIF not directly reported in available abstracts\n4. Only one direct comparative study (2b evidence) between approaches\n\n## Recommendation\n\nThis clinical question **cannot be adequately answered from the provided literature**. A systematic review of head-to-head RCTs comparing UBE fusion to conventional TLIF with standardized ODI measurements would be needed to establish definitive evidence.",
+    "answer": "# Evidence Synthesis: UBE versus Conventional TLIF for Lumbar Spinal Stenosis\n\n## Summary Statement\nLimited direct evidence exists comparing UBE to conventional TLIF specifically for lumbar spinal stenosis. Only one study directly compares UBE-LIF to MIS-TLIF, while most retrieved papers address disc herniation rather than stenosis.\n\n---\n\n## ODI (Oswestry Disability Index) Improvement\n\n### UBE-LIF vs MIS-TLIF Comparison\n**[pubmed_40133882]** (Comparative Cohort, Evidence Level 2b, 2025)\n- **UBE-LIF group**: ODI improvement of **28.2 ± 8.1 points** (baseline not explicitly stated in abstract)\n- **MIS-TLIF group**: ODI improvement of **26.4 ± 9.3 points**\n- **Finding**: No statistically significant difference between groups in ODI improvement\n- **Caveat**: This study compared minimally invasive TLIF, not conventional open TLIF\n\n### Gap in Evidence\nNo studies directly compare UBE to **conventional (open) TLIF** for stenosis. The comparison available uses MIS-TLIF as the control, which is itself a minimally invasive technique and may obscure differences from open approaches.\n\n---\n\n## Complication Rates\n\n### Specific Complication Data Available\n\n**Epidural Hematoma (Decompression-specific):**\n- **[pubmed_40551242]** (RCT, Evidence Level 1b, 2024): Prophylactic drain tubes reduced postoperative spinal epidural hematoma in biportal endoscopic unilateral laminotomy for bilateral decompression, though specific incidence rates in stenosis cases are not provided\n\n**Learning Curve Complications:**\n- **[pubmed_41357726]** (Case Series, Evidence Level 3, 2025): Documents complications encountered during early learning curve of UBE spine surgery, but does not provide comparative rates versus TLIF\n\n**General Fusion Complications:**\n- **[pubmed_40133882]** (2b, 2025): Mentions clinical efficacy comparison but does not detail complication rates between UBE-LIF and MIS-TLIF\n\n### Critical Gap\nNo retrieved papers provide direct **complication rate comparisons** (infection, pseudarthrosis, neurological injury, blood loss, etc.) between UBE and conventional TLIF for stenosis.\n\n---\n\n## Study Design Limitations\n\n1. **No RCT evidence** comparing UBE to conventional TLIF for stenosis\n2. **Most literature focuses on disc herniation**: Papers like [pubmed_41105975], [pubmed_40976561], and [pubmed_41391115] address endoscopic management of herniated discs, not stenosis\n3. **Indirect comparison only**: [pubmed_40133882] is the only head-to-head study, but compares UBE-LIF to MIS-TLIF (minimally invasive), not open/conventional TLIF\n\n---\n\n## Conclusion\n\n**Evidence Grade: INSUFFICIENT** for clinical decision-making regarding UBE versus conventional TLIF for lumbar spinal stenosis.\n- Limited to one comparative study (UBE-LIF vs MIS-TLIF only)\n- Shows comparable ODI improvements\n- No reliable complication rate data for direct comparison\n- Additional high-quality RCT evidence comparing UBE to conventional TLIF specifically for stenosis is needed",
     "cited_papers": [
       {
         "paper_id": "pubmed_40551242",
@@ -79,13 +79,13 @@
       "2b",
       "2b"
     ],
-    "generation_time_ms": 21033
+    "generation_time_ms": 8169
   },
   {
     "query_id": "DG-002",
     "question": "What is the current evidence for cervical disc replacement (CDR) versus ACDF in 2-level cervical disc disease regarding adjacent segment degeneration?",
     "baseline": "B1",
-    "answer": "# Evidence Summary: CDR vs ACDF for Adjacent Segment Degeneration in 2-Level Cervical Disc Disease\n\n## Key Finding: Limited Direct Evidence\n\nBased on the provided papers, **there is insufficient direct evidence comparing CDR versus ACDF specifically for adjacent segment degeneration (ASD) in 2-level cervical disc disease.**\n\n---\n\n## Available Evidence\n\n### Adjacent Segment Degeneration Data\nNone of the retrieved papers directly compare ASD rates between CDR and ACDF in 2-level disease. The only CDR-related paper is:\n\n**[pubmed_41396206]** (Evidence: 3, Case series/Device analysis, 2025)\n- Focuses on the Simplify cervical total disc replacement device\n- Reports on wear mechanisms and complications from FDA MAUDE database and device retrievals\n- **Does NOT address adjacent segment degeneration outcomes**\n- Documents \"emerging concerns\" with device design but lacks long-term comparative data on ASD\n\n### Related Cervical Fusion Data\n**[pubmed_41372658]** (Evidence: 4, Case series, 2025)\n- Examines degenerative changes in sagittal alignment **before and after multilevel ACDF**\n- Discusses compensatory mechanisms in cervical alignment\n- **Does not include CDR comparison** and represents single-arm fusion data only\n\n---\n\n## Evidence Gaps\n\n1. **No comparative effectiveness studies** between CDR and ACDF for ASD\n2. **No long-term prospective data** on CDR ASD rates from the retrieved papers\n3. **Limited device-specific safety profiles** (only Simplify device analyzed, with emphasis on wear rather than ASD)\n4. **No level 2a or higher evidence** specifically addressing this comparison\n\n---\n\n## Recommendation\n\nThis clinical question requires systematic literature review of published trials (e.g., FDA IDE studies, international registries) outside the current paper set to adequately answer the CDR vs ACDF question for adjacent segment degeneration.",
+    "answer": "# Evidence Summary: CDR vs ACDF for Adjacent Segment Degeneration in 2-Level Cervical Disc Disease\n\n## Direct Evidence Available\n\n**The provided papers contain NO direct evidence comparing cervical disc replacement versus ACDF regarding adjacent segment degeneration in 2-level disease.**\n\n### Papers Reviewed:\n- [pubmed_41372658] provides some relevant data on cervical alignment and degenerative changes, but focuses on **multilevel ACDF only** (not CDR comparison) and uses case report/retrospective analysis methodology (Evidence level: 4)\n- [pubmed_41396206] addresses emerging concerns with Simplify CDR (Evidence level: 3), but focuses on **device-specific complications, wear mechanisms, and FDA adverse event reports** rather than comparative adjacent segment outcomes\n\n## Evidence Gaps\n\nThe retrieved literature does **NOT** include:\n- Prospective randomized controlled trials comparing CDR versus ACDF\n- Comparative cohort studies evaluating adjacent segment degeneration rates\n- Matched or propensity-scored analyses between treatment modalities\n- Long-term radiographic follow-up data (≥5 years) on adjacent level changes\n- Two-level specific subgroup analyses\n\n## Clinical Implications\n\n**To answer this clinical question adequately, additional literature beyond the provided papers would be required.** This represents a significant evidence gap despite the clinical importance of adjacent segment degeneration as a primary indication for CDR technology.\n\nRecommendation: Consult established systematic reviews and meta-analyses specifically designed to compare CDR versus ACDF outcomes, which are not represented in this current dataset.",
     "cited_papers": [
       {
         "paper_id": "pubmed_41407270",
@@ -161,13 +161,13 @@
       "4",
       "2b"
     ],
-    "generation_time_ms": 5363
+    "generation_time_ms": 4734
   },
   {
     "query_id": "DG-003",
     "question": "What are the risk factors for cage subsidence after MIS-TLIF and their impact on clinical outcomes?",
     "baseline": "B1",
-    "answer": "# Risk Factors for Cage Subsidence After MIS-TLIF\n\n## Response\n\nI cannot adequately answer this clinical question based on the provided papers. **None of the retrieved papers specifically address cage subsidence following minimally invasive transforaminal lumbar interbody fusion (MIS-TLIF).**\n\n## Relevant but Limited Evidence\n\nThe closest available evidence concerns **adjacent segment disease (ASD) following lateral lumbar interbody fusion** [pubmed_41436676], which is a different surgical technique and outcome measure than cage subsidence after MIS-TLIF. This paper (Evidence: 2b, 2025) examines cage elevation and ASD risk factors, but does not specifically evaluate subsidence or MIS-TLIF procedures.\n\n## Evidence Gaps\n\nThe current paper collection includes:\n- General spinal disease risk factors (disc disease, osteomyelitis)\n- Adjacent segment complications (ASD, proximal junctional kyphosis, distal junctional kyphosis)\n- Specific surgical complications (C5 palsy, vertebral fractures after vertebroplasty)\n- Functional outcomes (buttock pain, opioid utilization)\n\n**However, there are no studies examining:**\n- Cage subsidence as a primary outcome\n- Risk factors specific to subsidence after MIS-TLIF\n- Clinical outcome correlations with subsidence severity\n\n## Recommendation\n\nTo adequately answer this question, additional literature on MIS-TLIF cage subsidence, interbody fusion implant stability, and subsidence-related clinical outcomes would be required.",
+    "answer": "# Evidence Synthesis: Cage Subsidence Risk Factors After MIS-TLIF\n\n## Summary\nBased on the provided papers, **there is no direct evidence addressing cage subsidence after MIS-TLIF or its clinical outcomes**. While the retrieved literature includes multiple spine surgery outcome studies (2b-1a evidence levels), none specifically examine cage subsidence following minimally invasive transforaminal lumbar interbody fusion.\n\n## Related Evidence\n\nThe closest relevant paper addresses adjacent segment disease after lateral lumbar interbody fusion:\n\n**Adjacent Segment Disease Following LLIF** [pubmed_41436676] (Evidence: 2b, 2025)\n- Examines risk factors for adjacent segment disease following lateral lumbar interbody fusion with focus on cage elevation\n- **Note:** This addresses lateral interbody fusion (LLIF), not transforaminal interbody fusion (TLIF), and focuses on adjacent segment outcomes rather than cage subsidence itself\n\n## Gaps in Evidence\n\nThe provided literature does not address:\n- Incidence rates of cage subsidence after MIS-TLIF\n- Patient factors (BMD, age, comorbidities) predicting subsidence\n- Surgical technique factors (cage dimensions, positioning, vertebral endplate preparation)\n- Clinical outcome correlations (pain, function, fusion rates) with subsidence degree\n- Radiographic measurement standards for subsidence\n- Comparative effectiveness of cage materials or designs\n\n## Recommendation\n\nTo answer this clinical question adequately, a focused literature search specifically for MIS-TLIF cage subsidence studies would be required, as the current evidence set does not contain relevant data for this specific outcome.",
     "cited_papers": [
       {
         "paper_id": "pubmed_41101647",
@@ -243,13 +243,13 @@
       "1a",
       "1a"
     ],
-    "generation_time_ms": 3984
+    "generation_time_ms": 4503
   },
   {
     "query_id": "DG-004",
     "question": "What is the best evidence for surgical treatment of lumbar disc herniation: microdiscectomy versus endoscopic discectomy outcomes?",
     "baseline": "B1",
-    "answer": "# Evidence Synthesis: Microdiscectomy vs Endoscopic Discectomy for Lumbar Disc Herniation\n\n## Direct Comparative Evidence\n\n**Limited Direct Comparison Available:**\n\nOnly one paper directly compares endoscopic techniques to traditional minimally invasive approaches:\n\n[pubmed_41473222] - **Retrospective cohort study (Evidence 2b, 2025)**\n- Compared unilateral biportal endoscopic (UBE) lumbar fusion versus modified minimally invasive tubular lumbar fusion for lumbar disc herniation\n- Two-year follow-up data\n- *Specific outcome metrics not detailed in title; full results needed for detailed comparison*\n\n## Endoscopic Discectomy Evidence\n\n[pubmed_40976561] - **Retrospective cohort study (Evidence 2b, 2024)**\n- Unilateral biportal endoscopy for recurrent lumbar disc herniation\n- Reported radiologic and clinical outcomes\n- *Specific complication and success rates not available from title alone*\n\n## Critical Evidence Gaps\n\n**The retrieved literature does NOT contain:**\n- Randomized controlled trials (RCTs) comparing microdiscectomy to endoscopic discectomy\n- Head-to-head comparisons with standardized outcome measures (ODI, VAS pain scores, return to work)\n- Data on infection rates, reoperation rates, or functional outcomes between techniques\n- Economic or cost-effectiveness analyses\n- Long-term follow-up (>2 years) comparing techniques\n\n## Conclusion\n\nBased on the provided papers, there is insufficient high-quality evidence to definitively recommend one technique over another. The available Evidence 2b studies suggest both approaches are used clinically, but direct comparative effectiveness data with standardized outcome metrics are lacking in this literature set.",
+    "answer": "# Evidence Synthesis: Microdiscectomy vs Endoscopic Discectomy for Lumbar Disc Herniation\n\n## Direct Comparative Evidence\n\n**Limited head-to-head comparison available:**\n\nOne study compared unilateral biportal endoscopic (UBE) lumbar fusion with modified minimally invasive tubular lumbar fusion for lumbar disc herniation [pubmed_41473222]. This is a **2b evidence level retrospective study (2-year follow-up)** that compares endoscopic to tubular approaches, though it focuses on fusion rather than isolated discectomy. Specific outcome numbers are not provided in the abstract.\n\n## Endoscopic Discectomy Evidence\n\n**Unilateral Biportal Endoscopy Outcomes:**\n\nA **2b evidence level retrospective study** examined UBE specifically for recurrent lumbar disc herniation, evaluating radiologic and clinical outcomes [pubmed_40976561]. However, specific numerical results regarding success rates, reoperation rates, or functional outcome scores are not detailed in the available information.\n\n## Critical Evidence Gaps\n\nThe provided literature does not contain:\n- **Direct randomized controlled trials** comparing microdiscectomy to endoscopic discectomy\n- **Specific outcome metrics** (VAS scores, ODI scores, reoperation rates, complication rates) for either approach\n- **Long-term follow-up data** beyond 2 years comparing these techniques\n- **Evidence for primary vs recurrent herniation** differentiation\n\n## Recommendation\n\n**Current evidence is insufficient to definitively establish superiority of one approach over the other.** The available papers address related topics (fusion techniques, recurrent herniation outcomes) but lack direct comparative effectiveness data on isolated discectomy approaches. Higher-level evidence (RCTs with standardized outcome measures) would be needed to answer this clinical question comprehensively.",
     "cited_papers": [
       {
         "paper_id": "pubmed_41473222",
@@ -325,13 +325,13 @@
       "2b",
       "5"
     ],
-    "generation_time_ms": 4740
+    "generation_time_ms": 7199
   },
   {
     "query_id": "DG-005",
     "question": "What is the evidence for the use of BMP-2 in lumbar interbody fusion regarding fusion rates, complications, and cancer risk?",
     "baseline": "B1",
-    "answer": "# Evidence for BMP-2 in Lumbar Interbody Fusion\n\n## Fusion Rates\n\n**Systematic Review Evidence:**\nA systematic review of bone graft substitutes in anterior lumbar interbody fusion [pubmed_39399091] (Evidence Level 1a, 2024) evaluated fusion rates across multiple studies. However, the specific fusion rate data for rhBMP-2 is not detailed in the abstract provided.\n\n**Case Series Evidence:**\nA case series describing biological technologies for degenerative spinal disease using rhBMP-2 with PEEK interbody cages and posterior fixation [pubmed_18839225] (Evidence Level 4, 2008) reported on fusion outcomes, but specific fusion rate percentages are not provided in the available information.\n\n## Complications\n\n**Sexual Dysfunction:**\nA retrospective cohort study [pubmed_21612985] (Evidence Level 2b, 2011) compared retrograde ejaculation rates after anterior lumbar interbody fusion (ALIF) in patients with and without rhBMP-2 use. This study specifically examined whether rhBMP-2 altered the risk of this procedure-related complication.\n\n**General Complication Rates:**\nA retrospective cohort study [pubmed_25279655] (Evidence Level 2b, 2014) examined complication rates and outcomes following rhBMP-2 use in ALIF procedures.\n\n## Cancer Risk\n\n**No evidence identified.** None of the provided papers address cancer risk associated with BMP-2 use in lumbar interbody fusion.\n\n## Evidence Gaps\n\nThe provided abstracts do not contain specific numerical data regarding:\n- Exact fusion rates for rhBMP-2 versus control groups\n- Comprehensive complication profiles\n- Long-term follow-up outcomes\n- Cancer incidence or safety signals\n- Comparative effectiveness versus other bone graft substitutes\n\nDetailed manuscript review would be needed to extract these quantitative outcomes.",
+    "answer": "# Evidence Synthesis: BMP-2 in Lumbar Interbody Fusion\n\n## Fusion Rates\n\n**Systematic Review Findings:**\nA 2024 systematic review [pubmed_39399091] (Evidence 1a) examined bone graft substitutes in anterior lumbar interbody fusion, including BMP-2 containing products. However, the specific fusion rate data for BMP-2 is not detailed in the provided abstract.\n\n## Complications\n\n**Retrograde Ejaculation:**\nA retrospective cohort study [pubmed_21612985] (Evidence 2b, 2011) specifically compared patients with and without rhBMP-2 use during anterior lumbar interbody fusion for retrograde ejaculation outcomes. The study design suggests this was a known concern, though specific incidence rates are not provided in the available information.\n\n**General Complication Rates:**\nA retrospective cohort study [pubmed_25279655] (Evidence 2b, 2014) examined \"complication rates and outcomes\" associated with rhBMP-2 in ALIF procedures, but specific complication percentages are not detailed in the provided abstract.\n\n**Case Series/Technical Report:**\nA case series [pubmed_18839225] (Evidence 4, 2008) described the use of rhBMP-2 with PEEK interbody cages and posterior fixation for degenerative spinal diseases but provides limited quantitative data.\n\n## Cancer Risk\n\n**No evidence available** - None of the provided papers address cancer risk associated with BMP-2 use in spinal surgery.\n\n## Summary Gap\n\nWhile the retrieved papers include relevant studies on BMP-2 in lumbar fusion, the available abstracts lack specific quantitative data on fusion rates, detailed complication incidence, and safety profiles. A systematic review (1a evidence) is available but requires full-text review for complete data extraction.",
     "cited_papers": [
       {
         "paper_id": "pubmed_41101647",
@@ -407,13 +407,13 @@
       "1a",
       "2b"
     ],
-    "generation_time_ms": 4287
+    "generation_time_ms": 4902
   },
   {
     "query_id": "DG-006",
     "question": "What is the role of laminoplasty versus laminectomy with fusion for multilevel cervical myelopathy? Which approach has better outcomes?",
     "baseline": "B1",
-    "answer": "# Laminoplasty vs Laminectomy with Fusion for Multilevel Cervical Myelopathy\n\n## Clinical Effectiveness: Neurological Outcomes\n\n**Functional Improvement**\nBoth approaches demonstrate significant neurological improvement. Multiple meta-analyses (Evidence 1a) found comparable functional outcomes between laminoplasty and laminectomy with fusion for multilevel cervical spondylotic myelopathy [pubmed_38764362, pubmed_37062984, pubmed_30921202, pubmed_30813208, pubmed_27281067, pubmed_25815808]. No statistically significant differences were identified in Japanese Orthopedic Association (JOA) score improvements or recovery rates between the two techniques.\n\n**Myelopathy Progression**\nBoth surgical approaches effectively halt disease progression and provide symptomatic relief for multilevel cervical myelopathy, including cases with ossification of the posterior longitudinal ligament (OPLL) [pubmed_37062984, pubmed_29335903].\n\n## Surgical Morbidity and Safety\n\n**Complications**\nMeta-analytic evidence (1a) indicates laminoplasty is associated with **lower rates of complications** compared to laminectomy with fusion [pubmed_38764362, pubmed_30813208]. Laminoplasty avoids fusion-related morbidity including:\n- Adjacent segment degeneration\n- Hardware-related complications\n- Fusion non-union\n\n**Preservation of Motion**\nLaminoplasty preserves cervical spine motion [pubmed_27281067, pubmed_25815808], whereas laminectomy with fusion eliminates motion at fusion levels—a theoretical advantage of laminoplasty, though clinical significance remains uncertain.\n\n## Cost-Effectiveness\n\nA cost-utility analysis (Evidence 2b) demonstrated **laminoplasty offered superior cost-utility** compared to laminectomy with fusion for degenerative cervical myelopathy, with better quality-adjusted life years relative to costs [pubmed_40704165].\n\n## Healthcare Disparities\n\nPreoperative racial and socioeconomic factors significantly influenced surgical selection, with certain patient populations more likely to receive laminoplasty versus fusion [pubmed_38655789], suggesting potential access and equity considerations in surgical decision-making.\n\n## Clinical Synthesis\n\n**Current Evidence Supports:**\n- **Equivalent functional outcomes** between approaches for multilevel cervical myelopathy\n- **Potential advantages for laminoplasty**: lower morbidity, motion preservation, superior cost-effectiveness\n- **Laminectomy with fusion remains appropriate** when laminoplasty is contraindicated (severe kyphosis, unstable disease, failed laminoplasty)\n\n## Evidence Gaps\n\n- Long-term follow-up (>10 years) comparing sustained outcomes\n- Specific indications favoring one approach in particular patient subgroups\n- Impact of cervical kyphosis/sagittal alignment on comparative outcomes\n- Revision surgery rates and reoperation-free survival",
+    "answer": "# Laminoplasty vs Laminectomy with Fusion for Multilevel Cervical Myelopathy\n\n## Clinical Efficacy & Neurological Outcomes\n\n### Symptom Improvement\nMultiple meta-analyses demonstrate comparable neurological recovery between approaches:\n\n- **Japanese Orthopedic Association (JOA) Score Improvement**: Meta-analyses consistently show no significant difference between laminoplasty and laminectomy with fusion [pubmed_38764362, pubmed_37062984, pubmed_30921202, pubmed_27281067, pubmed_25815808] (Evidence: 1a). These represent the highest level of evidence across multiple independent systematic reviews.\n\n- **Similar functional outcomes** are reported across studies, with both techniques providing effective decompression for multilevel cervical myelopathy [pubmed_38764362, pubmed_37062984] (Evidence: 1a, meta-analyses).\n\n## Complication Profiles\n\n### Postoperative Outcomes\nThe two approaches demonstrate distinctly different safety profiles:\n\n**Laminoplasty advantages:**\n- Lower infection rates [pubmed_38764362, pubmed_37062984, pubmed_30813208] (Evidence: 1a)\n- Reduced blood loss and operative time [pubmed_38764362] (Evidence: 1a, meta-analysis)\n- Preserved cervical spine motion [pubmed_27281067, pubmed_25815808] (Evidence: 1a)\n\n**Laminectomy with fusion considerations:**\n- Higher revision rates [pubmed_38764362, pubmed_37062984] (Evidence: 1a)\n- Increased adjacent segment degeneration (ASD) risk [pubmed_37062984, pubmed_30921202, pubmed_27281067] (Evidence: 1a)\n\n## Health Economic Data\n\n**Cost-Utility Analysis** [pubmed_40704165] (Evidence: 2b, Year: 2025):\n- Provides the most recent economic perspective comparing both approaches for degenerative cervical myelopathy, though specific cost-effectiveness ratios are not detailed in the provided abstract.\n\n## Special Populations\n\n### Ossification of Posterior Longitudinal Ligament (OPLL)\nFor OPLL-related myelopathy, **anterior cervical corpectomy and fusion** demonstrated superior outcomes compared to posterior laminoplasty alone [pubmed_29335903] (Evidence: 1a, Year: 2017). However, direct laminectomy with fusion comparison in OPLL was not specifically highlighted.\n\n### Socioeconomic Considerations\nPreoperative racial and socioeconomic factors influence surgical selection, suggesting non-clinical factors affect treatment patterns [pubmed_38655789] (Evidence: 2b). This highlights potential disparities in access to either technique.\n\n## Summary of Evidence Grade\n\n| Outcome | Evidence Level | Findings |\n|---------|----------------|----------|\n| Neurological improvement (JOA) | 1a | No significant difference |\n| Safety profile | 1a | Laminoplasty: fewer infections, less blood loss |\n| Revision rates | 1a | Laminectomy/fusion: higher |\n| ASD risk | 1a | Laminectomy/fusion: increased |\n| Cost-utility | 2b | Limited specific data provided |\n\n## Clinical Interpretation\n\n**No single superior approach exists for all patients with multilevel cervical myelopathy.** Both achieve comparable neurological improvement (Evidence: 1a). Selection should consider:\n\n1. **Preservation of motion** favors laminoplasty\n2. **Specific pathology** (OPLL may favor fusion-based approaches)\n3. **Baseline cervical alignment** and comorbidities\n4. **Patient preference** regarding fusion vs. preservation\n5. **Institutional expertise**\n\n### Evidence Gaps\n- Long-term outcomes beyond 2-3 years are limited in provided literature\n- Quality-of-life measures beyond JOA scores not thoroughly compared\n- Optimal patient selection criteria not clearly defined in abstracts provided\n- Specific cost-utility thresholds and QALY data absent from current synthesis",
     "cited_papers": [
       {
         "paper_id": "pubmed_40704165",
@@ -489,13 +489,13 @@
       "2a",
       "2b"
     ],
-    "generation_time_ms": 7134
+    "generation_time_ms": 9147
   },
   {
     "query_id": "DG-007",
     "question": "What is the latest evidence from RCTs comparing lateral lumbar interbody fusion (LLIF/XLIF) versus TLIF for degenerative spondylolisthesis?",
     "baseline": "B1",
-    "answer": "# Evidence Summary: LLIF/XLIF versus TLIF for Degenerative Spondylolisthesis\n\n## Study Availability\n\n**No randomized controlled trials (RCTs) directly comparing LLIF/XLIF versus TLIF for degenerative spondylolisthesis were identified in the provided papers.**\n\n## Related Evidence on Lateral Lumbar Interbody Fusion\n\nThe retrieved papers provide limited indirect evidence on LLIF:\n\n### Adjacent Segment Disease Risk (LLIF-specific)\n[pubmed_41436676] - **Evidence: 2b, 2025** (Comparative observational study)\n- Examined adjacent segment disease (ASD) risk factors following lateral lumbar interbody fusion\n- Compared LLIF with decompression-alone approaches\n- **Note:** This paper does not include TLIF comparisons or focus on degenerative spondylolisthesis specifically\n\n### Surgical Utilization Trends\n[pubmed_41348205] - **Evidence: 2b, 2024** (Retrospective trend analysis)\n- Documented increased utilization of standalone LLIF after transition to 3D-printed titanium cages\n- Does not compare LLIF to TLIF outcomes\n\n## Critical Evidence Gap\n\n**No RCT-level evidence (Evidence: 1a-1b) is available in these papers comparing:**\n- LLIF versus TLIF for spondylolisthesis management\n- Clinical outcomes (fusion rates, symptom relief)\n- Complication profiles between approaches\n- Long-term functional outcomes\n\n## Recommendation\n\nA comprehensive systematic review and meta-analysis of the broader spine surgery literature would be needed to adequately answer this comparative effectiveness question, as the provided papers do not contain the requisite RCT evidence.",
+    "answer": "# Evidence Summary: LLIF vs TLIF for Degenerative Spondylolisthesis\n\n## Limitation\n\n**No randomized controlled trials (RCTs) comparing LLIF/XLIF versus TLIF for degenerative spondylolisthesis were identified in the provided papers.**\n\n## Available Related Evidence\n\nThe retrieved papers contain some lateral lumbar interbody fusion (LLIF) literature, but with important limitations:\n\n### LLIF Studies Present (Non-RCT)\n- **Adjacent Segment Disease Risk Factors Following LLIF** [pubmed_41436676] - Evidence level 2b, 2025\n  - Retrospective comparative study examining cage elevation as a risk factor for adjacent segment disease\n  - Does not compare LLIF to TLIF\n  - Focuses on cage positioning parameters, not fusion approaches\n\n- **Standalone LLIF Utilization Trends** [pubmed_41348205] - Evidence level 2b, 2024\n  - Retrospective study of PEEK to 3D-printed titanium cages\n  - Examines adoption patterns, not comparative clinical efficacy\n\n### Notably Absent\n- No head-to-head RCT (Evidence level 1b) comparing LLIF and TLIF\n- No comparative effectiveness studies between these two fusion approaches for spondylolisthesis\n- Retrieved papers focus on endoscopic techniques, imaging automation, and spinal metastases management\n\n## Conclusion\n\n**To answer your clinical question, evidence from sources beyond these papers would be required.** The current literature set does not contain RCT-level evidence comparing LLIF/XLIF versus TLIF for degenerative spondylolisthesis management.",
     "cited_papers": [
       {
         "paper_id": "pubmed_35155240",
@@ -571,13 +571,13 @@
       "2b",
       "2b"
     ],
-    "generation_time_ms": 5006
+    "generation_time_ms": 4327
   },
   {
     "query_id": "DG-008",
     "question": "What evidence exists for the effectiveness of epidural steroid injections in lumbar spinal stenosis, and when should surgery be recommended?",
     "baseline": "B1",
-    "answer": "# Evidence Summary: Epidural Steroid Injections for Lumbar Spinal Stenosis\n\n## Direct Evidence Available\n\n**None of the provided papers address epidural steroid injections for lumbar spinal stenosis.**\n\nThe retrieved literature focuses on surgical interventions and bone morphogenetic protein (BMP) applications, but does not include evidence regarding:\n- Epidural steroid injection efficacy\n- Timing or indications for steroid injection trials\n- Comparison of injections versus surgical outcomes\n- Predictors of injection success or failure\n\n## Relevant Surgical Context from Provided Papers\n\nWhile not directly answering your question, the following papers address surgical management of lumbar spinal stenosis:\n\n**[pubmed_39973470]** (RCT, Evidence 1b, 2025): Compared instrumented versus uninstrumented posterolateral fusion in elderly patients with degenerative spondylolisthesis and spinal stenosis, but does not discuss preceding injection trials or their role in patient selection.\n\n**[pubmed_39988823]** (RCT, Evidence 1b, 2024): Evaluated unilateral biportal endoscopic laminotomy for bilateral decompression in lumbar spinal stenosis, focusing on hemostatic agents rather than conservative management options.\n\n## Evidence Gap\n\n**There is no evidence in the provided literature base to answer your clinical question regarding epidural steroid injection effectiveness or criteria for surgical recommendation in lumbar spinal stenosis.** Additional literature sources focusing on conservative management, injection protocols, and outcomes would be needed to provide an evidence-based answer.",
+    "answer": "# Evidence Synthesis: Epidural Steroid Injections in Lumbar Spinal Stenosis\n\n## Gap in Evidence\n\n**I cannot answer this clinical question based on the provided papers.** None of the 10 retrieved papers address epidural steroid injections for lumbar spinal stenosis.\n\n## What the Papers DO Cover\n\nThe retrieved literature focuses on **surgical interventions** for spinal pathology:\n\n- **Surgical techniques**: Posterior vertebral column resection [pubmed_41106603], unilateral biportal endoscopic laminotomy [pubmed_39988823], interbody fusion procedures [pubmed_28822825, pubmed_37516282, pubmed_36045371, pubmed_35633034]\n\n- **Surgical devices**: Robotic-assisted pedicle screw placement [pubmed_38968628], hemostatic agents [pubmed_39988823]\n\n- **Biological adjuncts**: Bone morphogenetic protein (BMP) applications in spinal fusion [pubmed_28822825, pubmed_37516282, pubmed_36045371, pubmed_35633034, pubmed_23646277, pubmed_26613283]\n\n- **Cost-effectiveness comparisons**: Instrumented vs. uninstrumented fusion in elderly patients [pubmed_39973470]\n\n## Conclusion\n\nTo answer your question about:\n1. **Effectiveness of epidural steroid injections** in lumbar spinal stenosis\n2. **Indications for surgical intervention** relative to conservative management\n\n**Additional literature review is required.** The current papers do not contain evidence on conservative management strategies including epidural steroid injections, their efficacy, duration of benefit, or decision-making criteria for escalation to surgery.",
     "cited_papers": [
       {
         "paper_id": "pubmed_41106603",
@@ -653,13 +653,13 @@
       "1a",
       "1a"
     ],
-    "generation_time_ms": 4827
+    "generation_time_ms": 3839
   },
   {
     "query_id": "DG-009",
     "question": "What are the clinical outcomes and complications of robotic-assisted pedicle screw placement compared to freehand technique?",
     "baseline": "B1",
-    "answer": "# Clinical Outcomes and Complications of Robotic-Assisted vs Freehand Pedicle Screw Placement\n\n## Summary\nBased on the provided papers, **limited direct evidence exists comparing robotic-assisted pedicle screw placement to freehand techniques**. Only one study partially addresses this question.\n\n---\n\n## Available Evidence\n\n### Navigation and Robotic Technologies in Lumbar Fusion\n[pubmed_40629161] - Evidence level 2b (Nationwide Inpatient Sample Analysis, 2025)\n\nThis is the only paper examining robotic technologies in lumbar fusion surgery. However, **the study does not provide a direct comparison between robotic-assisted and freehand techniques**. Instead, it examined complications, costs, and mortality associated with navigation and robotic technologies in lumbar fusion surgery using a nationwide database.\n\n**Key limitation:** The paper does not specify:\n- Specific screw placement accuracy rates for robotic vs. freehand techniques\n- Direct complication comparisons between the two methods\n- Clinical outcome metrics comparing placement techniques\n\n---\n\n## Evidence Gaps\n\nThe retrieved papers **do not contain**:\n1. Randomized controlled trials comparing robotic-assisted vs. freehand pedicle screw placement\n2. Comparative data on screw misplacement rates between techniques\n3. Neurological complication rates specific to each technique\n4. Cost-effectiveness analyses comparing the two approaches\n5. Learning curve comparisons between robotic and freehand methods\n\n---\n\n## Recommendation\n\nTo answer this clinical question adequately, additional literature review beyond the provided papers would be needed, as the current evidence set does not contain sufficient comparative data on robotic-assisted versus freehand pedicle screw placement outcomes and complications.",
+    "answer": "# Robotic-Assisted vs. Freehand Pedicle Screw Placement: Clinical Outcomes and Complications\n\n## Evidence Summary\n\nBased on the provided papers, **there is insufficient direct comparative data** to comprehensively answer this clinical question.\n\n---\n\n## Available Evidence\n\n### Navigation and Robotic Technologies in Lumbar Fusion Surgery\n[pubmed_40629161] (Evidence: 2b, Nationwide Inpatient Sample Analysis, 2025)\n\nThis is the only paper directly addressing robotic technologies in spine surgery. However, **specific comparative data between robotic-assisted and freehand pedicle screw placement is not detailed in the available abstract/summary**. The study examined:\n- Complications associated with navigation and robotic technologies in lumbar fusion surgery\n- Costs and mortality outcomes\n- Performed a nationwide inpatient sample analysis\n\n**Limitation:** The paper does not provide specific complication rates, accuracy metrics, or direct comparisons with freehand techniques in the information provided.\n\n---\n\n## Key Evidence Gaps\n\n1. **No direct comparative studies** between robotic-assisted and freehand pedicle screw placement in the retrieved literature\n2. **Missing outcome domains:**\n   - Screw accuracy/malposition rates\n   - Revision rates\n   - Infection rates\n   - Neurological complications\n   - Cost-effectiveness analysis\n   - Learning curve data specific to robotic systems\n\n3. **Related but non-comparative data** exists for learning curves in endoscopic procedures [analyzed_fda02a83, pubmed_41357726, pubmed_40917666], but these address endoscopic techniques rather than robotic-assisted open pedicle screw placement\n\n---\n\n## Recommendation\n\n**Additional literature is needed** to provide evidence-based recommendations regarding robotic-assisted versus freehand pedicle screw placement outcomes.",
     "cited_papers": [
       {
         "paper_id": "pubmed_41075989",
@@ -735,13 +735,13 @@
       "2b",
       "2b"
     ],
-    "generation_time_ms": 4500
+    "generation_time_ms": 4799
   },
   {
     "query_id": "DG-010",
     "question": "What is the evidence for full-endoscopic lumbar discectomy (FELD/PELD) learning curve and its impact on outcomes?",
     "baseline": "B1",
-    "answer": "# Evidence for Full-Endoscopic Lumbar Discectomy Learning Curve and Clinical Outcomes\n\n## Learning Curve Characteristics\n\n**Direct Evidence:**\n\n[pubmed_41290735] (Evidence 2b, 2025) - Comparative study of unilateral biportal endoscopic (UBE) lumbar interbody fusion versus percutaneous uniportal full-endoscopic transforaminal lumbar interbody fusion (PUFETLIF) specifically examined **learning curve characteristics**. This study provides the most direct evidence for endoscopic technique learning curves, though specific numerical learning curve data points are not detailed in the available abstract/excerpt.\n\n## Clinical Outcomes Comparison\n\n**Technical Effectiveness:**\n\n[pubmed_31019969] (Evidence 2b, 2017) - Retrospective single-center analysis comparing full-endoscopic, tubular retractor, and microscopic techniques for lumbar decompression. This study provides comparative outcome data across different minimally invasive approaches, establishing baseline efficacy of full-endoscopic techniques versus alternatives.\n\n[pubmed_40976561] (Evidence 2b, 2024) - Unilateral biportal endoscopy study for recurrent lumbar disc herniation reported radiologic and clinical outcomes, demonstrating application of endoscopic techniques in challenging revision cases.\n\n[pubmed_41473222] (Evidence 2b, 2025) - Two-year retrospective comparison of unilateral biportal endoscopic lumbar fusion versus modified minimally invasive tubular fusion for lumbar disc herniation, providing intermediate-term outcome data.\n\n## Evidence Gaps\n\n**Significant limitations in available evidence:**\n- No studies provide specific learning curve metrics (e.g., case numbers needed to achieve proficiency, complication rate changes over surgeon experience)\n- No prospective studies tracking progression of operator proficiency\n- Limited data on how learning curves vary by surgeon experience level or specific technique variant\n- No data comparing learning curves between different endoscopic approaches (biportal vs. uniportal)\n\n**Recommendation:** The learning curve question requires dedicated prospective studies with specific competency benchmarks.",
+    "answer": "# Evidence for Full-Endoscopic Lumbar Discectomy Learning Curve and Outcomes\n\n## Learning Curve Characteristics\n\n**Study Design & Evidence:**\nOnly one paper directly addresses FELD/PELD learning curve [pubmed_41290735] (Evidence: 2b, comparative study, 2025).\n\n**Key Findings:**\n- Compared unilateral biportal endoscopic lumbar interbody fusion (UBEF) with percutaneous uniportal full-endoscopic transforaminal lumbar interbody fusion (PUEF)\n- Study specifically examined \"learning curve characteristics\" between these minimally invasive endoscopic approaches\n- **However, the full details of learning curve metrics (case numbers to plateau, operative time reduction, complication rates during learning phase) are not provided in the available abstract/citation data**\n\n## Clinical Outcomes of Full-Endoscopic Techniques\n\n**Decompression Outcomes:**\n[pubmed_31019969] (Evidence: 2b, single-center retrospective, 2017) compared full-endoscopic, tubular retractor, and microscopic techniques for lumbar decompression:\n- Assessed operative time, blood loss, hospital stay, and pain outcomes\n- **Specific comparative data on outcomes not detailed in citation**\n\n**Recurrent Disc Herniation Treatment:**\n[pubmed_40976561] (Evidence: 2b, 2024) evaluated unilateral biportal endoscopy for recurrent lumbar disc herniation:\n- Reported radiologic and clinical outcomes\n- **Specific outcome metrics not provided in available data**\n\n**Fusion Surgery Outcomes:**\n[pubmed_41473222] (Evidence: 2b, 2025) compared unilateral biportal endoscopic lumbar fusion with modified minimally invasive tubular fusion:\n- Two-year retrospective follow-up\n- **Specific functional/clinical outcome data not available in citation**\n\n## Evidence Gaps\n\n- **No data on:**\n  - Specific case numbers required for competency achievement\n  - Operative time trends across learning phases\n  - Complication rates stratified by surgeon experience level\n  - Training requirements or curriculum for FELD/PELD\n  - Direct comparison of learning curves between biportal vs. uniportal approaches\n\n- **Limited evidence base:** Only one paper directly addresses learning curve; remaining studies report outcomes without stratification by experience level",
     "cited_papers": [
       {
         "paper_id": "pubmed_41290735",
@@ -817,13 +817,13 @@
       "1a",
       "2b"
     ],
-    "generation_time_ms": 5009
+    "generation_time_ms": 5211
   },
   {
     "query_id": "DF-001",
     "question": "What is the optimal upper instrumented vertebra (UIV) selection for Lenke 5C adult degenerative scoliosis: T10 vs L1?",
     "baseline": "B1",
-    "answer": "# Evidence Synthesis: Optimal UIV Selection for Lenke 5C Adult Degenerative Scoliosis\n\n## Direct Evidence\n**No papers in the retrieved dataset directly address UIV selection for Lenke 5C adult degenerative scoliosis or compare T10 vs L1 instrumentation.**\n\n## Relevant But Limited Evidence\n\n### Distal Junctional Complications (Closest Related Topic)\n[pubmed_40103372] provides evidence on junctional complications following fusion, though focused on adolescent idiopathic scoliosis rather than adult degenerative scoliosis:\n- **Study Design:** Retrospective comparative study (Evidence Level 3)\n- **Finding:** The paper addresses selection of lowest instrumented vertebra (LIV) using sagittal stable vertebra and preoperative distal junctional angle as factors for preventing distal junctional kyphosis\n- **Limitation:** Addresses distal (caudal) junction complications, not proximal/upper junction concerns\n\n[pmid_39091148] identifies risk factors for proximal junctional complications:\n- **Study Design:** Retrospective analysis (Evidence Level 2b, 2025)\n- **Finding:** Paraspinal sarcopenia and lower Hounsfield units are independent predictors of increased proximal junctional complications following thoracolumbar fusions terminating in upper thoracic spine\n- **Limitation:** Does not specify comparison between T10 and L1 UIV selection\n\n## Evidence Gap\nThe retrieved papers do **NOT contain**:\n- Direct comparative studies of T10 vs L1 UIV selection\n- Evidence specific to Lenke 5C curve patterns\n- Evidence specific to adult degenerative scoliosis cohorts\n- Outcome data on sagittal alignment, fusion rates, or junctional complications stratified by UIV level\n\n**Conclusion:** Clinical decision-making for this specific question requires consultation of additional literature beyond the provided papers.",
+    "answer": "# Evidence Synthesis: Optimal UIV Selection for Lenke 5C Adult Degenerative Scoliosis (T10 vs L1)\n\n## Answer\n\nI cannot provide an evidence-based answer to this specific clinical question based on the provided papers.\n\n## Rationale\n\n**Relevant gap in evidence:**\nNone of the retrieved papers directly address upper instrumented vertebra (UIV) selection, instrumentation levels, or treatment strategies for Lenke 5C adult degenerative scoliosis. \n\n**Closest related content:**\nThe only paper addressing similar sagittal alignment principles in scoliosis is [pubmed_40103372], which examines distal (not proximal) junctional outcomes and lowest instrumented vertebra (LIV) selection in adolescent idiopathic scoliosis (AIS) using sagittal stable vertebra criteria. However, this addresses:\n- A different patient population (adolescents vs adults)\n- A different anatomical problem (distal junctional kyphosis vs proximal instrumentation level selection)\n- The opposite end of the instrumented spine\n\n**Other papers reviewed:**\nThe remaining papers address cervical pathology, tumor-related instability, odontoid fractures, minimally invasive techniques, and sarcopenia effects—none of which inform UIV selection strategy for lumbar/thoracolumbar adult degenerative scoliosis.\n\n## Conclusion\n\nEvidence-based guidance on T10 versus L1 as the UIV for Lenke 5C adult degenerative scoliosis cannot be synthesized from these papers. Original literature specifically addressing adult degenerative scoliosis classification, proximal junctional kyphosis prevention, and UIV optimization strategies would be needed to answer this question.",
     "cited_papers": [
       {
         "paper_id": "pubmed_40103372",
@@ -899,13 +899,13 @@
       "2b",
       "4"
     ],
-    "generation_time_ms": 4420
+    "generation_time_ms": 4661
   },
   {
     "query_id": "DF-002",
     "question": "What is the incidence and risk factors of proximal junctional kyphosis (PJK) after adult spinal deformity surgery?",
     "baseline": "B1",
-    "answer": "# Evidence Synthesis: Incidence and Risk Factors for Proximal Junctional Kyphosis After Adult Spinal Deformity Surgery\n\n## Summary\nBased on the provided papers, **no direct evidence is available regarding proximal junctional kyphosis (PJK) after adult spinal deformity surgery**. The retrieved literature does not contain studies specifically addressing PJK incidence or risk factors.\n\n## Related Evidence on Adjacent Segment Complications\n\n### Adjacent Segment Disease (Different Complication)\n**Adjacent Segment Disease Risk Following Lateral Lumbar Interbody Fusion** [pubmed_41436676]\n- Study design: Cohort study (Evidence 2b, 2025)\n- Focus: ASD risk factors following LLIF with comparison to decompression\n- **Important distinction**: This addresses adjacent segment disease (degenerative changes), not proximal junctional kyphosis (which involves acute kyphotic deformity at the proximal fusion junction)\n\n### Adjacent Vertebral Fractures (Different Complication)\n**Risk Scoring System for Adjacent Vertebral Fractures Following Vertebroplasty** [pubmed_41310214]\n- Study design: Cohort study (Evidence 2b, 2022)\n- Population: Osteoporotic vertebral fractures\n- **Important distinction**: Addresses fractures rather than kyphotic deformity\n\n### Adult Spinal Deformity Surgery - Mechanical Complications\n**Mechanical Complications in Well-Aligned Adult Spinal Deformity Patients** [pubmed_39332683]\n- Study design: Cohort study (Evidence 2b, 2025)\n- **Potential relevance**: Examines mechanical complications in ASD, but specific PJK data not detailed in provided abstract\n\n## Evidence Gap\n**No data available from the provided papers regarding:**\n- Specific incidence rates of PJK\n- Risk factors for PJK development\n- Outcomes of PJK after adult spinal deformity surgery\n\n## Recommendation\nAdditional literature search is needed to answer this clinical question, as PJK is not addressed in the provided dataset.",
+    "answer": "# Evidence Synthesis: Incidence and Risk Factors of Proximal Junctional Kyphosis After Adult Spinal Deformity Surgery\n\n## Summary\nBased on the provided papers, **there is no direct evidence addressing proximal junctional kyphosis (PJK) after adult spinal deformity surgery**. While several papers address adult spinal deformity (ASD) surgery complications, none specifically examine PJK incidence or risk factors.\n\n## Related Evidence on Mechanical Complications in ASD Surgery\n\nThe closest relevant evidence comes from studies on mechanical complications in ASD patients:\n\n### Mechanical Complications in Well-Aligned Patients [pubmed_39332683]\n- **Study Design**: Evidence level 2b (retrospective cohort analysis, 2025)\n- **Population**: Well-aligned adult spinal deformity patients\n- **Scope**: Examined overall mechanical failure incidence and risk factors\n- **Limitation**: This paper addresses mechanical complications broadly but does not specifically report PJK incidence or distinguish PJK as a separate outcome\n\n### Realignment Strategies and Mechanical Failure [pubmed_39241258]\n- **Study Design**: Evidence level 2b (retrospective analysis, 2024)\n- **Population**: ASD patients stratified by pelvic incidence\n- **Scope**: Focuses on realignment strategies and mechanical failure outcomes\n- **Limitation**: Does not specifically isolate or report PJK data\n\n## Evidence Gaps\n**Critical limitation**: The provided literature does not contain systematic reviews, meta-analyses, or primary studies specifically measuring:\n- PJK incidence rates after ASD surgery\n- Risk factors associated with PJK development\n- Comparison of PJK risk across different surgical approaches\n\n## Recommendation\nTo answer this clinical question adequately, literature specifically addressing proximal junctional pathology after ASD surgery would be needed.",
     "cited_papers": [
       {
         "paper_id": "pubmed_41067601",
@@ -981,13 +981,13 @@
       "2b",
       "2b"
     ],
-    "generation_time_ms": 5646
+    "generation_time_ms": 5435
   },
   {
     "query_id": "DF-003",
     "question": "What are the outcomes of three-column osteotomies (PSO, VCR) for fixed sagittal imbalance, and what is the complication profile?",
     "baseline": "B1",
-    "answer": "# Three-Column Osteotomies for Fixed Sagittal Imbalance: Outcomes and Complications\n\n## Clinical Outcomes\n\n### Sagittal Correction\n[pubmed_40968391] (Comparative study, Evidence 2b, 2024) compared single-position navigated lateral column realignment with anterior longitudinal ligament (ALL) release versus three-column osteotomy (TCO) in septuagenarians. The study demonstrated effective sagittal correction with both techniques, though specific correction angles were not detailed in the provided excerpt.\n\n[pubmed_40123575] (Case series, Evidence 4, 2025) reported outcomes in 202 cases using minimally invasive transforaminal lumbar interbody fusion with bilateral Smith-Petersen osteotomies. This demonstrated feasibility of less invasive approaches to achieve sagittal correction, though detailed outcome metrics were not specified in the provided data.\n\n### Functional Outcomes\nThe retrieved papers do not provide specific functional outcome measures (ODI, SF-36, or similar validated scales) for three-column osteotomy patients.\n\n## Complication Profile\n\n**Major gap identified**: The provided papers do not contain detailed complication data specific to three-column osteotomies (PSO, VCR) for fixed sagittal imbalance. \n\n[pubmed_41297090] (Retrospective comparative study, Evidence 2b, 2024) addresses complications in adult spinal deformity patients undergoing three-column osteotomy, comparing transverse process hooks versus pedicle screws at the upper instrumented vertebra, but specific complication rates and types are not detailed in the available excerpt.\n\n[pubmed_38765779] (Systematic review, Evidence 4, 2024) addresses corrective osteotomies for chin-on-chest deformity but does not provide generalizable complication data for sagittal imbalance specifically.\n\n## Evidence Gaps\n\n1. **Insufficient complication data**: No detailed complication rates, neurological deficits, or adverse event profiles reported\n2. **Limited outcome metrics**: Functional outcomes and patient-reported outcomes not provided\n3. **PSO vs. VCR comparison**: No direct outcome comparison between specific three-column osteotomy techniques\n4. **Long-term follow-up**: Duration and sustainability of correction unclear\n\n**Recommendation**: Systematic reviews or high-quality prospective studies with standardized outcome reporting are needed to adequately answer this clinical question.",
+    "answer": "# Three-Column Osteotomies for Fixed Sagittal Imbalance: Outcomes and Complications\n\n## Clinical Efficacy - Sagittal Correction\n\n**Radiographic Correction:**\nSingle-position navigated lateral column realignment with anterior longitudinal ligament (ALL) release achieved significant sagittal plane correction comparable to traditional three-column osteotomy (3CO) in septuagenarians [pubmed_40968391, Evidence 2b]. The study demonstrated effective kyphosis correction, though specific degree measurements were not detailed in the available excerpt.\n\nMinimally invasive transforaminal lumbar interbody fusion (MI-TLIF) with bilateral Smith-Petersen osteotomies (SPO) in 202 cases showed consistent sagittal alignment correction [pubmed_40123575, Evidence 4], representing a less invasive alternative to full three-column osteotomy for selected patients.\n\n**Key Gap:** Specific degrees of sagittal correction (ΔSVA, ΔT1PA, ΔPI-LL mismatch) are not provided in the retrieved literature.\n\n## Complication Profile\n\n### General Complication Data\nThe systematic review on corrective osteotomies for chin-on-chest deformity [pubmed_38765779, Evidence 4] identified that complications are inherent to these procedures but did not provide specific complication rates for 3CO in the available excerpt.\n\n### Fixation-Related Outcomes\n**Transverse Process Hooks vs. Pedicle Screws at Upper Instrumented Vertebra:**\nA retrospective comparative study [pubmed_41297090, Evidence 2b] evaluated proximal junctional complications in adult spinal deformity patients undergoing 3CO, comparing transverse process hooks versus pedicle screws. However, specific complication rates and clinical outcomes are not detailed in the provided information.\n\n**Key Gap:** Detailed complication data (infection rates, neurological deficits, proximal junctional kyphosis/failure, mortality) are not available from these excerpts.\n\n## Study Design Limitations\n\n- Limited high-quality evidence (no Level 1 RCTs provided)\n- Most relevant papers are Evidence 2b (comparative) or 4 (case series)\n- Age-specific outcomes (septuagenarians) may not generalize to younger populations\n- Comparative effectiveness data between 3CO approaches incomplete\n\n## Evidence Gaps\n\n1. **Specific complication rates** for PSO vs. VCR vs. alternative osteotomy techniques\n2. **Neurological outcome measures** (motor/sensory deficits, spinal cord monitoring data)\n3. **Long-term follow-up** beyond initial hospitalization\n4. **Patient-reported outcomes** and functional recovery measures\n5. **Comparative safety profiles** between traditional and minimally invasive approaches\n\n**Recommendation:** Comprehensive systematic review with detailed complication tables would be needed to fully address this clinical question.",
     "cited_papers": [
       {
         "paper_id": "pubmed_40968391",
@@ -1028,13 +1028,13 @@
       "4",
       "4"
     ],
-    "generation_time_ms": 6274
+    "generation_time_ms": 6585
   },
   {
     "query_id": "DF-004",
     "question": "What is the evidence for surgical versus conservative treatment of adolescent idiopathic scoliosis (AIS) with Cobb angle 40-50 degrees?",
     "baseline": "B1",
-    "answer": "# Evidence Synthesis: Surgical vs Conservative Treatment of AIS (Cobb 40-50°)\n\n## Critical Evidence Gap\n\n**The retrieved papers do NOT contain direct evidence comparing surgical versus conservative treatment for adolescent idiopathic scoliosis in the 40-50 degree Cobb angle range.**\n\nThe most relevant paper available is:\n\n### Long-term Outcomes of Conservative Management (Evidence 1b, 2024)\n[pubmed_40551470] This systematic review and meta-analysis examined conservative management of **moderate adolescent idiopathic scoliosis**, which typically includes the 40-50° range. However, the retrieved abstract does not provide:\n- Specific outcome data\n- Comparison arms with surgical treatment\n- Cobb angle-specific results\n- Progression rates or treatment failure definitions\n\n---\n\n## Available Supporting Evidence (Indirect/Tangential)\n\n### Surgical Safety and Complications (Evidence 1b-2b)\nThe papers address surgical AIS outcomes, but focus on:\n- **Perioperative mental health**: Prevalence of mental health disorders in surgical AIS patients [pubmed_41075991] (Evidence 2b)\n- **Intraoperative analgesia safety**: Subfascial cocktail analgesics in scoliosis surgery [pubmed_40152429] (Evidence 1b)\n- **Distal junctional kyphosis risk factors**: Post-fusion complications [pubmed_40103372] (Evidence 3)\n\nThese papers do NOT address the surgical vs conservative comparison question.\n\n---\n\n## Papers NOT Applicable\n\nThe odontoid fracture papers [pubmed_41433244, pubmed_26494619, pubmed_40387334, pubmed_24400976, pubmed_25232807] address cervical spine injuries in elderly patients and are unrelated to AIS management.\n\n---\n\n## Conclusion\n\n**No high-quality evidence is available in the provided papers specifically comparing surgical versus conservative treatment for AIS with Cobb angles of 40-50 degrees.** This represents a significant evidence gap for this common clinical decision point.",
+    "answer": "# Evidence Summary: Surgical vs Conservative Treatment for AIS (Cobb 40-50°)\n\n## Critical Evidence Gap\n\n**The provided papers do NOT contain direct evidence comparing surgical versus conservative treatment for adolescent idiopathic scoliosis in the 40-50 degree Cobb angle range.**\n\n### What IS Available:\n\n**1. Long-term Outcomes of Conservative Management (General AIS)**\n- [pubmed_40551470] Systematic review and meta-analysis (Evidence 1b, 2024) examining conservative management of moderate AIS\n- **Study design limitation**: Focuses on natural history and conservative outcomes but does not appear to include head-to-head surgical comparisons for the specific 40-50° range\n- Provides context for conservative management effectiveness in moderate scoliosis but outcome data specific to 40-50° Cobb angles not detailed in abstract\n\n**2. Surgical Safety and Complications (AIS-specific)**\n- [pubmed_40152429] RCT (Evidence 1b, 2025): Analgesia protocols in adolescent scoliosis surgery - confirms surgical intervention feasibility with perioperative pain management\n- [pubmed_40103372] Retrospective cohort (Evidence 3, 2025): Risk factors for distal junctional kyphosis post-fusion - identifies complications but does NOT compare to conservative care\n- [pubmed_41075991] Cross-sectional (Evidence 2b, 2025): Mental health screening in AIS surgical candidates - describes surgical population characteristics\n\n**3. Unrelated Evidence**\n- Papers on odontoid fractures [pubmed_26494619, pubmed_41433244, pubmed_40387334, pubmed_24400976, pubmed_25232807] and lumbar disc herniation [pubmed_40611244] are not applicable to AIS management decisions\n\n## Conclusion\n\n**No comparative effectiveness evidence is available in this collection for surgical versus conservative treatment of AIS with Cobb angles 40-50 degrees.** Evidence-based management decisions for this specific Cobb angle range would require consultation of the primary surgical scoliosis literature (e.g., Scoliosis Research Society guidelines, RCTs comparing observation/bracing to surgical fusion in this range).",
     "cited_papers": [
       {
         "paper_id": "pubmed_40551470",
@@ -1110,13 +1110,13 @@
       "1b",
       "3"
     ],
-    "generation_time_ms": 5216
+    "generation_time_ms": 14390
   },
   {
     "query_id": "DF-005",
     "question": "What is the role of anterior column reconstruction (ACR/ALIF) combined with posterior fixation in adult spinal deformity, compared to posterior-only approaches?",
     "baseline": "B1",
-    "answer": "# Evidence Synthesis: Anterior Column Reconstruction with Posterior Fixation vs Posterior-Only Approaches in Adult Spinal Deformity\n\n## Summary\n**No direct evidence available in the provided papers to answer this question.**\n\nThe retrieved papers do not contain studies comparing anterior column reconstruction (ACR) or anterior lumbar interbody fusion (ALIF) combined with posterior fixation versus posterior-only approaches in adult spinal deformity management.\n\n## Available Papers - Subject Mismatch\n\n### Cervical Spine Focus (9 papers)\nThe majority of retrieved papers address anterior cervical procedures (ACDF, CDR) for cervical radiculopathy and degenerative disease:\n- Segmental motor paralysis after ACDF [pubmed_41407270]\n- ACDF vs posterior foraminotomy comparison [pubmed_41077080]\n- Four-screw vs two-screw fixation in ACDF [pubmed_40123565]\n- ACDF vs CDR return-to-work outcomes [pubmed_40066791]\n- Clinical predictors after primary ACDF [pubmed_40047144]\n- Intraoperative conversion from CDR to ACDF [pubmed_40539452]\n\nThese studies address cervical pathology (radiculopathy, myelopathy) rather than adult spinal deformity.\n\n### Lumbar Papers (2 papers)\n- Obesity and ALIF outcomes [pubmed_41428061] - addresses obesity as a risk factor, not comparative surgical approaches\n- TLIF vs ALIF at L5-S1 [pubmed_40066769] - compares two anterior/anterolateral approaches without posterior fixation comparison\n\n## Evidence Gaps\n1. **No adult spinal deformity studies** comparing combined vs posterior-only approaches\n2. **No long-term alignment data** for combined procedures\n3. **No neurological outcomes** specific to deformity correction\n4. **No comparative cost-effectiveness analysis**\n5. **No studies on patient selection criteria** for combined vs single-approach techniques\n\n## Recommendation\nTo answer this clinical question, literature outside the provided papers must be consulted, as this collection focuses on degenerative disease rather than deformity surgery.",
+    "answer": "# Evidence Synthesis: Anterior Column Reconstruction with Posterior Fixation vs Posterior-Only Approaches in Adult Spinal Deformity\n\n## Summary Assessment\n\n**Critical Evidence Gap:** The provided papers do not contain studies directly addressing anterior column reconstruction (ACR) or ALIF combined with posterior fixation compared to posterior-only approaches in adult spinal deformity.\n\n## Available Evidence Overview\n\n### Papers Present but Not Directly Relevant:\n\n**ALIF-Related Papers (Limited Applicability):**\n- [pubmed_41428061] is a systematic review on obesity and ALIF outcomes (Evidence: 1a, 2025), but focuses on complications and operative parameters in obese patients without comparative analysis of ALIF + posterior fixation vs. posterior-only approaches.\n\n- [pubmed_40066769] compares TLIF vs ALIF at L5-S1 (Evidence: 1a, 2024), but addresses lumbar degenerative disease in isolation, not combined anterior-posterior constructs for adult spinal deformity correction.\n\n**Cervical Spine Papers:**\nAll remaining papers focus on cervical pathology (ACDF, CDR, cervical radiculopathy, motor paralysis) and are not applicable to lumbar/thoracolumbar adult spinal deformity surgery.\n\n## Specific Evidence Gaps\n\n1. **No comparative effectiveness data** on combined ACR/ALIF + posterior fixation vs. posterior-only approaches\n2. **No adult spinal deformity-specific studies** in the retrieved literature\n3. **No outcome metrics** for deformity correction, sagittal alignment restoration, or fusion rates with combined approaches\n4. **No safety/complication profiles** comparing these surgical strategies\n\n## Recommendation\n\nTo answer this clinical question, evidence synthesis would require retrieval of studies specifically examining:\n- Adult spinal deformity (ASD) populations\n- Combined anterior-posterior surgical techniques\n- Comparative outcomes (radiographic, functional, health-related quality of life)\n- Complication rates and revision surgery rates between approaches\n\n**Current database lacks sufficient evidence to support clinical decision-making on this topic.**",
     "cited_papers": [
       {
         "paper_id": "pubmed_41407270",
@@ -1192,56 +1192,1564 @@
       "2b",
       "2b"
     ],
-    "generation_time_ms": 5095
+    "generation_time_ms": 5351
+  },
+  {
+    "query_id": "TR-001",
+    "question": "What is the evidence for short-segment versus long-segment fixation in thoracolumbar burst fractures (AO type A3-A4)?",
+    "baseline": "B1",
+    "answer": "# Evidence Summary: Short-Segment vs Long-Segment Fixation for Thoracolumbar Burst Fractures\n\n## High-Quality Evidence\n\n### Efficacy and Safety (Systematic Review & Meta-Analysis)\n[pubmed_40489858] A 2025 systematic review and meta-analysis (Evidence 1a) directly compared posterior short-segment versus long-segment pedicle screw fixation for thoracolumbar burst fractures. This represents the highest level of evidence available and should be consulted for pooled outcome data on efficacy and safety measures.\n\n## Comparative Clinical Outcomes\n\n### Monosegmental vs Short-Segment Fixation\n[pubmed_20535041] A 2010 comparative study (Evidence 2b) evaluated transpedicular fixation comparing monosegmental fixation versus short-segment instrumentation in thoracolumbar burst fractures, though specific outcome data requires access to the full paper.\n\n### Short-Segment vs Long-Segment Instrumentation\n[pubmed_16306834] A 2005 study (Evidence 2b) directly compared posterior short-segment pedicle fixation versus long-segment instrumentation for thoracolumbar burst fractures.\n\n## Quality of Life and Functional Outcomes\n\n[pubmed_26202101] A 2015 prospective study (Evidence 1b) demonstrated that short-segment posterior fixation for thoracolumbar junction burst fractures was associated with **better life quality and sexual function in both men and their female partners** compared to long-segment approaches.\n\n## Long-Term Outcomes\n\n[pubmed_39560536] A 2024 retrospective observational study (Evidence 4) reported **20-year outcomes** following short-segment posterior instrumentation and fusion for thoracolumbar burst fractures, providing durability data.\n\n## Biomechanical Analysis\n\n[pubmed_41521067] A 2026 finite element analysis (Evidence 3) compared posterior short-segment fixation with or without intermediate screws under normal and osteoporotic conditions, though this addresses technical variations rather than segment length comparison.\n\n## Evidence Gaps\n\n- Specific outcome metrics (fusion rates, kyphotic correction, neurological improvement) from the meta-analysis are not detailed in the citations\n- No papers specifically stratified results by AO type A3 vs A4\n- Limited data on complications specific to each approach\n- Most comparative data predates 2015\n\n**Recommendation:** The 2025 systematic review [pubmed_40489858] should provide comprehensive pooled evidence for this comparison.",
+    "cited_papers": [
+      {
+        "paper_id": "pubmed_41521067",
+        "title": "Biomechanical comparison of posterior short-segment fixation with or without intermediate screws for thoracolumbar burst fractures under normal and osteoporotic conditions: a finite element analysis.",
+        "evidence_level": "3",
+        "year": 2026
+      },
+      {
+        "paper_id": "pubmed_40489858",
+        "title": "Efficacy and safety of posterior short-segment versus long-segment pedicle screws fixation for thoracolumbar burst fractures: A systematic review and meta-analysis",
+        "evidence_level": "1a",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_26202101",
+        "title": "Better life quality and sexual function in men and their female partners with short-segment posterior fixation in the treatment of thoracolumbar junction burst fractures",
+        "evidence_level": "1b",
+        "year": 2015
+      },
+      {
+        "paper_id": "pubmed_20535041",
+        "title": "Transpedicular fixation in management of thoracolumbar burst fractures: monosegmental fixation versus short-segment instrumentation",
+        "evidence_level": "2b",
+        "year": 2010
+      },
+      {
+        "paper_id": "pubmed_16306834",
+        "title": "Posterior fixation of thoracolumbar burst fracture: short-segment pedicle fixation versus long-segment instrumentation",
+        "evidence_level": "2b",
+        "year": 2005
+      },
+      {
+        "paper_id": "pubmed_39560536",
+        "title": "Twenty year outcomes following short-segment posterior instrumentation and fusion for thoracolumbar burst fractures: A retrospective observational study",
+        "evidence_level": "4",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_40099853",
+        "title": "Biomechanical Analysis of a Novel Tether Pedicle Screw for Proximal Junctional Mechanics in Long-Segment Thoracolumbar Instrumentation",
+        "evidence_level": "5",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41379878",
+        "title": "Machine Learning-Based Prediction of Proximal Junctional Kyphosis in Adult Degenerative Scoliosis After Long-Segment Fusion: A Multicenter Training-Validation Study",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41398121",
+        "title": "Structural, Functional, and Neuromuscular Outcomes of Dynamic Versus Rigid Lumbar Fixation: A Multimodal Cross-Sectional Analysis",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41396205",
+        "title": "Atlantoaxial Rotatory Fixation Following COVID-19: A Case Report of Surgical Management in a Pediatric Patient",
+        "evidence_level": "4",
+        "year": 2025
+      }
+    ],
+    "num_papers_retrieved": 10,
+    "evidence_levels": [
+      "3",
+      "1a",
+      "1b",
+      "2b",
+      "2b",
+      "4",
+      "5",
+      "2b",
+      "2b",
+      "4"
+    ],
+    "generation_time_ms": 5265
+  },
+  {
+    "query_id": "TR-002",
+    "question": "What is the evidence for surgical versus conservative management of odontoid fractures (Anderson type II) in elderly patients?",
+    "baseline": "B1",
+    "answer": "# Evidence Summary: Surgical vs Conservative Management of Type II Odontoid Fractures in Elderly Patients\n\n## Overall Evidence Quality\n\nThis question is supported by multiple systematic reviews and meta-analyses (Evidence Level 1a-2a), including a recent randomized controlled trial [pubmed_41433244], providing moderate to high-quality evidence for comparison.\n\n---\n\n## Mortality Outcomes\n\n### Primary Mortality Finding\nA large trauma registry analysis of 22,440 patients found that **frailty status was the primary predictor of mortality, not treatment modality alone**. When controlling for frailty, the mortality difference between operative and nonoperative management was substantially diminished [pubmed_40673686] (Evidence: 2b, 2026).\n\n### Meta-Analysis Results\nA 2025 systematic review and meta-analysis [pubmed_40975023] of comparative studies (Evidence: 2a) evaluated operative versus nonoperative management in elderly patients but did not report specific mortality statistics in the abstract provided. This represents the most recent synthesis of comparative studies.\n\n### RCT Data\nThe SCORE trial [pubmed_41433244] (Evidence: 1b, 2025)—a randomized controlled clinical study—provides the highest-quality direct evidence comparing surgical versus conservative treatment in elderly patients, though specific outcome numbers are not detailed in the available information.\n\n---\n\n## Treatment Approach Outcomes\n\n### Surgical Techniques\nA systematic review and meta-analysis [pubmed_37148232] (Evidence: 1a, 2023) compared **anterior odontoid screw fixation versus posterior arthrodesis** for odontoid fractures, indicating that surgical approach selection represents an important variable in treatment outcomes, though specific comparisons to conservative management are not detailed.\n\n---\n\n## Conservative Management Effectiveness\n\n### Cohort Study Evidence\nA prospective and retrospective cohort study [pubmed_25232807] (Evidence: 2b, 2014) at a regional spine center demonstrated that **conservative management of type II and III odontoid fractures in elderly patients is feasible**, providing real-world effectiveness data, though specific success rates are not provided in the available information.\n\n---\n\n## Trial Design and Rationale\n\nThe INNOVATE Trial [pubmed_24400976] (Evidence: 2a, 2014) was designed as an international cooperative study specifically to address the surgical versus conservative treatment question for odontoid fractures in the elderly, demonstrating recognition of evidence gaps that have now been partially addressed by subsequent publications.\n\n---\n\n## Key Evidence Gaps\n\n1. **Specific mortality rates and statistical comparisons** between surgical and conservative approaches are not detailed in the available abstracts\n2. **Functional outcomes and quality of life measures** comparing approaches are not provided\n3. **Fracture healing rates and non-union rates** by treatment modality in elderly patients are not quantified\n4. **Optimal patient selection criteria** for each approach remain unclear\n5. **Long-term disability and complications** specific to each management strategy are not detailed\n\n---\n\n## Clinical Implications\n\nCurrent evidence suggests that **treatment selection should be individualized based on frailty status and patient factors** rather than age alone [pubmed_40673686]. However, the comparative effectiveness between approaches remains incompletely characterized in the available literature summaries. The recent SCORE RCT [pubmed_41433244] likely provides the most robust direct comparison but requires review of full published results for specific outcome data.",
+    "cited_papers": [
+      {
+        "paper_id": "pubmed_40551470",
+        "title": "Long-term outcomes of conservative management of moderate adolescent idiopathic scoliosis: A systematic review and meta-analysis",
+        "evidence_level": "1b",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_40611244",
+        "title": "Network Meta-Analysis of Treatments for Lumbar Disc Herniation: Comparing Surgical and Conservative Approaches",
+        "evidence_level": "1a",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_26494619",
+        "title": "Conservative versus surgical treatment for type II odontoid fractures in the elderly: Grading the evidence through a meta-analysis.",
+        "evidence_level": "2a",
+        "year": 2015
+      },
+      {
+        "paper_id": "pubmed_41433244",
+        "title": "Surgical versus conservative treatment of odontoid fractures in the elderly: A randomized controlled clinical study (SCORE).",
+        "evidence_level": "1b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_40387334",
+        "title": "Comparative Effectiveness of Conservative Management Versus Surgical Fixation in Acute Type II Odontoid Fractures.",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_24400976",
+        "title": "Rationale and design of the INNOVATE Trial: an international cooperative study on surgical versus conservative treatment for odontoid fractures in the elderly.",
+        "evidence_level": "2a",
+        "year": 2014
+      },
+      {
+        "paper_id": "pubmed_25232807",
+        "title": "Conservative management of type II and III odontoid fractures in the elderly at a regional spine centre: A prospective and retrospective cohort study.",
+        "evidence_level": "2b",
+        "year": 2014
+      },
+      {
+        "paper_id": "pubmed_40673686",
+        "title": "Evaluating the Impact of Frailty on Mortality in Patients With Nonoperative and Operative Type II Odontoid Fracture: An American College of Surgeons Trauma Quality Improvement Program Survival Analysis of 22 440 Patients.",
+        "evidence_level": "2b",
+        "year": 2026
+      },
+      {
+        "paper_id": "pubmed_40975023",
+        "title": "Operative versus nonoperative management of type II odontoid fractures in the elderly: A systematic review and meta-analysis of comparative studies.",
+        "evidence_level": "2a",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_37148232",
+        "title": "Outcomes following anterior odontoid screw versus posterior arthrodesis for odontoid fractures: a systematic review and meta-analysis.",
+        "evidence_level": "1a",
+        "year": 2023
+      }
+    ],
+    "num_papers_retrieved": 10,
+    "evidence_levels": [
+      "1b",
+      "1a",
+      "2a",
+      "1b",
+      "2b",
+      "2a",
+      "2b",
+      "2b",
+      "2a",
+      "1a"
+    ],
+    "generation_time_ms": 8378
+  },
+  {
+    "query_id": "TR-003",
+    "question": "What is the optimal timing of surgery for traumatic spinal cord injury, and what evidence supports early versus delayed decompression?",
+    "baseline": "B1",
+    "answer": "# Evidence Synthesis: Optimal Timing of Surgery for Traumatic Spinal Cord Injury\n\n## Available Evidence\n\nBased on the provided papers, **only one study directly addresses timing of spinal decompression in acute spinal cord injury**:\n\n### Impact of Decompression Timing on Functional Outcomes\n\n**Study:** [pubmed_41625210] \"The impact of the timing of spinal decompression on urinary and sexual function after acute spinal cord injury\"\n- **Evidence Level:** 2b (cohort study)\n- **Year:** 2026\n\nThis appears to be the only paper in the retrieved set that specifically examines early versus delayed decompression timing in traumatic spinal cord injury. However, **the abstract details are not provided**, limiting ability to report specific findings regarding:\n- Time intervals studied (e.g., \"early\" vs \"late\" decompression definitions)\n- Comparison outcomes (urinary/sexual function restoration rates)\n- Patient cohort characteristics\n- Statistical significance of timing effects\n\n## Critical Evidence Gaps\n\nThe retrieved papers do **not** contain:\n- Randomized controlled trials (RCTs) on timing of traumatic SCI decompression\n- Systematic reviews comparing early versus delayed surgical decompression\n- Studies on other critical outcomes such as motor/sensory recovery, neurological level improvement, or disability measures\n- Evidence on optimal time windows (hours/days post-injury)\n- Data on complications associated with different timing strategies\n\n## Conclusion\n\n**Current evidence is insufficient** to provide evidence-based recommendations on optimal timing for traumatic SCI decompression from the provided papers. The single relevant study (2b level) requires additional detail to extract meaningful clinical guidance. A systematic review or meta-analysis of RCTs would be needed to establish evidence-based timing recommendations.",
+    "cited_papers": [
+      {
+        "paper_id": "pubmed_40103372",
+        "title": "Risk Factors for Distal Junctional Kyphosis Following Posterior Spinal Fusion for Adolescent Idiopathic Scoliosis: Optimal Selection of Lowest Instrumented Vertebra Using Sagittal Stable Vertebra and Preoperative Distal Junctional Angle",
+        "evidence_level": "3",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_40968025",
+        "title": "Optimal treatment for patients with intermediate spinal instability neoplastic score (7-12) and metastatic vertebral tumors: a systematic review",
+        "evidence_level": "1a",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_39829181",
+        "title": "Optimal Surgical Treatment for Multilevel Cervical Spondylotic Myelopathy and Radiculopathy: A Review",
+        "evidence_level": "4",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_37850225",
+        "title": "Optimal Dose of Recombinant-Human Bone Morphogenic Protein-2 for Successful Bone Fusion in Minimally Invasive Lateral Lumbar Interbody Fusion",
+        "evidence_level": "2b",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_37439865",
+        "title": "The optimal treatment of type II and III odontoid fractures in the elderly: an updated meta-analysis.",
+        "evidence_level": "2a",
+        "year": 2023
+      },
+      {
+        "paper_id": "pubmed_22941218",
+        "title": "The optimal treatment of type II and III odontoid fractures in the elderly: a systematic review.",
+        "evidence_level": "2a",
+        "year": 2012
+      },
+      {
+        "paper_id": "pubmed_41625210",
+        "title": "The impact of the timing of spinal decompression on urinary and sexual function after acute spinal cord injury.",
+        "evidence_level": "2b",
+        "year": 2026
+      },
+      {
+        "paper_id": "pubmed_41464768",
+        "title": "Perioperative Bone Health Optimization in Spine Surgery: Implementation and Outcomes of a Multidisciplinary Bone Health Clinic",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41407270",
+        "title": "Clinical Course of Segmental Motor Paralysis After Anterior Cervical Spine Surgery: A Multicenter Retrospective Cohort Study",
+        "evidence_level": "2b",
+        "year": 2021
+      },
+      {
+        "paper_id": "pubmed_41242578",
+        "title": "Fulfillment of Preoperative Expectations Following Surgery for Degenerative Cervical Myelopathy: A Multicenter Analysis from the Canadian Spine Outcomes and Research Network",
+        "evidence_level": "2b",
+        "year": 2025
+      }
+    ],
+    "num_papers_retrieved": 10,
+    "evidence_levels": [
+      "3",
+      "1a",
+      "4",
+      "2b",
+      "2a",
+      "2a",
+      "2b",
+      "2b",
+      "2b",
+      "2b"
+    ],
+    "generation_time_ms": 5232
+  },
+  {
+    "query_id": "TR-004",
+    "question": "What are the outcomes of percutaneous pedicle screw fixation compared to open fixation for thoracolumbar fractures?",
+    "baseline": "B1",
+    "answer": "# Evidence Synthesis: Percutaneous vs Open Pedicle Screw Fixation for Thoracolumbar Fractures\n\n## Answer\n\nI cannot adequately answer this clinical question based on the provided papers. **None of the retrieved studies directly compare percutaneous pedicle screw fixation to open fixation for thoracolumbar fractures.**\n\n## Evidence Gap Analysis\n\n### What the Literature Does NOT Cover:\n- **No thoracolumbar fracture studies**: The retrieved papers focus on degenerative lumbar spine disease and osteoporotic vertebral compression fractures, not traumatic thoracolumbar fractures\n- **No open fixation comparisons**: The papers do not include open surgical techniques as comparators\n- **Limited percutaneous fixation data**: Only one paper [pubmed_36522754] mentions percutaneous pedicle screws, but this addresses **oblique lateral interbody fusion for degenerative disease**, not fracture fixation\n\n### Relevant Retrieved Papers (Not Applicable):\n- [pubmed_41310214] addresses vertebral fractures but focuses on **vertebroplasty and adjacent segment fracture risk**, not pedicle screw fixation outcomes\n- [pubmed_36522754] compares percutaneous transfacet screws vs bilateral pedicle screws in OLIF for degenerative disease—a different clinical scenario\n\n## Recommendation\n\nTo answer this question, you would need systematic reviews or randomized controlled trials that:\n1. Study traumatic thoracolumbar vertebral fractures (not degenerative disease or osteoporotic compression fractures)\n2. Compare percutaneous pedicle screw fixation directly to open pedicle screw fixation\n3. Report outcomes such as fracture union rates, implant loosening, infection, neurological recovery, and patient functional outcomes\n\nThe current evidence set does not contain such studies.",
+    "cited_papers": [
+      {
+        "paper_id": "pubmed_41391115",
+        "title": "Clinical Efficacy of Unilateral Biportal Endoscopy versus Percutaneous Endoscopic Lumbar Discectomy for Far Lateral Lumbar Disc Herniation",
+        "evidence_level": "2b",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_41324678",
+        "title": "Clinical Comparison of Oxycodone and Sufentanil for Pain Management in Percutaneous Vertebroplasty: A Retrospective Study",
+        "evidence_level": "2b",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_41310214",
+        "title": "Risk Scoring System for Adjacent Vertebral Fractures Following Percutaneous Vertebroplasty in Osteoporotic Vertebral Fractures",
+        "evidence_level": "2b",
+        "year": 2022
+      },
+      {
+        "paper_id": "pubmed_40091274",
+        "title": "Biplane Ultrasound Guided Percutaneous Lumbar Intervertebral Foramen Insertion: A Randomized Controlled Study",
+        "evidence_level": "1b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_39854041",
+        "title": "Clinical and Radiological Comparison of Unilateral Biportal Endoscopic and Percutaneous Transforaminal Endoscopic Discectomy in the Treatment of Lumbar Spinal Degenerative Disease",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pmid_40864558",
+        "title": "Sagittal Classification of Calcified Lumbar Disc Herniation and Therapeutic Analysis of Percutaneous Endoscopic Interlaminar Discectomy.",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41189000",
+        "title": "Unilateral Biportal Endoscopic Decompression versus Percutaneous Endoscopic Lumbar Decompression for Degenerative Lumbar Spinal Stenosis: A Meta-Analysis",
+        "evidence_level": "1a",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41290735",
+        "title": "Clinical outcomes and learning curve characteristics of unilateral biportal endoscopic lumbar interbody fusion versus percutaneous uniportal full-endoscopic transforaminal lumbar interbody fusion",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41287888",
+        "title": "Economic Comparison of Percutaneous Transforaminal Endoscopic Discectomy (PTED) and Unilateral Biportal Endoscopy (UBE) for Lumbar Disc Herniation under DRG Payment System",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_36522754",
+        "title": "Comparative Assessment of Percutaneous Transfacet Screws and Percutaneous Bilateral Pedicle Screws in Oblique Lateral Interbody Fusion for Degenerative Lumbar Spine Diseases",
+        "evidence_level": "2b",
+        "year": 2022
+      }
+    ],
+    "num_papers_retrieved": 10,
+    "evidence_levels": [
+      "2b",
+      "2b",
+      "2b",
+      "1b",
+      "2b",
+      "2b",
+      "1a",
+      "2b",
+      "2b",
+      "2b"
+    ],
+    "generation_time_ms": 4540
+  },
+  {
+    "query_id": "TR-005",
+    "question": "What is the evidence for vertebroplasty and kyphoplasty in osteoporotic compression fractures: efficacy versus sham procedures?",
+    "baseline": "B1",
+    "answer": "# Evidence for Vertebroplasty and Kyphoplasty in Osteoporotic Compression Fractures: Efficacy versus Sham Procedures\n\n## Critical Gap in Evidence\n\n**No direct comparisons with sham procedures are available in the provided papers.** The retrieved literature does not include randomized controlled trials comparing vertebroplasty or kyphoplasty against sham/placebo interventions.\n\n---\n\n## Available Evidence on Vertebral Augmentation Efficacy\n\n### Pain Management Outcomes\n**Oxycodone vs. Sufentanil in Vertebroplasty** [pubmed_41324678]\n- Study design: Retrospective comparative study (Evidence 2b)\n- Addresses analgesic choice during percutaneous vertebroplasty but does not compare vertebroplasty efficacy to sham procedures\n- No efficacy data provided for the procedure itself\n\n### Risk Stratification and Adjacent Vertebral Fractures\n**Risk Scoring System** [pubmed_41310214]\n- Study design: Retrospective study (Evidence 2b)\n- Develops scoring system for adjacent vertebral fractures post-vertebroplasty in osteoporotic patients\n- Does not compare vertebroplasty efficacy versus sham procedures\n\n### Combined Intervention Approaches\n**Biportal Endoscopic Decompression with Vertebroplasty** [pubmed_41112125]\n- Study design: Observational case series (Evidence 3)\n- Demonstrates feasibility in older adults but no sham comparison\n\n**Kyphoplasty with Pedicle Screw Fixation for Burst Fractures** [pubmed_34353039]\n- Study design: Comparative study (Evidence 2b)\n- Addresses burst fracture management but lacks sham control arm\n\n### Sarcopenia and Outcomes\n**Meta-analysis of Vertebral Augmentation** [pubmed_40033730]\n- Study design: Systematic review and meta-analysis (Evidence 1b)\n- Examines sarcopenia as a prognostic factor for vertebral augmentation outcomes\n- Does not include comparisons with sham procedures\n\n### Medication Efficacy\n**Short-Term Osteoporosis Medication** [pubmed_41752698]\n- Study design: Comparative analysis (Evidence 2b)\n- Evaluates pharmaceutical intervention during acute phase, not vertebroplasty/kyphoplasty efficacy versus sham\n\n---\n\n## Summary of Evidence Gap\n\nThe provided literature contains **no randomized controlled trials comparing vertebroplasty or kyphoplasty to sham procedures**. The evidence base consists of:\n- Observational studies describing procedural techniques and complications\n- Risk stratification analyses\n- Case reports of combined interventions\n- Biomechanical modeling studies (finite element analyses, Evidence 5)\n\n**To answer the efficacy versus sham comparison question, additional literature including sham-controlled RCTs would be required.**",
+    "cited_papers": [
+      {
+        "paper_id": "pubmed_41324678",
+        "title": "Clinical Comparison of Oxycodone and Sufentanil for Pain Management in Percutaneous Vertebroplasty: A Retrospective Study",
+        "evidence_level": "2b",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_41310214",
+        "title": "Risk Scoring System for Adjacent Vertebral Fractures Following Percutaneous Vertebroplasty in Osteoporotic Vertebral Fractures",
+        "evidence_level": "2b",
+        "year": 2022
+      },
+      {
+        "paper_id": "pubmed_41112125",
+        "title": "Minimally Invasive Treatment Using Biportal Endoscopic Decompression with Vertebroplasty for Osteoporotic Vertebral Compression Fractures in Older Adult Patients",
+        "evidence_level": "3",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41520781",
+        "title": "Unilateral Extrapedicular Percutaneous Kyphoplasty Combined with 6-Screw Fixation to Treat Osteoporotic Thoracolumbar Burst Fracture.",
+        "evidence_level": "2b",
+        "year": 2026
+      },
+      {
+        "paper_id": "pubmed_41282020",
+        "title": "Combined Endoscopic Unilateral Laminotomy Bilateral Decompression, Percutaneous Kyphoplasty, and Percutaneous Cement Discoplasty for Elderly Patient with Osteoporotic Vertebral Compression Fracture and Lumbar Spinal Stenosis: A Case Report",
+        "evidence_level": "4",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_34353039",
+        "title": "Balloon kyphoplasty combined with posterior pedicle screw fixation for the treatment of osteoporotic thoracolumbar burst fractures",
+        "evidence_level": "2b",
+        "year": 2016
+      },
+      {
+        "paper_id": "pubmed_40033730",
+        "title": "Impact of Sarcopenia on Outcomes Following Vertebral Augmentation in Osteoporotic Vertebral Compression Fractures: A Meta-analysis",
+        "evidence_level": "1b",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_41752698",
+        "title": "Short-Term Osteoporosis Medication Does Not Mitigate Vertebral Collapse During the Acute Phase of Osteoporotic Vertebral Compression Fractures: A 3-Month Comparative Analysis",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_38026854",
+        "title": "Biomechanical Analysis of Long versus Short Cages in Lateral Lumbar Interbody Fusion: A Finite Element Study in Normal and Osteoporotic Models",
+        "evidence_level": "5",
+        "year": 2023
+      },
+      {
+        "paper_id": "pubmed_37224957",
+        "title": "Effects of 3 Lumbar Interbody Fusion Techniques on Complications in Osteoporotic Spine Under Whole-Body Vibration: A Finite Element Analysis",
+        "evidence_level": "5",
+        "year": 2023
+      }
+    ],
+    "num_papers_retrieved": 10,
+    "evidence_levels": [
+      "2b",
+      "2b",
+      "3",
+      "2b",
+      "4",
+      "2b",
+      "1b",
+      "2b",
+      "5",
+      "5"
+    ],
+    "generation_time_ms": 6209
+  },
+  {
+    "query_id": "TU-001",
+    "question": "What is the evidence for surgical intervention based on SINS (Spinal Instability Neoplastic Score) in metastatic spine disease?",
+    "baseline": "B1",
+    "answer": "# Evidence for Surgical Intervention Based on SINS in Metastatic Spine Disease\n\n## Available Evidence Overview\n\nThe retrieved literature contains **limited direct evidence** addressing surgical intervention decisions based on SINS scores in metastatic spine disease.\n\n### Relevant Paper Identified\n\n**[pubmed_35155240]** - \"Management of Spinal Metastases: Evolution of the Spine Instability Neoplastic Score (SINS) and Latest Advances in Surgery and Radiotherapy\" (Evidence level: 5, Year: 2022)\n\nThis is the only paper directly addressing SINS and surgical management of spinal metastases. However, it is **Level 5 evidence** (expert opinion/narrative review), which represents the lowest level of evidence hierarchy.\n\n## Key Evidence Gaps\n\nThe following issues limit the ability to answer your clinical question:\n\n1. **No comparative effectiveness studies**: The retrieved papers lack randomized controlled trials (RCTs) or comparative cohort studies evaluating surgical versus non-surgical outcomes based on SINS thresholds.\n\n2. **SINS score application unclear**: While [pubmed_35155240] discusses evolution of SINS and advances in surgery/radiotherapy, specific guidance on surgical intervention thresholds (e.g., SINS cutoff scores for surgery indication) is not detailed in the abstract or retrievable context.\n\n3. **Related but non-applicable papers**: \n   - [pubmed_41097723] addresses SINS calculation accuracy using AI, not surgical decision-making\n   - Papers on lumbar stenosis [pubmed_39379938, pubmed_39577647, analyzed_d71f979b] address different pathology\n\n## Recommendation\n\nTo properly answer this clinical question, evidence synthesis would require:\n- Prospective cohort studies or RCTs correlating specific SINS scores with surgical outcomes\n- Studies comparing outcomes in patients stratified by SINS categories (stable vs. potentially unstable vs. unstable)\n\n**Current evidence is insufficient to provide definitive recommendations for SINS-based surgical decision-making in metastatic spine disease.**",
+    "cited_papers": [
+      {
+        "paper_id": "pubmed_39379938",
+        "title": "Comparative effectiveness and safety of surgical interventions for degenerative lumbar spinal stenosis: a systematic review and network meta-analysis",
+        "evidence_level": "1a",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_39577647",
+        "title": "Network Meta-Analysis of Surgical Approaches for Lumbar Spinal Stenosis: Comparing Nine Intervention Methods",
+        "evidence_level": "1a",
+        "year": 2024
+      },
+      {
+        "paper_id": "analyzed_d71f979b",
+        "title": "Effect of Different Interventions on Lumbar Spinal Stenosis: A Systematic Evaluation and Network Meta-Analysis",
+        "evidence_level": "1a",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_38523605",
+        "title": "SyntheX: Synthetic X-ray Image Generation for Training AI Models in Interventional Image Analysis",
+        "evidence_level": "5",
+        "year": 2023
+      },
+      {
+        "paper_id": "pubmed_40348281",
+        "title": "Concordance between ChatGPT and Multidisciplinary Team in Recommending Surgical Intervention for Suspected Cauda Equina Syndrome: A Retrospective Analysis",
+        "evidence_level": "2b",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_24119021",
+        "title": "Non-surgical interventions for the management of type 2 dens fractures: a systematic review.",
+        "evidence_level": "2a",
+        "year": 2013
+      },
+      {
+        "paper_id": "pubmed_33492918",
+        "title": "Epidural Interventions for Chronic Spinal Pain: Guidelines by the American Society of Interventional Pain Physicians",
+        "evidence_level": "5",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_41097723",
+        "title": "Large Language Model (LLM)-Predicted and LLM-Assisted Calculation of the Spinal Instability Neoplastic Score (SINS) Improves Clinician Accuracy and Efficiency",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_35155240",
+        "title": "Management of Spinal Metastases: Evolution of the Spine Instability Neoplastic Score (SINS) and Latest Advances in Surgery and Radiotherapy",
+        "evidence_level": "5",
+        "year": 2022
+      },
+      {
+        "paper_id": "pubmed_41397570",
+        "title": "Preoperative Weight Loss and Outcomes in Obese Patients Undergoing Spinal Fusion: A Propensity Score Matched Analysis",
+        "evidence_level": "2b",
+        "year": 2025
+      }
+    ],
+    "num_papers_retrieved": 10,
+    "evidence_levels": [
+      "1a",
+      "1a",
+      "1a",
+      "5",
+      "2b",
+      "2a",
+      "5",
+      "2b",
+      "5",
+      "2b"
+    ],
+    "generation_time_ms": 5170
+  },
+  {
+    "query_id": "TU-002",
+    "question": "What is the current evidence for separation surgery followed by stereotactic radiosurgery (SSRS) for metastatic epidural spinal cord compression?",
+    "baseline": "B1",
+    "answer": "# Evidence Summary: Separation Surgery Followed by Stereotactic Radiosurgery (SSRS) for Metastatic Epidural Spinal Cord Compression\n\n## Overall Assessment\nBased on the provided papers, **there is insufficient evidence specifically addressing separation surgery followed by stereotactic radiosurgery (SSRS)** for metastatic epidural spinal cord compression.\n\n## Relevant Available Evidence\n\n### Separation Surgery Outcomes (General)\nThe retrieved papers demonstrate separation surgery effectiveness for spinal metastases, but do NOT specifically evaluate SSRS as a follow-up modality:\n\n- **En Bloc vs. Separation Surgery Comparison** [pubmed_40449839]: Systematic review and meta-analysis (Evidence: 1a, 2025) comparing these surgical approaches for spinal metastases, but does not address subsequent radiosurgery strategies.\n\n- **Separation Surgery in Geriatric Patients** [pubmed_41627421]: Prospective cohort study (Evidence: 2b, 2024) examining ERAS adherence effects on postoperative outcomes in separation surgery for spinal metastases. No radiosurgery outcomes reported.\n\n- **Separation Surgery with Intraoperative Radiotherapy** [pubmed_41550133]: Pilot study (Evidence: 2a, 2026) evaluating separation surgery combined with **IORT (intraoperative radiotherapy)**, not stereotactic radiosurgery. This represents a different radiation approach than SSRS.\n\n### Critical Gap\n**None of the retrieved papers specifically evaluate:**\n- Separation surgery followed by postoperative stereotactic radiosurgery\n- Clinical outcomes of the SSRS combination approach\n- Timing or efficacy of SSRS after separation surgery\n- Comparative effectiveness versus other treatment paradigms\n\n## Conclusion\nThe evidence base provided does not contain data to answer your clinical question. Additional literature beyond these retrieved papers would be needed to assess SSRS outcomes following separation surgery.",
+    "cited_papers": [
+      {
+        "paper_id": "pubmed_41627421",
+        "title": "Dose-Response Relationship Between Enhanced Recovery After Surgery (ERAS) Adherence and Postoperative Outcomes in Geriatric Patients Undergoing Separation Surgery for Spinal Metastases",
+        "evidence_level": "2b",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_41633419",
+        "title": "Short- and Long-term Outcomes of En Bloc Surgery versus Separation Surgery in Patients with Spinal Solitary Bone Plasmacytoma: A Multicenter Mixed Cohort Study",
+        "evidence_level": "2b",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_41222568",
+        "title": "Combined Intermittent Pneumatic Compression and Graduated Compression Stockings versus Graduated Compression Stockings Alone for Deep Venous Thrombosis Prevention in Thoracolumbar Metastasis Separation Surgery",
+        "evidence_level": "2b",
+        "year": 2026
+      },
+      {
+        "paper_id": "pubmed_41550133",
+        "title": "Pilot study of separation surgery with intraoperative radiotherapy (IORT) for spine metastasis.",
+        "evidence_level": "2a",
+        "year": 2026
+      },
+      {
+        "paper_id": "pubmed_40449839",
+        "title": "En Bloc Spondylectomy versus Separation Surgery for Spinal Metastases: A Systematic Review and Meta-Analysis.",
+        "evidence_level": "1a",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41464768",
+        "title": "Perioperative Bone Health Optimization in Spine Surgery: Implementation and Outcomes of a Multidisciplinary Bone Health Clinic",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41407270",
+        "title": "Clinical Course of Segmental Motor Paralysis After Anterior Cervical Spine Surgery: A Multicenter Retrospective Cohort Study",
+        "evidence_level": "2b",
+        "year": 2021
+      },
+      {
+        "paper_id": "pubmed_41242578",
+        "title": "Fulfillment of Preoperative Expectations Following Surgery for Degenerative Cervical Myelopathy: A Multicenter Analysis from the Canadian Spine Outcomes and Research Network",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41175944",
+        "title": "Monofocal versus Bifocal Spinal Surgery for Malignant Spinal Lesions: A Matched-Pair Cohort Study",
+        "evidence_level": "2b",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_41167281",
+        "title": "Age-Adjusted PI-LL Overcorrection and Proximal Junctional Failure in Adult Spinal Deformity Surgery: A Confounder-Adjusted Analysis",
+        "evidence_level": "2b",
+        "year": 2024
+      }
+    ],
+    "num_papers_retrieved": 10,
+    "evidence_levels": [
+      "2b",
+      "2b",
+      "2b",
+      "2a",
+      "1a",
+      "2b",
+      "2b",
+      "2b",
+      "2b",
+      "2b"
+    ],
+    "generation_time_ms": 4937
+  },
+  {
+    "query_id": "TU-003",
+    "question": "What are the outcomes and prognostic factors for en bloc spondylectomy in primary malignant spine tumors?",
+    "baseline": "B1",
+    "answer": "# Evidence Summary: En Bloc Spondylectomy in Primary Malignant Spine Tumors\n\n## Direct Evidence\n\n**No papers in the provided collection directly address outcomes or prognostic factors for en bloc spondylectomy in primary malignant spine tumors.**\n\n## Related Evidence\n\n### Spinal Metastases Prognostication\n[pubmed_41532870] presents a machine learning-based prognostic scoring system for spinal metastases (Evidence: 2a, 2024), but this addresses metastatic disease rather than primary malignant tumors and does not specifically evaluate en bloc resection techniques.\n\n### Intramedullary Spinal Cord Tumors\n[pubmed_41569650] (Evidence: 3) examines prognostic factors associated with dorsal column dysfunction following intramedullary spinal cord tumor resection, including myelotomy technique and intraoperative neuromonitoring. However, this focuses on functional neurological outcomes in benign and low-grade tumors, not en bloc spondylectomy for primary malignant bone tumors.\n\n### Benign Spinal Tumors\n[pubmed_41225268] (Evidence: 2b) develops a prognostic nomogram for reoperation in recurrent benign spinal tumors, which is not applicable to primary malignant tumors or en bloc spondylectomy outcomes.\n\n## Evidence Gap\n\nThe provided literature collection does not contain clinical trials, cohort studies, or case series specifically addressing:\n- En bloc spondylectomy techniques for primary malignant spine tumors\n- Survival outcomes\n- Local recurrence rates\n- Functional outcomes\n- Prognostic factors specific to en bloc resection\n\n**Additional literature retrieval focusing on primary spinal malignancies (osteosarcoma, Ewing's sarcoma, chordoma) and en bloc resection techniques would be necessary to answer this clinical question.**",
+    "cited_papers": [
+      {
+        "paper_id": "pubmed_41225268",
+        "title": "Long-term outcomes of reoperation for recurrent benign spinal tumors and development of a prognostic nomogram",
+        "evidence_level": "2b",
+        "year": "Not provided in text"
+      },
+      {
+        "paper_id": "pubmed_41532870",
+        "title": "Development and validation of a novel machine learning-based prognostic scoring system for spinal metastases: A multicenter prospective study",
+        "evidence_level": "2a",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_41569650",
+        "title": "Prognostic Factors Associated with Long-Term Dorsal Column Dysfunction Following Intramedullary Spinal Cord Tumor Resection: A Case-Control Study Emphasizing Myelotomy Technique and Intraoperative Neuromonitoring",
+        "evidence_level": "3",
+        "year": "not reported"
+      },
+      {
+        "paper_id": "pubmed_41067601",
+        "title": "Incidence and Risk Factors for Native Vertebral Osteomyelitis in the United States: A Longitudinal National Claims Database Study",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41436676",
+        "title": "Adjacent Segment Disease Risk Factors Following Lateral Lumbar Interbody Fusion: Focus on Cage Elevation and Comparison with Decompression",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41428064",
+        "title": "Clinical Indications, Imaging Findings, and Structural Factors in Pediatric Lumbar MRI: A Focus on Non-Traumatic Low Back Pain and Lumbar Disc Herniation",
+        "evidence_level": "2b",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_40153849",
+        "title": "Risk Factors for Proximal Junctional Kyphosis and Proximal Junctional Failure Following Adult Spinal Deformity Correction: A Comprehensive Analysis Using Inverse Probability Weighting",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_40085928",
+        "title": "Buttock Pain in Lumbar Disc Herniation: Occurrence, Clinical Characteristics, Risk Factors, and Surgical Outcomes Following Endoscopic Discectomy",
+        "evidence_level": "2b",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_40152447",
+        "title": "Opioid Utilization After Thoracic and Lumbar Spine Fractures: A Retrospective Cohort Study Identifying Risk Factors for Sustained Use",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_40103372",
+        "title": "Risk Factors for Distal Junctional Kyphosis Following Posterior Spinal Fusion for Adolescent Idiopathic Scoliosis: Optimal Selection of Lowest Instrumented Vertebra Using Sagittal Stable Vertebra and Preoperative Distal Junctional Angle",
+        "evidence_level": "3",
+        "year": 2025
+      }
+    ],
+    "num_papers_retrieved": 10,
+    "evidence_levels": [
+      "2b",
+      "2a",
+      "3",
+      "2b",
+      "2b",
+      "2b",
+      "2b",
+      "2b",
+      "2b",
+      "3"
+    ],
+    "generation_time_ms": 4507
+  },
+  {
+    "query_id": "TU-004",
+    "question": "What is the evidence for denosumab versus surgery for cervical spine giant cell tumor (GCT)?",
+    "baseline": "B1",
+    "answer": "# Evidence Summary: Denosumab vs Surgery for Cervical Spine Giant Cell Tumor\n\n## Available Evidence\n\nBased on the provided papers, there is **minimal direct evidence** comparing denosumab to surgery for cervical spine GCT.\n\n### Denosumab Evidence for Spinal GCT\n\n**One relevant study:**\n\n[pubmed_33038190] - Evidence Level 4 (Case series), 2013\n\nThis international, multicenter, open-label study examined denosumab efficacy and safety in patients with giant cell tumors of bone of the spine, including the sacrum. However, the retrieved abstract does not provide:\n- Specific outcomes for cervical spine lesions\n- Comparative data against surgical intervention\n- Clinical efficacy metrics\n- Safety profile details for this specific anatomic location\n\n## Critical Evidence Gaps\n\n1. **No direct comparative studies**: The available literature does not include randomized controlled trials or comparative cohort studies directly comparing denosumab to surgery for cervical spine GCT.\n\n2. **Limited cervical-specific data**: The single GCT paper does not provide cervical spine-specific outcome data.\n\n3. **No surgical outcome data**: The retrieved papers do not contain studies specifically evaluating surgical outcomes for cervical spine GCT to enable indirect comparison.\n\n4. **Missing clinical outcomes**: Data on tumor control rates, local recurrence, neurological outcomes, and functional improvement are not available in the retrieved papers.\n\n## Recommendation\n\nTo answer this clinical question adequately, additional literature specifically addressing:\n- Prospective or retrospective comparative studies of denosumab vs surgery for spinal GCT\n- Cervical spine-specific outcome series\n- Tumor response rates and recurrence patterns for both modalities\n\nwould be required.",
+    "cited_papers": [
+      {
+        "paper_id": "pubmed_39202595",
+        "title": "Impact of Teriparatide and Denosumab on Clinical and Radiographic Outcomes in Osteoporotic Vertebral Compression Fractures",
+        "evidence_level": "2b",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_33038190",
+        "title": "Efficacy and Safety of Denosumab in Patients with Giant Cell Tumors of Bone of the Spine Including the Sacrum: A Subanalysis of an International, Multicenter, Open-Label Study",
+        "evidence_level": "4",
+        "year": 2013
+      },
+      {
+        "paper_id": "pubmed_41464768",
+        "title": "Perioperative Bone Health Optimization in Spine Surgery: Implementation and Outcomes of a Multidisciplinary Bone Health Clinic",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41407270",
+        "title": "Clinical Course of Segmental Motor Paralysis After Anterior Cervical Spine Surgery: A Multicenter Retrospective Cohort Study",
+        "evidence_level": "2b",
+        "year": 2021
+      },
+      {
+        "paper_id": "pubmed_41242578",
+        "title": "Fulfillment of Preoperative Expectations Following Surgery for Degenerative Cervical Myelopathy: A Multicenter Analysis from the Canadian Spine Outcomes and Research Network",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41175944",
+        "title": "Monofocal versus Bifocal Spinal Surgery for Malignant Spinal Lesions: A Matched-Pair Cohort Study",
+        "evidence_level": "2b",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_41167281",
+        "title": "Age-Adjusted PI-LL Overcorrection and Proximal Junctional Failure in Adult Spinal Deformity Surgery: A Confounder-Adjusted Analysis",
+        "evidence_level": "2b",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_41109513",
+        "title": "Prognosis and Outcomes Following Retreatment for Local Recurrence After Surgery for Metastatic Spine Cancer: A Multicenter Retrospective Cohort Study",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41109510",
+        "title": "Impact of Donepezil Treatment on Postoperative Outcomes Following Lumbar Spine Surgery in Patients with Cognitive Impairment",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41106606",
+        "title": "Cumulative Postoperative Disability Following Lumbar Spine Surgery: A Novel Continuous Recovery Metric",
+        "evidence_level": "2b",
+        "year": 2025
+      }
+    ],
+    "num_papers_retrieved": 10,
+    "evidence_levels": [
+      "2b",
+      "4",
+      "2b",
+      "2b",
+      "2b",
+      "2b",
+      "2b",
+      "2b",
+      "2b",
+      "2b"
+    ],
+    "generation_time_ms": 4949
+  },
+  {
+    "query_id": "BS-001",
+    "question": "What is the evidence for the role of Modic changes in low back pain pathogenesis and treatment response?",
+    "baseline": "B1",
+    "answer": "# Evidence for Modic Changes in Low Back Pain: Pathogenesis and Treatment Response\n\n## PATHOGENESIS AND MECHANISMS\n\n### Microbiota and Metabolic Pathways\n[pubmed_39159220] (Evidence: 5, Case-control observational study, 2024) identified a distinct microbiota landscape and metabolite profile in lumbar cartilaginous endplates of patients with Modic changes, suggesting microbial dysbiosis may contribute to pathogenesis, though this observational evidence does not establish causation.\n\n### Molecular Mechanisms\n[pubmed_41217833] (Evidence: 5, Mechanistic study, 2026) identified GDF15 as a driver of osteoclast-mediated vertebral endplate degeneration in Modic changes, demonstrating a potential molecular pathway linking growth factor signaling to pain and bone remodeling. This laboratory-based evidence provides mechanistic insight but requires clinical validation.\n\n## TREATMENT RESPONSE\n\n### Postoperative Modic Change Development\n[pubmed_39131613] (Evidence: 1a, Systematic review and meta-analysis, 2024) analyzed postoperative Modic changes transformation following lumbar discectomy. This represents the highest-level evidence available for understanding treatment-related Modic changes development, though specific effect sizes and clinical outcome associations should be referenced from the original analysis.\n\n### Probiotic Intervention\n[pubmed_40993700] (Evidence: 1b, Registered randomized controlled trial protocol, 2024) describes an ongoing multicenter, double-blind, placebo-controlled trial evaluating Bifidobacterium adolescentis for chronic low back pain associated with Modic changes. This represents a future evidence source; results are not yet available.\n\n### Modic Change Regression and Clinical Outcomes\n[pubmed_37759351] (Evidence: 3, Secondary analysis of randomized trial, 2024) examined the relationship between reduced Modic change edema and disability/pain in chronic low back pain. This provides moderate evidence linking Modic change reduction to clinical improvement, though it is a secondary analysis.\n\n## EVIDENCE GAPS\n\n- No direct evidence comparing treatment approaches for Modic changes with established efficacy outcomes\n- Lack of prospective cohort studies demonstrating causal relationships between Modic changes and pain\n- Limited evidence on which patient populations benefit most from Modic-targeted interventions\n- No comparative effectiveness data between different treatment modalities for Modic-associated pain",
+    "cited_papers": [
+      {
+        "paper_id": "pubmed_39159220",
+        "title": "Landscape of the Lumbar Cartilaginous End Plate Microbiota and Metabolites in Patients with Modic Changes.",
+        "evidence_level": "5",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_39131613",
+        "title": "Postoperative Modic Changes Transformation After Lumbar Discectomy: A Systematic Review and Meta-Analysis",
+        "evidence_level": "1a",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_37759351",
+        "title": "Relationship Between Reduced Modic Change Edema and Disability or Pain in Chronic Low Back Pain: Secondary Analysis of a Randomized Trial",
+        "evidence_level": "3",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_40993700",
+        "title": "Efficacy of Bifidobacterium adolescentis in treating chronic low back pain associated with Modic changes: A multicenter, double-blind, randomized, placebo-controlled trial protocol",
+        "evidence_level": "1b",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_41217833",
+        "title": "GDF15 drives osteoclast-mediated vertebral endplate degeneration and pain in Modic changes",
+        "evidence_level": "5",
+        "year": 2026
+      },
+      {
+        "paper_id": "pubmed_41372658",
+        "title": "Degenerative Changes in Cervical Sagittal Alignment and Compensatory Mechanisms Before and After Multilevel Anterior Cervical Discectomy and Fusion",
+        "evidence_level": "4",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_40085473",
+        "title": "Changes in Perioperative Bleeding and Safety Associated with Low-Dose Aspirin Use in Spinal Surgery: A Retrospective Cohort Analysis",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_40525983",
+        "title": "Localized Bone Density Changes in L4-L5 Vertebrae Associated with Degenerative Spondylolisthesis: A Retrospective CT Analysis",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41666870",
+        "title": "Long-term Bone Quality Changes Within the Fusion Construct After 2- to 3-Level Lumbar Fusion: A CT-Derived Hounsfield Unit Analysis",
+        "evidence_level": "2b",
+        "year": 2026
+      },
+      {
+        "paper_id": "pubmed_40728666",
+        "title": "Characteristics of endplate changes in patients with lumbar disc herniation treated by discectomy and their effects on clinical symptoms during one-year postoperative follow-up.",
+        "evidence_level": "2b",
+        "year": 2025
+      }
+    ],
+    "num_papers_retrieved": 10,
+    "evidence_levels": [
+      "5",
+      "1a",
+      "3",
+      "1b",
+      "5",
+      "4",
+      "2b",
+      "2b",
+      "2b",
+      "2b"
+    ],
+    "generation_time_ms": 5348
+  },
+  {
+    "query_id": "BS-002",
+    "question": "What is the current evidence for stem cell therapy in intervertebral disc degeneration?",
+    "baseline": "B1",
+    "answer": "# Evidence for Stem Cell Therapy in Intervertebral Disc Degeneration\n\nBased on the provided papers, evidence for stem cell therapy in intervertebral disc degeneration is **extremely limited**.\n\n## Available Evidence\n\n**One relevant study identified:**\n\n### Adipose-Derived Mesenchymal Stem Cells (ADMSC) in IDD [pubmed_41421771]\n- **Study Design:** In vitro and in vivo experimental study in rabbit model\n- **Evidence Level:** 5 (lowest level - animal research)\n- **Year:** 2025\n\n**Key Finding:** The study demonstrated that **senescence impairs the regenerative potential of adipose-derived mesenchymal stem cells in intervertebral disc regeneration**. This suggests age-related limitations in ADMSC efficacy for IDD treatment, though the study was conducted in an animal model and did not include clinical outcomes in human patients.\n\n## Critical Evidence Gaps\n\nThe retrieved literature contains **no clinical trials, comparative effectiveness studies, or human outcome data** regarding stem cell therapy for intervertebral disc degeneration. The single relevant paper addresses only:\n- Mechanistic/biological factors affecting stem cell function\n- Animal model data (not translatable to clinical practice without further evidence)\n- No therapeutic efficacy measures in actual IDD patients\n\n## Conclusion\n\n**Current evidence is insufficient** to support clinical recommendations for stem cell therapy in IDD. High-quality randomized controlled trials in human populations are needed to establish efficacy, safety, optimal cell sources, delivery methods, and patient selection criteria.",
+    "cited_papers": [
+      {
+        "paper_id": "pubmed_41421771",
+        "title": "Senescence Impairs the Regenerative Potential of Adipose-Derived Mesenchymal Stem Cells in Intervertebral Disc Regeneration: An In Vitro and In Vivo Study in a Rabbit Model",
+        "evidence_level": "5",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41106602",
+        "title": "Wearable Devices for Functional Outcomes Assessment in Lumbar Fusion Surgery: A Systematic Review",
+        "evidence_level": "1a",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41101648",
+        "title": "Efficacy of Bone-Modifying Agents in Reducing Vertebral Fractures and Spinal Cord Compression in Multiple Myeloma: A Systematic Review and Meta-Analysis",
+        "evidence_level": "1b",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_41093066",
+        "title": "Impact of Metabolic and Bariatric Surgery on Low Back Pain, Quality of Life, and Spinal Pathologies in Morbidly Obese Patients: A Systematic Review and Meta-Analysis",
+        "evidence_level": "1a",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41075990",
+        "title": "Variability of Common Threshold Values in Lumbar Microdiscectomy Literature: A Systematic Review",
+        "evidence_level": "1a",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_41428061",
+        "title": "Obesity and Anterior Lumbar Interbody Fusion: A Systematic Review and Bayesian Meta-Analysis of Complications, Operative Parameters, and Clinical Outcomes",
+        "evidence_level": "1a",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_40195642",
+        "title": "Endoscopic spine surgery for obesity-related surgical challenges: a systematic review and meta-analysis of current evidence",
+        "evidence_level": "1a",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41310214",
+        "title": "Risk Scoring System for Adjacent Vertebral Fractures Following Percutaneous Vertebroplasty in Osteoporotic Vertebral Fractures",
+        "evidence_level": "2b",
+        "year": 2022
+      },
+      {
+        "paper_id": "pubmed_40331793",
+        "title": "Diagnosis, Classification, and Radiologic Characteristics of Basilar Invagination: A Systematic Review and Consensus Statement",
+        "evidence_level": "1a",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_40066791",
+        "title": "Return-to-Work Outcomes Between Anterior Cervical Discectomy and Fusion (ACDF) and Anterior Cervical Disk Replacement (CDR): A Systematic Review and Meta-Analysis",
+        "evidence_level": "1a",
+        "year": 2024
+      }
+    ],
+    "num_papers_retrieved": 10,
+    "evidence_levels": [
+      "5",
+      "1a",
+      "1b",
+      "1a",
+      "1a",
+      "1a",
+      "1a",
+      "2b",
+      "1a",
+      "1a"
+    ],
+    "generation_time_ms": 4684
+  },
+  {
+    "query_id": "BS-003",
+    "question": "What biomechanical evidence exists comparing different interbody cage materials (PEEK vs titanium vs 3D-printed) for lumbar fusion?",
+    "baseline": "B1",
+    "answer": "# Biomechanical Evidence on Interbody Cage Materials for Lumbar Fusion\n\n## Summary\nBased on the provided papers, **there is NO direct biomechanical evidence comparing different interbody cage materials (PEEK vs titanium vs 3D-printed) for lumbar fusion**.\n\n## What the Literature Actually Addresses\n\nAll 10 retrieved papers (Evidence Level 5 - biomechanical/finite element studies) focus on **cage design characteristics and surgical variables** rather than material composition:\n\n### Current Research Domains:\n- **Cage geometry**: expandable vs static cages, cage height variations, long vs short cages [pubmed_38026854, pubmed_38788233, pubmed_29162074, pubmed_35729647]\n- **Surgical approach**: unilateral vs bilateral placement [pubmed_38788233, pubmed_29162074]\n- **Instrumentation configuration**: single vs multiple cages, supplemental fixation [pubmed_36420402, pubmed_28719806]\n- **Junctional mechanics**: proximal/adjacent segment effects [pubmed_40099853, pmid_34559764, pubmed_35729647]\n\n### Notable Study Details:\nOne cadaveric study [pubmed_26384133] compared \"expandable lateral interbody cages with static TLIF cages\" but focused on design mechanics, not material properties in a spondylolisthesis model.\n\n## Evidence Gap\n**The specific comparison of PEEK, titanium, or 3D-printed materials is not addressed in the provided literature.** To answer this clinical question, additional studies specifically examining material properties (elasticity, radiopacity, biocompatibility, fusion rates) would be needed.",
+    "cited_papers": [
+      {
+        "paper_id": "pubmed_40099853",
+        "title": "Biomechanical Analysis of a Novel Tether Pedicle Screw for Proximal Junctional Mechanics in Long-Segment Thoracolumbar Instrumentation",
+        "evidence_level": "5",
+        "year": 2025
+      },
+      {
+        "paper_id": "pmid_34559764",
+        "title": "Biomechanical Evaluation of Semi-rigid Junctional Fixation Using a Novel Cable Anchor System to Prevent Proximal Junctional Failure in Adult Spinal Deformity Surgery.",
+        "evidence_level": "5",
+        "year": 2022
+      },
+      {
+        "paper_id": "pubmed_38026854",
+        "title": "Biomechanical Analysis of Long versus Short Cages in Lateral Lumbar Interbody Fusion: A Finite Element Study in Normal and Osteoporotic Models",
+        "evidence_level": "5",
+        "year": 2023
+      },
+      {
+        "paper_id": "pubmed_38788233",
+        "title": "Biomechanical Comparison of Unilateral versus Bilateral Expandable Transforaminal Lumbar Interbody Fusion Cages: A Finite Element Analysis",
+        "evidence_level": "5",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_29903488",
+        "title": "Biomechanical Effects of Interbody Cage Design and Placement on Lumbar Spinal Stability: A Finite Element Analysis",
+        "evidence_level": "5",
+        "year": 2018
+      },
+      {
+        "paper_id": "pubmed_29162074",
+        "title": "Effect of fusion cage height on the stability and load sharing of unilateral and bilateral instrumented transforaminal lumbar interbody fusion: a biomechanical study",
+        "evidence_level": "5",
+        "year": 2017
+      },
+      {
+        "paper_id": "pubmed_36420402",
+        "title": "Biomechanical Analysis of Cage Number and Position in Minimally Invasive Transforaminal Interbody Fusion: A Finite Element Study",
+        "evidence_level": "5",
+        "year": 2022
+      },
+      {
+        "paper_id": "pubmed_28719806",
+        "title": "Comparison of primary stability in lumbar interbody fusion: effects of cage design, surgical approach, and supplemental instrumentation - a biomechanical study",
+        "evidence_level": "5",
+        "year": 2017
+      },
+      {
+        "paper_id": "pubmed_26384133",
+        "title": "Biomechanical Comparison of Expandable Lateral Interbody Cages with Static TLIF Cages in a Cadaveric Spondylolisthesis Model",
+        "evidence_level": "5",
+        "year": 2016
+      },
+      {
+        "paper_id": "pubmed_35729647",
+        "title": "Biomechanical effects of interbody cage height on adjacent segments in patients with lumbar degeneration undergoing transforaminal lumbar interbody fusion: A finite element analysis",
+        "evidence_level": "5",
+        "year": 2024
+      }
+    ],
+    "num_papers_retrieved": 10,
+    "evidence_levels": [
+      "5",
+      "5",
+      "5",
+      "5",
+      "5",
+      "5",
+      "5",
+      "5",
+      "5",
+      "5"
+    ],
+    "generation_time_ms": 5123
+  },
+  {
+    "query_id": "BS-004",
+    "question": "What is the evidence for the effect of smoking on spinal fusion outcomes and pseudarthrosis rates?",
+    "baseline": "B1",
+    "answer": "# Evidence for Smoking's Effect on Spinal Fusion Outcomes and Pseudarthrosis Rates\n\n## Fusion Rates and Pseudarthrosis\n\n### Systematic Review and Meta-Analysis Evidence\n[pubmed_41066602] A systematic review and meta-analysis (Evidence level 1a, 2024) examined the impact of smoking on spinal fusion rates and patient-reported outcomes. This represents the highest level of evidence available in your retrieved papers but specific numerical outcomes are not detailed in the abstract provided.\n\n### TLIF with Posterolateral Arthrodesis\n[pubmed_41677169] A retrospective cohort study (Evidence level 2b, 2026) specifically investigated cigarette smoking as an independent variable associated with impaired fusion after transforaminal lumbar interbody fusion (TLIF) with adjunctive posterolateral arthrodesis. This study design allows assessment of smoking's effect on fusion outcomes in this specific surgical context, though detailed results are not provided in the citation.\n\n### Temporal Analysis of Smoking Cessation\n[pubmed_24879610] A temporal analysis (Evidence level 4, 2015) examined smoking cessation timing and bone healing in spinal fusion with specific focus on pseudarthrosis rates. This case series/observational level evidence suggests temporal relationships between smoking status and fusion complications, though this represents the lowest level of evidence among smoking-specific studies.\n\n## Evidence Gaps\n\n- Specific pseudarthrosis rates comparing smokers vs. non-smokers are not available from the abstracts provided\n- Patient-reported outcome differences are mentioned in [pubmed_41066602] but not quantified\n- No data on dose-response relationships or smoking intensity effects\n- Limited evidence on preoperative smoking cessation timing requirements",
+    "cited_papers": [
+      {
+        "paper_id": "pubmed_41677169",
+        "title": "Is Cigarette Smoking Associated With Impaired Fusion After Transforaminal Lumbar Interbody Fusion With Adjunctive Posterolateral Arthrodesis?",
+        "evidence_level": "2b",
+        "year": 2026
+      },
+      {
+        "paper_id": "pubmed_41066602",
+        "title": "Impact of Smoking on Spinal Fusion Rates and Patient-Reported Outcomes: A Systematic Review and Meta-Analysis",
+        "evidence_level": "1a",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_24879610",
+        "title": "Smoking Cessation and Bone Healing in Spinal Fusion: A Temporal Analysis of Pseudoarthrosis Rates",
+        "evidence_level": "4",
+        "year": 2015
+      },
+      {
+        "paper_id": "pubmed_41397570",
+        "title": "Preoperative Weight Loss and Outcomes in Obese Patients Undergoing Spinal Fusion: A Propensity Score Matched Analysis",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41175944",
+        "title": "Monofocal versus Bifocal Spinal Surgery for Malignant Spinal Lesions: A Matched-Pair Cohort Study",
+        "evidence_level": "2b",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_41167281",
+        "title": "Age-Adjusted PI-LL Overcorrection and Proximal Junctional Failure in Adult Spinal Deformity Surgery: A Confounder-Adjusted Analysis",
+        "evidence_level": "2b",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_41110812",
+        "title": "Relationship Between Laminectomy Width, Posterior Spinal Cord Shift, and C5 Palsy: An Animal Model Study",
+        "evidence_level": "5",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41109511",
+        "title": "Metagenomic Next-Generation Sequencing versus Microbial Culture for Diagnosing Fastidious Bacteria in Pyogenic Spinal Infections: A Multicenter Retrospective Observational Study",
+        "evidence_level": "2b",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_41106603",
+        "title": "Halo-Pelvic Traction Combined with Posterior Spinal Fusion versus Posterior Vertebral Column Resection for Severe Rigid Kyphoscoliosis: A Retrospective Comparative Effectiveness Study",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41106600",
+        "title": "Effects of Spinal Surgery for Metastatic Spinal Tumors on Eastern Cooperative Oncology Group Performance Status: A Prospective Multicenter Cohort Study",
+        "evidence_level": "2a",
+        "year": 2025
+      }
+    ],
+    "num_papers_retrieved": 10,
+    "evidence_levels": [
+      "2b",
+      "1a",
+      "4",
+      "2b",
+      "2b",
+      "2b",
+      "5",
+      "2b",
+      "2b",
+      "2a"
+    ],
+    "generation_time_ms": 4922
+  },
+  {
+    "query_id": "BS-005",
+    "question": "What is the role of navigation and augmented reality in spine surgery: current evidence for accuracy and clinical outcomes?",
+    "baseline": "B1",
+    "answer": "# Navigation and Augmented Reality in Spine Surgery: Evidence Summary\n\n## Current Evidence Limitations\n\nThe provided papers focus primarily on **stereotactic/CT-based navigation and robotic-assisted systems** rather than augmented reality (AR) technologies. No papers specifically address AR in spine surgery. This review covers intraoperative navigation guidance systems across lumbar and thoracic spine procedures.\n\n---\n\n## ACCURACY OUTCOMES\n\n### Pedicle Screw Placement Accuracy\n\n**Navigation vs. Robotic Systems:**\n\nNavigation systems demonstrate high accuracy rates, though robotic guidance shows advantages in specific parameters:\n\n- **3D Navigation vs. Robotic Arm-Guided Systems** [pubmed_38849051]: Comparative analysis across lumbar levels showed both technologies achieve accurate placement, with robotic systems demonstrating superior control in preventing rostral facet violations [pubmed_39142354]\n\n- **Facet Joint Violations**: Robotic guidance reduced rostral facet joint violations compared to CT navigation in pedicle screw fixation (matched cohort analysis) [pubmed_39142354]\n\n- **Transpedicular Screw Placement**: Robotic surgery vs. neuronavigation showed comparable accuracy in degenerative lumbosacral disease (multicenter retrospective comparison, Evidence 2b) [pubmed_40542927]\n\n### Navigation-Guided Specialized Applications\n\n- **En Bloc Resection**: O-arm navigation successfully guided resection of thoracic osteoblastoma with anatomically accurate instrumentation in a pediatric patient (case report, Evidence 4) [pubmed_41315070]\n\n- **Endoscopic Procedures**: Intraoperative navigation-based assessment of lumbar facet joints enabled real-time decision-making in biportal endoscopic cyst excision (Evidence 4) [2025_Hadgaonkar_Intraoperative_navigation-based_lumbar_facet_asses]\n\n---\n\n## CLINICAL OUTCOMES\n\n### Infection Rates\n\n**Stereotactic Navigation Association**: \nRetrospective analysis of posterior thoracic and lumbar fusion procedures found an **association between stereotactic navigation use and postoperative infection rates** (NSQIP analysis, Evidence 2b) [pubmed_41106599]\n- *Specific infection rate numbers not detailed in abstract*\n\n### Minimally Invasive Transforaminal Lumbar Interbody Fusion (MI-TLIF)\n\n**Navigation vs. Robotic Guidance** [pubmed_39616635]:\n- Multicenter retrospective comparison (Evidence 2b, 2024)\n- Both technologies showed comparable clinical outcomes\n- Specific outcome metrics not detailed in available information\n\n**Clinical Outcomes Summary** [pubmed_37199417]:\n- Navigation and robotics comparison in MI-TLIF (Evidence 2b, 2023)\n- Both approaches demonstrated favorable results\n\n### Nationwide Complications Analysis\n\n**Combined Complications Profile** [pubmed_40629161]:\n- Nationwide inpatient sample analysis of navigation and robotic technologies in lumbar fusion (Evidence 2b, 2025)\n- Assessed complications, costs, and mortality\n- Specific outcome rates not detailed in abstract\n\n---\n\n## PERIOPERATIVE CONSIDERATIONS\n\n### Radiation Exposure\n\n**Intraoperative CT-Guided Navigation**: [pubmed_32875878]\n- Image-guided navigation with robotic assistance in posterior lumbar fusion (Evidence 2b, 2021)\n- Examined radiation exposure and perioperative outcomes\n- Radiation exposure and specific outcomes not quantified in abstract\n\n---\n\n## EVIDENCE GAPS\n\n1. **Augmented Reality**: No papers specifically address AR technology application in spine surgery\n2. **Long-term Outcomes**: Most evidence focuses on acute postoperative outcomes; limited follow-up data\n3. **Cost-Effectiveness**: While [pubmed_40629161] examined costs, specific cost-benefit analyses are limited\n4. **Infection Mechanism**: [pubmed_41106599] identifies an association with infection but mechanism unclear\n5. **Specific Accuracy Metrics**: Detailed screw positioning accuracy percentages (e.g., Gertzbein-Robbins grading) not provided in abstracts\n6. **Learning Curve**: No papers address surgeon learning curve or training requirements\n7. **Patient-Reported Outcomes**: Limited data on functional outcomes and quality of life measures\n\n---\n\n## SUMMARY\n\nCurrent evidence (predominantly Evidence 2b level) supports navigation and robotic-assisted systems for **accurate instrumentation placement** in spine fusion procedures, with robotic systems showing modest advantages in preventing specific complications (facet joint violations). However, clinical outcome equivalence between modalities suggests that **accuracy alone may not drive superior patient outcomes**. The association between stereotactic navigation and postoperative infection warrants further investigation. Augmented reality applications in spine surgery remain absent from current literature.",
+    "cited_papers": [
+      {
+        "paper_id": "pubmed_41106599",
+        "title": "Association Between Stereotactic Navigation and Postoperative Infection Following Posterior Thoracic and Lumbar Fusion: A National Surgical Quality Improvement Program Analysis",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41315070",
+        "title": "O-arm Navigation-Guided En Bloc Resection of Thoracic Osteoblastoma in a Pediatric Patient: A Case Report",
+        "evidence_level": "4",
+        "year": 2025
+      },
+      {
+        "paper_id": "2025_Hadgaonkar_Intraoperative_navigation-based_lumbar_facet_asses",
+        "title": "Intraoperative navigation-based lumbar facet assessment for considering fusion in unilateral biportal endoscopic cyst excision",
+        "evidence_level": "4",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_40542927",
+        "title": "Robotic Surgery versus Neuronavigation for Transpedicular Screw Placement in Degenerative Lumbo-sacral Spine Disease: A Multicenter Retrospective Comparison",
+        "evidence_level": "2b",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_39616635",
+        "title": "Robot-Assisted versus Navigation-Guided Percutaneous Pedicle Screw Placement in Minimally Invasive Transforaminal Lumbar Interbody Fusion: A Multicenter Retrospective Study",
+        "evidence_level": "2b",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_39142354",
+        "title": "Robotic Guidance Reduces Rostral Facet Joint Violations Compared to CT Navigation in Lumbar Pedicle Screw Fixation: A Retrospective Matched Cohort Study",
+        "evidence_level": "2b",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_38849051",
+        "title": "Pedicle Screw Placement Accuracy: 3D Navigation versus Robotic Arm-Guided Systems Across Lumbar Levels",
+        "evidence_level": "2b",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_37199417",
+        "title": "Navigation and Robotics in Minimally Invasive Transforaminal Lumbar Interbody Fusion: A Comparison of Clinical Outcomes",
+        "evidence_level": "2b",
+        "year": 2023
+      },
+      {
+        "paper_id": "pubmed_32875878",
+        "title": "Intraoperative Computed Tomography Image-Guided Navigation and Robotic Assistance in Posterior Lumbar Fusion: Radiation Exposure and Perioperative Outcomes",
+        "evidence_level": "2b",
+        "year": 2021
+      },
+      {
+        "paper_id": "pubmed_40629161",
+        "title": "Navigation and Robotic Technologies in Lumbar Fusion Surgery: A Nationwide Inpatient Sample Analysis of Complications, Costs, and Mortality",
+        "evidence_level": "2b",
+        "year": 2025
+      }
+    ],
+    "num_papers_retrieved": 10,
+    "evidence_levels": [
+      "2b",
+      "4",
+      "4",
+      "2b",
+      "2b",
+      "2b",
+      "2b",
+      "2b",
+      "2b",
+      "2b"
+    ],
+    "generation_time_ms": 10621
   },
   {
     "query_id": "GR-001",
     "question": "What are all the surgical interventions available for lumbar spinal stenosis, and how do their complication profiles compare?",
     "baseline": "B1",
-    "answer": "Error: No module named 'baselines'",
-    "cited_papers": [],
-    "num_papers_retrieved": 0,
-    "evidence_levels": [],
-    "generation_time_ms": 0
+    "answer": "# Surgical Interventions for Lumbar Spinal Stenosis: Evidence Summary\n\n## Available Interventions Identified\n\nBased on the retrieved papers, **only limited direct evidence** addresses surgical interventions specifically for lumbar spinal stenosis. The papers primarily focus on lumbar disc herniation and other conditions.\n\n### Documented Intervention\n\n**Surgical decompression for lumbar spinal stenosis** is addressed in one study:\n\n- **Longer-term surgical treatment outcomes**: [pubmed_41075992] reports a prospective cohort study (Evidence: 2a) with 12-year follow-up of surgically treated lumbar spinal stenosis. The paper examines \"patient-rated outcomes and radiographic measures\" but specific surgical techniques, intervention types, and complication rates are not detailed in the available abstract information.\n\n## Complication Profile Comparison\n\n### Evidence Gap\n\n**There is insufficient information in the provided papers to comprehensively compare complication profiles across different lumbar stenosis surgical approaches.** \n\nThe retrieved literature focuses primarily on:\n- Lumbar disc herniation procedures (unilateral biportal endoscopic fusion, tubular fusion approaches) [pubmed_41473222, pubmed_41318870, pubmed_41315069]\n- Cervical pathology (anterior cervical discectomy and fusion vs. posterior foraminotomy) [pubmed_41077080]\n- Non-surgical interventions (medial branch neurostimulation) [pubmed_41397571]\n\n### Indirectly Relevant Information\n\n**Minimally invasive lumbar fusion complications** may apply to stenosis management when fusion is used:\n- [pubmed_40195642] Systematic review (Evidence: 1a) on endoscopic spine surgery in obese patients shows generally favorable safety profiles for minimally invasive approaches\n- [pubmed_40134211] Examines perioperative outcomes with erector spinae plane blocks during minimally invasive transforaminal lumbar interbody fusion (Evidence: 2b)\n\n## Conclusion\n\n**Direct comparative evidence on surgical interventions and their complication profiles for lumbar spinal stenosis is not available in these papers.** Additional literature specifically comparing open decompression, minimally invasive decompression, and fusion-based approaches would be needed to address this question comprehensively.",
+    "cited_papers": [
+      {
+        "paper_id": "pubmed_41473222",
+        "title": "Comparison of unilateral biportal endoscopic lumbar fusion and modified minimally invasive tubular lumbar fusion for lumbar disc herniation: a two-year retrospective study",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41397571",
+        "title": "Bilateral L2 Medial Branch Restorative Neurostimulation for Chronic Low Back Pain: Post-hoc Reanalysis of a Pivotal Sham-Controlled Trial Using Clinically-Relevant Treatment Success Thresholds",
+        "evidence_level": "1b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41077080",
+        "title": "Anterior Cervical Discectomy and Fusion versus Posterior Cervical Foraminotomy for Cervical Radiculopathy with Vertically Narrow Foramina: A Retrospective Cohort Study",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41075992",
+        "title": "Longer-term patient-rated outcomes and radiographic measures in surgically treated lumbar spinal stenosis: a prospective study with 12-year follow-up",
+        "evidence_level": "2a",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_40195642",
+        "title": "Endoscopic spine surgery for obesity-related surgical challenges: a systematic review and meta-analysis of current evidence",
+        "evidence_level": "1a",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41318870",
+        "title": "Safety and Short-Term Efficacy of a Novel Minimally Invasive Tubular Trans-Isthmus Oblique Approach for Upper Lumbar Disc Herniation: A Pilot Feasibility Study",
+        "evidence_level": "4",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_41315069",
+        "title": "Efficacy and Safety of Escherichia coli-Derived Recombinant Human Bone Morphogenetic Protein-2 in Minimally Invasive Transforaminal Lumbar Interbody Fusion",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_39973142",
+        "title": "Incidence of Inappropriate or Uncertain Implementation of the Minimally Important Clinical Difference for the Neck Disability Index: A Systematic Review",
+        "evidence_level": "1a",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_40134211",
+        "title": "Impact of Erector Spinae Plane Blocks on Recovery Kinetics and Patient-Reported Outcomes Following Minimally Invasive Transforaminal Lumbar Interbody Fusion",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_40123575",
+        "title": "Minimally Invasive Transforaminal Lumbar Interbody Fusion with Intraoperative Hinged Operating Table and Bilateral Smith-Petersen Osteotomies: A Series of 202 Cases",
+        "evidence_level": "4",
+        "year": 2025
+      }
+    ],
+    "num_papers_retrieved": 10,
+    "evidence_levels": [
+      "2b",
+      "1b",
+      "2b",
+      "2a",
+      "1a",
+      "4",
+      "2b",
+      "1a",
+      "2b",
+      "4"
+    ],
+    "generation_time_ms": 5753
   },
   {
     "query_id": "GR-002",
     "question": "What outcomes are shared between TLIF and PLIF, and which outcomes are unique to each procedure?",
     "baseline": "B1",
-    "answer": "Error: No module named 'baselines'",
-    "cited_papers": [],
-    "num_papers_retrieved": 0,
-    "evidence_levels": [],
-    "generation_time_ms": 0
+    "answer": "# Shared and Unique Outcomes Between TLIF and PLIF\n\n## SHARED OUTCOMES\n\n### Clinical Efficacy\nBoth TLIF and PLIF are established interbody fusion techniques for lumbar degenerative disease, though direct comparative outcome data is limited in the provided literature.\n\n**Evidence Level 4:** A comparative review [pubmed_18316711] discusses TLIF and PLIF techniques and clinical outcomes but provides primarily descriptive rather than quantitative comparative data on shared clinical endpoints.\n\n### Fusion-Related Complications\nBoth procedures share susceptibility to:\n\n**Cage Subsidence:** Both TLIF and PLIF utilize interbody cages that can experience subsidence. [pubmed_32169009] (Evidence 5: finite element analysis) examined cage subsidence mechanics in TLIF, which is a recognized complication across fusion techniques including PLIF.\n\n**Pseudoarthrosis Risk:** [pubmed_37146876] (Evidence 2a) compared ALIF versus TLIF at L5-S1 for pseudoarthrosis outcomes, indicating that fusion failure is a shared concern across interbody fusion approaches, though specific PLIF pseudoarthrosis rates are not provided in these papers.\n\n**Heterotopic Bone Formation:** [pubmed_25978140] (Evidence 4) describes minimally invasive resection of rhBMP-2-induced heterotopic bone growth following MIS-TLIF, a complication potentially shared across fusion modalities though PLIF-specific data is not provided.\n\n---\n\n## UNIQUE OUTCOMES\n\n### TLIF-Specific Outcomes\n\n**Surgeon Ergonomics/Physical Burden:**\n[pubmed_40133882] (Evidence 2b, 2025) specifically measured \"surgeon's neck flexion time\" as a unique outcome comparing UBE-LIF versus MIS-TLIF, reflecting the posterior approach-specific ergonomic demands of TLIF procedures.\n\n**Endoscopic Approach Variants:**\nMultiple papers document outcomes specific to endoscopic TLIF modifications:\n- [pubmed_39322595] (Evidence 1b RCT protocol, 2023) compares unilateral biportal endoscopic transforaminal TLIF versus microscopic tubular TLIF\n- [pubmed_40133882] (Evidence 2b) and [pubmed_40617529] (Evidence 2b, 2025) assess biportal endoscopic TLIF outcomes, techniques unique to TLIF\n\n### PLIF-Specific Outcomes\n\n**No unique outcome data identified** in the provided literature. PLIF is primarily discussed in comparative biomechanical contexts rather than distinct clinical outcome reporting.\n\n---\n\n## BIOMECHANICAL COMPARISONS\n\n[pubmed_36971956] (Evidence 5: finite element analysis, 2023) and [pubmed_26384133] (Evidence 5, 2016) provide biomechanical comparisons of TLIF and PLIF with various instrumentation patterns, but these are theoretical models rather than clinical outcomes.\n\n---\n\n## EVIDENCE GAPS\n\n1. **No direct head-to-head RCT comparing TLIF versus PLIF** clinical outcomes in the provided literature\n2. **Limited PLIF-specific outcome reporting** in modern literature (most recent PLIF discussion is from 2008)\n3. **Quantitative clinical outcome comparisons** (pain scores, functional recovery, fusion rates) between techniques are not provided\n4. **Long-term outcomes** (>2 years) are not addressed in most papers",
+    "cited_papers": [
+      {
+        "paper_id": "pubmed_39322595",
+        "title": "Unilateral biportal endoscopic transforaminal lumbar interbody fusion versus microscopic tubular technique TLIF for degenerative lumbar spinal stenosis: a protocol for a prospective randomised controlled non-inferiority trial",
+        "evidence_level": "1b",
+        "year": 2023
+      },
+      {
+        "paper_id": "pubmed_40133882",
+        "title": "Comparison of clinical efficacy and surgeon's neck flexion time between unilateral biportal endoscopic lumbar fusion (UBE-LIF) versus minimally invasive transforaminal lumbar fusion (MIS-TLIF)",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_40617529",
+        "title": "Comparison of Biportal Endoscopic Transforaminal Lumbar Interbody Fusion (BE-TLIF) and Oblique Lateral Interbody Fusion (OLIF) for Treatment of Degenerative Lumbar Disease: A Multicenter Retrospective Cohort Study",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_18316711",
+        "title": "Posterior Lumbar Interbody Fusion (PLIF) and Transforaminal Lumbar Interbody Fusion (TLIF): Comparison of Techniques and Clinical Outcomes",
+        "evidence_level": "4",
+        "year": 2008
+      },
+      {
+        "paper_id": "pubmed_25978140",
+        "title": "Minimally Invasive Resection of rhBMP-2-Induced Heterotopic Bone Growth Following MIS-TLIF",
+        "evidence_level": "4",
+        "year": 2015
+      },
+      {
+        "paper_id": "pubmed_37146876",
+        "title": "Lumbosacral Pseudoarthrosis Following Adult Spine Deformity Surgery: Comparison of ALIF versus TLIF at L5-S1",
+        "evidence_level": "2a",
+        "year": 2023
+      },
+      {
+        "paper_id": "pubmed_38422963",
+        "title": "Mechano-regulation Algorithm Predicting Fusion Outcomes in Lumbar Interbody Fusion: Comparison of ALIF, OLIF, XLIF, TLIF, and PLIF",
+        "evidence_level": "5",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_26384133",
+        "title": "Biomechanical Comparison of Expandable Lateral Interbody Cages with Static TLIF Cages in a Cadaveric Spondylolisthesis Model",
+        "evidence_level": "5",
+        "year": 2016
+      },
+      {
+        "paper_id": "pubmed_32169009",
+        "title": "Cage subsidence in transforaminal lumbar interbody fusion (TLIF): Finite element analysis of cage height and placement",
+        "evidence_level": "5",
+        "year": 2020
+      },
+      {
+        "paper_id": "pubmed_36971956",
+        "title": "Biomechanical Analysis of Lumbar Interbody Fusion Procedures: A Finite Element Study Comparing TLIF and PLIF with Unilateral and Bilateral Instrumentation",
+        "evidence_level": "5",
+        "year": 2023
+      }
+    ],
+    "num_papers_retrieved": 10,
+    "evidence_levels": [
+      "1b",
+      "2b",
+      "2b",
+      "4",
+      "4",
+      "2a",
+      "5",
+      "5",
+      "5",
+      "5"
+    ],
+    "generation_time_ms": 8574
   },
   {
     "query_id": "GR-003",
     "question": "Trace the complete evidence chain for UBE in treating lumbar disc herniation: what pathologies does it treat, what outcomes are affected, and what is the evidence level for each?",
     "baseline": "B1",
-    "answer": "Error: No module named 'baselines'",
-    "cited_papers": [],
-    "num_papers_retrieved": 0,
-    "evidence_levels": [],
-    "generation_time_ms": 0
+    "answer": "# Evidence Chain for UBE in Lumbar Disc Herniation Treatment\n\n## I. PATHOLOGIES TREATED\n\n### Primary Indication: Lumbar Disc Herniation\n**Rostrally Migrated L4-5 Disc Herniation** [pubmed_41105975]\n- Study design: Comparative effectiveness study (Evidence: 2b)\n- UBE (Unilateral Biportal Endoscopic Decompression) is one of three endoscopic techniques compared for managing this specific pathology, alongside PETD (Percutaneous Endoscopic Transforaminal Discectomy) and PEID (Percutaneous Endoscopic Interlaminar Discectomy)\n\n**General Lumbar Disc Herniation** [pubmed_40551242]\n- Context: Papers discuss biportal endoscopic procedures in lumbar spine pathology, though specific disc herniation outcomes are not detailed in this hematoma-focused study (Evidence: 1b)\n\n---\n\n## II. CLINICAL OUTCOMES AFFECTED\n\n### A. SURGICAL EFFICACY & TECHNIQUE\n\n**Surgeon Neck Flexion Time (Ergonomic Outcome)** [pubmed_40133882]\n- Study design: Comparative effectiveness study (Evidence: 2b)\n- Comparison: UBE-LIF vs MIS-TLIF\n- Finding: Significant difference in surgeon's neck flexion time between techniques\n- *Note: Specific values not provided in abstract availability*\n\n**Learning Curve Performance** [pubmed_36310459]\n- Study design: Learning curve analysis (Evidence: 2a)\n- Procedure: UBE-LIF (Unilateral Bipartal Endoscopic Lumbar Interbody Fusion)\n- Finding: Documented learning curve exists for UBE-LIF\n- *Specific proficiency thresholds not detailed in retrieved data*\n\n### B. COMPLICATION MANAGEMENT\n\n**Postoperative Spinal Epidural Hematoma Prevention** [pubmed_40551242]\n- Study design: Prospective randomized controlled trial (Evidence: 1b)\n- Pathology: Two-level adjacent lumbar spinal stenosis treated with biportal endoscopic unilateral laminotomy for bilateral decompression\n- Intervention: Prophylactic drain tubes vs standard care\n- Outcome: Impact on epidural hematoma rates documented\n- *Specific hematoma rates not provided in retrieved data*\n\n**Early Learning Curve Complications** [pubmed_41357726]\n- Study design: Case series (Evidence: 3)\n- Finding: Documents complications encountered during early learning curve of UBE spine surgery\n- *Specific complication rates and types not detailed in retrieved abstract*\n\n### C. ECONOMIC OUTCOMES\n\n**Cost Comparison** [pubmed_41287888]\n- Study design: Economic comparison study (Evidence: 2b)\n- Comparison: PTED (Percutaneous Transforaminal Endoscopic Discectomy) vs UBE (Unilateral Biportal Endoscopy)\n- Pathology: Lumbar disc herniation\n- Context: Under DRG payment system analysis\n- *Specific cost data not provided in retrieved excerpts*\n\n---\n\n## III. EVIDENCE QUALITY SUMMARY TABLE\n\n| Outcome Domain | Pathology | Technique | Evidence Level | Study Design | Data Available |\n|---|---|---|---|---|---|\n| **Technical Performance** | Lumbar disc herniation | UBE vs PETD vs PEID | 2b | Comparative effectiveness | Limited specifics |\n| **Ergonomics** | Lumbar fusion indication | UBE-LIF vs MIS-TLIF | 2b | Comparative effectiveness | Documented but values unclear |\n| **Learning Curve** | General UBE procedures | UBE-LIF | 2a | Learning curve analysis | Qualitative documentation |\n| **Complication Prevention** | Spinal stenosis (2-level) | Biportal endoscopic laminotomy ± drains | 1b | RCT | Outcome measured, rates not specified |\n| **Safety Profile** | General UBE procedures | UBE spine surgery | 3 | Case series | Complication documentation incomplete |\n| **Economics** | Lumbar disc herniation | UBE vs PTED | 2b | Economic analysis | Data not extracted |\n\n---\n\n## IV. CRITICAL EVIDENCE GAPS\n\n1. **Clinical Efficacy Metrics**: No pain scores (VAS/NRS), disability indices (ODI), or functional recovery data provided for UBE in disc herniation\n\n2. **Specific Outcomes for Rostrally Migrated Disc**: The only disc herniation-specific study [pubmed_41105975] compares three endoscopic techniques, but comparative outcomes data not available in provided excerpts\n\n3. **Long-term Outcomes**: No follow-up duration or durability data for UBE disc herniation treatment\n\n4. **Complication Rates**: Complication studies present (Evidence 1b and 3) but specific incidence/prevalence data not extracted\n\n5. **Patient Selection Criteria**: No data on which patient populations benefit most from UBE vs alternative endoscopic approaches\n\n6. **Fusion vs Non-Fusion**: UBE-LIF (fusion) outcomes documented, but no UBE discectomy-only outcomes (which may be more relevant for simple disc herniation)\n\n---\n\n## V. CONCLUSION\n\n**Evidence exists across the chain** (pathology recognition → technique comparison → outcome measurement → complication documentation), but **the retrieved papers provide primarily structural evidence (Evidence: 2a-3) rather than clinically detailed outcomes**. The highest quality evidence is for complication prevention in stenosis (1b) and learning curves (2a), but functional recovery data specifically for UBE in lumbar disc herniation are absent from the provided literature.",
+    "cited_papers": [
+      {
+        "paper_id": "pubmed_41077076",
+        "title": "The STAT3/S100A6/P53/SLC7A11 axis regulates ferroptosis and extracellular matrix metabolism in intervertebral disc degeneration",
+        "evidence_level": "5",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_39358812",
+        "title": "Therapeutic Potential of Mesenchymal Stem Cell-Derived Extracellular Vesicles Carrying MicroRNAs for Modulating Autophagy and Cellular Degeneration in Intervertebral Disc Degeneration.",
+        "evidence_level": "5",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41459417",
+        "title": "Extracellular Vesicles in Intervertebral Disc Degeneration: A Scoping Review on Minimal Information for Studies of Extracellular Vesicles (MISEV) Compliance and Evidence for EV-Mediated Regeneration",
+        "evidence_level": "4",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41684738",
+        "title": "Identification of clinical predictors for functional recovery in patients with thoracolumbar fractures and incomplete spinal cord injury: an internally validated prediction model.",
+        "evidence_level": "2b",
+        "year": 2026
+      },
+      {
+        "paper_id": "pubmed_40551242",
+        "title": "Impact of Prophylactic Drain Tubes on Postoperative Spinal Epidural Hematoma Following Biportal Endoscopic Unilateral Laminotomy for Bilateral Decompression in Two-Level Adjacent Lumbar Spinal Stenosis: A Prospective Randomized Study",
+        "evidence_level": "1b",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_41287888",
+        "title": "Economic Comparison of Percutaneous Transforaminal Endoscopic Discectomy (PTED) and Unilateral Biportal Endoscopy (UBE) for Lumbar Disc Herniation under DRG Payment System",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_40133882",
+        "title": "Comparison of clinical efficacy and surgeon's neck flexion time between unilateral biportal endoscopic lumbar fusion (UBE-LIF) versus minimally invasive transforaminal lumbar fusion (MIS-TLIF)",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41357726",
+        "title": "Complications Encountered During the Early Learning Curve of Unilateral Biportal Endoscopic (UBE) Spine Surgery: A Case Series",
+        "evidence_level": "3",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41105975",
+        "title": "Endoscopic management of L4-5 rostrally migrated lumbar disc herniation: comparison of PETD, PEID, and UBED",
+        "evidence_level": "2b",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_36310459",
+        "title": "Learning Curve Analysis of Unilateral Biportal Endoscopic Lumbar Interbody Fusion (UBE-LIF)",
+        "evidence_level": "2a",
+        "year": 2022
+      }
+    ],
+    "num_papers_retrieved": 10,
+    "evidence_levels": [
+      "5",
+      "5",
+      "4",
+      "2b",
+      "1b",
+      "2b",
+      "2b",
+      "3",
+      "2b",
+      "2a"
+    ],
+    "generation_time_ms": 13145
   },
   {
     "query_id": "GR-004",
     "question": "Which interventions in the spine surgery database share the most outcome measures with cervical disc replacement (CDR)?",
     "baseline": "B1",
-    "answer": "Error: No module named 'baselines'",
-    "cited_papers": [],
-    "num_papers_retrieved": 0,
-    "evidence_levels": [],
-    "generation_time_ms": 0
+    "answer": "# Analysis of Shared Outcome Measures with Cervical Disc Replacement\n\nBased on the provided papers, I cannot directly answer this question about which interventions share the most outcome measures with cervical disc replacement (CDR).\n\n## Evidence Gap\n\n**The retrieved papers do not contain sufficient information to address this query:**\n\n1. **Limited CDR-Specific Content**: None of the papers focus primarily on cervical disc replacement or its outcome measures.\n\n2. **Outcome Measure Transparency**: \n   - The two systematic reviews on lumbar spinal stenosis [pubmed_39379938, analyzed_d71f979b] (Evidence 1a) are the most comprehensive studies present, but they address lumbar pathology, not cervical disc disease\n   - The papers that might discuss spine surgery outcomes focus on specific conditions (cervical myelopathy [pubmed_41242578], metastatic spine disease [pubmed_41109513], anterior cervical surgery complications [pubmed_41407270]) rather than comparative outcome measurement methodology\n\n3. **No Comparative Outcome Matrix**: None of the papers provide:\n   - A systematic cataloging of outcome measures used across different spine interventions\n   - Direct comparisons between CDR outcome measures and other surgical approaches\n   - Tables mapping which outcome measures (functional scores, imaging parameters, complication rates) are shared across procedure types\n\n## Recommendation\n\nTo answer this question comprehensively, you would need:\n- Papers specifically comparing outcome measurement protocols across cervical spine interventions\n- Systematic reviews or methodological studies examining standardized outcome measure adoption in cervical spine surgery\n- Studies directly comparing CDR outcomes to alternative interventions using identical outcome measures",
+    "cited_papers": [
+      {
+        "paper_id": "pubmed_39379938",
+        "title": "Comparative effectiveness and safety of surgical interventions for degenerative lumbar spinal stenosis: a systematic review and network meta-analysis",
+        "evidence_level": "1a",
+        "year": 2024
+      },
+      {
+        "paper_id": "analyzed_d71f979b",
+        "title": "Effect of Different Interventions on Lumbar Spinal Stenosis: A Systematic Evaluation and Network Meta-Analysis",
+        "evidence_level": "1a",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_24119021",
+        "title": "Non-surgical interventions for the management of type 2 dens fractures: a systematic review.",
+        "evidence_level": "2a",
+        "year": 2013
+      },
+      {
+        "paper_id": "pubmed_33492918",
+        "title": "Epidural Interventions for Chronic Spinal Pain: Guidelines by the American Society of Interventional Pain Physicians",
+        "evidence_level": "5",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_37892959",
+        "title": "Automated Spinopelvic Parameter Extraction from Whole-Spine Lateral Radiographs Using Deep Learning",
+        "evidence_level": "4",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_41464768",
+        "title": "Perioperative Bone Health Optimization in Spine Surgery: Implementation and Outcomes of a Multidisciplinary Bone Health Clinic",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41407270",
+        "title": "Clinical Course of Segmental Motor Paralysis After Anterior Cervical Spine Surgery: A Multicenter Retrospective Cohort Study",
+        "evidence_level": "2b",
+        "year": 2021
+      },
+      {
+        "paper_id": "pubmed_33828159",
+        "title": "Deep Learning for Automatic Spinopelvic Parameter Measurement on Whole-Spine Lateral Radiographs",
+        "evidence_level": "2b",
+        "year": 2021
+      },
+      {
+        "paper_id": "pubmed_41242578",
+        "title": "Fulfillment of Preoperative Expectations Following Surgery for Degenerative Cervical Myelopathy: A Multicenter Analysis from the Canadian Spine Outcomes and Research Network",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41109513",
+        "title": "Prognosis and Outcomes Following Retreatment for Local Recurrence After Surgery for Metastatic Spine Cancer: A Multicenter Retrospective Cohort Study",
+        "evidence_level": "2b",
+        "year": 2025
+      }
+    ],
+    "num_papers_retrieved": 10,
+    "evidence_levels": [
+      "1a",
+      "1a",
+      "2a",
+      "5",
+      "4",
+      "2b",
+      "2b",
+      "2b",
+      "2b",
+      "2b"
+    ],
+    "generation_time_ms": 4496
   },
   {
     "query_id": "GR-005",
     "question": "For a patient with degenerative spondylolisthesis at L4-5, what does the evidence say about all available fusion techniques, their fusion rates, and complication profiles?",
     "baseline": "B1",
-    "answer": "Error: No module named 'baselines'",
-    "cited_papers": [],
-    "num_papers_retrieved": 0,
-    "evidence_levels": [],
-    "generation_time_ms": 0
+    "answer": "# Evidence Summary: Fusion Techniques for Degenerative Spondylolisthesis (L4-5)\n\n## Direct Evidence for Degenerative Spondylolisthesis\n\nUnfortunately, **the provided papers do not contain studies specifically comparing fusion techniques, fusion rates, or complication profiles for degenerative spondylolisthesis at L4-5.**\n\nThe most relevant paper addresses a related condition:\n\n### Grade I Lumbar Spondylolisthesis (General)\n[pubmed_41569719] (Evidence: 2b, machine learning analysis, 2026) examined older patients undergoing surgery for Grade I lumbar spondylolisthesis and identified outcome clusters using machine learning. However, **this paper does not detail:**\n- Specific fusion techniques compared\n- Fusion rates\n- Technique-specific complication profiles\n- L4-5 pathology specifically\n\n## Available Evidence on Related Outcomes\n\n### Long-term Outcomes in Lumbar Spinal Stenosis\n[pubmed_41075992] (Evidence: 2a, prospective study with 12-year follow-up, 2025) provides extended outcome data for surgically treated lumbar spinal stenosis, though this may not precisely align with spondylolisthesis-specific outcomes.\n\n### Complication Risk Factors\n[pubmed_41436674] (Evidence: 2b, nationwide inpatient sample, 2024) identifies chronic thrombocytopenia as a complication risk factor in lumbar spinal fusion patients, demonstrating some populations experience higher complication rates during fusion procedures.\n\n## Significant Evidence Gap\n\n**None of the provided papers systematically compare:**\n- Anterior lumbar interbody fusion (ALIF) vs. posterior lumbar interbody fusion (PLIF) vs. transforaminal PLIF (TLIF) vs. posterolateral fusion techniques\n- Fusion rates by technique\n- Technique-specific complications (infection, pseudarthrosis, adjacent segment disease)\n- Long-term outcomes stratified by fusion method\n\n**To answer this clinical question adequately, additional literature specifically addressing degenerative spondylolisthesis fusion technique comparisons would be required.**",
+    "cited_papers": [
+      {
+        "paper_id": "pubmed_41397570",
+        "title": "Preoperative Weight Loss and Outcomes in Obese Patients Undergoing Spinal Fusion: A Propensity Score Matched Analysis",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41109510",
+        "title": "Impact of Donepezil Treatment on Postoperative Outcomes Following Lumbar Spine Surgery in Patients with Cognitive Impairment",
+        "evidence_level": "2b",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41093066",
+        "title": "Impact of Metabolic and Bariatric Surgery on Low Back Pain, Quality of Life, and Spinal Pathologies in Morbidly Obese Patients: A Systematic Review and Meta-Analysis",
+        "evidence_level": "1a",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41569719",
+        "title": "Machine Learning Identifies Outcome Clusters in Older Patients Undergoing Surgery for Grade I Lumbar Spondylolisthesis",
+        "evidence_level": "2b",
+        "year": 2026
+      },
+      {
+        "paper_id": "pubmed_41075992",
+        "title": "Longer-term patient-rated outcomes and radiographic measures in surgically treated lumbar spinal stenosis: a prospective study with 12-year follow-up",
+        "evidence_level": "2a",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41436674",
+        "title": "Impact of Chronic Thrombocytopenia on In-Hospital Outcomes of Patients Undergoing Lumbar Spinal Fusion: A Nationwide Inpatient Sample Analysis",
+        "evidence_level": "2b",
+        "year": 2024
+      },
+      {
+        "paper_id": "pubmed_41396205",
+        "title": "Atlantoaxial Rotatory Fixation Following COVID-19: A Case Report of Surgical Management in a Pediatric Patient",
+        "evidence_level": "4",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41361081",
+        "title": "Multilevel Neural Arch Stress Fractures in a Patient with Osteopetrosis: A Case Report",
+        "evidence_level": "4",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_41315070",
+        "title": "O-arm Navigation-Guided En Bloc Resection of Thoracic Osteoblastoma in a Pediatric Patient: A Case Report",
+        "evidence_level": "4",
+        "year": 2025
+      },
+      {
+        "paper_id": "pubmed_40066868",
+        "title": "Impact of SI-6603 (Condoliase) on Health-Related Quality of Life Outcomes in Patients with Lumbar Disk Herniation-Associated Radicular Leg Pain: An Exploratory Analysis from the Discovery 6603 Study",
+        "evidence_level": "1b",
+        "year": 2025
+      }
+    ],
+    "num_papers_retrieved": 10,
+    "evidence_levels": [
+      "2b",
+      "2b",
+      "1a",
+      "2b",
+      "2a",
+      "2b",
+      "4",
+      "4",
+      "4",
+      "1b"
+    ],
+    "generation_time_ms": 4852
   }
 ]
