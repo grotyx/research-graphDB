@@ -104,7 +104,7 @@ async def generate_answer_b1_keyword(
     neo4j_client: Any, question: str, top_k: int = 10
 ) -> tuple[str, list[dict]]:
     """B1: Keyword search → answer generation."""
-    from baselines import KeywordSearch
+    from evaluation.baselines import KeywordSearch
 
     searcher = KeywordSearch(neo4j_client)
     results = await searcher.search(question, top_k=top_k)

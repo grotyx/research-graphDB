@@ -118,5 +118,23 @@
     "B2": "System B",
     "B3": "System C",
     "B4": "System D"
+  },
+  "TR-001": {
+    "B1": "System A",
+    "B3": "System B",
+    "B4": "System C",
+    "B2": "System D"
+  },
+  "TU-001": {
+    "B1": "System A",
+    "B4": "System B",
+    "B3": "System C",
+    "B2": "System D"
+  },
+  "BS-002": {
+    "B2": "System A",
+    "B4": "System B",
+    "B3": "System C",
+    "B1": "System D"
   }
 }
