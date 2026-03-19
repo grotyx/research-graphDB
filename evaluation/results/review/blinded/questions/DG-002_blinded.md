@@ -19,7 +19,73 @@
 
 ### Answer
 
-Error: Error code: 400 - {'error': {'message': "Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.", 'type': 'invalid_request_error', 'param': 'max_tokens', 'code': 'unsupported_parameter'}}
+# Evidence Synthesis: Cervical Disc Replacement vs ACDF for 2-Level Disease and Adjacent Segment Degeneration
+
+## Summary of Adjacent Segment Degeneration (ASD) Evidence
+
+### Primary Findings: CDR/CDA Superiority for ASD Prevention
+
+The evidence consistently demonstrates **significant reduction in adjacent segment degeneration with CDR compared to ACDF**, though most data encompasses multilevel and mixed-level populations:
+
+#### Quantitative ASD Outcomes
+
+**Bi-Level Specific Evidence:**
+- [pubmed_29595628] Meta-analysis of bi-level cervical spondylosis showed **pooled RR = 0.40 (95% CI: 0.35-0.46, p<0.00001)** for ASD rates with ACDR vs ACDF, representing a 60% relative risk reduction. This included studies evaluating both superior and inferior ASD.
+
+**Broader Multilevel Analysis:**
+- [pubmed_29753897] Multilevel meta-analysis demonstrated **OR 0.27 (95% CI: 0.13-0.59, p=0.001)** for ASD with ACDR vs ACDF (Level 1a evidence)
+- [pubmed_35085804] Reported **absolute difference of 6.1% (ACDF) vs 3.8% (CDA); p<0.001**, representing a 2.3 percentage point clinically meaningful reduction
+- [pubmed_40797275] Single-segment analysis showed **OR 0.56 (95% CI: 0.36-0.85, p=0.01)** based on 3 RCTs with 567 patients
+
+---
+
+## Clinical vs. Radiological ASD Distinction
+
+**Critical Finding:** [pubmed_31863642] identified important divergence between clinical and radiological outcomes:
+
+- **Symptomatic ASD:** Significantly lower with CDA **(OR 0.46, 95% CI: 0.34-0.63, p<0.00001)** across 6 studies with 1,628 participants
+- **Radiological Superior ASD:** No significant difference **(OR 0.63, 95% CI: 0.28-1.43, p=0.27)** with substantial heterogeneity (I²=83%)
+- **Clinical Implication:** CDA may reduce *symptomatic* disease progression while some radiological changes occur without clinical consequence
+
+---
+
+## Mechanism of ASD Reduction
+
+[pubmed_29595628] explains the biomechanical advantage: CDR preserves segmental motion, which:
+- Maintains normal biomechanical environment
+- Lowers intradiscal pressure in adjacent segment discs
+- Alleviates inflammatory cascade triggering degenerative changes
+
+---
+
+## Secondary Surgery Outcomes
+
+**Reoperation Rates (Adjacent Level):**
+- [pubmed_30992666] found statistically **non-significant lower reoperation risk with CDA** (OR 0.66, 95% CI: 0.41-1.06, p=0.09, n=2,921 patients across 8 studies) for index level; moderate quality evidence
+- [pubmed_32309660] notes "compelling evidence of reduction in ASD requiring surgery is lacking" despite theoretical advantages
+
+---
+
+## Evidence Gaps for 2-Level Specific Data
+
+**Limitation:** While [pubmed_29595628] specifically addresses bi-level disease with strong methodology, **most other analyses [pubmed_29753897, pubmed_30062947, pubmed_40882232] combine multilevel data without 2-level subgroup analyses**. The bi-level-specific evidence relies on limited primary studies within these meta-analyses.
+
+---
+
+## Clinical Summary (Level 1a Evidence)
+
+| Outcome | CDR vs ACDF | Evidence Quality |
+|---------|------------|-----------------|
+| **Symptomatic ASD** | Significantly reduced | 1a, RCT meta-analysis [31863642] |
+| **Radiological ASD (bi-level)** | 60% RR reduction | 1a, systematic review [29595628] |
+| **Absolute ASD Rate** | 3.8% vs 6.1% | 1a, meta-analysis [35085804] |
+| **Adjacent-level reoperation** | Non-significantly lower | 1a, moderate quality [30992666] |
+
+---
+
+## Conclusion
+
+CDR shows **strong evidence for reduced adjacent segment degeneration** compared to ACDF in cervical 2-level disease, with the most robust bi-level-specific data from [pubmed_29595628] (RR 0.40, p<0.00001). The benefit appears primarily in preventing symptomatic disease rather than all radiological changes. However, the clinical superiority for preventing reoperation requiring ASD surgery remains undefined.
 
 ---
 

@@ -18,7 +18,181 @@
 
 ### Answer
 
-Error: Error code: 400 - {'error': {'message': "Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.", 'type': 'invalid_request_error', 'param': 'max_tokens', 'code': 'unsupported_parameter'}}
+# Surgical Interventions for Lumbar Spinal Stenosis: Comprehensive Overview and Complication Profiles
+
+## Available Surgical Interventions
+
+Based on the evidence chain and retrieved papers, the following surgical approaches are available for lumbar spinal stenosis:
+
+### 1. **Decompression-Only Procedures**
+
+#### Laminectomy (Open)
+**Evidence:** [pubmed_39577647] Network meta-analysis (Evidence 1a); [pubmed_39575449] Systematic review (Evidence 1a)
+
+- Traditional open decompression approach with standard technique
+- Treats: Lumbar stenosis, foraminal stenosis, degenerative scoliosis, spondylolisthesis [pubmed_39577647]
+- **Complication Profile:** Higher reoperation rates and complication rates compared to minimally invasive alternatives [pubmed_39575449]
+
+#### Laminotomy
+**Evidence:** [pubmed_39577647] Network meta-analysis (Evidence 1a)
+
+- Minimal tissue disruption approach
+- Part of nine surgical techniques compared in systematic analysis
+- One of the compared techniques with varying effectiveness profiles
+
+#### Minimally Invasive Laminectomy (MIL)
+**Evidence:** [pubmed_39575449] Systematic review (Evidence 1a); [pubmed_31019969] Retrospective cohort study (Evidence 2b)
+
+- Tissue-sparing procedure using tubular retractors or percutaneous endoscopes
+- **Complication Profile:** Lower reoperation rates and complication rates than open laminectomy due to less bone disruption [pubmed_39575449]
+- Affects: Surgical precision, recovery time, tissue disruption, patient satisfaction, and quality of life (SF-36) [pubmed_39575449]
+- Postoperative outcomes measured by BPI (Brief Pain Inventory) for pain and walking ability [pubmed_31019969]
+
+#### Endoscopic Decompression
+**Evidence:** [pubmed_39577647] Network meta-analysis (Evidence 1a); [pubmed_38190892] Systematic review and meta-analysis (Evidence 1a); [pubmed_39379938] Network meta-analysis (Evidence 1a)
+
+- Minimally invasive endoscopic technique
+- **Effectiveness:** SUCRA 88.70% for short-term VAS pain relief and 83.60% for hospital stay reduction [pubmed_39577647]
+- **Complication Profile:** Safe and effective with acceptable complication rates; offers distinct advantages in reduced approach-related morbidity compared to microscopic approaches [pubmed_38190892]
+- **Safety Profile:** Endoscopic-assisted laminotomy identified as "the safest and most effective intervention for improving physical function at short-term follow-up compared to laminectomy" [pubmed_39379938]
+- Affects: Pain outcome, motor strength, NDI, reoperation rate, dural tear [pubmed_39379938]
+
+#### Full-Endoscopic Techniques
+**Evidence:** [pubmed_31019969] Retrospective cohort study (Evidence 2b)
+
+- Compared against tubular retractor and microscopic techniques
+- Addresses lumbar central canal stenosis and related pathology
+- Reduces postoperative back pain compared to traditional approaches
+
+#### Microscopic Decompression
+**Evidence:** [pubmed_38190892] Systematic review and meta-analysis (Evidence 1a); [pubmed_31019969] Retrospective cohort study (Evidence 2b)
+
+- Operating microscope-refined laminectomy technique
+- **Complication Profile:** Safe and effective with acceptable complication rates; however, endoscopic decompression has reduced approach-related morbidity [pubmed_38190892]
+- Successfully addresses underlying stenosis
+
+### 2. **Fusion Procedures**
+
+#### Decompression Plus Fusion (Combined Approach)
+**Evidence:** [pubmed_39577647] Network meta-analysis (Evidence 1a)
+
+- Combines decompression with spinal fusion
+- One of nine surgical techniques compared in network meta-analysis
+- Treats: Degenerative scoliosis, spondylolisthesis, foraminal stenosis, adjacent segment degeneration [pubmed_39577647]
+
+#### Minimally Invasive Transforaminal Lumbar Interbody Fusion (MI-TLIF)
+**Evidence:** [pubmed_41276834] Comparative effectiveness study (Evidence 2b)
+
+- Minimally invasive approach to fusion
+- Treats: L4/5 lumbar spinal stenosis with neurodegeneration
+- Compared with midline lumbar fusion with cortical bone trajectory screws
+- Addresses neural decompression and spinal stabilization in patients with osteoporosis [pubmed_41276834]
+
+#### Midline Lumbar Fusion with Cortical Bone Trajectory Screws
+**Evidence:** [pubmed_41276834] Comparative effectiveness study (Evidence 2b)
+
+- Alternative fusion technique
+- Provides neural decompression and spinal stabilization
+- Affects: SF-12/36 PCS (Short Form Survey Physical Component Score) [pubmed_41276834]
+
+### 3. **Interspinous Device Placement**
+
+**Evidence:** [pubmed_35046008] Systematic review (Evidence 1a); Knowledge graph relationships
+
+- Treats: Lateral recess stenosis, lumbar central canal stenosis, lumbar stenosis
+- **Complication Profile:** Superior to multimodal treatment in some trials; evidence of effectiveness
+- Affects: Pain outcome, motor strength, NDI, reoperation rate, dural tear
+
+---
+
+## Comparative Complication Profiles
+
+### Overall Surgical Complication Data
+
+**Evidence:** [pubmed_26824399] Evidence synthesis (Evidence 1a)
+
+Major complications across surgical interventions included:
+- Spinous process fracture
+- Coronary ischemia
+- Respiratory distress
+- Hematoma
+- Stroke
+- Pulmonary edema (fatal)
+- Risk of reoperation
+
+**Range of Complication Rates:** 0% to 24% across surgical participants [pubmed_26824399]
+
+**Conservative management comparison:** No side effects reported in any conservative treatment group [pubmed_26824399]
+
+### Technique-Specific Complication Comparisons
+
+#### Minimally Invasive vs. Open Approaches
+**Evidence:** [pubmed_39575449] Systematic review (Evidence 1a)
+
+**MIL Advantages:**
+- Lower reoperation rates than open laminectomy
+- Lower complication rates than open laminectomy
+- Better biomechanical stability due to less bone disruption [pubmed_39575449]
+
+#### Endoscopic vs. Microscopic Decompression
+**Evidence:** [pubmed_38190892] Systematic review and meta-analysis (Evidence 1a)
+
+**Endoscopic Advantages:**
+- Reduced approach-related morbidity compared to microscopic approaches
+- Both techniques maintain acceptable complication rates
+- Both successfully address underlying stenosis [pubmed_38190892]
+
+#### Short-Term Effectiveness and Safety
+**Evidence:** [pubmed_39379938] Network meta-analysis (Evidence 1a)
+
+**Safety Ranking (Short-term):**
+- Endoscopic-assisted laminotomy identified as safest intervention
+- Superior safety profile compared to standard laminectomy
+- More effective for improving physical function at short-term follow-up [pubmed_39379938]
+
+**Important Limitation:** Sustainability of safety advantages beyond 6 months requires further study; available data were insufficient [pubmed_39379938]
+
+### Specific Complication Outcomes Tracked
+
+Across studies, the following complication-related outcomes were monitored:
+- **Dural tear** [pubmed_39379938]
+- **Reoperation rate** [pubmed_39379938], [pubmed_39575449]
+- **Approach-related morbidity** [pubmed_38190892]
+- **Postoperative pain** [pubmed_38190892]
+- **Recovery time and tissue disruption** [pubmed_39575449]
+
+---
+
+## Evidence Gaps and Limitations
+
+1. **Long-term complication data:** [pubmed_39379938] notes insufficient data to determine if short-term safety advantages persist beyond 6 months
+
+2. **Fusion-specific complications:** Limited detailed complication profiles for fusion procedures; [pubmed_41276834] focuses on functional outcomes (SF-12/36 PCS) rather than comprehensive complication rates
+
+3. **Comparative effectiveness between fusion and decompression-only:** [pubmed_35046008] notes inconclusive evidence for laminectomy with or without fusion compared with conservative care
+
+4. **Conservative management comparison:** [pubmed_26824399] reports no side effects in conservative treatment groups, but comparative long-term data with surgical interventions limited
+
+5. **Patient selection criteria:** Limited evidence on which complication profiles apply to specific patient populations (e.g., age, osteoporosis, degenerative scoliosis severity)
+
+---
+
+## Summary Table: Surgical Interventions and Complication Profiles
+
+| Intervention | Evidence Level | Complication Rate | Key Complication Profile | Advantages |
+|---|---|---|---|---|
+| Open Laminectomy | 1a | Higher | Standard surgical complications | Established technique |
+| Minimally Invasive Laminectomy | 1a | Lower | Lower than open | Reduced reoperation rates |
+| Endoscopic Decompression | 1a | Acceptable | Reduced approach-related | Safest short-term option |
+| Microscopic Decompression | 1a | Acceptable | Standard surgical | Effective visualization |
+| Laminotomy | 1a | Data insufficient | Minimal tissue disruption | Minimally invasive |
+| Decompression + Fusion | 1a | Data insufficient | Standard + fusion-related | Addresses instability |
+| MI-TLIF | 2b | Data insufficient | Fusion-related | Stabilization option |
+| Interspinous Device | 1a | Includes dural tear risk | Reoperation possible | Effective in select cases |
+
+---
+
+**Recommendation:** When comparing surgical options, endoscopic-assisted laminotomy appears to offer the most favorable short-term safety profile, while minimally invasive techniques generally demonstrate lower complication rates than open approaches across evidence synthesis studies.
 
 ---
 

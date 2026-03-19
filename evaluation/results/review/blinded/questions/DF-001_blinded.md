@@ -116,23 +116,120 @@ The provided papers do not contain specific evidence comparing T10 versus L1 as 
 
 ## System C
 **Papers retrieved**: 10
-**Evidence levels**: ['2b', '4', '2b', '2b', '2b', '2b', '1a', '4', '4', '2b']
+**Evidence levels**: ['2b', '4', '3', '5', '4', '5', '2b', '2b', '2b', '3']
 
 ### Cited Papers
 - [2b] pubmed_35586905: Arthrodesis Rates with Multiple-Level Lateral Lumbar Interbody Fusion and rhBMP-
 - [4] pubmed_37718099: Preoperative Planning Strategies in Adult Spinal Deformity Surgery: A Review of 
+- [3] pubmed_40103372: Risk Factors for Distal Junctional Kyphosis Following Posterior Spinal Fusion fo
+- [5] pubmed_40099853: Biomechanical Analysis of a Novel Tether Pedicle Screw for Proximal Junctional M
+- [4] pubmed_40033732: Risk Factors and Prevention Strategies for Mechanical Complications in Adult Spi
+- [5] pubmed_40195633: Ten-Tiered Difficulty Progression Framework for Unilateral Biportal Endoscopy: A
+- [2b] pubmed_15371700: Long Adult Deformity Fusions to L5 Versus the Sacrum in the Presence of a 'Healt
 - [2b] pubmed_40450887: The Impact of Alignment Parameters Relative to the Thoracolumbar Inflection Poin
 - [2b] pubmed_38270393: Impact of Correcting Normative Segmental Lordosis Values on Postoperative Outcom
-- [2b] pubmed_29087808: Comparative analysis of 3 surgical strategies for adult spinal deformity with mi
-- [2b] pubmed_40181236: Robot-assisted Unilateral Biportal Endoscopic Lumbar Interbody Fusion (UBE-LIF) 
-- [1a] pubmed_41089903: Efficacy and Safety of Lateral Interbody Fusion of the Lumbar Spine in Adult Sco
-- [4] pubmed_41428060: Reverse-Folding Human: First Documented Case of an Unprecedented Spinal Deformit
-- [4] pubmed_38541104: Evolution and Recent Advancements in Lumbar Interbody Fusion: A Literature Revie
-- [2b] pubmed_40450877: Early outcomes with virtual surgical planning software and patient-specific inst
+- [3] pubmed_40691422: Comparison of Robotic Navigation, Freehand Navigation, and Freehand Techniques f
 
 ### Answer
 
-Error: Error code: 400 - {'error': {'message': "Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.", 'type': 'invalid_request_error', 'param': 'max_tokens', 'code': 'unsupported_parameter'}}
+# UIV Selection for Lenke 5C Adult Degenerative Scoliosis: T10 vs L1
+
+## Evidence Summary
+
+Based on the provided literature, there is **limited direct comparative evidence** for UIV selection specifically in Lenke 5C adult degenerative scoliosis (ADS). However, several principles emerge from the available evidence:
+
+---
+
+## Key Evidence Findings
+
+### General UIV Selection Principles
+
+**From Narrative Review Evidence [pubmed_37718099] (Level 4):**
+- UIV selection should consider "the apex of thoracic kyphosis and avoid spanning across major coronal deformities"
+- This technical principle suggests UIV positioning requires anatomic landmark-based decision-making rather than fixed vertebral levels
+
+**From ADS Comprehensive Review [pubmed_40033732] (Level 4):**
+- "A neutral and stable vertebra for the UIV is recommended"
+- **Critical consideration**: The thoracolumbar junction (T12-L1) is highlighted as "a transitional area from the highly mobile lumbar spine to the less mobile thoracic spine and has a higher risk of mechanical complications"
+- UIV choice "significantly influences the PJK/PJF risk"
+
+### Proximal UIV Placement Risks
+
+**From Adolescent Scoliosis Study [pubmed_40103372] (Level 3):**
+- UIV positioned at or more proximal than T2 was "identified as a significant risk factor for DJK development"
+- Mechanism: "More proximal UIV placement may alter thoracic sagittal alignment and kyphotic mechanics, potentially predisposing to compensatory distal junctional kyphosis"
+- **Applies to thoracolumbar constructs**: Suggests more proximal UIV selection increases junctional complications
+
+### Biomechanical UIV Data
+
+**From Biomechanical Study [pubmed_40099853] (Level 5, Cadaveric):**
+- T10 as UIV in thoracolumbar constructs (T10-L2) showed measurable increased ROM at adjacent segments (T9-T10, T8-T9, T7-T8) with cyclic loading
+- Extends instrumentation to T9 or T8 (UIV+1 or +2) reduced proximal junctional motion
+
+### Adult Spinal Deformity Cohort Data
+
+**From LLIF/Alignment Study [pubmed_35586905] (Level 2b):**
+- In 179 ADS patients requiring fusion instrumentation:
+  - T10-T12 (lower thoracic) as UIV: 66% (118 patients)
+  - L1-L3 (upper lumbar) as UIV: 20% (36 patients)
+- No comparative outcome data provided for T10 vs L1 specifically
+
+**From Thoracolumbar Inflection Point Study [pubmed_40450887] (Level 2b):**
+- Patients with lower thoracic fusion (T7-T12) to pelvis evaluated
+- At T10-L2 levels: 46.1% were **overcorrected**, 32.2% undercorrected, 21.7% matched to normative lordosis
+- Suggests T10-L2 region is frequently overcorrected in ADS surgery, but unclear if this is adverse
+
+**From Segmental Lordosis Study [pubmed_38270393] (Level 2b):**
+- In 510 ADS patients (mean age 64.6 years):
+  - T10-L2 region: 46.1% overcorrected vs. 32.2% undercorrected
+  - L4-S1 region: 39.0% undercorrected vs. 36.8% overcorrected
+- Overcorrection at proximal levels did not prevent L5-S1 degeneration at follow-up
+
+---
+
+## Clinical Interpretation: T10 vs L1
+
+### T10 as UIV (More Proximal)
+
+**Advantages:**
+- Included in 66% of ADS cases in the cohort study [pubmed_35586905]
+- Respects the principle of avoiding the thoracolumbar junction as UIV
+- Avoids lumbar instrumentation when thoracic pathology predominates
+
+**Disadvantages:**
+- Extends instrumentation into more mobile thoracic spine
+- Biomechanical data show increased ROM at T9-T10 junction (UIV+1) [pubmed_40099853]
+- Risk of proximal junctional kyphosis based on principles from adolescent scoliosis literature [pubmed_40103372]
+
+### L1 as UIV (More Distal)
+
+**Advantages:**
+- Limits thoracic instrumentation
+- Places UIV in transitional zone (though this is cautioned against)
+- May reduce proximal junctional complications
+
+**Disadvantages:**
+- **Explicitly cautioned**: Thoracolumbar junction has "higher risk of mechanical complications" [pubmed_40033732]
+- Only 20% of ADS cohort used L1-L3 as UIV [pubmed_35586905]
+- No outcome comparison provided
+
+---
+
+## Evidence Gaps
+
+1. **No direct RCT or Level 2b comparative studies** between T10 and L1 as UIV in Lenke 5C ADS
+2. **No Lenke-classification-specific evidence** provided
+3. **Absence of outcome data** (PJK rates, functional scores, complications) comparing these specific levels in adult degenerative populations
+4. **Unclear whether overcorrection at T10-L2** [pubmed_38270393] represents a complication risk or neutral finding
+5. **No patient selection criteria** provided for when L1 UIV is appropriate vs. when T10 is necessary
+
+---
+
+## Synthesis Statement
+
+The available evidence suggests **T10 as UIV is more commonly used (66% of cases)** and aligns with the principle of achieving a "neutral and stable vertebra" while avoiding the problematic thoracolumbar junction. However, selection between T10 and L1 should incorporate **patient-specific factors** including the apex of thoracic kyphosis location, coronal deformity distribution, and bone quality—factors not addressed in the current literature for direct comparison.
+
+**A higher-level prospective study comparing these UIV selections in Lenke 5C ADS is needed to establish optimal practice.**
 
 ---
 

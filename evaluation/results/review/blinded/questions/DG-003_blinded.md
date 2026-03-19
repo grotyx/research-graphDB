@@ -94,23 +94,123 @@ Greater cage elevation was associated with increased adjacent segment disease ri
 
 ## System B
 **Papers retrieved**: 10
-**Evidence levels**: ['2b', '5', '2b', '5', '5', '2a', '3', '4', '2b', '5']
+**Evidence levels**: ['2b', '2b', '5', '2b', '5', '5', '2a', '3', '5', '2b']
 
 ### Cited Papers
+- [2b] pubmed_41782914: Predictors of Cage Subsidence Following Stand-Alone Oblique Interbody Fusion (SA
 - [2b] pubmed_38754736: Endplate Bone Quality Score as a Predictor of Cage Subsidence Following Oblique 
 - [5] pubmed_36420402: Biomechanical Analysis of Cage Number and Position in Minimally Invasive Transfo
 - [2b] pubmed_41677169: Is Cigarette Smoking Associated With Impaired Fusion After Transforaminal Lumbar
 - [5] pubmed_37224957: Effects of 3 Lumbar Interbody Fusion Techniques on Complications in Osteoporotic
 - [5] pubmed_32169009: Cage subsidence in transforaminal lumbar interbody fusion (TLIF): Finite element
 - [2a] pubmed_36944178: Transforaminal Lumbar Interbody Fusion Using Double Banana-Shaped Cages: Clinica
-- [3] pubmed_40085208: Clinical Outcomes of Minimally Invasive Transforaminal Lumbar Interbody Fusion i
-- [4] pubmed_40123575: Minimally Invasive Transforaminal Lumbar Interbody Fusion with Intraoperative Hi
-- [2b] pubmed_41318873: MRI-based Pedicle Bone Quality Predicts Pedicle Screw Loosening in Transforamina
-- [5] pubmed_35729647: Biomechanical effects of interbody cage height on adjacent segments in patients 
+- [3] pubmed_38927794: Biomechanical Analysis of Cage Dislodgment in Posterior Lumbar Interbody Fusion:
+- [5] pubmed_36726086: Biomechanical characteristics of various tissue structures of different sizes of
+- [2b] pubmed_41436676: Adjacent Segment Disease Risk Factors Following Lateral Lumbar Interbody Fusion:
 
 ### Answer
 
-Error: Error code: 400 - {'error': {'message': "Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.", 'type': 'invalid_request_error', 'param': 'max_tokens', 'code': 'unsupported_parameter'}}
+# Risk Factors for Cage Subsidence After MIS-TLIF and Clinical Outcomes
+
+## Incidence of Cage Subsidence
+
+Cage subsidence is a common complication following minimally invasive interbody fusion procedures, occurring in approximately **one-third of patients**:
+- SA-OLIF: 32.7% (>2 mm height loss) [pubmed_41782914]
+- OLIF: 32.9% [pubmed_38754736]
+- TLIF with single banana-shaped cages: 19.9% at 12-month follow-up [pubmed_36944178]
+- General range in literature: 15.9-70% depending on technique [pubmed_36726086]
+
+---
+
+## Identified Risk Factors for MIS-TLIF Cage Subsidence
+
+### 1. **Patient-Related Factors**
+
+**Sarcopenia and Advanced Age**
+- Sarcopenia identified as a significant predictor of cage subsidence in stand-alone fusion [pubmed_41782914] (Evidence: 2b, Retrospective Cohort)
+- However, age showed **no statistically significant association** with fusion grades or cage subsidence in TLIF with posterolateral arthrodesis [pubmed_41677169] (Evidence: 2b, Retrospective Cohort)
+- *Note: Conflicting evidence suggests age effects may be technique-dependent*
+
+**Bone Quality Factors**
+- Lower bone mineral density: predictor of subsidence in non-osteoporotic patients [pubmed_41782914]
+- **Endplate Bone Quality (EBQ)**: Strong preoperative predictor of cage subsidence in OLIF [pubmed_38754736] (Evidence: 2b, Retrospective Cohort) - assessable on routine preoperative MRI without additional imaging cost
+- Osteoporotic bone: higher subsidence risk due to lower mechanical strength [pubmed_32169009] (Evidence: 5, Biomechanical Study)
+
+**BMI and Smoking**
+- BMI: **No statistically significant association** with cage subsidence in TLIF [pubmed_41677169]
+- Smoking intensity (pack-years): Examined as potential association with cage subsidence via knowledge graph relationship [AFFECTS relationship documented], but specific quantitative data not provided in retrieved papers
+
+### 2. **Surgical Technique and Design Factors**
+
+**Cage Configuration**
+- **Single vs. Double Cage Design**: Double banana-shaped cages significantly reduced subsidence to 11.8% versus 19.9% with single cages (p=0.002) at 12 months [pubmed_36944178] (Evidence: 2a, Prospective Cohort)
+  - Biomechanical mechanism: Maximum endplate stress 1.72× greater in single-cage model; stress ratios worsened during extension (2.64×) and side bending (2.30×)
+
+**Cage Placement**
+- **Oblique asymmetric placement**: Increases subsidence risk [pubmed_32169009]
+- **Greater cage height**: Associated with higher simulated subsidence loads [pubmed_32169009]
+- **Posterior cage placement**: Independent risk factor for adjacent segment disease development (HR 1.06, p=0.032) [pubmed_41436676] (Evidence: 2b, Retrospective Cohort)
+- **Greater cage elevation**: Independent risk factor for adjacent segment disease (HR 1.28, p=0.012) [pubmed_41436676]
+
+**Biomechanical Stress Patterns**
+- MIS-TLIF cage implantation AFFECTS: Peak Cage Stress during rotation left, lateral bending left, and flexion [pubmed_36420402] (Evidence: 5, Biomechanical Study)
+- PLIF technique creates greatest cage-bone interface stress, suggesting higher subsidence risk [pubmed_37224957] (Evidence: 5, Biomechanical Study)
+
+---
+
+## Impact on Clinical Outcomes
+
+### 1. **Spinal Biomechanics and Anatomy**
+
+**Loss of Disc Height and Kyphosis**
+- Cage subsidence leads to:
+  - Loss of disc height [pubmed_37224957]
+  - Increased segmental kyphosis [pubmed_37224957]
+  - Instability of vertebral fusion segment [pubmed_38927794]
+
+**Segmental Alignment**
+- L4 tilt angle changes postoperatively [pubmed_37224957] (AFFECTS relationship documented)
+- Spinal curvature alteration [pubmed_36726086]
+
+### 2. **Neurological Complications**
+
+- **Potential late neurologic deterioration** from increased segmental kyphosis [pubmed_37224957]
+- **Nerve compression** from cage subsidence causing recurrent symptoms [pubmed_36726086]
+- **Serious nerve compression** from cage dislodgment secondary to subsidence [pubmed_38927794]
+- Adjacent segment disease (ASD) development: Independent association with cage elevation and posterior placement [pubmed_41436676]
+
+### 3. **Clinical Symptom Outcomes**
+
+**Pain and Functional Scores**
+- Pain complaints documented in TLIF populations [pubmed_37224957] (AFFECTS relationship)
+- Range of motion (ROM) affected [pubmed_37224957]
+- Functional scores impacted [pubmed_37224957]
+
+**Fusion Quality**
+- Cage subsidence AFFECTS fusion rate and bone fusion achievement [pubmed_41782914]
+- Pseudoarthrosis risk [pubmed_38754736] (TREATS relationship—cage subsidence potentially compromises fusion)
+
+---
+
+## Evidence Gaps and Limitations
+
+1. **Lack of MIS-TLIF-specific data**: Most retrieved papers address SA-OLIF or PLIF; only one biomechanical study specifically addresses MIS-TLIF cage positioning [pubmed_36420402]
+
+2. **Limited clinical outcome data**: Biomechanical studies (Evidence 5) predominate; prospective clinical outcome studies are scarce (only one Evidence 2a study on cage configuration) [pubmed_36944178]
+
+3. **Conflicting age associations**: Age showed significant risk in SA-OLIF [pubmed_41782914] but not in TLIF with posterolateral arthrodesis [pubmed_41677169]—technique dependency unclear
+
+4. **Missing long-term follow-up**: Most studies assess subsidence at 12 months; longer-term clinical correlations undefined
+
+5. **Incomplete smoking data**: Smoking relationship documented in knowledge graph but quantitative associations not provided in paper abstracts
+
+6. **Threshold definition variability**: Subsidence definitions vary (>2 mm in some studies), affecting comparability
+
+---
+
+## Clinical Summary
+
+**Modifiable risk factors** include cage design (double-cage preferred) and placement (central/anterior positioning, appropriate elevation). **Non-modifiable factors** include sarcopenia, endplate bone quality, and osteoporotic bone. While cage subsidence occurs in ~20% of MIS-TLIF cases with single cages, clinical outcomes directly attributable to subsidence remain incompletely characterized in the available literature.
 
 ---
 

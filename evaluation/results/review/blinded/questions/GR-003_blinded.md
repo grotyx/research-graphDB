@@ -111,7 +111,7 @@ These represent outcome advantages alongside equivalent clinical efficacy.
 
 ## System B
 **Papers retrieved**: 10
-**Evidence levels**: ['2b', '1a', '1b', '1a', '2b', '1a', '2b', '2b', '5', '2b']
+**Evidence levels**: ['2b', '1a', '1b', '1a', '2b', '1a', '2b', '2b', '2b', '5']
 
 ### Cited Papers
 - [2b] pubmed_40976561: Unilateral Biportal Endoscopy for Recurrent Lumbar Disc Herniation: Radiologic a
@@ -122,12 +122,127 @@ These represent outcome advantages alongside equivalent clinical efficacy.
 - [1a] pubmed_41452813: Unilateral Biportal Endoscopic Discectomy versus Conventional Microdiscectomy fo
 - [2b] pubmed_40602491: Surgical Site Infections Following Unilateral Biportal Endoscopic Surgery for Lu
 - [2b] pubmed_41089895: Unilateral Biportal Endoscopic Lumbar Decompression: Efficacy, Safety, and Learn
+- [2b] pubmed_30174809: Full Endoscopic Decompression for Degenerative Lumbar Spinal Stenosis: 2-Year Cl
 - [5] pubmed_40195633: Ten-Tiered Difficulty Progression Framework for Unilateral Biportal Endoscopy: A
-- [2b] pubmed_41368529: Unilateral Biportal Endoscopy for Adjacent Segment Disease After Lumbar Fusion: 
 
 ### Answer
 
-Error: Error code: 400 - {'error': {'message': "Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.", 'type': 'invalid_request_error', 'param': 'max_tokens', 'code': 'unsupported_parameter'}}
+# Evidence Chain for UBE in Treating Lumbar Disc Herniation
+
+## Pathologies Treated by UBE
+
+Based on the knowledge graph and retrieved papers, UBE treats a spectrum of lumbar pathologies:
+
+### Primary Indications
+1. **Herniated lumbar disc** (central, paracentral, recessal, foraminal, extraforaminal, recurrent) [pubmed_40976561, pubmed_38388729, pubmed_41089895, pubmed_40195633]
+2. **Lumbar spinal stenosis** (recessal, central, foraminal) [pubmed_41098550, pubmed_41089895, pubmed_30174809]
+3. **Facet arthropathy and facet joint degeneration** [pubmed_40976561, pubmed_38388729, pubmed_41452813]
+4. **Lumbar facet synovial cysts** [pubmed_41452813, pubmed_40195633]
+5. **Modic changes** [pubmed_41452813, pubmed_40195633]
+
+### Secondary/Associated Pathologies
+- Vertebral endplate degeneration [pubmed_40976561, pubmed_38388729]
+- Low back pain [pubmed_40976561, pubmed_38388729, pubmed_41452813, pubmed_40195633]
+- Pseudarthrosis [pubmed_40976561, pubmed_38388729]
+
+---
+
+## Outcomes Affected by UBE
+
+The evidence chain demonstrates UBE affects multiple clinical and biomechanical outcomes:
+
+### Pain Outcomes
+
+**Postoperative Pain (VAS)**
+- **Evidence Level:** 1a (Meta-analysis) [pubmed_38388729, pubmed_41452813]
+- **Study Design:** Systematic reviews and meta-analyses of 13 studies (1369 patients) [pubmed_41452813]
+- **Finding:** UBED produces equivalent pain relief to microdiscectomy with superior surgical efficiency (shorter operative times, reduced blood loss, faster discharge)
+- Knowledge graph relationship: AFFECTS → Postoperative Pain
+
+**Severe Preoperative LBP (VAS≥8)**
+- **Evidence Level:** 2b-1a (Mixed) [pubmed_40976561, pubmed_41089895, pubmed_38388729, pubmed_41452813]
+- **Finding:** UBE effectively reduces severe baseline pain across multiple patient cohorts
+- Knowledge graph relationship: AFFECTS → Severe Preoperative LBP (VAS≥8)
+
+### Functional Outcomes
+
+**Disability/Functional Recovery (ODI, VAS Leg)**
+- **Evidence Level:** 1a (Meta-analysis) [pubmed_41098550]
+- **Study Design:** Systematic review comparing UBE vs. UPE for lumbar stenosis
+- **Finding:** "Both UBE and UPE are effective and comparable in treating LSS, with similar outcomes in terms of postoperative pain relief, functional recovery, and complications"
+- Knowledge graph relationship: AFFECTS → Functional Recovery, Walking Ability
+
+**Quality of Life Measures**
+- **Evidence Level:** 1b (RCT) [pubmed_39054483]
+- **Study Design:** Prospective randomized controlled noninferiority trial
+- **Outcomes affected:** SF-12/36 Physical Component Score, SF-12/36 Mental Component Score, PROMs
+- **Finding:** "UBE significantly relieves pain and disability without severe complications. Most patients express satisfaction with the technique."
+- Knowledge graph relationship: AFFECTS → SF-12/36 PCS, SF-12/36 Mental Component Score - Postoperative
+
+### Complications
+
+**Overall Complication Rate**
+- **Evidence Level:** 1a-2b (Mixed) [pubmed_38388729, pubmed_41452813, pubmed_40602491]
+- **Study Design:** Meta-analyses and retrospective cohort analysis of 436 procedures [pubmed_40602491]
+- **Finding:** Comparable safety profile to microdiscectomy with specific complications tracked including surgical site infections
+- Knowledge graph relationship: AFFECTS → Complication Rate
+
+**Adjacent Disc Degeneration (ASD)**
+- **Evidence Level:** 1a (Meta-analysis) [pubmed_41452813]
+- **Study Design:** Meta-analysis of 13 studies
+- **Finding:** Adjacent disc degeneration documented as affected outcome measure
+- Knowledge graph relationship: AFFECTS → Adjacent Disc Degeneration
+
+**High-Grade Facet Joint Osteoarthritis (Framingham Grade III-IV)**
+- **Evidence Level:** 1a (Meta-analysis) [pubmed_38388729, pubmed_41452813]
+- **Finding:** High-grade FJOA tracked as outcome in studies comparing UBED to microdiscectomy
+- Knowledge graph relationship: AFFECTS → High-Grade FJOA (Framingham Grade III-IV)
+
+**Vertebral Endplate Fracture**
+- **Evidence Level:** 1a (Meta-analysis) [pubmed_41452813]
+- **Study Design:** Meta-analysis
+- **Finding:** Vertebral endplate fracture documented as potential complication affecting outcome measurement
+- Knowledge graph relationship: AFFECTS → Vertebral Endplate Fracture
+
+### Biomechanical Outcomes
+
+**Von Mises Stress**
+- **Evidence Level:** 1a (Meta-analysis) [pubmed_38388729, pubmed_41098550]
+- **Finding:** Biomechanical stress distribution analyzed in comparative studies
+- Knowledge graph relationship: AFFECTS → Von Mises Stress
+
+**Inflammatory Cytokine Effects**
+- **Evidence Level:** 1a (Meta-analysis) [pubmed_38388729, pubmed_38388729, pubmed_41098550]
+- **Finding:** Inflammatory response mechanisms tracked in systematic reviews
+- Knowledge graph relationship: AFFECTS → Inflammatory Cytokine Effects on MSC Migration
+
+---
+
+## Evidence Level Summary by Outcome
+
+| Outcome | Evidence Level | Study Type | Key Paper |
+|---------|----------------|-----------|-----------|
+| Pain relief/VAS | 1a | Meta-analysis | [pubmed_38388729, pubmed_41452813] |
+| Functional recovery/ODI | 1a | Systematic Review | [pubmed_41098550] |
+| Quality of life (SF-12/36) | 1b | RCT | [pubmed_39054483] |
+| Complication rate | 1a-2b | Mixed | [pubmed_40602491, pubmed_38388729] |
+| Adjacent disc degeneration | 1a | Meta-analysis | [pubmed_41452813] |
+| Surgical efficiency (OR time, blood loss) | 1a | Meta-analysis | [pubmed_38388729] |
+| Facet joint outcomes (FJOA) | 1a | Meta-analysis | [pubmed_41452813] |
+
+---
+
+## Evidence Gaps
+
+1. **Limited long-term follow-up:** Papers note need for "high-quality randomized controlled trials with longer follow-up" [pubmed_41098550]
+
+2. **Specific pathology outcomes:** While UBE treats facet synovial cysts and Modic changes, dedicated outcomes studies are limited
+
+3. **Learning curve standardization:** Evidence framework presented [pubmed_40195633] (Level 5) but comparative efficacy during learning curve not fully established across centers
+
+4. **Recurrent herniation outcomes:** Only one retrospective study (2b evidence) specifically addresses recurrent disc herniation [pubmed_40976561]
+
+5. **Cervical vs. lumbar comparative data:** While RCT exists for cervical pathology [pubmed_39054483], lumbar-specific comparisons to ACDF not available
 
 ---
 

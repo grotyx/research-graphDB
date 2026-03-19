@@ -194,23 +194,122 @@ BMP-2 achieves superior fusion rates compared to alternative approaches (88-97% 
 
 ## System C
 **Papers retrieved**: 10
-**Evidence levels**: ['2b', '4', '1a', '1a', '2b', '1a', '1a', '4', '1b', '5']
+**Evidence levels**: ['2b', '4', '1a', '1a', '4', '1a', '2b', '2b', '1a', '2b']
 
 ### Cited Papers
 - [2b] pubmed_28822825: Effectiveness and Safety of Recombinant Human Bone Morphogenetic Protein 2 in Tr
 - [4] pubmed_32541470: Interbody fusion in degenerative lumbar spinal stenosis with additional posterol
 - [1a] pubmed_25955186: Fusion Rates in Anterior Lumbar Interbody Fusion, Posterior Lumbar Interbody/Tra
+- [1a] pubmed_39399091: Bone graft substitutes used in anterior lumbar interbody fusion: a systematic re
+- [4] pubmed_24029138: Complications Associated with Recombinant Human Bone Morphogenetic Protein-2 Use
 - [1a] pubmed_21729796: Recombinant Human Bone Morphogenetic Protein-2 in Spinal Fusion Surgery: A Syste
-- [2b] pubmed_38569928: Recombinant Human Bone Morphogenetic Protein 2 (rhBMP-2) and Pseudarthrosis Rate
-- [1a] pubmed_26613283: Dose-dependent effectiveness and morbidity of bone morphogenetic protein in spin
-- [1a] pubmed_25772092: Complications Associated with rhBMP-2 in Lumbar and Cervical Spine Fusion: A Met
-- [4] pubmed_24412416: Adverse Events Associated with Recombinant Human Bone Morphogenetic Protein 2 (r
-- [1b] pubmed_12394656: Lumbar fusion using rhBMP-2 and tapered titanium fusion cage: 2-year prospective
-- [5] pubmed_31901554: Development of a Novel Animal Model of Interbody Fusion in Rat Coccygeal Vertebr
+- [2b] pubmed_31218198: Fusion Rates and Complications Associated with Recombinant Human Bone Morphogene
+- [2b] pubmed_28507884: Recombinant Human Bone Morphogenetic Protein 2 in Anterior Lumbar Interbody Fusi
+- [1a] pubmed_32339767: Minimally Effective Dose of Recombinant Human Bone Morphogenetic Protein-2 in Po
+- [2b] pubmed_28281191: Recombinant human bone morphogenetic protein 2 in lumbar interbody fusion: A ret
 
 ### Answer
 
-Error: Error code: 400 - {'error': {'message': "Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.", 'type': 'invalid_request_error', 'param': 'max_tokens', 'code': 'unsupported_parameter'}}
+# Evidence Synthesis: BMP-2 in Lumbar Interbody Fusion
+
+## Fusion Rates
+
+**Effectiveness Across Fusion Types**
+
+BMP-2 demonstrates improved fusion rates compared to control groups across multiple lumbar fusion approaches:
+
+- **ALIF (Anterior Lumbar Interbody Fusion)**: 97.8% fusion rate at 24 months WITH rhBMP-2 vs. 88.2% without [pubmed_31218198] (Evidence 2b, retrospective cohort)
+- **PLIF/TLIF (Posterior/Transforaminal)**: 95.7% WITH rhBMP-2 vs. 89.5% without at 24 months [pubmed_31218198]
+- **Posterolateral Fusion (PLF)**: 93.6% WITH rhBMP-2 vs. 83.1% without [pubmed_31218198]
+
+**TLIF-Specific Evidence**
+
+In transforaminal lumbar interbody fusion specifically, rhBMP-2 achieved "fusion rates similar to patients receiving autograft" [pubmed_28822825] (Evidence 2b, retrospective cohort), treating spondylolisthesis, segmental instability, and adjacent segment disease.
+
+**Alternative BMP Formulations**
+
+E.BMP-2 (Escherichia coli-derived) showed 100% fusion rates: "All 18 segments fused completely by 6 months with no complications" using 2.5 mg per segment in posterolateral fusion [pubmed_32541470] (Evidence 4, pilot study), with improvements in VAS back pain and ODI.
+
+---
+
+## Complication Rates
+
+### Higher Complication Risk
+
+**Systematic Review Findings**
+
+A Level 1a systematic review identified a "clear increased risk of complications and adverse events to patients receiving rhBMP-2 in spinal fusion" based on FDA data and industry-sponsored trials [pubmed_21729796]. Specific complications include:
+
+- **Symptomatic Osteolysis** and ectopic bone formation
+- **Radiculopathy/Radiculitis**: Up to 38% reported in some studies; TLIF cohort showed "slightly higher rates of radiculitis" with BMP-2 [pubmed_28822825]
+- **Seroma formation**: Higher in BMP-2 group [pubmed_28822825]
+- **Pseudarthrosis**: 6.8% in minimally invasive TLIF despite overall fusion success [pubmed_24029138] (Evidence 4)
+
+**Symptomatic Ectopic Bone Formation**
+
+"Symptomatic ectopic bone formation develops in 1.7% of patients, requiring revision surgery" in MIS-TLIF with rhBMP-2 [pubmed_24029138]. The authors attribute this partly to "improper dosage selection" and the "closed intervertebral disc space environment."
+
+### Conflicting Evidence on Overall Complications
+
+**Contradictory Findings**
+
+Evidence presents a dichotomy [pubmed_39399091] (Evidence 1a, systematic review):
+- 67% of studies (18/27) examining rhBMP-2 report "increased complications" (pseudoarthrosis OR 1.44, retrograde ejaculation)
+- Other studies report "no significant differences or decreased complications"
+
+**Medicare Database Analysis**
+
+A retrospective cohort study (Evidence 2b) using Medicare data found that "at 1 year postoperatively, total complications in the group exposed to rhBMP-2 were less frequent than in the no-rhBMP-2 cohort" [pubmed_28507884]. However, this contradicts other analyses showing complications increase with higher BMP doses.
+
+---
+
+## Cancer Risk
+
+### Limited Direct Evidence with Concern Indicators
+
+**Dose-Related Malignancy Risk**
+
+The knowledge graph identifies "rhBMP-2 Dose and Malignancy Risk" as an affected outcome [pubmed_21729796], though specific incidence rates are not detailed in the provided abstracts. A meta-analysis noted this concern requires systematic evaluation [pubmed_32339767] (Evidence 1a).
+
+**Study Design Bias**
+
+The systematic review of FDA data concluded: "Level I and Level II evidence...suggest possible study design bias in the original trials" regarding adverse event reporting, raising concerns about the completeness of cancer surveillance data [pubmed_21729796].
+
+**New Cancer Diagnosis Rate**
+
+One meta-analysis [pubmed_32339767] identifies "New Cancer Diagnosis Rate" as a measured outcome in PLIF/TLIF studies but does not provide specific incidence data in the available abstract.
+
+### Evidence Gap
+
+**Critical Limitation**: None of the provided papers report specific cancer incidence rates or long-term malignancy surveillance data. This represents a significant gap in the evidence base for addressing cancer risk comprehensively.
+
+---
+
+## Dose-Related Considerations
+
+A meta-analysis specifically examined minimally effective BMP doses [pubmed_32339767] (Evidence 1a), noting that dose varied widely across studies and that "data on the location of BMP placement on complications and fusion are lacking." The E.BMP-2 study found 2.5 mg per segment "sufficient to obtain complete bony union" [pubmed_32541470].
+
+---
+
+## Summary of Evidence Quality
+
+| Outcome | Evidence Level | Key Finding |
+|---------|----------------|------------|
+| Fusion rates | 1a, 2b | BMP-2 superior: 9.6% higher (ALIF), 6.2% (PLIF/TLIF), 10.5% (PLF) |
+| Radiculitis/radiculopathy | 2b, 1a | Increased risk; rates up to 38% in some cohorts |
+| Ectopic bone/osteolysis | 4, 1a | 1.7% symptomatic in MIS-TLIF; higher with improper dosing |
+| Overall complications | 1a, 2b | Conflicting: some show increased risk, others show decreased risk |
+| Cancer risk | 1a | Concern noted but insufficient specific data provided |
+
+---
+
+## Clinical Evidence Gap
+
+The provided evidence does not adequately address:
+1. **Long-term cancer incidence** (specific numbers, follow-up duration)
+2. **Optimal BMP-2 dosing strategies** to minimize complications
+3. **Patient selection criteria** for BMP-2 use vs. alternatives
+4. **Mechanism of ectopic bone formation** in interbody fusion environments
 
 ---
 

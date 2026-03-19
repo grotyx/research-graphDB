@@ -173,99 +173,89 @@ async def generate_answer_b3_llm_direct(question: str) -> tuple[str, list[dict]]
 async def generate_answer_b4_graphrag(
     neo4j_client: Any, question: str, top_k: int = 10
 ) -> tuple[str, list[dict]]:
-    """B4: GraphRAG Pattern 2 v2 -- HyDE + Graph Filter(Union) + Direct Chunk Retrieval.
+    """B4: Graph-Enhanced Vector Search — B2와 동일 검색 + Graph 컨텍스트 강화.
+
+    핵심: 검색은 B2와 동일 (vector search). Graph는 "컨텍스트 강화"에만 사용.
+    → B2보다 무조건 같거나 더 나은 검색 결과 + 구조화된 관계 정보.
 
     Pipeline:
-        Step 1: HyDE — generate hypothetical answer for better embedding
-        Step 2: LLM extracts entities (with robust fallback)
-        Step 3: Graph filter — UNION (not intersection) of intervention/pathology papers
-        Step 4: Direct chunk retrieval from filtered papers (no vector index dependency)
-        Step 5: Vector rank the retrieved chunks
-        Step 6: PubMed fallback if still < 3 papers
-        Step 7: Generate answer with evidence chain structure
+        Step 1: Vector search (B2와 동일)
+        Step 2: 검색된 논문에 Graph 메타데이터 주입
+        Step 3: Graph-enriched context로 답변 생성
     """
-    # Step 1: HyDE — generate hypothetical answer for better embedding
-    hyde_text = await _generate_hyde(question)
-    embed_query = hyde_text if hyde_text else question
-    logger.info("B4 HyDE: %s", "generated" if hyde_text else "skipped")
-
-    # Step 2: Extract entities with robust fallback
-    entities = await _extract_entities_from_question(question)
-    logger.info("B4 entities: I=%d P=%d", len(entities.get("interventions",[])), len(entities.get("pathologies",[])))
-
-    # Step 3: Graph filter — UNION of intervention and pathology papers
-    paper_ids = await _graph_filter_papers(neo4j_client, entities)
-    logger.info("B4 graph filter: %d papers", len(paper_ids))
-
-    # Step 3b: Broaden if too few
-    if len(paper_ids) < 10:
-        paper_ids = await _broaden_search(neo4j_client, entities, paper_ids)
-        logger.info("B4 after broadening: %d papers", len(paper_ids))
-
-    # Step 4+5: Direct chunk retrieval + vector ranking
-    embedding = await _get_embedding(embed_query)
-    chunks = await _vector_search_within_papers(
-        neo4j_client, embedding, paper_ids, top_k * 3
+    # Step 1: Vector search — B2와 완전히 동일
+    embedding = await _get_embedding(question)
+    rows = await neo4j_client.vector_search_chunks(
+        embedding=embedding, top_k=top_k * 3, min_score=0.3
     )
 
-    # Step 5: PubMed fallback if still < 3 papers
-    supplementary_context: list[str] = []
-    unique_pids = {c.get("paper_id", "") for c in chunks if c.get("paper_id")}
-    if len(unique_pids) < 3:
-        supplementary_context = await _pubmed_fallback(question)
-        logger.info("B4 PubMed fallback: %d supplementary abstracts", len(supplementary_context))
-
-    # Step 6: Dedup by paper, build context
+    # Dedup by paper (B2와 동일 로직)
     seen: dict[str, dict] = {}
-    for c in chunks:
-        pid = c.get("paper_id", "")
-        if not pid:
-            continue
-        score = c.get("score", 0.0)
-        if pid not in seen or score > seen[pid].get("score", 0):
-            seen[pid] = {
-                "paper_id": pid,
-                "title": c.get("title", "Unknown"),
-                "evidence_level": c.get("evidence_level", "unknown"),
-                "content": c.get("content", "")[:500],
-                "year": c.get("year"),
-                "score": score,
-            }
+    for r in rows:
+        pid = r.get("paper_id", "")
+        if pid and pid not in seen:
+            seen[pid] = r
 
-    papers_list = sorted(
-        seen.values(), key=lambda x: x.get("score", 0), reverse=True
-    )[:top_k]
-
-    if not papers_list and not supplementary_context:
+    papers_list = list(seen.values())[:top_k]
+    if not papers_list:
         return "No relevant papers found for this query.", []
 
-    # Build context
+    # Step 2: Graph 컨텍스트 강화 — 각 논문에 관계 정보 주입
+    paper_ids = [r.get("paper_id", "") for r in papers_list if r.get("paper_id")]
+    graph_context = await _enrich_with_graph_context(neo4j_client, paper_ids)
+
+    # Step 3: Graph-enriched context 구축
     context_parts = []
     papers = []
     for r in papers_list:
-        title = r["title"]
-        el = r["evidence_level"]
-        content = r["content"]
-        pid = r["paper_id"]
-        score = r["score"]
-        year = r.get("year", "N/A")
-        context_parts.append(
-            f"[{pid}] {title} (Evidence: {el}, Year: {year}, Score: {score:.3f})\n{content}"
-        )
-        papers.append({
-            "paper_id": pid, "title": title,
-            "evidence_level": el, "score": score,
-        })
+        pid = r.get("paper_id", "")
+        title = r.get("paper_title", "Unknown")
+        el = r.get("evidence_level", "unknown")
+        content = r.get("content", "")[:500]
 
-    # Append PubMed supplementary context
-    if supplementary_context:
-        context_parts.append("\n--- Supplementary PubMed Context ---")
-        context_parts.extend(supplementary_context)
+        # Graph 메타데이터 추가
+        graph_info = graph_context.get(pid, {})
+        treats = graph_info.get("treats", [])
+        affects = graph_info.get("affects", [])
+        study_design = graph_info.get("study_design", "")
+        related_interventions = graph_info.get("related_interventions", [])
+
+        # Enriched context 구축
+        enriched = f"[{pid}] {title} (Evidence: {el}, Design: {study_design})\n{content}"
+        if treats:
+            enriched += f"\n  → TREATS: {', '.join(treats[:5])}"
+        if affects:
+            enriched += f"\n  → AFFECTS: {', '.join(affects[:5])}"
+        if related_interventions:
+            enriched += f"\n  → Related procedures: {', '.join(related_interventions[:3])}"
+
+        context_parts.append(enriched)
+        papers.append({"paper_id": pid, "title": title, "evidence_level": el})
+
+    # Evidence chain 요약 (전체 논문에서 추출)
+    evidence_chain = await _build_evidence_chain_summary(neo4j_client, paper_ids)
 
     context = "\n\n".join(context_parts)
+    if evidence_chain:
+        context = f"## Knowledge Graph Evidence Chain\n{evidence_chain}\n\n## Retrieved Papers\n{context}"
 
-    # Step 7: Generate answer with evidence chain structure
-    answer = await _generate_with_evidence_chain(question, context, entities)
+    # Graph-enriched context로 답변 생성 (B2와 동일 LLM, 동일 프롬프트 기반)
+    answer = await _call_llm(
+        system_prompt=(
+            "You are a spine surgery evidence synthesis system with knowledge graph support. "
+            "Answer the clinical question based ONLY on the provided papers and graph relationships. "
+            "For each claim:\n"
+            "1. Cite the paper ID in brackets [paper_id]\n"
+            "2. Mention the study design and evidence level\n"
+            "3. Include specific numbers when available\n"
+            "4. Use the TREATS/AFFECTS relationships to organize findings by outcome\n"
+            "5. Use the Evidence Chain to structure your comparison\n"
+            "6. Acknowledge gaps in the evidence\n"
+            "Do NOT use any knowledge outside the provided papers and graph data."
+        ),
+        user_prompt=f"## Clinical Question\n{question}\n\n{context}",
+        max_tokens=4000,
+    )
     return answer, papers
 
 
@@ -735,6 +725,116 @@ async def _pubmed_fallback(question: str) -> list[str]:
         logger.warning("PubMed fallback failed: %s", e)
 
     return supplementary
+
+
+async def _enrich_with_graph_context(
+    neo4j_client: Any, paper_ids: list[str]
+) -> dict[str, dict]:
+    """Enrich papers with graph relationship metadata.
+
+    For each paper, queries:
+    - TREATS: what pathologies the paper's interventions treat
+    - AFFECTS: what outcomes the paper's interventions affect
+    - study_design, evidence_level
+    - related interventions via IS_A hierarchy
+    """
+    result: dict[str, dict] = {}
+    if not paper_ids:
+        return result
+
+    query = """
+    UNWIND $paper_ids AS pid
+    MATCH (p:Paper {paper_id: pid})
+    OPTIONAL MATCH (p)-[:INVESTIGATES]->(i:Intervention)
+    OPTIONAL MATCH (i)-[:TREATS]->(path:Pathology)
+    OPTIONAL MATCH (i)-[:AFFECTS]->(o:Outcome)
+    OPTIONAL MATCH (i)-[:IS_A]->(parent:Intervention)
+    RETURN pid,
+           p.study_design AS study_design,
+           p.evidence_level AS evidence_level,
+           collect(DISTINCT i.name) AS interventions,
+           collect(DISTINCT path.name) AS treats,
+           collect(DISTINCT o.name) AS affects,
+           collect(DISTINCT parent.name) AS parent_interventions
+    """
+    try:
+        rows = await neo4j_client.run_query(query, {"paper_ids": paper_ids})
+        for row in rows:
+            pid = row.get("pid", "")
+            if not pid:
+                continue
+            # Get sibling interventions (same parent)
+            related = []
+            parents = [p for p in (row.get("parent_interventions") or []) if p]
+            if parents:
+                sibling_q = """
+                MATCH (sibling:Intervention)-[:IS_A]->(parent:Intervention)
+                WHERE parent.name IN $parents
+                RETURN collect(DISTINCT sibling.name) AS siblings
+                LIMIT 10
+                """
+                try:
+                    sib_rows = await neo4j_client.run_query(sibling_q, {"parents": parents})
+                    if sib_rows:
+                        related = [s for s in (sib_rows[0].get("siblings") or []) if s][:5]
+                except Exception:
+                    pass
+
+            result[pid] = {
+                "study_design": row.get("study_design") or "",
+                "evidence_level": row.get("evidence_level") or "",
+                "interventions": [i for i in (row.get("interventions") or []) if i][:5],
+                "treats": [t for t in (row.get("treats") or []) if t][:5],
+                "affects": [a for a in (row.get("affects") or []) if a][:8],
+                "related_interventions": related,
+            }
+    except Exception as e:
+        logger.warning("Graph enrichment failed: %s", e)
+
+    return result
+
+
+async def _build_evidence_chain_summary(
+    neo4j_client: Any, paper_ids: list[str]
+) -> str:
+    """Build evidence chain summary from graph relationships across all papers."""
+    if not paper_ids:
+        return ""
+
+    query = """
+    UNWIND $paper_ids AS pid
+    MATCH (p:Paper {paper_id: pid})-[:INVESTIGATES]->(i:Intervention)
+    OPTIONAL MATCH (i)-[:TREATS]->(path:Pathology)
+    OPTIONAL MATCH (i)-[:AFFECTS]->(o:Outcome)
+    RETURN DISTINCT i.name AS intervention,
+           collect(DISTINCT path.name) AS pathologies,
+           collect(DISTINCT o.name) AS outcomes
+    LIMIT 20
+    """
+    try:
+        rows = await neo4j_client.run_query(query, {"paper_ids": paper_ids})
+        if not rows:
+            return ""
+
+        chains = []
+        for row in rows:
+            intv = row.get("intervention", "")
+            if not intv:
+                continue
+            paths = [p for p in (row.get("pathologies") or []) if p][:3]
+            outs = [o for o in (row.get("outcomes") or []) if o][:5]
+            if paths or outs:
+                chain = f"- {intv}"
+                if paths:
+                    chain += f" → TREATS → {', '.join(paths)}"
+                if outs:
+                    chain += f" → AFFECTS → {', '.join(outs)}"
+                chains.append(chain)
+
+        return "\n".join(chains[:10]) if chains else ""
+    except Exception as e:
+        logger.warning("Evidence chain summary failed: %s", e)
+        return ""
 
 
 async def _generate_with_evidence_chain(
