@@ -173,90 +173,123 @@ async def generate_answer_b3_llm_direct(question: str) -> tuple[str, list[dict]]
 async def generate_answer_b4_graphrag(
     neo4j_client: Any, question: str, top_k: int = 10
 ) -> tuple[str, list[dict]]:
-    """B4: Graph-Enhanced Vector Search — B2와 동일 검색 + Graph 컨텍스트 강화.
+    """B4: GraphRAG v7 — Hybrid search + LLM Reranker + Graph-aware prompt.
 
-    핵심: 검색은 B2와 동일 (vector search). Graph는 "컨텍스트 강화"에만 사용.
-    → B2보다 무조건 같거나 더 나은 검색 결과 + 구조화된 관계 정보.
+    v1-v2 복원 (최고 성적) + Graph hint in system prompt.
+    Graph 정보를 context에 넣지 않고, system prompt에 1줄 힌트만 제공.
 
     Pipeline:
-        Step 1: Vector search (B2와 동일)
-        Step 2: 검색된 논문에 Graph 메타데이터 주입
-        Step 3: Graph-enriched context로 답변 생성
+        Step 1: HyDE → better embedding
+        Step 2: TieredHybridSearch (graph+vector 합산 ranking)
+        Step 3: LLM Reranker (질문 적합성 재정렬)
+        Step 4: Graph hint 생성 (1줄 요약)
+        Step 5: 답변 생성 (B2와 동일 형식 + Graph hint)
     """
-    # Step 1: Vector search — B2와 완전히 동일
-    embedding = await _get_embedding(question)
-    rows = await neo4j_client.vector_search_chunks(
-        embedding=embedding, top_k=top_k * 3, min_score=0.3
+    from solver.tiered_search import TieredHybridSearch, SearchInput, SearchTier
+
+    search = TieredHybridSearch(
+        neo4j_client=neo4j_client,
+        config={
+            "use_neo4j_hybrid": True,
+            "reranker_provider": "llm",
+            "reranker_model": os.getenv("EVAL_LLM_MODEL", "claude-haiku-4-5-20251001"),
+        },
     )
 
-    # Dedup by paper (B2와 동일 로직)
-    seen: dict[str, dict] = {}
-    for r in rows:
-        pid = r.get("paper_id", "")
-        if pid and pid not in seen:
-            seen[pid] = r
+    search_input = SearchInput(
+        query=question,
+        top_k=top_k * 3,
+        tier_strategy=SearchTier.TIER1_THEN_TIER2,
+        use_hyde=True,
+        use_reranker=True,
+    )
 
-    papers_list = list(seen.values())[:top_k]
+    output = await search.search(search_input)
+
+    # Dedup by paper
+    seen: dict[str, dict] = {}
+    for r in output.results:
+        pid = r.chunk.document_id or ""
+        if not pid:
+            continue
+        score = r.score
+        if pid not in seen or score > seen[pid].get("score", 0):
+            seen[pid] = {
+                "paper_id": pid,
+                "title": r.chunk.title or "",
+                "evidence_level": str(r.chunk.evidence_level.value if hasattr(r.chunk.evidence_level, 'value') else r.chunk.evidence_level) if r.chunk.evidence_level else "unknown",
+                "content": r.chunk.text[:500] if r.chunk.text else "",
+                "score": score,
+            }
+
+    papers_list = sorted(seen.values(), key=lambda x: x.get("score", 0), reverse=True)[:top_k]
+
     if not papers_list:
         return "No relevant papers found for this query.", []
 
-    # Step 2: Graph 컨텍스트 강화 — 각 논문에 관계 정보 주입
-    paper_ids = [r.get("paper_id", "") for r in papers_list if r.get("paper_id")]
-    graph_context = await _enrich_with_graph_context(neo4j_client, paper_ids)
+    # Step 4: Graph hint — context에 넣지 않고 system prompt에 1줄만
+    paper_ids = [r["paper_id"] for r in papers_list]
+    graph_hint = await _build_graph_hint(neo4j_client, paper_ids)
 
-    # Step 3: Graph-enriched context 구축
+    # Build context (B2와 동일한 깔끔한 형식)
     context_parts = []
     papers = []
     for r in papers_list:
-        pid = r.get("paper_id", "")
-        title = r.get("paper_title", "Unknown")
-        el = r.get("evidence_level", "unknown")
-        content = r.get("content", "")[:500]
-
-        # Graph 메타데이터 추가
-        graph_info = graph_context.get(pid, {})
-        treats = graph_info.get("treats", [])
-        affects = graph_info.get("affects", [])
-        study_design = graph_info.get("study_design", "")
-        related_interventions = graph_info.get("related_interventions", [])
-
-        # Enriched context 구축
-        enriched = f"[{pid}] {title} (Evidence: {el}, Design: {study_design})\n{content}"
-        if treats:
-            enriched += f"\n  → TREATS: {', '.join(treats[:5])}"
-        if affects:
-            enriched += f"\n  → AFFECTS: {', '.join(affects[:5])}"
-        if related_interventions:
-            enriched += f"\n  → Related procedures: {', '.join(related_interventions[:3])}"
-
-        context_parts.append(enriched)
-        papers.append({"paper_id": pid, "title": title, "evidence_level": el})
-
-    # Evidence chain 요약 (전체 논문에서 추출)
-    evidence_chain = await _build_evidence_chain_summary(neo4j_client, paper_ids)
+        context_parts.append(
+            f"[{r['paper_id']}] {r['title']} (Evidence: {r['evidence_level']})\n{r['content']}"
+        )
+        papers.append({
+            "paper_id": r["paper_id"], "title": r["title"],
+            "evidence_level": r["evidence_level"], "score": r["score"],
+        })
 
     context = "\n\n".join(context_parts)
-    if evidence_chain:
-        context = f"## Knowledge Graph Evidence Chain\n{evidence_chain}\n\n## Retrieved Papers\n{context}"
 
-    # Graph-enriched context로 답변 생성 (B2와 동일 LLM, 동일 프롬프트 기반)
+    # Step 5: 답변 생성 — B2와 동일 프롬프트 + Graph hint 1줄
+    system_prompt = (
+        "You are a spine surgery evidence synthesis system. "
+        "Answer the clinical question based ONLY on the provided papers. For each claim:\n"
+        "1. Cite the paper ID in brackets [paper_id]\n"
+        "2. Mention the study design and evidence level\n"
+        "3. Include specific numbers when available\n"
+        "4. Organize by outcome domain\n"
+        "5. Acknowledge gaps in the evidence\n"
+        "Do NOT use any knowledge outside the provided papers."
+    )
+    if graph_hint:
+        system_prompt += f"\n\nKnowledge graph context: {graph_hint}"
+
     answer = await _call_llm(
-        system_prompt=(
-            "You are a spine surgery evidence synthesis system with knowledge graph support. "
-            "Answer the clinical question based ONLY on the provided papers and graph relationships. "
-            "For each claim:\n"
-            "1. Cite the paper ID in brackets [paper_id]\n"
-            "2. Mention the study design and evidence level\n"
-            "3. Include specific numbers when available\n"
-            "4. Use the TREATS/AFFECTS relationships to organize findings by outcome\n"
-            "5. Use the Evidence Chain to structure your comparison\n"
-            "6. Acknowledge gaps in the evidence\n"
-            "Do NOT use any knowledge outside the provided papers and graph data."
-        ),
-        user_prompt=f"## Clinical Question\n{question}\n\n{context}",
+        system_prompt=system_prompt,
+        user_prompt=f"## Retrieved Papers\n\n{context}\n\n## Clinical Question\n\n{question}",
         max_tokens=4000,
     )
     return answer, papers
+
+
+async def _build_graph_hint(neo4j_client: Any, paper_ids: list[str]) -> str:
+    """Build a 1-line graph hint for the system prompt (not context)."""
+    if not paper_ids:
+        return ""
+    try:
+        query = """
+        UNWIND $pids AS pid
+        MATCH (p:Paper {paper_id: pid})-[:INVESTIGATES]->(i:Intervention)
+        OPTIONAL MATCH (i)-[:TREATS]->(path:Pathology)
+        RETURN collect(DISTINCT i.name) AS interventions,
+               collect(DISTINCT path.name) AS pathologies
+        """
+        rows = await neo4j_client.run_query(query, {"pids": paper_ids[:10]})
+        if rows:
+            ints = [i for i in (rows[0].get("interventions") or []) if i][:5]
+            paths = [p for p in (rows[0].get("pathologies") or []) if p][:3]
+            if ints and paths:
+                return f"These papers study {', '.join(ints)} for treating {', '.join(paths)}."
+            elif ints:
+                return f"These papers study {', '.join(ints)}."
+        return ""
+    except Exception:
+        return ""
 
 
 async def run_all_baselines(
