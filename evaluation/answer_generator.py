@@ -206,7 +206,7 @@ async def generate_answer_b4_graphrag(
 
     output = await search.search(search_input)
 
-    # Dedup by paper
+    # Dedup by paper from hybrid search
     seen: dict[str, dict] = {}
     for r in output.results:
         pid = r.chunk.document_id or ""
@@ -221,6 +221,26 @@ async def generate_answer_b4_graphrag(
                 "content": r.chunk.text[:500] if r.chunk.text else "",
                 "score": score,
             }
+
+    # v10: Multi-vector search — abstract 임베딩으로 추가 논문 보충
+    try:
+        embedding = await _get_embedding(question)
+        mv_rows = await neo4j_client.search.multi_vector_search(
+            embedding=embedding, top_k=top_k * 2, min_score=0.3
+        )
+        for r in mv_rows:
+            pid = r.get("paper_id", "")
+            if pid and pid not in seen:
+                seen[pid] = {
+                    "paper_id": pid,
+                    "title": r.get("paper_title", "Unknown"),
+                    "evidence_level": r.get("evidence_level", "unknown"),
+                    "content": r.get("content", "")[:500],
+                    "score": r.get("score", 0.0) * 0.9,  # 약간 낮은 가중치
+                }
+        logger.info("Multi-vector added %d new papers", len(seen) - len([r for r in output.results if r.chunk.document_id]))
+    except Exception as e:
+        logger.warning("Multi-vector search failed (non-critical): %s", e)
 
     papers_list = sorted(seen.values(), key=lambda x: x.get("score", 0), reverse=True)[:top_k]
 
@@ -460,8 +480,9 @@ async def _get_graph_traversal_summary(neo4j_client: Any, question: str) -> str:
                         f"Direct evidence: {direct_count} papers, Related (IS_A siblings): {related_count} papers"
                     )
 
-        # Type 3: "compare" two interventions → shared/unique outcomes
-        if any(kw in q for kw in ["compare", "versus", "vs", "shared", "공통", "비교"]):
+        # Type 3: "shared/unique outcomes" → structured comparison (GR 질문 전용)
+        # 일반 "compared to" 비교 질문은 제외 — graph traversal 불필요
+        if any(kw in q for kw in ["shared", "unique to each", "공통", "고유한"]):
             entities = await _extract_entities_from_question(question)
             interventions = entities.get("interventions", [])
             pathologies = entities.get("pathologies", [])

@@ -3,8 +3,8 @@
 ---
 
 ## System A
-**Papers retrieved**: 9
-**Evidence levels**: ['1b', '1a', '1b', '2b', '1b', '2b', '2b', '2b', '2b']
+**Papers retrieved**: 10
+**Evidence levels**: ['1b', '1a', '1b', '2b', '1b', '2b', '2b', '2b', '2b', '2b']
 
 ### Cited Papers
 - [1b] pubmed_40551470: Long-term outcomes of conservative management of moderate adolescent idiopathic 
@@ -15,41 +15,48 @@
 - [2b] pubmed_41389104: Accuracy of Artificial Intelligence in Measuring Cobb Angles in Adolescent Idiop
 - [2b] pubmed_36455162: Robotic-Assisted Navigation with O-Arm or 3D C-Arm versus Freehand Technique for
 - [2b] pubmed_41075991: Perioperative Mental Health Disorders in Adolescent Idiopathic Scoliosis: Preval
+- [2b] pubmed_39486021: Reliability and Accuracy of a Deep Learning-Based Artificial Intelligence App fo
 - [2b] pubmed_41219793: Spondylolysis as a Clinically Significant Comorbidity in Adolescent Idiopathic S
 
 ### Answer
 
-# Evidence Synthesis: Surgical versus Conservative Treatment for AIS (Cobb 40-50°)
+# Evidence Summary: Surgical vs Conservative Treatment of AIS (Cobb 40-50°)
 
-## Summary of Available Evidence
+## Critical Evidence Gap
 
-The provided papers do **not contain direct comparative evidence** between surgical and conservative treatment for AIS with Cobb angles in the 40-50° range. This represents a significant evidence gap for your specific clinical question.
+**The provided papers do NOT contain direct comparative evidence between surgical and conservative treatment for AIS with Cobb angles of 40-50°.** This represents a significant limitation for answering your clinical question.
 
-## What the Evidence Shows
+## Available Evidence by Domain
 
 ### Conservative Management (Bracing)
-[pubmed_40551470] provides a systematic review (Evidence: 1b) on long-term outcomes of conservative management for moderate AIS. The paper notes that:
-- Clinical guidelines recommend bracing for moderate curves between 25-30° and 40-45°
-- **The long-term efficacy and impact on curve behavior after brace removal remain unclear**
-- No specific outcome data for the 40-50° range are provided in the abstract
+[pubmed_40551470] - Systematic review and meta-analysis (Evidence: 1b)
+- Addresses bracing for moderate curves between 25-30° and 40-45°
+- **Limitation**: The paper abstract does not provide specific efficacy data or long-term outcomes for the 40-50° range
+- Notes that "bracing aims to prevent curve progression through external force application, but its long-term efficacy and impact on curve behavior after removal remain unclear"
+- Does not compare outcomes against surgical intervention
 
-### Surgical Management Outcomes
-The remaining papers focus exclusively on surgical techniques and perioperative factors but do not compare to conservative care:
+### Surgical Treatment
+The papers focus on surgical technique comparisons but not surgical vs conservative outcomes:
 
-- **Curve Correction:** [pubmed_40932300] (Evidence: 1a, meta-analysis) reports surgical correction outcomes but provides no comparison to non-operative treatment
-- **Surgical Approaches:** [pubmed_41636888] (Evidence: 2b) addresses large-magnitude curves (≥70°), which exceeds your target range
-- **Perioperative Safety:** [pubmed_40152429], [pubmed_41075991], and [pubmed_41219793] (Evidence: 1b-2b) document surgical safety and complications but lack conservative treatment comparisons
+[pubmed_40932300] - Robot-assisted vs conventional surgery meta-analysis (Evidence: 1a)
+- Cobb angle correction: No difference between techniques (MD -0.59°, 95% CI -2.14 to 0.96, p=0.46)
+- **Limitation**: Compares two surgical approaches; does not address surgical vs non-surgical comparison
 
-## Critical Evidence Gaps
+[pubmed_41636888] - Posterior-only vs anterior release fusion (Evidence: 2b)
+- Addresses large-magnitude curves (≥70°), outside your 40-50° range of interest
+- Does not include conservative management comparison
 
-1. **No head-to-head comparative trials** between bracing and surgery for 40-50° curves
-2. **No long-term follow-up data** on curve progression with conservative management in this range
-3. **No health-related quality of life comparisons** between treatment modalities
-4. **No cost-effectiveness analysis** provided
+[pubmed_36455162] - Robotic navigation vs freehand technique (Evidence: 2b)
+- Included Cobb angles <90° with flexibility indices >30%
+- Compares surgical techniques only, not surgical vs conservative management
+
+### Clinical Context
+[pubmed_41075991] - Mental health disorders in AIS (Evidence: 2b)
+- Documents psychological impact of AIS but does not address treatment comparison
 
 ## Conclusion
 
-The provided papers cannot adequately answer your clinical question regarding surgical versus conservative treatment for AIS with 40-50° Cobb angles. Evidence-based guideline recommendations exist but are not substantiated with comparative effectiveness data in these papers.
+**No evidence from the provided papers directly compares surgical versus conservative treatment outcomes for AIS with Cobb angles 40-50°.** The literature reviewed focuses on surgical technique optimization and long-term bracing outcomes separately, but does not provide comparative effectiveness data needed to guide treatment decisions at this specific curve magnitude.
 
 ---
 

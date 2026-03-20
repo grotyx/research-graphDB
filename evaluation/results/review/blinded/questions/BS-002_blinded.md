@@ -67,51 +67,64 @@ The literature lacks robust evidence demonstrating structural/biological disc re
 
 ### Answer
 
-# Evidence for Stem Cell Therapy in Intervertebral Disc Degeneration
-
-## Clinical Trial Evidence
-
-**Current Trial Landscape** [pubmed_41450738]
-- As of January 2025, 18 registered clinical trial strategies investigating MSC-based treatments for lumbar intervertebral disc degeneration
-  - 13 trials: bone marrow-derived MSCs (BM-MSCs)
-  - 3 trials: adipose-derived stem cells (ADSCs)
-  - 2 trials: umbilical cord-derived MSCs
-(Evidence level: 5 - registry data)
-
-**Clinical Outcomes from Phase I/II Trials** [pubmed_41163783]
-- Autologous bone marrow-derived MSC injections:
-  - **Pain reduction**: 70% improvement in VAS at 12 months
-  - **MRI T2-signal improvement**: 35% at 12 months
-  - **Disc height restoration**: <15% (limited)
-- Tricalcium phosphate scaffolds + MSCs:
-  - **Fusion rates**: 80% for lumbar fusion
-  - **Safety**: No severe adverse events reported
-(Evidence level: 5 - Phase I/II clinical trials)
+# Evidence Summary: Stem Cell Therapy for Intervertebral Disc Degeneration
 
 ## Preclinical Evidence
 
-**Structural and Biomechanical Improvements** [pubmed_41608524]
-- Animal models and in vitro studies consistently demonstrated:
-  - Restoration of disc height index
-  - Increased water content
-  - Improved proteoglycan/collagen composition
-(Evidence level: 2a - systematic review of preclinical evidence)
+**Structural and Biomechanical Improvements**
+Animal models and in vitro studies consistently demonstrate promising regenerative capacity [pubmed_41608524, Evidence 2a]. Preclinical evidence shows improvements in:
+- Disc height index
+- Water content
+- Proteoglycan/collagen composition
 
-## Mechanistic Basis
+These findings suggest biological potential to reverse disc degeneration [pubmed_41608524].
 
-**Therapeutic Mechanisms** [pubmed_41595972], [pubmed_41683563]
-MSCs function through multiple pathways:
-- **Paracrine signaling**: Secretion of anti-inflammatory cytokines (IL-10, TGF-β)
-- **Growth factor delivery**: bFGF, VEGF promotion
-- **Immunomodulation**: Suppression of local inflammatory responses
-- **ECM synthesis promotion** and oxidative stress reduction
-(Evidence level: 5 - mechanistic reviews)
+---
+
+## Clinical Trial Evidence
+
+**Trial Landscape**
+As of January 2025, 18 registered clinical trial strategies involving MSC-based treatments for lumbar intervertebral disc degeneration have been documented [pubmed_41450738, Evidence 5]:
+- 13 clinical trials: bone marrow-derived MSCs (BM-MSCs)
+- 3 clinical trials: adipose-derived stem cells (ADSCs)
+- 2 clinical trials: umbilical cord-derived MSCs
+
+**Phase I/II Clinical Results**
+Trial NCT01513694 with tricalcium phosphate scaffolds combined with MSCs achieved [pubmed_41163783, Evidence 5]:
+- 80% lumbar fusion rates
+- No severe adverse events reported
+
+Autologous bone marrow-derived MSC injections demonstrated [pubmed_41163783, Evidence 5]:
+- 70% pain reduction (VAS score) at 12 months
+- 35% MRI T2-signal improvement at 12 months
+- **Limitation**: Disc height restoration remained <15%
+
+---
+
+## Proposed Mechanisms of Action
+
+**Paracrine and Immunomodulatory Effects**
+MSCs function through multiple mechanisms [pubmed_41595972, pubmed_41683563, Evidence 5]:
+- Secretion of anti-inflammatory cytokines (IL-10, TGF-β)
+- Release of growth factors (bFGF, VEGF)
+- Suppression of local inflammatory responses
+- Promotion of extracellular matrix (ECM) synthesis
+- Reduction of oxidative stress
+
+**Cell Types Under Investigation**
+Multiple stem cell sources demonstrate promise [pubmed_41683563, Evidence 5]:
+- Bone marrow-derived MSCs (BM-MSCs)
+- Adipose-derived stem cells (ADSCs)
+- Nucleus pulposus-derived stem cells (NPSCs)
+
+---
 
 ## Evidence Gaps
 
-- Limited long-term clinical outcome data beyond 12 months
-- Disc height restoration remains modest (<15%) despite pain improvement
-- Heterogeneity in trial designs and cell sources limits direct comparison
-- Lack of head-to-head comparative effectiveness studies between different MSC sources
+1. **Limited clinical translation**: Preclinical evidence is robust, but clinical trials remain early-phase (Phase I/II) with small cohorts [pubmed_41608524, pubmed_41163783]
+2. **Incomplete structural restoration**: Disc height restoration remains suboptimal (<15%) despite pain improvement [pubmed_41163783]
+3. **Long-term outcomes**: No data provided on follow-up beyond 12 months
+4. **Comparative effectiveness**: No head-to-head comparisons between different stem cell sources
+5. **Standardization**: Heterogeneous trial protocols complicate evidence synthesis
 
 ---

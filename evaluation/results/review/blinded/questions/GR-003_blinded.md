@@ -110,109 +110,163 @@ These represent outcome advantages alongside equivalent clinical efficacy.
 ---
 
 ## System B
-**Papers retrieved**: 6
-**Evidence levels**: ['1a', '1a', '1a', '1b', '1b', '1b']
+**Papers retrieved**: 10
+**Evidence levels**: ['1a', '1a', '1b', '1b', '1a', '1a', '1a', '1a', '1a', '1b']
 
 ### Cited Papers
 - [1a] pubmed_41452813: Unilateral Biportal Endoscopic Discectomy versus Conventional Microdiscectomy fo
 - [1a] pubmed_38388729: Unilateral Biportal Endoscopic Discectomy versus Microdiscectomy for Lumbar Disk
-- [1a] pubmed_41098550: Unilateral Biportal Endoscopy versus Unilateral Portal Endoscopy for Lumbar Spin
-- [1b] pubmed_40797374: Biportal Endoscopic Spine Surgery versus Conventional Open Surgery for Lumbar De
 - [1b] pubmed_36155241: Biportal Endoscopic Discectomy versus Open Microscopic Discectomy for Single-Lev
+- [1b] pubmed_40797374: Biportal Endoscopic Spine Surgery versus Conventional Open Surgery for Lumbar De
+- [1a] pubmed_40568817: Comparison of the Biportal Endoscopic Versus Tubular Approach for the Treatment 
+- [1a] pubmed_41666862: Endoscopic Discectomy versus Microdiscectomy for Lumbar Disc Herniation: A Syste
+- [1a] pubmed_41559891: Uniportal versus Biportal Endoscopic Spine Surgery for Lumbar Degenerative Disea
+- [1a] pubmed_41523539: Uniportal versus Biportal Endoscopic Spine Surgery for Lumbar Degenerative Disea
+- [1a] pubmed_40195641: Biportal endoscopic spinal surgery (BESS) with interbody fusion for lumbar degen
 - [1b] pubmed_40306720: Biportal Endoscopic Discectomy versus Microdiscectomy for Single-Level Lumbar Di
 
 ### Answer
 
-# Evidence Chain Analysis: UBE for Lumbar Disc Herniation
+# Evidence Chain for UBE in Treating Lumbar Disc Herniation
 
-## PRIMARY PATHOLOGY TREATED
+## 1. PATHOLOGY TREATED
 
-**Lumbar Disc Herniation**
-- **Evidence Level**: 1a (Meta-analysis)
-- Multiple meta-analyses confirm UBE/UBED as an effective treatment for single-level lumbar disc herniation [pubmed_41452813][pubmed_38388729][pubmed_36155241][pubmed_40306720]
+**Primary Indication: Lumbar Disc Herniation**
 
----
-
-## CLINICAL OUTCOMES AFFECTED
-
-### Pain Relief Outcomes
-
-**Postoperative Pain (General)**
-- **Evidence Level**: 1a (Meta-analysis)
-- **Finding**: UBED provides "comparable pain relief" to conventional and tubular microdiscectomy [pubmed_41452813]
-- **Finding**: UBED demonstrates "equivalent clinical efficacy" with comparable safety profile to microdiscectomy [pubmed_38388729]
-
-**Short-term Back Pain (VAS scores)**
-- **Evidence Level**: 1b (Systematic review and meta-analysis)
-- **Finding**: Biportal endoscopy achieves "statistically improved short-term VAS scores for back pain" in comparative analysis with conventional open surgery, though "these benefits may not always be clinically significant" [pubmed_40797374]
-
-**Early Postoperative Surgical Site Pain**
-- **Evidence Level**: 1b (Prospective randomized controlled trial)
-- **Finding**: BED demonstrates "potential benefits in terms of early postoperative surgical site pain" compared to microdiscectomy [pubmed_40306720]
-
-### Functional Outcomes
-
-**Functional Improvement**
-- **Evidence Level**: 1a (Meta-analysis)
-- **Finding**: UBED provides "comparable functional improvement" to conventional microdiscectomy [pubmed_41452813]
-
-### Surgical Efficiency Outcomes
-
-**Hospital Stay Duration**
-- **Evidence Level**: 1a (Meta-analysis)
-- **Finding**: UBED demonstrates "reduced early post-operative hospital stay (approximately 1 day reduction) compared to conventional and tubular microdiscectomy" [pubmed_41452813]
-
-**Operative Time**
-- **Evidence Level**: 1a (Meta-analysis)
-- **Finding**: UBED associated with "shorter operative times" compared to microdiscectomy [pubmed_38388729]
-
-**Blood Loss**
-- **Evidence Level**: 1a (Meta-analysis)
-- **Finding**: UBED demonstrates "reduced blood loss" compared to conventional approaches [pubmed_38388729]
-
-### Wound and Tissue Outcomes
-
-**Postoperative Wound Complications**
-- **Evidence Level**: 1b (Multicentre prospective randomized controlled trial)
-- **Finding**: BED "has distinct advantages in terms of postoperative wound complications" compared to microdiscectomy [pubmed_40306720]
-
-**Scar Aesthetics**
-- **Evidence Level**: 1b (Prospective randomized controlled trial)
-- **Finding**: BED offers "potential benefits in terms of...scar aesthetics" compared to open microscopic discectomy [pubmed_40306720]
-
-**Muscle Preservation**
-- **Evidence Level**: 1b (Prospective randomized controlled trial)
-- **Finding**: BED indicates "muscle preservation" benefits "as indicated by CPK levels" compared to microdiscectomy [pubmed_40306720]
-
-### Recurrence Outcomes
-
-**Recurrence Rates**
-- **Evidence Level**: 1a (Meta-analysis)
-- **Finding**: UBED demonstrates "comparable or potentially lower recurrence rates" compared to conventional and tubular microdiscectomy [pubmed_41452813]
-
-### Safety Outcomes
-
-**Complication Rates**
-- **Evidence Level**: 1a (Meta-analysis)
-- **Finding**: UBED provides "comparable complication rates" to conventional approaches [pubmed_41452813]
+- **Study Design**: Multiple meta-analyses and RCTs (Evidence Level 1a-1b)
+- **Scope**: Single-level lumbar disc herniation [pubmed_36155241, pubmed_40306720]
+- **Definition**: UBE/UBED refers to unilateral biportal endoscopic discectomy, a minimally invasive surgical approach [pubmed_41452813, pubmed_38388729]
 
 ---
 
-## EVIDENCE GAPS
+## 2. PRIMARY CLINICAL OUTCOMES
 
-The provided papers do NOT contain evidence for the following outcomes mentioned in the knowledge graph context:
+### Pain Relief (Postoperative Pain/Early VAS Scores)
 
-1. **Adjacent Disc Degeneration** - No papers address this outcome
-2. **High-Grade Facet Joint Osteoarthritis (Framingham Grade III-IV)** - No papers address this outcome
-3. **Vertebral Endplate Fracture** - No papers address this outcome
-4. **Postoperative Residual Low Back Pain Incidence** - No papers provide this specific metric
-5. **Modic Type 1 Changes as Risk Factor** - Knowledge graph references this but no papers analyze it
-6. **Severe Preoperative Low Back Pain (VAS≥8) as Risk Factor** - Knowledge graph references this but no papers analyze patient subgroups by baseline pain severity
+| Outcome | Evidence | Details |
+|---------|----------|---------|
+| **Pain Relief - Comparable** | 1a Meta-analysis | "UBED provides comparable pain relief" to conventional microdiscectomy [pubmed_41452813] |
+| **Back Pain VAS (Short-term)** | 1a Systematic Review | "Statistically improved short-term VAS scores for back pain" with biportal approach, though "benefits may not always be clinically significant" [pubmed_40797374] |
+| **Early Functional Recovery** | 1a Meta-analysis | "Biportal endoscopic surgery offered improved early functional recovery (lower ODI at 1-3 months)" compared to uniportal [pubmed_41559891] |
+| **Postoperative Wound Pain** | 1b RCT | BED "may offer potential benefits in terms of early postoperative surgical site pain" and "scar aesthetics" [pubmed_40306720] |
+
+### Functional Outcomes (Disability/ODI)
+
+| Outcome | Evidence | Details |
+|---------|----------|---------|
+| **Functional Improvement** | 1a Meta-analysis | "UBED provides...comparable...functional improvement" to microdiscectomy [pubmed_41452813] |
+| **Immediate Post-op Outcomes** | 1a Systematic Review | "Biportal endoscopy achieves comparable immediate and long-term postoperative outcomes with conventional open spine surgery" [pubmed_40797374] |
+| **ODI at Final Follow-up** | 1a Meta-analysis | Biportal advantage "persisted at final follow-up" but "did not consistently achieve minimal clinically important difference thresholds" [pubmed_41559891] |
 
 ---
 
-## CLINICAL SUMMARY
+## 3. SAFETY & COMPLICATION OUTCOMES
 
-UBE/UBED effectively treats lumbar disc herniation with **1a evidence** for equivalent pain relief and functional outcomes compared to conventional microdiscectomy, while offering superior surgical efficiency (shorter operative time, reduced blood loss, faster discharge) and tissue-sparing advantages. The technique shows comparable safety and recurrence rates with **1b evidence** for additional benefits in wound complications and early postoperative pain.
+### Recurrence Rates
+
+| Outcome | Evidence | Details |
+|---------|----------|---------|
+| **Recurrence - Lower** | 1a Meta-analysis | "UBED...with comparable or **potentially lower recurrence rates**" [pubmed_41452813] |
+| **Superior Safety Profile** | 1a Meta-analysis | "IELD and UBE demonstrated superior safety profiles compared to TELD based on **lower recurrence rates**" [pubmed_41666862] |
+| **Mechanism** | 1a Meta-analysis | "Interlaminar and biportal approaches provide wider working spaces and potentially better visualization, enabling **more complete decompression and reduced symptom recurrence**" [pubmed_41666862] |
+
+### Postoperative Complications
+
+| Outcome | Evidence | Details |
+|---------|----------|---------|
+| **Overall Complications** | 1a Meta-analysis | "UBED...comparable complication rates" to microdiscectomy [pubmed_41452813] |
+| **Wound Complications** | 1b RCT | BED has "**distinct advantages in terms of postoperative wound complications**" vs. microdiscectomy [pubmed_40306720] |
+| **Muscle Preservation** | 1b RCT | BED shows benefits "in terms of...muscle preservation as indicated by CPK levels" (lower CPK = less muscle damage) [pubmed_40306720] |
+
+---
+
+## 4. SURGICAL EFFICIENCY OUTCOMES
+
+### Operative Time
+
+| Outcome | Evidence | Details |
+|---------|----------|---------|
+| **Operative Time vs. Microdiscectomy** | 1a Meta-analysis | "Superior surgical efficiency (shorter operative times)" with UBED [pubmed_38388729] |
+| **Operative Time - Biportal vs. Uniportal** | 1a Meta-analysis | Uniportal demonstrates "**significantly shorter operative times**" compared to biportal; biportal ranges 98-206 minutes [pubmed_41559891, pubmed_40195641] |
+| **Mean Range** | 1a Review | Biportal fusion: "98-206 minutes" operative time [pubmed_40195641] |
+
+### Blood Loss
+
+| Outcome | Evidence | Details |
+|---------|----------|---------|
+| **Reduced Blood Loss** | 1a Meta-analysis | UBED demonstrates "**reduced blood loss**" compared to conventional surgery [pubmed_38388729] |
+
+### Hospital Stay
+
+| Outcome | Evidence | Details |
+|---------|----------|---------|
+| **Reduced Hospital Stay** | 1a Meta-analysis | UBED demonstrates "**reduced early post-operative hospital stay (approximately 1 day reduction)**" [pubmed_41452813] |
+| **Faster Discharge** | 1a Meta-analysis | "Superior surgical efficiency...faster discharge" [pubmed_38388729] |
+| **Hospital Stay vs. Uniportal** | 1a Meta-analysis | Uniportal showed "significantly shorter...hospital stays, particularly for discectomy procedure" [pubmed_41559891] |
+
+---
+
+## 5. PATIENT-REPORTED OUTCOMES
+
+| Outcome | Evidence | Details |
+|---------|----------|---------|
+| **MacNab Criteria Success** | 1a Meta-analysis | Evaluated in comparative studies between endoscopic approaches [pubmed_41523539] |
+| **Safety & Efficacy Profile** | 1b RCT | "BED is as effective as MD in treating single-level lumbar disc herniation" [pubmed_40306720] |
+
+---
+
+## 6. COMPARATIVE POSITIONING ACROSS APPROACHES
+
+### vs. Conventional Microdiscectomy
+- **Evidence Level**: 1a (Multiple meta-analyses)
+- **Conclusion**: "UBED as an effective and safe alternative surgical approach" [pubmed_41452813] with equivalent clinical outcomes but superior surgical efficiency [pubmed_38388729]
+
+### vs. Tubular Microdiscectomy
+- **Evidence Level**: 1a
+- **Status**: Comparable outcomes [pubmed_41452813]
+
+### vs. Uniportal Endoscopy
+- **Evidence Level**: 1a (Multiple meta-analyses)
+- **Trade-offs**: Biportal offers "improved early functional recovery (lower ODI at 1-3 months)" [pubmed_41559891]; uniportal offers "superior operative efficiency with significantly shorter operative times and hospital stays" [pubmed_41559891]
+
+### vs. Transforaminal Endoscopy (TELD)
+- **Evidence Level**: 1a
+- **Advantage**: UBE/IELD "demonstrated superior safety profiles...based on lower recurrence rates" [pubmed_41666862]
+
+---
+
+## 7. GAPS IN EVIDENCE
+
+The provided papers do NOT contain evidence for:
+
+1. **Risk Factor-Related Outcomes** (from knowledge graph context):
+   - Severe Preoperative LBP (VAS≥8) as outcome predictor
+   - Modic Type 1 Changes as risk factor for outcomes
+   - Adjacent Disc Degeneration outcomes
+   - High-Grade FJOA (Framingham Grade III-IV) outcomes
+   - Vertebral Endplate Fracture outcomes
+   - Postoperative Residual Low Back Pain Incidence specifically for UBE
+
+2. **Long-term Follow-up**: Most studies focus on immediate to short-term outcomes; limited long-term data (>24 months) provided
+
+3. **Patient Selection Criteria**: Minimal guidance on optimal patient selection beyond "single-level herniation"
+
+4. **Cost-Effectiveness**: Not addressed in provided papers
+
+---
+
+## SUMMARY TABLE: EVIDENCE LEVELS BY OUTCOME
+
+| Outcome Domain | Evidence Level | Direction |
+|---|---|---|
+| Pain Relief | 1a | Comparable to conventional |
+| Functional Improvement | 1a | Comparable; early advantage for biportal |
+| Recurrence Rates | 1a | Lower than TELD; comparable/lower than microdiscectomy |
+| Complications (Overall) | 1a | Comparable |
+| Wound Complications | 1b | Superior for BED |
+| Hospital Stay | 1a | Reduced ~1 day vs. open; longer than uniportal |
+| Operative Time | 1a | Shorter than open; longer than uniportal |
+| Blood Loss | 1a | Reduced vs. open |
+| Muscle Preservation | 1b | Superior preservation vs. microdiscectomy |
 
 ---

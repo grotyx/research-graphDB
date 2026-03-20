@@ -46,51 +46,54 @@ In septuagenarians undergoing 3-CO for thoracolumbar kyphosis [pubmed_40968391] 
 ---
 
 ## System B
-**Papers retrieved**: 4
-**Evidence levels**: ['1a', '1a', '1a', '2b']
+**Papers retrieved**: 5
+**Evidence levels**: ['1a', '1a', '1a', '2b', '4']
 
 ### Cited Papers
 - [1a] pubmed_41497819: Radiological and complication outcomes of posterior pedicle subtraction osteotom
 - [1a] pubmed_32382878: Impact of pedicle subtraction osteotomy on health-related quality of life (HRQOL
 - [1a] pubmed_41559490: Adult Spinal Deformity Surgery Alignment Goals: A Systematic Review and Meta-Ana
 - [2b] pubmed_40513242: The safety and efficacy of posterior vertebral column resection in treating seve
+- [4] pubmed_38765779: Corrective Osteotomies for Chin-on-Chest Deformity: A Systematic Review
 
 ### Answer
 
-# Three-Column Osteotomies for Fixed Sagittal Imbalance: Outcomes and Complications
+# Outcomes of Three-Column Osteotomies for Fixed Sagittal Imbalance
 
-## Radiological Outcomes
+## Sagittal Correction Outcomes
 
-### Sagittal Correction Achievement
-Three-column osteotomies (3-CO), including posterior pedicle subtraction osteotomy (PSO) and vertebral column resection (VCR), demonstrate substantial immediate sagittal correction capabilities [pubmed_32382878, Evidence: 1a].
+### Radiological Correction
+**PSO demonstrates powerful sagittal correction:** PSO has long been the gold standard for achieving "powerful sagittal corrections" [pubmed_41497819] through removal of posterior vertebral elements and a bone wedge from the vertebral body, allowing "significant angular correction at a single level" [pubmed_41497819].
 
-**VCR-Specific Data:**
-In severe thoracolumbar Pott's deformity, VCR achieved:
-- Preoperative local kyphosis: 107.3°
-- Immediate postoperative correction: 32.0° (75.3° correction magnitude) [pubmed_40513242, Evidence: 2b]
-- Final follow-up kyphosis (mean 105.7 months): 37.1°
-- Long-term correction loss: only 5.1° over ~8.8 years, indicating minimal durability loss [pubmed_40513242, Evidence: 2b]
+**PVCR durability in severe deformity:** In thoracolumbar Pott's deformity (a model of fixed severe kyphosis), posterior vertebral column resection (PVCR) achieved:
+- Immediate local kyphosis correction: 75.3° reduction (from 107.3° to 32.0°) [pubmed_40513242]
+- Long-term durability: minimal loss of correction with only 5.1° increase over mean 105.7-month follow-up (32.0° to 37.1°) [pubmed_40513242]
 
-### Long-Term Alignment Durability
-Adult spinal deformity surgery "reliably achieves planned sagittal alignment in the early postoperative period across diverse surgical approaches." However, "long-term durability of these corrections is variable and inconsistent" [pubmed_41559490, Evidence: 1a].
+### Alignment Target Achievement
+For commonly reported sagittal balance goals [pubmed_41559490]:
+- **SVA < 5 cm**: majority of patients achieved this goal in immediate postoperative period
+- **PI-LL ≤ 10°**: most cohorts achieved substantial correction with mean postoperative PI-LL values near or below 10° threshold
+- **PT ≤ 20°**: achievement was more variable across studies, with some cohorts achieving target while others fell short [pubmed_41559490]
 
 ## Complication Profile
 
-### Intraoperative Morbidity
-PSO is associated with **substantial intraoperative morbidity** including:
+### Substantial Perioperative Morbidity
+PSO is associated with significant intraoperative complications [pubmed_41497819]:
 - High blood loss
 - Neurological injury risk
-- Prolonged operative times [pubmed_41497819, Evidence: 1a]
+- Prolonged operative times
 
-### Health-Related Quality of Life
-PSO represents a three-column osteotomy approach "that may be necessary to achieve adequate correction for severe and rigid spinal deformity" [pubmed_32382878, Evidence: 1a], though specific HRQOL outcome data are not detailed in the provided abstracts.
+**Evidence limitation:** The specific incidence rates of complications are not quantified in the provided papers. The meta-analysis [pubmed_41497819] compares PSO with anterior column realignment but does not provide detailed complication frequency data in the excerpted text.
+
+## Quality of Life Outcomes
+
+Three-column osteotomies (including PSO) are used to correct sagittal imbalance in adult spinal deformity [pubmed_32382878], and the systematic review indicates these procedures impact health-related quality of life [pubmed_32382878], though specific HRQOL metrics are not detailed in the provided excerpt.
 
 ## Evidence Gaps
 
-The provided papers do not specify:
-- Detailed complication rates (infection, neurological injury rates, reoperation rates)
-- Comparative safety profiles between PSO and VCR
-- Specific HRQOL metric improvements with 3-CO procedures
-- Long-term fusion durability beyond the single VCR study
+1. **Detailed complication incidence**: Specific rates of neurological injury, infection, blood loss volumes, and reoperation rates are not provided in the excerpts
+2. **Comparative complication profiles**: While PSO is compared with anterior column realignment [pubmed_41497819], the detailed comparative complication data is not included in provided text
+3. **VCR-specific outcomes**: Limited data on VCRO outcomes; only one systematic review mentions two studies evaluating VCRO [pubmed_38765779]
+4. **Patient selection criteria**: Limited guidance on which patients benefit most from three-column versus other approaches
 
 ---
