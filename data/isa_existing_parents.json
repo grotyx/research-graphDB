@@ -1,0 +1,444 @@
+{
+  "Intervention": [
+    {
+      "name": "Spine Surgery",
+      "children": 41
+    },
+    {
+      "name": "Fixation",
+      "children": 36
+    },
+    {
+      "name": "Decompression Surgery",
+      "children": 28
+    },
+    {
+      "name": "Interbody Fusion",
+      "children": 21
+    },
+    {
+      "name": "Endoscopic Surgery",
+      "children": 20
+    },
+    {
+      "name": "Robot-Assisted Surgery",
+      "children": 19
+    },
+    {
+      "name": "Osteotomy",
+      "children": 18
+    },
+    {
+      "name": "Fusion Surgery",
+      "children": 17
+    },
+    {
+      "name": "AI/Algorithm",
+      "children": 17
+    },
+    {
+      "name": "AI-Assisted Procedure",
+      "children": 14
+    },
+    {
+      "name": "Digital Therapeutics",
+      "children": 14
+    },
+    {
+      "name": "Conservative Treatment",
+      "children": 13
+    },
+    {
+      "name": "Other Surgical Procedures",
+      "children": 12
+    },
+    {
+      "name": "Automated Radiograph Analysis",
+      "children": 12
+    },
+    {
+      "name": "AI/ML-Based Tools",
+      "children": 11
+    },
+    {
+      "name": "Open Decompression",
+      "children": 8
+    },
+    {
+      "name": "Conservative Management",
+      "children": 8
+    },
+    {
+      "name": "Microscopic Surgery",
+      "children": 7
+    },
+    {
+      "name": "Diagnosis",
+      "children": 7
+    },
+    {
+      "name": "Pedicle Screw",
+      "children": 7
+    },
+    {
+      "name": "Injection Therapy",
+      "children": 6
+    },
+    {
+      "name": "Posterolateral Fusion",
+      "children": 5
+    },
+    {
+      "name": "Deep Learning",
+      "children": 5
+    },
+    {
+      "name": "Outcome Assessment",
+      "children": 4
+    },
+    {
+      "name": "Tumor Surgery",
+      "children": 4
+    },
+    {
+      "name": "Craniocervical Junction Surgery",
+      "children": 4
+    },
+    {
+      "name": "UBE",
+      "children": 4
+    },
+    {
+      "name": "Radiotherapy",
+      "children": 4
+    },
+    {
+      "name": "Bracing",
+      "children": 4
+    },
+    {
+      "name": "TLIF",
+      "children": 3
+    },
+    {
+      "name": "Motion Preservation",
+      "children": 3
+    },
+    {
+      "name": "Posterior Cervical Fusion",
+      "children": 3
+    },
+    {
+      "name": "Vertebral Augmentation",
+      "children": 3
+    },
+    {
+      "name": "Facetectomy",
+      "children": 3
+    },
+    {
+      "name": "Bariatric Surgery",
+      "children": 3
+    },
+    {
+      "name": "Craniocervical Surgery",
+      "children": 3
+    },
+    {
+      "name": "Revision Surgery",
+      "children": 3
+    },
+    {
+      "name": "Radiation Therapy",
+      "children": 3
+    },
+    {
+      "name": "Stereotactic Navigation",
+      "children": 2
+    },
+    {
+      "name": "Corpectomy",
+      "children": 2
+    },
+    {
+      "name": "Bone Grafting",
+      "children": 2
+    },
+    {
+      "name": "Transoral Approach",
+      "children": 2
+    },
+    {
+      "name": "ADR",
+      "children": 2
+    },
+    {
+      "name": "OLIF",
+      "children": 2
+    },
+    {
+      "name": "Wound VAC",
+      "children": 2
+    },
+    {
+      "name": "Cobb Angle Measurement",
+      "children": 2
+    },
+    {
+      "name": "Regenerative Medicine",
+      "children": 1
+    },
+    {
+      "name": "Foraminotomy",
+      "children": 1
+    },
+    {
+      "name": "Robotic Surgery",
+      "children": 1
+    },
+    {
+      "name": "Laminectomy",
+      "children": 1
+    },
+    {
+      "name": "Diagnostic Imaging",
+      "children": 1
+    },
+    {
+      "name": "Anesthesia/Pain Management",
+      "children": 1
+    },
+    {
+      "name": "C1-C2 Fusion",
+      "children": 1
+    },
+    {
+      "name": "Anterior Fusion",
+      "children": 1
+    },
+    {
+      "name": "Minimally Invasive Surgery",
+      "children": 1
+    },
+    {
+      "name": "Open Spine Surgery",
+      "children": 1
+    },
+    {
+      "name": "Discectomy",
+      "children": 1
+    },
+    {
+      "name": "3D-Printed Implant",
+      "children": 1
+    },
+    {
+      "name": "Nerve Block",
+      "children": 1
+    },
+    {
+      "name": "Neuromodulation",
+      "children": 1
+    },
+    {
+      "name": "LLIF",
+      "children": 1
+    },
+    {
+      "name": "ACDF",
+      "children": 1
+    },
+    {
+      "name": "Lateral Mass Screw",
+      "children": 1
+    }
+  ],
+  "Pathology": [
+    {
+      "name": "Degenerative Spine Disease",
+      "children": 30
+    },
+    {
+      "name": "Surgical Complication",
+      "children": 29
+    },
+    {
+      "name": "Spinal Deformity",
+      "children": 18
+    },
+    {
+      "name": "Congenital Spine Disorder",
+      "children": 14
+    },
+    {
+      "name": "Spinal Trauma",
+      "children": 12
+    },
+    {
+      "name": "Vertebral Fracture (Category)",
+      "children": 11
+    },
+    {
+      "name": "Spinal Stenosis",
+      "children": 10
+    },
+    {
+      "name": "Neurological Spine Condition",
+      "children": 10
+    },
+    {
+      "name": "Spinal Metastasis",
+      "children": 8
+    },
+    {
+      "name": "Spinal Infection",
+      "children": 8
+    },
+    {
+      "name": "Scoliosis (Category)",
+      "children": 7
+    },
+    {
+      "name": "Primary Tumor",
+      "children": 7
+    },
+    {
+      "name": "Inflammatory Spine Disease",
+      "children": 6
+    },
+    {
+      "name": "Kyphosis",
+      "children": 5
+    },
+    {
+      "name": "Disc Herniation",
+      "children": 5
+    },
+    {
+      "name": "Spinal Neoplasm",
+      "children": 5
+    },
+    {
+      "name": "Intradural Tumor",
+      "children": 5
+    },
+    {
+      "name": "Spinal Pain Syndrome",
+      "children": 5
+    },
+    {
+      "name": "Spondylodiscitis",
+      "children": 4
+    },
+    {
+      "name": "Metabolic Bone Disease",
+      "children": 4
+    },
+    {
+      "name": "Low Back Pain",
+      "children": 3
+    },
+    {
+      "name": "DDD",
+      "children": 2
+    },
+    {
+      "name": "Facet Arthropathy",
+      "children": 2
+    },
+    {
+      "name": "Cauda Equina Syndrome",
+      "children": 2
+    },
+    {
+      "name": "Scoliosis",
+      "children": 2
+    },
+    {
+      "name": "Spinal Comorbidity",
+      "children": 2
+    },
+    {
+      "name": "Vertebral Fracture",
+      "children": 2
+    },
+    {
+      "name": "Lumbar Stenosis",
+      "children": 1
+    },
+    {
+      "name": "Lumbar Disc Herniation",
+      "children": 1
+    },
+    {
+      "name": "Compression Fracture",
+      "children": 1
+    },
+    {
+      "name": "Osteoporosis",
+      "children": 1
+    },
+    {
+      "name": "Lumbar Radiculopathy",
+      "children": 1
+    },
+    {
+      "name": "Sarcopenia",
+      "children": 1
+    },
+    {
+      "name": "Pseudarthrosis",
+      "children": 1
+    },
+    {
+      "name": "Cage subsidence",
+      "children": 1
+    },
+    {
+      "name": "OLF",
+      "children": 1
+    },
+    {
+      "name": "Vertebral instability",
+      "children": 1
+    },
+    {
+      "name": "Cage migration",
+      "children": 1
+    },
+    {
+      "name": "Flat Back",
+      "children": 1
+    },
+    {
+      "name": "OPLL",
+      "children": 1
+    },
+    {
+      "name": "Vertebral Endplate Degeneration",
+      "children": 1
+    }
+  ],
+  "Anatomy": [
+    {
+      "name": "Thoracic",
+      "children": 23
+    },
+    {
+      "name": "Spine",
+      "children": 19
+    },
+    {
+      "name": "Cervical",
+      "children": 14
+    },
+    {
+      "name": "Lumbar",
+      "children": 12
+    },
+    {
+      "name": "Sacral",
+      "children": 2
+    }
+  ]
+}

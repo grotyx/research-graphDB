@@ -1,0 +1,3748 @@
+{
+  "Intervention": [
+    {
+      "name": "ESI",
+      "papers": 20
+    },
+    {
+      "name": "Pedicle screw instrumentation",
+      "papers": 15
+    },
+    {
+      "name": "rhBMP-2",
+      "papers": 14
+    },
+    {
+      "name": "MRI",
+      "papers": 12
+    },
+    {
+      "name": "Spine Surgery",
+      "papers": 10
+    },
+    {
+      "name": "Stem Cell Therapy",
+      "papers": 8
+    },
+    {
+      "name": "Augmented Reality Navigation",
+      "papers": 7
+    },
+    {
+      "name": "rhBMP-2 augmentation",
+      "papers": 6
+    },
+    {
+      "name": "Robotic-Assisted Surgery",
+      "papers": 6
+    },
+    {
+      "name": "Pedicle Screw Fixation",
+      "papers": 6
+    },
+    {
+      "name": "Stereotactic Radiosurgery",
+      "papers": 5
+    },
+    {
+      "name": "BMP",
+      "papers": 4
+    },
+    {
+      "name": "Posterior stabilization",
+      "papers": 4
+    },
+    {
+      "name": "X-ray",
+      "papers": 4
+    },
+    {
+      "name": "Percutaneous Fixation",
+      "papers": 4
+    },
+    {
+      "name": "Anterior Cervical Discectomy and Fusion",
+      "papers": 4
+    },
+    {
+      "name": "Exercise Therapy",
+      "papers": 4
+    },
+    {
+      "name": "Facet Injection",
+      "papers": 3
+    },
+    {
+      "name": "Dural repair",
+      "papers": 3
+    },
+    {
+      "name": "Machine Learning Prediction Model",
+      "papers": 3
+    },
+    {
+      "name": "Posterior Decompression",
+      "papers": 3
+    },
+    {
+      "name": "Navigation-guided spine surgery",
+      "papers": 3
+    },
+    {
+      "name": "Intraoperative Neuromonitoring",
+      "papers": 3
+    },
+    {
+      "name": "Navigation-Assisted Surgery",
+      "papers": 3
+    },
+    {
+      "name": "Short-Segment Fixation",
+      "papers": 3
+    },
+    {
+      "name": "Intermediate Screw Fixation",
+      "papers": 3
+    },
+    {
+      "name": "Decompression",
+      "papers": 3
+    },
+    {
+      "name": "Instrumentation",
+      "papers": 3
+    },
+    {
+      "name": "En Bloc Spondylectomy",
+      "papers": 3
+    },
+    {
+      "name": "Acupuncture",
+      "papers": 3
+    },
+    {
+      "name": "Cell-based therapy",
+      "papers": 3
+    },
+    {
+      "name": "Circumferential fusion",
+      "papers": 2
+    },
+    {
+      "name": "allograft",
+      "papers": 2
+    },
+    {
+      "name": "PCO",
+      "papers": 2
+    },
+    {
+      "name": "Interbody cage placement",
+      "papers": 2
+    },
+    {
+      "name": "cage implantation",
+      "papers": 2
+    },
+    {
+      "name": "Endo-ULBD",
+      "papers": 2
+    },
+    {
+      "name": "SpinePose AI Model",
+      "papers": 2
+    },
+    {
+      "name": "Deep Learning Algorithm",
+      "papers": 2
+    },
+    {
+      "name": "Automated measurement",
+      "papers": 2
+    },
+    {
+      "name": "Allograft bone grafting",
+      "papers": 2
+    },
+    {
+      "name": "Keypoint R-CNN",
+      "papers": 2
+    },
+    {
+      "name": "Automated Cervical Parameter Measurement",
+      "papers": 2
+    },
+    {
+      "name": "Lenke Classification",
+      "papers": 2
+    },
+    {
+      "name": "Endoscopic Spine Surgery",
+      "papers": 2
+    },
+    {
+      "name": "Spinal Deformity Correction",
+      "papers": 2
+    },
+    {
+      "name": "Spinal Fusion",
+      "papers": 2
+    },
+    {
+      "name": "Extracellular Vesicle Therapy",
+      "papers": 2
+    },
+    {
+      "name": "Demineralized Bone Matrix",
+      "papers": 2
+    },
+    {
+      "name": "Long-Segment Fixation",
+      "papers": 2
+    },
+    {
+      "name": "Kyphoplasty",
+      "papers": 2
+    },
+    {
+      "name": "Corticosteroid Therapy",
+      "papers": 2
+    },
+    {
+      "name": "Chemotherapy",
+      "papers": 2
+    },
+    {
+      "name": "Palliative Surgery",
+      "papers": 2
+    },
+    {
+      "name": "Microsurgical Resection",
+      "papers": 2
+    },
+    {
+      "name": "Proton Therapy",
+      "papers": 2
+    },
+    {
+      "name": "Carbon Fiber Instrumentation",
+      "papers": 2
+    },
+    {
+      "name": "Screw Fixation",
+      "papers": 2
+    },
+    {
+      "name": "NSAIDs",
+      "papers": 2
+    },
+    {
+      "name": "Manual therapy",
+      "papers": 2
+    },
+    {
+      "name": "Gabapentin",
+      "papers": 2
+    },
+    {
+      "name": "Pregabalin",
+      "papers": 2
+    },
+    {
+      "name": "ALL Release",
+      "papers": 2
+    },
+    {
+      "name": "SPECT",
+      "papers": 2
+    },
+    {
+      "name": "Discography",
+      "papers": 2
+    },
+    {
+      "name": "Ultra-short-echo time imaging",
+      "papers": 2
+    },
+    {
+      "name": "Basivertebral Nerve Ablation",
+      "papers": 2
+    },
+    {
+      "name": "Autograft bone grafting",
+      "papers": 2
+    },
+    {
+      "name": "Noninstrumented Fusion",
+      "papers": 2
+    },
+    {
+      "name": "Biologic Adjunct",
+      "papers": 2
+    },
+    {
+      "name": "Exosome therapy",
+      "papers": 2
+    },
+    {
+      "name": "Hydrogel Delivery System",
+      "papers": 2
+    },
+    {
+      "name": "Scaffold-based Therapy",
+      "papers": 2
+    },
+    {
+      "name": "Mesenchymal Stem Cell Therapy",
+      "papers": 2
+    },
+    {
+      "name": "Biomaterial Scaffolds",
+      "papers": 2
+    },
+    {
+      "name": "Extracellular Vesicles",
+      "papers": 2
+    },
+    {
+      "name": "MSC Transplantation",
+      "papers": 2
+    },
+    {
+      "name": "Cell-based regenerative therapy",
+      "papers": 2
+    },
+    {
+      "name": "Image-Guided Therapy",
+      "papers": 2
+    },
+    {
+      "name": "Gene Therapy",
+      "papers": 2
+    },
+    {
+      "name": "Inside-out suture repair",
+      "papers": 1
+    },
+    {
+      "name": "Subsequent lumbar surgery",
+      "papers": 1
+    },
+    {
+      "name": "UPE",
+      "papers": 1
+    },
+    {
+      "name": "AECD",
+      "papers": 1
+    },
+    {
+      "name": "Chemonucleolysis",
+      "papers": 1
+    },
+    {
+      "name": "Sacropelvic fusion",
+      "papers": 1
+    },
+    {
+      "name": "Biopsy",
+      "papers": 1
+    },
+    {
+      "name": "PECFD",
+      "papers": 1
+    },
+    {
+      "name": "RAL",
+      "papers": 1
+    },
+    {
+      "name": "Bone cutting/resection",
+      "papers": 1
+    },
+    {
+      "name": "Decompression with instrumented arthrodesis",
+      "papers": 1
+    },
+    {
+      "name": "Sublaminar tethering",
+      "papers": 1
+    },
+    {
+      "name": "PSP",
+      "papers": 1
+    },
+    {
+      "name": "Sacrectomy",
+      "papers": 1
+    },
+    {
+      "name": "Degenerative spine surgery",
+      "papers": 1
+    },
+    {
+      "name": "Chemical prophylaxis",
+      "papers": 1
+    },
+    {
+      "name": "One-level fusion",
+      "papers": 1
+    },
+    {
+      "name": "TDR (Simplify Cervical Disc)",
+      "papers": 1
+    },
+    {
+      "name": "sequestrectomy",
+      "papers": 1
+    },
+    {
+      "name": "Amobarbital injection",
+      "papers": 1
+    },
+    {
+      "name": "Disc puncture model",
+      "papers": 1
+    },
+    {
+      "name": "Foraminoplasty",
+      "papers": 1
+    },
+    {
+      "name": "Fragment removal",
+      "papers": 1
+    },
+    {
+      "name": "Intra-operative neuromonitoring (H-reflex, MEPs, EMG)",
+      "papers": 1
+    },
+    {
+      "name": "ICG fluorescence imaging",
+      "papers": 1
+    },
+    {
+      "name": "Durotomy",
+      "papers": 1
+    },
+    {
+      "name": "Intradural foreign body removal",
+      "papers": 1
+    },
+    {
+      "name": "UTES (Unilateral Transforaminal Endoscopic Spine Surgery)",
+      "papers": 1
+    },
+    {
+      "name": "Pressure bandaging",
+      "papers": 1
+    },
+    {
+      "name": "Open dural repair",
+      "papers": 1
+    },
+    {
+      "name": "Percutaneous bilateral pedicle screws (BPS)",
+      "papers": 1
+    },
+    {
+      "name": "Scoliosis correction",
+      "papers": 1
+    },
+    {
+      "name": "Intraoperative cocktail analgesics (ropivacaine, methylprednisolone, ketoprofen)",
+      "papers": 1
+    },
+    {
+      "name": "Immediate extubation",
+      "papers": 1
+    },
+    {
+      "name": "CNN-based automated measurement",
+      "papers": 1
+    },
+    {
+      "name": "ESP block",
+      "papers": 1
+    },
+    {
+      "name": "ESPB",
+      "papers": 1
+    },
+    {
+      "name": "MEP monitoring",
+      "papers": 1
+    },
+    {
+      "name": "No surgical intervention - basic science study",
+      "papers": 1
+    },
+    {
+      "name": "LFI",
+      "papers": 1
+    },
+    {
+      "name": "LMBRFA",
+      "papers": 1
+    },
+    {
+      "name": "TELD",
+      "papers": 1
+    },
+    {
+      "name": "IELD",
+      "papers": 1
+    },
+    {
+      "name": "X-ray assessment",
+      "papers": 1
+    },
+    {
+      "name": "Fusion assessment",
+      "papers": 1
+    },
+    {
+      "name": "Imaging evaluation",
+      "papers": 1
+    },
+    {
+      "name": "Microscopic exploration",
+      "papers": 1
+    },
+    {
+      "name": "Intradiscal injection - Condoliase (SI-6603)",
+      "papers": 1
+    },
+    {
+      "name": "UESS",
+      "papers": 1
+    },
+    {
+      "name": "Tubular retractor-based surgery",
+      "papers": 1
+    },
+    {
+      "name": "OLM",
+      "papers": 1
+    },
+    {
+      "name": "Exploratory surgery",
+      "papers": 1
+    },
+    {
+      "name": "SPS",
+      "papers": 1
+    },
+    {
+      "name": "L-SPS",
+      "papers": 1
+    },
+    {
+      "name": "P-SPS",
+      "papers": 1
+    },
+    {
+      "name": "SR-SPS",
+      "papers": 1
+    },
+    {
+      "name": "Mazor X",
+      "papers": 1
+    },
+    {
+      "name": "ROSA",
+      "papers": 1
+    },
+    {
+      "name": "Cirq",
+      "papers": 1
+    },
+    {
+      "name": "Freehand insertion",
+      "papers": 1
+    },
+    {
+      "name": "Fluoroscopic insertion",
+      "papers": 1
+    },
+    {
+      "name": "Percutaneous pedicle screw placement with instrument tracking",
+      "papers": 1
+    },
+    {
+      "name": "RA-PPSI",
+      "papers": 1
+    },
+    {
+      "name": "Freehand PPSI",
+      "papers": 1
+    },
+    {
+      "name": "Navigation-assisted PPSI",
+      "papers": 1
+    },
+    {
+      "name": "Deep learning analysis",
+      "papers": 1
+    },
+    {
+      "name": "SpineAssist",
+      "papers": 1
+    },
+    {
+      "name": "Freehand screw placement",
+      "papers": 1
+    },
+    {
+      "name": "Fluoroscopic-guided screw placement",
+      "papers": 1
+    },
+    {
+      "name": "Navigation-guided lumbar fusion",
+      "papers": 1
+    },
+    {
+      "name": "Vertebral joint fusion",
+      "papers": 1
+    },
+    {
+      "name": "Lumbosacral joint fusion",
+      "papers": 1
+    },
+    {
+      "name": "Navigation-guided pedicle screw",
+      "papers": 1
+    },
+    {
+      "name": "Free-hand fluoroscopy-guided pedicle screw insertion",
+      "papers": 1
+    },
+    {
+      "name": "Posterior scoliosis correction",
+      "papers": 1
+    },
+    {
+      "name": "Deformity correction with vertebral derotation",
+      "papers": 1
+    },
+    {
+      "name": "Bone graft augmentation",
+      "papers": 1
+    },
+    {
+      "name": "autograft",
+      "papers": 1
+    },
+    {
+      "name": "intervertebral cage",
+      "papers": 1
+    },
+    {
+      "name": "Structural femoral allograft",
+      "papers": 1
+    },
+    {
+      "name": "PEEK interbody cage",
+      "papers": 1
+    },
+    {
+      "name": "posterior fixation with pedicle screws",
+      "papers": 1
+    },
+    {
+      "name": "anterior titanium plate fixation",
+      "papers": 1
+    },
+    {
+      "name": "BMP graft",
+      "papers": 1
+    },
+    {
+      "name": "Autogenous bone graft",
+      "papers": 1
+    },
+    {
+      "name": "Heterotopic bone resection",
+      "papers": 1
+    },
+    {
+      "name": "Local autograft",
+      "papers": 1
+    },
+    {
+      "name": "rhBMP-2 with HA",
+      "papers": 1
+    },
+    {
+      "name": "auto-iliac bone graft",
+      "papers": 1
+    },
+    {
+      "name": "Interbody arthrodesis",
+      "papers": 1
+    },
+    {
+      "name": "Percutaneous transfacet screws (TFS)",
+      "papers": 1
+    },
+    {
+      "name": "Bone marrow aspirate",
+      "papers": 1
+    },
+    {
+      "name": "Interbody spacer",
+      "papers": 1
+    },
+    {
+      "name": "Bone substitute implantation",
+      "papers": 1
+    },
+    {
+      "name": "BCP/rhBMP-2/SF composite",
+      "papers": 1
+    },
+    {
+      "name": "BCP/rhBMP-2",
+      "papers": 1
+    },
+    {
+      "name": "BCP alone",
+      "papers": 1
+    },
+    {
+      "name": "E.BMP-2",
+      "papers": 1
+    },
+    {
+      "name": "synthetic bone graft",
+      "papers": 1
+    },
+    {
+      "name": "iFACTOR",
+      "papers": 1
+    },
+    {
+      "name": "β-tricalcium phosphate",
+      "papers": 1
+    },
+    {
+      "name": "bioactive glass",
+      "papers": 1
+    },
+    {
+      "name": "UELIF",
+      "papers": 1
+    },
+    {
+      "name": "FELIF",
+      "papers": 1
+    },
+    {
+      "name": "Navigation-guided pedicle screw insertion",
+      "papers": 1
+    },
+    {
+      "name": "BMP augmentation",
+      "papers": 1
+    },
+    {
+      "name": "AL/TF",
+      "papers": 1
+    },
+    {
+      "name": "PL/TF",
+      "papers": 1
+    },
+    {
+      "name": "DBM gel",
+      "papers": 1
+    },
+    {
+      "name": "BMP-2",
+      "papers": 1
+    },
+    {
+      "name": "SiCaP grafting",
+      "papers": 1
+    },
+    {
+      "name": "BMP-2 grafting",
+      "papers": 1
+    },
+    {
+      "name": "PLA",
+      "papers": 1
+    },
+    {
+      "name": "BMP supplementation",
+      "papers": 1
+    },
+    {
+      "name": "rhBMP-2 fusion material",
+      "papers": 1
+    },
+    {
+      "name": "map3 cellular allogeneic bone graft",
+      "papers": 1
+    },
+    {
+      "name": "Modified trans-Kambin endoscopic lumbar interbody fusion",
+      "papers": 1
+    },
+    {
+      "name": "ELIBF",
+      "papers": 1
+    },
+    {
+      "name": "Expandable cages",
+      "papers": 1
+    },
+    {
+      "name": "pedicle screw and rod instrumentation",
+      "papers": 1
+    },
+    {
+      "name": "Long cage",
+      "papers": 1
+    },
+    {
+      "name": "Short cage",
+      "papers": 1
+    },
+    {
+      "name": "Unilateral internal fixator",
+      "papers": 1
+    },
+    {
+      "name": "Bilateral internal fixator",
+      "papers": 1
+    },
+    {
+      "name": "Interbody fusion with porous cages",
+      "papers": 1
+    },
+    {
+      "name": "BPS",
+      "papers": 1
+    },
+    {
+      "name": "LPS",
+      "papers": 1
+    },
+    {
+      "name": "Single-position surgery",
+      "papers": 1
+    },
+    {
+      "name": "hybrid internal fixation",
+      "papers": 1
+    },
+    {
+      "name": "SPSL",
+      "papers": 1
+    },
+    {
+      "name": "Flavectomy",
+      "papers": 1
+    },
+    {
+      "name": "Dynamic X-ray",
+      "papers": 1
+    },
+    {
+      "name": "EDF",
+      "papers": 1
+    },
+    {
+      "name": "PLDD",
+      "papers": 1
+    },
+    {
+      "name": "Conventional decompression",
+      "papers": 1
+    },
+    {
+      "name": "Bilateral pedicle screw instrumentation",
+      "papers": 1
+    },
+    {
+      "name": "Unilateral pedicle screw instrumentation",
+      "papers": 1
+    },
+    {
+      "name": "Bilateral hemifacetectomy",
+      "papers": 1
+    },
+    {
+      "name": "TE-LRD",
+      "papers": 1
+    },
+    {
+      "name": "Cross-Overtop decompression",
+      "papers": 1
+    },
+    {
+      "name": "Endo-LOVE",
+      "papers": 1
+    },
+    {
+      "name": "Ligamentum flavum resection",
+      "papers": 1
+    },
+    {
+      "name": "DIAM implantation",
+      "papers": 1
+    },
+    {
+      "name": "Pars interarticularis resection",
+      "papers": 1
+    },
+    {
+      "name": "Ventral-to-Dorsal Resection",
+      "papers": 1
+    },
+    {
+      "name": "Finite Element Modeling",
+      "papers": 1
+    },
+    {
+      "name": "PEEK artificial lamina reconstruction",
+      "papers": 1
+    },
+    {
+      "name": "Osseointegration",
+      "papers": 1
+    },
+    {
+      "name": "Ligament reconstruction",
+      "papers": 1
+    },
+    {
+      "name": "Ligamentum flavum removal",
+      "papers": 1
+    },
+    {
+      "name": "MIL",
+      "papers": 1
+    },
+    {
+      "name": "UML",
+      "papers": 1
+    },
+    {
+      "name": "UPHL",
+      "papers": 1
+    },
+    {
+      "name": "MEL",
+      "papers": 1
+    },
+    {
+      "name": "SPSD",
+      "papers": 1
+    },
+    {
+      "name": "Annular closure devices",
+      "papers": 1
+    },
+    {
+      "name": "Personalized exercise therapy",
+      "papers": 1
+    },
+    {
+      "name": "Radiographic measurement",
+      "papers": 1
+    },
+    {
+      "name": "Non-chemical prophylaxis",
+      "papers": 1
+    },
+    {
+      "name": "T-EMG monitoring",
+      "papers": 1
+    },
+    {
+      "name": "rh-BMP2",
+      "papers": 1
+    },
+    {
+      "name": "Reimplantation",
+      "papers": 1
+    },
+    {
+      "name": "rhBMP-2/ACS",
+      "papers": 1
+    },
+    {
+      "name": "Spinous process tethering",
+      "papers": 1
+    },
+    {
+      "name": "Two-level fusion",
+      "papers": 1
+    },
+    {
+      "name": "Anti-inflammatory-impregnated gelatin sponge",
+      "papers": 1
+    },
+    {
+      "name": "CNN Algorithm",
+      "papers": 1
+    },
+    {
+      "name": "Deep Learning Software",
+      "papers": 1
+    },
+    {
+      "name": "Cobb Angle Assessment",
+      "papers": 1
+    },
+    {
+      "name": "Deep Learning Automated Measurement",
+      "papers": 1
+    },
+    {
+      "name": "SmartXpert AI Solution",
+      "papers": 1
+    },
+    {
+      "name": "Heatmap-Based Regression",
+      "papers": 1
+    },
+    {
+      "name": "Vertebrai",
+      "papers": 1
+    },
+    {
+      "name": "Virtual Surgical Planning Software",
+      "papers": 1
+    },
+    {
+      "name": "Patient-Specific Spinal Rod",
+      "papers": 1
+    },
+    {
+      "name": "Scoliosis Radiograph Analysis",
+      "papers": 1
+    },
+    {
+      "name": "Weight-Bearing 3D Imaging",
+      "papers": 1
+    },
+    {
+      "name": "Mask R-CNN Spine Segmentation",
+      "papers": 1
+    },
+    {
+      "name": "Automated Spino-Pelvic Parameter Measurement",
+      "papers": 1
+    },
+    {
+      "name": "Computer Vision Pipeline",
+      "papers": 1
+    },
+    {
+      "name": "Patient-specific rods",
+      "papers": 1
+    },
+    {
+      "name": "Surgical fusion",
+      "papers": 1
+    },
+    {
+      "name": "Medical treatment",
+      "papers": 1
+    },
+    {
+      "name": "Posterior ligamentous tethering",
+      "papers": 1
+    },
+    {
+      "name": "Deep Learning Cobb Angle Measurement",
+      "papers": 1
+    },
+    {
+      "name": "YOLOv8",
+      "papers": 1
+    },
+    {
+      "name": "SPARC AI System",
+      "papers": 1
+    },
+    {
+      "name": "Automated Cobb Angle Measurement",
+      "papers": 1
+    },
+    {
+      "name": "Virtual Surgical Planning",
+      "papers": 1
+    },
+    {
+      "name": "Custom Implants",
+      "papers": 1
+    },
+    {
+      "name": "Correction Surgery",
+      "papers": 1
+    },
+    {
+      "name": "ERAS",
+      "papers": 1
+    },
+    {
+      "name": "Spinal Instrumented Fusion",
+      "papers": 1
+    },
+    {
+      "name": "Vertebral Body Tethering",
+      "papers": 1
+    },
+    {
+      "name": "SmartXpert AI (Milvue)",
+      "papers": 1
+    },
+    {
+      "name": "Hierarchical Deep Learning Pipeline",
+      "papers": 1
+    },
+    {
+      "name": "MLP C7 Localization Model",
+      "papers": 1
+    },
+    {
+      "name": "Deep Learning Classification",
+      "papers": 1
+    },
+    {
+      "name": "Large Language Model",
+      "papers": 1
+    },
+    {
+      "name": "Intraoperative 3D Reconstruction",
+      "papers": 1
+    },
+    {
+      "name": "Automated vertebral segmentation",
+      "papers": 1
+    },
+    {
+      "name": "Vertebral labelling",
+      "papers": 1
+    },
+    {
+      "name": "Image Analysis",
+      "papers": 1
+    },
+    {
+      "name": "Navigation-guided imaging analysis",
+      "papers": 1
+    },
+    {
+      "name": "Imaging analysis - Cobb angle measurement",
+      "papers": 1
+    },
+    {
+      "name": "Automated scoliosis assessment",
+      "papers": 1
+    },
+    {
+      "name": "Computer-Aided Diagnosis",
+      "papers": 1
+    },
+    {
+      "name": "Graduated Compression Stockings",
+      "papers": 1
+    },
+    {
+      "name": "Intermittent Pneumatic Compression",
+      "papers": 1
+    },
+    {
+      "name": "AI-based Tumor Response Classification",
+      "papers": 1
+    },
+    {
+      "name": "Imaging guidance",
+      "papers": 1
+    },
+    {
+      "name": "SINS",
+      "papers": 1
+    },
+    {
+      "name": "AI-based SINS Calculation",
+      "papers": 1
+    },
+    {
+      "name": "DSA",
+      "papers": 1
+    },
+    {
+      "name": "Myelotomy",
+      "papers": 1
+    },
+    {
+      "name": "Dorsal column dissection",
+      "papers": 1
+    },
+    {
+      "name": "AI-based SINS Score Calculation",
+      "papers": 1
+    },
+    {
+      "name": "LLM-assisted SINS calculation",
+      "papers": 1
+    },
+    {
+      "name": "LLM-predicted SINS calculation",
+      "papers": 1
+    },
+    {
+      "name": "Standard SINS calculation",
+      "papers": 1
+    },
+    {
+      "name": "Preoperative Embolization",
+      "papers": 1
+    },
+    {
+      "name": "Minimally Invasive Tumor Resection",
+      "papers": 1
+    },
+    {
+      "name": "Paramedian Transmuscular Approach",
+      "papers": 1
+    },
+    {
+      "name": "Surgical intervention",
+      "papers": 1
+    },
+    {
+      "name": "Cyst resection",
+      "papers": 1
+    },
+    {
+      "name": "Subtotal excision",
+      "papers": 1
+    },
+    {
+      "name": "Virtual Reality Training",
+      "papers": 1
+    },
+    {
+      "name": "Chemokine Therapy",
+      "papers": 1
+    },
+    {
+      "name": "3D-Printed Cage",
+      "papers": 1
+    },
+    {
+      "name": "3D-Printed Navigation Guide",
+      "papers": 1
+    },
+    {
+      "name": "Microscopic Discectomy",
+      "papers": 1
+    },
+    {
+      "name": "Platelet-Rich Plasma",
+      "papers": 1
+    },
+    {
+      "name": "Nucleus Pulposus Replacement",
+      "papers": 1
+    },
+    {
+      "name": "Hydrogel Implant",
+      "papers": 1
+    },
+    {
+      "name": "Total Disc Replacement",
+      "papers": 1
+    },
+    {
+      "name": "Hyaluronic Acid",
+      "papers": 1
+    },
+    {
+      "name": "Allograft Bone Graft",
+      "papers": 1
+    },
+    {
+      "name": "Cement Augmentation",
+      "papers": 1
+    },
+    {
+      "name": "Implant Removal",
+      "papers": 1
+    },
+    {
+      "name": "Minimally Invasive Posterior Fixation",
+      "papers": 1
+    },
+    {
+      "name": "Operative Treatment",
+      "papers": 1
+    },
+    {
+      "name": "Nonoperative Treatment",
+      "papers": 1
+    },
+    {
+      "name": "Posterior Cervical Laminoplasty",
+      "papers": 1
+    },
+    {
+      "name": "Foreign Body Removal",
+      "papers": 1
+    },
+    {
+      "name": "Vertebroplasty",
+      "papers": 1
+    },
+    {
+      "name": "O-Arm Navigation",
+      "papers": 1
+    },
+    {
+      "name": "Combined Anterior-Posterior Fixation",
+      "papers": 1
+    },
+    {
+      "name": "Operative Stabilization",
+      "papers": 1
+    },
+    {
+      "name": "Posterior Fusion",
+      "papers": 1
+    },
+    {
+      "name": "Surgery",
+      "papers": 1
+    },
+    {
+      "name": "Intraoperative Radiotherapy",
+      "papers": 1
+    },
+    {
+      "name": "Bone Modifying Agents",
+      "papers": 1
+    },
+    {
+      "name": "Carbon Ion Therapy",
+      "papers": 1
+    },
+    {
+      "name": "Immunotherapy",
+      "papers": 1
+    },
+    {
+      "name": "Posterior Instrumentation",
+      "papers": 1
+    },
+    {
+      "name": "Hemicorporectomy",
+      "papers": 1
+    },
+    {
+      "name": "Subtotal Resection",
+      "papers": 1
+    },
+    {
+      "name": "Posterior Spinal Fusion",
+      "papers": 1
+    },
+    {
+      "name": "Intralesional Resection",
+      "papers": 1
+    },
+    {
+      "name": "Charged-Particle Therapy",
+      "papers": 1
+    },
+    {
+      "name": "Bazedoxifene",
+      "papers": 1
+    },
+    {
+      "name": "TXA",
+      "papers": 1
+    },
+    {
+      "name": "Cell Saver",
+      "papers": 1
+    },
+    {
+      "name": "Combined fusion",
+      "papers": 1
+    },
+    {
+      "name": "Calcium and vitamin D supplementation",
+      "papers": 1
+    },
+    {
+      "name": "Interbody cage implantation",
+      "papers": 1
+    },
+    {
+      "name": "Suture-based Annular Closure",
+      "papers": 1
+    },
+    {
+      "name": "Biomaterial Annular Repair",
+      "papers": 1
+    },
+    {
+      "name": "Barricaid ACD",
+      "papers": 1
+    },
+    {
+      "name": "PNS",
+      "papers": 1
+    },
+    {
+      "name": "Intrathecal Pump",
+      "papers": 1
+    },
+    {
+      "name": "Transcutaneous Nerve Stimulation",
+      "papers": 1
+    },
+    {
+      "name": "Heat therapy",
+      "papers": 1
+    },
+    {
+      "name": "Dry Needling",
+      "papers": 1
+    },
+    {
+      "name": "Transcutaneous Electrical Nerve Stimulation",
+      "papers": 1
+    },
+    {
+      "name": "Systemic Corticosteroids",
+      "papers": 1
+    },
+    {
+      "name": "Anterior release with posterior fusion",
+      "papers": 1
+    },
+    {
+      "name": "Hooks instrumentation",
+      "papers": 1
+    },
+    {
+      "name": "Thoracotomy",
+      "papers": 1
+    },
+    {
+      "name": "Rib head resection",
+      "papers": 1
+    },
+    {
+      "name": "Anterior costoplasty",
+      "papers": 1
+    },
+    {
+      "name": "Ponte-osteotomies",
+      "papers": 1
+    },
+    {
+      "name": "Bifidobacterium adolescentis supplementation",
+      "papers": 1
+    },
+    {
+      "name": "MI-PCF",
+      "papers": 1
+    },
+    {
+      "name": "Operative Management",
+      "papers": 1
+    },
+    {
+      "name": "Surgical fixation",
+      "papers": 1
+    },
+    {
+      "name": "Odontoid screw fixation",
+      "papers": 1
+    },
+    {
+      "name": "CLP",
+      "papers": 1
+    },
+    {
+      "name": "CLF",
+      "papers": 1
+    },
+    {
+      "name": "Particulate Steroid Injection",
+      "papers": 1
+    },
+    {
+      "name": "Nonparticulate Steroid Injection",
+      "papers": 1
+    },
+    {
+      "name": "TNF-alpha Inhibitor Injection",
+      "papers": 1
+    },
+    {
+      "name": "Local Anesthetic Injection",
+      "papers": 1
+    },
+    {
+      "name": "Epidural injection with local anesthetic",
+      "papers": 1
+    },
+    {
+      "name": "Cognitive Behavioral Therapy",
+      "papers": 1
+    },
+    {
+      "name": "SNRI",
+      "papers": 1
+    },
+    {
+      "name": "Tricyclic antidepressants",
+      "papers": 1
+    },
+    {
+      "name": "Muscle relaxants",
+      "papers": 1
+    },
+    {
+      "name": "Opioid therapy",
+      "papers": 1
+    },
+    {
+      "name": "Percutaneous adhesiolysis",
+      "papers": 1
+    },
+    {
+      "name": "Fluoroscopically guided injection",
+      "papers": 1
+    },
+    {
+      "name": "Surgical Management",
+      "papers": 1
+    },
+    {
+      "name": "Ozone injection",
+      "papers": 1
+    },
+    {
+      "name": "Paravertebral intramuscular injection",
+      "papers": 1
+    },
+    {
+      "name": "Exercise",
+      "papers": 1
+    },
+    {
+      "name": "Rehabilitation",
+      "papers": 1
+    },
+    {
+      "name": "Calcitonin",
+      "papers": 1
+    },
+    {
+      "name": "Spinal manipulation",
+      "papers": 1
+    },
+    {
+      "name": "Education",
+      "papers": 1
+    },
+    {
+      "name": "Ultrasound Assessment",
+      "papers": 1
+    },
+    {
+      "name": "Spinal Injection Therapy",
+      "papers": 1
+    },
+    {
+      "name": "SSF",
+      "papers": 1
+    },
+    {
+      "name": "LSF",
+      "papers": 1
+    },
+    {
+      "name": "Instrumented stabilization",
+      "papers": 1
+    },
+    {
+      "name": "Posterolateral approach",
+      "papers": 1
+    },
+    {
+      "name": "Transpedicular decompression",
+      "papers": 1
+    },
+    {
+      "name": "PSSI",
+      "papers": 1
+    },
+    {
+      "name": "Short-segment fusion",
+      "papers": 1
+    },
+    {
+      "name": "Systemic Therapy",
+      "papers": 1
+    },
+    {
+      "name": "Stereotactic Spinal Radiosurgery",
+      "papers": 1
+    },
+    {
+      "name": "Curettage",
+      "papers": 1
+    },
+    {
+      "name": "Piecemeal Resection",
+      "papers": 1
+    },
+    {
+      "name": "Monosegmental pedicle instrumentation",
+      "papers": 1
+    },
+    {
+      "name": "Short-segment pedicle instrumentation",
+      "papers": 1
+    },
+    {
+      "name": "Surgical consultation",
+      "papers": 1
+    },
+    {
+      "name": "Infralaminar hooks",
+      "papers": 1
+    },
+    {
+      "name": "SFRT",
+      "papers": 1
+    },
+    {
+      "name": "MFRT",
+      "papers": 1
+    },
+    {
+      "name": "Laser ablation",
+      "papers": 1
+    },
+    {
+      "name": "Posterolateral arthrodesis",
+      "papers": 1
+    },
+    {
+      "name": "IORT",
+      "papers": 1
+    },
+    {
+      "name": "Intralesional curettage",
+      "papers": 1
+    },
+    {
+      "name": "LCR-A",
+      "papers": 1
+    },
+    {
+      "name": "VYO",
+      "papers": 1
+    },
+    {
+      "name": "Anterior Column Support",
+      "papers": 1
+    },
+    {
+      "name": "Spinal Realignment",
+      "papers": 1
+    },
+    {
+      "name": "APO",
+      "papers": 1
+    },
+    {
+      "name": "Bifidobacterium adolescentis",
+      "papers": 1
+    },
+    {
+      "name": "Placebo",
+      "papers": 1
+    },
+    {
+      "name": "BVNA",
+      "papers": 1
+    },
+    {
+      "name": "Intracept",
+      "papers": 1
+    },
+    {
+      "name": "Image-guided ablation",
+      "papers": 1
+    },
+    {
+      "name": "Conditional knockout (Gdf15 cKO)",
+      "papers": 1
+    },
+    {
+      "name": "Anti-GDF15 monoclonal antibody (CTL-002)",
+      "papers": 1
+    },
+    {
+      "name": "Alendronate (osteoclast inhibitor)",
+      "papers": 1
+    },
+    {
+      "name": "RNA sequencing",
+      "papers": 1
+    },
+    {
+      "name": "Histological analysis",
+      "papers": 1
+    },
+    {
+      "name": "GDF15 Neutralization",
+      "papers": 1
+    },
+    {
+      "name": "Conditional Gdf15 Knockout",
+      "papers": 1
+    },
+    {
+      "name": "Direct Current Stimulation",
+      "papers": 1
+    },
+    {
+      "name": "Capacitive Coupling Stimulation",
+      "papers": 1
+    },
+    {
+      "name": "Inductive Coupling Stimulation",
+      "papers": 1
+    },
+    {
+      "name": "Electrical Stimulation",
+      "papers": 1
+    },
+    {
+      "name": "Nicotine administration",
+      "papers": 1
+    },
+    {
+      "name": "Varenicline administration",
+      "papers": 1
+    },
+    {
+      "name": "Progenitor Cell Therapy",
+      "papers": 1
+    },
+    {
+      "name": "Biological Repair",
+      "papers": 1
+    },
+    {
+      "name": "Stem cell-based therapy",
+      "papers": 1
+    },
+    {
+      "name": "Advanced biomaterials",
+      "papers": 1
+    },
+    {
+      "name": "Biomaterial-assisted delivery",
+      "papers": 1
+    },
+    {
+      "name": "Gene-editing technologies",
+      "papers": 1
+    },
+    {
+      "name": "Gene-Based Interventions",
+      "papers": 1
+    },
+    {
+      "name": "Cell-free Therapy",
+      "papers": 1
+    },
+    {
+      "name": "EV therapy",
+      "papers": 1
+    },
+    {
+      "name": "Cell-free regenerative therapy",
+      "papers": 1
+    },
+    {
+      "name": "Gene Modification",
+      "papers": 1
+    },
+    {
+      "name": "Hydrogel Delivery",
+      "papers": 1
+    },
+    {
+      "name": "Stem Cell Transplantation",
+      "papers": 1
+    },
+    {
+      "name": "NPPC transplantation",
+      "papers": 1
+    },
+    {
+      "name": "Endogenous regeneration",
+      "papers": 1
+    },
+    {
+      "name": "Growth factor treatment",
+      "papers": 1
+    },
+    {
+      "name": "NPPC-based therapy",
+      "papers": 1
+    },
+    {
+      "name": "Nucleus Pulposus Progenitor Cell therapy",
+      "papers": 1
+    },
+    {
+      "name": "Cell transplantation",
+      "papers": 1
+    },
+    {
+      "name": "Exosomal miRNA delivery",
+      "papers": 1
+    },
+    {
+      "name": "iPSC therapy",
+      "papers": 1
+    },
+    {
+      "name": "Biomimetic scaffolds",
+      "papers": 1
+    },
+    {
+      "name": "DCS",
+      "papers": 1
+    },
+    {
+      "name": "ICS",
+      "papers": 1
+    },
+    {
+      "name": "Electrical Stimulation Therapy",
+      "papers": 1
+    },
+    {
+      "name": "DEXA scan",
+      "papers": 1
+    },
+    {
+      "name": "EOS films",
+      "papers": 1
+    },
+    {
+      "name": "Image-guided intervention",
+      "papers": 1
+    },
+    {
+      "name": "TEBLA",
+      "papers": 1
+    },
+    {
+      "name": "Stem cell injection",
+      "papers": 1
+    },
+    {
+      "name": "Hydrogel-loaded transplantation",
+      "papers": 1
+    },
+    {
+      "name": "Paracrine therapy",
+      "papers": 1
+    },
+    {
+      "name": "Conditional knockout",
+      "papers": 1
+    },
+    {
+      "name": "Gdf15 knockdown",
+      "papers": 1
+    },
+    {
+      "name": "Anti-GDF15 neutralizing antibody",
+      "papers": 1
+    },
+    {
+      "name": "Hydrogel-based Growth Factor Delivery",
+      "papers": 1
+    },
+    {
+      "name": "Biological Therapy",
+      "papers": 1
+    },
+    {
+      "name": "BM-MSCs",
+      "papers": 1
+    },
+    {
+      "name": "AD-MSCs",
+      "papers": 1
+    },
+    {
+      "name": "UC-MSCs",
+      "papers": 1
+    },
+    {
+      "name": "Hydrogels",
+      "papers": 1
+    },
+    {
+      "name": "Exosomes",
+      "papers": 1
+    },
+    {
+      "name": "Extracellular vesicle injection",
+      "papers": 1
+    },
+    {
+      "name": "Conditioned media treatment",
+      "papers": 1
+    },
+    {
+      "name": "MSC-derived EV therapy",
+      "papers": 1
+    },
+    {
+      "name": "Stem cell-based therapies",
+      "papers": 1
+    },
+    {
+      "name": "Automated Radiographic Assessment",
+      "papers": 0
+    },
+    {
+      "name": "Radiographic assessment",
+      "papers": 0
+    }
+  ],
+  "Pathology": [
+    {
+      "name": "Spinal Deformity",
+      "papers": 14
+    },
+    {
+      "name": "Thoracolumbar Burst Fracture",
+      "papers": 12
+    },
+    {
+      "name": "Spinal Neoplasm",
+      "papers": 10
+    },
+    {
+      "name": "Disc Degeneration",
+      "papers": 10
+    },
+    {
+      "name": "Cervical Fracture",
+      "papers": 7
+    },
+    {
+      "name": "Spinal Trauma",
+      "papers": 6
+    },
+    {
+      "name": "Subaxial Cervical Fracture",
+      "papers": 6
+    },
+    {
+      "name": "Pseudoarthrosis",
+      "papers": 5
+    },
+    {
+      "name": "Herniated Intervertebral Disc",
+      "papers": 5
+    },
+    {
+      "name": "Herniated disc",
+      "papers": 4
+    },
+    {
+      "name": "Cervical Spinal Stenosis",
+      "papers": 4
+    },
+    {
+      "name": "Spinal Cord Reperfusion Injury",
+      "papers": 4
+    },
+    {
+      "name": "Cervical Facet Fracture",
+      "papers": 4
+    },
+    {
+      "name": "Primary Spinal Tumor",
+      "papers": 4
+    },
+    {
+      "name": "Epidural Spinal Cord Compression",
+      "papers": 4
+    },
+    {
+      "name": "Rod fracture",
+      "papers": 3
+    },
+    {
+      "name": "Degenerative Spine Disease",
+      "papers": 3
+    },
+    {
+      "name": "Chronic Low Back Pain",
+      "papers": 3
+    },
+    {
+      "name": "Spinopelvic malalignment",
+      "papers": 2
+    },
+    {
+      "name": "Lumbar spine disorders",
+      "papers": 2
+    },
+    {
+      "name": "Coronal deformity",
+      "papers": 2
+    },
+    {
+      "name": "Failed fusion",
+      "papers": 2
+    },
+    {
+      "name": "Degenerative lumbar spine disease",
+      "papers": 2
+    },
+    {
+      "name": "Lumbar degenerative disease requiring interbody fusion",
+      "papers": 2
+    },
+    {
+      "name": "Lumbar Degeneration",
+      "papers": 2
+    },
+    {
+      "name": "Central spinal canal stenosis",
+      "papers": 2
+    },
+    {
+      "name": "Spinal Disorders",
+      "papers": 2
+    },
+    {
+      "name": "Early-Onset Scoliosis",
+      "papers": 2
+    },
+    {
+      "name": "Intervertebral Vacuum Phenomenon",
+      "papers": 2
+    },
+    {
+      "name": "Disc Injury",
+      "papers": 2
+    },
+    {
+      "name": "Cardiac Arrest",
+      "papers": 2
+    },
+    {
+      "name": "Penetrating Spinal Cord Injury",
+      "papers": 2
+    },
+    {
+      "name": "White Cord Syndrome",
+      "papers": 2
+    },
+    {
+      "name": "Diffuse Idiopathic Skeletal Hyperostosis",
+      "papers": 2
+    },
+    {
+      "name": "Cervicothoracic Junction Fracture",
+      "papers": 2
+    },
+    {
+      "name": "Floating Lateral Mass Fracture",
+      "papers": 2
+    },
+    {
+      "name": "Undifferentiated Pleomorphic Sarcoma",
+      "papers": 2
+    },
+    {
+      "name": "Craniovertebral Junction Lesion",
+      "papers": 2
+    },
+    {
+      "name": "Spinal Instability",
+      "papers": 2
+    },
+    {
+      "name": "Lung Cancer Spinal Metastasis",
+      "papers": 2
+    },
+    {
+      "name": "Intramedullary Spinal Cord Metastasis",
+      "papers": 2
+    },
+    {
+      "name": "Lung Adenocarcinoma Spinal Metastasis",
+      "papers": 2
+    },
+    {
+      "name": "Adenoid Cystic Carcinoma Spinal Metastasis",
+      "papers": 2
+    },
+    {
+      "name": "Primary Meningeal Melanoma",
+      "papers": 2
+    },
+    {
+      "name": "Myxopapillary Ependymoma",
+      "papers": 2
+    },
+    {
+      "name": "Primary Intradural Spinal Tumor",
+      "papers": 2
+    },
+    {
+      "name": "Hemangioblastoma",
+      "papers": 2
+    },
+    {
+      "name": "Spinal Tumor",
+      "papers": 2
+    },
+    {
+      "name": "Sacral GCTB",
+      "papers": 2
+    },
+    {
+      "name": "Vertebrogenic pain",
+      "papers": 2
+    },
+    {
+      "name": "Annular fissures",
+      "papers": 2
+    },
+    {
+      "name": "Primary Spinal Malignancy",
+      "papers": 2
+    },
+    {
+      "name": "Secondary Spinal Malignancy",
+      "papers": 2
+    },
+    {
+      "name": "Spinal fusion complications",
+      "papers": 2
+    },
+    {
+      "name": "Vertebrogenic Back Pain",
+      "papers": 2
+    },
+    {
+      "name": "Nerve rootlet herniation",
+      "papers": 1
+    },
+    {
+      "name": "Lumbar synovial facet cyst",
+      "papers": 1
+    },
+    {
+      "name": "Complex spinal stenosis with multi-segmental involvement",
+      "papers": 1
+    },
+    {
+      "name": "Nucleus pulposus injury/degeneration",
+      "papers": 1
+    },
+    {
+      "name": "Mechanical low back pain with multifidus dysfunction",
+      "papers": 1
+    },
+    {
+      "name": "Not a spine surgery study - radiographic imaging quality assessment",
+      "papers": 1
+    },
+    {
+      "name": "vertebra plana",
+      "papers": 1
+    },
+    {
+      "name": "Spinal canal narrowing",
+      "papers": 1
+    },
+    {
+      "name": "Multiple myeloma with osteolytic lesions",
+      "papers": 1
+    },
+    {
+      "name": "Lung cancer metastasis",
+      "papers": 1
+    },
+    {
+      "name": "Lumbar spine disease",
+      "papers": 1
+    },
+    {
+      "name": "Vertebral fractures secondary to multiple myeloma",
+      "papers": 1
+    },
+    {
+      "name": "Spinal disc disease",
+      "papers": 1
+    },
+    {
+      "name": "Lumbar facet joint osteoarthritis (FJOA)",
+      "papers": 1
+    },
+    {
+      "name": "vertically narrow neural foramen",
+      "papers": 1
+    },
+    {
+      "name": "Osteoporotic vertebral fractures",
+      "papers": 1
+    },
+    {
+      "name": "Traumatic cervical spinal cord injury (TCSCI)",
+      "papers": 1
+    },
+    {
+      "name": "Neurological injury",
+      "papers": 1
+    },
+    {
+      "name": "Vertebral body involvement requiring stabilization",
+      "papers": 1
+    },
+    {
+      "name": "Suspected cauda equina syndrome with normal MRI findings",
+      "papers": 1
+    },
+    {
+      "name": "Surgical device complications",
+      "papers": 1
+    },
+    {
+      "name": "Atlantoaxial rotatory fixation (AARF)",
+      "papers": 1
+    },
+    {
+      "name": "loss of cervical lordosis",
+      "papers": 1
+    },
+    {
+      "name": "Multilevel neural arch stress fractures",
+      "papers": 1
+    },
+    {
+      "name": "Thoracic ossification of the ligamentum flavum (OLF)",
+      "papers": 1
+    },
+    {
+      "name": "Delayed apophyseal ring maturation",
+      "papers": 1
+    },
+    {
+      "name": "Selective sensory deficits",
+      "papers": 1
+    },
+    {
+      "name": "Device wear",
+      "papers": 1
+    },
+    {
+      "name": "Oxidative stress-induced disc degeneration",
+      "papers": 1
+    },
+    {
+      "name": "Mental health disorders (depression, anxiety, ADHD, PTSD, panic disorder, substance use disorder, opioid use disorder, insomnia, postpartum depression, autism spectrum disorder, chronic back pain)",
+      "papers": 1
+    },
+    {
+      "name": "Severe cervical hyperextension",
+      "papers": 1
+    },
+    {
+      "name": "Thoracolumbar deformity",
+      "papers": 1
+    },
+    {
+      "name": "Spinal lordosis",
+      "papers": 1
+    },
+    {
+      "name": "Reverse-folding human deformity",
+      "papers": 1
+    },
+    {
+      "name": "Intradural disc prosthesis migration",
+      "papers": 1
+    },
+    {
+      "name": "Foot drop",
+      "papers": 1
+    },
+    {
+      "name": "Low back pain (non-traumatic)",
+      "papers": 1
+    },
+    {
+      "name": "Cerebrospinal fluid leakage (CSFL)",
+      "papers": 1
+    },
+    {
+      "name": "Low back pain (LBP)",
+      "papers": 1
+    },
+    {
+      "name": "Spinal degeneration",
+      "papers": 1
+    },
+    {
+      "name": "Thoracolumbar decompensation",
+      "papers": 1
+    },
+    {
+      "name": "Ductal carcinoma in situ",
+      "papers": 1
+    },
+    {
+      "name": "Infiltrating ductal carcinoma",
+      "papers": 1
+    },
+    {
+      "name": "thoracic ligamentum flavum ossification (TOLF)",
+      "papers": 1
+    },
+    {
+      "name": "Craniocervical junction abnormality",
+      "papers": 1
+    },
+    {
+      "name": "Brainstem compression",
+      "papers": 1
+    },
+    {
+      "name": "Cervical disability",
+      "papers": 1
+    },
+    {
+      "name": "Cranial nerve dysfunction",
+      "papers": 1
+    },
+    {
+      "name": "Irreducible AAD",
+      "papers": 1
+    },
+    {
+      "name": "Bony AAD",
+      "papers": 1
+    },
+    {
+      "name": "Central thoracic disc herniation",
+      "papers": 1
+    },
+    {
+      "name": "Paramedian thoracic disc herniation",
+      "papers": 1
+    },
+    {
+      "name": "Kyphotic deformity",
+      "papers": 1
+    },
+    {
+      "name": "Disc height collapse",
+      "papers": 1
+    },
+    {
+      "name": "nerve root stenosis",
+      "papers": 1
+    },
+    {
+      "name": "Acute airway obstruction",
+      "papers": 1
+    },
+    {
+      "name": "Metastatic spine cancer",
+      "papers": 1
+    },
+    {
+      "name": "Local recurrence after prior spinal surgery",
+      "papers": 1
+    },
+    {
+      "name": "hip osteoarthritis",
+      "papers": 1
+    },
+    {
+      "name": "knee osteoarthritis",
+      "papers": 1
+    },
+    {
+      "name": "Lenke 1/2 curves",
+      "papers": 1
+    },
+    {
+      "name": "Sagittal alignment parameters",
+      "papers": 1
+    },
+    {
+      "name": "Various spinal pathologies",
+      "papers": 1
+    },
+    {
+      "name": "Sagittal deformity",
+      "papers": 1
+    },
+    {
+      "name": "Adult symptomatic lumbar scoliosis",
+      "papers": 1
+    },
+    {
+      "name": "Sacral osteotomy",
+      "papers": 1
+    },
+    {
+      "name": "Sarcopenia",
+      "papers": 1
+    },
+    {
+      "name": "Osteosarcopenia",
+      "papers": 1
+    },
+    {
+      "name": "Not spine-specific",
+      "papers": 1
+    },
+    {
+      "name": "Lymph node metastasis",
+      "papers": 1
+    },
+    {
+      "name": "Lumbar facet pain",
+      "papers": 1
+    },
+    {
+      "name": "Zygapophyseal joint pain",
+      "papers": 1
+    },
+    {
+      "name": "Scoliosis (Adult)",
+      "papers": 1
+    },
+    {
+      "name": "symptomatic postoperative spinal epidural hematoma",
+      "papers": 1
+    },
+    {
+      "name": "cervical herniated disc",
+      "papers": 1
+    },
+    {
+      "name": "Herniated lumbar disc",
+      "papers": 1
+    },
+    {
+      "name": "degenerative spinal conditions",
+      "papers": 1
+    },
+    {
+      "name": "Metastatic vertebrae",
+      "papers": 1
+    },
+    {
+      "name": "screw loosening",
+      "papers": 1
+    },
+    {
+      "name": "Moderate curves (30-45 degrees)",
+      "papers": 1
+    },
+    {
+      "name": "Traumatic posterior atlantoaxial dislocation",
+      "papers": 1
+    },
+    {
+      "name": "Cervical spine disorders",
+      "papers": 1
+    },
+    {
+      "name": "Dural tears",
+      "papers": 1
+    },
+    {
+      "name": "Delayed vertebral collapse",
+      "papers": 1
+    },
+    {
+      "name": "Various spinal disease aetiologies",
+      "papers": 1
+    },
+    {
+      "name": "Vertebral body destruction",
+      "papers": 1
+    },
+    {
+      "name": "Infectious Spondylitis",
+      "papers": 1
+    },
+    {
+      "name": "Fractures",
+      "papers": 1
+    },
+    {
+      "name": "Obesity-related Spinal Disease",
+      "papers": 1
+    },
+    {
+      "name": "Post-fusion degenerative changes",
+      "papers": 1
+    },
+    {
+      "name": "Nerve injury",
+      "papers": 1
+    },
+    {
+      "name": "Thoracic disk herniation",
+      "papers": 1
+    },
+    {
+      "name": "Lumbar fusion candidate",
+      "papers": 1
+    },
+    {
+      "name": "Occult dural tear",
+      "papers": 1
+    },
+    {
+      "name": "Lower back pain",
+      "papers": 1
+    },
+    {
+      "name": "Anatomical variation",
+      "papers": 1
+    },
+    {
+      "name": "Indication for interbody fusion and posterior fixation",
+      "papers": 1
+    },
+    {
+      "name": "traumatic spinal fracture",
+      "papers": 1
+    },
+    {
+      "name": "Traumatic pathology",
+      "papers": 1
+    },
+    {
+      "name": "Degenerative lumbar spine conditions",
+      "papers": 1
+    },
+    {
+      "name": "lumbar facetogenic pain",
+      "papers": 1
+    },
+    {
+      "name": "Vertebral anomalies",
+      "papers": 1
+    },
+    {
+      "name": "Pedicle screw placement (accuracy study)",
+      "papers": 1
+    },
+    {
+      "name": "Spinal disorders requiring dorsal instrumentation",
+      "papers": 1
+    },
+    {
+      "name": "Lumbar disk degeneration",
+      "papers": 1
+    },
+    {
+      "name": "Intervertebral disk space disease",
+      "papers": 1
+    },
+    {
+      "name": "Heterotopic bone formation",
+      "papers": 1
+    },
+    {
+      "name": "severe herniated intervertebral disk",
+      "papers": 1
+    },
+    {
+      "name": "recurrent herniated intervertebral disk",
+      "papers": 1
+    },
+    {
+      "name": "Lumbar intervertebral disc disease",
+      "papers": 1
+    },
+    {
+      "name": "Interbody fusion model",
+      "papers": 1
+    },
+    {
+      "name": "Vertebral endplate preservation",
+      "papers": 1
+    },
+    {
+      "name": "Lumbar degenerative spinal stenosis",
+      "papers": 1
+    },
+    {
+      "name": "lumbar interbody fusion",
+      "papers": 1
+    },
+    {
+      "name": "multilevel cervical compression",
+      "papers": 1
+    },
+    {
+      "name": "degenerative spinal disorder",
+      "papers": 1
+    },
+    {
+      "name": "Fusion failure",
+      "papers": 1
+    },
+    {
+      "name": "single-segment lumbar pathology",
+      "papers": 1
+    },
+    {
+      "name": "Tuberculosis debridement",
+      "papers": 1
+    },
+    {
+      "name": "lumbar degenerative instability",
+      "papers": 1
+    },
+    {
+      "name": "Intervertebral disc pathology requiring fusion",
+      "papers": 1
+    },
+    {
+      "name": "lumbar spinal degeneration",
+      "papers": 1
+    },
+    {
+      "name": "lumbar interbody disc pathology requiring fusion",
+      "papers": 1
+    },
+    {
+      "name": "segmental mechanical instability",
+      "papers": 1
+    },
+    {
+      "name": "Degenerative disc disease requiring interbody fusion",
+      "papers": 1
+    },
+    {
+      "name": "Ossified posterior longitudinal ligament (OPLL)",
+      "papers": 1
+    },
+    {
+      "name": "Thoracic spine fracture",
+      "papers": 1
+    },
+    {
+      "name": "Neurogenic intermittent claudication",
+      "papers": 1
+    },
+    {
+      "name": "Iatrogenic facet joint disruption",
+      "papers": 1
+    },
+    {
+      "name": "Facetectomy-induced instability",
+      "papers": 1
+    },
+    {
+      "name": "Periradicular-type LDH",
+      "papers": 1
+    },
+    {
+      "name": "Shoulder-type LDH",
+      "papers": 1
+    },
+    {
+      "name": "lumbar neurogenic disease",
+      "papers": 1
+    },
+    {
+      "name": "Lumbar stenosis requiring laminectomy",
+      "papers": 1
+    },
+    {
+      "name": "Lumbar muscle atrophy",
+      "papers": 1
+    },
+    {
+      "name": "Cervical degenerative disease",
+      "papers": 1
+    },
+    {
+      "name": "Degenerative cervical spine disease",
+      "papers": 1
+    },
+    {
+      "name": "Intracranial embolism",
+      "papers": 1
+    },
+    {
+      "name": "Lumbar stenosis with neural compression",
+      "papers": 1
+    },
+    {
+      "name": "Ectopic bone formation",
+      "papers": 1
+    },
+    {
+      "name": "Symptomatic ectopic ossification",
+      "papers": 1
+    },
+    {
+      "name": "Non-union",
+      "papers": 1
+    },
+    {
+      "name": "Symptomatic ectopic bone formation",
+      "papers": 1
+    },
+    {
+      "name": "Vertebral body osteolysis",
+      "papers": 1
+    },
+    {
+      "name": "Neuroforaminal bone growth",
+      "papers": 1
+    },
+    {
+      "name": "Dural tear (intraoperative complication)",
+      "papers": 1
+    },
+    {
+      "name": "Medial pedicle screw breach",
+      "papers": 1
+    },
+    {
+      "name": "Neurologic deficit",
+      "papers": 1
+    },
+    {
+      "name": "Sacral tumor (primary and secondary)",
+      "papers": 1
+    },
+    {
+      "name": "cervical myelopathy (induced by laminectomy)",
+      "papers": 1
+    },
+    {
+      "name": "Lumbar Lordosis Maldistribution",
+      "papers": 1
+    },
+    {
+      "name": "Global Coronal Malignment",
+      "papers": 1
+    },
+    {
+      "name": "Vertebral fusion model",
+      "papers": 1
+    },
+    {
+      "name": "Structural Spinal Damage",
+      "papers": 1
+    },
+    {
+      "name": "Not applicable - technical/methodological paper",
+      "papers": 1
+    },
+    {
+      "name": "Not disease-specific - technical validation study",
+      "papers": 1
+    },
+    {
+      "name": "Patient positioning assessment",
+      "papers": 1
+    },
+    {
+      "name": "Vertebral anatomical variations",
+      "papers": 1
+    },
+    {
+      "name": "vertebral body annotation",
+      "papers": 1
+    },
+    {
+      "name": "Vertebral Wedging",
+      "papers": 1
+    },
+    {
+      "name": "Proximal thoracic curve",
+      "papers": 1
+    },
+    {
+      "name": "Main thoracic curve",
+      "papers": 1
+    },
+    {
+      "name": "Thoracolumbar/lumbar curve",
+      "papers": 1
+    },
+    {
+      "name": "Postoperative instrumentation",
+      "papers": 1
+    },
+    {
+      "name": "Cavernous Ganglioneuroma",
+      "papers": 1
+    },
+    {
+      "name": "Not disease-specific; technical methodology paper",
+      "papers": 1
+    },
+    {
+      "name": "Thoracolumbar metastases",
+      "papers": 1
+    },
+    {
+      "name": "Deep venous thrombosis",
+      "papers": 1
+    },
+    {
+      "name": "Not applicable - imaging/AI validation study",
+      "papers": 1
+    },
+    {
+      "name": "Cystic lesions",
+      "papers": 1
+    },
+    {
+      "name": "Hypervascular Tumor",
+      "papers": 1
+    },
+    {
+      "name": "General spine pathology - study not disease-specific",
+      "papers": 1
+    },
+    {
+      "name": "Dorsal column dysfunction",
+      "papers": 1
+    },
+    {
+      "name": "Hypervascular spinal tumor",
+      "papers": 1
+    },
+    {
+      "name": "Spinal tumor (benign)",
+      "papers": 1
+    },
+    {
+      "name": "Recurrent spinal tumor",
+      "papers": 1
+    },
+    {
+      "name": "Bone metastasis",
+      "papers": 1
+    },
+    {
+      "name": "Spinal solitary bone plasmacytoma",
+      "papers": 1
+    },
+    {
+      "name": "Malignant peripheral nerve sheath tumor (MPNST)",
+      "papers": 1
+    },
+    {
+      "name": "Spindle cell sarcoma",
+      "papers": 1
+    },
+    {
+      "name": "Epidermoid cyst",
+      "papers": 1
+    },
+    {
+      "name": "Bone Mineral Density Loss",
+      "papers": 1
+    },
+    {
+      "name": "Atlas Fracture",
+      "papers": 1
+    },
+    {
+      "name": "Spinal deformity (scoliosis, kyphosis, kyphoscoliosis)",
+      "papers": 1
+    },
+    {
+      "name": "Vertebral collapse",
+      "papers": 1
+    },
+    {
+      "name": "Kümmell's disease",
+      "papers": 1
+    },
+    {
+      "name": "Intravertebral vacuum cleft",
+      "papers": 1
+    },
+    {
+      "name": "L2/3 disk-space collapse",
+      "papers": 1
+    },
+    {
+      "name": "Sacroiliitis",
+      "papers": 1
+    },
+    {
+      "name": "Large-magnitude thoracic curve",
+      "papers": 1
+    },
+    {
+      "name": "Prolapsed Intervertebral Disc",
+      "papers": 1
+    },
+    {
+      "name": "Cervical Disc Disease",
+      "papers": 1
+    },
+    {
+      "name": "Degenerative cervical disc disease",
+      "papers": 1
+    },
+    {
+      "name": "Multilevel cervical disc disease",
+      "papers": 1
+    },
+    {
+      "name": "Congenital Cervical Canal Stenosis",
+      "papers": 1
+    },
+    {
+      "name": "Lumbar stenosis (severe and extreme)",
+      "papers": 1
+    },
+    {
+      "name": "Post-surgery syndrome",
+      "papers": 1
+    },
+    {
+      "name": "Spinal Instability Neoplastic Score 7-12",
+      "papers": 1
+    },
+    {
+      "name": "Vertebral body compression",
+      "papers": 1
+    },
+    {
+      "name": "Vertebral Body Collapse",
+      "papers": 1
+    },
+    {
+      "name": "Unstable Fracture",
+      "papers": 1
+    },
+    {
+      "name": "Pelvic GCTB",
+      "papers": 1
+    },
+    {
+      "name": "Metastatic cancer to spine",
+      "papers": 1
+    },
+    {
+      "name": "Osseous metastatic disease",
+      "papers": 1
+    },
+    {
+      "name": "Giant Cell Tumor of the lumbar spine",
+      "papers": 1
+    },
+    {
+      "name": "Secondary Aneurysmal Bone Cyst",
+      "papers": 1
+    },
+    {
+      "name": "Pulmonary metastasis",
+      "papers": 1
+    },
+    {
+      "name": "Thoracolumbar kyphotic deformity",
+      "papers": 1
+    },
+    {
+      "name": "Angular Spinal Kyphotic Deformity",
+      "papers": 1
+    },
+    {
+      "name": "Yang's Type A Severe Thoracic Spinal Deformity",
+      "papers": 1
+    },
+    {
+      "name": "Sagittal Plane Deformity",
+      "papers": 1
+    },
+    {
+      "name": "Mixed type I/II Modic changes",
+      "papers": 1
+    },
+    {
+      "name": "Vertebrogenic low back pain",
+      "papers": 1
+    },
+    {
+      "name": "Anterior column low back pain",
+      "papers": 1
+    },
+    {
+      "name": "Deformity Recurrence",
+      "papers": 1
+    },
+    {
+      "name": "Spinal Fusion Site Complications",
+      "papers": 1
+    },
+    {
+      "name": "Disc-related diseases",
+      "papers": 1
+    },
+    {
+      "name": "IVD degeneration",
+      "papers": 1
+    },
+    {
+      "name": "Nucleus pulposus cell depletion",
+      "papers": 1
+    },
+    {
+      "name": "Extracellular Matrix Alterations",
+      "papers": 1
+    },
+    {
+      "name": "Annulus fibrosus rupture",
+      "papers": 1
+    },
+    {
+      "name": "Modic Changes (Type 1 - edema type)",
+      "papers": 1
+    },
+    {
+      "name": "Disc Herniation - History of Lumbar",
+      "papers": 1
+    },
+    {
+      "name": "Basivertebral nerve irritation",
+      "papers": 1
+    },
+    {
+      "name": "Disc Desiccation",
+      "papers": 1
+    },
+    {
+      "name": "Annulus fibrosus degeneration",
+      "papers": 1
+    },
+    {
+      "name": "Cartilaginous endplate degeneration",
+      "papers": 1
+    },
+    {
+      "name": "Intervertebral disc degenerative disease",
+      "papers": 1
+    },
+    {
+      "name": "Spinal Infection",
+      "papers": 0
+    },
+    {
+      "name": "Neurological Spine Condition",
+      "papers": 0
+    },
+    {
+      "name": "Surgical Complication",
+      "papers": 0
+    },
+    {
+      "name": "Spinal Comorbidity",
+      "papers": 0
+    },
+    {
+      "name": "Congenital Spine Disorder",
+      "papers": 0
+    },
+    {
+      "name": "Inflammatory Spine Disease",
+      "papers": 0
+    },
+    {
+      "name": "Metabolic Bone Disease",
+      "papers": 0
+    },
+    {
+      "name": "Spinal Pain Syndrome",
+      "papers": 0
+    },
+    {
+      "name": "Post-Implant Assessment",
+      "papers": 0
+    }
+  ],
+  "Anatomy": [
+    {
+      "name": "C1-C2",
+      "papers": 2
+    },
+    {
+      "name": "Cervicothoracic Junction",
+      "papers": 1
+    },
+    {
+      "name": "Craniovertebral Junction",
+      "papers": 1
+    },
+    {
+      "name": "Mobile Spine",
+      "papers": 1
+    },
+    {
+      "name": "L6/S1",
+      "papers": 0
+    },
+    {
+      "name": "single-level cervical",
+      "papers": 0
+    },
+    {
+      "name": "C4-C6",
+      "papers": 0
+    },
+    {
+      "name": "T8-T10 to S1",
+      "papers": 0
+    },
+    {
+      "name": "T1, C7-T2",
+      "papers": 0
+    },
+    {
+      "name": "Multi-level (L1-S1, C3-C7)",
+      "papers": 0
+    },
+    {
+      "name": "cervical-thoracic",
+      "papers": 0
+    },
+    {
+      "name": "L2-S1",
+      "papers": 0
+    },
+    {
+      "name": "L1-S1",
+      "papers": 0
+    },
+    {
+      "name": "Lumbar (L1-5)",
+      "papers": 0
+    },
+    {
+      "name": "T1-T12, L1-L5",
+      "papers": 0
+    },
+    {
+      "name": "Multiple levels",
+      "papers": 0
+    },
+    {
+      "name": "L3-L5",
+      "papers": 0
+    },
+    {
+      "name": "Lumbar facet joints",
+      "papers": 0
+    },
+    {
+      "name": "Thoracic and Lumbar (multiple levels)",
+      "papers": 0
+    },
+    {
+      "name": "D2 (T2)",
+      "papers": 0
+    },
+    {
+      "name": "L2-3, L3-4",
+      "papers": 0
+    },
+    {
+      "name": "C1-2",
+      "papers": 0
+    },
+    {
+      "name": "L1-L5",
+      "papers": 0
+    },
+    {
+      "name": "T1-T12",
+      "papers": 0
+    },
+    {
+      "name": "L1-2, L2-3",
+      "papers": 0
+    },
+    {
+      "name": "C3-C7",
+      "papers": 0
+    },
+    {
+      "name": "L5/S1",
+      "papers": 0
+    },
+    {
+      "name": "C5/C6",
+      "papers": 0
+    },
+    {
+      "name": "T10-L5",
+      "papers": 0
+    },
+    {
+      "name": "L3-L4-L5, L4-L5-S1",
+      "papers": 0
+    },
+    {
+      "name": "C-spine and L-spine (multiple levels)",
+      "papers": 0
+    },
+    {
+      "name": "Lumbar (specific level not detailed)",
+      "papers": 0
+    },
+    {
+      "name": "T4-L1",
+      "papers": 0
+    },
+    {
+      "name": "Single-level lumbar",
+      "papers": 0
+    },
+    {
+      "name": "Lumbar (multi-level)",
+      "papers": 0
+    },
+    {
+      "name": "C3-C7/Th1",
+      "papers": 0
+    },
+    {
+      "name": "thoracic-lumbar",
+      "papers": 0
+    },
+    {
+      "name": "Lumbar (specific levels not detailed in provided text)",
+      "papers": 0
+    },
+    {
+      "name": "T1-S1",
+      "papers": 0
+    },
+    {
+      "name": "T5-L1",
+      "papers": 0
+    },
+    {
+      "name": "T7-L2",
+      "papers": 0
+    },
+    {
+      "name": "T1-T12, T12-L1-L5, T12-L1-S1, sacrum",
+      "papers": 0
+    },
+    {
+      "name": "Cervical, Lumbar, Thoracolumbar, Lumbosacral",
+      "papers": 0
+    },
+    {
+      "name": "C-spine to S1",
+      "papers": 0
+    },
+    {
+      "name": "L4-L5",
+      "papers": 0
+    },
+    {
+      "name": "T9-12 to Pelvis",
+      "papers": 0
+    },
+    {
+      "name": "L2-L5",
+      "papers": 0
+    },
+    {
+      "name": "L3-S1",
+      "papers": 0
+    },
+    {
+      "name": "Single-Segment Lumbar",
+      "papers": 0
+    },
+    {
+      "name": "Mixed/Multiple levels",
+      "papers": 0
+    },
+    {
+      "name": "L2-S1 (majority L5-S1)",
+      "papers": 0
+    },
+    {
+      "name": "Cervical, Thoracic, Lumbar, Sacral",
+      "papers": 0
+    },
+    {
+      "name": "Thoracolumbar/Lumbosacral",
+      "papers": 0
+    },
+    {
+      "name": "C5-C6",
+      "papers": 0
+    },
+    {
+      "name": "L4-5, L3-S1, cervical, thoracic",
+      "papers": 0
+    },
+    {
+      "name": "L3-L4",
+      "papers": 0
+    },
+    {
+      "name": "L2-3, L3-4, L4-5, L5-S1",
+      "papers": 0
+    },
+    {
+      "name": "L2-5",
+      "papers": 0
+    },
+    {
+      "name": "thoracic/lumbar/lumbosacral",
+      "papers": 0
+    },
+    {
+      "name": "cervical/lumbar/thoracolumbar/lumbosacral",
+      "papers": 0
+    },
+    {
+      "name": "cervical/thoracic/lumbar/sacral/lumbosacral",
+      "papers": 0
+    },
+    {
+      "name": "thoracic, lumbar, sacral",
+      "papers": 0
+    },
+    {
+      "name": "cervical, thoracic, lumbar, lumbosacral",
+      "papers": 0
+    },
+    {
+      "name": "thoracic/lumbar/thoracolumbar",
+      "papers": 0
+    },
+    {
+      "name": "thoracic, lumbar, thoracolumbar",
+      "papers": 0
+    },
+    {
+      "name": "thoracolumbar, lumbar, sacral, lumbosacral",
+      "papers": 0
+    },
+    {
+      "name": "L2-S1, lower thoracic to sacral",
+      "papers": 0
+    },
+    {
+      "name": "cervical/thoracic/lumbar",
+      "papers": 0
+    },
+    {
+      "name": "thoracic, lumbar, sacral, thoracolumbar, lumbosacral",
+      "papers": 0
+    },
+    {
+      "name": "L4-5, L5-S1",
+      "papers": 0
+    },
+    {
+      "name": "thoracic/lumbar",
+      "papers": 0
+    },
+    {
+      "name": "cervical/thoracic",
+      "papers": 0
+    },
+    {
+      "name": "Lumbar (multiple levels)",
+      "papers": 0
+    },
+    {
+      "name": "C-spine",
+      "papers": 0
+    },
+    {
+      "name": "L-spine (multiple levels)",
+      "papers": 0
+    },
+    {
+      "name": "L3-L4-L5",
+      "papers": 0
+    },
+    {
+      "name": "L4-L5 (typical for OLIF",
+      "papers": 0
+    },
+    {
+      "name": "Multi-level (L1-S1",
+      "papers": 0
+    },
+    {
+      "name": "C3-C7)",
+      "papers": 0
+    },
+    {
+      "name": "L4-5, L5-S1, L3-4",
+      "papers": 0
+    },
+    {
+      "name": "L3-4, L4-5, L5-S1",
+      "papers": 0
+    },
+    {
+      "name": "T12-L2, L3-L5",
+      "papers": 0
+    },
+    {
+      "name": "Lumbo-sacral",
+      "papers": 0
+    },
+    {
+      "name": "Thoracic and lumbosacral levels not further specified",
+      "papers": 0
+    },
+    {
+      "name": "T1-L5",
+      "papers": 0
+    },
+    {
+      "name": "L2-L5, L5-S1",
+      "papers": 0
+    },
+    {
+      "name": "L2-L4",
+      "papers": 0
+    },
+    {
+      "name": "L3-L5, L4-L5",
+      "papers": 0
+    },
+    {
+      "name": "L-spine",
+      "papers": 0
+    },
+    {
+      "name": "L1-L5, L5-S1",
+      "papers": 0
+    },
+    {
+      "name": "L4-5, L5-S1, multilevel",
+      "papers": 0
+    },
+    {
+      "name": "L1-2, L3-4, L5-6",
+      "papers": 0
+    },
+    {
+      "name": "L4-5, L5-S1, L4-L5-S1",
+      "papers": 0
+    },
+    {
+      "name": "L4-5, L3-4, multi-level",
+      "papers": 0
+    },
+    {
+      "name": "L4-5, L5-S1, multi-level",
+      "papers": 0
+    },
+    {
+      "name": "L3-4, L4-5",
+      "papers": 0
+    },
+    {
+      "name": "T12-L5",
+      "papers": 0
+    },
+    {
+      "name": "L1-sacrum",
+      "papers": 0
+    },
+    {
+      "name": "L1-S1, C5-C7, T1-T12",
+      "papers": 0
+    },
+    {
+      "name": "L1-S",
+      "papers": 0
+    },
+    {
+      "name": "Sacral (multiple levels)",
+      "papers": 0
+    },
+    {
+      "name": "L2-L3, L3",
+      "papers": 0
+    },
+    {
+      "name": "L4-L5, L5-S1",
+      "papers": 0
+    },
+    {
+      "name": "C1-C7",
+      "papers": 0
+    },
+    {
+      "name": "Multi-level lumbar",
+      "papers": 0
+    },
+    {
+      "name": "Thoracolumbar-to-pelvis",
+      "papers": 0
+    },
+    {
+      "name": "L1-S1, C3-C7",
+      "papers": 0
+    },
+    {
+      "name": "cervical/lumbar",
+      "papers": 0
+    },
+    {
+      "name": "T1-2",
+      "papers": 0
+    },
+    {
+      "name": "L5-6",
+      "papers": 0
+    },
+    {
+      "name": "L2-L3",
+      "papers": 0
+    },
+    {
+      "name": "L4-L5-S1",
+      "papers": 0
+    },
+    {
+      "name": "T12-L1-L5",
+      "papers": 0
+    },
+    {
+      "name": "T12-L1-S1",
+      "papers": 0
+    },
+    {
+      "name": "Whole Spine",
+      "papers": 0
+    },
+    {
+      "name": "Pelvis",
+      "papers": 0
+    },
+    {
+      "name": "Sacrum",
+      "papers": 0
+    },
+    {
+      "name": "Multilevel",
+      "papers": 0
+    },
+    {
+      "name": "Lumbosacral levels not further specified",
+      "papers": 0
+    },
+    {
+      "name": "Spine",
+      "papers": 0
+    },
+    {
+      "name": "Lower thoracic to sacral",
+      "papers": 0
+    },
+    {
+      "name": "Coccygeal vertebrae (Co2-Co3 implied)",
+      "papers": 0
+    },
+    {
+      "name": "not reported",
+      "papers": 0
+    },
+    {
+      "name": "not-specified",
+      "papers": 0
+    },
+    {
+      "name": "not applicable - general radiography",
+      "papers": 0
+    },
+    {
+      "name": "T-L",
+      "papers": 0
+    },
+    {
+      "name": "Not applicable",
+      "papers": 0
+    },
+    {
+      "name": "Not specified (multi-level)",
+      "papers": 0
+    },
+    {
+      "name": "Cervical, Thoracolumbar, Multi-level",
+      "papers": 0
+    },
+    {
+      "name": "Not specified",
+      "papers": 0
+    },
+    {
+      "name": "Multi-regional (spinal metastases)",
+      "papers": 0
+    },
+    {
+      "name": "C-L (cervical to lumbar, mixed cohort)",
+      "papers": 0
+    },
+    {
+      "name": "Not specified - multiple levels",
+      "papers": 0
+    },
+    {
+      "name": "Multi-level (cervical, thoracic, lumbar, sacral)",
+      "papers": 0
+    },
+    {
+      "name": "Varied (cervical, thoracic, lumbar)",
+      "papers": 0
+    },
+    {
+      "name": "variable",
+      "papers": 0
+    },
+    {
+      "name": "Not specified - multiple spinal levels",
+      "papers": 0
+    },
+    {
+      "name": "Mixed (C-spine, T-spine, L-spine, S-spine)",
+      "papers": 0
+    },
+    {
+      "name": "Not specifically reported",
+      "papers": 0
+    },
+    {
+      "name": "Varied (thoracic, lumbar, sacral)",
+      "papers": 0
+    },
+    {
+      "name": "Multi-level (cervical to lumbosacral)",
+      "papers": 0
+    },
+    {
+      "name": "Variable (all spinal levels)",
+      "papers": 0
+    },
+    {
+      "name": "Not specified in abstract",
+      "papers": 0
+    },
+    {
+      "name": "Not specified (variable levels)",
+      "papers": 0
+    },
+    {
+      "name": "Multi-level (variable)",
+      "papers": 0
+    },
+    {
+      "name": "Intervertebral disc (multi-level)",
+      "papers": 0
+    },
+    {
+      "name": "not applicable - tissue engineering study",
+      "papers": 0
+    },
+    {
+      "name": "Intervertebral disc (all levels)",
+      "papers": 0
+    },
+    {
+      "name": "Posterolateral",
+      "papers": 0
+    },
+    {
+      "name": "Not specified (general IVD)",
+      "papers": 0
+    },
+    {
+      "name": "C-L (cervical to lumbar",
+      "papers": 0
+    },
+    {
+      "name": "Mixed cohort)",
+      "papers": 0
+    },
+    {
+      "name": "Mixed (C-spine",
+      "papers": 0
+    },
+    {
+      "name": "T-spine",
+      "papers": 0
+    },
+    {
+      "name": "S-spine)",
+      "papers": 0
+    },
+    {
+      "name": "Multi-level (cervical",
+      "papers": 0
+    },
+    {
+      "name": "Sacral)",
+      "papers": 0
+    },
+    {
+      "name": "Varied (cervical",
+      "papers": 0
+    },
+    {
+      "name": "Lumbar)",
+      "papers": 0
+    },
+    {
+      "name": "Varied (thoracic",
+      "papers": 0
+    }
+  ]
+}
