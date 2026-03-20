@@ -55,66 +55,63 @@ The literature lacks robust evidence demonstrating structural/biological disc re
 ---
 
 ## System B
-**Papers retrieved**: 6
-**Evidence levels**: ['2a', '5', '5', '4', '5', '5']
+**Papers retrieved**: 5
+**Evidence levels**: ['2a', '5', '5', '5', '5']
 
 ### Cited Papers
 - [2a] pubmed_41608524: Stem Cell-Based Strategies for Intervertebral Disc Regeneration: A Systematic Re
 - [5] pubmed_41163783: Endogenous Stem Cell-Mediated Repair of Degenerated Intervertebral Disc Annulus 
 - [5] pubmed_41450738: Mesenchymal Stem Cell Therapy for Intervertebral Disc Regeneration: Microenviron
-- [4] pubmed_41459417: Extracellular Vesicles in Intervertebral Disc Degeneration: A Scoping Review on 
 - [5] pubmed_41595972: Degenerative Disc Disease: Pathophysiology, Epidemiology, and Emerging Regenerat
 - [5] pubmed_41683563: Immunometabolism in Intervertebral Disc Degeneration and Regeneration: Pathophys
 
 ### Answer
 
-# Evidence Summary: Stem Cell Therapy for Intervertebral Disc Degeneration
+# Evidence for Stem Cell Therapy in Intervertebral Disc Degeneration
 
 ## Clinical Trial Evidence
 
-### Patient Outcomes
-**Pain Reduction:** Autologous bone marrow-derived MSC injections demonstrated **70% pain reduction (VAS)** at 12 months in preliminary Phase I/II clinical trials [pubmed_41163783].
+**Current Trial Landscape** [pubmed_41450738]
+- As of January 2025, 18 registered clinical trial strategies investigating MSC-based treatments for lumbar intervertebral disc degeneration
+  - 13 trials: bone marrow-derived MSCs (BM-MSCs)
+  - 3 trials: adipose-derived stem cells (ADSCs)
+  - 2 trials: umbilical cord-derived MSCs
+(Evidence level: 5 - registry data)
 
-**Disc Height Restoration:** Despite pain improvements, disc height restoration remained **below 15%** [pubmed_41163783], indicating limited structural regeneration in early trials.
-
-**MRI T2-Signal Improvement:** **35% improvement** in T2-signal at 12 months, suggesting modest changes in disc water content [pubmed_41163783].
-
-### Clinical Trial Volume and Design
-As of January 2025, **18 registered clinical trial strategies** for MSC-based lumbar disc degeneration treatment have been documented, comprising: [pubmed_41450738]
-- 13 trials using bone marrow-derived MSCs (BM-MSCs)
-- 3 trials using adipose-derived stem cells (ADSCs)
-- 2 trials using umbilical cord-derived MSCs
+**Clinical Outcomes from Phase I/II Trials** [pubmed_41163783]
+- Autologous bone marrow-derived MSC injections:
+  - **Pain reduction**: 70% improvement in VAS at 12 months
+  - **MRI T2-signal improvement**: 35% at 12 months
+  - **Disc height restoration**: <15% (limited)
+- Tricalcium phosphate scaffolds + MSCs:
+  - **Fusion rates**: 80% for lumbar fusion
+  - **Safety**: No severe adverse events reported
+(Evidence level: 5 - Phase I/II clinical trials)
 
 ## Preclinical Evidence
 
-**Evidence Level 2a** systematic review demonstrates consistent improvements in animal models and in vitro studies including: [pubmed_41608524]
-- Restoration of disc height index
-- Increased water content
-- Improved proteoglycan/collagen composition
-- Recovery of biomechanical properties
+**Structural and Biomechanical Improvements** [pubmed_41608524]
+- Animal models and in vitro studies consistently demonstrated:
+  - Restoration of disc height index
+  - Increased water content
+  - Improved proteoglycan/collagen composition
+(Evidence level: 2a - systematic review of preclinical evidence)
 
-## Proposed Mechanisms
+## Mechanistic Basis
 
-MSCs are hypothesized to function through **paracrine mechanisms**, including: [pubmed_41595972]
-- Secretion of anti-inflammatory cytokines (IL-10, TGF-β)
-- Growth factor production (bFGF, VEGF)
-- Suppression of local inflammatory responses
-- Promotion of anabolic disc repair
-
-Additional mechanisms identified: [pubmed_41683563]
-- Immunomodulation
-- Extracellular matrix synthesis promotion
-- Oxidative stress reduction
-
-## Extracellular Vesicle Evidence
-
-Among 211 extracellular vesicle (EV) functional studies, only **8 studies with complete MISEV controls** demonstrated EV-specific regenerative effects, including disc height preservation and anti-apoptotic effects in vivo [pubmed_41459417].
+**Therapeutic Mechanisms** [pubmed_41595972], [pubmed_41683563]
+MSCs function through multiple pathways:
+- **Paracrine signaling**: Secretion of anti-inflammatory cytokines (IL-10, TGF-β)
+- **Growth factor delivery**: bFGF, VEGF promotion
+- **Immunomodulation**: Suppression of local inflammatory responses
+- **ECM synthesis promotion** and oxidative stress reduction
+(Evidence level: 5 - mechanistic reviews)
 
 ## Evidence Gaps
 
-- **Limited structural regeneration:** Disc height restoration remains minimal despite clinical symptom improvement
-- **EV-specific evidence:** High heterogeneity in EV study methodologies with limited rigorous controls
-- **Long-term outcomes:** Most reported data at 12 months; durability beyond this timeframe unclear
-- **Comparative effectiveness:** No head-to-head trials comparing different stem cell sources or delivery methods documented in provided papers
+- Limited long-term clinical outcome data beyond 12 months
+- Disc height restoration remains modest (<15%) despite pain improvement
+- Heterogeneity in trial designs and cell sources limits direct comparison
+- Lack of head-to-head comparative effectiveness studies between different MSC sources
 
 ---

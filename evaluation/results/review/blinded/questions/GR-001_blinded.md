@@ -4,7 +4,7 @@
 
 ## System A
 **Papers retrieved**: 10
-**Evidence levels**: ['1a', '1a', '1a', '1a', '1b', '1a', '1a', '1a', '1a', '1b']
+**Evidence levels**: ['1a', '1a', '1a', '1a', '1b', '1b', '1a', '1a', '1a', '1a']
 
 ### Cited Papers
 - [1a] pubmed_39577647: Network Meta-Analysis of Surgical Approaches for Lumbar Spinal Stenosis: Compari
@@ -12,11 +12,11 @@
 - [1a] pubmed_39575449: Minimally Invasive Laminectomy versus Open Laminectomy for Lumbar Spinal Stenosi
 - [1a] pubmed_39030552: Effectiveness and safety of different posterior decompression techniques for lum
 - [1b] pubmed_39988823: Effectiveness and Safety of Surgiflo Hemostatic Matrix in Unilateral Biportal En
-- [1a] pubmed_39379938: Comparative effectiveness and safety of surgical interventions for degenerative 
+- [1b] pubmed_39322595: Unilateral biportal endoscopic transforaminal lumbar interbody fusion versus mic
 - [1a] pubmed_38190892: Endoscopic versus Microscopic Decompression for Treatment of Lumbar Spinal Steno
+- [1a] pubmed_39379938: Comparative effectiveness and safety of surgical interventions for degenerative 
 - [1a] pubmed_41354742: Minimally Invasive Tubular Decompression versus Open Laminectomy for Lumbar Spin
 - [1a] pubmed_36991184: Uniportal versus Biportal Endoscopic Decompression for Lumbar Spinal Stenosis: A
-- [1b] pubmed_41002072: Biportal Endoscopic Laminectomy versus Microscopic Laminectomy for Lumbar Spinal
 
 ### Answer
 
@@ -24,46 +24,66 @@
 
 ## Available Surgical Interventions
 
-The following surgical approaches are available for treating lumbar spinal stenosis [pubmed_39577647, pubmed_26824399, pubmed_39030552, pubmed_39379938]:
+Based on the network meta-analysis and systematic reviews, the following surgical approaches are available for lumbar spinal stenosis (LSS):
 
-1. **Laminotomy** - minimal tissue disruption approach [pubmed_39577647]
-2. **Traditional/Open laminectomy** - standard open decompression [pubmed_39577647, pubmed_41354742]
-3. **Decompression alone** - without fusion [pubmed_39577647, pubmed_39379938]
-4. **Decompression plus fusion** - combined approach [pubmed_39577647, pubmed_39379938]
-5. **Endoscopic decompression** - minimally invasive endoscopic technique [pubmed_39577647, pubmed_38190892, pubmed_36991184]
-6. **Minimally invasive laminectomy (MIL)** - alternative to open laminectomy [pubmed_39575449]
-7. **Minimally invasive tubular decompression** - tube-based minimally invasive approach [pubmed_41354742]
-8. **Interspinous process spacer devices** - implanted device approach [pubmed_39379938]
-9. **Biportal endoscopic laminectomy** - two-portal endoscopic technique [pubmed_36991184, pubmed_41002072]
-10. **Uniportal endoscopic decompression** - single-portal endoscopic technique [pubmed_36991184]
+### Decompression-Based Techniques
+1. **Open Laminectomy** - traditional standard reference approach [pubmed_39030552, pubmed_41354742]
+2. **Laminotomy** - minimal tissue disruption approach [pubmed_39577647]
+3. **Minimally Invasive Laminectomy (MIL)** [pubmed_39575449]
+4. **Minimally Invasive Tubular Decompression** [pubmed_41354742]
+
+### Endoscopic Approaches
+5. **Endoscopic Decompression** - general endoscopic technique [pubmed_38190892]
+6. **Uniportal Endoscopic Decompression** [pubmed_36991184]
+7. **Biportal Endoscopic Decompression** - including unilateral biportal endoscopic unilateral laminotomy for bilateral decompression [pubmed_39988823, pubmed_36991184]
+
+### Combined Approaches
+8. **Decompression Alone** - without fusion [pubmed_39577647]
+9. **Decompression Plus Fusion** - combined approach [pubmed_39577647]
+10. **Transforaminal Lumbar Interbody Fusion (TLIF)** - microscopic tubular technique (MT-TLIF) [pubmed_39322595]
+11. **Unilateral Biportal Endoscopic TLIF (UBE-TLIF)** - novel endoscopic fusion technique [pubmed_39322595]
+
+### Device-Based Approaches
+12. **Interspinous Process Spacer Devices** [pubmed_39379938]
 
 ---
 
 ## Complication Profile Comparison
 
-### Reoperation Rates
-**Minimally invasive laminectomy (MIL) vs. open laminectomy:** MIL demonstrated **lower reoperation rates** compared to open laminectomy, attributed to less bone disruption providing better biomechanical stability [pubmed_39575449] (Evidence: 1a, systematic review).
+### Minimally Invasive Laminectomy vs. Open Laminectomy
 
-### Overall Complication Rates
-**Minimally invasive laminectomy demonstrated lower complication rates** than open laminectomy [pubmed_39575449] (Evidence: 1a, systematic review). The mechanism relates to **reduced soft tissue trauma** from open surgery approaches [pubmed_39988823, pubmed_41354742].
+**Lower Complication Rates with MIL:**
+- Minimally invasive laminectomy demonstrates **lower reoperation rates and complication rates** compared to open laminectomy [pubmed_39575449]
+- Mechanism: MIL causes **less bone disruption**, providing **better biomechanical stability** [pubmed_39575449]
+- Reduced soft tissue and bony structure trauma with MIL compared to open approaches [pubmed_39988823, pubmed_39988823]
 
-### Hemorrhage/Hemostasis Considerations
-LSS patients have **increased risk of intraoperative spinal canal bleeding** due to prolonged epidural venous compression [pubmed_39988823] (Evidence: 1b, observational study). Endoscopic techniques are noted to **minimize approach-related morbidity** [pubmed_38190892] (Evidence: 1a, systematic review).
+### Endoscopic Decompression Outcomes
 
-### Endoscopic Decompression Profile
-Endoscopic decompression has **emerged as a technique which minimizes approach-related morbidity while achieving similar clinical outcomes** to conventional open or microscopic approaches [pubmed_38190892] (Evidence: 1a, systematic review).
+**Safety Profile:**
+- Endoscopic decompression **minimizes approach-related morbidity** while achieving similar clinical outcomes to conventional open or microscopic approaches [pubmed_38190892]
+- Endoscopic techniques have outcomes **similar to more traditional approaches** [pubmed_36991184]
+
+**Hemostasis Considerations:**
+- LSS patients have **increased risk of intraoperative spinal canal bleeding** due to prolonged epidural venous compression [pubmed_39988823]
+- Hemostatic matrices (e.g., Surgiflo) can be utilized in endoscopic techniques to manage bleeding risk [pubmed_39988823]
+
+### Network Meta-Analysis Evidence
+
+The network meta-analysis [pubmed_39030552] evaluated posterior decompression techniques as the standard surgical treatment, with conventional laminectomy historically serving as the reference standard, though specific complication comparisons across all nine interventions are not detailed in the provided summary.
 
 ---
 
 ## Evidence Gaps
 
-1. **Specific complication rates by intervention type:** The papers discuss complication reduction conceptually but do not provide detailed numerical comparisons of specific adverse events (infection rates, neurological injury, CSF leak, etc.) across all nine techniques.
+The provided papers do not contain:
+- Detailed quantitative complication rate comparisons across all nine surgical techniques [pubmed_39577647]
+- Specific complication profiles for interspinous process spacer devices [pubmed_39379938]
+- Long-term complication data (>5 years) across different approaches
+- Comparative infection rates, neurological injury rates, or reoperation rates by specific technique
+- Direct outcome comparisons between decompression alone versus decompression with fusion regarding complication profiles [pubmed_39379938]
 
-2. **Long-term complication profiles:** Most evidence focuses on short-term outcomes; long-term complication trajectories across interventions remain incompletely characterized.
-
-3. **Interspinous device complications:** Limited specific safety data provided for interspinous process spacer devices [pubmed_39379938].
-
-4. **Direct comparative effectiveness:** While network meta-analysis methodology was employed [pubmed_39577647, pubmed_39030552], specific head-to-head complication comparisons between all intervention pairs are not fully detailed in the provided summaries.
+### Note on Conservative Treatment
+Conservative care (exercise, physical therapy, NSAIDs, epidural steroid injections) is recommended as initial treatment before surgical intervention [pubmed_41354742, pubmed_39379938].
 
 ---
 

@@ -71,81 +71,53 @@ Robot-assisted pedicle screw placement achieves **significantly superior accurac
 ---
 
 ## System B
-**Papers retrieved**: 9
-**Evidence levels**: ['1a', '2b', '1a', '4', '1a', '2b', '1b', '4', '2b']
+**Papers retrieved**: 7
+**Evidence levels**: ['1a', '1a', '1a', '1a', '2b', '2b', '2b']
 
 ### Cited Papers
-- [1a] pubmed_40858315: Facet Joint Violation During Pedicle Screw Fixation: A Scoping Review of Prevale
-- [2b] pubmed_36455162: Robotic-Assisted Navigation with O-Arm or 3D C-Arm versus Freehand Technique for
-- [1a] pubmed_39763360: Correlation between Radiographically Evident Medial Pedicle Screw Breaching and 
-- [4] pubmed_41253301: Robotic-assisted laminectomy: A narrative review of cutting tools, resection str
-- [1a] pubmed_40887069: S2 Alar-Iliac versus Iliac Screw Fixation in Adult Spinal Deformity: A Systemati
-- [2b] pubmed_41106599: Association Between Stereotactic Navigation and Postoperative Infection Followin
-- [1b] pubmed_40123565: Comparison of Four-Screw versus Two-Screw Internal Fixation in Anterior Cervical
-- [4] doi_10-3346_jkms-2020-35-e125: Preoperative Planning System for Pedicle-Screw Fixation in Patients with Anatomi
-- [2b] pubmed_41249940: Comparison of deep learning models for real-time neural tissue segmentation in s
+- [1a] pubmed_38968628: Comparative Effectiveness of Spinal Robotic Systems for Pedicle Screw Placement:
+- [1a] pubmed_40932300: Robot-Assisted Versus Conventional Surgery for Pedicle Screw Instrumentation in 
+- [1a] pubmed_40560372: Network Meta-Analysis of Robot-Assisted Spinal Surgery Platforms: A Comparative 
+- [1a] pubmed_41074646: Bayesian Network Meta-Analysis of Four Surgical Techniques for Thoracolumbar Fra
+- [2b] pubmed_40357444: Robot-Assisted Versus Fluoroscopy-Guided Pedicle Screw Fixation in Adult Degener
+- [2b] pubmed_38849051: Pedicle Screw Placement Accuracy: 3D Navigation versus Robotic Arm-Guided System
+- [2b] pubmed_39616635: Robot-Assisted versus Navigation-Guided Percutaneous Pedicle Screw Placement in 
 
 ### Answer
 
-# Clinical Outcomes of Robotic-Assisted vs. Freehand Pedicle Screw Placement
+# Clinical Outcomes and Complications: Robotic-Assisted vs Freehand Pedicle Screw Placement
 
-## Evidence Chain
+## Accuracy Outcomes
 
-```
-Robotic-Assisted Pedicle Screw Placement → IMPROVES → Screw Accuracy & Safety
-                                          → REDUCES → Facet Joint Violation
-                                          → REDUCES → Radiation Exposure
+**Pedicle Screw Accuracy:**
+Robotic-assisted systems demonstrated significantly superior accuracy compared to freehand insertion [pubmed_38968628 - systematic review and meta-analysis, Evidence 1a]. Specifically, ExcelsiusGPS showed significantly higher accuracy than freehand techniques, while Mazor X and ROSA demonstrated significantly higher accuracy compared to fluoroscopic guidance [pubmed_38968628].
 
-Freehand Pedicle Screw Placement         → ASSOCIATED WITH → Higher Malposition Rates
-                                          → ASSOCIATED WITH → Higher Facet Joint Violation
-```
+In the lumbar spine, the robotic arm-guided system achieved substantially higher no-breach accuracy rates compared to 3D navigation (which is superior to freehand): at L3, robotic guidance achieved 91.3% versus 57.8% for navigation [pubmed_38849051 - comparative study, Evidence 2b].
 
-## Findings by Outcome Domain
+**Screw Trajectory and Facet Violations:**
+Robot-assisted technique in adult degenerative scoliosis demonstrated better screw trajectory with larger inward tilt angles (21.5° vs 16.9°, p<0.0001) and significantly reduced facet joint violations (7.9% vs 20.1% hazardous violations, p<0.0001) compared to fluoroscopy-guided fixation [pubmed_40357444 - retrospective comparative study, Evidence 2b].
 
-### Outcome: Screw Accuracy
+## Clinical Outcomes Gap
 
-**Overall Accuracy Rates:**
-- [pubmed_39763360] (Evidence Level: 1a, Systematic Review & Meta-Analysis): Meta-analysis found no significant difference in pedicle screw placement accuracy among robot-assisted, CT navigation-guided, fluoroscopy-assisted, and freehand techniques. Accuracy rates: Robot-assisted 90.5%, CT navigation-guided 95.5%, Fluoroscopy-assisted 91.5%, Freehand 93.1%.
+**No Improvement in Functional Outcomes:**
+Despite superior technical accuracy, robot-assisted surgery did **not translate to improved clinical outcomes** [pubmed_40932300 - systematic review and meta-analysis, Evidence 1a]. The authors note that while robotic systems improve accuracy through computer-assisted navigation, steady robotic arm control, advanced collision detection software, and elimination of hand tremor/fatigue, deformity correction and clinical results depend on multiple factors beyond screw placement accuracy, including surgical approach selection and other inherited variables.
 
-**Specific Technical Improvements:**
-- [pubmed_36455162] (Evidence Level: 2b, Comparative Study): Robotic-assisted navigation using O-arm or 3D C-arm-assisted pedicle screw insertion can improve the accuracy and safety of screw insertion in scoliosis surgery. Most misplaced screws were clinically acceptable. Study notes that controlling patient tidal volume and reducing intraoperative movement during robotic navigation is critical for optimizing accuracy.
+## Radiation Exposure
 
-### Outcome: Facet Joint Violation (Malposition)
+**Reduced Radiation:**
+Robot-assisted technique significantly reduced radiation exposure (9.4 vs 27.7 scans, p<0.001) compared to fluoroscopy-guided fixation [pubmed_40357444].
 
-- [pubmed_40858315] (Evidence Level: 1a, Scoping Review): Robotic-assisted percutaneous pedicle screw placement achieves 4.79% facet joint violation (FJV) prevalence compared to 19.45% with freehand techniques—a substantial reduction. Navigation-guided systems provide intermediate protection through real-time imaging and trajectory optimization. Open approaches demonstrate variable FJV rates depending on surgeon experience and technique.
+## Operative Time
 
-### Outcome: Radiation Exposure
+**Similar Surgical Duration:**
+K-wire placement time was similar between robot-assisted and fluoroscopy-guided techniques (62.7 vs 55.7 minutes, p=0.174), suggesting no operative time penalty [pubmed_40357444].
 
-- [pubmed_41253301] (Evidence Level: 4, Narrative Review): Robotic technology has revolutionized pedicle screw placement with improved accuracy and reduced radiation exposure.
+## Important Evidence Limitations
 
-### Outcome: Operative Time
+**Bias in Literature:**
+A network meta-analysis identified significant source bias in manufacturer-sponsored research, with 60% of TiRobot studies and 30% of SpineAssist studies containing potential conflicts of interest [pubmed_40560372 - Evidence 1a].
 
-- [pubmed_40887069] (Evidence Level: 1a, Meta-Analysis): No significant difference in operation times between different surgical techniques (though this specifically compared S2AI vs. iliac screws, it demonstrates comparable operative efficiency across methods).
-
-### Outcome: Complications & Safety Profile
-
-- [pubmed_41106599] (Evidence Level: 2b, Database Analysis): Use of stereotactic navigation systems in posterior/posterolateral thoracic and lumbar fusion procedures is associated with **increased odds of postoperative infection**. This highlights a complex relationship between navigation and surgical outcomes, necessitating further research to optimize use and improve patient safety.
-
-- [pubmed_40123565] (Evidence Level: 1b, Randomized Controlled Trial): The prevalence of complications was not significantly different between different fixation approaches. Both techniques demonstrated acceptable safety profiles.
-
-## Evidence Summary
-
-**Screw Accuracy:** Evidence is mixed regarding superiority. While robotic-assisted techniques show promise in improving accuracy and reducing facet joint violation [pubmed_40858315; Evidence 1a], a comprehensive meta-analysis [pubmed_39763360; Evidence 1a] found no statistically significant difference in overall accuracy rates between robotic-assisted (90.5%) and freehand (93.1%) techniques, though the freehand rate was numerically higher.
-
-**Facet Joint Violation:** Robotic-assisted techniques demonstrate clear superiority, reducing FJV to 4.79% compared to 19.45% with freehand techniques—a clinically meaningful 75% relative risk reduction [pubmed_40858315; Evidence 1a].
-
-**Radiation Exposure:** Robotic technology reduces radiation exposure compared to conventional methods [pubmed_41253301; Evidence 4].
-
-**Safety Concerns:** An important counterintuitive finding indicates that stereotactic navigation is associated with increased postoperative infection rates [pubmed_41106599; Evidence 2b], suggesting that technological advancement may introduce unforeseen complications requiring careful clinical monitoring.
-
-## Evidence Gaps
-
-- **Direct head-to-head trials:** No randomized controlled trials directly comparing robotic-assisted versus freehand pedicle screw placement with comprehensive outcome assessment
-- **Neurologic deficits:** While facet joint violation is documented, the relationship between robotic technique choice and clinically significant neurologic complications lacks direct evidence
-- **Cost-effectiveness analysis:** No economic outcome data comparing robotic versus freehand approaches
-- **Long-term revision rates:** Limited evidence on revision surgery rates and adjacent segment disease progression between techniques
-- **Infection mechanism clarification:** The increased infection risk with navigation systems [pubmed_41106599] requires mechanistic investigation
-- **Surgeon experience effects:** Limited data on how the learning curve and surgeon experience affect outcomes with robotic versus freehand techniques
-- **Patient-specific variables:** Minimal data on which patient populations (e.g., obesity, anatomical variants) benefit most from robotic assistance
+**Clinical Outcome Data Absent:**
+The provided papers do not contain specific comparative data on functional outcomes, complication rates (infection, neurological injury, hardware failure), pain scores, or disability measures between robotic-assisted and freehand techniques.
 
 ---

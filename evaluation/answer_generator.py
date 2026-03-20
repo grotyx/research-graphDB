@@ -259,6 +259,11 @@ async def generate_answer_b4_graphrag(
     if graph_hint:
         system_prompt += f"\n\nKnowledge graph context: {graph_hint}"
 
+    # v9: GR 질문에만 Graph traversal 결과 추가 (system prompt에 요약)
+    graph_traversal_summary = await _get_graph_traversal_summary(neo4j_client, question)
+    if graph_traversal_summary:
+        system_prompt += f"\n\nGraph traversal evidence:\n{graph_traversal_summary}"
+
     answer = await _call_llm(
         system_prompt=system_prompt,
         user_prompt=f"## Retrieved Papers\n\n{context}\n\n## Clinical Question\n\n{question}",
@@ -398,6 +403,87 @@ async def _get_embedding(text: str) -> list[float]:
         dimensions=3072,
     )
     return response.data[0].embedding
+
+
+async def _get_graph_traversal_summary(neo4j_client: Any, question: str) -> str:
+    """Get graph traversal summary for questions that benefit from it.
+
+    Detects question type and runs appropriate graph traversal:
+    - "all interventions" / "compare" → list interventions + outcomes from graph
+    - "evidence chain" → traverse intervention→pathology→outcome chain
+
+    Returns short summary for system prompt (not context — v6 lesson).
+    Returns empty string if not applicable.
+    """
+    q = question.lower()
+
+    try:
+        from solver.graph_traversal_search import GraphTraversalSearch
+        gts = GraphTraversalSearch(neo4j_client)
+
+        # Type 1: "all interventions for pathology" → list from graph
+        if any(kw in q for kw in ["all", "available", "every", "모든", "전체", "가능한"]):
+            # Extract pathology from question
+            entities = await _extract_entities_from_question(question)
+            pathologies = entities.get("pathologies", [])
+            if pathologies:
+                path_name = pathologies[0]
+                query = """
+                MATCH (i:Intervention)-[:TREATS]->(p:Pathology)
+                WHERE toLower(p.name) CONTAINS toLower($name)
+                RETURN DISTINCT i.name AS intervention
+                ORDER BY i.name
+                LIMIT 15
+                """
+                rows = await neo4j_client.run_query(query, {"name": path_name})
+                if rows:
+                    interventions = [r["intervention"] for r in rows if r.get("intervention")]
+                    if interventions:
+                        return f"Interventions treating {path_name} in the database: {', '.join(interventions)}"
+
+        # Type 2: "evidence chain" / "trace" → traverse
+        if any(kw in q for kw in ["evidence chain", "chain", "trace", "근거 체인", "근거 사슬"]):
+            entities = await _extract_entities_from_question(question)
+            interventions = entities.get("interventions", [])
+            pathologies = entities.get("pathologies", [])
+            if interventions and pathologies:
+                result = await gts.traverse_evidence_chain(
+                    intervention=interventions[0],
+                    pathology=pathologies[0],
+                )
+                if result.outcomes:
+                    outcomes_str = ", ".join(o.get("name", str(o)) if isinstance(o, dict) else str(o) for o in result.outcomes[:8])
+                    direct_count = len(result.direct_evidence)
+                    related_count = len(result.related_evidence)
+                    return (
+                        f"Evidence chain: {interventions[0]} → TREATS → {pathologies[0]} → AFFECTS → {outcomes_str}\n"
+                        f"Direct evidence: {direct_count} papers, Related (IS_A siblings): {related_count} papers"
+                    )
+
+        # Type 3: "compare" two interventions → shared/unique outcomes
+        if any(kw in q for kw in ["compare", "versus", "vs", "shared", "공통", "비교"]):
+            entities = await _extract_entities_from_question(question)
+            interventions = entities.get("interventions", [])
+            pathologies = entities.get("pathologies", [])
+            if len(interventions) >= 2 and pathologies:
+                result = await gts.compare_interventions(
+                    int1=interventions[0],
+                    int2=interventions[1],
+                    pathology=pathologies[0],
+                )
+                shared = len(result.shared_outcomes)
+                unique1 = len(result.int1_only_outcomes)
+                unique2 = len(result.int2_only_outcomes)
+                if shared + unique1 + unique2 > 0:
+                    return (
+                        f"Graph comparison: {interventions[0]} vs {interventions[1]} for {pathologies[0]}\n"
+                        f"Shared outcomes: {shared}, {interventions[0]}-only: {unique1}, {interventions[1]}-only: {unique2}"
+                    )
+
+    except Exception as e:
+        logger.warning("Graph traversal summary failed: %s", e)
+
+    return ""
 
 
 async def _generate_hyde(question: str) -> Optional[str]:
