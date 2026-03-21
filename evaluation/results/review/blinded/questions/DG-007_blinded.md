@@ -2,66 +2,54 @@
 
 ---
 
+
 ## System A
 **Papers retrieved**: 10
-**Evidence levels**: ['1a', '1a', '1a', '1a', '1a', '4', '2b', '1a', '1b', '2b']
+**Evidence levels**: ['1a', '1a', '1a', '1a', '1a', '2a', '2b', '5', '2b', '2b']
 
 ### Cited Papers
 - [1a] pubmed_39575949: Radiographic Outcomes Across Lumbar Interbody Fusion Techniques: A Systematic Re
 - [1a] pubmed_38622724: Oblique Lateral Approach versus Transforaminal Lumbar Interbody Fusion for Degen
 - [1a] pubmed_39895414: Network meta-analysis comparing endoscopic posterolateral fusion and lateral int
 - [1a] pubmed_41089903: Efficacy and Safety of Lateral Interbody Fusion of the Lumbar Spine in Adult Sco
-- [1a] pubmed_40386865: Impact of Diabetes Mellitus on Spinal Fusion Surgery Outcomes: A Systematic Revi
-- [4] pubmed_24879610: Smoking Cessation and Bone Healing in Spinal Fusion: A Temporal Analysis of Pseu
-- [2b] pubmed_36649855: Spinal Fusion Outcomes in Incarcerated Patients: A Matched Cohort Study
-- [1a] pubmed_41066602: Impact of Smoking on Spinal Fusion Rates and Patient-Reported Outcomes: A System
-- [1b] pubmed_40418168: Lumbar Fusion With Micro- & Nano-Textured, 3D Printed Porous Titanium Versus PEE
-- [2b] pubmed_39318116: Impact of Inadequate Correction of L4-S1 Lordosis During Transforaminal Lumbar I
+- [1a] pubmed_39805471: Cost-utility of lumbar interbody fusion surgery: a systematic review
+- [2a] pubmed_39823634: Robot-Assisted Single-Position Lateral Lumbar Interbody Fusion: A Comparative St
+- [2b] pubmed_40968391: Single-Position Navigated Lateral Column Realignment With Anterior Longitudinal 
+- [5] pubmed_40099853: Biomechanical Analysis of a Novel Tether Pedicle Screw for Proximal Junctional M
+- [2b] pubmed_40636917: Robotic-Assisted Single-Position Oblique Lateral Interbody Fusion: A Retrospecti
+- [2b] pubmed_37486864: Robot-assisted pedicle screw placement accuracy in prone versus lateral decubitu
 
 ### Answer
 
 # Evidence Summary: LLIF/XLIF vs TLIF for Degenerative Spondylolisthesis
 
-## Direct Comparative Evidence
+## Important Limitation
+**There are no randomized controlled trials (RCTs) in the provided papers directly comparing LLIF/XLIF versus TLIF for degenerative spondylolisthesis.** The highest level evidence available is systematic reviews and meta-analyses (Evidence Level 1a).
 
-**Limited RCT Evidence Available**
-The provided papers contain **no randomized controlled trials** directly comparing LLIF/XLIF versus TLIF for degenerative spondylolisthesis. The highest level of evidence available is **systematic reviews and meta-analyses (Evidence 1a)**.
+## Highest Available Evidence: Systematic Reviews & Meta-Analyses
 
-## Systematic Review Findings (Evidence 1a)
+### Clinical Outcomes
+**OLIF (a lateral approach) versus TLIF for degenerative lumbar spondylolisthesis** [pubmed_38622724] (Evidence 1a - Systematic Review & Meta-Analysis):
 
-### OLIF vs TLIF Comparison
-[pubmed_38622724] A systematic review and meta-analysis demonstrated that when treating degenerative lumbar spondylolisthesis, **OLIF (Oblique Lateral Interbody Fusion)** shows significant advantages over TLIF:
+OLIF demonstrated significant advantages over TLIF in:
+- **Surgical efficiency**: Shorter surgical duration
+- **Intraoperative blood loss**: Reduced intraoperative bleeding
+- **Length of stay**: Shorter hospital stay
+- **Pain**: Superior improvement in postoperative VAS scores
+- **Functional disability**: Improved ODI scores
+- **Radiographic outcomes**: Better restoration of disc height and more effective correction of lumbar lordosis
 
-**Perioperative Outcomes:**
-- Shorter surgical duration
-- Reduced intraoperative bleeding
-- Shorter hospital stay
+### Radiographic Outcomes
+**LLIF versus TLIF** [pubmed_39575949] (Evidence 1a - Systematic Review & Meta-Analysis):
+- LLIF demonstrated improved segmental lordosis (SL) restoration compared with TLIF in 2 of 3 studies directly comparing these procedures
 
-**Clinical Outcomes:**
-- Superior improvement in postoperative VAS scores
-- Superior improvement in ODI scores
+### Clinical Equivalence Across Minimally Invasive Techniques
+[pubmed_39895414] (Evidence 1a - Network Meta-Analysis):
+- Minimally invasive lumbar interbody fusion techniques (including OLIF, SA-LLIF, and MIS-TLIF) demonstrated **equivalent clinical outcomes in pain and disability relief** for lumbar degenerative disease
 
-**Radiographic Outcomes:**
-- Better restoration of disc height
-- More effective correction of lumbar lordosis
+## Evidence Gap
+**No RCT data exists** in the provided literature specifically comparing LLIF/XLIF to TLIF for degenerative spondylolisthesis. Current recommendations rely on meta-analyses of observational studies and comparative cohort designs.
 
-### General LLIF Comparisons
-[pubmed_39575949] A systematic review noted that **LLIF demonstrated improved segmental lordosis (SL) restoration compared with TLIF in 2 of 3 studies** directly comparing these procedures.
-
-### Minimally Invasive Techniques Overall
-[pubmed_39895414] A network meta-analysis (Evidence 1a) across six MIS techniques (X/DLIF, OLIF, SA-LLIF, MIS-TLIF, UELIF, BELIF) found **equivalent clinical outcomes in pain and disability relief**, though SA-LLIF showed superior early efficacy metrics including shorter operative time and faster hospitalization recovery.
-
-## Evidence Gaps
-
-- **No RCTs identified** in the provided literature comparing LLIF/XLIF directly to TLIF
-- **Spondylolisthesis-specific RCT evidence is absent**; available data comes from systematic reviews of predominantly observational studies
-- Heterogeneity across studies limits definitive conclusions [pubmed_41089903]
-
-## Clinical Significance
-
-Adequate lordosis restoration appears important: inadequate L4-S1 lordosis correction during TLIF resulted in 33.3% adjacent segment disease incidence versus 6.7% with adequate restoration [pubmed_39318116] (Evidence 2b).
-
----
 
 ## System B
 **Papers retrieved**: 10
@@ -121,5 +109,3 @@ Adequate lordosis restoration appears important: inadequate L4-S1 lordosis corre
 - **No randomized controlled trials** identified comparing LLIF/XLIF with TLIF specifically for degenerative spondylolisthesis
 - Highest-quality evidence for spondylolisthesis comes from observational comparative studies
 - Long-term outcome data limited in retrieved papers
-
----

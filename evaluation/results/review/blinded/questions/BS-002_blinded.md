@@ -2,6 +2,7 @@
 
 ---
 
+
 ## System A
 **Papers retrieved**: 4
 **Evidence levels**: ['2a', '5', '5', '5']
@@ -52,23 +53,22 @@ Stem cell therapy aims to:
 
 The literature lacks robust evidence demonstrating structural/biological disc regeneration despite symptomatic improvements.
 
----
 
 ## System B
 **Papers retrieved**: 10
-**Evidence levels**: ['2a', '5', '5', '5', '5', '5', '1b', '2a', '2b', '2a']
+**Evidence levels**: ['2a', '5', '5', '5', '4', '5', '4', '1a', '2b', '1a']
 
 ### Cited Papers
 - [2a] pubmed_41608524: Stem Cell-Based Strategies for Intervertebral Disc Regeneration: A Systematic Re
 - [5] pubmed_41163783: Endogenous Stem Cell-Mediated Repair of Degenerated Intervertebral Disc Annulus 
 - [5] pubmed_41450738: Mesenchymal Stem Cell Therapy for Intervertebral Disc Regeneration: Microenviron
 - [5] pubmed_41595972: Degenerative Disc Disease: Pathophysiology, Epidemiology, and Emerging Regenerat
+- [4] pubmed_41459417: Extracellular Vesicles in Intervertebral Disc Degeneration: A Scoping Review on 
 - [5] pubmed_41683563: Immunometabolism in Intervertebral Disc Degeneration and Regeneration: Pathophys
-- [5] pubmed_41185036: Nucleus pulposus progenitor cells in intervertebral disc degeneration: character
-- [1b] pubmed_40551470: Long-term outcomes of conservative management of moderate adolescent idiopathic 
-- [2a] pubmed_24119021: Non-surgical interventions for the management of type 2 dens fractures: a system
-- [2b] pubmed_38759240: Ongoing decision-making dilemma for treatment of de novo spinal infections: a co
-- [2a] pubmed_22941218: The optimal treatment of type II and III odontoid fractures in the elderly: a sy
+- [4] pubmed_41242964: Hydrogel-based growth factors for treatment of intervertebral disc degeneration:
+- [1a] pubmed_21729796: Recombinant Human Bone Morphogenetic Protein-2 in Spinal Fusion Surgery: A Syste
+- [2b] pubmed_28841904: One-Year Outcomes of Anterior Lumbar Interbody Fusion Using map3 Cellular Alloge
+- [1a] pubmed_39399091: Bone graft substitutes used in anterior lumbar interbody fusion: a systematic re
 
 ### Answer
 
@@ -76,57 +76,56 @@ The literature lacks robust evidence demonstrating structural/biological disc re
 
 ## Preclinical Evidence
 
-**Regenerative Capacity** [pubmed_41608524]
-- Evidence level: 2a (Systematic Review)
-- Animal models and in vitro studies consistently demonstrated improvements in:
-  - Disc height index
-  - Water content
-  - Proteoglycan/collagen composition
-- These findings suggest biological potential to reverse disc degeneration, though translation to clinical outcomes remains incomplete
+**Strong Regenerative Potential Demonstrated**
+
+Animal models and in vitro studies consistently show promising results [pubmed_41608524, Evidence 2a]:
+- Restoration of biomechanical and structural properties in degenerated discs
+- Improvements in disc height index, water content, and proteoglycan/collagen composition
+- Evidence suggests biological potential to reverse disc degeneration
 
 ## Clinical Trial Evidence
 
-**Current Clinical Trial Landscape** [pubmed_41450738]
-- Evidence level: 5 (Expert consensus/descriptive review)
-- As of January 2025, 18 registered clinical trial strategies for lumbar intervertebral disc degeneration:
-  - 13 trials investigating bone marrow-derived MSCs (BM-MSCs)
-  - 3 trials examining adipose-derived stem cells (ADSCs)
-  - 2 trials exploring umbilical cord-derived MSCs
+**Limited Clinical Translation with Modest Outcomes**
 
-**Clinical Outcomes from Phase I/II Trials** [pubmed_41163783]
-- Evidence level: 5 (Clinical trial reports)
-- Autologous bone marrow-derived MSC injections:
-  - **Pain reduction**: 70% improvement on Visual Analog Scale (VAS) at 12 months
-  - **MRI T2-signal improvement**: 35% at 12 months
-  - **Disc height restoration**: Remained below 15% (limited structural recovery)
-  - **Fusion rates**: 80% with tricalcium phosphate scaffolds + MSCs (NCT01513694)
-  - **Safety**: No severe adverse events reported
+As of January 2025, 18 registered clinical strategies exist for MSC-based treatments of lumbar intervertebral disc degeneration [pubmed_41450738, Evidence 5]:
+- 13 trials focus on bone marrow-derived MSCs (BM-MSCs)
+- 3 trials investigate adipose-derived stem cells (ADSCs)
+- 2 trials explore umbilical cord-derived MSCs
 
-## Proposed Mechanisms of Action
+**Specific Clinical Outcomes:**
 
-**Paracrine and Immunomodulatory Effects** [pubmed_41595972], [pubmed_41683563]
-- Evidence level: 5 (Mechanistic reviews)
-- MSCs function through:
-  - Secretion of anti-inflammatory cytokines (IL-10, TGF-β)
-  - Growth factors (bFGF, VEGF) suppressing inflammatory responses
-  - Promotion of extracellular matrix synthesis
-  - Reduction of oxidative stress
-  - Self-renewal capacity with differentiation toward chondrocyte-like phenotypes
+Phase I/II trial data (NCT01513694) with tricalcium phosphate scaffolds combined with MSCs [pubmed_41163783, Evidence 5]:
+- 80% lumbar fusion rates achieved
+- No severe adverse events reported
 
-## Emerging Approaches
+Autologous bone marrow-derived MSC injection trials [pubmed_41163783, Evidence 5]:
+- 70% pain reduction (VAS) at 12 months
+- 35% MRI T2-signal improvement at 12 months
+- Disc height restoration remained **below 15%** (limited structural recovery)
 
-**Nucleus Pulposus Progenitor Cells (NPPCs)** [pubmed_41185036]
-- Evidence level: 5 (Preclinical development)
-- Optimized spheroid culture systems enable large-scale production with phenotypic stability
-- Enrichment of Tie2+ NPPCs using PPARδ agonist GW501516 increased yield from ~7% to 50%
-- Addresses scalability limitations for transplantation
+## Mechanisms of Action
+
+**Paracrine and Immunomodulatory Functions** [pubmed_41595972, pubmed_41683563, Evidence 5]:
+- Anti-inflammatory cytokine secretion (IL-10, TGF-β)
+- Growth factor production (bFGF, VEGF)
+- Oxidative stress reduction
+- ECM synthesis promotion
+
+**Extracellular Vesicle (EV) Effects** [pubmed_41459417, Evidence 4]:
+
+Human adipose tissue-derived MSC-EVs demonstrated:
+- Counteraction of TNF-induced pro-inflammatory gene expression (IL1B, IL6, IL17)
+- Increased neurotrophic factors (BDNF, NGF)
+- Enhanced MMP-3 and MMP-13 expression in TNF-conditioned cells
 
 ## Evidence Gaps
 
-1. **Limited structural restoration**: Current clinical trials show <15% disc height recovery despite symptom improvement
-2. **Long-term outcome data**: No studies with extended follow-up beyond 12 months reported
-3. **Heterogeneous trial designs**: 18 different registered strategies lack standardized protocols
-4. **Mechanism clarity**: Paracrine mechanisms are hypothesized but not definitively established in human patients
-5. **Comparative effectiveness**: No head-to-head comparisons between MSC types (BM-MSCs vs. ADSCs vs. cord-derived)
+1. **No direct comparison studies** between different stem cell sources in clinical trials
+2. **Limited long-term follow-up** data beyond 12 months
+3. **Incomplete disc height restoration** - clinical outcomes fall short of preclinical promise
+4. **Heterogeneous trial designs** preventing meta-analysis
+5. **Unknown optimal cell dosing, delivery method, and scaffold combinations** for clinical use
 
----
+## Clinical Relevance
+
+While preclinical evidence is promising, clinical translation remains preliminary. Pain reduction is encouraging, but structural disc regeneration (height restoration) remains suboptimal, suggesting current approaches may address symptoms through anti-inflammatory mechanisms rather than true structural regeneration [pubmed_41163783].

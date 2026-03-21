@@ -1,81 +1,47 @@
-﻿judge,query_id,question_kr,system,R1_accuracy,R2_coverage,R3_evidence_level,R4_citation_verify,R5_clinical_usefulness,total,best_worst,comment
-Claude,DG-001,요추 척추관 협착증에서 UBE vs 기존 TLIF의 ODI 개선 및 합병증 비교 근거는?,System A,,,,,,,,
-Claude,DG-001,요추 척추관 협착증에서 UBE vs 기존 TLIF의 ODI 개선 및 합병증 비교 근거는?,System B,,,,,,,,
-Claude,DG-001,요추 척추관 협착증에서 UBE vs 기존 TLIF의 ODI 개선 및 합병증 비교 근거는?,System C,,,,,,,,
-Claude,DG-001,요추 척추관 협착증에서 UBE vs 기존 TLIF의 ODI 개선 및 합병증 비교 근거는?,System D,,,,,,,,
-Claude,DG-002,2분절 경추 추간판 질환에서 CDR vs ACDF의 인접분절 퇴행 비교 근거는?,System A,,,,,,,,
-Claude,DG-002,2분절 경추 추간판 질환에서 CDR vs ACDF의 인접분절 퇴행 비교 근거는?,System B,,,,,,,,
-Claude,DG-002,2분절 경추 추간판 질환에서 CDR vs ACDF의 인접분절 퇴행 비교 근거는?,System C,,,,,,,,
-Claude,DG-002,2분절 경추 추간판 질환에서 CDR vs ACDF의 인접분절 퇴행 비교 근거는?,System D,,,,,,,,
-Claude,DG-003,MIS-TLIF 후 cage subsidence의 위험인자와 임상 결과에 대한 영향은?,System A,,,,,,,,
-Claude,DG-003,MIS-TLIF 후 cage subsidence의 위험인자와 임상 결과에 대한 영향은?,System B,,,,,,,,
-Claude,DG-003,MIS-TLIF 후 cage subsidence의 위험인자와 임상 결과에 대한 영향은?,System C,,,,,,,,
-Claude,DG-003,MIS-TLIF 후 cage subsidence의 위험인자와 임상 결과에 대한 영향은?,System D,,,,,,,,
-Claude,DG-004,요추 추간판 탈출증 수술: 미세현미경 vs 내시경 추간판절제술의 결과 비교 근거는?,System A,,,,,,,,
-Claude,DG-004,요추 추간판 탈출증 수술: 미세현미경 vs 내시경 추간판절제술의 결과 비교 근거는?,System B,,,,,,,,
-Claude,DG-004,요추 추간판 탈출증 수술: 미세현미경 vs 내시경 추간판절제술의 결과 비교 근거는?,System C,,,,,,,,
-Claude,DG-004,요추 추간판 탈출증 수술: 미세현미경 vs 내시경 추간판절제술의 결과 비교 근거는?,System D,,,,,,,,
-Claude,DG-005,"요추 추체간 유합술에서 BMP-2 사용의 유합률, 합병증, 암 위험 근거는?",System A,,,,,,,,
-Claude,DG-005,"요추 추체간 유합술에서 BMP-2 사용의 유합률, 합병증, 암 위험 근거는?",System B,,,,,,,,
-Claude,DG-005,"요추 추체간 유합술에서 BMP-2 사용의 유합률, 합병증, 암 위험 근거는?",System C,,,,,,,,
-Claude,DG-005,"요추 추체간 유합술에서 BMP-2 사용의 유합률, 합병증, 암 위험 근거는?",System D,,,,,,,,
-Claude,DG-006,다분절 경추 척수증에서 후궁성형술 vs 후궁절제+유합술의 역할과 어느 접근법이 우수한가?,System A,,,,,,,,
-Claude,DG-006,다분절 경추 척수증에서 후궁성형술 vs 후궁절제+유합술의 역할과 어느 접근법이 우수한가?,System B,,,,,,,,
-Claude,DG-006,다분절 경추 척수증에서 후궁성형술 vs 후궁절제+유합술의 역할과 어느 접근법이 우수한가?,System C,,,,,,,,
-Claude,DG-006,다분절 경추 척수증에서 후궁성형술 vs 후궁절제+유합술의 역할과 어느 접근법이 우수한가?,System D,,,,,,,,
-Claude,DG-007,퇴행성 척추전방전위증에서 LLIF/XLIF vs TLIF 비교 최신 RCT 근거는?,System A,,,,,,,,
-Claude,DG-007,퇴행성 척추전방전위증에서 LLIF/XLIF vs TLIF 비교 최신 RCT 근거는?,System B,,,,,,,,
-Claude,DG-007,퇴행성 척추전방전위증에서 LLIF/XLIF vs TLIF 비교 최신 RCT 근거는?,System C,,,,,,,,
-Claude,DG-007,퇴행성 척추전방전위증에서 LLIF/XLIF vs TLIF 비교 최신 RCT 근거는?,System D,,,,,,,,
-Claude,DG-008,요추 척추관 협착증에서 경막외 스테로이드 주사의 효과와 수술 권유 시점에 대한 근거는?,System A,,,,,,,,
-Claude,DG-008,요추 척추관 협착증에서 경막외 스테로이드 주사의 효과와 수술 권유 시점에 대한 근거는?,System B,,,,,,,,
-Claude,DG-008,요추 척추관 협착증에서 경막외 스테로이드 주사의 효과와 수술 권유 시점에 대한 근거는?,System C,,,,,,,,
-Claude,DG-008,요추 척추관 협착증에서 경막외 스테로이드 주사의 효과와 수술 권유 시점에 대한 근거는?,System D,,,,,,,,
-Claude,DG-009,로봇 보조 척추경 나사못 삽입 vs 프리핸드 기법의 임상 결과 및 합병증 비교는?,System A,,,,,,,,
-Claude,DG-009,로봇 보조 척추경 나사못 삽입 vs 프리핸드 기법의 임상 결과 및 합병증 비교는?,System B,,,,,,,,
-Claude,DG-009,로봇 보조 척추경 나사못 삽입 vs 프리핸드 기법의 임상 결과 및 합병증 비교는?,System C,,,,,,,,
-Claude,DG-009,로봇 보조 척추경 나사못 삽입 vs 프리핸드 기법의 임상 결과 및 합병증 비교는?,System D,,,,,,,,
-Claude,DG-010,전내시경 요추 추간판절제술(FELD/PELD)의 학습 곡선과 결과에 미치는 영향 근거는?,System A,,,,,,,,
-Claude,DG-010,전내시경 요추 추간판절제술(FELD/PELD)의 학습 곡선과 결과에 미치는 영향 근거는?,System B,,,,,,,,
-Claude,DG-010,전내시경 요추 추간판절제술(FELD/PELD)의 학습 곡선과 결과에 미치는 영향 근거는?,System C,,,,,,,,
-Claude,DG-010,전내시경 요추 추간판절제술(FELD/PELD)의 학습 곡선과 결과에 미치는 영향 근거는?,System D,,,,,,,,
-Claude,DF-001,Lenke 5C 성인 퇴행성 측만증에서 최적 UIV 선택: T10 vs L1?,System A,,,,,,,,
-Claude,DF-001,Lenke 5C 성인 퇴행성 측만증에서 최적 UIV 선택: T10 vs L1?,System B,,,,,,,,
-Claude,DF-001,Lenke 5C 성인 퇴행성 측만증에서 최적 UIV 선택: T10 vs L1?,System C,,,,,,,,
-Claude,DF-001,Lenke 5C 성인 퇴행성 측만증에서 최적 UIV 선택: T10 vs L1?,System D,,,,,,,,
-Claude,DF-002,성인 척추 변형 수술 후 근위부 접합부 후만증(PJK)의 발생률과 위험인자는?,System A,,,,,,,,
-Claude,DF-002,성인 척추 변형 수술 후 근위부 접합부 후만증(PJK)의 발생률과 위험인자는?,System B,,,,,,,,
-Claude,DF-002,성인 척추 변형 수술 후 근위부 접합부 후만증(PJK)의 발생률과 위험인자는?,System C,,,,,,,,
-Claude,DF-002,성인 척추 변형 수술 후 근위부 접합부 후만증(PJK)의 발생률과 위험인자는?,System D,,,,,,,,
-Claude,DF-003,"고정된 시상면 불균형에서 3주 절골술(PSO, VCR)의 결과와 합병증 프로파일은?",System A,,,,,,,,
-Claude,DF-003,"고정된 시상면 불균형에서 3주 절골술(PSO, VCR)의 결과와 합병증 프로파일은?",System B,,,,,,,,
-Claude,DF-003,"고정된 시상면 불균형에서 3주 절골술(PSO, VCR)의 결과와 합병증 프로파일은?",System C,,,,,,,,
-Claude,DF-003,"고정된 시상면 불균형에서 3주 절골술(PSO, VCR)의 결과와 합병증 프로파일은?",System D,,,,,,,,
-Claude,DF-004,Cobb angle 40-50도 청소년 특발성 측만증에서 수술 vs 보존적 치료 근거는?,System A,,,,,,,,
-Claude,DF-004,Cobb angle 40-50도 청소년 특발성 측만증에서 수술 vs 보존적 치료 근거는?,System B,,,,,,,,
-Claude,DF-004,Cobb angle 40-50도 청소년 특발성 측만증에서 수술 vs 보존적 치료 근거는?,System C,,,,,,,,
-Claude,DF-004,Cobb angle 40-50도 청소년 특발성 측만증에서 수술 vs 보존적 치료 근거는?,System D,,,,,,,,
-Claude,DF-005,성인 척추 변형에서 전방주 재건(ACR/ALIF)+후방 고정 vs 후방 단독 접근법의 역할은?,System A,,,,,,,,
-Claude,DF-005,성인 척추 변형에서 전방주 재건(ACR/ALIF)+후방 고정 vs 후방 단독 접근법의 역할은?,System B,,,,,,,,
-Claude,DF-005,성인 척추 변형에서 전방주 재건(ACR/ALIF)+후방 고정 vs 후방 단독 접근법의 역할은?,System C,,,,,,,,
-Claude,DF-005,성인 척추 변형에서 전방주 재건(ACR/ALIF)+후방 고정 vs 후방 단독 접근법의 역할은?,System D,,,,,,,,
-Claude,GR-001,요추 척추관 협착증에 사용 가능한 모든 수술적 치료법과 합병증 프로파일 비교는?,System A,,,,,,,,
-Claude,GR-001,요추 척추관 협착증에 사용 가능한 모든 수술적 치료법과 합병증 프로파일 비교는?,System B,,,,,,,,
-Claude,GR-001,요추 척추관 협착증에 사용 가능한 모든 수술적 치료법과 합병증 프로파일 비교는?,System C,,,,,,,,
-Claude,GR-001,요추 척추관 협착증에 사용 가능한 모든 수술적 치료법과 합병증 프로파일 비교는?,System D,,,,,,,,
-Claude,GR-002,TLIF와 PLIF가 공통으로 보고하는 outcome과 각각 고유한 outcome은?,System A,,,,,,,,
-Claude,GR-002,TLIF와 PLIF가 공통으로 보고하는 outcome과 각각 고유한 outcome은?,System B,,,,,,,,
-Claude,GR-002,TLIF와 PLIF가 공통으로 보고하는 outcome과 각각 고유한 outcome은?,System C,,,,,,,,
-Claude,GR-002,TLIF와 PLIF가 공통으로 보고하는 outcome과 각각 고유한 outcome은?,System D,,,,,,,,
-Claude,GR-003,"UBE가 요추 추간판 탈출증을 치료할 때의 완전한 근거 체인: 어떤 병태를 치료하고, 어떤 outcome에 영향을 미치며, 각각의 근거 수준은?",System A,,,,,,,,
-Claude,GR-003,"UBE가 요추 추간판 탈출증을 치료할 때의 완전한 근거 체인: 어떤 병태를 치료하고, 어떤 outcome에 영향을 미치며, 각각의 근거 수준은?",System B,,,,,,,,
-Claude,GR-003,"UBE가 요추 추간판 탈출증을 치료할 때의 완전한 근거 체인: 어떤 병태를 치료하고, 어떤 outcome에 영향을 미치며, 각각의 근거 수준은?",System C,,,,,,,,
-Claude,GR-003,"UBE가 요추 추간판 탈출증을 치료할 때의 완전한 근거 체인: 어떤 병태를 치료하고, 어떤 outcome에 영향을 미치며, 각각의 근거 수준은?",System D,,,,,,,,
-Claude,GR-004,척추 수술 데이터베이스에서 CDR과 가장 많은 outcome measure를 공유하는 intervention은?,System A,,,,,,,,
-Claude,GR-004,척추 수술 데이터베이스에서 CDR과 가장 많은 outcome measure를 공유하는 intervention은?,System B,,,,,,,,
-Claude,GR-004,척추 수술 데이터베이스에서 CDR과 가장 많은 outcome measure를 공유하는 intervention은?,System C,,,,,,,,
-Claude,GR-004,척추 수술 데이터베이스에서 CDR과 가장 많은 outcome measure를 공유하는 intervention은?,System D,,,,,,,,
-Claude,GR-005,"L4-5 퇴행성 척추전방전위증 환자에서 가능한 모든 유합술, 유합률, 합병증 프로파일에 대한 근거는?",System A,,,,,,,,
-Claude,GR-005,"L4-5 퇴행성 척추전방전위증 환자에서 가능한 모든 유합술, 유합률, 합병증 프로파일에 대한 근거는?",System B,,,,,,,,
-Claude,GR-005,"L4-5 퇴행성 척추전방전위증 환자에서 가능한 모든 유합술, 유합률, 합병증 프로파일에 대한 근거는?",System C,,,,,,,,
-Claude,GR-005,"L4-5 퇴행성 척추전방전위증 환자에서 가능한 모든 유합술, 유합률, 합병증 프로파일에 대한 근거는?",System D,,,,,,,,
+judge,query_id,system,R1,R2,R3,R4,R5,total,comment
+Claude,DG-001,System A,4,3,3,3,3,16,Honest about gaps; some off-topic papers (cervical UBE thoracic OPLL)
+Claude,DG-001,System B,4,4,4,4,4,20,Better meta-analyses; specific numerical data (185.74 vs 395.31 mL)
+Claude,DG-002,System A,5,5,5,4,5,24,Excellent synthesis with ORs/RRs; radiological vs symptomatic ASD distinction
+Claude,DG-002,System B,4,4,5,4,4,21,Good but less comprehensive; some redundancy
+Claude,DG-003,System A,4,4,3,3,4,18,Good risk factors; some tangential BMP papers; useful subsidence rate table
+Claude,DG-003,System B,4,4,3,3,4,18,Comparable; better biomechanical detail (double vs single cage)
+Claude,DG-004,System A,4,5,5,4,5,23,Strong network meta-analysis citations; well-organized summary table
+Claude,DG-004,System B,5,4,4,3,4,20,More cautious conclusions; some citation mismatch
+Claude,DG-005,System A,5,5,5,4,5,24,Outstanding: dose-dependent effects; cancer risk addressed; comprehensive
+Claude,DG-005,System B,4,4,3,3,3,17,Fails to address cancer risk despite paper availability
+Claude,DG-006,System A,4,4,5,4,5,22,Well-structured; clear laminoplasty advantages; honest about RCT lack
+Claude,DG-006,System B,4,4,5,3,5,21,Adds OPLL distinction; 2 off-topic papers (reperfusion thoracolumbar)
+Claude,DG-007,System A,4,3,4,3,3,17,No RCTs exist; OLIF vs TLIF meta-analysis well cited
+Claude,DG-007,System B,4,3,4,3,3,17,Same core finding; similar paper overlap; comparable quality
+Claude,DG-008,System A,5,4,4,3,4,20,Accurate ESI summary; 4 off-topic papers (metastatic infections fractures)
+Claude,DG-008,System B,5,5,5,4,5,24,All papers on-topic; includes guideline and stepwise algorithm
+Claude,DG-009,System A,5,5,4,4,4,22,Specific accuracy %; facet joint violation; radiation exposure; manufacturer bias
+Claude,DG-009,System B,4,3,4,3,3,17,Key finding correct but less detailed; lower evidence quality
+Claude,DG-010,System A,4,4,3,3,4,18,Learning curve 17 cases; acknowledges FELD/PELD gap
+Claude,DG-010,System B,4,4,4,3,4,19,20-25 case threshold from SR; complication stratification by phase
+Claude,DF-001,System A,4,3,3,4,3,17,Honest about gaps; contextually relevant papers
+Claude,DF-001,System B,3,3,2,3,3,14,Lower evidence levels (4s 5s); irrelevant papers (UBE framework robotic nav)
+Claude,DF-002,System A,4,4,4,4,4,20,Good PJF 5.6%; specific risk factors with ORs; misses sarcopenia BMI
+Claude,DF-002,System B,5,5,4,4,5,23,Comprehensive 17-61.7% from SR; sarcopenia Hounsfield units; modifiable vs non-modifiable
+Claude,DF-003,System A,5,4,5,4,4,22,Strong PVCR correction 75.3deg; Roussouly matching 78% complication reduction
+Claude,DF-003,System B,4,3,3,3,3,16,Only 5 papers; misattributes ACR data
+Claude,DF-004,System A,3,2,3,3,2,13,Correctly identifies evidence gap; some irrelevant papers
+Claude,DF-004,System B,3,2,3,3,2,13,Also identifies gap; tangentially relevant papers
+Claude,DF-005,System A,4,3,3,4,3,17,Good ALIF vs TLIF lordosis data; limited scope 7 papers
+Claude,DF-005,System B,5,4,5,4,4,22,5 meta-analyses; rod fracture 4.4%; alignment durability PJK data
+Claude,GR-001,System A,3,4,4,4,3,18,Lists 9 techniques from NMA; lacks specific complication rates
+Claude,GR-001,System B,4,5,5,4,5,23,Actual complication rates 10-24%; SUCRA rankings; clinically actionable
+Claude,GR-002,System A,3,2,3,3,2,13,Very limited TLIF vs PLIF; most papers compare TLIF to OLIF/ALIF/LLIF
+Claude,GR-002,System B,4,4,4,4,4,20,Broader: fusion 95.7%; complication 8-80% avg 36.4%; cost data
+Claude,GR-003,System A,4,4,4,4,4,20,Good evidence chain; pathology subtypes; operative metrics
+Claude,GR-003,System B,5,5,5,5,5,25,Exceptional: VAS ODI blood loss wound complications muscle preservation recurrence
+Claude,GR-004,System A,4,4,4,4,4,20,ACDF primary comparator; lists shared outcomes
+Claude,GR-004,System B,5,5,5,5,5,25,6 outcome domains; perioperative measures; QoL; comprehensive
+Claude,GR-005,System A,3,3,3,3,3,15,Cervical literature inappropriately included; 70% fusion odds useful
+Claude,GR-005,System B,5,4,5,4,5,23,Strong fusion rates ALIF 88.2% PLF 83.1%; network meta-analysis; actionable
+Claude,TR-001,System A,3,3,3,3,3,15,Citation conflict on pubmed_39560536; Level 1a unused; misses QoL
+Claude,TR-001,System B,4,4,4,3,5,20,2 RCTs; actionable favor SSF/LSF guidance; one irrelevant paper
+Claude,TU-001,System A,3,2,2,1,2,10,6/10 papers off-topic (deformity PSO AR alignment); only 4 relevant
+Claude,TU-001,System B,4,4,4,4,5,21,All 6 papers on-topic; NOMS framework; SINS subcomponent analysis
+Claude,BS-002,System A,4,2,2,4,2,14,Accurate but thin; only 4 papers (3 Level 5); no mechanistic detail
+Claude,BS-002,System B,4,4,3,3,4,18,Broader coverage; specific quantitative outcomes; 3/10 fusion biologics off-topic

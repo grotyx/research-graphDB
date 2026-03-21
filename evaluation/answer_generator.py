@@ -1137,6 +1137,7 @@ async def main():
     parser = argparse.ArgumentParser(description="Generate answers from baselines")
     parser.add_argument("--baselines", type=str, default="B1,B2,B3,B4")
     parser.add_argument("--questions", type=int, default=5, help="Max questions to process")
+    parser.add_argument("--query-ids", type=str, default=None, help="Comma-separated query IDs (e.g., DG-001,DF-001)")
     parser.add_argument("--top-k", type=int, default=10)
     args = parser.parse_args()
 
@@ -1147,6 +1148,12 @@ async def main():
         data = json.load(f)
     questions = data.get("questions", data)
 
+    # Filter by query IDs if specified
+    if args.query_ids:
+        target_ids = set(args.query_ids.split(","))
+        questions = [q for q in questions if q.get("id") in target_ids]
+        logging.info("Filtered to %d questions: %s", len(questions), sorted(target_ids))
+
     # Connect Neo4j
     from graph.neo4j_client import Neo4jClient, Neo4jConfig
 
@@ -1156,8 +1163,9 @@ async def main():
 
     try:
         baseline_names = args.baselines.upper().split(",")
+        max_q = None if args.query_ids else args.questions
         results = await run_all_baselines(
-            neo4j, questions, baseline_names, args.top_k, args.questions
+            neo4j, questions, baseline_names, args.top_k, max_q
         )
         save_answers(results)
 

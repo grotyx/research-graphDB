@@ -2,6 +2,7 @@
 
 ---
 
+
 ## System A
 **Papers retrieved**: 10
 **Evidence levels**: ['1a', '1a', '1a', '1a', '1a', '1a', '1a', '1a', '1a', '1a']
@@ -10,74 +11,82 @@
 - [1a] pubmed_29595628: Anterior Cervical Artificial Disc Replacement Versus Anterior Cervical Decompres
 - [1a] pubmed_29753897: Anterior Cervical Discectomy and Fusion versus Anterior Cervical Disc Replacemen
 - [1a] pubmed_31863642: Cervical Disc Arthroplasty versus Anterior Cervical Discectomy and Fusion for Ce
+- [1a] pubmed_40797275: Long-term effectiveness and safety of cervical disc arthroplasty compared to ant
+- [1a] pubmed_30992666: Cervical Disc Arthroplasty Versus Anterior Cervical Discectomy and Fusion: A Met
 - [1a] pubmed_35113188: Comparison of Outcomes Between Artificial Cervical Disc Replacement and Anterior
-- [1a] pubmed_35085804: Adjacent Segment Degeneration, Disease, and Reoperation Rates Following Anterior
 - [1a] pubmed_30285807: Total disc replacement versus anterior cervical discectomy and fusion for cervic
-- [1a] pubmed_31431880: Total Disc Replacement versus Anterior Cervical Discectomy and Fusion for Adjace
-- [1a] pubmed_32309660: Long-term Adjacent-level Operation Rates with Cervical Disc Arthroplasty versus 
-- [1a] pubmed_40882232: Anterior Cervical Discectomy and Fusion versus Cervical Disc Arthroplasty for De
-- [1a] pubmed_34213864: Network Meta-Analysis of Surgical Approaches for Lumbar Disc Herniation: Compara
+- [1a] pubmed_35085804: Adjacent Segment Degeneration, Disease, and Reoperation Rates Following Anterior
+- [1a] pubmed_30062947: Total disc replacement versus anterior cervical discectomy and fusion: a systema
+- [1a] pubmed_28700452: Anterior cervical discectomy and fusion, cervical disc replacement, and minimall
 
 ### Answer
 
-# Evidence Summary: CDR/CDA vs ACDF for Adjacent Segment Degeneration in 2-Level Cervical Disc Disease
+# Evidence Summary: CDR vs ACDF for Adjacent Segment Degeneration in 2-Level Cervical Disc Disease
 
-## Adjacent Segment Degeneration (ASD) - Overall Radiological Findings
+## Adjacent Segment Degeneration Rates
 
-**Radiological ASD Rates:**
-CDR/CDA demonstrates significantly lower radiological ASD compared to ACDF across multiple meta-analyses [pubmed_29595628][pubmed_29753897][pubmed_35085804]:
+### Bi-Level Cervical Spondylosis Specific Evidence
 
-- **RR 0.40 (95% CI: 0.35-0.46, p<0.00001)** - representing a **60% relative risk reduction** [pubmed_29595628]
-- **OR 0.27 (95% CI: 0.13-0.59, p=0.001)** with low heterogeneity [pubmed_29753897]
-- **Absolute difference: 6.1% (ACDF) vs 3.8% (CDA)** with 2.3 percentage point clinically meaningful difference (p<0.001) [pubmed_35085804]
-- **OR 0.58 (p<0.00001)** for radiological ASD reduction [pubmed_30285807]
+**[pubmed_29595628]** (Systematic review and meta-analysis, Evidence 1a)
+- Pooled analysis from 2 studies comparing ACDR vs ACDF for bi-level disease
+- **RR 0.40 (95% CI: 0.35-0.46, p<0.00001)**
+- Represents **60% relative risk reduction** in combined superior and inferior ASD with ACDR
+- Substantially lower degenerative progression at adjacent spinal segments
 
-**Study Design & Evidence Level:** Level 1a (Systematic Reviews and Meta-Analyses) [pubmed_29595628][pubmed_29753897][pubmed_35085804][pubmed_30285807][pubmed_31863642]
+### Multilevel Disease Evidence (Including 2-Level)
 
----
+**[pubmed_29753897]** (Meta-analysis and systematic review, Evidence 1a)
+- ACDR vs ACDF for multilevel cervical disc disease
+- **OR 0.27 (95% CI: 0.13-0.59, p=0.001)**
+- Low heterogeneity supporting robustness of findings
+- Consistent directional benefit across individual studies
 
-## Symptomatic ASD (Clinical Disease)
+**[pubmed_31863642]** (Systematic review and meta-analysis, Evidence 1a)
+- **Symptomatic ASD: OR 0.46 (95% CI: 0.34-0.63, p<0.00001)** (6 studies, 1,628 participants)
+- Radiological superior ASD: No significant difference (OR 0.63, 95% CI: 0.28-1.43, p=0.27)
+- **Critical finding**: Symptomatic ASD significantly lower with CDA, but radiological findings diverged
 
-A critical distinction emerges between radiological and symptomatic findings:
+**[pubmed_30992666]** (Meta-analysis of RCTs, Evidence 1a)
+- 5 studies, 1,594 patients (CDA=956, ACDF=638)
+- **OR 0.33 (95% CI: 0.21-0.50, p<0.0001)**
+- Zero heterogeneity (I²=0.0%)
+- Moderate quality of supporting evidence
 
-**Symptomatic ASD:** CDR/CDA shows **significantly lower symptomatic ASD** [pubmed_31863642][pubmed_30285807]
-- **OR 0.46 (95% CI: 0.34-0.63, p<0.00001)** across 6 studies (1,628 participants) [pubmed_31863642]
+**[pubmed_40797275]** (Meta-analysis of RCTs, Evidence 1a)
+- **OR 0.56 (95% CI: 0.36-0.85, p=0.01)**
+- 44% reduction in ASD degeneration rates
+- Mechanism: Preservation of intervertebral motion (10.37° more motion at operated segment)
 
-However, **symptomatic ASD showed no significant difference between groups** (OR 0.97, p=0.91), suggesting symptomatic progression may reflect natural disease history rather than surgical effect alone [pubmed_30285807]
+### Additional Meta-Analyses
 
----
+**[pubmed_30285807]** (Meta-analysis, Evidence 1a)
+- **OR 0.58 (p<0.00001)** for radiological ASD
+- **OR 0.97 (p=0.91)** for symptomatic ASD—no significant difference
+- Finding suggests symptomatic ASD may reflect natural disease progression rather than surgical effect
 
-## Mechanism of Benefit
+**[pubmed_35085804]** (Systematic review and meta-analysis, Evidence 1a)
+- ACDF: 6.1% ASD rate vs CDA: 3.8% (P<0.001)
+- **Clinically meaningful difference of 2.3 percentage points**
 
-CDR/CDA preserves motion at treated levels, maintaining more natural cervical spine biomechanics by:
-- Reducing altered shear strains at adjacent segments
-- Decreasing intradiscal pressures at adjacent levels
-- Reducing adjacent segment motion abnormalities
+## Key Clinical Distinctions
 
-In contrast, ACDF fusion stabilizes the treated level but alters biomechanical force distribution, increasing stress concentration at adjacent segments [pubmed_31431880]
+**Radiological vs Clinical ASD**: [pubmed_31863642] identifies an important discrepancy—symptomatic ASD favors CDA significantly, but radiological findings show less consistent differences, particularly for superior segment degeneration.
 
----
+## Evidence Quality
 
-## Adjacent Level Reoperation Rates
+- **Consistent Level 1a Evidence** across multiple systematic reviews and meta-analyses
+- Moderate to high quality per GRADE assessment [pubmed_30285807]
+- Low heterogeneity in several pooled analyses supports robustness
 
-CDR/CDA also demonstrates superior long-term durability:
-- **Lower reoperation rates** compared to ACDF [pubmed_30285807][pubmed_32309660]
-- OR 0.52 (p=0.01) for reoperation with TDR vs ACDF [pubmed_30285807]
-- CDA particularly advantageous for younger patients regarding freedom from adjacent-level surgery [pubmed_32309660]
+## Gaps in Evidence
 
----
+The retrieved papers do **not provide data specific exclusively to 2-level disease**. Available evidence comes from:
+- One study specifically addressing bi-level spondylosis [pubmed_29595628]
+- Multiple studies on multilevel disease (including but not limited to 2-level)
+- Insufficient stratified analysis by number of levels treated
 
-## Quality of Evidence
+**Recommendation**: While consistent superiority of CDR is demonstrated across multi-level studies, dedicated 2-level cohort studies would provide more precise evidence for this specific clinical scenario.
 
-**GRADE Quality: Moderate** [pubmed_30285807] - Level 1a evidence consistently demonstrates superiority, though absolute difference in symptomatic disease is more modest than radiological findings suggest.
-
----
-
-## Key Evidence Gap
-
-**No specific data isolated for 2-level disease:** The provided papers present meta-analyses across multilevel disease cohorts. While [pubmed_29595628] and [pubmed_29753897] specifically address bi-level and multilevel disease, they do not disaggregate 2-level results separately. Evidence supports CDR/CDA superiority in ASD prevention for cervical disc disease generally, with the mechanism particularly applicable to multi-segment disease where biomechanical effects compound.
-
----
 
 ## System B
 **Papers retrieved**: 9
@@ -125,5 +134,3 @@ The reduction in ASD with CDR is attributed to **preservation of segmental motio
 - Limited 2-level specific outcome data; most analyses pooled multilevel cases
 - Long-term (>7-10 year) outcomes specifically for 2-level disease not separately reported in the provided papers
 - Reoperation rates at adjacent segments specifically for 2-level CDR vs ACDF not detailed
-
----

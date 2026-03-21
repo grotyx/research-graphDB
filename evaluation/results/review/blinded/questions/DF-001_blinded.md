@@ -2,61 +2,72 @@
 
 ---
 
+
 ## System A
 **Papers retrieved**: 10
-**Evidence levels**: ['1a', '1a', '1a', '2b', '2b', '2b', '2b', '2b', '2b', '2b']
+**Evidence levels**: ['1a', '1a', '2b', '2b', '2b', '2b', '2b', '2b', '2b', '2b']
 
 ### Cited Papers
 - [1a] pubmed_39973129: Posterior Ligamentous Augmentation for Proximal Junctional Kyphosis and Proximal
-- [1a] pubmed_37740115: Age-Adjusted Alignment Thresholds in Adult Spinal Deformity Surgery: A Systemati
 - [1a] pubmed_41089903: Efficacy and Safety of Lateral Interbody Fusion of the Lumbar Spine in Adult Sco
 - [2b] pubmed_35586905: Arthrodesis Rates with Multiple-Level Lateral Lumbar Interbody Fusion and rhBMP-
-- [2b] pubmed_40450887: The Impact of Alignment Parameters Relative to the Thoracolumbar Inflection Poin
 - [2b] pubmed_38270393: Impact of Correcting Normative Segmental Lordosis Values on Postoperative Outcom
-- [2b] pubmed_39318116: Impact of Inadequate Correction of L4-S1 Lordosis During Transforaminal Lumbar I
-- [2b] pubmed_29087808: Comparative analysis of 3 surgical strategies for adult spinal deformity with mi
+- [2b] pubmed_40450887: The Impact of Alignment Parameters Relative to the Thoracolumbar Inflection Poin
 - [2b] pubmed_41297090: Clinical and radiological outcomes of transverse process hooks versus pedicle sc
+- [2b] pubmed_29087808: Comparative analysis of 3 surgical strategies for adult spinal deformity with mi
+- [2b] pubmed_15371700: Long Adult Deformity Fusions to L5 Versus the Sacrum in the Presence of a 'Healt
 - [2b] pubmed_40153849: Risk Factors for Proximal Junctional Kyphosis and Proximal Junctional Failure Fo
+- [2b] pubmed_36999928: Validation of Four Preoperative Surgical Planning Tools in Adult Spinal Deformit
 
 ### Answer
 
-# Evidence Synthesis: Optimal UIV Selection for Lenke 5C Adult Degenerative Scoliosis (T10 vs L1)
+# Clinical Question Response: Optimal UIV Selection for Lenke 5C Adult Degenerative Scoliosis (T10 vs L1)
 
-## Direct Evidence for UIV Selection
+## Evidence Availability
 
-**No papers directly compare T10 versus L1 UIV placement for Lenke 5C scoliosis specifically.**
-
-## Relevant Indirect Evidence
-
-### UIV Level Distribution in Adult Spinal Deformity
-[pubmed_35586905] (Evidence level 2b - retrospective case series) reports UIV distribution in a cohort of 179 adult spinal deformity patients:
-- Upper thoracic (T1-T9): 25 patients (14%)
-- **Lower thoracic (T10-T12): 118 patients (66%)**
-- **Upper lumbar (L1-L3): 36 patients (20%)**
-
-This suggests T10-T12 was the most frequently selected level in this ASD population.
-
-### Proximal Junctional Complications by UIV Level
-[pubmed_40450887] (Evidence level 2b) and [pubmed_38270393] (Evidence level 2b) emphasize that complications depend critically on **segmental lordosis correction magnitude** rather than absolute UIV level. Key finding: Overcorrection at proximal levels (T10-L2) results in dramatically increased proximal junctional failure rates.
-
-### Strategies to Reduce PJK/PJF Risk
-[pubmed_41297090] (Evidence level 2b) demonstrates that **transverse process hooks versus pedicle screws at UIV reduced PJK from 37.0% to 21.4%** and PJF from 32.2% to 17.1%.
-
-[pubmed_29087808] (Evidence level 2b) shows interbody fusion (LLIF or ALIF) combined with PSF reduces proximal junctional complications.
-
-## Critical Evidence Gaps
-
-1. **No comparative studies** of T10 vs L1 UIV for Lenke 5C specifically
-2. **No level-specific outcome data** stratified by Lenke classification
-3. **Optimal UIV selection principles** appear based on:
-   - Achieving normative segmental lordosis (not exceeding correction thresholds)
-   - UIV bone quality and fixation strategy
-   - Overall deformity magnitude
-
-## Clinical Implication
-Evidence suggests the choice between T10 and L1 should be individualized based on **achieving appropriate segmental lordosis values** and avoiding **overcorrection**, rather than UIV level alone determining outcomes.
+The provided papers do **NOT** contain direct comparative data on UIV selection (T10 vs L1) specifically for Lenke 5C adult degenerative scoliosis. However, relevant contextual evidence exists regarding UIV placement in adult spinal deformity surgery.
 
 ---
+
+## Related Evidence on UIV Considerations
+
+### UIV Distribution in ASD Surgery
+[pubmed_35586905] (Evidence: 2b, Retrospective cohort)
+- In a series of adult spinal deformity patients: UIV was lower thoracic (T10-T12) in 66% of cases (118/179 patients) and upper lumbar (L1-L3) in 20% (36 patients)
+- This suggests T10-T12 placement was more commonly employed than L1-L3 in practice, though this represents clinical utilization patterns, not outcome optimization data
+
+### Segmental Lordosis and Proximal Junctional Complications
+[pubmed_38270393] (Evidence: 2b, Retrospective analysis)
+- **Critical finding**: At proximal spinal levels (T10-L2), **overcorrection beyond normative values resulted in dramatically increased proximal junctional failure rates**
+- Excessive corrective forces at these levels create complications regardless of UIV level selection
+- Suggests UIV choice must align with appropriate segmental lordosis correction magnitude
+
+### Correction Magnitude as Risk Factor
+[pubmed_40153849] (Evidence: 2b, Retrospective with inverse probability weighting)
+- Identified limiting sagittal correction magnitude as a strategy to reduce PJK and PJF incidence
+- Optimization of UIV screw positioning emphasized as important, but specific vertebral level advantages not detailed
+
+### Soft-Landing Concept
+[pubmed_41297090] (Evidence: 2b, Comparative retrospective study)
+- Addresses stress transition at instrumented-non-instrumented junction
+- Transverse process hooks at UIV proposed to provide gradual stress transition
+- Implant selection considerations may apply differently depending on UIV level but no level-specific recommendations provided
+
+---
+
+## Evidence Gaps
+
+1. **No direct UIV level comparison**: No studies comparing T10 vs L1 as UIV endpoints
+2. **No Lenke 5C-specific data**: Papers address adult spinal deformity broadly, not this specific curve type
+3. **No degenerative scoliosis specificity**: Limited data distinguishing degenerative vs idiopathic patterns
+4. **Missing biomechanical analysis**: No comparative biomechanical studies on these specific levels
+
+---
+
+## Recommendation
+
+**This specific clinical question cannot be answered from the provided evidence base.** Clinical decision-making should rely on supplementary literature addressing curve type-specific UIV selection and degenerative scoliosis biomechanics not represented in these papers.
+
 
 ## System B
 **Papers retrieved**: 10
@@ -103,5 +114,3 @@ The provided papers do not contain specific evidence comparing T10 versus L1 as 
 - Patient-specific factors
 
 **Recommendation:** Evidence-based guidance for this specific clinical scenario requires studies comparing these instrumentation levels in Lenke 5C populations.
-
----

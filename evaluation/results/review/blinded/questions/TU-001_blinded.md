@@ -2,69 +2,58 @@
 
 ---
 
+
 ## System A
 **Papers retrieved**: 10
-**Evidence levels**: ['1a', '2a', '2a', '2a', '2b', '2b', '2b', '4', '2b', '4']
+**Evidence levels**: ['1a', '2a', '2a', '2a', '5', '1a', '2b', '4', '5', '1a']
 
 ### Cited Papers
 - [1a] pubmed_40968025: Optimal treatment for patients with intermediate spinal instability neoplastic s
 - [2a] pubmed_41072915: Clinical Outcomes After Spine Surgery for Patients with Potentially Unstable Met
 - [2a] pubmed_39742915: Treatment Strategies for Intermediate Spinal Instability Neoplastic Score Patien
 - [2a] pubmed_27488297: The Spinal Instability Neoplastic Score: Impact on Oncologic Decision-Making
-- [2b] pubmed_39612495: Surgical strategy for metastatic spinal tumors based on Spine Instability Neopla
-- [2b] pubmed_32904056: Conversion to Surgery in Patients with Spinal Metastases with an Intermediate Sp
-- [2b] pubmed_28713049: Patient-Reported Outcome Validation of the Spinal Instability Neoplastic Score i
-- [4] pubmed_39434232: Minimally Invasive Spine Surgery: Comprehensive Review of Techniques, Technologi
-- [2b] pubmed_36649855: Spinal Fusion Outcomes in Incarcerated Patients: A Matched Cohort Study
-- [4] pubmed_24879610: Smoking Cessation and Bone Healing in Spinal Fusion: A Temporal Analysis of Pseu
+- [5] pubmed_32048051: Pseudoarthrosis in Adult Spinal Deformity Surgery: Management and Outcomes
+- [1a] pubmed_41497819: Radiological and complication outcomes of posterior pedicle subtraction osteotom
+- [2b] pubmed_40381021: Posterior vertebral column resection with preservation of posterior ligamentous 
+- [4] pubmed_41810392: Augmented Reality in Minimally Invasive Spine Surgery: A Narrative Review of Non
+- [5] pubmed_40098127: Adult Spinal Deformity: Diagnosis and Treatment Innovation
+- [1a] pubmed_37740115: Age-Adjusted Alignment Thresholds in Adult Spinal Deformity Surgery: A Systemati
 
 ### Answer
 
 # Evidence for Surgical Intervention Based on SINS in Metastatic Spine Disease
 
-## SINS Score Stratification and Surgical Decision-Making
+## SINS Score Stratification and Treatment Thresholds
 
-### SINS 7-12 (Intermediate Instability)
-The intermediate SINS range represents a clinically challenging group where treatment decisions require individualization:
+**Clear Indication Categories:**
+- **SINS 1-6 (Stable)**: Suitable for radiotherapy alone [pubmed_40968025, evidence level 1a]
+- **SINS 13-18 (Unstable)**: Typically require surgical intervention [pubmed_40968025, evidence level 1a]
+- **SINS 7-12 (Intermediate/Potentially Unstable)**: Optimal approach remains unclear [pubmed_40968025, evidence level 1a]
 
-**General Recommendations:**
-- A systematic review [pubmed_40968025] (Evidence: 1a) suggests that **surgical intervention alone or in combination with radiation may be superior** for patients with SINS 7-12 and metastatic spinal tumors
-- [pubmed_32904056] (Evidence: 2b, Retrospective Study) notes that intermediate SINS (7-12) **indicates impending instability, making it difficult to determine proper treatment strategy**
+## Surgical Decision-Making in Intermediate SINS (7-12) Range
 
-### SINS Subgroup Analysis (7-9 vs 10-12)
+**Escalating Instrumentation with SINS Severity:**
+Patients with higher SINS scores (10-12) were significantly more likely to receive surgical instrumentation compared to those with lower SINS scores (7-9) [pubmed_41072915, evidence level 2a]. This reflects clinical escalation of decision-making based on SINS severity.
 
-**SINS 7-9 (Lower End of Intermediate):**
-- [pubmed_41072915] (Evidence: 2a, Systematic Review) identifies **SINS 9 as a threshold** associated with surgical instrumentation decisions
-- [pubmed_39742915] (Evidence: 2a, Systematic Review) recommends that for SINS 7-9 patients with relatively lower structural compromise, **either surgical management or radiotherapy alone may be considered** based on individual patient factors, tumor histology, and performance status
+**SINS 10-12 Subgroup (Higher Risk):**
+- Characterized by larger lytic areas and higher vertebral body fracture probabilities
+- **6.88-fold increased odds of surgical intervention** (P = 0.0005) compared to SINS 7-9 patients [pubmed_39742915, evidence level 2a]
+- Appear at particularly high risk for structural failure
+- May benefit from stabilization procedures **prior to radiotherapy** [pubmed_39742915, evidence level 2a]
 
-**SINS 10-12 (Higher End of Intermediate):**
-- [pubmed_41072915] identifies **SINS 10 as a threshold** potentially indicating need for surgery
-- [pubmed_39742915] recommends that for **SINS 10-12 patients, particularly those with renal cell carcinoma metastases, surgical stabilization (including fusion, vertebroplasty, or kyphoplasty) should** be performed
-- [pubmed_40968025] suggests that **SINS ≥10 may indicate a need for surgery**
+**SINS 7-9 Subgroup:**
+- Lower rates of surgical intervention compared to SINS 10-12 [pubmed_39742915, evidence level 2a]
 
-## Clinical Outcomes of Surgical Stabilization
+## Prognostic Value for Treatment Outcomes
 
-**Pain and Functional Outcomes:**
-[pubmed_28713049] (Evidence: 2b, Validation Study) demonstrates that **surgical stabilization of cancer patients with SINS scores consistent with mechanical instability provides significant reduction in pain and improves patient mobility independent of neurologic status and stabilization technique**
-
-## Treatment Framework Integration
-
-[pubmed_39612495] (Evidence: 2b, Multicenter Prospective Study) provides evidence that **the NOMS framework remains the recommended approach for individualizing surgical strategy**, incorporating:
-- Neurological status
-- Oncological factors (histology, prognosis, RT sensitivity)
-- Mechanical stability assessment (SINS)
-- Systemic health status
-
-This supports a **more nuanced approach to surgical decision-making beyond simple SINS category assignment**
+Twelve studies investigated whether SINS scores could predict treatment outcomes in patients undergoing radiotherapy or surgical intervention, though specific outcome data are not detailed in the provided abstracts [pubmed_27488297, evidence level 2a].
 
 ## Evidence Gaps
 
-- [pubmed_40968025] acknowledges that **further research is warranted to obtain more definitive evidence** and that **individual SINS components could be predictive** (requiring further study)
-- Limited high-level evidence (only one 1a review identified); most supporting evidence is 2a-2b level
-- Comparative effectiveness between specific surgical techniques within SINS subgroups not extensively detailed in provided papers
-- Limited data on optimal timing and sequence of surgery plus radiotherapy combinations
+- Limited data on specific complication rates, survival outcomes, or functional improvements stratified by SINS subgroups
+- Insufficient evidence on optimal timing and sequencing of surgery relative to radiotherapy
+- Need for prospective studies comparing treatment strategies within SINS 7-12 range
 
----
 
 ## System B
 **Papers retrieved**: 6
@@ -113,5 +102,3 @@ Individual SINS components (mechanical pain, bone lesion, radiographic spinal al
 - Heterogeneity within SINS 7-12 suggests this category may contain distinct clinical subgroups requiring differentiated treatment strategies [pubmed_41072915, Evidence: 2a]
 - Further research is warranted to obtain more definitive evidence for optimal treatment selection within intermediate SINS categories [pubmed_40968025, Evidence: 1a]
 - The optimal division of SINS 7-12 into clinically distinct subgroups remains undefined
-
----
