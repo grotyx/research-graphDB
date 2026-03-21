@@ -1,0 +1,13 @@
+{
+  "papers": 773,
+  "Intervention": 855,
+  "Pathology": 522,
+  "Outcome": 394,
+  "Anatomy": 230,
+  "INVESTIGATES": 2946,
+  "STUDIES": 2100,
+  "TREATS": 5276,
+  "AFFECTS": 7172,
+  "IS_A": 1829,
+  "HAS_CHUNK": 12234
+}

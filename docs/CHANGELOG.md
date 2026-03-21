@@ -2,6 +2,23 @@
 
 ## Version History
 
+### v1.31.0: Graph 품질 개선 + B4 v10 확정 (2026-03-21)
+
+- **Outcome 정규화**: 3,565 → 394개 (90% 감소)
+  - VAS 34→9, ODI 32→3, Complication 68→10 등 canonical 매핑
+  - Study-specific / ML 메트릭 2,352개 삭제
+  - 고아 Outcome 371→5개
+- **IS_A 계층 확장**: Intervention 43→98%, Pathology 44→100%, Anatomy 30→100%
+  - 935개 orphan entity에 parent 매핑 (교수님 검수 완료)
+  - Injection Therapy, Bone Graft, Spinal Instrumentation 등 카테고리 구축
+- **B4 v10 확정**: DG-009 compare 오감지 수정 + Multi-vector search
+  - 6문항 재평가: B4 4승 / TIE 1 / B2 1승
+  - v7→v10 총 개선: 6문항 중 5문항 B4 우세/동점으로 전환
+- **Graph 품질 개선 가이드**: docs/GRAPH_QUALITY_GUIDE.md
+  - 카테고리별 검수 프로세스, 프롬프트 템플릿, 체크리스트
+- **시스템 기능 현황 문서**: SYSTEM_FEATURES_STATUS.md
+  - 사용 중 5개, 실패 5개, 미연결 6개 기능 분류
+
 ### v1.30.0: GraphRAG Pattern 2 + Graph-specific Questions + Evaluation (2026-03-18)
 
 - **B4 Pipeline 전면 교체**: Pattern 3 (dual merge) → **Pattern 2 (Graph Filter → Vector Rank)**

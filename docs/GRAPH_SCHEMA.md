@@ -1,6 +1,6 @@
 # Spine GraphRAG Schema
 
-> **Version**: 1.30.0
+> **Version**: 1.31.0
 
 ## Node Types
 
@@ -260,7 +260,7 @@ final_score = 0.4 * semantic_score + 0.3 * authority_score + 0.3 * graph_relevan
 
 모든 엔티티 노드 (Intervention, Pathology, Outcome, Anatomy)에 SNOMED-CT 코드가 자동으로 부여됩니다.
 
-### 매핑 통계 (v1.30.0)
+### 매핑 통계 (v1.31.0)
 
 | Category | Total | Official SNOMED | Extension Codes |
 |----------|-------|-----------------|-----------------|
