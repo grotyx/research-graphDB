@@ -9,47 +9,50 @@
 
 ### Cited Papers
 - [1a] pubmed_31863642: Cervical Disc Arthroplasty versus Anterior Cervical Discectomy and Fusion for Ce
-- [1a] pubmed_40797275: Long-term effectiveness and safety of cervical disc arthroplasty compared to ant
-- [1a] pubmed_29753897: Anterior Cervical Discectomy and Fusion versus Anterior Cervical Disc Replacemen
 - [1a] pubmed_38843960: Anterior Cervical Discectomy and Fusion Versus Cervical Disc Arthroplasty Strati
-- [1a] pubmed_35113188: Comparison of Outcomes Between Artificial Cervical Disc Replacement and Anterior
 - [1a] pubmed_29595628: Anterior Cervical Artificial Disc Replacement Versus Anterior Cervical Decompres
+- [1a] pubmed_35113188: Comparison of Outcomes Between Artificial Cervical Disc Replacement and Anterior
+- [1a] pubmed_29753897: Anterior Cervical Discectomy and Fusion versus Anterior Cervical Disc Replacemen
+- [1a] pubmed_40797275: Long-term effectiveness and safety of cervical disc arthroplasty compared to ant
 - [1a] pubmed_31431880: Total Disc Replacement versus Anterior Cervical Discectomy and Fusion for Adjace
 - [1a] pubmed_40882232: Anterior Cervical Discectomy and Fusion versus Cervical Disc Arthroplasty for De
 - [1a] pubmed_30062947: Total disc replacement versus anterior cervical discectomy and fusion: a systema
-- [1a] pubmed_30992666: Cervical Disc Arthroplasty Versus Anterior Cervical Discectomy and Fusion: A Met
+- [1a] pubmed_28700452: Anterior cervical discectomy and fusion, cervical disc replacement, and minimall
 
 ### Answer
 
-# Outcome Measures Shared with Cervical Disc Replacement (CDR)
+# Interventions Sharing Most Outcome Measures with Cervical Disc Replacement (CDR)
 
-Based on the provided papers, **Anterior Cervical Discectomy and Fusion (ACDF)** shares the most outcome measures with CDR/CDA (Cervical Disc Arthroplasty), as they are consistently compared across all retrieved meta-analyses.
+## Primary Finding
 
-## Primary Shared Outcome Measures
+**Anterior Cervical Discectomy and Fusion (ACDF)** shares the most outcome measures with cervical disc replacement (CDR), as both interventions are comprehensively compared across the evidence base.
+
+## Shared Outcome Measures
 
 ### Functional Outcomes
-- **Neck Disability Index (NDI)** - Most frequently reported
-  - Compared across all 6 meta-analyses [pubmed_31863642, pubmed_40797275, pubmed_29753897, pubmed_38843960, pubmed_35113188, pubmed_29595628]
-  - Example: SMD 0.41 favoring ACDR in bi-level disease (95% CI: 0.29-0.52, p<0.00001) [pubmed_29595628]
+- **Neck Disability Index (NDI)** - reported across all major comparisons [pubmed_31863642, pubmed_29595628, pubmed_35113188, pubmed_29753897, pubmed_31431880]
+- **Japanese Orthopaedic Association (JOA) Score** [pubmed_31431880]
 
 ### Pain Outcomes
-- **VAS Neck Pain** - Reported in 4 meta-analyses [pubmed_31863642, pubmed_38843960, pubmed_30992666, pubmed_31431880]
-  - Example: MD -2.30 favoring CDA (95% CI [-3.72, -0.87], p=0.002) [pubmed_30992666]
-- **VAS Arm/Upper Limb Pain** - Reported in 3 meta-analyses [pubmed_31863642, pubmed_38843960, pubmed_31431880]
-  - Example: MD -3.78 favoring CDA (95% CI [-7.04, -0.53], p=0.02) [pubmed_31863642]
+- **Visual Analog Scale (VAS) for neck pain** [pubmed_31863642, pubmed_38843960, pubmed_29753897]
+- **VAS for arm pain** [pubmed_31863642, pubmed_38843960, pubmed_29753897]
 
-### Quality of Life
-- **SF-36 Physical Component Score** [pubmed_31863642, pubmed_30062947]
+### Motion-Related Outcomes
+- **Range of motion (ROM) at operated segment** [pubmed_29753897, pubmed_40797275, pubmed_31431880]
 
-### Mechanical Outcomes
-- **Range of Motion (ROM)** - 2 meta-analyses [pubmed_40797275, pubmed_29753897]
-- **Adjacent Segment Disease (ASD) rates** - 3 meta-analyses [pubmed_29753897, pubmed_31431880, pubmed_30062947]
-- **Neurological Success Rates** [pubmed_40797275]
-- **Reoperation Rates** [pubmed_29753897]
+### Safety/Complications
+- **Adjacent segment disease (ASD) rates** [pubmed_29753897, pubmed_31431880]
+- **Reoperation rates** [pubmed_29753897, pubmed_28700452]
+- **Overall surgical complications** [pubmed_29753897]
 
-## Evidence Gap
+### Efficacy Endpoints
+- **Neurological success rates** [pubmed_40797275, pubmed_30062947]
+- **Secondary surgical procedures** [pubmed_28700452]
 
-**No other surgical interventions** in this database (Giant Cell Tumor treatment, other lumbar procedures) are compared with CDR using these standardized outcome measures. The knowledge graph context lists Anterior Decompression and ADR, but these are not systematically compared to CDR in the retrieved papers.
+## Evidence Level
+All comparisons derive from systematic reviews and meta-analyses of randomized controlled trials (Evidence Level 1a) [pubmed_31863642, pubmed_38843960, pubmed_29595628, pubmed_35113188, pubmed_29753897, pubmed_40797275, pubmed_31431880, pubmed_40882232, pubmed_30062947, pubmed_28700452]
+
+**Note:** The database does not contain comparative data for Giant Cell Tumor or Lumbar Radiculopathy treatments alongside CDR/ACDF.
 
 
 ## System B

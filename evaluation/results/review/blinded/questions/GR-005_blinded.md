@@ -125,97 +125,72 @@ For L4-L5 degenerative spondylolisthesis, **fusion appears superior to decompres
 
 ## System B
 **Papers retrieved**: 10
-**Evidence levels**: ['1a', '1a', '1a', '1b', '1a', '1a', '1a', '1a', '1a', '1a']
+**Evidence levels**: ['1a', '1a', '1a', '1a', '1a', '1a', '2b', '1a', '5', '2b']
 
 ### Cited Papers
-- [1a] pubmed_23646277: Cost-effectiveness of interbody fusion with bone morphogenetic protein for the t
+- [1a] pubmed_40066769: Transforaminal Lumbar Interbody Fusion versus Anterior Lumbar Interbody Fusion a
 - [1a] pubmed_37950267: Efficacy of Oblique Lumbar Interbody Fusion (OLIF) versus Posterior Lumbar Inter
 - [1a] pubmed_39575949: Radiographic Outcomes Across Lumbar Interbody Fusion Techniques: A Systematic Re
-- [1b] pubmed_39973470: Cost-Effectiveness of Instrumented Versus Uninstrumented Posterolateral Fusion i
-- [1a] pubmed_40066769: Transforaminal Lumbar Interbody Fusion versus Anterior Lumbar Interbody Fusion a
 - [1a] pubmed_38622724: Oblique Lateral Approach versus Transforaminal Lumbar Interbody Fusion for Degen
-- [1a] pubmed_39895414: Network meta-analysis comparing endoscopic posterolateral fusion and lateral int
+- [1a] pubmed_23646277: Cost-effectiveness of interbody fusion with bone morphogenetic protein for the t
 - [1a] pubmed_25955186: Fusion Rates in Anterior Lumbar Interbody Fusion, Posterior Lumbar Interbody/Tra
-- [1a] pubmed_41420307: Clinical Efficacy and Safety of Minimally Invasive, Full Endoscopic, and Biporta
-- [1a] pubmed_40195641: Biportal endoscopic spinal surgery (BESS) with interbody fusion for lumbar degen
+- [2b] pubmed_40629161: Navigation and Robotic Technologies in Lumbar Fusion Surgery: A Nationwide Inpat
+- [1a] pubmed_41066602: Impact of Smoking on Spinal Fusion Rates and Patient-Reported Outcomes: A System
+- [5] pubmed_35928322: Short review/perspective on Adjacent Segment Disease (ASD) following Cervical Fu
+- [2b] pubmed_41677169: Is Cigarette Smoking Associated With Impaired Fusion After Transforaminal Lumbar
 
 ### Answer
 
-# Evidence Summary: Fusion Techniques for Degenerative Spondylolisthesis at L4-5
+# Evidence Summary: Fusion Techniques for L4-5 Degenerative Spondylolisthesis
 
-## Overview of Available Techniques
+## Available Fusion Techniques Compared
 
-The evidence addresses multiple lumbar interbody fusion approaches, though direct L4-5 specific data are limited. [pubmed_39575949] (systematic review and meta-analysis of 88 papers, Evidence 1a) provides the most comprehensive comparison across techniques.
+Based on the provided evidence, the following techniques are discussed for degenerative lumbar spondylolisthesis:
 
-## Fusion Rates by Technique
+**Primary Comparisons:**
+- TLIF (Transforaminal Lumbar Interbody Fusion)
+- OLIF (Oblique Lateral Interbody Fusion)
+- PLIF (Posterior Lumbar Interbody Fusion)
+- ALIF (Anterior Lumbar Interbody Fusion)
+- LLIF (Lateral Lumbar Interbody Fusion)
 
-### Superior Fusion Rate Techniques:
-**ALIF (Anterior Lumbar Interbody Fusion):**
-- With rhBMP-2: 97.8% fusion rate
-- Without rhBMP-2: 88.2% fusion rate
-- Odds ratio: 7.08 improvement with BMP [pubmed_25955186] (systematic review, Evidence 1a)
-- [pubmed_39575949] demonstrates "consistent superiority of ALIF...for lordosis restoration" across both systematic review and meta-analysis
+[pubmed_38622724] A meta-analysis (Evidence: 1a) specifically examined OLIF versus TLIF for degenerative lumbar spondylolisthesis, noting that TLIF has been the standard technique since 1982 but concerns exist regarding "severe iatrogenic injury, paraspinal muscle atrophy, as well as limitations in correcting" certain deformities. However, the paper does not provide detailed outcome comparisons in the excerpt provided.
 
-**Lateral Fusion Techniques (OLIF/SA-LLIF):**
-- Demonstrated "significantly higher fusion rates compared to both UELIF and MIS-TLIF (p<0.05)" [pubmed_39895414] (network meta-analysis, Evidence 1a)
-- Mechanism: "Large interbody cages implanted via lateral fusion to open intervertebral space for indirect decompression create more stable intervertebral space and larger bone grafting area"
+---
 
-### Moderate Fusion Rate Techniques:
-**PLF (Posterolateral Fusion):**
-- With rhBMP-2: 93.6% fusion rate
-- Without rhBMP-2: 83.1% fusion rate
-- Odds ratio: 3.06 improvement with BMP [pubmed_25955186]
+## Fusion Rates
 
-**PLIF (Posterior Lumbar Interbody Fusion):**
-- Ekman et al. (86 PLIF vs 77 PLF patients): "the type of fusion, PLF or PLIF did not affect 2-year outcomes" for isthmic spondylolisthesis [pubmed_23646277]
-- Inamdar et al. (11 per group): "no cases of pseudoarthrosis in either group" comparing PLF and PLIF [pubmed_23646277]
-- **rhBMP-2 effect: No significant improvement in PLIF/TLIF** - this is a key distinction from ALIF [pubmed_25955186]
+**PLIF/TLIF Combined (24-month endpoint):** [pubmed_25955186]
+- **With rhBMP-2**: 95.7% fusion rate (n=141)
+- **Without rhBMP-2**: 89.5% fusion rate (n=86)
+- **Difference**: 6.2% absolute increase, but NOT statistically significant (OR 1.98, 95% CI: 0.39-10.1) [pubmed_25955186]
 
-### Lower Fusion Rate Techniques:
-**TLIF (Transforaminal Lumbar Interbody Fusion):**
-- Consistently inferior to ALIF for lordosis restoration [pubmed_39575949]
-- Lower fusion rates than OLIF and SA-LLIF [pubmed_39895414]
-- Concerns noted: "severe iatrogenic injury, paraspinal muscle atrophy, as well as limitations in correcting [deformity]" [pubmed_38622724]
+**360° Fusion (PLF with instrumentation + ALIF/PLIF):** [pubmed_23646277]
+- Fusion rate: 91% (compared to 87% for PLF with instrumentation alone; p=0.529, not significant)
 
-## Instrumentation Impact
-
-**Instrumented vs. Uninstrumented Posterolateral Fusion in Spondylolisthesis:**
-- RCT in elderly patients with degenerative spondylolisthesis and spinal stenosis [pubmed_39973470] (Evidence 1b)
-- Reoperation rate: **1.9% (instrumented) vs. 13.2% (uninstrumented)**
-- Clinical implication: "significantly lower reoperation rate in the instrumented group suggests superior clinical stability and fusion outcomes, which are particularly important in the elderly population"
-
-## Minimally Invasive Variations
-
-**Endoscopic and Biportal Approaches:**
-- MIS-TLIF, FE-TLIF, and BE-TLIF have been evaluated [pubmed_41420307] (network meta-analysis, Evidence 1a)
-- BESS with interbody fusion identified as "safe, effective, minimally invasive alternative" with "high fusion rates and manageable complications" [pubmed_40195641] (systematic review, Evidence 1a)
-- However, fusion rate comparisons show these techniques generally underperform lateral approaches [pubmed_39895414]
+---
 
 ## Complication Profiles
 
-**Limited Direct Comparisons Available:**
+**Specific to L4-5 Spondylolisthesis:** The retrieved papers do not provide detailed complication data stratified specifically for L4-5 degenerative spondylolisthesis.
 
-The evidence emphasizes:
-- TLIF: Risk of "severe iatrogenic injury, paraspinal muscle atrophy" [pubmed_38622724]
-- Lateral techniques (OLIF/LLIF): Advantage of "indirect decompression" with larger graft area [pubmed_39895414]
-- Minimally invasive techniques (BESS, endoscopic): "Manageable complications" but heterogeneous data preclude definitive meta-analysis [pubmed_40195641]
+**General Comparative Data (mixed lumbar levels):**
+- [pubmed_40066769] indicates ALIF demonstrates "lower complication rates" compared to TLIF (though this comparison was focused on L5-S1)
+- [pubmed_37950267] notes PLIF has disadvantages including long surgical time, but specific complication rates for spondylolisthesis are not detailed in the excerpt
 
-## Cost-Effectiveness Considerations
+---
 
-- Systematic review examining BMP cost-effectiveness [pubmed_23646277] notes improved fusion rates but does not provide cost-benefit analysis details in retrieved text
-- RCT on instrumented vs. uninstrumented fusion [pubmed_39973470] implies cost considerations but focuses on clinical outcomes
+## Evidence Gaps
 
-## Evidence Gaps for L4-5 Specific Data
+**Significant limitations in answering this specific question:**
 
-1. **No L4-5 specific fusion rate data** - included studies address lumbar degenerative diseases broadly
-2. **Limited spondylolisthesis-specific outcomes** - most data are from mixed degenerative pathology cohorts
-3. **Insufficient complication profile comparisons** - direct safety comparisons between techniques are sparse
-4. **Heterogeneous study populations** - difficulty isolating L4-5 specific results
+1. **Level-specific data missing**: The provided papers compare techniques across mixed degenerative lumbar pathology but do NOT provide L4-5-specific outcomes
+2. **Spondylolisthesis-specific outcomes**: While [pubmed_38622724] addresses spondylolisthesis, detailed fusion rates and complication profiles are not included in the excerpts
+3. **No direct L4-5 comparisons**: Fusion rates and complication data are not stratified by segmental level
+4. **Incomplete technique comparisons**: Head-to-head comparisons between all five techniques (PLIF, TLIF, ALIF, OLIF, LLIF) for spondylolisthesis are not fully detailed
 
-## Clinical Summary
+---
 
-For degenerative spondylolisthesis at L4-5:
-- **Highest fusion rates:** ALIF (97.8% with BMP), lateral techniques (OLIF/SA-LLIF)
-- **Instrumented fusion strongly preferred** over uninstrumented (1.9% vs 13.2% reoperation rate)
-- **PLIF alone appears equivalent** to PLF without significant BMP benefit
-- **TLIF associated with tissue injury concerns** and inferior lordosis correction
+## Recommendation for Clinical Decision-Making
+
+The evidence provided does not allow for robust level-specific (L4-5) or diagnosis-specific (degenerative spondylolisthesis) recommendations. Additional literature review beyond the provided papers would be necessary to answer this clinical question comprehensively.

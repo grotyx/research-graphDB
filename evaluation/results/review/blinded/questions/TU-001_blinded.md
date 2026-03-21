@@ -5,65 +5,63 @@
 
 ## System A
 **Papers retrieved**: 10
-**Evidence levels**: ['1a', '2a', '2a', '2b', '2b', '2b', '4', '4', '2b', '4']
+**Evidence levels**: ['1a', '2a', '2a', '2a', '2a', '4', '5', '5', '2b', '2b']
 
 ### Cited Papers
 - [1a] pubmed_40968025: Optimal treatment for patients with intermediate spinal instability neoplastic s
 - [2a] pubmed_41072915: Clinical Outcomes After Spine Surgery for Patients with Potentially Unstable Met
 - [2a] pubmed_39742915: Treatment Strategies for Intermediate Spinal Instability Neoplastic Score Patien
-- [2b] pubmed_39612495: Surgical strategy for metastatic spinal tumors based on Spine Instability Neopla
-- [2b] pubmed_32904056: Conversion to Surgery in Patients with Spinal Metastases with an Intermediate Sp
-- [2b] pubmed_28713049: Patient-Reported Outcome Validation of the Spinal Instability Neoplastic Score i
-- [4] pubmed_40002531: Use of Carbon Fiber Implants to Improve the Safety and Efficacy of Radiation The
+- [2a] pubmed_27488297: The Spinal Instability Neoplastic Score: Impact on Oncologic Decision-Making
+- [2a] pubmed_40231517: Risk factors for Early (Three-Month) Postoperative Mortality in Metastatic Spine
 - [4] pubmed_41725136: AO Spine Clinical Practice Recommendations: An Overview of the Current State of 
-- [2b] pubmed_41391601: Navigating the Surgical Dilemma in Metastatic Spine Disease: Does Age Influence 
-- [4] pubmed_41810392: Augmented Reality in Minimally Invasive Spine Surgery: A Narrative Review of Non
+- [5] pubmed_35155240: Management of Spinal Metastases: Evolution of the Spine Instability Neoplastic S
+- [5] pubmed_37356864: Management Algorithm for Osseous Metastatic Disease: What the Treatment Teams Wa
+- [2b] pubmed_32904056: Conversion to Surgery in Patients with Spinal Metastases with an Intermediate Sp
+- [2b] pubmed_39612495: Surgical strategy for metastatic spinal tumors based on Spine Instability Neopla
 
 ### Answer
 
 # Evidence for Surgical Intervention Based on SINS in Metastatic Spine Disease
 
-## SINS Classification and Clinical Interpretation
+## SINS Score Ranges and Surgical Decision-Making
 
-The SINS system categorizes spinal stability into three categories [pubmed_32904056, pubmed_28713049]:
-- **0-6 points**: Stability - suitable for radiotherapy
-- **7-12 points**: Impending instability (intermediate)
-- **13-18 points**: Instability - typically requiring surgery
+### SINS 7-12 (Intermediate Instability) - Key Threshold Identification
 
-[pubmed_28713049] (Evidence: 2b) notes that neoplastic spinal instability is defined as movement-related pain, deformity, or neurologic compromise under physiologic loads, with SINS comprising six categories including both radiographic findings and clinical assessment.
+**Cutoff Score of 9-10 as Decision Points:**
+Two systematic reviews identified critical thresholds within the intermediate range:
+- SINS 9 or SINS 10 were identified as thresholds associated with clinical decisions regarding surgical instrumentation [pubmed_41072915] (Evidence: 2a, systematic review)
+- This suggests potential subgroups within SINS 7-12 warrant differentiated treatment approaches [pubmed_41072915]
 
-## Intermediate SINS (7-12): The Evidence Gap
+### SINS 10-12 Subgroup (Higher Risk)
 
-### Clinical Decision-Making Patterns
+**Significantly Increased Surgical Intervention Rates:**
+- Patients with SINS 10-12, characterized by larger lytic areas and higher probabilities of vertebral body fracture, demonstrated significantly higher rates of surgical intervention (OR 6.88, P = 0.0005) [pubmed_39742915] (Evidence: 2a, systematic review)
+- These patients appear at particularly high risk for structural failure and may benefit from stabilization procedures performed prior to radiotherapy [pubmed_39742915]
 
-[pubmed_41072915] (Evidence: 2a, systematic review) reports that **clinical decision-making regarding instrumentation escalates with increasing SINS severity**, with specific thresholds identified:
-- SINS 7-9 patients less likely to receive instrumentation
-- SINS 10-12 patients more likely to receive instrumentation
-- Critical cutoff scores of SINS 9 or 10 identified as decision thresholds, though indications varied across studies
+### SINS 7-9 Subgroup (Lower Risk)
 
-### Treatment Recommendations
+- SINS 7-9 patients showed lower surgical intervention rates and may be candidates for non-operative management with radiotherapy [pubmed_39742915]
 
-[pubmed_39742915] (Evidence: 2a, systematic review) recommends a **risk-stratified approach**:
-- **SINS 7-9**: Either surgical management OR radiotherapy alone may be considered based on individual patient factors, tumor histology, and performance status
-- **SINS 10-12**: Surgical stabilization (including fusion, vertebroplasty, or kyphoplasty) should be considered, particularly for renal cell carcinoma metastases
+## Overall SINS Impact on Surgical Decision-Making
 
-## Individualized Decision-Making Framework
+**Clinical Utility:**
+- SINS has influenced oncologic decision-making by providing standardized criteria for determining which patients require surgical versus non-surgical management [pubmed_27488297] (Evidence: 2a)
+- The tool has facilitated communication among multidisciplinary teams [pubmed_27488297]
 
-[pubmed_39612495] (Evidence: 2b, multicenter prospective) emphasizes a **nuanced approach beyond simple SINS category assignment**, supporting the **NOMS framework** (Neurological status, Oncological factors, Mechanical stability [SINS], and Systemic health). This incorporates:
-- Tumor histology and prognosis
-- Radiotherapy sensitivity
-- Patient performance status
-- Neurological status
+**Risk of Radiotherapy Failure:**
+- A higher spinal instability score increases risk of radiotherapy failure and complications in patients with spinal metastases, regardless of performance status, primitive tumor, and symptoms [pubmed_35155240] (Evidence: 5, review)
 
-[pubmed_41391601] (Evidence: 2b) addresses patient age as an additional factor influencing treatment strategy and outcomes in metastatic spine disease.
+## Limitations and Nuanced Approach
 
-## Evidence Limitations
+**Conflicting Evidence on SINS Components:**
+- One retrospective study found no significant difference in conversion to surgery among patients divided by SINS groups, and SINS components (pain type, bone quality, spinal alignment, posterolateral involvement) showed no significant association with conversion to surgery [pubmed_32904056] (Evidence: 2b, retrospective study)
 
-[pubmed_40968025] (Evidence: 1a, systematic review) explicitly acknowledges that **"the optimal approach for patients with SINSs of 7-12 remains unclear"** and identifies this as a significant evidence gap. The heterogeneity of indications across studies [pubmed_41072915] suggests current practice remains non-standardized in this intermediate zone.
+**NOMS Framework Recommended:**
+- The NOMS (Neurological, Oncological, Mechanical stability, Systemic health) framework remains the recommended approach for individualizing surgical strategy, incorporating neurological status, oncological factors (histology, prognosis, RT sensitivity), SINS-based mechanical stability assessment, and systemic health status [pubmed_39612495] (Evidence: 2b, multicenter prospective study)
 
 ## Summary
 
-While SINS ≥13 clearly indicates surgical intervention and SINS ≤6 supports non-surgical approaches, intermediate SINS (7-12) lacks definitive evidence-based thresholds. Current evidence supports individualized decision-making incorporating SINS score with oncologic, neurologic, and systemic factors rather than SINS score alone.
+The evidence supports using SINS score thresholds (particularly 9-10) to guide surgical decision-making, with SINS 10-12 patients at substantially higher risk for surgical intervention. However, SINS should be integrated within the broader NOMS framework rather than used in isolation, as clinical outcomes depend on multiple factors beyond mechanical instability scores alone.
 
 
 ## System B

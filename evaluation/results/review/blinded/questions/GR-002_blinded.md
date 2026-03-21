@@ -47,48 +47,43 @@ The provided papers contain **no outcome data specific to PLIF** that would allo
 
 
 ## System B
-**Papers retrieved**: 10
-**Evidence levels**: ['1a', '1a', '1a', '1a', '1a', '1a', '1a', '1a', '1a', '2b']
+**Papers retrieved**: 1
+**Evidence levels**: ['4']
 
 ### Cited Papers
-- [1a] pubmed_37950267: Efficacy of Oblique Lumbar Interbody Fusion (OLIF) versus Posterior Lumbar Inter
-- [1a] pubmed_38622724: Oblique Lateral Approach versus Transforaminal Lumbar Interbody Fusion for Degen
-- [1a] pubmed_39575949: Radiographic Outcomes Across Lumbar Interbody Fusion Techniques: A Systematic Re
-- [1a] pubmed_23646277: Cost-effectiveness of interbody fusion with bone morphogenetic protein for the t
-- [1a] pubmed_25955186: Fusion Rates in Anterior Lumbar Interbody Fusion, Posterior Lumbar Interbody/Tra
-- [1a] pubmed_39895414: Network meta-analysis comparing endoscopic posterolateral fusion and lateral int
-- [1a] pubmed_39805471: Cost-utility of lumbar interbody fusion surgery: a systematic review
-- [1a] pubmed_41420307: Clinical Efficacy and Safety of Minimally Invasive, Full Endoscopic, and Biporta
-- [1a] pubmed_40195641: Biportal endoscopic spinal surgery (BESS) with interbody fusion for lumbar degen
-- [2b] pubmed_41799389: Stratified Protocol for Tranexamic Acid Administration in Spinal Surgery: A Retr
+- [4] pubmed_18316711: Posterior Lumbar Interbody Fusion (PLIF) and Transforaminal Lumbar Interbody Fus
 
 ### Answer
 
-# Comparison of TLIF and PLIF Outcomes
+# TLIF vs PLIF: Shared and Unique Outcomes
 
-Based on the provided papers, here is what can be determined about shared and unique outcomes:
+Based on the provided evidence, I can only offer limited information:
 
-## Shared Outcomes (Both TLIF and PLIF)
+## Shared Outcomes
+The retrieved paper does not explicitly detail outcomes that are shared between TLIF and PLIF.
 
-### Pain and Functional Disability Relief
-Both procedures demonstrate effectiveness in clinical outcomes, though direct comparative data is limited in these papers. [pubmed_23646277] notes that PLIF showed high clinical results comparable to other fusion methods (P = 0.704), and [pubmed_39895414] indicates that minimally invasive TLIF variants demonstrate pain and disability relief equivalent to other interbody fusion techniques.
+## Unique/Differential Outcomes
 
-### Fusion Rates
-[pubmed_25955186] (Systematic Review, Evidence 1a) reports fusion rates at 24 months:
-- **PLIF/TLIF combined**: 95.7% with rhBMP-2 (n=141) vs 89.5% without rhBMP-2 (n=86)
-- No statistically significant difference between groups (OR 1.98; 95% CI: 0.39-10.1)
+**TLIF Advantages** [pubmed_18316711]
+- Study Design: Evidence level 4 (expert opinion/narrative review)
+- Lower complication rates compared to PLIF
+- Greater versatility throughout the entire lumbar spine
 
-### Postoperative Safety
-[pubmed_38622724] (Meta-analysis, Evidence 1a) found **no statistically significant differences** in postoperative complication rates between TLIF variants and OLIF (P > 0.05).
+**PLIF Limitations** [pubmed_18316711]
+- Study Design: Evidence level 4
+- Higher complication rates relative to TLIF
+- More limited applicability across lumbar levels
 
-## Outcomes Where TLIF Shows Differences
+## Important Evidence Gaps
 
-### Segmental Lordosis Restoration
-[pubmed_39575949] (Systematic Review, Evidence 1a) reports that **OLIF demonstrated superior restoration of segmental lordosis compared with TLIF**, suggesting TLIF may be less effective for lordosis recovery.
+The single retrieved paper provides only **level 4 evidence** (narrative comparison without systematic data synthesis). Critical information is missing:
 
-### Quality-Adjusted Life Years (QALY)
-[pubmed_39805471] (Systematic Review, Evidence 1a) found that **TLIF demonstrated the highest QALY gain at 1-year (0.43)**, outperforming ALIF and OLIF at this timepoint.
+1. **No specific outcome metrics provided**: Fusion rates, clinical success rates, pain/disability scores, or reoperation rates are not quantified
+2. **No complication details**: Types and frequencies of complications not specified
+3. **No patient-reported outcomes**: No data on functional recovery, satisfaction, or quality of life
+4. **No comparative statistics**: No direct statistical comparisons between techniques
+5. **Limited scope**: Only one paper available for this comparison
 
-## Evidence Gaps
+## Recommendation
 
-The provided papers do **not** contain direct, head-to-head comparative studies specifically between TLIF and PLIF alone. Most comparisons involve TLIF versus OLIF or involve PLIF in broader procedural comparisons without direct TLIF comparison. Direct outcome differentiation between these two specific procedures cannot be fully established from the available evidence.
+To adequately answer this question, systematic reviews or randomized controlled trials directly comparing TLIF and PLIF outcomes would be needed, with detailed reporting of fusion success, functional outcomes, complications, and cost-effectiveness.

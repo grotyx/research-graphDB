@@ -48,38 +48,49 @@ The retrieved literature does not provide direct comparative complication rates 
 
 ## System B
 **Papers retrieved**: 10
-**Evidence levels**: ['1a', '1a', '1b', '1a', '1a', '1a', '1a', '1b', '1a', '1a']
+**Evidence levels**: ['1b', '1a', '1a', '1a', '1a', '1b', '1a', '1a', '1a', '1a']
 
 ### Cited Papers
-- [1a] pubmed_36991184: Uniportal versus Biportal Endoscopic Decompression for Lumbar Spinal Stenosis: A
-- [1a] pubmed_41098550: Unilateral Biportal Endoscopy versus Unilateral Portal Endoscopy for Lumbar Spin
 - [1b] pubmed_40797374: Biportal Endoscopic Spine Surgery versus Conventional Open Surgery for Lumbar De
-- [1a] pubmed_41189000: Unilateral Biportal Endoscopic Decompression versus Percutaneous Endoscopic Lumb
 - [1a] pubmed_41420307: Clinical Efficacy and Safety of Minimally Invasive, Full Endoscopic, and Biporta
-- [1a] pubmed_41559891: Uniportal versus Biportal Endoscopic Spine Surgery for Lumbar Degenerative Disea
 - [1a] pubmed_40568817: Comparison of the Biportal Endoscopic Versus Tubular Approach for the Treatment 
+- [1a] pubmed_41452813: Unilateral Biportal Endoscopic Discectomy versus Conventional Microdiscectomy fo
+- [1a] pubmed_41354742: Minimally Invasive Tubular Decompression versus Open Laminectomy for Lumbar Spin
 - [1b] pubmed_39322595: Unilateral biportal endoscopic transforaminal lumbar interbody fusion versus mic
-- [1a] pubmed_41523539: Uniportal versus Biportal Endoscopic Spine Surgery for Lumbar Degenerative Disea
 - [1a] pubmed_40195641: Biportal endoscopic spinal surgery (BESS) with interbody fusion for lumbar degen
+- [1a] pubmed_38388729: Unilateral Biportal Endoscopic Discectomy versus Microdiscectomy for Lumbar Disk
+- [1a] pubmed_37950267: Efficacy of Oblique Lumbar Interbody Fusion (OLIF) versus Posterior Lumbar Inter
+- [1a] pubmed_39895414: Network meta-analysis comparing endoscopic posterolateral fusion and lateral int
 
 ### Answer
 
-# Evidence Summary: UBE versus Conventional TLIF for Lumbar Spinal Stenosis
+# Evidence Comparison: UBE vs Conventional TLIF for Lumbar Spinal Stenosis
 
-## ODI (Functional) Improvement
+## ODI Improvement
 
-### UBE vs. Conventional/Open TLIF
-**Evidence Level 1a (Network Meta-Analysis):** BE-TLIF (biportal endoscopic TLIF) demonstrated **superior short-term functional outcomes** compared to MIS-TLIF, with improved ODI scores in the early postoperative period [pubmed_41420307]. However, specific ODI numerical values at follow-up timepoints are not provided in this comparison.
+**Limited Direct Evidence:**
+The provided papers do not contain direct head-to-head comparisons of ODI improvement specifically between UBE-TLIF and conventional open TLIF for lumbar spinal stenosis with reportable ODI outcomes.
 
-### UBE vs. Minimally Invasive Techniques (Broader Context)
-**Evidence Level 1a (Meta-Analysis):** When comparing uniportal versus biportal endoscopic approaches, biportal surgery offered **improved early functional recovery with lower ODI at 1-3 months**, which persisted at final follow-up. However, this advantage **did not consistently achieve minimal clinically important difference (MCID) thresholds** [pubmed_41559891].
+However, relevant indirect evidence includes:
 
-A prospective RCT protocol is underway comparing UBE-TLIF to microscopic tubular (MT) TLIF, using **ODI score at 1-year postoperation as the primary outcome with MCID to determine clinically meaningful differences** [pubmed_39322595], suggesting current evidence gaps requiring this direct comparison.
+**BE-TLIF vs MIS-TLIF (Network Meta-analysis):** [pubmed_41420307] (Evidence level: 1a) found that BE-TLIF demonstrated "significantly greater back pain reduction" and "improved short-term functional outcomes" compared to MIS-TLIF, though specific ODI values were not detailed in the provided excerpt.
+
+**UBE-TLIF vs MT-TLIF (Protocol):** [pubmed_39322595] (Evidence level: 1b) describes an ongoing prospective randomized controlled non-inferiority trial comparing UBE-TLIF to microscopic tubular TLIF for degenerative lumbar stenosis, with standardized ODI measurements planned, but results are not yet reported.
 
 ## Complication Rates
 
-**Evidence Gap:** The provided papers do not report specific complication rate comparisons between UBE and conventional open TLIF. While [pubmed_40797374] mentions comparable postoperative outcomes between biportal endoscopy and open surgery, specific complication data are not detailed.
+**General Minimally Invasive vs Open Comparisons:**
 
-## Clinical Summary
+[pubmed_41354742] (Evidence level: 1a, meta-analysis) demonstrated that MI tubular decompression surgery showed **lower overall complication rates** compared to conventional open laminectomy for lumbar spinal stenosis:
+- OR 0.42 (95% CI 0.21–0.86)
+- Reduced surgical site infections: OR 0.28 (95% CI 0.11–0.69)
 
-**Direct evidence comparing UBE versus conventional TLIF is limited.** Available data suggests biportal techniques offer superior short-term functional recovery, but clinically meaningful differences require validation in ongoing RCTs. Comprehensive complication rate comparisons are not available in these papers.
+[pubmed_41452813] (Evidence level: 1a, meta-analysis) found that UBED provided "comparable or potentially lower recurrence rates" and "comparable complication rates" versus conventional microdiscectomy for lumbar disc herniation.
+
+## Critical Evidence Gaps
+
+1. **No direct RCT data** comparing UBE-TLIF versus conventional open TLIF specifically for stenosis with ODI outcomes
+2. **Limited fusion-specific comparisons** - most UBE literature focuses on discectomy rather than TLIF
+3. The only relevant trial comparing UBE-TLIF to tubular TLIF [pubmed_39322595] has not yet reported results
+
+**Recommendation:** The planned RCT [pubmed_39322595] should provide definitive evidence once completed.

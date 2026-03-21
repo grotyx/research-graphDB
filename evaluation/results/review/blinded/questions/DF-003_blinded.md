@@ -4,68 +4,54 @@
 
 
 ## System A
-**Papers retrieved**: 10
-**Evidence levels**: ['1a', '1a', '1a', '2b', '2b', '2b', '2b', '4', '4', '4']
+**Papers retrieved**: 3
+**Evidence levels**: ['2b', '4', '4']
 
 ### Cited Papers
-- [1a] pubmed_41497819: Radiological and complication outcomes of posterior pedicle subtraction osteotom
-- [1a] pubmed_32382878: Impact of pedicle subtraction osteotomy on health-related quality of life (HRQOL
-- [1a] pubmed_41559490: Adult Spinal Deformity Surgery Alignment Goals: A Systematic Review and Meta-Ana
-- [2b] pubmed_40968391: Single-Position Navigated Lateral Column Realignment With Anterior Longitudinal 
-- [2b] pubmed_40513242: The safety and efficacy of posterior vertebral column resection in treating seve
-- [2b] pubmed_29087808: Comparative analysis of 3 surgical strategies for adult spinal deformity with mi
-- [2b] pubmed_40450887: The Impact of Alignment Parameters Relative to the Thoracolumbar Inflection Poin
+- [2b] pubmed_37768339: Restoration of the Roussouly Profile Reduces Mechanical Complications and Revisi
 - [4] pubmed_41521065: Sagittal Alignment Strategies in Adult Spinal Deformity Surgery: A Narrative Rev
 - [4] pubmed_25614149: V-Y vertebral body osteotomy for the treatment of fixed sagittal plane spinal de
-- [4] pubmed_38765779: Corrective Osteotomies for Chin-on-Chest Deformity: A Systematic Review
 
 ### Answer
 
-# Clinical Outcomes of Three-Column Osteotomies for Fixed Sagittal Imbalance
+# Outcomes of Three-Column Osteotomies for Fixed Sagittal Imbalance
 
-## Radiological and Correction Outcomes
+## Evidence Available
 
-**Sagittal Correction Efficacy**
-Three-column osteotomies (PSO, VCR) are established as powerful correction tools for severe and rigid spinal deformity. PSO represents a three-column osteotomy approach enabling "significant angular correction at a single level" [pubmed_32382878, Evidence 1a - systematic review/meta-analysis]. The Roussouly classification approach emphasizes restoration of a patient's inherent sagittal profile, with "lower complication rates observed when type-matched correction was achieved" [pubmed_41521065, Evidence 4 - narrative review].
+The provided papers offer **limited direct evidence** regarding three-column osteotomies (PSO/VCR) for fixed sagittal imbalance. Only one paper addresses osteotomy technique directly.
 
-**Plan-to-Achievement Fidelity**
-A meta-analysis examining 15 studies (2006-2025) evaluated alignment goals in adult spinal deformity surgery, including studies on open posterior fusion with various osteotomies (PSO, SPO, VCR) [pubmed_41559490, Evidence 1a]. However, specific plan-to-achieved correction percentages and durability outcomes are not detailed in the provided excerpt.
+### Osteotomy Technique and Outcomes
 
----
+**V-Y Vertebral Body Osteotomy** [pubmed_25614149]
+- **Study Design:** Case series (Evidence Level 4)
+- **Outcome Measures:** Pre/postoperative assessment using:
+  - Oswestry Disability Index (ODI)
+  - Scoliosis Research Society-24 questionnaire
+  - Radiographic analysis
+- **Note:** The paper assessed outcomes but specific numerical results are not provided in the retrieved abstract/summary.
 
-## Complication Profile
+## Sagittal Alignment Strategy Evidence
 
-**High Morbidity Burden**
-PSO is associated with "substantial intraoperative morbidity including high blood loss, neurological injury risk, and prolonged operative times" [pubmed_41497819, Evidence 1a - meta-analysis].
+**Roussouly Profile Restoration** [pubmed_37768339]
+- **Study Design:** Comparative cohort (Evidence Level 2b)
+- **Mechanical Complication Rates:**
+  - Restored Roussouly profile: 7/26 patients (27%)
+  - Unrestored profile: 23/26 patients (88%)
+  - Difference: p < 0.001
 
-**Radiological and Complication Comparison Studies**
-A meta-analysis directly comparing PSO with anterior column realignment (ACR) for adult spinal deformity outcomes was conducted [pubmed_41497819, Evidence 1a], but specific complication rates and comparative data are not provided in the available excerpt.
+**Additional Context** [pubmed_41521065]
+- **Study Design:** Narrative review (Evidence Level 4)
+- Lower complication rates were observed when **type-matched sagittal correction** was achieved using the Roussouly classification
 
-**Long-term Hardware Complications**
-In severe spinal deformity (Pott's deformity), posterior vertebral column resection showed "high incidence of late complications, particularly instrument failure occurring in 11.7% of patients" [pubmed_40513242, Evidence 2b - multicenter study]. The authors emphasize that "hardware failure in the context of a major fusion construct may necessitate revision surgery" and recommend careful attention to implant selection, surgical technique, and postoperative monitoring [pubmed_40513242].
+## Critical Evidence Gaps
 
-**Anatomical Risk Factors for Complications**
-A caudal shift in the thoracolumbar inflection point baseline location (at L2 inferior endplate or lower) was "strongly associated with the development of proximal junctional complications requiring reoperation" (p < 0.001) [pubmed_40450887, Evidence 2b]. Each additional vertebral level of caudal displacement increased complication risk.
+1. **No specific PSO/VCR outcome data** provided
+2. **No neurological complication rates** reported
+3. **No infection/fusion rates** available
+4. **Limited functional outcome specifics** from osteotomy papers
+5. **No direct comparison** of PSO vs. VCR techniques
 
----
-
-## Quality of Life and Functional Outcomes
-
-**Health-Related Quality of Life**
-A systematic review and meta-analysis examined HRQOL measures in PSO and three-column osteotomy patients [pubmed_32382878, Evidence 1a], though specific outcome scores are not detailed in the provided excerpt.
-
-**Functional Disability Outcomes**
-In a comparative study of surgical strategies for mild-to-moderate sagittal imbalance, the combination approach (LLIF+PSF) demonstrated superiority: "significantly lower ODI score, higher SRS-22 self-image/total scores, and greater achievement of the minimal clinically important difference for the SRS-22 pain score" compared to alternative approaches [pubmed_29087808, Evidence 2b]. However, direct PSO outcomes for this cohort are not specified.
-
----
-
-## Evidence Gaps
-
-1. **Specific complication rates**: While high morbidity is documented, exact percentages of neurological injury, infection, and other complications are not provided in meta-analyses
-2. **Comparative effectiveness**: PSO vs. ACR comparative data regarding complications and functional outcomes not detailed
-3. **Patient selection criteria**: Limited evidence on optimal patient selection for three-column vs. alternative approaches
-4. **Long-term durability**: Systematic data on 5+ year outcomes with alignment maintenance unclear
-5. **Elderly populations**: Limited evidence for three-column osteotomies in septuagenarians (one comparative study available for anterior approaches [pubmed_40968391, Evidence 2b])
+The provided papers emphasize sagittal alignment strategy importance but lack comprehensive three-column osteotomy complication profiles.
 
 
 ## System B

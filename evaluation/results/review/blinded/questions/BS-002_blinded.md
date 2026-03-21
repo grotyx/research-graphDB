@@ -56,60 +56,106 @@ The literature lacks robust evidence demonstrating structural/biological disc re
 
 ## System B
 **Papers retrieved**: 10
-**Evidence levels**: ['2a', '1b', '1b', '1a', '1a', '1b', '1b', '1b', '1a', '1b']
+**Evidence levels**: ['2a', '1a', '1a', '4', '4', '5', '5', '5', '5', '5']
 
 ### Cited Papers
 - [2a] pubmed_41608524: Stem Cell-Based Strategies for Intervertebral Disc Regeneration: A Systematic Re
-- [1b] pubmed_40708286: Efficacy and Safety of Full Endoscopic Lumbar Discectomy Combined with Platelet-
-- [1b] pubmed_29652784: Vertebral Fusion Success Rates Following Posterolateral Fusion Surgery: A Prospe
-- [1a] pubmed_39131613: Postoperative Modic Changes Transformation After Lumbar Discectomy: A Systematic
 - [1a] pubmed_41666867: Annular Repair Strategies for Disc Reherniation: A Systematic Review and Meta-An
-- [1b] pubmed_12394656: Lumbar fusion using rhBMP-2 and tapered titanium fusion cage: 2-year prospective
-- [1b] pubmed_40066868: Impact of SI-6603 (Condoliase) on Health-Related Quality of Life Outcomes in Pat
-- [1b] pubmed_40993700: Efficacy of Bifidobacterium adolescentis in treating chronic low back pain assoc
-- [1a] pubmed_31593923: Electrical Stimulation for Spinal Fusion: A Systematic Review and Meta-Analysis 
-- [1b] pubmed_39593144: Application of Recombinant Human Bone Morphogenetic Protein-2 (RhBMP-2) in Percu
+- [1a] pubmed_39131613: Postoperative Modic Changes Transformation After Lumbar Discectomy: A Systematic
+- [4] pubmed_41242964: Hydrogel-based growth factors for treatment of intervertebral disc degeneration:
+- [4] pubmed_41459417: Extracellular Vesicles in Intervertebral Disc Degeneration: A Scoping Review on 
+- [5] pubmed_41163783: Endogenous Stem Cell-Mediated Repair of Degenerated Intervertebral Disc Annulus 
+- [5] pubmed_41450738: Mesenchymal Stem Cell Therapy for Intervertebral Disc Regeneration: Microenviron
+- [5] pubmed_40923466: Intervertebral Disc Degeneration: Cell Therapy and Hydrogel-Based Treatment Stra
+- [5] pubmed_41185036: Nucleus pulposus progenitor cells in intervertebral disc degeneration: character
+- [5] pubmed_41397569: Preventive Effects of Amobarbital on Post-Traumatic Intervertebral Disc Degenera
 
 ### Answer
 
 # Evidence for Stem Cell Therapy in Intervertebral Disc Degeneration
 
-## Summary of Evidence
-
-The current evidence base for stem cell therapy in intervertebral disc degeneration is predominantly **preclinical**, with **limited clinical translation data available** in the provided literature.
+## Overall Evidence Quality
+The current evidence base consists primarily of **preclinical and early-stage research** with limited clinical translation data.
 
 ---
 
 ## Preclinical Evidence
 
-### Regenerative Capacity and Structural Outcomes
+### Regenerative Capacity
+[pubmed_41608524] (Evidence: 2a - Systematic Review)
+- Animal models and in vitro studies consistently demonstrated improvements in:
+  - **Disc height index**
+  - **Water content**
+  - **Proteoglycan/collagen composition**
+- Demonstrates **restoration of biomechanical and structural properties** of degenerated discs
+- These findings suggest biological potential to reverse disc degeneration, though clinical translation remains limited
 
-[pubmed_41608524] provides a **systematic review (Evidence level: 2a)** documenting promising preclinical findings:
-
-- **Biomechanical restoration**: Animal models and in vitro studies consistently demonstrated improvements in disc structural properties
-- **Specific outcomes measured**:
-  - Increased disc height index
-  - Enhanced water content
-  - Improved proteoglycan/collagen composition
-
-### Biological Mechanism
-
-[pubmed_41608524] indicates that stem cell approaches demonstrate **biological potential to reverse disc degeneration** through these structural and compositional improvements.
+### Stem Cell Sources and Production
+[pubmed_41459417] (Evidence: 4 - Scoping Review)
+- **Mesenchymal stromal cells (MSCs)** are the predominant source (48 of 90 studies)
+- Cell sources represented:
+  - Human (58% of cell sources)
+  - Nucleus pulposus cells (10 studies)
+  - Notochordal cells (6 studies)
+  - Annulus fibrosus cells (2 studies)
+  - Cartilaginous endplate cells (6 studies)
 
 ---
 
-## Critical Gaps in Evidence
+## Therapeutic Mechanisms
 
-The provided literature reveals several important limitations:
+### Cellular Differentiation and Regeneration
+[pubmed_40923466] (Evidence: 5 - Review)
+- Stem cell therapy aims to:
+  - Provide progenitor cells capable of differentiation into nucleus pulposus cells
+  - Promote endogenous cell activation
+  - Enhance synthesis of matrix components
 
-1. **No clinical trial data**: The stem cell therapy review [pubmed_41608524] explicitly addresses only **preclinical evidence and clinical translation potential**, without reporting completed human trials in the provided papers.
+### Gene-Modified Stem Cells
+[pubmed_41450738] (Evidence: 5 - Review)
+- Gene modification using viral or non-viral vectors can enhance:
+  - Stemness and differentiation capacity
+  - Cell migration and homing capabilities
+  - Immunomodulation
+  - Repair-related functions
+- **SDF-1/CXCR4 chemotactic signaling axis** plays an important role in stem cell regulation
+- Genes targeting therapeutic capacity can improve cell survival and efficacy
 
-2. **Disease progression context**: While [pubmed_39131613] documents that disc degeneration progression is significant post-operatively (with Modic changes exceeding natural population rates), no stem cell intervention outcomes are reported.
+### Nucleus Pulposus Progenitor Cells (NPPCs)
+[pubmed_41185036] (Evidence: 5 - Review)
+- EZSPHERE spheroid culture enables **large-scale production** of phenotypically stable NPPCs
+- CryoStor10 cryopreservation maintains post-thaw viability and Tie2 expression
+- **PPARδ agonist GW501516** increases Tie2+ NPPC proportions from ~7% to 50%, addressing low yields in transplantation approaches
 
-3. **Alternative approaches dominate clinical evidence**: The clinical literature focuses on established interventions (PRP [pubmed_40708286], condoliase [pubmed_40066868], rhBMP-2 [pubmed_12394656], electrical stimulation [pubmed_31593923]) rather than stem cell therapies.
+---
+
+## Current Clinical Practice Context
+
+### Existing Treatment Options
+[pubmed_41163783] (Evidence: 5 - Review)
+- **Conservative treatment:** Medication, physical therapy, traditional Chinese medicine
+  - Provides short-term pain relief only
+  - Limited long-term benefits
+- **Surgical treatment:** Minimally invasive and open surgery
+  - Provides significant pain relief
+  - Accelerates adjacent segment degeneration by disrupting biomechanical function
+
+[pubmed_41242964] (Evidence: 4 - Review)
+- Current approaches: rest, physical therapy, analgesics, epidural injections, intradiscal injections, decompression, fusion, arthroplasty
+- Variable efficacy and potential complications across all modalities
+
+---
+
+## Important Evidence Gaps
+
+1. **Limited Clinical Trial Data:** The evidence base lacks robust randomized controlled trials demonstrating clinical efficacy in humans
+2. **No Direct Clinical Comparison:** Retrieved papers do not provide head-to-head clinical outcome data comparing stem cell therapy to standard treatments
+3. **Long-term Safety Data:** No long-term follow-up data on adverse events or durability of regenerative effects in clinical populations
+4. **Standardization Issues:** [pubmed_41459417] notes that most extracellular vesicle studies (81 of 90) derived EVs from cultured cells rather than clinical applications
+5. **Translation Barriers:** [pubmed_41608524] acknowledges the gap between promising preclinical findings and actual clinical translation
 
 ---
 
 ## Conclusion
 
-Current evidence suggests stem cell therapy is **biologically plausible** but remains at the **preclinical stage** with significant gaps before clinical implementation can be recommended.
+While preclinical evidence demonstrates **promising regenerative capacity** with restoration of biomechanical and structural disc properties [pubmed_41608524], **clinical evidence for stem cell therapy in intervertebral disc degeneration is currently limited**. The field shows significant potential through multiple mechanisms (cellular differentiation, gene modification, progenitor cell technologies), but substantial gaps remain in clinical translation and safety data.

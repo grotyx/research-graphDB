@@ -5,54 +5,62 @@
 
 ## System A
 **Papers retrieved**: 10
-**Evidence levels**: ['1a', '1a', '1a', '1a', '1a', '1a', '2a', '2b', '2b', '1a']
+**Evidence levels**: ['1a', '1a', '1a', '1b', '1a', '1a', '1a', '1a', '1a', '2b']
 
 ### Cited Papers
-- [1a] pubmed_39575949: Radiographic Outcomes Across Lumbar Interbody Fusion Techniques: A Systematic Re
 - [1a] pubmed_38622724: Oblique Lateral Approach versus Transforaminal Lumbar Interbody Fusion for Degen
-- [1a] pubmed_40066769: Transforaminal Lumbar Interbody Fusion versus Anterior Lumbar Interbody Fusion a
-- [1a] pubmed_23646277: Cost-effectiveness of interbody fusion with bone morphogenetic protein for the t
+- [1a] pubmed_39575949: Radiographic Outcomes Across Lumbar Interbody Fusion Techniques: A Systematic Re
 - [1a] pubmed_39895414: Network meta-analysis comparing endoscopic posterolateral fusion and lateral int
+- [1b] pubmed_38752236: Comparison of unilateral biportal endoscopic transforaminal lumbar interbody fus
+- [1a] pubmed_40433998: Impact of Obesity on Lumbar Spinal Fusion Outcomes: A Systematic Review and Meta
+- [1a] pubmed_41420307: Clinical Efficacy and Safety of Minimally Invasive, Full Endoscopic, and Biporta
+- [1a] pubmed_37950267: Efficacy of Oblique Lumbar Interbody Fusion (OLIF) versus Posterior Lumbar Inter
+- [1a] pubmed_39805471: Cost-utility of lumbar interbody fusion surgery: a systematic review
 - [1a] pubmed_41089903: Efficacy and Safety of Lateral Interbody Fusion of the Lumbar Spine in Adult Sco
-- [2a] pubmed_39823634: Robot-Assisted Single-Position Lateral Lumbar Interbody Fusion: A Comparative St
 - [2b] analyzed_ba35d6e5: Observational Comparative Study for Surgical Outcomes of One- or Two-Level Lumba
-- [2b] pubmed_34596342: Robot-Assisted Minimally Invasive Transforaminal Lumbar Interbody Fusion versus 
-- [1a] pubmed_40386865: Impact of Diabetes Mellitus on Spinal Fusion Surgery Outcomes: A Systematic Revi
 
 ### Answer
 
-# Evidence Summary: LLIF/XLIF vs TLIF for Degenerative Spondylolisthesis
+# Evidence Summary: LLIF/XLIF versus TLIF for Degenerative Spondylolisthesis
 
-## Important Limitation
-**No randomized controlled trials (RCTs) were identified in the provided papers.** The highest level evidence available comes from systematic reviews and meta-analyses (Evidence 1a) and observational comparative studies (Evidence 2b).
+## Critical Evidence Gap
+
+**There is a notable absence of RCT evidence directly addressing this comparison.** The available evidence comes exclusively from systematic reviews and meta-analyses of predominantly retrospective studies.
 
 ---
 
-## Available Evidence from Systematic Reviews (Evidence 1a)
+## Available Evidence (Indirect/Non-RCT)
 
 ### Radiographic Outcomes
+
 **Segmental Lordosis Restoration:**
-- LLIF demonstrated improved segmental lordosis (SL) restoration compared with TLIF in 2 of 3 studies directly comparing these procedures [pubmed_39575949]
-
----
-
-## Observational Comparative Evidence (Evidence 2b)
+- LLIF demonstrated improved segmental lordosis (SL) restoration compared with TLIF in 2 of 3 studies directly comparing these procedures [pubmed_39575949] (Evidence: 1a systematic review)
+- OLIF (oblique lateral approach) demonstrated superior restoration of segmental lordosis compared with TLIF [pubmed_39575949] (Evidence: 1a)
 
 ### Clinical Outcomes
-**Disability and Pain:**
-- No significant between-group differences in Oswestry Disability Index (p = 0.335) or low back pain (p = 0.069) in one-level fusion comparisons [analyzed_ba35d6e5]
 
-### Safety and Complications
-**Complication Profiles (Different Adverse Event Patterns):**
-- TLIF: Higher rates of dural tears and wound complications
-- LLIF: More sympathetic chain injuries and transient psoas weakness
-- Overall complication rates were comparable (p > 0.05) [analyzed_ba35d6e5]
+**Equivalent Pain and Disability Relief:**
+- Minimally invasive lumbar interbody fusion techniques including X/DLIF, OLIF, and SA-LLIF demonstrated **equivalent clinical outcomes in pain and disability relief** for lumbar degenerative disease patients compared to MIS-TLIF, regardless of indirect or direct decompression approach [pubmed_39895414] (Evidence: 1a network meta-analysis)
+
+### Safety Concerns with Lateral Approaches
+
+**Cage Subsidence Risk:**
+- Network meta-analysis noted that lateral techniques showed **higher cage subsidence risk and reoperation needs** (incomplete data presentation) [pubmed_39895414]
 
 ---
 
-## Evidence Gaps
+## Study Quality Limitations
 
-The provided literature does **NOT** include RCTs comparing LLIF/XLIF versus TLIF specifically for degenerative spondylolisthesis. The observational studies provide comparative safety and outcome data, but randomized evidence is absent from these papers. Additional systematic searching beyond these sources would be needed to identify any available RCTs on this specific comparison.
+The evidence base is constrained by:
+1. **No RCTs identified** in the retrieved literature comparing LLIF/XLIF to TLIF
+2. Only **retrospective comparative studies** available [analyzed_ba35d6e5] (Evidence: 2b)
+3. Limited direct head-to-head comparisons in the literature [pubmed_37950267]
+
+---
+
+## Clinical Bottom Line
+
+Evidence suggests lateral approaches (LLIF/XLIF) may offer superior segmental lordosis restoration with equivalent clinical pain outcomes compared to TLIF, but **high-quality RCTs are needed** to establish definitive comparative efficacy and safety for degenerative spondylolisthesis specifically.
 
 
 ## System B

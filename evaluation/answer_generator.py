@@ -228,7 +228,7 @@ async def generate_answer_b4_graphrag(
     try:
         embedding = await _get_embedding(question)
         mv_rows = await neo4j_client.search.multi_vector_search(
-            embedding=embedding, top_k=top_k * 3, min_score=0.3  # v14: 2→3배
+            embedding=embedding, top_k=top_k * 3, min_score=0.3
         )
         for r in mv_rows:
             pid = r.get("paper_id", "")
@@ -240,11 +240,38 @@ async def generate_answer_b4_graphrag(
                     "content": r.get("content", "")[:500],
                     "score": r.get("score", 0.0) * 0.9,
                 }
-        logger.info("Direct search: %d hybrid + %d multi-vector = %d unique papers",
-                     hybrid_paper_count, len(seen) - hybrid_paper_count, len(seen))
     except Exception as e:
         logger.warning("Multi-vector search failed (non-critical): %s", e)
-        logger.info("Direct search: %d unique papers (hybrid only)", len(seen))
+
+    # v15: 직접 검색 결과에도 keyword filter 적용
+    # 질문 키워드가 논문 제목에 최소 1개 포함되어야 함
+    stop_words = {
+        "what", "is", "the", "are", "for", "in", "of", "and", "or", "a", "an",
+        "to", "from", "with", "by", "on", "at", "how", "does", "do", "which",
+        "that", "this", "than", "between", "after", "before", "current",
+        "evidence", "best", "role", "impact", "effect", "based", "compared",
+        "comparing", "outcomes", "results", "clinical", "surgical", "treatment",
+    }
+    keywords = [
+        w.lower() for w in re.findall(r"[A-Za-z0-9-]+", question)
+        if w.lower() not in stop_words and len(w) >= 3
+    ]
+
+    before_filter = len(seen)
+    filtered_out = []
+    # 키워드 2개 이상 매칭 요구 (1개만 매칭은 "disc"→"discectomy" 오탐 방지)
+    min_keyword_matches = 2 if len(keywords) >= 3 else 1
+    for pid in list(seen.keys()):
+        title_lower = seen[pid].get("title", "").lower()
+        match_count = sum(1 for kw in keywords if kw in title_lower)
+        if match_count < min_keyword_matches:
+            filtered_out.append(pid)
+            del seen[pid]
+    if filtered_out:
+        logger.info("Direct keyword filter: %d → %d papers (%d removed)",
+                     before_filter, len(seen), len(filtered_out))
+    else:
+        logger.info("Direct search: %d unique papers (all passed keyword filter)", len(seen))
 
     # v13: IS_A expansion + pathology check + re-scoring
     # Fix 2: pathology 일치 확인, Fix 3: 직접 검색 최하위보다 나을 때만 교체
@@ -613,10 +640,11 @@ async def _isa_expand_search(
             if not pid or pid in existing_pids:
                 continue
 
-            # Keyword filter: 제목에 질문 키워드가 최소 1개 포함되어야 함
+            # Keyword filter: 제목에 질문 키워드가 최소 2개 포함되어야 함
             title_lower = title.lower()
-            keyword_match = any(kw in title_lower for kw in keywords)
-            if not keyword_match:
+            match_count = sum(1 for kw in keywords if kw in title_lower)
+            min_matches = 2 if len(keywords) >= 3 else 1
+            if match_count < min_matches:
                 continue
 
             chunk_rows = await neo4j_client.run_query(

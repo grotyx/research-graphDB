@@ -97,81 +97,103 @@ Both procedures achieve **comparable neurological recovery**:
 
 ## System B
 **Papers retrieved**: 10
-**Evidence levels**: ['1a', '1a', '1a', '1a', '1a', '1a', '1a', '1a', '4', '2a']
+**Evidence levels**: ['1a', '1a', '1a', '1a', '1a', '1a', '1a', '2b', '2a', '2a']
 
 ### Cited Papers
 - [1a] pubmed_27281067: Laminoplasty versus Laminectomy Followed by Fusion for Multilevel Cervical Compr
 - [1a] pubmed_38764362: Laminoplasty Versus Laminectomy with Fusion for Cervical Myelopathy: A Meta-Anal
-- [1a] pubmed_30813208: Laminectomy with instrumented fusion versus laminoplasty for multilevel cervical
 - [1a] pubmed_30921202: Laminectomy and Fusion Versus Laminoplasty for Multilevel Cervical Spondylotic M
+- [1a] pubmed_30813208: Laminectomy with instrumented fusion versus laminoplasty for multilevel cervical
 - [1a] pubmed_23963000: Cervical Laminoplasty Versus Laminectomy and Fusion for the Treatment of Cervica
 - [1a] pubmed_25815808: Expansive Laminoplasty versus Laminectomy with Fusion for Multilevel Cervical Sp
 - [1a] pubmed_37062984: Laminoplasty versus Laminectomy with Fusion for Multilevel Cervical Spondylotic 
-- [1a] pubmed_41489665: Endoscopic Cervical Spine Surgery: A Systematic Review of Current Approaches and
-- [4] pubmed_39829181: Optimal Surgical Treatment for Multilevel Cervical Spondylotic Myelopathy and Ra
+- [2b] pubmed_41724326: Anterior Cervical Discectomy and Fusion Using Titanium-Screw PEEK Cages: Clinica
+- [2a] pubmed_24679196: Anterior Decompression and Fusion versus Posterior Laminoplasty for Multilevel C
 - [2a] pubmed_27781191: Laminoplasty Versus Laminectomy and Fusion in Patients With Cervical Myelopathy 
 
 ### Answer
 
-# Laminoplasty versus Laminectomy with Fusion for Multilevel Cervical Myelopathy
+# Laminoplasty vs. Laminectomy with Fusion for Multilevel Cervical Myelopathy: Comparative Outcomes
 
-## Clinical Effectiveness - Comparable Outcomes
+## Clinical Effectiveness (Neurological & Functional Outcomes)
 
-**Functional Recovery & Neurological Improvement:**
-Both procedures achieve substantial clinical improvement with equivalent results [pubmed_27281067, pubmed_30813208, pubmed_30921202]. Studies report similar JOA (Japanese Orthopedic Association) scores, CCI (cervical curvature index), and VAS (visual analog scale) pain reduction across both approaches [pubmed_27281067].
+**Comparable Neurological Recovery:**
+Both procedures achieve similar neurological improvement in multilevel cervical myelopathy. Meta-analyses found equivalent JOA (Japanese Orthopedic Association) scores [pubmed_27281067, pubmed_30813208], VAS (visual analog scale) pain scores, and CCI (clinical cure index) [pubmed_27281067]. However, one meta-analysis noted laminectomy-fusion was associated with better postoperative neural function in OPLL specifically, though recovery rates were similar [pubmed_24679196].
 
-**Cervical Lordosis Preservation:**
-Both techniques show comparable loss of lordosis and equivalent cervical lordosis preservation [pubmed_27281067, pubmed_30813208, pubmed_23963000].
-
----
-
-## Laminoplasty Advantages
-
-**Operative Efficiency:**
-- Shorter operation time: 19.57 minutes less than laminectomy-fusion (p=0.002) [pubmed_27281067]
-
-**Complication Profile:**
-- **C5 Palsy (Nerve Injury):** Lower incidence with laminoplasty (OR 0.26, p<0.001) [pubmed_27281067]
-- **Overall Complications:** Lower total complication rates [pubmed_30813208, pubmed_38764362]
-- **Blood Loss:** Reduced intraoperative blood loss [pubmed_38764362]
-
-**Functional Preservation:**
-- Greater postoperative cervical range of motion (ROM) preservation [pubmed_30813208]
+**Functional Disability (NDI Advantage for Laminoplasty):**
+Laminoplasty demonstrated superior functional disability outcomes as measured by Neck Disability Index (NDI) [pubmed_38764362, pubmed_37062984].
 
 ---
 
-## Laminectomy with Fusion Considerations
+## Operative & Safety Advantages
 
-**Potential Disadvantages:**
-- Risk of postoperative segmental instability and kyphosis (historically, though modern fusion techniques mitigate this) [pubmed_30921202]
-- Adjacent segment disease requiring additional surgery [pubmed_30921202]
-- Higher rates of axial pain (22.2%) and neurological deficits [pubmed_39829181]
+**Laminoplasty Superior in Multiple Domains:**
 
-**Special Consideration - OPLL:**
-For ossification of the posterior longitudinal ligament (OPLL), limited evidence suggests laminectomy-fusion may offer superior myelopathy improvement, though this must be weighed against pseudarthrosis risk [pubmed_23963000, pubmed_27781191]
-
----
-
-## Equivalent Outcomes
-
-**No Significant Difference:** 
-Both procedures demonstrate equivalent incidence of axial pain and total complications [pubmed_27281067]
+| Parameter | Laminoplasty Advantage | Evidence |
+|-----------|------------------------|----------|
+| **Operative time** | 19.57 minutes shorter (p=0.002) | [pubmed_27281067] |
+| **Blood loss** | Reduced blood loss | [pubmed_38764362, pubmed_30813208] |
+| **Overall complications** | Lower complication rates | [pubmed_38764362, pubmed_30813208] |
+| **C5 palsy** | OR 0.26, p<0.001 (substantially reduced) | [pubmed_27281067]; corroborated [pubmed_37062984] |
+| **Cervical range of motion** | Greater preservation | [pubmed_30813208] |
 
 ---
 
-## Clinical Recommendation
+## Spinal Alignment & Stability
 
-**Evidence Level: 1a** (Multiple meta-analyses)
-
-**Tailored Approach:** "Clinical decision-making should incorporate individual patient factors including age, comorbidities, surgeon familiarity, technical expertise, and patient preferences" [pubmed_23963000]. Both remain effective surgical options with "favorable safety and efficacy profile" [pubmed_38764362].
-
-**General Preference:** Laminoplasty is positioned as the preferable approach based on superiority in operative time, C5 palsy incidence, complications, and ROM preservation [pubmed_30813208, pubmed_38764362].
+**Equivalent Lordosis Preservation:**
+Both procedures showed equivalent cervical lordosis preservation [pubmed_27281067], though laminectomy-fusion was historically considered to prevent postoperative kyphosis better than laminectomy alone [pubmed_30921202]. Instrumented fusion reduces the segmental instability risk associated with laminectomy alone [pubmed_30921202].
 
 ---
 
-## Evidence Gaps
+## Specific Pathology Considerations
 
-- Limited randomized controlled trials comparing both approaches [pubmed_27781191]
-- Heterogeneity in study quality affects recommendations [pubmed_23963000]
-- Long-term follow-up data (>5 years) not comprehensively addressed in provided papers
-- Patient selection criteria for optimal procedure choice needs further definition
+**OPLL (Ossification of Posterior Longitudinal Ligament):**
+- Limited evidence suggests laminectomy-fusion may offer superior myelopathy improvement for OPLL [pubmed_23963000]
+- One meta-analysis noted laminectomy-fusion achieved better postoperative neural function in OPLL [pubmed_24679196]
+- However, this must be weighed against pseudarthrosis risk with fusion [pubmed_23963000]
+
+**Anterior vs. Posterior for OPLL/Multilevel MCSM:**
+Anterior decompression-fusion (ACDF) was associated with better postoperative neural function than posterior laminoplasty, but no difference in recovery rates [pubmed_24679196] (Evidence: 2a).
+
+---
+
+## Complications Profile
+
+**Equivalent Overall Complication Rates:**
+Total complications, axial pain incidence, and blood loss were equivalent between approaches [pubmed_27281067, pubmed_38764362].
+
+**ACDF-Specific Complications:**
+One prospective study (Evidence: 2b) reported dysphonia in 1/40 patients (2.5%) with complete recovery within 3 weeks [pubmed_41724326].
+
+---
+
+## Individualization & Evidence Quality
+
+**Clinical Decision-Making:**
+Given comparable neurological outcomes, individual patient factors should guide selection [pubmed_23963000]:
+- Patient age and comorbidities
+- Surgeon expertise and familiarity
+- Patient preferences
+- Preoperative kyphosis severity
+
+**Evidence Limitations:**
+All meta-analyses are based on predominantly **nonrandomized comparative studies** [pubmed_27781191]. Randomized controlled trials are needed to validate findings [pubmed_37062984].
+
+---
+
+## Summary & Recommendation
+
+**Laminoplasty is generally favored** for multilevel cervical myelopathy based on:
+- Superior NDI scores (functional outcomes)
+- Shorter operative time, less blood loss, fewer complications
+- Significantly lower C5 palsy incidence (OR 0.26)
+- Better motion preservation
+- Equivalent neurological recovery to laminectomy-fusion
+
+**Consider laminectomy-fusion when:**
+- OPLL with severe myelopathy (limited evidence suggests superiority)
+- Preoperative kyphosis present (fusion prevents recurrence)
+- Segmental instability is a concern
+
+Both approaches are **Evidence Level 1a** for efficacy in standard multilevel cervical spondylotic myelopathy, but laminoplasty offers superior safety and functional profiles with similar clinical outcomes.
