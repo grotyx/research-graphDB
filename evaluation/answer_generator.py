@@ -242,6 +242,20 @@ async def generate_answer_b4_graphrag(
     except Exception as e:
         logger.warning("Multi-vector search failed (non-critical): %s", e)
 
+    # v11: IS_A expansion — 검색된 intervention/pathology의 sibling으로 추가 논문 보충
+    # filtering이 아닌 보충 (기존 결과 유지 + IS_A sibling 논문 추가)
+    try:
+        found_pids = set(seen.keys())
+        isa_additions = await _isa_expand_search(neo4j_client, found_pids, top_k)
+        for r in isa_additions:
+            pid = r.get("paper_id", "")
+            if pid and pid not in seen:
+                seen[pid] = r
+        if isa_additions:
+            logger.info("IS_A expansion added %d new papers", len([r for r in isa_additions if r.get("paper_id") not in found_pids]))
+    except Exception as e:
+        logger.warning("IS_A expansion failed (non-critical): %s", e)
+
     papers_list = sorted(seen.values(), key=lambda x: x.get("score", 0), reverse=True)[:top_k]
 
     if not papers_list:
@@ -505,6 +519,60 @@ async def _get_graph_traversal_summary(neo4j_client: Any, question: str) -> str:
         logger.warning("Graph traversal summary failed: %s", e)
 
     return ""
+
+
+async def _isa_expand_search(
+    neo4j_client: Any, existing_pids: set[str], top_k: int
+) -> list[dict]:
+    """IS_A expansion — 검색된 논문의 intervention/pathology sibling으로 추가 논문 검색.
+
+    기존 결과를 유지하면서, IS_A 계층의 sibling/parent 논문을 보충.
+    filtering이 아닌 additive 방식 (v8 교훈).
+    """
+    if not existing_pids:
+        return []
+
+    pid_list = list(existing_pids)[:20]
+
+    # 1. 검색된 논문의 intervention → IS_A parent → sibling intervention의 논문
+    query = """
+    UNWIND $pids AS pid
+    MATCH (p:Paper {paper_id: pid})-[:INVESTIGATES]->(i:Intervention)-[:IS_A]->(parent:Intervention)
+    MATCH (sibling:Intervention)-[:IS_A]->(parent)
+    WHERE sibling <> i
+    MATCH (sibling)<-[:INVESTIGATES]-(p2:Paper)
+    WHERE NOT p2.paper_id IN $pids
+    RETURN DISTINCT p2.paper_id AS paper_id, p2.title AS title,
+           p2.evidence_level AS evidence_level, p2.year AS year,
+           0.7 AS score
+    LIMIT $limit
+    """
+    try:
+        rows = await neo4j_client.run_query(query, {
+            "pids": pid_list, "limit": top_k
+        })
+        results = []
+        for r in rows:
+            pid = r.get("paper_id", "")
+            if pid and pid not in existing_pids:
+                # Get a chunk for content
+                chunk_rows = await neo4j_client.run_query(
+                    "MATCH (p:Paper {paper_id: $pid})-[:HAS_CHUNK]->(c:Chunk) "
+                    "WHERE c.tier = 'tier1' RETURN c.content AS content LIMIT 1",
+                    {"pid": pid}
+                )
+                content = chunk_rows[0]["content"][:500] if chunk_rows else ""
+                results.append({
+                    "paper_id": pid,
+                    "title": r.get("title", "Unknown"),
+                    "evidence_level": r.get("evidence_level", "unknown"),
+                    "content": content,
+                    "score": r.get("score", 0.7),
+                })
+        return results
+    except Exception as e:
+        logger.warning("IS_A expand query failed: %s", e)
+        return []
 
 
 async def _generate_hyde(question: str) -> Optional[str]:

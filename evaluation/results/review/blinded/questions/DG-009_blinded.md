@@ -71,73 +71,67 @@ Robot-assisted pedicle screw placement achieves **significantly superior accurac
 ---
 
 ## System B
-**Papers retrieved**: 8
-**Evidence levels**: ['1a', '1a', '1a', '2b', '2b', '2b', '2b', '1a']
+**Papers retrieved**: 10
+**Evidence levels**: ['1a', '1a', '1a', '1a', '1a', '2b', '2b', '4', '5', '2b']
 
 ### Cited Papers
 - [1a] pubmed_38968628: Comparative Effectiveness of Spinal Robotic Systems for Pedicle Screw Placement:
+- [1a] pubmed_40858315: Facet Joint Violation During Pedicle Screw Fixation: A Scoping Review of Prevale
+- [1a] pubmed_40932300: Robot-Assisted Versus Conventional Surgery for Pedicle Screw Instrumentation in 
 - [1a] pubmed_40560372: Network Meta-Analysis of Robot-Assisted Spinal Surgery Platforms: A Comparative 
 - [1a] pubmed_41074646: Bayesian Network Meta-Analysis of Four Surgical Techniques for Thoracolumbar Fra
 - [2b] pubmed_40357444: Robot-Assisted Versus Fluoroscopy-Guided Pedicle Screw Fixation in Adult Degener
-- [2b] pubmed_38849051: Pedicle Screw Placement Accuracy: 3D Navigation versus Robotic Arm-Guided System
-- [2b] pubmed_36455162: Robotic-Assisted Navigation with O-Arm or 3D C-Arm versus Freehand Technique for
-- [2b] pubmed_39616635: Robot-Assisted versus Navigation-Guided Percutaneous Pedicle Screw Placement in 
-- [1a] pubmed_40932300: Robot-Assisted Versus Conventional Surgery for Pedicle Screw Instrumentation in 
+- [2b] pubmed_40968391: Single-Position Navigated Lateral Column Realignment With Anterior Longitudinal 
+- [4] pubmed_41428062: Adverse Events Associated with Mazor X Surgical Guidance Robots: Analysis of MAU
+- [5] pubmed_40099853: Biomechanical Analysis of a Novel Tether Pedicle Screw for Proximal Junctional M
+- [2b] pubmed_40636917: Robotic-Assisted Single-Position Oblique Lateral Interbody Fusion: A Retrospecti
 
 ### Answer
 
 # Clinical Outcomes and Complications: Robotic-Assisted vs. Freehand Pedicle Screw Placement
 
-## Screw Placement Accuracy
+## Accuracy and Technical Performance
 
-### Overall Accuracy Superiority
-Robotic-assisted systems demonstrated **significantly superior accuracy** compared to freehand insertion techniques across multiple meta-analyses [pubmed_38968628][Evidence 1a]. ExcelsiusGPS specifically showed significantly higher accuracy than all traditional methods including freehand, fluoroscopic, and CT-navigated approaches [pubmed_38968628].
+**Superior Screw Placement Accuracy**
+Robotic-assisted systems demonstrate significantly higher accuracy than freehand insertion. A systematic review and meta-analysis (1a evidence) found that ExcelsiusGPS specifically achieved significantly higher accuracy than all traditional methods including freehand techniques [pubmed_38968628]. In adult degenerative scoliosis patients, robot-assisted fixation achieved 81.5% Grade A accuracy versus 73.8% with freehand techniques (p=0.038); Grade A+B combined 93.8% vs 87.7% (p=0.018) [pubmed_40357444].
 
-### Severe Misplacement Rates
-In pediatric, adolescent, and young adult patients, severely misplaced screws (Grade 3/D+E, >4 mm cortical breach) were significantly less common with robotic assistance:
-- Robotic-assisted: 1.43% (57/3,875 screws)
-- Conventional/Freehand controls: 4.22% (197/4,186 screws)
-- OR 0.39 (95% CI 0.26-0.58, p<0.001) [pubmed_40932300][Evidence 1a: Meta-analysis of pediatric/adolescent cases]
+**Facet Joint Violation Reduction**
+Robotic-assisted percutaneous pedicle screw placement achieved a 4.79% facet joint violation (FJV) prevalence compared to 19.45% with freehand techniques (1a evidence) [pubmed_40858315]. In the scoliosis population specifically, robotic-assisted technique reduced hazardous facet joint violations to 7.9% versus 20.1% with freehand approaches (p<0.0001) [pubmed_40357444].
 
-Robot-assisted surgery was superior to freehand specifically (OR 0.30, 95% CI 0.20-0.46, p<0.001) [pubmed_40932300].
+**Radiation Exposure**
+Robot-assisted techniques demonstrated significantly reduced radiation exposure (9.4 scans vs. 27.7 scans with fluoroscopy, p<0.001) [pubmed_40357444].
 
-### Lumbar-Specific Accuracy
-Robotic arm-guided systems demonstrated progressively superior accuracy across lumbar levels compared to 3D navigation [pubmed_38849051][Evidence 2b]:
-- **L3**: 91.3% no-breach accuracy (robotic) vs. 57.8% (navigation) - 33.5 percentage point difference
-- **L4**: 89.6% (robotic) vs. 64.7% (navigation) - 24.9 percentage point difference
-- **L5**: 92.0% (robotic) vs. lower rates for comparison [pubmed_38849051]
+## Clinical Outcomes: Critical Gap in Evidence
 
-## Clinical Satisfaction and Revisions
+**Lack of Clinically Meaningful Benefit**
+Despite superior technical accuracy, a systematic review and meta-analysis of pediatric and young adult patients (1a evidence) found that robotic-assisted surgery did NOT translate technical advantages into:
+- Reduced complications (OR 0.55, p=0.13)
+- Decreased blood loss (MD -39.80 mL, p=0.44)
+- Improved Cobb angle correction (MD -0.59°, p=0.46)
+- Reduced hospital stay [pubmed_40932300]
 
-### Minimally Invasive TLIF Application
-In robot-assisted versus O-arm navigation-guided percutaneous pedicle screw placement during minimally invasive transforaminal lumbar interbody fusion:
-- **Clinically satisfactory accuracy**: 100% (robot-assisted) vs. 92.1% (O-arm navigation), p<0.001 [pubmed_39616635][Evidence 2b]
-- **Revision surgeries for screw malposition**: Zero in both groups [pubmed_39616635]
-- **Medial breaches**: None reported in either group [pubmed_39616635]
+**Quality of Life Outcomes**
+One comparative study (2b evidence) in thoracolumbar kyphosis patients reported SRS-22 scores without formal statistical comparison between robotic and traditional approaches [pubmed_40968391].
 
-## Operative Time
+## Operative Factors
 
-No significant difference in operative time was demonstrated:
-- Robot-assisted: 263.54 ± 114.33 minutes
-- O-arm navigation: 243.4 ± 68.96 minutes
-- p = 0.2821 [pubmed_39616635][Evidence 2b]
+**Operative Time**
+K-wire placement time was similar between robot-assisted and fluoroscopic techniques (62.7 vs. 55.7 minutes, p=0.174), indicating no significant operative time advantage [pubmed_40357444].
 
-## Scoliosis-Specific Outcomes
+## Adverse Events
 
-For scoliosis surgery, robotic-assisted navigation with O-arm or 3D C-arm was significantly more accurate than freehand fluoroscopy-assisted insertion, with **no statistical difference between O-arm and 3D C-arm robotic approaches** [pubmed_36455162][Evidence 2b].
+Limited data on complications specific to robotic versus freehand techniques. One analysis of Mazor X adverse events from the MAUDE database (4 evidence - case reports) identified adverse events but did not provide comparative data [pubmed_41428062].
 
-## Adult Degenerative Scoliosis Context
+## Evidence Gaps
 
-In patients with adult degenerative scoliosis presenting particular technical challenges (osteoporosis, severe facet degeneration, pedicle rotation, anatomic variations), freehand techniques have historically reported pedicle wall breach rates of **1.7% to 30%**, which robotic systems substantially reduce [pubmed_40357444][Evidence 2b].
+1. **Long-term clinical outcomes** comparing robot-assisted versus freehand techniques are not reported in provided papers
+2. **Adjacent segment disease** rates are not compared between techniques
+3. **Deformity recurrence** data are absent from comparisons
+4. **Cost-effectiveness** is not addressed
+5. **Complication rates beyond screw accuracy** (infection, neurological injury, revision surgery) lack comparative data
 
-## Important Evidence Limitations
+## Summary
 
-**Manufacturer Bias**: A significant source bias was identified in the meta-analysis literature, with 60% of TiRobot studies and 30% of SpineAssist studies containing potential conflicts of interest from manufacturer sponsorship [pubmed_40560372][Evidence 1a].
-
-**Comparison Limitations**: Robotic-assisted surgery showed superior results to freehand but demonstrated **no significant difference from navigation-assisted surgery** in some comparisons (OR 1.07, 95% CI 0.51-2.23, p=0.85) [pubmed_40932300], suggesting navigation may be a viable alternative to robotic systems.
-
----
-
-**Note**: The provided literature focuses on accuracy and technical outcomes. Long-term clinical outcomes (pain relief, functional improvement, revision rates), complications beyond screw malposition (infection, neurological injury), and cost-effectiveness data are not addressed in the provided papers.
+Robotic-assisted pedicle screw placement achieves superior technical accuracy and reduces facet joint violations compared to freehand insertion, with lower radiation exposure. However, these technical advantages do not demonstrably translate to improved clinical outcomes, reduced complications, or better functional results based on available evidence.
 
 ---

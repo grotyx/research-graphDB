@@ -4,101 +4,99 @@
 
 ## System A
 **Papers retrieved**: 10
-**Evidence levels**: ['1a', '1a', '1a', '1a', '1a', '1a', '1a', '1b', '1a', '1b']
+**Evidence levels**: ['1a', '1a', '1a', '1a', '1a', '1b', '1a', '1a', '1a', '1b']
 
 ### Cited Papers
 - [1a] pubmed_39577647: Network Meta-Analysis of Surgical Approaches for Lumbar Spinal Stenosis: Compari
-- [1a] pubmed_26824399: Surgery for lumbar spinal stenosis
 - [1a] pubmed_39575449: Minimally Invasive Laminectomy versus Open Laminectomy for Lumbar Spinal Stenosi
+- [1a] pubmed_26824399: Surgery for lumbar spinal stenosis
 - [1a] pubmed_39030552: Effectiveness and safety of different posterior decompression techniques for lum
-- [1a] pubmed_39379938: Comparative effectiveness and safety of surgical interventions for degenerative 
-- [1a] pubmed_38190892: Endoscopic versus Microscopic Decompression for Treatment of Lumbar Spinal Steno
 - [1a] pubmed_41354742: Minimally Invasive Tubular Decompression versus Open Laminectomy for Lumbar Spin
-- [1b] pubmed_38752236: Comparison of unilateral biportal endoscopic transforaminal lumbar interbody fus
+- [1b] pubmed_39988823: Effectiveness and Safety of Surgiflo Hemostatic Matrix in Unilateral Biportal En
+- [1a] pubmed_38190892: Endoscopic versus Microscopic Decompression for Treatment of Lumbar Spinal Steno
+- [1a] pubmed_39379938: Comparative effectiveness and safety of surgical interventions for degenerative 
 - [1a] pubmed_36991184: Uniportal versus Biportal Endoscopic Decompression for Lumbar Spinal Stenosis: A
 - [1b] pubmed_41002072: Biportal Endoscopic Laminectomy versus Microscopic Laminectomy for Lumbar Spinal
 
 ### Answer
 
-# Surgical Interventions for Lumbar Spinal Stenosis and Complication Profiles
+# Surgical Interventions for Lumbar Spinal Stenosis: Comparative Complication Profiles
 
 ## Available Surgical Interventions
 
-The following surgical approaches have been evaluated for lumbar spinal stenosis treatment [pubmed_39577647, pubmed_39030552]:
+Based on the provided evidence, the following surgical approaches are available for lumbar spinal stenosis:
 
-1. **Laminotomy** - minimal tissue disruption approach
-2. **Traditional/Open Laminectomy** - standard open decompression
-3. **Minimally Invasive Laminectomy (MIL)** - tissue-sparing variation
-4. **Biportal Endoscopic Laminectomy** - minimally invasive endoscopic technique
-5. **Uniportal Endoscopic Decompression** - single-portal endoscopic approach
-6. **Endoscopic-assisted Laminotomy** - hybrid technique
-7. **Tubular/Minimally Invasive Tubular Decompression** - tubular retractor approach
-8. **Decompression Alone** - without fusion component
-9. **Decompression Plus Fusion (TLIF)** - combined decompression and stabilization
+### Decompression-Only Techniques:
 
----
+1. **Open Laminectomy** - Traditional gold standard approach [pubmed_39575449, pubmed_41354742]
 
-## Complication Profiles: Comparative Analysis
+2. **Minimally Invasive Laminectomy (MIL)** - Preserves posterior elements while minimizing tissue disruption [pubmed_39575449]
 
-### **Overall Complication Rates**
+3. **Minimally Invasive Tubular Decompression** - Performed through tubular retractors [pubmed_41354742]
 
-**Open Laminectomy vs. Minimally Invasive Approaches:**
-- **MI Tubular Decompression vs. Open Laminectomy**: Significantly lower overall complication rates (OR 0.42, 95% CI 0.21–0.86) [pubmed_41354742] (Evidence: 1a, systematic review/meta-analysis)
+4. **Endoscopic Decompression** - Including uniportal and biportal techniques [pubmed_39577647, pubmed_38190892, pubmed_36991184, pubmed_41002072]
 
-### **Specific Complication Outcomes**
+5. **Microscopic Laminectomy** - Reference standard for minimally invasive approaches [pubmed_38190892, pubmed_41002072]
 
-**Surgical Site Infections:**
-- MI Tubular Decompression: Reduced surgical site infections compared to open laminectomy (OR 0.28, 95% CI 0.11–0.69) [pubmed_41354742]
+### Combined Approaches:
 
-**Blood Loss:**
-- MI Tubular Decompression: Decreased estimated blood loss (MD −46.65 mL, 95% CI −80.89 to −12.41) versus open laminectomy [pubmed_41354742]
+6. **Decompression with Fusion** - When additional stabilization is required [pubmed_39379938]
 
-**Hospital Length of Stay:**
-- MI Tubular Decompression: Shorter hospital stay (MD −1.39 days, 95% CI −1.99 to −0.79) compared to open laminectomy [pubmed_41354742]
-
-**Reoperation Rates:**
-- MIL demonstrates "lower reoperation and complication rates than open laminectomy due to less bone disruption providing better biomechanical stability" [pubmed_39575449] (Evidence: 1a, systematic review)
-
-### **Reported Complication Types in Surgical Groups**
-
-According to the Cochrane review on surgery for lumbar spinal stenosis [pubmed_26824399]:
-- Spinous process fracture
-- Coronary ischaemia
-- Respiratory distress
-- Haematoma
-- Stroke
-- Risk of reoperation
-- Death due to pulmonary oedema
-
-**Incidence**: Complications were reported in 10% and 24% of surgical participants in some studies, while two studies reported no major complications in surgical groups [pubmed_26824399]
-
-**Conservative Treatment**: No side effects were reported in any conservative treatment group [pubmed_26824399]
+7. **Interspinous Process Spacer Devices** - Alternative surgical option [pubmed_39379938]
 
 ---
 
-## Safety Ranking by Technique
+## Complication Profile Comparison
 
-**Endoscopic-Assisted Laminotomy** emerges as the safest approach:
-- Ranked as "the safest and most effective intervention for improving physical function at short-term follow-up compared to laminectomy" [pubmed_39379938] (Evidence: 1a, network meta-analysis)
-- However, the analysis notes "insufficient data to indicate whether this effect was sustainable after 6 months" [pubmed_39379938]
+### **Short-Term Safety and Recovery Outcomes:**
 
-**Endoscopic Decompression (General):**
-- "Minimizes approach-related morbidity while achieving similar clinical outcomes to conventional open or microscopic approaches" [pubmed_38190892] (Evidence: 1a, systematic review)
+**Endoscopic Decompression - Superior Short-Term Profile:**
+- Demonstrates superiority for minimizing hospital stay with SUCRA ranking of 83.60% [pubmed_39577647] (Network meta-analysis, 29 RCTs, 4,200 patients)
+- Associated with rapid recovery profile [pubmed_39577647]
+
+**Hemostasis Management in Endoscopic Approaches:**
+- Endoscopic techniques carry increased risk of intraoperative spinal canal bleeding due to prolonged epidural venous compression in LSS patients [pubmed_39988823] (Evidence level 1b)
+- Use of hemostatic agents (Surgiflo Matrix) improves safety profile in biportal endoscopic unilateral laminotomy for bilateral decompression [pubmed_39988823]
+
+**Minimally Invasive Laminectomy vs. Open Laminectomy:**
+- MIL procedures aim to minimize tissue disruption and preserve load-bearing capacity compared to open approaches [pubmed_39575449] (Systematic review, 1a evidence)
+- Reduced tissue trauma associated with smaller incisions in endoscopic approaches [pubmed_36991184, pubmed_41002072]
+
+### **Tissue Trauma and Morbidity:**
+
+- Open surgery causes more trauma to soft tissues and bony structures, leading to slower recovery compared to minimally invasive techniques [pubmed_39988823] (Evidence level 1b)
+- Endoscopic decompression "minimizes approach-related morbidity while achieving similar clinical outcomes" to conventional open or microscopic approaches [pubmed_38190892] (Systematic review and meta-analysis, 1a evidence)
+
+### **Clinical Efficacy and Functional Outcomes:**
+
+**Decompression vs. Non-Operative Care:**
+- At 24-month follow-up, decompression significantly favored surgical intervention over non-operative care (Oswestry Disability Index: MD -4.43, 95% CI -7.91 to -0.96) [pubmed_26824399] (Systematic review, 1a evidence)
+
+**Endoscopic Decompression - Pain Management:**
+- Superior for short-term pain reduction (VAS) with SUCRA ranking of 88.70% [pubmed_39577647] (Network meta-analysis, 1a evidence)
+
+**Patient-Reported Outcomes:**
+- Biportal endoscopic laminectomy produces outcomes similar to microscopic laminectomy, though "it remains unclear whether theoretical advantages translate into meaningful differences in patient-reported outcomes" [pubmed_41002072] (RCT, 1b evidence)
 
 ---
 
-## Key Evidence Gaps
+## Evidence Gaps
 
-1. **Long-term Safety Data**: Limited follow-up beyond 6 months for endoscopic techniques [pubmed_39379938]
-2. **Biportal vs. Uniportal Endoscopy**: While both techniques are evaluated, comprehensive complication rate comparisons between these approaches are not fully detailed in the provided papers [pubmed_36991184]
-3. **Patient-Perceived Benefit**: For biportal endoscopic laminectomy, "it remains unclear whether theoretical advantages translate into meaningful differences in patient-reported outcomes that patients would actually perceive" [pubmed_41002072] (Evidence: 1b, RCT)
-4. **Fusion Approaches**: Limited specific complication data for decompression-plus-fusion techniques in comparison to decompression-alone procedures
+The provided papers do NOT contain:
+
+1. **Detailed specific complication rates** (infection, hematoma, neurological injury, durotomy rates) for each technique comparison
+2. **Long-term complication profiles** beyond short-term recovery metrics
+3. **Comparative safety data for decompression with fusion vs. decompression alone**
+4. **Specific complication comparisons for interspinous process spacer devices** versus decompression techniques
+5. **Comparative reoperation/revision rates** between different approaches
+6. **Comparative outcomes for uniportal vs. biportal endoscopic techniques** regarding complications
+7. **Infection and wound healing outcomes** across techniques
 
 ---
 
 ## Summary
 
-Minimally invasive techniques (particularly tubular decompression and endoscopic-assisted approaches) demonstrate significantly lower complication rates compared to traditional open laminectomy, with reduced surgical site infections, blood loss, and hospital stays. However, endoscopic-assisted laminotomy appears to offer the most favorable safety profile at short-term follow-up, though long-term durability of this advantage remains unconfirmed.
+While endoscopic decompression demonstrates advantages in short-term outcomes (pain reduction, hospital stay, recovery speed) and minimally invasive approaches show reduced tissue trauma compared to open laminectomy [pubmed_39577647, pubmed_38190892], comprehensive comparative complication rate data across all nine surgical interventions is not fully provided in the retrieved evidence base. The superiority of particular approaches for specific complications requires additional evidence synthesis beyond what is presented in these papers.
 
 ---
 

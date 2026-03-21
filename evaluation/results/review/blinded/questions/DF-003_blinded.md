@@ -46,54 +46,65 @@ In septuagenarians undergoing 3-CO for thoracolumbar kyphosis [pubmed_40968391] 
 ---
 
 ## System B
-**Papers retrieved**: 5
-**Evidence levels**: ['1a', '1a', '1a', '2b', '4']
+**Papers retrieved**: 10
+**Evidence levels**: ['1a', '1a', '2b', '5', '5', '2b', '4', '5', '1a', '2b']
 
 ### Cited Papers
 - [1a] pubmed_41497819: Radiological and complication outcomes of posterior pedicle subtraction osteotom
 - [1a] pubmed_32382878: Impact of pedicle subtraction osteotomy on health-related quality of life (HRQOL
-- [1a] pubmed_41559490: Adult Spinal Deformity Surgery Alignment Goals: A Systematic Review and Meta-Ana
 - [2b] pubmed_40513242: The safety and efficacy of posterior vertebral column resection in treating seve
-- [4] pubmed_38765779: Corrective Osteotomies for Chin-on-Chest Deformity: A Systematic Review
+- [5] pubmed_41077081: Casein Kinase 1 Epsilon Promotes Cartilage Degeneration in Lumbar Facet Joint Os
+- [5] pubmed_32048051: Pseudoarthrosis in Adult Spinal Deformity Surgery: Management and Outcomes
+- [2b] pubmed_40381021: Posterior vertebral column resection with preservation of posterior ligamentous 
+- [4] pubmed_41810392: Augmented Reality in Minimally Invasive Spine Surgery: A Narrative Review of Non
+- [5] pubmed_40098127: Adult Spinal Deformity: Diagnosis and Treatment Innovation
+- [1a] pubmed_37740115: Age-Adjusted Alignment Thresholds in Adult Spinal Deformity Surgery: A Systemati
+- [2b] pubmed_37768339: Restoration of the Roussouly Profile Reduces Mechanical Complications and Revisi
 
 ### Answer
 
 # Outcomes of Three-Column Osteotomies for Fixed Sagittal Imbalance
 
-## Sagittal Correction Outcomes
+## Radiological/Alignment Outcomes
 
-### Radiological Correction
-**PSO demonstrates powerful sagittal correction:** PSO has long been the gold standard for achieving "powerful sagittal corrections" [pubmed_41497819] through removal of posterior vertebral elements and a bone wedge from the vertebral body, allowing "significant angular correction at a single level" [pubmed_41497819].
+### Sagittal Correction
+Three-column osteotomies (PSO and PVCR) demonstrate substantial radiological correction of spinal deformity:
 
-**PVCR durability in severe deformity:** In thoracolumbar Pott's deformity (a model of fixed severe kyphosis), posterior vertebral column resection (PVCR) achieved:
-- Immediate local kyphosis correction: 75.3° reduction (from 107.3° to 32.0°) [pubmed_40513242]
-- Long-term durability: minimal loss of correction with only 5.1° increase over mean 105.7-month follow-up (32.0° to 37.1°) [pubmed_40513242]
+**Thoracic Kyphosis Correction:**
+Thoracic kyphosis improved from 6.0° ± 6.9° preoperatively to -12.7° ± 7.3° postoperatively (p < 0.05), representing normalization of thoracic alignment [pubmed_40513242] (Evidence: 2b, multicenter study with long-term follow-up)
 
-### Alignment Target Achievement
-For commonly reported sagittal balance goals [pubmed_41559490]:
-- **SVA < 5 cm**: majority of patients achieved this goal in immediate postoperative period
-- **PI-LL ≤ 10°**: most cohorts achieved substantial correction with mean postoperative PI-LL values near or below 10° threshold
-- **PT ≤ 20°**: achievement was more variable across studies, with some cohorts achieving target while others fell short [pubmed_41559490]
+**Lumbar Lordosis Correction:**
+Lumbar lordosis decreased from 75.8° ± 12.9° preoperatively to 44.0° ± 9.5° postoperatively (p < 0.05) [pubmed_40513242] (Evidence: 2b)
+
+These data demonstrate comprehensive multi-regional deformity correction across the thoracolumbar spine.
+
+---
 
 ## Complication Profile
 
-### Substantial Perioperative Morbidity
-PSO is associated with significant intraoperative complications [pubmed_41497819]:
+### PSO Complications
+PSO is associated with **substantial intraoperative morbidity** including:
 - High blood loss
 - Neurological injury risk
-- Prolonged operative times
+- Prolonged operative times [pubmed_41497819] (Evidence: 1a, meta-analysis)
 
-**Evidence limitation:** The specific incidence rates of complications are not quantified in the provided papers. The meta-analysis [pubmed_41497819] compares PSO with anterior column realignment but does not provide detailed complication frequency data in the excerpted text.
+### Mechanical Complications
+Age-adjusted correction strategies may reduce mechanical complication burden. In a comparison of alignment restoration approaches, mechanical complication rates varied significantly by correction strategy [pubmed_37740115] (Evidence: 1a, systematic review).
 
-## Quality of Life Outcomes
+Restoration of normal sagittal alignment (Roussouly Profile) resulted in mechanical complications in 27% of restored cases versus 88% in unrestored cases (p < 0.001) [pubmed_37768339] (Evidence: 2b)
 
-Three-column osteotomies (including PSO) are used to correct sagittal imbalance in adult spinal deformity [pubmed_32382878], and the systematic review indicates these procedures impact health-related quality of life [pubmed_32382878], though specific HRQOL metrics are not detailed in the provided excerpt.
+---
+
+## Health-Related Quality of Life
+
+PSO and three-column osteotomies have demonstrated improvement in HRQOL measures [pubmed_32382878] (Evidence: 1a, systematic review and meta-analysis), though specific outcome values are not provided in the retrieved abstract.
+
+---
 
 ## Evidence Gaps
 
-1. **Detailed complication incidence**: Specific rates of neurological injury, infection, blood loss volumes, and reoperation rates are not provided in the excerpts
-2. **Comparative complication profiles**: While PSO is compared with anterior column realignment [pubmed_41497819], the detailed comparative complication data is not included in provided text
-3. **VCR-specific outcomes**: Limited data on VCRO outcomes; only one systematic review mentions two studies evaluating VCRO [pubmed_38765779]
-4. **Patient selection criteria**: Limited guidance on which patients benefit most from three-column versus other approaches
+- Specific complication rates (neurological injury %, infection rates, mortality) for PSO and PVCR are not quantified in the provided papers
+- Direct comparative outcomes between PSO and anterior column realignment are referenced but not detailed [pubmed_41497819]
+- Specific HRQOL outcome values from the meta-analysis are not provided [pubmed_32382878]
 
 ---

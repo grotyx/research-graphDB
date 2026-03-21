@@ -4,59 +4,54 @@
 
 ## System A
 **Papers retrieved**: 10
-**Evidence levels**: ['1b', '1a', '1b', '2b', '1b', '2b', '2b', '2b', '2b', '2b']
+**Evidence levels**: ['1b', '1a', '1a', '2b', '2b', '2b', '2b', '2b', '2b', '2b']
 
 ### Cited Papers
 - [1b] pubmed_40551470: Long-term outcomes of conservative management of moderate adolescent idiopathic 
+- [1a] pubmed_39320698: Deep Learning Algorithms for Automated Cobb Angle Estimation on X-rays: A System
 - [1a] pubmed_40932300: Robot-Assisted Versus Conventional Surgery for Pedicle Screw Instrumentation in 
-- [1b] pubmed_40391862: Effects of dexamethasone and dexmedetomidine as adjuvants to erector spinae plan
 - [2b] pubmed_41636888: Posterior-Only Fusion versus Anterior Release with Posterior Fusion for Large-Ma
-- [1b] pubmed_40152429: Safety and Efficacy of Surgeon-Directed Intraoperative Subfascial Cocktail Analg
-- [2b] pubmed_41389104: Accuracy of Artificial Intelligence in Measuring Cobb Angles in Adolescent Idiop
+- [2b] pubmed_38690524: Automated Lenke Classification System for Adolescent Idiopathic Scoliosis Using 
+- [2b] pubmed_41506453: A fully autonomous AI system for accurate and reproducible Cobb angle measuremen
 - [2b] pubmed_36455162: Robotic-Assisted Navigation with O-Arm or 3D C-Arm versus Freehand Technique for
 - [2b] pubmed_41075991: Perioperative Mental Health Disorders in Adolescent Idiopathic Scoliosis: Preval
-- [2b] pubmed_39486021: Reliability and Accuracy of a Deep Learning-Based Artificial Intelligence App fo
 - [2b] pubmed_41219793: Spondylolysis as a Clinically Significant Comorbidity in Adolescent Idiopathic S
+- [2b] pubmed_40519105: Long-term functional treadmill test results in adult symptomatic lumbar scoliosi
 
 ### Answer
 
-# Evidence Summary: Surgical vs Conservative Treatment of AIS (Cobb 40-50°)
+# Evidence for Surgical versus Conservative Treatment of AIS (Cobb 40-50°)
 
-## Critical Evidence Gap
+## Summary
+The provided papers contain **limited direct evidence comparing surgical versus conservative treatment** for AIS in the 40-50° Cobb angle range. Most papers focus on either surgical techniques or diagnostic classification, not treatment comparison outcomes.
 
-**The provided papers do NOT contain direct comparative evidence between surgical and conservative treatment for AIS with Cobb angles of 40-50°.** This represents a significant limitation for answering your clinical question.
-
-## Available Evidence by Domain
+## Available Evidence
 
 ### Conservative Management (Bracing)
-[pubmed_40551470] - Systematic review and meta-analysis (Evidence: 1b)
-- Addresses bracing for moderate curves between 25-30° and 40-45°
-- **Limitation**: The paper abstract does not provide specific efficacy data or long-term outcomes for the 40-50° range
-- Notes that "bracing aims to prevent curve progression through external force application, but its long-term efficacy and impact on curve behavior after removal remain unclear"
-- Does not compare outcomes against surgical intervention
+**[pubmed_40551470]** - Systematic Review and Meta-Analysis (Evidence: 1b)
+- Clinical guidelines recommend **bracing for moderate curves between 25-30° and 40-45°**
+- Study notes that bracing aims to prevent curve progression through external force application
+- **Critical gap**: The paper states that "long-term efficacy and impact on curve behavior after removal remain unclear" - the exact question relevant to your clinical scenario is not answered in the provided data
 
-### Surgical Treatment
-The papers focus on surgical technique comparisons but not surgical vs conservative outcomes:
+### Surgical Outcomes
+**[pubmed_40932300]** - Systematic Review and Meta-Analysis (Evidence: 1a) - Robot-Assisted vs Conventional Surgery
+- Reports Cobb angle correction outcomes but **does not stratify results by initial curve magnitude** (40-50° vs larger curves)
+- States: "robot-assisted surgery achieved superior screw accuracy, this did not translate into improved radiographic deformity correction"
+- Does not compare surgery versus conservative management
 
-[pubmed_40932300] - Robot-assisted vs conventional surgery meta-analysis (Evidence: 1a)
-- Cobb angle correction: No difference between techniques (MD -0.59°, 95% CI -2.14 to 0.96, p=0.46)
-- **Limitation**: Compares two surgical approaches; does not address surgical vs non-surgical comparison
+**[pubmed_41636888]** - Comparative Analysis (Evidence: 2b)
+- Focuses on **large-magnitude curves (≥70°)** - outside your target range
+- Not applicable to 40-50° Cobb angle decisions
 
-[pubmed_41636888] - Posterior-only vs anterior release fusion (Evidence: 2b)
-- Addresses large-magnitude curves (≥70°), outside your 40-50° range of interest
-- Does not include conservative management comparison
+## Critical Evidence Gaps
 
-[pubmed_36455162] - Robotic navigation vs freehand technique (Evidence: 2b)
-- Included Cobb angles <90° with flexibility indices >30%
-- Compares surgical techniques only, not surgical vs conservative management
+The provided papers **do not contain**:
+- Direct randomized or comparative studies of surgery vs. bracing for 40-50° AIS
+- Long-term outcomes of conservative bracing in the 40-45° range
+- Functional or quality-of-life comparisons between surgical and conservative approaches
+- Progression rates off bracing in this specific Cobb angle range
 
-### Clinical Context
-[pubmed_41075991] - Mental health disorders in AIS (Evidence: 2b)
-- Documents psychological impact of AIS but does not address treatment comparison
-
-## Conclusion
-
-**No evidence from the provided papers directly compares surgical versus conservative treatment outcomes for AIS with Cobb angles 40-50°.** The literature reviewed focuses on surgical technique optimization and long-term bracing outcomes separately, but does not provide comparative effectiveness data needed to guide treatment decisions at this specific curve magnitude.
+**No evidence-based recommendation for 40-50° AIS can be made from these papers alone.**
 
 ---
 
