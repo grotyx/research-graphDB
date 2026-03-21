@@ -1,0 +1,94 @@
+{
+  "BS-002": {
+    "B2": "System A",
+    "B4": "System B"
+  },
+  "DF-001": {
+    "B4": "System A",
+    "B2": "System B"
+  },
+  "DF-002": {
+    "B4": "System A",
+    "B2": "System B"
+  },
+  "DF-003": {
+    "B4": "System A",
+    "B2": "System B"
+  },
+  "DF-004": {
+    "B2": "System A",
+    "B4": "System B"
+  },
+  "DF-005": {
+    "B2": "System A",
+    "B4": "System B"
+  },
+  "DG-001": {
+    "B2": "System A",
+    "B4": "System B"
+  },
+  "DG-002": {
+    "B4": "System A",
+    "B2": "System B"
+  },
+  "DG-003": {
+    "B4": "System A",
+    "B2": "System B"
+  },
+  "DG-004": {
+    "B4": "System A",
+    "B2": "System B"
+  },
+  "DG-005": {
+    "B4": "System A",
+    "B2": "System B"
+  },
+  "DG-006": {
+    "B2": "System A",
+    "B4": "System B"
+  },
+  "DG-007": {
+    "B4": "System A",
+    "B2": "System B"
+  },
+  "DG-008": {
+    "B4": "System A",
+    "B2": "System B"
+  },
+  "DG-009": {
+    "B2": "System A",
+    "B4": "System B"
+  },
+  "DG-010": {
+    "B2": "System A",
+    "B4": "System B"
+  },
+  "GR-001": {
+    "B4": "System A",
+    "B2": "System B"
+  },
+  "GR-002": {
+    "B2": "System A",
+    "B4": "System B"
+  },
+  "GR-003": {
+    "B2": "System A",
+    "B4": "System B"
+  },
+  "GR-004": {
+    "B4": "System A",
+    "B2": "System B"
+  },
+  "GR-005": {
+    "B2": "System A",
+    "B4": "System B"
+  },
+  "TR-001": {
+    "B2": "System A",
+    "B4": "System B"
+  },
+  "TU-001": {
+    "B4": "System A",
+    "B2": "System B"
+  }
+}

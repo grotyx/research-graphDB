@@ -254,7 +254,7 @@ async def generate_answer_b4_graphrag(
         logger.warning("Multi-vector search failed (non-critical): %s", e)
 
     # v16: 직접 검색 결과에 1-keyword filter (v14에서는 skip)
-    if _b4_version in ("v16",):
+    if _b4_version in ("v16", "v20"):
         stop_words = {
             "what", "is", "the", "are", "for", "in", "of", "and", "or", "a", "an",
             "to", "from", "with", "by", "on", "at", "how", "does", "do", "which",
@@ -343,7 +343,7 @@ async def generate_answer_b4_graphrag(
     context = "\n\n".join(context_parts)
 
     # Step 5: 답변 생성 프롬프트
-    if _b4_version == "v17":
+    if _b4_version in ("v17", "v20"):
         # v17: 정량 데이터 추출 강조 프롬프트
         system_prompt = (
             "You are a spine surgery evidence synthesis system. "
