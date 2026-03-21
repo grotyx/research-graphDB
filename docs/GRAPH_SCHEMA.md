@@ -1,6 +1,6 @@
 # Spine GraphRAG Schema
 
-> **Version**: 1.31.0
+> **Version**: 1.31.1
 
 ## Node Types
 

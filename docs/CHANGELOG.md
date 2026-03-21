@@ -2,6 +2,18 @@
 
 ## Version History
 
+### v1.31.1: QA 전체 스캔 + 데이터 무결성 수정 (2026-03-21)
+
+- **IS_A 순환 수정**: Outcome VAS ↔ Pain Outcome 순환 제거
+- **중복 엔티티 병합**: 36건 (I:20, P:10, O:4, A:2) case-variant 중복 병합
+- **고립 Paper 복구**: 3건 (pubmed_40994375, 41218893, 41598419) 관계 재구축
+- **HAS_CHUNK 누락 복구**: 79건 Paper 청크 재생성
+- **중복 DOI 정리**: analyzed_f1ec065f 삭제 (pubmed_40890351과 동일 논문)
+- **고아 Chunk 삭제**: 테스트 잔여물 10건 + 비존재 paper_id 참조 10건
+- **study_design 정규화**: "other" → "Other" 164건
+- **TREATS paper_count 재계산**: 7,563건 수정
+- **버전 동기화**: 13개 파일 v1.31.1 일괄 동기화
+
 ### v1.31.0: Graph 품질 개선 + B4 v10 확정 (2026-03-21)
 
 - **Outcome 정규화**: 3,565 → 394개 (90% 감소)
