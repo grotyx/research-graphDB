@@ -71,63 +71,51 @@ One small comparative study (38 participants) showed:
 
 ## System B
 **Papers retrieved**: 10
-**Evidence levels**: ['1a', '1a', '1a', '1a', '1a', '4', '2a', '5', '5', '1b']
+**Evidence levels**: ['1a', '1a', '1a', '1a', '2a', '5', '1b', '5', '1a', '2b']
 
 ### Cited Papers
-- [1a] pubmed_35046008: Non-operative treatment for lumbar spinal stenosis with neurogenic claudication:
 - [1a] pubmed_25678775: Epidural steroid injections for lumbar spinal stenosis: a systematic review and 
 - [1a] pubmed_27008296: Efficacy of Epidural Injections for Lumbar Radiculopathy and Spinal Stenosis: A 
-- [1a] pubmed_26610278: Epidural Steroid Injection for Radicular Pain in Degenerative Lumbar Spinal Sten
+- [1a] pubmed_35046008: Non-operative treatment for lumbar spinal stenosis with neurogenic claudication:
 - [1a] pubmed_39938000: Epidural Steroid Injections for Cervical and Lumbar Spinal Stenosis and Radiculo
-- [4] pubmed_41459417: Extracellular Vesicles in Intervertebral Disc Degeneration: A Scoping Review on 
 - [2a] pubmed_35453904: Giant Cell Tumor of the Lumbar Spine: A Comprehensive Review of Diagnosis and Tr
 - [5] pubmed_35155240: Management of Spinal Metastases: Evolution of the Spine Instability Neoplastic S
-- [5] pubmed_26727925: not reported
 - [1b] pubmed_33969764: Comparison of Caudal Epidural Steroid-Hyaluronidase Injection with Paravertebral
+- [5] pubmed_33492918: Epidural Interventions for Chronic Spinal Pain: Guidelines by the American Socie
+- [1a] pubmed_33492919: Efficacy and Safety of Transforaminal Epidural Injections for Lumbar Radicular P
+- [2b] pubmed_39417983: Therapeutic strategies for mobile spine chordoma: en bloc Versus intralesional s
 
 ### Answer
 
-# Effectiveness of Epidural Steroid Injections in Lumbar Spinal Stenosis
+# Evidence for Epidural Steroid Injections in Lumbar Spinal Stenosis
 
-## Evidence for ESI Effectiveness
+## Effectiveness of Epidural Steroid Injections
 
 ### Short-Term Pain Relief
-ESIs demonstrate **limited short-term pain reduction** in lumbar spinal stenosis:
-- Meta-analysis found **no significant short-term pain reduction** (standardized response difference [SRD] -3.5%, 95% CI -12.6 to 5.6) [pubmed_39938000, Level 1a]
-- One systematic review concluded ESIs **"probably lead to little or no effect on reducing radicular pain"** in degenerative lumbar spinal stenosis [pubmed_26610278, Level 1a]
+ESIs show **minimal to no short-term pain reduction** in lumbar spinal stenosis (LSS):
+- Meta-analysis found no statistically significant short-term pain reduction (SRD -3.5%, 95% CI -5.6 to 12.6) [pubmed_39938000, Systematic Review 1a]
 
-### Short-Term and Long-Term Disability
-- **Short-term disability**: SRD -26.2% (95% CI -52.4 to 3.6, NNT 4) [pubmed_39938000, Level 1a]
-- **Long-term disability**: SRD -11.8% (95% CI -26.9 to 3.8, NNT 8) [pubmed_39938000, Level 1a]
+### Short-Term Disability Reduction
+- Possible reduction in short-term disability (SRD -26.2%, 95% CI -52.4 to 3.6, NNT 4) [pubmed_39938000, Systematic Review 1a]
 
-### Comparative Effectiveness
-- Steroid injections **not superior to steroids plus physical therapy** for short-term pain/function, but **more effective long-term** (very low-quality evidence, N=54) [pubmed_35046008, Level 1a]
-- **Interlaminar vs. transforaminal approach**: Interlaminar improved pain and walking distance at intermediate-term but not short-term (very low-quality evidence, N=67) [pubmed_35046008, Level 1a]
+### Comparison: Glucocorticoid + Lidocaine vs. Lidocaine Alone
+- Glucocorticoid plus lidocaine was more effective than lidocaine alone at **3 weeks only** (statistically significant but **NOT clinically important**) [pubmed_35046008, Systematic Review 1a, moderate-quality evidence, N=400]
+- **No benefit at 6 weeks, 12 weeks, or 12 months** [pubmed_35046008]
+- Adverse events reported in 21.5% of glucocorticoid-lidocaine group [pubmed_35046008]
 
----
+### Long-Term Outcomes
+- Possible reduction in long-term disability (SRD -11.8%, 95% CI -26.9 to 3.8, NNT 8) [pubmed_39938000, Systematic Review 1a]
 
-## When Surgery Should Be Recommended
+## Timing of Surgical Intervention
 
-### Conservative Management First
-- Conservative treatment is **recommended prior to surgical intervention** [pubmed_25678775, Level 1a]
-- The literature suggests **limited long-term benefits of surgery compared to nonsurgical management** [pubmed_25678775, Level 1a]
+**Conservative treatment is recommended prior to surgical intervention** for LSS, despite rising surgical rates, particularly in the USA [pubmed_25678775, Systematic Review 1a]. The literature suggests **limited long-term benefits of surgery compared to nonsurgical management** [pubmed_25678775].
 
-### Clinical Context for Surgery
-- LSS is the **most common reason for spinal surgery in patients over 65 years** and affects >200,000 U.S. adults [pubmed_26727925, Evidence level 5]
-- Surgical rates have risen dramatically, particularly in the USA [pubmed_25678775, Level 1a]
+## Critical Evidence Gaps
 
----
-
-## Key Evidence Gaps
-
-1. **No direct guidance provided** in these papers on specific surgical indications (e.g., symptom severity, duration, failure thresholds)
-2. **Quality of evidence**: Most ESI trials are rated as "very low-quality" [pubmed_35046008]
-3. **Long-term surgical outcomes**: Limited direct comparison of long-term surgical vs. nonsurgical outcomes in these papers
-4. **Individual patient factors**: No guidance on patient selection criteria for either ESI or surgery
-
----
-
-## Summary
-ESIs provide **modest improvements in disability but minimal pain relief** for lumbar spinal stenosis. Conservative management, including ESI, should precede surgical consideration, though specific surgical indications are not detailed in the provided literature.
+The papers do **NOT** provide:
+- Specific criteria for determining when ESI failure warrants surgical referral
+- Comparison of surgery versus continued conservative management outcomes
+- Long-term follow-up data (>12 months) for ESI efficacy
+- Data on repeat ESI protocols or optimal injection sequences
 
 ---

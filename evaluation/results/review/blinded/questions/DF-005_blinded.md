@@ -63,65 +63,92 @@ This study assessed health-related quality-of-life (HRQoL) outcomes but specific
 
 ## System B
 **Papers retrieved**: 10
-**Evidence levels**: ['1a', '1a', '1a', '1a', '2b', '2b', '2b', '1a', '4', '2b']
+**Evidence levels**: ['1a', '1a', '1a', '2b', '2b', '1a', '4', '2b', '1a', '2b']
 
 ### Cited Papers
 - [1a] pubmed_41497819: Radiological and complication outcomes of posterior pedicle subtraction osteotom
-- [1a] pubmed_41559490: Adult Spinal Deformity Surgery Alignment Goals: A Systematic Review and Meta-Ana
 - [1a] pubmed_40066769: Transforaminal Lumbar Interbody Fusion versus Anterior Lumbar Interbody Fusion a
 - [1a] pubmed_39575949: Radiographic Outcomes Across Lumbar Interbody Fusion Techniques: A Systematic Re
 - [2b] pubmed_25820352: Radiographic outcomes of anterior column realignment for adult sagittal plane de
-- [2b] pubmed_29087808: Comparative analysis of 3 surgical strategies for adult spinal deformity with mi
 - [2b] pubmed_31229745: Retrospective Multicenter Assessment of Rod Fracture After Anterior Column Reali
 - [1a] pubmed_40386865: Impact of Diabetes Mellitus on Spinal Fusion Surgery Outcomes: A Systematic Revi
 - [4] pubmed_24879610: Smoking Cessation and Bone Healing in Spinal Fusion: A Temporal Analysis of Pseu
 - [2b] pubmed_36649855: Spinal Fusion Outcomes in Incarcerated Patients: A Matched Cohort Study
+- [1a] pubmed_41066602: Impact of Smoking on Spinal Fusion Rates and Patient-Reported Outcomes: A System
+- [2b] pubmed_41782590: Failed Back Surgery Syndrome: A Retrospective Analysis of 95 Spinal Surgeries wi
 
 ### Answer
 
-# Role of Anterior Column Reconstruction Combined with Posterior Fixation in Adult Spinal Deformity
+# Evidence Synthesis: ACR/ALIF with Posterior Fixation vs. Posterior-Only Approaches in Adult Spinal Deformity
 
-## Radiographic Alignment Outcomes
+## Important Limitation
+The provided papers do **not directly compare** combined anterior-posterior approaches (ACR/ALIF + posterior fixation) with posterior-only approaches. The evidence addresses anterior techniques separately from posterior techniques. This is a significant gap for your specific clinical question.
 
-### Lordosis Restoration
-**ALIF Superior to Posterior-Only Approaches:**
-- ALIF achieves **5.86 degrees greater segmental lordosis** compared to TLIF (P<0.001) [pubmed_40066769, Evidence 1a]
-- Systematic review and meta-analysis of 88 papers demonstrates "consistent superiority of ALIF...for lordosis restoration across both systematic review and meta-analysis results" [pubmed_39575949, Evidence 1a]
-- These biomechanical advantages may "reduce long-term adjacent segment degeneration" and "optimize long-term spinal health" [pubmed_40066769, Evidence 1a]
+---
 
-### ACR-Specific Outcomes
-- ACR "achieves substantial radiographic correction with a minimally invasive approach" [pubmed_25820352, Evidence 2b, multicenter analysis]
-- ACR employs "multiple anterolateral discectomies at consecutive levels, allowing incremental angular correction while preserving posterior elements" [pubmed_41497819, Evidence 1a]
+## Evidence Available on Individual Techniques
 
-## Operative and Safety Considerations
+### ANTERIOR COLUMN REALIGNMENT (ACR) - Minimally Invasive Approach
 
-### Potential Advantages of Anterior Approaches
-ACR theoretically offers:
-- Reduced blood loss
-- Shorter operative time
-- Decreased neurological injury risk
-compared to posterior pedicle subtraction osteotomy (PSO) [pubmed_41497819, Evidence 1a]
+**Operative Outcomes** [pubmed_41497819]
+- Meta-analysis (1a evidence)
+- ACR advantages compared to PSO:
+  - Reduced blood loss
+  - Shorter operative time
+  - Decreased neurological injury risk
+- However, specific quantitative comparisons between combined vs. posterior-only approaches are not provided
 
-### Important Complication: Rod Fracture
-- ACR carries a **4.4% rod fracture rate** [pubmed_31229745, Evidence 2b, multicenter retrospective analysis]
-- Rod fracture is "associated with longer fusion constructs," providing "important guidance for surgical decision-making" [pubmed_31229745, Evidence 2b]
+**Radiographic Correction** [pubmed_25820352]
+- Multicenter analysis (2b evidence)
+- ACR achieves substantial radiographic correction for adult sagittal plane deformity
+- Described as alternative to circumferential fusion with posterior osteotomies
+- Potential to reduce operative morbidity compared to posterior-only approaches
 
-## Long-Term Durability Gap
+**Complications** [pubmed_31229745]
+- Multicenter retrospective study (2b evidence)
+- Rod fracture rate: **4.4%** after ACR
+- Association with longer fusion constructs suggests construct length influences complication rates
+- This complication spectrum must inform surgical decision-making
 
-**Critical Evidence Limitation:**
-"Adult spinal deformity surgery reliably achieves planned sagittal alignment in the early postoperative period...However, long-term durability of these corrections is variable and inconsistent" [pubmed_41559490, Evidence 1a]
+### ALIF - Sagittal Alignment Benefits
 
-This applies across diverse surgical approaches, including combined anterior-posterior strategies.
+**Lordosis Restoration** [pubmed_40066769]
+- Meta-analysis (1a evidence)
+- ALIF achieves **5.86° greater segmental lordosis** than TLIF (P<0.001)
+- Theoretical biomechanical advantages for long-term outcomes
 
-## Evidence Gaps
+**Lordosis Comparison Across Techniques** [pubmed_39575949]
+- Systematic review and meta-analysis of 88 papers (1a evidence)
+- ALIF demonstrated consistent superiority for lordosis restoration
+- TLIF showed consistent inferiority
+- Data synthesized across degenerative pathology and adult spinal deformity populations
 
-1. **Limited direct comparison**: Only one comparative study addressing combined approaches [pubmed_29087808, Evidence 2b] without complete outcome reporting in provided text
-2. **No long-term follow-up data**: Papers do not provide durability comparisons between anterior-posterior combined versus posterior-only fusion beyond early postoperative period
-3. **Functional outcomes**: No patient-reported quality-of-life outcome data comparing these approaches in provided papers
-4. **Complication profiles**: Limited systematic comparison of overall complication rates (beyond rod fracture) between approaches
+---
 
-## Clinical Recommendation Context
+## Evidence Gaps for Your Question
 
-The enhanced lordosis restoration with ALIF-based approaches "supports its use in patients with significant sagittal imbalance or alignment goals" [pubmed_40066769, Evidence 1a], though sustained benefit requires further investigation.
+The retrieved papers do **not provide**:
+
+1. **Direct comparative data** between combined anterior-posterior vs. posterior-only fusion in ASD
+2. **Specific outcomes** for staged or combined ACR/ALIF + posterior instrumentation protocols
+3. **Complication rates** comparing hybrid approaches to posterior-only surgery
+4. **Functional outcomes** (ODI, SF-36) for combined vs. single-stage approaches
+5. **Fusion rates** or pseudoarthrosis rates specific to combined techniques
+6. **Long-term alignment maintenance** comparing approaches
+7. **Revision rates** or need for subsequent surgery
+
+---
+
+## Clinical Implications from Available Data
+
+- **ACR offers minimally invasive sagittal correction** with potential morbidity reduction compared to PSO alone [pubmed_41497819]
+- **ALIF superior lordosis restoration** provides biomechanical rationale for anterior involvement in deformity correction [pubmed_39575949, pubmed_40066769]
+- **Rod fracture complication (4.4%)** with longer constructs requires consideration regardless of staged vs. combined approach [pubmed_31229745]
+
+---
+
+## Recommendation
+
+To adequately answer your clinical question, additional literature comparing combined anterior-posterior approaches to posterior-only instrumented fusion specifically in adult spinal deformity populations would be required. The current evidence set addresses techniques in isolation rather than combined strategies.
 
 ---

@@ -4,63 +4,73 @@
 
 ## System A
 **Papers retrieved**: 10
-**Evidence levels**: ['1a', '1a', '1a', '1a', '1a', '1b', '1a', '1a', '1b', '1b']
+**Evidence levels**: ['1a', '1a', '1a', '1a', '1a', '1b', '1a', '1a', '1a', '1b']
 
 ### Cited Papers
 - [1a] pubmed_41666862: Endoscopic Discectomy versus Microdiscectomy for Lumbar Disc Herniation: A Syste
 - [1a] pubmed_31529215: Network Meta-Analysis of Complication Rates for Discectomy Techniques in Symptom
-- [1a] pubmed_40611244: Network Meta-Analysis of Treatments for Lumbar Disc Herniation: Comparing Surgic
-- [1a] pubmed_41452813: Unilateral Biportal Endoscopic Discectomy versus Conventional Microdiscectomy fo
 - [1a] pubmed_34213864: Network Meta-Analysis of Surgical Approaches for Lumbar Disc Herniation: Compara
-- [1b] pubmed_40797374: Biportal Endoscopic Spine Surgery versus Conventional Open Surgery for Lumbar De
+- [1a] pubmed_41452813: Unilateral Biportal Endoscopic Discectomy versus Conventional Microdiscectomy fo
+- [1a] pubmed_40611244: Network Meta-Analysis of Treatments for Lumbar Disc Herniation: Comparing Surgic
+- [1b] pubmed_40708286: Efficacy and Safety of Full Endoscopic Lumbar Discectomy Combined with Platelet-
 - [1a] pubmed_40155927: Network Meta-Analysis Comparing Tubular Microdiscectomy, Percutaneous Transforam
-- [1a] pubmed_40568817: Comparison of the Biportal Endoscopic Versus Tubular Approach for the Treatment 
+- [1a] pubmed_40195642: Endoscopic spine surgery for obesity-related surgical challenges: a systematic r
+- [1a] pubmed_38388729: Unilateral Biportal Endoscopic Discectomy versus Microdiscectomy for Lumbar Disk
 - [1b] pubmed_36155241: Biportal Endoscopic Discectomy versus Open Microscopic Discectomy for Single-Lev
-- [1b] pubmed_40306720: Biportal Endoscopic Discectomy versus Microdiscectomy for Single-Level Lumbar Di
 
 ### Answer
 
-# Surgical Treatment of Lumbar Disc Herniation: Microdiscectomy versus Endoscopic Discectomy
+# Surgical Treatment of Lumbar Disc Herniation: Microdiscectomy vs. Endoscopic Discectomy
 
 ## Clinical Efficacy
 
-**Equivalence in Primary Outcomes:**
-Endoscopic techniques demonstrate comparable efficacy to microdiscectomy as the gold standard. A systematic review and meta-analysis [pubmed_41666862] (Evidence: 1a) confirmed clinical equivalence between endoscopic discectomy and microdiscectomy, with microdiscectomy traditionally serving as the reference standard. A prospective randomized multicenter non-inferiority trial [pubmed_36155241] (Evidence: 1b) demonstrated that **biportal endoscopic discectomy (BED) was non-inferior to microscopic discectomy over 12 months**.
+**Pain Relief and Functional Outcomes:**
 
-A multicentre prospective RCT [pubmed_40306720] (Evidence: 1b) concluded that **BED is as effective as microdiscectomy (MD) in treating single-level lumbar disc herniation** with comparable clinical outcomes.
+Both approaches demonstrate similar clinical efficacy for pain relief. Endoscopic discectomy with internal fixation (EDF) showed superior performance compared to microdiscectomy (MD) when analyzed across multiple surgical approaches, with EDF identified as significantly superior to conservative treatments [pubmed_40611244, Evidence 1a - Network Meta-Analysis].
+
+Specifically for unilateral biportal endoscopic discectomy (UBED) versus microdiscectomy: a prospective randomized multicenter trial found **UBED was non-inferior to microscopic discectomy over 12 months**, demonstrating equivalent clinical efficacy [pubmed_36155241, Evidence 1b - RCT]. A separate meta-analysis of RCTs and observational studies similarly confirmed comparable efficacy between UBED and conventional microdiscectomy [pubmed_41452813, Evidence 1a - Meta-Analysis].
 
 ## Safety and Complication Profiles
 
-**Lower Infection Rates:**
-The systematic review [pubmed_41666862] identified endoscopic techniques offering **reduced tissue trauma and lower infection rates** compared to traditional microdiscectomy.
+**Dural Tear and Intraoperative Complications:**
 
-**Reduced Postoperative Morbidity:**
-The network meta-analysis [pubmed_31529215] (Evidence: 1a) compared complication rates across five techniques including microdiscectomy, PELD, MED, and tubular discectomy using Clavien-Dindo classification, though specific comparative data were not detailed in the abstract provided.
+Percutaneous endoscopic discectomy (PED) demonstrated **the lowest probable rates of dural tear and intraoperative complications** compared to multiple surgical approaches including traditional microdiscectomy [pubmed_34213864, Evidence 1a - Network Meta-Analysis].
 
-## Minimally Invasive Advantages
+**Infection Rates:**
 
-**Muscle and Tissue Preservation:**
-- The RCT [pubmed_40306720] found BED offers **advantages in postoperative wound complications** and **early postoperative surgical site pain reduction**
-- **Reduced muscle damage** was noted, with lower creatine phosphokinase (CPK) levels indicating superior muscle preservation [pubmed_40306720]
-- Improved **scar aesthetics** were observed with endoscopic approaches [pubmed_40306720]
+Endoscopic techniques offered **lower infection rates** compared to microdiscectomy [pubmed_41666862, Evidence 1a - Systematic Review and Meta-Analysis].
+
+**Tissue Trauma:**
+
+Biportal endoscopic discectomy demonstrated the **slight advantage of reduced muscle damage** compared to open microscopic discectomy [pubmed_36155241, Evidence 1b - RCT].
+
+## Surgical Efficiency Outcomes
+
+**Operative Time and Blood Loss:**
+
+UBED demonstrated **superior surgical efficiency with shorter operative times and reduced blood loss** compared to microdiscectomy [pubmed_38388729, Evidence 1a - Meta-Analysis].
 
 **Hospital Stay:**
-The systematic review [pubmed_41666862] documented **shorter hospital stays** with endoscopic techniques compared to microdiscectomy.
 
-## Important Caveats and Evidence Limitations
+Endoscopic techniques provided **shorter hospital stays** compared to traditional microdiscectomy [pubmed_41666862, Evidence 1a - Systematic Review and Meta-Analysis].
 
-**Surgical Site Pain Consideration:**
-The non-inferiority trial [pubmed_36155241] cautioned that **clinical implications of surgical site pain should be carefully considered** despite overall non-inferiority, suggesting postoperative pain may vary between techniques.
+**Discharge Time:**
 
-**Heterogeneity in Techniques:**
-A meta-analysis on biportal endoscopy [pubmed_40797374] (Evidence: 1b) noted **inconsistent definitions and techniques** for endoscopic approaches and variations in follow-up protocols may have affected comparability. Most included studies were **retrospective rather than RCTs**.
+UBED resulted in **faster discharge** compared to microdiscectomy [pubmed_38388729, Evidence 1a - Meta-Analysis].
 
-**Surgeon Experience Effects:**
-The same analysis [pubmed_40797374] acknowledged that **surgeon experience and surgical approach (transforaminal vs. interlaminar vs. posterior) likely influence outcomes**, but comparative data were not provided.
+## Recommendation from Evidence Synthesis
 
-## Summary
+**Percutaneous endoscopic discectomy (PED) is recommended as the preferred surgical approach**, demonstrating optimal balance of safety and efficacy with superior pain relief compared to percutaneous discectomy and the lowest probable rates of dural tear and intraoperative complications [pubmed_34213864, Evidence 1a - Network Meta-Analysis].
 
-Based on available evidence, **endoscopic discectomy techniques (particularly biportal endoscopic discectomy) are clinically equivalent to microdiscectomy** with potential advantages in tissue trauma, infection rates, hospital stay, and postoperative wound complications. However, the evidence base consists primarily of Level 1a systematic reviews and Level 1b RCTs, with important caveats regarding technique heterogeneity and surgeon experience. No technique demonstrated superior clinical efficacy; the choice may be individualized based on surgeon expertise and patient factors.
+**UBED is supported as a viable and potentially superior alternative to microdiscectomy** for appropriately selected patients, combining equivalent clinical efficacy with superior surgical efficiency and comparable safety profile [pubmed_38388729, Evidence 1a - Meta-Analysis].
+
+## Evidence Gaps
+
+- Direct head-to-head RCT evidence comparing all endoscopic subtypes (PELD, MED, TED, UBED) is limited
+- Long-term follow-up data (>12 months) comparing endoscopic and traditional microdiscectomy is minimal
+- Patient selection criteria for optimal endoscopic candidacy require further definition
+- Cost-effectiveness analyses are not addressed in provided literature
+- Outcomes in specific patient populations (obesity, revision surgery) are limited
 
 ---
 

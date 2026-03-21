@@ -242,10 +242,10 @@ async def generate_answer_b4_graphrag(
     except Exception as e:
         logger.warning("Multi-vector search failed (non-critical): %s", e)
 
-    # v11: IS_A expansion — 검색된 intervention의 IS_A sibling으로 추가 논문 보충
+    # v12: IS_A expansion + keyword filter — depth=1만, 질문 키워드 포함 논문만
     try:
         found_pids = set(seen.keys())
-        isa_additions = await _isa_expand_search(neo4j_client, found_pids, top_k)
+        isa_additions = await _isa_expand_search(neo4j_client, found_pids, top_k, question)
         for r in isa_additions:
             pid = r.get("paper_id", "")
             if pid and pid not in seen:
@@ -253,7 +253,7 @@ async def generate_answer_b4_graphrag(
         if isa_additions:
             new_count = len([r for r in isa_additions if r.get("paper_id") not in found_pids])
             if new_count > 0:
-                logger.info("IS_A expansion added %d new papers", new_count)
+                logger.info("IS_A expansion added %d new papers (keyword filtered)", new_count)
     except Exception as e:
         logger.warning("IS_A expansion failed (non-critical): %s", e)
 
@@ -523,19 +523,33 @@ async def _get_graph_traversal_summary(neo4j_client: Any, question: str) -> str:
 
 
 async def _isa_expand_search(
-    neo4j_client: Any, existing_pids: set[str], top_k: int
+    neo4j_client: Any, existing_pids: set[str], top_k: int, question: str = ""
 ) -> list[dict]:
-    """IS_A expansion — 검색된 논문의 intervention/pathology sibling으로 추가 논문 검색.
+    """IS_A expansion v2 — depth=1 + keyword filter.
 
-    기존 결과를 유지하면서, IS_A 계층의 sibling/parent 논문을 보충.
-    filtering이 아닌 additive 방식 (v8 교훈).
+    검색된 논문의 IS_A sibling으로 추가 논문 보충하되:
+    1. depth=1만 (직접 parent의 sibling만, grandparent 금지)
+    2. 추가 논문 제목이 질문 키워드를 포함해야 함 (무관 논문 차단)
     """
     if not existing_pids:
         return []
 
     pid_list = list(existing_pids)[:20]
 
-    # 1. 검색된 논문의 intervention → IS_A parent → sibling intervention의 논문
+    # 질문에서 키워드 추출 (3글자 이상, stop words 제외)
+    stop_words = {
+        "what", "is", "the", "are", "for", "in", "of", "and", "or", "a", "an",
+        "to", "from", "with", "by", "on", "at", "how", "does", "do", "which",
+        "that", "this", "than", "between", "after", "before", "current",
+        "evidence", "best", "role", "impact", "effect", "based", "compared",
+        "comparing", "outcomes", "results", "clinical", "surgical", "treatment",
+    }
+    keywords = [
+        w.lower() for w in re.findall(r"[A-Za-z0-9-]+", question)
+        if w.lower() not in stop_words and len(w) >= 3
+    ]
+
+    # depth=1: intervention → IS_A(1 hop) → parent → sibling
     query = """
     UNWIND $pids AS pid
     MATCH (p:Paper {paper_id: pid})-[:INVESTIGATES]->(i:Intervention)-[:IS_A]->(parent:Intervention)
@@ -545,31 +559,39 @@ async def _isa_expand_search(
     WHERE NOT p2.paper_id IN $pids
     RETURN DISTINCT p2.paper_id AS paper_id, p2.title AS title,
            p2.evidence_level AS evidence_level, p2.year AS year,
-           0.7 AS score
+           0.6 AS score
     LIMIT $limit
     """
     try:
         rows = await neo4j_client.run_query(query, {
-            "pids": pid_list, "limit": top_k
+            "pids": pid_list, "limit": top_k * 3  # 많이 가져와서 필터링
         })
         results = []
         for r in rows:
             pid = r.get("paper_id", "")
-            if pid and pid not in existing_pids:
-                # Get a chunk for content
-                chunk_rows = await neo4j_client.run_query(
-                    "MATCH (p:Paper {paper_id: $pid})-[:HAS_CHUNK]->(c:Chunk) "
-                    "WHERE c.tier = 'tier1' RETURN c.content AS content LIMIT 1",
-                    {"pid": pid}
-                )
-                content = chunk_rows[0]["content"][:500] if chunk_rows else ""
-                results.append({
-                    "paper_id": pid,
-                    "title": r.get("title", "Unknown"),
-                    "evidence_level": r.get("evidence_level", "unknown"),
-                    "content": content,
-                    "score": r.get("score", 0.7),
-                })
+            title = r.get("title", "")
+            if not pid or pid in existing_pids:
+                continue
+
+            # Keyword filter: 제목에 질문 키워드가 최소 1개 포함되어야 함
+            title_lower = title.lower()
+            keyword_match = any(kw in title_lower for kw in keywords)
+            if not keyword_match:
+                continue
+
+            chunk_rows = await neo4j_client.run_query(
+                "MATCH (p:Paper {paper_id: $pid})-[:HAS_CHUNK]->(c:Chunk) "
+                "WHERE c.tier = 'tier1' RETURN c.content AS content LIMIT 1",
+                {"pid": pid}
+            )
+            content = chunk_rows[0]["content"][:500] if chunk_rows else ""
+            results.append({
+                "paper_id": pid,
+                "title": title,
+                "evidence_level": r.get("evidence_level", "unknown"),
+                "content": content,
+                "score": 0.6,
+            })
         return results
     except Exception as e:
         logger.warning("IS_A expand query failed: %s", e)

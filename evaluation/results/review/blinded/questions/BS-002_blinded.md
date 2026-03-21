@@ -56,70 +56,77 @@ The literature lacks robust evidence demonstrating structural/biological disc re
 
 ## System B
 **Papers retrieved**: 10
-**Evidence levels**: ['2a', '5', '1b', '1a', '2b', '2b', '2a', '2b', '2b', '3']
+**Evidence levels**: ['2a', '5', '5', '5', '5', '5', '1b', '2a', '2b', '2a']
 
 ### Cited Papers
 - [2a] pubmed_41608524: Stem Cell-Based Strategies for Intervertebral Disc Regeneration: A Systematic Re
+- [5] pubmed_41163783: Endogenous Stem Cell-Mediated Repair of Degenerated Intervertebral Disc Annulus 
+- [5] pubmed_41450738: Mesenchymal Stem Cell Therapy for Intervertebral Disc Regeneration: Microenviron
+- [5] pubmed_41595972: Degenerative Disc Disease: Pathophysiology, Epidemiology, and Emerging Regenerat
+- [5] pubmed_41683563: Immunometabolism in Intervertebral Disc Degeneration and Regeneration: Pathophys
 - [5] pubmed_41185036: Nucleus pulposus progenitor cells in intervertebral disc degeneration: character
 - [1b] pubmed_40551470: Long-term outcomes of conservative management of moderate adolescent idiopathic 
-- [1a] pubmed_26824399: Surgery for lumbar spinal stenosis
-- [2b] pubmed_25232807: Conservative management of type II and III odontoid fractures in the elderly at 
-- [2b] pubmed_41752698: Short-Term Osteoporosis Medication Does Not Mitigate Vertebral Collapse During t
 - [2a] pubmed_24119021: Non-surgical interventions for the management of type 2 dens fractures: a system
-- [2b] pubmed_34232408: Odontoid Type II fractures in elderly: what are the real management goals and ho
-- [2b] pmid_40269503: Comparison of Endoscopic Unilateral Laminectomy for Bilateral Decompression (End
-- [3] pubmed_37759351: Relationship Between Reduced Modic Change Edema and Disability or Pain in Chroni
+- [2b] pubmed_38759240: Ongoing decision-making dilemma for treatment of de novo spinal infections: a co
+- [2a] pubmed_22941218: The optimal treatment of type II and III odontoid fractures in the elderly: a sy
 
 ### Answer
 
-# Evidence for Stem Cell Therapy in Intervertebral Disc Degeneration
-
-## Summary of Available Evidence
-
-Based on the provided papers, evidence for stem cell therapy in intervertebral disc degeneration is limited to **preclinical and in vitro studies**.
-
----
+# Evidence Summary: Stem Cell Therapy for Intervertebral Disc Degeneration
 
 ## Preclinical Evidence
 
-### Structural and Biomechanical Outcomes
-[pubmed_41608524] - **Systematic Review (Evidence Level 2a)**
+**Regenerative Capacity** [pubmed_41608524]
+- Evidence level: 2a (Systematic Review)
+- Animal models and in vitro studies consistently demonstrated improvements in:
+  - Disc height index
+  - Water content
+  - Proteoglycan/collagen composition
+- These findings suggest biological potential to reverse disc degeneration, though translation to clinical outcomes remains incomplete
 
-Animal models and in vitro studies consistently demonstrated improvements in:
-- **Disc height index** restoration
-- **Water content** normalization
-- **Proteoglycan/collagen composition** restoration
-- **Biomechanical properties** of degenerated discs
+## Clinical Trial Evidence
 
-The review concluded that findings "suggest biological potential of stem cell approaches to reverse disc degeneration," though these are preclinical observations.
+**Current Clinical Trial Landscape** [pubmed_41450738]
+- Evidence level: 5 (Expert consensus/descriptive review)
+- As of January 2025, 18 registered clinical trial strategies for lumbar intervertebral disc degeneration:
+  - 13 trials investigating bone marrow-derived MSCs (BM-MSCs)
+  - 3 trials examining adipose-derived stem cells (ADSCs)
+  - 2 trials exploring umbilical cord-derived MSCs
 
----
+**Clinical Outcomes from Phase I/II Trials** [pubmed_41163783]
+- Evidence level: 5 (Clinical trial reports)
+- Autologous bone marrow-derived MSC injections:
+  - **Pain reduction**: 70% improvement on Visual Analog Scale (VAS) at 12 months
+  - **MRI T2-signal improvement**: 35% at 12 months
+  - **Disc height restoration**: Remained below 15% (limited structural recovery)
+  - **Fusion rates**: 80% with tricalcium phosphate scaffolds + MSCs (NCT01513694)
+  - **Safety**: No severe adverse events reported
 
-## Cell Production and Expansion Strategies
+## Proposed Mechanisms of Action
 
-[pubmed_41185036] - **Evidence Level 5 (Review/Expert Opinion)**
+**Paracrine and Immunomodulatory Effects** [pubmed_41595972], [pubmed_41683563]
+- Evidence level: 5 (Mechanistic reviews)
+- MSCs function through:
+  - Secretion of anti-inflammatory cytokines (IL-10, TGF-β)
+  - Growth factors (bFGF, VEGF) suppressing inflammatory responses
+  - Promotion of extracellular matrix synthesis
+  - Reduction of oxidative stress
+  - Self-renewal capacity with differentiation toward chondrocyte-like phenotypes
 
-This paper addresses nucleus pulposus progenitor cells (NPPCs) for scalable clinical translation:
+## Emerging Approaches
 
-**Expansion Methodology:**
-- EZSPHERE spheroid culture enables large-scale production of phenotypically stable NPPCs
-- CryoStor10 cryopreservation maintains post-thaw viability and Tie2 expression
-- Selective enrichment of Tie2+ NPPCs by inhibiting Tie2-negative cell proliferation
+**Nucleus Pulposus Progenitor Cells (NPPCs)** [pubmed_41185036]
+- Evidence level: 5 (Preclinical development)
+- Optimized spheroid culture systems enable large-scale production with phenotypic stability
+- Enrichment of Tie2+ NPPCs using PPARδ agonist GW501516 increased yield from ~7% to 50%
+- Addresses scalability limitations for transplantation
 
-**Key Limitation Addressed:**
-- Low Tie2+ yields (~7%) during expansion
-- PPARδ agonist GW501516 increased Tie2+ NPPC proportions to approximately 50%
+## Evidence Gaps
 
----
-
-## Critical Evidence Gap
-
-**No clinical trial data** are provided in the retrieved papers regarding:
-- Safety outcomes in human subjects
-- Efficacy outcomes in clinical practice
-- Long-term follow-up in human populations
-- Comparison to conservative or surgical management
-
-The knowledge gap between promising preclinical results and human clinical application remains substantial.
+1. **Limited structural restoration**: Current clinical trials show <15% disc height recovery despite symptom improvement
+2. **Long-term outcome data**: No studies with extended follow-up beyond 12 months reported
+3. **Heterogeneous trial designs**: 18 different registered strategies lack standardized protocols
+4. **Mechanism clarity**: Paracrine mechanisms are hypothesized but not definitively established in human patients
+5. **Comparative effectiveness**: No head-to-head comparisons between MSC types (BM-MSCs vs. ADSCs vs. cord-derived)
 
 ---

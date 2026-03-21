@@ -4,57 +4,81 @@
 
 ## System A
 **Papers retrieved**: 10
-**Evidence levels**: ['1a', '2b', '2b', '2b', '2b', '2b', '1a', '2a', '2b', '4']
+**Evidence levels**: ['1a', '2b', '2b', '2b', '2b', '2b', '2b', '2b', '5', '4']
 
 ### Cited Papers
 - [1a] pubmed_37740115: Age-Adjusted Alignment Thresholds in Adult Spinal Deformity Surgery: A Systemati
-- [2b] pubmed_41379878: Machine Learning-Based Prediction of Proximal Junctional Kyphosis in Adult Degen
 - [2b] pubmed_40153849: Risk Factors for Proximal Junctional Kyphosis and Proximal Junctional Failure Fo
+- [2b] pubmed_41297090: Clinical and radiological outcomes of transverse process hooks versus pedicle sc
 - [2b] pubmed_40521654: Association between postoperative L1 vertebra orientation and proximal junctiona
-- [2b] pubmed_40450887: The Impact of Alignment Parameters Relative to the Thoracolumbar Inflection Poin
 - [2b] pubmed_41167281: Age-Adjusted PI-LL Overcorrection and Proximal Junctional Failure in Adult Spina
-- [1a] pubmed_30813208: Laminectomy with instrumented fusion versus laminoplasty for multilevel cervical
-- [2a] pubmed_27781191: Laminoplasty Versus Laminectomy and Fusion in Patients With Cervical Myelopathy 
-- [2b] pubmed_28713049: Patient-Reported Outcome Validation of the Spinal Instability Neoplastic Score i
-- [4] pubmed_41685255: Does the treatment of cervicothoracic junction fractures differ from subaxial ce
+- [2b] pubmed_36999928: Validation of Four Preoperative Surgical Planning Tools in Adult Spinal Deformit
+- [2b] pubmed_38270393: Impact of Correcting Normative Segmental Lordosis Values on Postoperative Outcom
+- [2b] pubmed_41379878: Machine Learning-Based Prediction of Proximal Junctional Kyphosis in Adult Degen
+- [5] pubmed_32048051: Pseudoarthrosis in Adult Spinal Deformity Surgery: Management and Outcomes
+- [4] pubmed_38765779: Corrective Osteotomies for Chin-on-Chest Deformity: A Systematic Review
 
 ### Answer
 
-# Incidence and Risk Factors of Proximal Junctional Kyphosis After Adult Spinal Deformity Surgery
+# Proximal Junctional Kyphosis After Adult Spinal Deformity Surgery: Incidence and Risk Factors
 
 ## Incidence
 
-**Proximal Junctional Kyphosis (PJK)** represents one of the most frequent complications after adult spinal deformity (ASD) surgery [pubmed_41379878, Evidence 2b]. While the exact incidence rate is not explicitly stated across these papers, **Proximal Junctional Failure (PJF)**, which includes PJK among other complications, has an acute incidence of approximately **5.6%**, with 41% of patients requiring reoperation [pubmed_41379878, Evidence 2b].
+The provided papers acknowledge PJK as a **common complication** following adult spinal deformity (ASD) surgery [pubmed_40521654], but specific overall incidence rates are not quantified in the retrieved literature.
 
-## Timing of Development
-
-Both PJK and PJF largely develop **within the first year following index ASD correction**, suggesting acute biomechanical stress at the proximal junctional region in the immediate postoperative period [pubmed_40153849, Evidence 2b, Kaplan-Meier analysis].
+However, incidence varies by specific surgical parameters:
+- **Overcorrection group**: Higher frequency compared to undercorrected group (p = 0.05) [pubmed_37740115]
+- **Overcorrection at T10-L2**: 32.8% PJK/PJF rate versus 16.0% (undercorrected) and 15.6% (matched correction) [pubmed_38270393]
 
 ## Risk Factors
 
-### 1. **Surgical Overcorrection**
-- PJK was significantly more frequent in the **overcorrected group compared to the undercorrected group** (p = 0.05), indicating that more aggressive surgical correction increases the risk of this mechanical complication [pubmed_37740115, Evidence 1a, systematic review].
+### **Surgical Correction Parameters**
 
-### 2. **Caudal Inflection Point**
-- Development of PJF/PJK was associated with a **more caudal baseline thoracolumbar inflection point** (L2 inferior endplate vs L1 body, p < 0.001) [pubmed_40450887, Evidence 2b].
-- In adjusted analysis, patients with a more caudal baseline inflection point had **25% higher odds of developing PJF by 2 years** (OR 1.26 [95% CI 1.08-1.46], p = 0.003) [pubmed_40450887, Evidence 2b].
+**Overcorrection of Sagittal Alignment**
+- Aggressive surgical correction increases PJK risk [pubmed_37740115]
+- Overcorrection at T10-L2 specifically associated with 32.8% proximal junctional failure rate and greater posterior inclination of upper instrumented vertebrae [pubmed_38270393]
+- Age-adjusted PI-LL (pelvic incidence-lumbar lordosis) overcorrection identified as significant factor [pubmed_41167281]
 
-### 3. **Preoperative Thoracic Kyphosis**
-- High preoperative thoracic kyphosis emerged as an **independent risk factor** (OR=1.046, p=.003), suggesting that patients with severe preoperative thoracic misalignment are at inherent risk for proximal junctional complications regardless of the magnitude of lumbar correction [pubmed_41167281, Evidence 2b].
+### **Preoperative Patient Factors**
 
-### 4. **L1 Vertebra Orientation**
-- Postoperative orientation of the L1 vertebra has been identified as relevant to PJK occurrence, though specific details on this relationship are noted as understudied [pubmed_40521654, Evidence 2b].
+**Thoracic Kyphosis**
+- High preoperative thoracic kyphosis: OR=1.046 (p=.003) [pubmed_41167281]
+- Serves as independent risk factor regardless of magnitude of lumbar correction [pubmed_41167281]
 
-## Clinical Impact
+**Bone Quality and Demographics**
+- Lower T-score (bone mineral density): PJK patients -1.698 vs non-PJK -1.154 (p=0.021) [pubmed_41379878]
+- Higher ASA grade distribution, particularly grade III (p=0.023) [pubmed_41379878]
 
-Both PJK and PJF reduce quality of life and significantly increase revision rates and healthcare costs [pubmed_41379878, Evidence 2b].
+### **Radiographic Parameters**
+
+- **Higher T1PA (T1 pelvic angle)**: PJK 19.075° vs non-PJK 15.327° (p=0.026) [pubmed_41379878]
+- **Lower sacral slope**: PJK 22.796° vs non-PJK 28.322° (p=0.037) [pubmed_41379878]
+- **L1 vertebra orientation**: Associated with PJK occurrence, though specific thresholds not detailed [pubmed_40521654]
+- **Pelvic incidence (PI)**: Trending toward significance in PJK prediction (p=0.091) [pubmed_41379878]
+
+## Evidence for Surgical Planning Guidelines
+
+Four preoperative planning approaches have been proposed to reduce PJK:
+- SRS-Schwab classification
+- Age-adjusted sagittal alignment goals
+- Global Alignment and Proportion (GAP) score
+- Roussouly algorithm
+
+However, evidence for their efficacy remains unclear [pubmed_36999928] (Evidence: 2b - systematic evaluation).
+
+## Surgical Technique Considerations
+
+Transverse process hooks versus pedicle screws at upper instrumented vertebra studied as potential risk modification strategies [pubmed_41297090], though specific comparative outcomes not detailed in retrieved excerpt.
+
+## Clinical Significance
+
+PJK and proximal junctional failure frequently require revision surgery and significantly impact patient quality of life and outcomes [pubmed_41297090] (Evidence: 2b).
 
 ## Evidence Gaps
 
-These papers do not provide comprehensive data on:
-- Absolute incidence rates of PJK specifically (only PJF rate of 5.6% reported)
-- Complete multivariate models comparing all risk factors
-- Specific threshold values for alignment parameters that minimize PJK risk
+- Overall incidence rate not provided in systematic reviews
+- Long-term natural history of asymptomatic PJK unclear [pubmed_32048051]
+- Comparative effectiveness of different surgical planning algorithms needs further validation [pubmed_36999928]
 
 ---
 

@@ -46,75 +46,47 @@ In septuagenarians undergoing 3-CO for thoracolumbar kyphosis [pubmed_40968391] 
 ---
 
 ## System B
-**Papers retrieved**: 10
-**Evidence levels**: ['1a', '1a', '2b', '2b', '5', '5', '2b', '2b', '4', '4']
+**Papers retrieved**: 7
+**Evidence levels**: ['1a', '1a', '1a', '2b', '4', '2b', '4']
 
 ### Cited Papers
-- [1a] pubmed_32382878: Impact of pedicle subtraction osteotomy on health-related quality of life (HRQOL
 - [1a] pubmed_41497819: Radiological and complication outcomes of posterior pedicle subtraction osteotom
-- [2b] pubmed_40968391: Single-Position Navigated Lateral Column Realignment With Anterior Longitudinal 
-- [2b] pubmed_40513242: The safety and efficacy of posterior vertebral column resection in treating seve
-- [5] pubmed_32048051: Pseudoarthrosis in Adult Spinal Deformity Surgery: Management and Outcomes
-- [5] pubmed_40806999: The Evolution of Adult Spinal Deformity Surgery: Technological Innovations and P
-- [2b] pubmed_31229745: Retrospective Multicenter Assessment of Rod Fracture After Anterior Column Reali
+- [1a] pubmed_32382878: Impact of pedicle subtraction osteotomy on health-related quality of life (HRQOL
+- [1a] pubmed_25868095: Comparison of Smith-Petersen osteotomy and pedicle subtraction osteotomy for the
 - [2b] pubmed_25820352: Radiographic outcomes of anterior column realignment for adult sagittal plane de
-- [4] pubmed_39443371: Preoperative Deformity in Revision Lumbar Spinal Fusion: Analysis of Primary ver
-- [4] pubmed_21818597: Thoracolumbar imbalance analysis for osteotomy planification using a new method:
+- [4] pubmed_25614149: V-Y vertebral body osteotomy for the treatment of fixed sagittal plane spinal de
+- [2b] pubmed_25279655: The use of recombinant human bone morphogenetic protein-2 (rhBMP-2) in anterior 
+- [4] pubmed_38765779: Corrective Osteotomies for Chin-on-Chest Deformity: A Systematic Review
 
 ### Answer
 
-# Outcomes of Three-Column Osteotomies for Fixed Sagittal Imbalance
+# Three-Column Osteotomies for Fixed Sagittal Imbalance: Outcomes and Complications
 
 ## Radiographic Correction Outcomes
 
-### Sagittal Deformity Correction
+**Sagittal Alignment Correction:**
+PSO demonstrates substantial angular correction capacity at a single level [pubmed_41497819]. When compared directly with Smith-Petersen osteotomy, meta-analysis showed no statistically significant differences between PSO and Smith-Petersen osteotomy in sagittal vertical axis (SVA) correction or lumbar lordosis (LL) improvement for thoracolumbar kyphotic deformity [pubmed_25868095, Evidence: 1a meta-analysis].
 
-**Posterior Vertebral Column Resection (VCR):**
-In severe thoracolumbar Pott's deformity, VCR achieved remarkable correction: preoperative local kyphosis of 107.3° was corrected to 32.0° immediately postoperatively (75.3° correction, p<0.05). At long-term follow-up (mean 105.7 months), local kyphosis increased slightly to 37.1° (p<0.05 vs preoperative), indicating minimal loss of correction over approximately 8.8 years. [pubmed_40513242] (Evidence: 2b, multicenter study with long-term follow-up)
+## Operative and Perioperative Complications
 
-### Alignment Achievement
-
-**PSO with Modern Technology:**
-Patients receiving pedicle screw rods (PSRs) were 2.6 times more likely to achieve optimal PI-LL (pelvic incidence-lumbar lordosis) alignment compared to those with traditional instrumentation, attributed to improved execution of preoperative plans and reduced variability in rod contouring. The PSR group reliably achieved preoperative sagittal correction targets. [pubmed_40806999] (Evidence: 5, matched cohort analysis)
-
-## Health-Related Quality of Life Outcomes
-
-PSO represents a three-column osteotomy approach that achieves adequate correction for severe and rigid spinal deformity [pubmed_32382878] (Evidence: 1a, systematic review and meta-analysis), though specific HRQOL magnitude data are not detailed in the retrieved papers.
-
-## Complication Profile
-
-### Morbidity Associated with PSO
-
-**Intraoperative Complications:**
+**High Morbidity Profile:**
 PSO is associated with substantial intraoperative morbidity including:
 - High blood loss
 - Neurological injury risk
-- Prolonged operative times
-[pubmed_41497819] (Evidence: 1a, meta-analysis)
-
-### Rod Fracture Complications
-
-**Anterior Column Realignment (ACR) - Related Risk:**
-In minimally invasive ACR (which may be combined with osteotomy), rod fracture occurred in 4.4% of patients, particularly in those requiring extended fusion constructs. Notably, 75% of fractures occurred within the first postoperative period, and longer fusion lengths increase rod fracture risk. [pubmed_31229745] (Evidence: 2b, retrospective multicenter assessment)
+- Prolonged operative times [pubmed_41497819, Evidence: 1a meta-analysis]
 
 **Supplemental Fixation Requirements:**
-In anterior column realignment for sagittal deformity, 97.1% of patients (33/34) required supplemental posterior fixation, with mean fusion levels of 7.1 (range 2-16). [pubmed_25820352] (Evidence: 2b, multicenter analysis)
+In anterior column realignment series, 97.1% (33/34 patients) required supplemental posterior fixation, with 76.5% using open approaches and 20.6% using percutaneous placement [pubmed_25820352, Evidence: 2b multicenter analysis]. Mean levels fused were 7.1 (range 2-16).
 
-## Comparison with Less Invasive Alternatives
+## Health-Related Quality of Life
 
-**Single-Position Lateral Realignment:**
-In septuagenarians with thoracolumbar kyphosis, minimally invasive anterior approaches (lateral column realignment with anterior longitudinal ligament release) are proposed as potentially safer alternatives to traditional three-column osteotomy, particularly given the high complication risk in elderly populations. [pubmed_40968391] (Evidence: 2b, comparative study)
-
-## Long-Term Complications
-
-**Pseudoarthrosis:**
-Adult spinal deformity surgery, including osteotomy procedures, carries risk of pseudoarthrosis, presenting variably from asymptomatic patients (requiring observation) to acute rod fracture and chronic pain with trunk imbalance. [pubmed_32048051] (Evidence: 5, literature review)
+PSO represents a necessary three-column osteotomy approach for achieving adequate correction in severe and rigid spinal deformity [pubmed_32382878, Evidence: 1a systematic review], though specific HRQOL outcome data from this synthesis are limited.
 
 ## Evidence Gaps
 
-- Specific meta-analytic complication rates (neurological injury, blood loss, infection) for PSO versus VCR are not provided in retrieved papers
-- Comparative complication profiles between PSO and VCR are not directly addressed
-- Long-term complication rates beyond 8.8 years are limited to the Pott's deformity population
-- HRQOL magnitude improvements with three-column osteotomies lack quantified data in provided papers
+- Specific quantitative complication rates (neurological injury %, blood loss volumes, infection rates) are not detailed in the retrieved papers
+- Limited comparative data between PSO and VCRO (vertebral column resection osteotomy) specifically
+- VYO outcomes limited to small case series (n=10) [pubmed_25614149, Evidence: 4]
+- Long-term outcome data beyond radiographic correction not comprehensively reported
 
 ---

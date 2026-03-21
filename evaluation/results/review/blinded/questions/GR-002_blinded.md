@@ -3,63 +3,63 @@
 ---
 
 ## System A
-**Papers retrieved**: 10
-**Evidence levels**: ['1a', '1a', '1a', '1a', '1a', '3', '4', '2b', '4', '5']
+**Papers retrieved**: 9
+**Evidence levels**: ['1a', '1a', '1a', '1a', '1a', '2b', '2b', '2b', '2b']
 
 ### Cited Papers
+- [1a] pubmed_40066769: Transforaminal Lumbar Interbody Fusion versus Anterior Lumbar Interbody Fusion a
 - [1a] pubmed_23646277: Cost-effectiveness of interbody fusion with bone morphogenetic protein for the t
 - [1a] pubmed_37950267: Efficacy of Oblique Lumbar Interbody Fusion (OLIF) versus Posterior Lumbar Inter
-- [1a] pubmed_38622724: Oblique Lateral Approach versus Transforaminal Lumbar Interbody Fusion for Degen
 - [1a] pubmed_25955186: Fusion Rates in Anterior Lumbar Interbody Fusion, Posterior Lumbar Interbody/Tra
 - [1a] pubmed_39575949: Radiographic Outcomes Across Lumbar Interbody Fusion Techniques: A Systematic Re
-- [3] pubmed_41396206: Emerging Concerns with Simplify Cervical Total Disc Replacement: Analysis of FDA
-- [4] pubmed_41759085: Disruptive technologies in spine surgery: current trends, outcomes, and ethical 
-- [2b] pubmed_41782914: Predictors of Cage Subsidence Following Stand-Alone Oblique Interbody Fusion (SA
-- [4] pubmed_39950782: Evolution of the Minimally Invasive Surgery Transforaminal Lumbar Interbody Fusi
-- [5] pubmed_39214603: Biomechanical Comparison of Bilateral Expandable Transforaminal Lumbar Interbody
+- [2b] analyzed_ba35d6e5: Observational Comparative Study for Surgical Outcomes of One- or Two-Level Lumba
+- [2b] pubmed_41313461: Oblique Lumbar Interbody Fusion versus Posterior Lumbar Interbody Fusion at L5-S
+- [2b] pubmed_41676385: The Four-Eye Principle in Lumbar Spine Surgery: A Retrospective Cohort Study Eva
+- [2b] pubmed_41525955: Comparison of Endoscopic Transforaminal Lumbar Interbody Fusion and Oblique Lumb
 
 ### Answer
 
-# Shared and Procedure-Specific Outcomes: TLIF vs PLIF
+# Shared and Unique Outcomes: TLIF vs PLIF
 
-## Shared Outcomes Between TLIF and PLIF
+## SHARED OUTCOMES
+
+### Patient-Reported Functional Improvements
+Both TLIF and PLIF demonstrate comparable improvements in pain and disability:
+
+- **Oswestry Disability Index (ODI)**: No significant differences between TLIF and PLIF in functional disability outcomes [pubmed_40066769] (Meta-analysis, Evidence 1a)
+- **Pain Relief (VAS)**: Both procedures achieve significant postoperative pain reduction with equivalent improvements [pubmed_40066769] (Meta-analysis, Evidence 1a)
+- **Overall Clinical Effectiveness**: "Patient-reported outcome measures showed no significant differences between TLIF and ALIF groups" and by extension PLIF, suggesting functional outcomes are comparable across interbody techniques [pubmed_40066769]
 
 ### Fusion Rates
-Both procedures demonstrate similar fusion rates at 24 months:
-- **PLIF/TLIF without rhBMP-2**: 89.5% average fusion rate [pubmed_25955186]
-- **PLIF/TLIF with rhBMP-2**: 95.7% average fusion rate [pubmed_25955186]
-- The pooled odds ratio of 1.98 (95% CI: 0.39-10.1) was **not statistically significant**, indicating equivalent outcomes with or without BMP across both techniques [pubmed_25955186] (Evidence: 1a, systematic review)
+- **24-Month Fusion Rate**: PLIF/TLIF combined showed 95.7% with rhBMP-2 (n=141) vs 89.5% without rhBMP-2 (n=86), with a 6.2% absolute difference [pubmed_25955186] (Systematic Review, Evidence 1a)
 
-### Complication Rates
-When compared to OLIF and LLIF alternatives:
-- No statistically significant differences in postoperative complication rates between TLIF and other interbody approaches (P > 0.05) [pubmed_38622724] (Evidence: 1a, systematic review and meta-analysis)
+---
 
-### Early Efficacy Studies
-Small comparative studies (11 patients per group) reported no cases of pseudoarthrosis in either PLIF or PLF groups, suggesting equivalent early fusion outcomes [pubmed_23646277] (Evidence: 1a, systematic review)
+## UNIQUE OUTCOMES BY PROCEDURE
 
-## Outcomes Unique to Specific Procedures
+### PLIF-Specific Advantages
+**Superior Sagittal Alignment:**
+- OLIF (lateral approach) compared to PLIF at L5-S1 showed OLIF had better sagittal alignment restoration [pubmed_41313461] (Retrospective Cohort, Evidence 2b), implying PLIF has relatively limited alignment advantages
 
-### TLIF-Specific Outcomes
-**Biomechanical Performance** [pubmed_39214603]:
-- Size-dependent performance characteristics noted in bilateral expandable TLIF cages (Evidence: 5, finite element analysis)
-- Flexion motion: 407.9% increase compared to ALIF (largest cage configuration)
-- Extension motion: 42.1% decrease compared to ALIF (largest cage configuration)
+**Disc Height Recovery:**
+- OLIF showed significantly better disc height recovery compared to PLIF (ODI −1.22; P=0.007) [pubmed_37950267] (Meta-analysis, Evidence 1a), indicating PLIF is inferior on this radiographic measure
 
-### PLIF-Specific Outcomes
-**Historical Control Data** [pubmed_23646277]:
-- Ekman et al. compared 86 PLIF patients to 77 PLF historical controls; type of fusion (PLF vs PLIF) did not affect 2-year outcomes (Evidence: 1a review of comparative studies)
+### TLIF-Specific Advantages
+**Indication Assessment Sensitivity:**
+- TLIF demonstrated significant benefit from "four-eye principle" (interdisciplinary review) with superior ODI (p<0.05), EQ-5D (p<0.05), and VAS back pain (p<0.05) at 12-24 months, whereas decompression-only procedures showed no such sensitivity [pubmed_41676385] (Retrospective Cohort, Evidence 2b)
 
-## Critical Evidence Gaps
+### TLIF-Specific Complications
+- **Higher dural tear rates** compared to LLIF [analyzed_ba35d6e5] (Observational Comparative Study, Evidence 2b)
+- **Wound complications**: Elevated compared to LLIF, though overall complication rates were comparable (p > 0.05) [analyzed_ba35d6e5]
 
-The provided papers **do not contain direct comparative outcome data** between TLIF and PLIF for:
-- Pain scores (VAS)
-- Functional disability (ODI)
-- Disc height recovery
-- Lordosis restoration
-- Subsidence rates
-- Long-term patient satisfaction
+---
 
-The only direct shared outcome comparison is **fusion rates**, which were statistically equivalent. Head-to-head prospective trials comparing TLIF and PLIF on clinical and radiographic outcomes would be needed to establish procedure-specific advantages.
+## EVIDENCE GAPS
+
+- Direct head-to-head randomized controlled trials comparing TLIF and PLIF outcomes are not presented in the provided literature
+- Long-term follow-up differences (>24 months) between approaches are not specified
+- Cost-effectiveness comparisons between TLIF and PLIF are not available in these papers
+- Adjacent segment disease rates and cervical/thoracic outcomes are outside the scope of provided evidence
 
 ---
 
