@@ -58,9 +58,17 @@ def _get_llm_client() -> Any:
     return _llm_client
 
 
-async def _call_llm(system_prompt: str, user_prompt: str, max_tokens: int = 4000) -> str:
+async def _call_llm(
+    system_prompt: str, user_prompt: str, max_tokens: int = 4000,
+    model_override: str = None,
+) -> str:
     """Unified LLM call — works with both OpenAI and Anthropic."""
     provider, model = _get_llm_config()
+    if model_override:
+        # v19: Sonnet override — force Anthropic provider
+        model = model_override
+        provider = "anthropic"
+        logger.info("Model override: %s", model)
     client = _get_llm_client()
 
     try:
@@ -170,6 +178,8 @@ async def generate_answer_b3_llm_direct(question: str) -> tuple[str, list[dict]]
     return answer, []  # No verifiable papers
 
 
+_b4_version: str = "v14"  # default: v14 base
+
 async def generate_answer_b4_graphrag(
     neo4j_client: Any, question: str, top_k: int = 10
 ) -> tuple[str, list[dict]]:
@@ -243,35 +253,29 @@ async def generate_answer_b4_graphrag(
     except Exception as e:
         logger.warning("Multi-vector search failed (non-critical): %s", e)
 
-    # v15: 직접 검색 결과에도 keyword filter 적용
-    # 질문 키워드가 논문 제목에 최소 1개 포함되어야 함
-    stop_words = {
-        "what", "is", "the", "are", "for", "in", "of", "and", "or", "a", "an",
-        "to", "from", "with", "by", "on", "at", "how", "does", "do", "which",
-        "that", "this", "than", "between", "after", "before", "current",
-        "evidence", "best", "role", "impact", "effect", "based", "compared",
-        "comparing", "outcomes", "results", "clinical", "surgical", "treatment",
-    }
-    keywords = [
-        w.lower() for w in re.findall(r"[A-Za-z0-9-]+", question)
-        if w.lower() not in stop_words and len(w) >= 3
-    ]
+    # v16: 직접 검색 결과에 1-keyword filter (v14에서는 skip)
+    if _b4_version in ("v16",):
+        stop_words = {
+            "what", "is", "the", "are", "for", "in", "of", "and", "or", "a", "an",
+            "to", "from", "with", "by", "on", "at", "how", "does", "do", "which",
+            "that", "this", "than", "between", "after", "before", "current",
+            "evidence", "best", "role", "impact", "effect", "based", "compared",
+            "comparing", "outcomes", "results", "clinical", "surgical", "treatment",
+        }
+        kw_list = [
+            w.lower() for w in re.findall(r"[A-Za-z0-9-]+", question)
+            if w.lower() not in stop_words and len(w) >= 3
+        ]
+        before_filter = len(seen)
+        for pid in list(seen.keys()):
+            title_lower = seen[pid].get("title", "").lower()
+            if not any(kw in title_lower for kw in kw_list):
+                del seen[pid]
+        if len(seen) < before_filter:
+            logger.info("v16 direct keyword filter: %d → %d papers (%d removed)",
+                         before_filter, len(seen), before_filter - len(seen))
 
-    before_filter = len(seen)
-    filtered_out = []
-    # 키워드 2개 이상 매칭 요구 (1개만 매칭은 "disc"→"discectomy" 오탐 방지)
-    min_keyword_matches = 2 if len(keywords) >= 3 else 1
-    for pid in list(seen.keys()):
-        title_lower = seen[pid].get("title", "").lower()
-        match_count = sum(1 for kw in keywords if kw in title_lower)
-        if match_count < min_keyword_matches:
-            filtered_out.append(pid)
-            del seen[pid]
-    if filtered_out:
-        logger.info("Direct keyword filter: %d → %d papers (%d removed)",
-                     before_filter, len(seen), len(filtered_out))
-    else:
-        logger.info("Direct search: %d unique papers (all passed keyword filter)", len(seen))
+    logger.info("Direct search: %d unique papers", len(seen))
 
     # v13: IS_A expansion + pathology check + re-scoring
     # Fix 2: pathology 일치 확인, Fix 3: 직접 검색 최하위보다 나을 때만 교체
@@ -322,12 +326,14 @@ async def generate_answer_b4_graphrag(
     paper_ids = [r["paper_id"] for r in papers_list]
     graph_hint = await _build_graph_hint(neo4j_client, paper_ids)
 
-    # Build context (B2와 동일한 깔끔한 형식)
+    # Build context — v18: chunk 텍스트 확장 (500→1000자)
+    content_limit = 1000 if _b4_version == "v18" else 500
     context_parts = []
     papers = []
     for r in papers_list:
+        content = r['content'][:content_limit]
         context_parts.append(
-            f"[{r['paper_id']}] {r['title']} (Evidence: {r['evidence_level']})\n{r['content']}"
+            f"[{r['paper_id']}] {r['title']} (Evidence: {r['evidence_level']})\n{content}"
         )
         papers.append({
             "paper_id": r["paper_id"], "title": r["title"],
@@ -336,17 +342,36 @@ async def generate_answer_b4_graphrag(
 
     context = "\n\n".join(context_parts)
 
-    # Step 5: 답변 생성 — B2와 동일 프롬프트 + Graph hint 1줄
-    system_prompt = (
-        "You are a spine surgery evidence synthesis system. "
-        "Answer the clinical question based ONLY on the provided papers. For each claim:\n"
-        "1. Cite the paper ID in brackets [paper_id]\n"
-        "2. Mention the study design and evidence level\n"
-        "3. Include specific numbers when available\n"
-        "4. Organize by outcome domain\n"
-        "5. Acknowledge gaps in the evidence\n"
-        "Do NOT use any knowledge outside the provided papers."
-    )
+    # Step 5: 답변 생성 프롬프트
+    if _b4_version == "v17":
+        # v17: 정량 데이터 추출 강조 프롬프트
+        system_prompt = (
+            "You are a spine surgery evidence synthesis system. "
+            "Answer the clinical question based ONLY on the provided papers.\n\n"
+            "CRITICAL INSTRUCTIONS:\n"
+            "1. Extract and report ALL specific numbers: p-values, odds ratios, confidence intervals, "
+            "percentages, means, sample sizes, NNT/NNH, effect sizes\n"
+            "2. Cite the paper ID in brackets [paper_id] for EVERY claim\n"
+            "3. For each study, state: design (RCT/meta-analysis/cohort), sample size, key quantitative findings\n"
+            "4. Compare interventions using specific numerical differences, not vague terms like 'similar' or 'comparable'\n"
+            "5. Organize by outcome domain with a summary table if possible\n"
+            "6. If a paper reports complication rates, ALWAYS include the specific rates\n"
+            "7. Acknowledge gaps in the evidence\n"
+            "Do NOT use any knowledge outside the provided papers. "
+            "Do NOT say 'not provided' if the data is in the papers — look carefully."
+        )
+    else:
+        system_prompt = (
+            "You are a spine surgery evidence synthesis system. "
+            "Answer the clinical question based ONLY on the provided papers. For each claim:\n"
+            "1. Cite the paper ID in brackets [paper_id]\n"
+            "2. Mention the study design and evidence level\n"
+            "3. Include specific numbers when available\n"
+            "4. Organize by outcome domain\n"
+            "5. Acknowledge gaps in the evidence\n"
+            "Do NOT use any knowledge outside the provided papers."
+        )
+
     if graph_hint:
         system_prompt += f"\n\nKnowledge graph context: {graph_hint}"
 
@@ -355,11 +380,20 @@ async def generate_answer_b4_graphrag(
     if graph_traversal_summary:
         system_prompt += f"\n\nGraph traversal evidence:\n{graph_traversal_summary}"
 
-    answer = await _call_llm(
-        system_prompt=system_prompt,
-        user_prompt=f"## Retrieved Papers\n\n{context}\n\n## Clinical Question\n\n{question}",
-        max_tokens=4000,
-    )
+    # v19: Sonnet 모델 사용
+    if _b4_version == "v19":
+        answer = await _call_llm(
+            system_prompt=system_prompt,
+            user_prompt=f"## Retrieved Papers\n\n{context}\n\n## Clinical Question\n\n{question}",
+            max_tokens=4000,
+            model_override="claude-sonnet-4-20250514",
+        )
+    else:
+        answer = await _call_llm(
+            system_prompt=system_prompt,
+            user_prompt=f"## Retrieved Papers\n\n{context}\n\n## Clinical Question\n\n{question}",
+            max_tokens=4000,
+        )
     return answer, papers
 
 
@@ -1207,6 +1241,8 @@ async def main():
     parser.add_argument("--questions", type=int, default=5, help="Max questions to process")
     parser.add_argument("--query-ids", type=str, default=None, help="Comma-separated query IDs (e.g., DG-001,DF-001)")
     parser.add_argument("--top-k", type=int, default=10)
+    parser.add_argument("--version", type=str, default="v14", help="B4 version: v14/v16/v17/v18/v19")
+    parser.add_argument("--output-suffix", type=str, default=None, help="Output file suffix (e.g., _v16)")
     args = parser.parse_args()
 
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(message)s")
@@ -1230,12 +1266,39 @@ async def main():
     await neo4j.__aenter__()
 
     try:
+        # Set B4 version
+        global _b4_version
+        _b4_version = args.version
+        logging.info("B4 version: %s", _b4_version)
+
         baseline_names = args.baselines.upper().split(",")
         max_q = None if args.query_ids else args.questions
         results = await run_all_baselines(
             neo4j, questions, baseline_names, args.top_k, max_q
         )
-        save_answers(results)
+
+        # Save with optional suffix
+        if args.output_suffix:
+            out_dir = EVAL_DIR / "results" / "answers"
+            out_dir.mkdir(parents=True, exist_ok=True)
+            for baseline, answers in results.items():
+                data = [
+                    {
+                        "query_id": a.query_id, "question": a.question,
+                        "baseline": a.baseline, "answer": a.answer,
+                        "cited_papers": a.cited_papers,
+                        "num_papers_retrieved": a.num_papers_retrieved,
+                        "evidence_levels": a.evidence_levels,
+                        "generation_time_ms": a.generation_time_ms,
+                    }
+                    for a in answers
+                ]
+                path = out_dir / f"{baseline}{args.output_suffix}.json"
+                with open(path, "w") as f:
+                    json.dump(data, f, indent=2, ensure_ascii=False, default=str)
+                logging.info("Saved %s: %d answers → %s", baseline, len(data), path)
+        else:
+            save_answers(results)
 
         # Print summary
         for b, answers in results.items():
