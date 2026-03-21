@@ -1241,14 +1241,15 @@ async def main():
     parser.add_argument("--questions", type=int, default=5, help="Max questions to process")
     parser.add_argument("--query-ids", type=str, default=None, help="Comma-separated query IDs (e.g., DG-001,DF-001)")
     parser.add_argument("--top-k", type=int, default=10)
-    parser.add_argument("--version", type=str, default="v14", help="B4 version: v14/v16/v17/v18/v19")
+    parser.add_argument("--version", type=str, default="v14", help="B4 version: v14/v16/v17/v18/v19/v20")
     parser.add_argument("--output-suffix", type=str, default=None, help="Output file suffix (e.g., _v16)")
+    parser.add_argument("--questions-file", type=str, default="questions.json", help="Questions file name in gold_standard/")
     args = parser.parse_args()
 
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(message)s")
 
     # Load questions
-    with open(EVAL_DIR / "gold_standard" / "questions.json") as f:
+    with open(EVAL_DIR / "gold_standard" / args.questions_file) as f:
         data = json.load(f)
     questions = data.get("questions", data)
 
