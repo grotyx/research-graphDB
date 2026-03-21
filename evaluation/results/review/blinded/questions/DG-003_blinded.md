@@ -4,7 +4,7 @@
 
 ## System A
 **Papers retrieved**: 10
-**Evidence levels**: ['1a', '2a', '2b', '2b', '2b', '2b', '2b', '2b', '2b', '2b']
+**Evidence levels**: ['1a', '2a', '2b', '2b', '2b', '2b', '2b', '2b', '1b', '5']
 
 ### Cited Papers
 - [1a] pubmed_40433998: Impact of Obesity on Lumbar Spinal Fusion Outcomes: A Systematic Review and Meta
@@ -12,66 +12,59 @@
 - [2b] pubmed_41782914: Predictors of Cage Subsidence Following Stand-Alone Oblique Interbody Fusion (SA
 - [2b] pubmed_41677169: Is Cigarette Smoking Associated With Impaired Fusion After Transforaminal Lumbar
 - [2b] pubmed_38754736: Endplate Bone Quality Score as a Predictor of Cage Subsidence Following Oblique 
-- [2b] pubmed_38509573: Learning Curve and Complications in Unilateral Biportal Endoscopic Transforamina
-- [2b] pubmed_41318873: MRI-based Pedicle Bone Quality Predicts Pedicle Screw Loosening in Transforamina
+- [2b] pubmed_36522754: Comparative Assessment of Percutaneous Transfacet Screws and Percutaneous Bilate
 - [2b] pubmed_41436676: Adjacent Segment Disease Risk Factors Following Lateral Lumbar Interbody Fusion:
-- [2b] pubmed_41276834: Radiological and clinical outcomes comparing midline lumbar fusion with cortical
-- [2b] pubmed_39318116: Impact of Inadequate Correction of L4-S1 Lordosis During Transforaminal Lumbar I
+- [2b] pubmed_37850225: Optimal Dose of Recombinant-Human Bone Morphogenic Protein-2 for Successful Bone
+- [1b] pubmed_40797374: Biportal Endoscopic Spine Surgery versus Conventional Open Surgery for Lumbar De
+- [5] pubmed_41450738: Mesenchymal Stem Cell Therapy for Intervertebral Disc Regeneration: Microenviron
 
 ### Answer
 
-# Risk Factors for Cage Subsidence After MIS-TLIF and Clinical Outcomes
+# Risk Factors for Cage Subsidence After MIS-TLIF and Clinical Impact
 
-## Patient-Related Risk Factors
+## Evidence Available
 
-### Bone Quality and Density
+Based on the provided papers, there is **limited direct evidence specific to MIS-TLIF cage subsidence**. The most relevant study addresses TLIF with posterolateral arthrodesis, though not exclusively minimally invasive approaches.
+
+---
+
+## Risk Factors Identified
+
+### Patient Factors
+
+**Age and BMI (NOT significant risk factors):**
+In a study of TLIF with adjunctive posterolateral arthrodesis [pubmed_41677169] (Evidence: 2b), multivariate analysis found that **neither age nor BMI demonstrated statistically significant associations** with fusion grades or cage subsidence rates. This contradicts commonly assumed risk factors.
+
+### Endplate and Bone Quality
+
 **Endplate Bone Quality (EBQ):**
-- EBQ score is a significant predictor of cage subsidence following oblique lumbar interbody fusion (OLIF) [pubmed_38754736] (Evidence: 2b, retrospective cohort study)
-- Low bone mineral density (BMD) is identified as a significant risk factor for cage subsidence [pubmed_38754736]
+A retrospective study [pubmed_38754736] (Evidence: 2b) identified endplate bone quality obtained from clinical MRI as a reliable predictor of regional bone mineral density and a significant risk factor for cage subsidence following oblique lumbar interbody fusion. However, **specific subsidence rates for TLIF were not provided**.
 
-**Age and Systemic Bone Loss:**
-- Advanced age is an independent risk factor for pedicle screw loosening in TLIF constructs [pubmed_41318873] (Evidence: 2b, retrospective cohort study)
-- Advanced age represents a marker of declining bone quality and metabolic function [pubmed_41318873]
+**Low Bone Mineral Density:**
+In non-osteoporotic SA-OLIF patients [pubmed_41782914] (Evidence: 2b), lower bone mineral density was examined as a risk factor, with cage subsidence (>2 mm height loss) occurring in **32.7% of cases**. Additional risk factors included sarcopenia and advanced age.
 
-**Sarcopenia:**
-- Sarcopenia identified as a potential risk factor in multivariate logistic regression analysis [pubmed_41782914] (Evidence: 2b, retrospective cohort study of 98 non-osteoporotic patients)
-
-### Commonly Studied but Non-Significant Factors
-**Age and BMI:**
-- Within one TLIF study population, age demonstrated no statistically significant association with fusion grades or cage subsidence [pubmed_41677169] (Evidence: 2b)
-- BMI showed no associations with interbody fusion quality, posterolateral intertransverse fusion quality, or cage subsidence rates [pubmed_41677169]
-
-**Cigarette Smoking:**
-- Study title suggests investigation of smoking association with fusion impairment [pubmed_41677169], though specific results not detailed in excerpt
-
-## Incidence and Prevalence of Cage Subsidence
-
-- **SA-OLIF cohort:** 32.7% incidence of cage subsidence (>2 mm height loss) [pubmed_41782914]
-- **Endoscopic TLIF (ULIF):** 1.08% incidence (2/185 cases), both occurring during surgical learning phase [pubmed_38509573] (Evidence: 2b)
-
-## Surgical Technique-Related Factors
-
-### Endplate Preparation
-- Endplate damage or reduction in contact area between endplate and cage are possible factors for cage subsidence [pubmed_38509573]
-- Endplate protection is particularly challenging during early surgical learning curves [pubmed_38509573]
-- Rigid and stable interbody support is essential for achieving solid bony fusion and preventing cage subsidence [pubmed_36944178] (Evidence: 2a, biomechanical analysis)
-
-### Cage Design and Positioning
-- Cage shape, material, cage position, and surgical disc height correction represent important influencing factors [pubmed_36944178]
-- Posterior cage positioning should be avoided in favor of anterior or central placement [pubmed_41436676] (Evidence: 2b)
+---
 
 ## Impact on Clinical Outcomes
 
-### Adjacent Segment Disease and Revision Surgery
-- Inadequate correction of L4-S1 lordosis correlates with higher revision rates: 25.9% in inadequately corrected versus 5.7% in adequately corrected group [pubmed_39318116] (Evidence: 2b)
-- Cage elevation >3.7 mm identified as optimal threshold; excessive elevation increases adjacent segment disease risk [pubmed_41436676]
+### Fusion Rates Despite Subsidence
 
-## Evidence Gaps
+In comparative fusion studies [pubmed_36522754] (Evidence: 2b), despite moderate cage subsidence (10-16% height loss), **high fusion rates were maintained (91-100%)**, indicating that subsidence did not compromise bony consolidation. Patients maintained net disc height improvement over preoperative baseline despite subsidence.
 
-1. **Limited MIS-TLIF specific data:** Most evidence focuses on OLIF, SA-OLIF, or endoscopic approaches rather than traditional MIS-TLIF
-2. **Obesity impact unclear:** Systematic review indicates the criterion for fusion and impact of nonunion assessment methods in obese patients requires further investigation [pubmed_40433998] (Evidence: 1a)
-3. **Functional outcome correlation:** The reviewed papers emphasize cage subsidence as a complication but provide limited data on how subsidence specifically impacts patient-reported outcomes or functional recovery in MIS-TLIF populations
-4. **Long-term follow-up variation:** Follow-up duration effects on nonunion rates remain incompletely characterized across studies [pubmed_40433998]
+### Definition of Fusion
+
+Fusion was defined as **"bridging trabecular formation across the intervertebral disc space without radiolucency spanning more than half of the implant"** [pubmed_40433998], establishing standards for assessing fusion success independent of subsidence.
+
+---
+
+## Critical Evidence Gaps
+
+1. **No MIS-TLIF-specific subsidence data**: The retrieved papers address LLIF, SA-OLIF, and open TLIF, but not specifically MIS-TLIF outcomes
+2. **Limited clinical outcome correlation**: Papers report subsidence rates and fusion achievement but lack detailed functional outcome data (ODI, leg pain, disability) stratified by subsidence severity
+3. **Mechanism unclear**: Whether subsidence affects long-term neurological outcomes or adjacent segment disease is not addressed in these papers
+4. **Follow-up duration variation**: Subsidence assessment timing varies across studies, potentially affecting reported incidence
+
+**Recommendation**: The relationship between cage subsidence and patient-reported functional outcomes specifically for MIS-TLIF requires additional investigation beyond the evidence provided.
 
 ---
 

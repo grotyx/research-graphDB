@@ -3,61 +3,65 @@
 ---
 
 ## System A
-**Papers retrieved**: 6
-**Evidence levels**: ['1a', '2a', '2a', '2a', '2b', '2b']
+**Papers retrieved**: 10
+**Evidence levels**: ['1a', '2a', '2a', '2b', '2b', '2a', '2b', '4', '3', '2b']
 
 ### Cited Papers
 - [1a] pubmed_40968025: Optimal treatment for patients with intermediate spinal instability neoplastic s
 - [2a] pubmed_41072915: Clinical Outcomes After Spine Surgery for Patients with Potentially Unstable Met
 - [2a] pubmed_39742915: Treatment Strategies for Intermediate Spinal Instability Neoplastic Score Patien
-- [2a] pubmed_27488297: The Spinal Instability Neoplastic Score: Impact on Oncologic Decision-Making
 - [2b] pubmed_39612495: Surgical strategy for metastatic spinal tumors based on Spine Instability Neopla
-- [2b] pubmed_28713049: Patient-Reported Outcome Validation of the Spinal Instability Neoplastic Score i
+- [2b] pubmed_26643804: Can the spinal instability neoplastic score prior to spinal radiosurgery predict
+- [2a] pubmed_41550133: Pilot study of separation surgery with intraoperative radiotherapy (IORT) for sp
+- [2b] pubmed_34993721: Focused Radiotherapy Improves Fusion Rates in Instrumented Spinal Tumor Surgery:
+- [4] pubmed_41793771: Contemporary Management of Standard Chordoma Arising in the Mobile Spine and Sac
+- [3] pubmed_40353162: Hybrid therapy and use of carbon-fiber-reinforced polyetheretherketone instrumen
+- [2b] pubmed_40243341: Efficacy and Safety of Donut-Shaped Circumferential Spine CyberKnife Stereotacti
 
 ### Answer
 
 # Evidence for Surgical Intervention Based on SINS in Metastatic Spine Disease
 
-## Overview of SINS Application
-The SINS is a validated scoring system that stratifies metastatic spinal disease into stability categories (with intermediate instability defined as SINS 7-12), and evidence supports its use to guide surgical decision-making [pubmed_40968025, pubmed_41072915].
+## SINS Score Stratification and Surgical Decision-Making
 
-## Treatment Recommendations by SINS Score
+**Key Finding: SINS 10-12 vs SINS 7-9 Distinction**
 
-### Intermediate Instability (SINS 7-12): Surgery Recommended
-**Systematic Review Evidence (Level 1a-2a)**
+The evidence demonstrates that SINS scoring guides surgical intervention decisions, with a critical threshold around SINS ≥10:
 
-Clinicians should consider surgical intervention (alone or combined with radiotherapy) as the preferred primary treatment for patients with SINS 7-12 [pubmed_40968025]. This recommendation is based on:
-- Superior outcomes with surgery compared to radiotherapy monotherapy
-- High complication rates with radiotherapy alone: 30% secondary instability, 20-30% fractures [pubmed_40968025]
+- Patients with SINS 10-12 were **6.88 times more likely** to receive surgical instrumentation compared to SINS 7-9 patients (OR 6.88, P = 0.0005) [pubmed_39742915, Evidence 2a]
+- Clinical decision-making regarding instrumentation escalates with increasing SINS severity within the 7-12 range [pubmed_41072915, Evidence 2a]
+- SINS ≥10 may indicate a need for surgery, while SINS 7-9 patients may benefit from alternative approaches [pubmed_40968025, Evidence 1a]
 
-### Risk Stratification Within Intermediate Range
+## Clinical Outcomes by SINS Category
 
-**SINS 10-12 (Higher Risk) - Stronger Surgical Indication:**
-- Patients with SINS 10-12 demonstrated significantly higher rates of surgical intervention (OR 6.88, P = 0.0005) [pubmed_39742915]
-- Characterized by larger lytic areas and higher probabilities of vertebral body fracture [pubmed_39742915]
-- Should receive surgical stabilization prior to radiotherapy to prevent structural failure [pubmed_39742915]
+**SINS 7-12 (Intermediate Instability):**
+- Systematic reviews suggest **surgical intervention alone or in combination with radiation may be superior** for SINS 7-12 patients compared to other modalities [pubmed_40968025, Evidence 1a; pubmed_41072915, Evidence 2a]
+- Pain outcomes (visual analog scale and Faces Scale scores) at baseline correlated with preoperative SINS, though SINS had no association with life expectancy in prospective data [pubmed_39612495, Evidence 2b]
 
-**SINS 7-9 (Lower Risk) - Individualized Approach:**
-- Lower rates of surgical intervention compared to SINS 10-12 [pubmed_39742915]
-- Clinical decision-making regarding instrumentation should be individualized [pubmed_41072915]
+**SINS 10-12 (Higher Risk):**
+- These patients demonstrate **larger lytic areas and higher probabilities of vertebral body fracture**
+- Characterized as "at particularly high risk for structural failure" and may benefit from stabilization procedures prior to radiotherapy [pubmed_39742915, Evidence 2a]
 
-## Patient-Reported Outcomes (PROs) After Surgery
+## Fracture Risk and SINS
 
-**Level 2b Evidence:**
+When radiotherapy is considered, SINS predicts complications:
+- **78.7% fracture-free rates at 24 months** in low SINS groups versus **33.7%** in high SINS groups [pubmed_26643804, Evidence 2b]
+- High SINS was a significant risk factor for vertebral compression fractures (HR 5.6, p = 0.04) and symptomatic fractures (HR 5.3, p = 0.01) [pubmed_26643804, Evidence 2b]
 
-Surgical stabilization provides significant clinical benefits:
-- Significant reduction in pain [pubmed_28713049]
-- Improved patient mobility [pubmed_28713049]
-- Benefits independent of neurologic status and stabilization technique [pubmed_28713049]
-- All PROs evaluated improved up to 6 months post-surgery [pubmed_39612495]
+## Combined Modality Outcomes
 
-**Note:** Preoperative SINS had no association with life expectancy [pubmed_39612495], suggesting SINS predicts structural stability rather than survival outcomes.
+**Focused Radiotherapy with Instrumented Surgery:**
+- Superior fusion rates at 6 months (64.0% vs 30.0%, OR 4.15, p=0.036) and 12 months (80.0% vs 42.1%, OR 5.50, p=0.022) compared to conventional radiotherapy [pubmed_34993721, Evidence 2b]
 
 ## Evidence Gaps
 
-- Limited direct comparison of surgery versus non-operative management within SINS subcategories
-- Long-term follow-up data (>6 months) for PROs not extensively reported in these papers
-- Specific instrumentation recommendations by SINS score not detailed
+- Further research is **explicitly warranted to obtain more definitive evidence** regarding optimal treatment selection within the SINS 7-12 range [pubmed_40968025, Evidence 1a]
+- Individual SINS components could be predictive but require additional study [pubmed_40968025, Evidence 1a]
+- Heterogeneity in study designs and patient populations limits generalizability of findings
+
+## Summary
+
+The evidence supports SINS-guided surgical decision-making, with SINS ≥10 favoring surgical intervention, though the distinction within intermediate instability (SINS 7-12) requires further investigation.
 
 ---
 

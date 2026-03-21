@@ -12,55 +12,50 @@
 - [1a] pubmed_37740115: Age-Adjusted Alignment Thresholds in Adult Spinal Deformity Surgery: A Systemati
 - [2b] pubmed_35586905: Arthrodesis Rates with Multiple-Level Lateral Lumbar Interbody Fusion and rhBMP-
 - [2b] pubmed_40450887: The Impact of Alignment Parameters Relative to the Thoracolumbar Inflection Poin
-- [2b] pubmed_41297090: Clinical and radiological outcomes of transverse process hooks versus pedicle sc
 - [2b] pubmed_38270393: Impact of Correcting Normative Segmental Lordosis Values on Postoperative Outcom
 - [2b] pubmed_29087808: Comparative analysis of 3 surgical strategies for adult spinal deformity with mi
+- [2b] pubmed_41297090: Clinical and radiological outcomes of transverse process hooks versus pedicle sc
+- [2b] pubmed_38771063: Incremental Benefit of Alignment Schemas in Adult Spinal Deformity Corrective Su
 - [2b] pubmed_36999928: Validation of Four Preoperative Surgical Planning Tools in Adult Spinal Deformit
-- [2b] pubmed_40153849: Risk Factors for Proximal Junctional Kyphosis and Proximal Junctional Failure Fo
 
 ### Answer
 
-# Evidence Synthesis: UIV Selection for Lenke 5C Adult Degenerative Scoliosis (T10 vs L1)
+# Evidence Summary: UIV Selection for Lenke 5C Adult Degenerative Scoliosis
 
-## Direct Evidence for UIV Selection
+Based on the provided papers, **there is no direct evidence comparing T10 versus L1 as the UIV specifically for Lenke 5C adult degenerative scoliosis**. However, relevant indirect evidence from adult spinal deformity (ASD) surgery literature is available.
 
-**No direct comparative evidence exists** in the provided papers specifically addressing T10 versus L1 UIV selection for Lenke 5C degenerative scoliosis.
+## UIV Level Distribution in ASD Surgery
 
-## Relevant Indirect Evidence
+[pubmed_35586905] (Level 2b, retrospective case series) reports UIV distribution in 179 ASD patients undergoing fusion with rhBMP-2:
+- Upper thoracic (T1-T9): 14%
+- Lower thoracic (T10-T12): 66%
+- Upper lumbar (L1-L3): 20%
 
-### UIV Distribution in ASD Surgery
-[pubmed_35586905] (Evidence: 2b, retrospective case series) reports that in adult spinal deformity patients:
-- Upper thoracic (T1-T9): 25 patients (14%)
-- Lower thoracic (T10-T12): 118 patients (66%)
-- Upper lumbar (L1-L3): 36 patients (20%)
+This demonstrates that T10-T12 (lower thoracic) was the most common UIV selection in ASD surgery practice.
 
-This demonstrates that T10-T12 is the most commonly selected UIV level in deformity surgery, though this does not establish optimality.
+## Proximal Junctional Complications
 
-### Proximal Junctional Kyphosis Risk and UIV Position
+The papers emphasize that UIV selection critically impacts proximal junctional complications:
 
-**Relationship to Sagittal Correction:**
-[pubmed_41297090] (Evidence: 2b, retrospective comparative study) found that "the magnitude of sagittal correction, represented by postoperative sagittal vertical axis (SVA) and lumbar lordosis (LL) values, did not emerge as significant independent predictors of proximal junctional kyphosis in multivariate analysis."
+[pubmed_39973129] (Level 1a, systematic review and meta-analysis) demonstrates PJK occurs in 17-61.7% of ASD cases and PJF occurs in 5-20%, representing significant morbidity.
 
-**Overcorrection Risk:**
-[pubmed_38270393] (Evidence: 2b) and [pubmed_37740115] (Evidence: 1a, systematic review) both demonstrate that overcorrection increases PJK risk, but do not differentiate by specific UIV levels.
+[pubmed_38270393] (Level 2b) specifically notes that at proximal spinal levels (T10-L2), **overcorrection beyond normative values resulted in dramatically increased proximal junctional failure rates**.
 
-### Inflection Point Considerations
-[pubmed_40450887] (Evidence: 2b, prospective cohort) evaluated "the inflection point from the upper instrumented vertebra (UIV)" and inflection point changes relative to thoracolumbar anatomy, suggesting UIV positioning relative to anatomical landmarks influences outcomes, but specific T10 versus L1 comparisons are not provided.
+[pubmed_41297090] (Level 2b) discusses "soft-landing" concepts with transverse process hooks to reduce proximal junctional complications by providing gradual stress transition.
+
+## Alignment Schema Considerations
+
+[pubmed_38771063] and [pubmed_36999928] (both Level 2b) recommend **Roussouly-based individualization** to minimize mechanical complications and PJK, rather than standardized UIV selection.
 
 ## Evidence Gaps
 
-1. **No Lenke-specific data:** No papers address Lenke 5C specifically
-2. **No direct UIV comparison:** No head-to-head trials comparing T10 vs L1 UIV placement
-3. **No degenerative vs primary deformity stratification:** Evidence primarily addresses mixed adult spinal deformity populations
-4. **Biomechanical considerations not addressed:** Papers do not discuss load-sharing, adjacent segment stress, or interbody fusion benefits specific to UIV choice
+**Critical limitation**: No papers provide:
+- Direct comparison of T10 vs L1 UIV outcomes
+- Lenke 5C-specific evidence
+- Biomechanical analysis specific to these two levels
+- Long-term complications specific to this UIV choice decision
 
-## Clinical Implications from Available Evidence
-
-The principle that interbody fusion (LLIF/ALIF) reduces proximal junctional complications [pubmed_29087808] (Evidence: 2b) may be particularly relevant if L1 is selected, as this would permit interbody work at T12-L1 or L1-L2 levels more readily than T10 placement.
-
----
-
-**Conclusion:** Evidence to guide T10 versus L1 UIV selection in Lenke 5C degenerative scoliosis is **not available** in the provided literature. Clinical decision-making would require consideration of factors not addressed in these papers.
+**Clinical recommendation requires data not present in this literature set.**
 
 ---
 

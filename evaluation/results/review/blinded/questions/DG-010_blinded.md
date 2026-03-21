@@ -55,7 +55,7 @@
 
 ## System B
 **Papers retrieved**: 10
-**Evidence levels**: ['1a', '1b', '1a', '2a', '1a', '1a', '1a', '1a', '1a', '1b']
+**Evidence levels**: ['1a', '1b', '1a', '2a', '1a', '1a', '1a', '1a', '2b', '2b']
 
 ### Cited Papers
 - [1a] pubmed_40195641: Biportal endoscopic spinal surgery (BESS) with interbody fusion for lumbar degen
@@ -64,43 +64,40 @@
 - [2a] pubmed_36310459: Learning Curve Analysis of Unilateral Biportal Endoscopic Lumbar Interbody Fusio
 - [1a] pubmed_31529215: Network Meta-Analysis of Complication Rates for Discectomy Techniques in Symptom
 - [1a] pubmed_39895414: Network meta-analysis comparing endoscopic posterolateral fusion and lateral int
-- [1a] pubmed_41420307: Clinical Efficacy and Safety of Minimally Invasive, Full Endoscopic, and Biporta
-- [1a] pubmed_41452813: Unilateral Biportal Endoscopic Discectomy versus Conventional Microdiscectomy fo
 - [1a] pubmed_34213864: Network Meta-Analysis of Surgical Approaches for Lumbar Disc Herniation: Compara
-- [1b] pubmed_36155241: Biportal Endoscopic Discectomy versus Open Microscopic Discectomy for Single-Lev
+- [1a] pubmed_41420307: Clinical Efficacy and Safety of Minimally Invasive, Full Endoscopic, and Biporta
+- [2b] pubmed_41290735: Clinical outcomes and learning curve characteristics of unilateral biportal endo
+- [2b] analyzed_fda02a83: Learning curve for biportal endoscopic transforaminal lumbar interbody fusion an
 
 ### Answer
 
-# Evidence for Full-Endoscopic Lumbar Discectomy Learning Curve and Outcomes
+# Evidence for Full-Endoscopic Lumbar Discectomy Learning Curve and Outcomes Impact
 
-## Learning Curve Characteristics
+## Learning Curve Duration and Progression
 
-### Operative Time Improvements
-[pubmed_40195641] (Systematic Review, Evidence 1a) demonstrates that **operative time decreased by approximately 20% after surgeons performed >20 cases**, with early-phase surgeons reporting significantly longer operative times compared to experienced surgeons.
+**Operative Time Reduction:**
+- PELD demonstrates a learning curve effect, with operative time decreasing as surgeon experience increases [pubmed_40195641] (Systematic Review, Evidence 1a). Studies show mean operative time decreased by approximately 20% after surgeons performed >20 cases [pubmed_40195641].
 
-[pubmed_40797374] (Systematic Review and Meta-Analysis, Evidence 1b) indicates that surgeons require **approximately 89 procedures to move beyond the initial learning phase**, though this specific threshold was not fully detailed in the excerpt.
+- The biportal endoscopic technique requires approximately 89 procedures for surgeons to move beyond the initial learning phase [pubmed_40797374] (Systematic Review and Meta-Analysis, Evidence 1b).
 
-[pubmed_36310459] (Learning Curve Analysis, Evidence 2a) documents the **classical learning curve pattern with operative time typically decreasing by 30-50%** as surgeons progress from initial experience to proficiency with endoscopic spine procedures.
+## Safety Outcomes During Learning Curve
 
-### Complication Rates During Learning Phase
-[pubmed_40195641] (Evidence 1a) reports that **dural tear rates were initially higher during the learning phase then decreased with proficiency**, along with early-phase surgeons demonstrating more complications overall compared to experienced surgeons.
+**Complication Rates:**
+- Dural tear rates were initially higher during the learning phase but decreased with surgeon proficiency [pubmed_40195641] (Systematic Review, Evidence 1a).
 
-## Safety Profile and Clinical Outcomes
+- Learning curve significantly affected operative time and complication rates across studies, with early-phase surgeons reporting longer operative times and more complications compared to experienced surgeons [pubmed_40195641].
 
-### Complication Safety
-[pubmed_31529215] (Network Meta-Analysis, Evidence 1a) concludes that **PELD (percutaneous endoscopic lumbar discectomy) is among the safest procedures for lumbar disc herniation (LDH) with minimal post-operative complications**.
+## Clinical Efficacy Relative to Other Techniques
 
-[pubmed_41452813] (Meta-Analysis, Evidence 1a) demonstrates that **unilateral biportal endoscopic discectomy (UBED) provides comparable pain relief, functional improvement, and complication rates** compared to conventional microdiscectomy, with **comparable or potentially lower recurrence rates**.
+**Safety Profile:**
+- PELD is identified as one of the safest procedures for lumbar disc herniation (LDH) with minimal postoperative complications [pubmed_31529215] (Network Meta-Analysis, Evidence 1a).
 
-### Recurrence Risk
-[pubmed_41666862] (Systematic Review and Meta-Analysis, Evidence 1a) reports that **transforaminal endoscopic lumbar discectomy (TELD) demonstrated approximately double the recurrence rate (OR ~2.0) compared to microdiscectomy**, though endoscopic approaches overall showed reduced surgical site complications.
+- PED (percutaneous endoscopic discectomy) demonstrates optimal balance of safety and efficacy with the lowest probable rates of dural tear and intraoperative complications [pubmed_34213864] (Network Meta-Analysis, Evidence 1a).
 
 ## Evidence Gaps
 
-The provided papers do **not contain**:
-- Specific threshold numbers of cases required for PELD/FELD proficiency (only general endoscopic data available)
-- Detailed comparative learning curves between PELD and biportal techniques
-- Long-term outcome data stratified by surgeon experience level
-- Standardized learning curve metrics across different endoscopic techniques
+- Limited direct comparative data on PELD/FELD learning curves during early surgeon experience (first 10-20 cases)
+- No specific analysis of recurrence rates stratified by surgeon experience level during learning phase
+- Insufficient data on complication incidence specific to PELD during defined learning phases
 
 ---

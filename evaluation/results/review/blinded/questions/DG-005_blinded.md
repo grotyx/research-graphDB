@@ -99,105 +99,114 @@ BMP-2 achieves superior fusion rates compared to alternative approaches (88-97% 
 ---
 
 ## System B
-**Papers retrieved**: 8
-**Evidence levels**: ['1a', '1a', '1a', '1a', '1a', '1a', '1b', '1a']
+**Papers retrieved**: 10
+**Evidence levels**: ['1a', '1a', '1a', '1b', '1a', '1a', '1b', '1a', '1b', '4']
 
 ### Cited Papers
 - [1a] pubmed_25955186: Fusion Rates in Anterior Lumbar Interbody Fusion, Posterior Lumbar Interbody/Tra
 - [1a] pubmed_39399091: Bone graft substitutes used in anterior lumbar interbody fusion: a systematic re
 - [1a] pubmed_26613283: Dose-dependent effectiveness and morbidity of bone morphogenetic protein in spin
+- [1b] pubmed_36045371: Effectiveness and Safety of Escherichia coli-Derived Recombinant Human Bone Morp
 - [1a] pubmed_32339767: Minimally Effective Dose of Recombinant Human Bone Morphogenetic Protein-2 in Po
-- [1a] pubmed_21729796: Recombinant Human Bone Morphogenetic Protein-2 in Spinal Fusion Surgery: A Syste
 - [1a] pubmed_25772092: Complications Associated with rhBMP-2 in Lumbar and Cervical Spine Fusion: A Met
 - [1b] pubmed_12394656: Lumbar fusion using rhBMP-2 and tapered titanium fusion cage: 2-year prospective
-- [1a] pubmed_23646277: Cost-effectiveness of interbody fusion with bone morphogenetic protein for the t
+- [1a] pubmed_21729796: Recombinant Human Bone Morphogenetic Protein-2 in Spinal Fusion Surgery: A Syste
+- [1b] pubmed_33906347: A Prospective, Multi-center, Double-blind, Randomized Study to Evaluate the Effi
+- [4] pubmed_41242964: Hydrogel-based growth factors for treatment of intervertebral disc degeneration:
 
 ### Answer
 
-# Evidence Summary: rhBMP-2 in Lumbar Interbody Fusion
+# Evidence Summary: BMP-2 in Lumbar Interbody Fusion
 
 ## FUSION RATES
 
-### By Procedure Type
+### Overall Efficacy by Procedure Type
 
 **ALIF (Anterior Lumbar Interbody Fusion)**
-- rhBMP-2 significantly improves fusion rates: 79.1% → 96.9% [pubmed_26613283]
-- 67% of ALIF studies report high fusion rates of 88.5-100% with rhBMP-2 [pubmed_39399091]
-- Evidence: Systematic review/meta-analysis (Level 1a)
+- rhBMP-2 significantly improves fusion rates: **79.1% to 96.9%** [pubmed_26613283] (Meta-analysis, Evidence 1a)
+- Demonstrates substantial benefit compared to control procedures
 
 **TLIF (Transforaminal Lumbar Interbody Fusion)**
-- Minimal fusion rate benefit from rhBMP-2 addition: only ~2% improvement [pubmed_26613283]
-- Evidence: Meta-analysis (Level 1a)
+- Minimal benefit from BMP addition: **only 2% improvement** [pubmed_26613283] (Meta-analysis, Evidence 1a)
+- One randomized controlled trial (40 experimental, 36 control subjects) with DBM gel ± rhBMP-2 showed TLIF responses, though specific fusion rate difference not detailed [pubmed_33906347] (RCT, Evidence 1b)
+
+**PLIF (Posterior Lumbar Interbody Fusion)**
+- Higher doses required (≥8.5 mg/level) for significant improvement: **75.3% to 95.2%** fusion rates [pubmed_26613283] (Meta-analysis, Evidence 1a)
 
 **PLF (Posterolateral Lumbar Fusion)**
-- Requires higher BMP doses (≥8.5 mg/level) for significant improvement
-- Fusion rates improve from 75.3% → 95.2% with adequate dosing [pubmed_26613283]
-- Evidence: Meta-analysis (Level 1a)
+- High efficacy reported: **88.5-100%** fusion rates with rhBMP-2 (67% of studies focused on rhBMP-2) [pubmed_39399091] (Systematic review, Evidence 1a)
+- Requires higher BMP doses for clinically significant improvement [pubmed_26613283]
 
-**Specific Trial Evidence**
-- 2-year prospective RCT: rhBMP-2 achieved 94.5% fusion rate vs. 88.7% control [pubmed_12394656]
-- Evidence: Level 1b (prospective randomized controlled trial)
+**Prospective RCT Evidence (Interbody Fusion)**
+- 2-year prospective RCT: **94.5% (rhBMP-2) vs 88.7% (control)** fusion rates with tapered titanium cages [pubmed_12394656] (RCT, Evidence 1b)
 
 ---
 
 ## COMPLICATIONS
 
-### Overall Complication Burden
-- **General complications**: 1.78-fold higher odds ratio with rhBMP-2 (p=0.004) [pubmed_25772092]
-- rhBMP-2-associated complications may range from **10-50%** (per FDA review), substantially higher than industry-reported <0.5% [pubmed_23646277]
-- Evidence: Level 1a (meta-analysis and systematic review)
+### Significantly Increased Complication Rates with rhBMP-2
 
-### Specific Adverse Events
+**Meta-analysis of Complication Odds Ratios** [pubmed_25772092] (Meta-analysis, Evidence 1a):
+- General complications: **1.78-fold higher** (p=0.004)
+- Heterotopic ossification: **5.57-fold higher** (p=0.002)
+- Retrograde ejaculation: **3.31-fold higher** (p=0.020)
+- Cervical swelling: **4.72-fold higher** (p=0.011)
 
-| Complication | Odds Ratio | p-value | Source |
-|---|---|---|---|
-| **Heterotopic ossification** | 5.57-fold higher | p=0.002 | [pubmed_25772092] |
-| **Cervical swelling** | 4.72-fold higher | p=0.011 | [pubmed_25772092] |
-| **Retrograde ejaculation** | 3.31-fold higher | p=0.020 | [pubmed_25772092] |
-| **Pseudoarthrosis** | OR 1.44 | — | [pubmed_39399091] |
+### Procedure-Specific Complications
 
-**Other Reported Complications:**
-- Radiculopathy (up to 38%) [pubmed_39399091]
-- Radiculitis, osteolysis, ectopic bone formation [pubmed_23646277]
-- Poorer global outcomes in PLIF patients [pubmed_23646277]
+**ALIF Studies** [pubmed_39399091] (Systematic review, Evidence 1a):
+- Pseudoarthrosis: OR 1.44
+- Retrograde ejaculation reported
+- Radiculopathy: up to 38%
 
-**Evidence Level**: Level 1a (meta-analyses and systematic reviews)
+**General Adverse Events** [pubmed_21729796] (Systematic review of FDA data, Evidence 1a):
+- Level I and II evidence indicates "clear increased risk of complications and adverse events to patients receiving rhBMP-2"
+- Original FDA trials demonstrate possible study design bias favoring rhBMP-2
+
+### Safety Profile Benefits
+- Eliminates autogenous iliac crest bone harvesting complications [pubmed_12394656]
+- Reduces operative time and blood loss [pubmed_12394656]
+- No graft site morbidity [pubmed_12394656]
 
 ---
 
 ## CANCER RISK
 
-**Finding**: Tumor incidence failed to reach statistical significance in rhBMP-2 vs. control groups [pubmed_25772092]
+**Tumor Incidence**
+- Meta-analysis found: tumor incidence **did not reach statistical significance** comparing rhBMP-2 to controls [pubmed_25772092] (Meta-analysis, Evidence 1a)
+- **No conclusive evidence of increased cancer risk** in available literature
 
-**Conclusion**: Current evidence does **not demonstrate a statistically significant increased cancer risk** from rhBMP-2, though this remains an area requiring continued monitoring.
-
-**Evidence Level**: Level 1a (meta-analysis)
+**Limitation**: The papers do not provide detailed long-term oncologic follow-up data or specific cancer incidence rates.
 
 ---
 
 ## DOSE-DEPENDENT CONSIDERATIONS
 
-rhBMP-2 complications show **positive correlation with BMP dose** across most procedures [pubmed_26613283], suggesting:
-- Lower doses (e.g., ACDF: 0.2-0.6 mg/level) show favorable safety profiles
-- Higher doses required for PLF (≥8.5 mg/level) associate with increased morbidity
+**rhBMP-2 Dosing Strategy** [pubmed_26613283] (Meta-analysis, Evidence 1a):
+- Complication rates **positively correlate with BMP dose** across most procedures
+- Minimally effective doses vary by procedure:
+  - ACDF: 0.2-0.6 mg/level (lowest dose, favorable safety)
+  - ALIF: Requires BMP for fusion improvement
+  - PLF: ≥8.5 mg/level needed for significant improvement
 
 ---
 
-## CRITICAL EVIDENCE GAPS & METHODOLOGICAL CONCERNS
+## EVIDENCE GAPS
 
-1. **Study Design Bias**: Level I and II evidence suggests possible bias in original FDA-sponsored trials [pubmed_21729796]
-2. **Reporting Discrepancy**: Large gap between industry-reported complications (<0.5%) and FDA data review (10-50%) raises questions about trial transparency [pubmed_23646277]
-3. **Procedure-Specific Variation**: Limited high-quality evidence for PLF and PCF; strong evidence concentrated in ALIF [pubmed_26613283]
-4. **Long-term Follow-up**: Evidence primarily covers 2-year outcomes; longer-term safety/efficacy data limited
+1. **Long-term cancer surveillance**: Limited data on extended oncologic follow-up beyond 2 years
+2. **Minimally effective dose optimization**: Systematic review [pubmed_32339767] addresses this for PLIF/TLIF specifically but comprehensive comparative dosing across all procedures lacking
+3. **Complication mechanisms**: Papers document increased rates but mechanistic understanding limited
+4. **Conflicting evidence**: Dichotomy exists between fusion efficacy and complication profiles [pubmed_39399091]
+5. **TLIF-specific data**: Limited high-quality evidence given minimal benefit demonstrated
 
 ---
 
 ## CLINICAL SUMMARY
 
-**Efficacy**: rhBMP-2 meaningfully improves fusion rates in ALIF and PLF, with minimal benefit in TLIF
+**Supported**: rhBMP-2 significantly improves fusion rates in ALIF and PLF procedures, with minimal complications related to bone harvesting.
 
-**Safety Concern**: Strong Level 1a evidence for significantly increased complications (particularly heterotopic ossification, cervical swelling, retrograde ejaculation) compared to controls, with actual complication rates potentially 20-100 times higher than originally reported
+**Concerning**: Significantly elevated complication rates across multiple categories (general complications 1.78×, heterotopic ossification 5.57×, retrograde ejaculation 3.31×) warrant careful patient selection.
 
-**Recommendation**: Requires individual patient risk-benefit analysis with careful procedure selection and dose optimization
+**Unclear**: Benefit in TLIF is minimal (2% improvement), and long-term cancer risk remains unresolved in current literature.
 
 ---

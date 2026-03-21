@@ -242,8 +242,20 @@ async def generate_answer_b4_graphrag(
     except Exception as e:
         logger.warning("Multi-vector search failed (non-critical): %s", e)
 
-    # v11 IS_A expansion 제거 — BS-002 급락 (12점), v10 확정
-    # IS_A sibling이 무관한 논문을 추가하여 핵심 논문이 밀려남
+    # v11: IS_A expansion — 검색된 intervention의 IS_A sibling으로 추가 논문 보충
+    try:
+        found_pids = set(seen.keys())
+        isa_additions = await _isa_expand_search(neo4j_client, found_pids, top_k)
+        for r in isa_additions:
+            pid = r.get("paper_id", "")
+            if pid and pid not in seen:
+                seen[pid] = r
+        if isa_additions:
+            new_count = len([r for r in isa_additions if r.get("paper_id") not in found_pids])
+            if new_count > 0:
+                logger.info("IS_A expansion added %d new papers", new_count)
+    except Exception as e:
+        logger.warning("IS_A expansion failed (non-critical): %s", e)
 
     papers_list = sorted(seen.values(), key=lambda x: x.get("score", 0), reverse=True)[:top_k]
 

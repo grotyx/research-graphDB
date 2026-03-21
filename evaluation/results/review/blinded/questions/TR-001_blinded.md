@@ -66,48 +66,76 @@ Short-segment fixation appears appropriate for most thoracolumbar burst fracture
 ---
 
 ## System B
-**Papers retrieved**: 6
-**Evidence levels**: ['1a', '1b', '1b', '2a', '1a', '2b']
+**Papers retrieved**: 10
+**Evidence levels**: ['1a', '1b', '1b', '2a', '2a', '1a', '2b', '1a', '2a', '2b']
 
 ### Cited Papers
 - [1a] pubmed_40489858: Efficacy and safety of posterior short-segment versus long-segment pedicle screw
 - [1b] pubmed_28803178: Treatment of Unstable Thoracolumbar Fractures: Does Fracture-Level Fixation Acce
 - [1b] pubmed_26202101: Better life quality and sexual function in men and their female partners with sh
 - [2a] pubmed_39089628: Effective method of pedicle screw fixation in patients with neurologically intac
+- [2a] pubmed_35451255: Thoracolumbar trauma: in situ fixation vs decompression and fixation in neurolog
 - [1a] pubmed_40775716: Predictors of Posterior Short Segment Instrumentation Failure in Thoracolumbar B
 - [2b] pubmed_16306834: Posterior fixation of thoracolumbar burst fracture: short-segment pedicle fixati
+- [1a] pubmed_30813208: Laminectomy with instrumented fusion versus laminoplasty for multilevel cervical
+- [2a] pubmed_27781191: Laminoplasty Versus Laminectomy and Fusion in Patients With Cervical Myelopathy 
+- [2b] pubmed_28713049: Patient-Reported Outcome Validation of the Spinal Instability Neoplastic Score i
 
 ### Answer
 
-# Short-Segment vs Long-Segment Fixation for Thoracolumbar Burst Fractures
+# Evidence Summary: Short-Segment vs. Long-Segment Fixation for Thoracolumbar Burst Fractures
 
-## Radiographic Outcomes
+## Radiological Outcomes
 
-**Long-Segment Fixation (LSF) Advantages:**
-- Superior radiographic outcomes with better preservation of local kyphosis, sagittal index, and anterior vertebral height compared to SSF (p < 0.05) [pubmed_16306834, Evidence 2b]
-- Better fixed strength and dispersed stress, reducing risk of injured vertebra collapse and instrument failure [pubmed_40489858, Evidence 1a]
+**Long-segment fixation (LSF) superior:**
+- LSF provides better Cobb angle correction and superior radiological outcomes [pubmed_40489858, Evidence 1a: systematic review/meta-analysis]
+- LSF demonstrates better preservation of local kyphosis, sagittal index, and anterior vertebral height compared to SSF (P < 0.05) [pubmed_16306834, Evidence 2b: comparative study]
+- LSF maintains better sagittal balance [pubmed_40489858, Evidence 1a]
 
-**Short-Segment Fixation (SSF) Disadvantages:**
-- 55% failure rate reported in some series [pubmed_16306834, Evidence 2b]
-- Higher incidence of kyphotic deformity progression and instrument complications [pubmed_40489858, Evidence 1a]
+**Kyphotic loss reduction:**
+- LSF is superior to SSF in reducing postoperative kyphotic loss [pubmed_40489858, Evidence 1a]
 
 ## Functional Outcomes
 
-**Equivalent Results:**
-- Low Back Outcome Score showed **no significant difference** between SSF and LSF groups [pubmed_16306834, Evidence 2b]
-- Improved quality of life and sexual function in men with SSF compared to LSF in prospective randomized trial (n=24) [pubmed_26202101, Evidence 1b]
+**No significant difference:**
+- Functional disability (ODI) outcomes are similar between LSF and SSF [pubmed_40489858, Evidence 1a]
+- Low Back Outcome Score equivalent between groups [pubmed_16306834, Evidence 2b]
 
-## Surgical and Clinical Advantages of SSF
+## Implant Stability & Failure
 
-- **Shorter operative times** (p = 0.001) [pubmed_39089628, Evidence 2a]
-- **Reduced intraoperative blood loss** (p < 0.001) [pubmed_39089628, Evidence 2a]
-- Less surgical trauma and preservation of active spinal segments [pubmed_40489858, Evidence 1a]
-- Reduced stress on adjacent segments [pubmed_40489858, Evidence 1a]
+**LSF superior:**
+- LSF has lower risk of implant failure compared to SSF [pubmed_40489858, Evidence 1a]
+- SSF associated with 55% failure rate [pubmed_16306834, Evidence 2b]
 
-## Key Evidence Gaps
+**PSSI failure predictors identified:**
+- Systematic review identifies preoperative imaging characteristics as factors influencing PSSI treatment success [pubmed_40775716, Evidence 1a]
 
-- Limited evidence specifically for **AO type A3-A4 fractures** (papers address general thoracolumbar burst fractures)
-- Heterogeneity in SSF techniques (fracture-level inclusion vs. exclusion) affects outcomes [pubmed_28803178, Evidence 1b]
-- Long-term adjacent segment degeneration outcomes require further investigation
+## Operative Morbidity
+
+**SSF advantages:**
+- SSF requires **shorter operative time** than LSF [pubmed_40489858, Evidence 1a; pubmed_39089628, Evidence 2a: p = 0.001]
+- SSF results in **less intraoperative blood loss** than LSF [pubmed_40489858, Evidence 1a; pubmed_39089628, Evidence 2a: p < 0.001]
+
+## Quality of Life & Sexual Function
+
+**Limited data favoring SSF:**
+- Prospective RCT (n=24 male patients) reported better quality of life and sexual function with short-segment posterior fixation vs. long-segment fixation [pubmed_26202101, Evidence 1b]
+
+## Special Consideration: Neurologically Intact Fractures
+
+**Fusion avoidance strategy:**
+- Short-segment fixation **without fusion** demonstrated superior outcomes in neurologically intact TLBF with shorter operative times and reduced blood loss [pubmed_39089628, Evidence 2a]
+
+## Evidence Limitations
+
+- Long-term follow-up data are limited [pubmed_35451255, Evidence 2a]
+- Absence of long-term outcomes documentation in the literature [pubmed_35451255, Evidence 2a]
+- Limited evidence base supporting short-segment fixation preference despite its popularity among surgeons [pubmed_35451255, Evidence 2a]
+
+---
+
+## Summary
+
+**LSF provides superior radiological outcomes and implant stability but with increased operative morbidity.** **SSF offers equivalent functional results with reduced operative time/blood loss and benefits for quality of life**, though with higher failure rates. Choice should be individualized based on fracture characteristics, patient factors, and surgeon expertise.
 
 ---
