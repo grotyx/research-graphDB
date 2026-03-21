@@ -377,9 +377,15 @@ def _build_vocabulary_hints() -> str:
         from graph.entity_normalizer import EntityNormalizer
         normalizer = EntityNormalizer()
 
-        interventions = sorted(normalizer.INTERVENTION_ALIASES.keys())
-        outcomes = sorted(normalizer.OUTCOME_ALIASES.keys())
-        pathologies = sorted(normalizer.PATHOLOGY_ALIASES.keys())
+        # Cap each entity type to avoid excessive prompt tokens (issue #11)
+        _MAX_VOCAB_HINTS = 250
+        interventions = sorted(normalizer.INTERVENTION_ALIASES.keys())[:_MAX_VOCAB_HINTS]
+        outcomes = sorted(normalizer.OUTCOME_ALIASES.keys())[:_MAX_VOCAB_HINTS]
+        pathologies = sorted(normalizer.PATHOLOGY_ALIASES.keys())[:_MAX_VOCAB_HINTS]
+        anatomies = (sorted(normalizer.ANATOMY_ALIASES.keys())[:_MAX_VOCAB_HINTS]
+                     if hasattr(normalizer, 'ANATOMY_ALIASES') else [])
+
+        anatomy_hint = f"\n**Anatomy**: {', '.join(anatomies)}\n" if anatomies else ""
 
         return f"""
 
@@ -392,7 +398,7 @@ Only use a name NOT in this list if the concept is genuinely new.
 **Outcomes** (for outcome.name field): {', '.join(outcomes)}
 
 **Pathologies**: {', '.join(pathologies)}
-
+{anatomy_hint}
 Examples of correct mapping:
 - "Visual Analog Scale back pain score" → use "VAS"
 - "Oswestry Disability Index score" → use "ODI"
@@ -1772,6 +1778,9 @@ class UnifiedPDFProcessor:
                 direction_match=bool(cit.get("direction_match", False)),
             ))
 
+        # Post-extraction verification: check entity names appear in paper text (issue #8)
+        self._verify_extracted_entities(metadata, spine_metadata)
+
         return VisionProcessorResult(
             success=True,
             metadata=metadata,
@@ -1788,6 +1797,51 @@ class UnifiedPDFProcessor:
             fallback_used=fallback_used,
             fallback_reason=fallback_reason,
         )
+
+    @staticmethod
+    def _verify_extracted_entities(
+        metadata: "ExtractedMetadata",
+        spine_metadata: "SpineMetadata",
+    ) -> None:
+        """Verify that extracted entity names appear in the paper text.
+
+        Logs warnings for entities not found in abstract + title.
+        This is a best-effort check — entities may legitimately appear
+        only in the full text body.
+        """
+        # Build search text from abstract + title (lowercased)
+        search_text = " ".join([
+            (metadata.abstract or ""),
+            (metadata.title or ""),
+        ]).lower()
+
+        if not search_text.strip():
+            return
+
+        entity_lists = {
+            "intervention": spine_metadata.interventions or [],
+            "pathology": spine_metadata.pathology if hasattr(spine_metadata, 'pathology') else [],
+        }
+        # outcomes are objects with .name
+        outcome_names = [o.name for o in (spine_metadata.outcomes or []) if o.name]
+        entity_lists["outcome"] = outcome_names
+
+        for entity_type, names in entity_lists.items():
+            for name in names:
+                if not name:
+                    continue
+                name_lower = name.lower()
+                # Check if name or any word (>3 chars) from name appears in text
+                if name_lower in search_text:
+                    continue
+                # Try individual words for multi-word names
+                words = [w for w in name_lower.split() if len(w) > 3]
+                if words and any(w in search_text for w in words):
+                    continue
+                logger.warning(
+                    "Extracted %s '%s' not found in paper text (title+abstract)",
+                    entity_type, name
+                )
 
     async def process_pdf_typed(
         self,

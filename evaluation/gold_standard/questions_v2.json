@@ -1,0 +1,541 @@
+{
+  "version": "0.2.0",
+  "description": "Spine GraphRAG Gold Standard Questions v2 - 40 questions across 8 domains",
+  "created": "2026-03-21",
+  "status": "draft - expert annotation pending",
+  "schema": {
+    "id": "Domain prefix + number (DG=Degenerative, CV=Cervical, MIS=Minimally Invasive, DF=Deformity, TR=Trauma/Infection, TU=Tumor, BS=Basic Science, DI=Diagnosis/Innovation)",
+    "question": "Clinical question in English",
+    "question_kr": "Clinical question in Korean",
+    "domain": "degenerative | cervical | minimally_invasive | deformity | trauma_infection | tumor | basic_science | diagnosis_innovation",
+    "type": "comparison | evidence_synthesis | risk_factor | indication | outcome",
+    "expected_entities": {
+      "interventions": "Expected intervention names",
+      "pathologies": "Expected pathology names",
+      "outcomes": "Expected outcome measures"
+    },
+    "difficulty": "standard | hard"
+  },
+  "questions": [
+    {
+      "id": "DG-001",
+      "question": "What is the comparative evidence for TLIF versus PLIF versus OLIF versus ALIF for lumbar degenerative spondylolisthesis in terms of fusion rate, sagittal alignment restoration, and complication profiles?",
+      "question_kr": "요추 퇴행성 척추전방전위증에서 TLIF vs PLIF vs OLIF vs ALIF의 유합률, 시상면 정렬 회복, 합병증 프로파일 비교 근거는?",
+      "domain": "degenerative",
+      "type": "comparison",
+      "expected_entities": {
+        "interventions": ["TLIF", "PLIF", "OLIF", "ALIF"],
+        "pathologies": ["Degenerative Spondylolisthesis", "Lumbar Spondylolisthesis"],
+        "outcomes": ["Fusion Rate", "Sagittal Alignment", "Complication Rate", "ODI"]
+      },
+      "difficulty": "hard"
+    },
+    {
+      "id": "DG-002",
+      "question": "What is the evidence for decompression alone versus decompression with fusion for degenerative lumbar spondylolisthesis, and what are the indications for adding fusion?",
+      "question_kr": "퇴행성 요추 척추전방전위증에서 감압술 단독 vs 감압+유합술의 근거와 유합술 추가 적응증은?",
+      "domain": "degenerative",
+      "type": "indication",
+      "expected_entities": {
+        "interventions": ["Decompression", "Decompression with Fusion", "Laminectomy"],
+        "pathologies": ["Degenerative Spondylolisthesis"],
+        "outcomes": ["ODI", "Reoperation Rate", "Slip Progression", "VAS"]
+      },
+      "difficulty": "standard"
+    },
+    {
+      "id": "DG-003",
+      "question": "What is the current evidence for epidural steroid injection effectiveness in lumbar spinal stenosis, including the impact of repeated injections and optimal timing for surgical referral?",
+      "question_kr": "요추 척추관 협착증에서 경막외 스테로이드 주사의 효과, 반복 주사의 영향, 수술 의뢰 최적 시점에 대한 현재 근거는?",
+      "domain": "degenerative",
+      "type": "evidence_synthesis",
+      "expected_entities": {
+        "interventions": ["Epidural Steroid Injection", "Decompression Surgery"],
+        "pathologies": ["Lumbar Spinal Stenosis"],
+        "outcomes": ["VAS", "ODI", "Duration of Relief", "Surgical Conversion Rate"]
+      },
+      "difficulty": "standard"
+    },
+    {
+      "id": "DG-004",
+      "question": "What are the risk factors for cage subsidence after lumbar interbody fusion, and how do cage design, material, and endplate preparation affect subsidence rates and clinical outcomes?",
+      "question_kr": "요추 추체간 유합술 후 케이지 침하의 위험인자와 케이지 디자인, 재료, 종판 준비가 침하율 및 임상 결과에 미치는 영향은?",
+      "domain": "degenerative",
+      "type": "risk_factor",
+      "expected_entities": {
+        "interventions": ["Lumbar Interbody Fusion", "TLIF", "OLIF"],
+        "pathologies": ["Cage Subsidence", "Endplate Injury"],
+        "outcomes": ["Subsidence Rate", "Fusion Rate", "VAS", "ODI"]
+      },
+      "difficulty": "standard"
+    },
+    {
+      "id": "DG-005",
+      "question": "What is the evidence for BMP-2 use in lumbar interbody fusion regarding fusion rates, dose-dependent complications, heterotopic ossification, and cancer risk?",
+      "question_kr": "요추 추체간 유합술에서 BMP-2 사용의 유합률, 용량 의존적 합병증, 이소성 골화, 암 위험에 대한 근거는?",
+      "domain": "degenerative",
+      "type": "evidence_synthesis",
+      "expected_entities": {
+        "interventions": ["BMP-2", "Lumbar Interbody Fusion"],
+        "pathologies": ["Degenerative Disc Disease", "Heterotopic Ossification"],
+        "outcomes": ["Fusion Rate", "Complication Rate", "Cancer Risk", "Heterotopic Ossification Rate"]
+      },
+      "difficulty": "standard"
+    },
+    {
+      "id": "CV-001",
+      "question": "What is the evidence comparing cervical disc replacement (CDR) versus anterior cervical discectomy and fusion (ACDF) for 1-2 level cervical disc disease in terms of adjacent segment degeneration, reoperation rates, and range of motion preservation?",
+      "question_kr": "1-2분절 경추 추간판 질환에서 CDR vs ACDF의 인접분절 퇴행, 재수술률, 운동범위 보존 비교 근거는?",
+      "domain": "cervical",
+      "type": "comparison",
+      "expected_entities": {
+        "interventions": ["Cervical Disc Replacement", "ACDF"],
+        "pathologies": ["Cervical Disc Disease", "Adjacent Segment Degeneration"],
+        "outcomes": ["Adjacent Segment Degeneration", "Reoperation Rate", "ROM", "NDI"]
+      },
+      "difficulty": "standard"
+    },
+    {
+      "id": "CV-002",
+      "question": "What is the best surgical approach (anterior, posterior, or combined) for multilevel cervical spondylotic myelopathy, and what factors guide the choice of approach?",
+      "question_kr": "다분절 경추 척추증성 척수증에 대한 최적 수술 접근법(전방, 후방, 복합)과 접근법 선택을 결정하는 요인은?",
+      "domain": "cervical",
+      "type": "indication",
+      "expected_entities": {
+        "interventions": ["Anterior Cervical Corpectomy", "Laminoplasty", "Laminectomy with Fusion"],
+        "pathologies": ["Cervical Spondylotic Myelopathy", "Multilevel Cervical Stenosis"],
+        "outcomes": ["mJOA", "JOA Recovery Rate", "Complication Rate", "Kyphosis"]
+      },
+      "difficulty": "hard"
+    },
+    {
+      "id": "CV-003",
+      "question": "What are the comparative outcomes of laminoplasty versus laminectomy with fusion for multilevel cervical myelopathy, including C5 palsy rates, range of motion, and considerations for OPLL?",
+      "question_kr": "다분절 경추 척수증에서 후궁성형술 vs 후궁절제+유합술의 비교 결과(C5 마비율, 운동범위, OPLL 고려사항 포함)는?",
+      "domain": "cervical",
+      "type": "comparison",
+      "expected_entities": {
+        "interventions": ["Laminoplasty", "Laminectomy with Fusion"],
+        "pathologies": ["Cervical Myelopathy", "OPLL"],
+        "outcomes": ["C5 Palsy", "ROM", "mJOA", "Kyphosis Progression"]
+      },
+      "difficulty": "standard"
+    },
+    {
+      "id": "CV-004",
+      "question": "What is the evidence for surgical management of subaxial cervical spine injuries comparing anterior versus posterior approaches in terms of neurological recovery and stability?",
+      "question_kr": "하부 경추 손상의 수술적 관리에서 전방 vs 후방 접근법의 신경학적 회복 및 안정성 비교 근거는?",
+      "domain": "cervical",
+      "type": "comparison",
+      "expected_entities": {
+        "interventions": ["Anterior Cervical Fixation", "Posterior Cervical Fixation"],
+        "pathologies": ["Subaxial Cervical Injury", "Cervical Fracture-Dislocation"],
+        "outcomes": ["Neurological Recovery", "Stability", "Reoperation Rate"]
+      },
+      "difficulty": "standard"
+    },
+    {
+      "id": "CV-005",
+      "question": "What is the incidence, risk factors, and prevention strategies for adjacent segment disease after cervical spine fusion?",
+      "question_kr": "경추 유합술 후 인접분절 질환의 발생률, 위험인자, 예방 전략은?",
+      "domain": "cervical",
+      "type": "risk_factor",
+      "expected_entities": {
+        "interventions": ["ACDF", "Cervical Disc Replacement"],
+        "pathologies": ["Adjacent Segment Disease", "Adjacent Segment Degeneration"],
+        "outcomes": ["Incidence Rate", "Reoperation Rate", "NDI", "Risk Factors"]
+      },
+      "difficulty": "standard"
+    },
+    {
+      "id": "MIS-001",
+      "question": "What is the evidence comparing UBE (biportal endoscopic) versus conventional decompression for lumbar spinal stenosis in terms of clinical outcomes, complications, and learning curve?",
+      "question_kr": "요추 척추관 협착증에서 UBE(이중포탈 내시경) vs 기존 감압술의 임상 결과, 합병증, 학습 곡선 비교 근거는?",
+      "domain": "minimally_invasive",
+      "type": "comparison",
+      "expected_entities": {
+        "interventions": ["UBE", "Conventional Decompression", "Laminectomy"],
+        "pathologies": ["Lumbar Spinal Stenosis"],
+        "outcomes": ["ODI", "VAS", "Complication Rate", "Learning Curve"]
+      },
+      "difficulty": "standard"
+    },
+    {
+      "id": "MIS-002",
+      "question": "What is the comparative evidence for full-endoscopic lumbar discectomy (FELD/PELD) versus microdiscectomy for lumbar disc herniation regarding recurrence rates, recovery time, and patient selection?",
+      "question_kr": "요추 추간판 탈출증에서 전내시경 추간판절제술(FELD/PELD) vs 미세현미경 추간판절제술의 재발률, 회복 시간, 환자 선택 비교 근거는?",
+      "domain": "minimally_invasive",
+      "type": "comparison",
+      "expected_entities": {
+        "interventions": ["FELD", "PELD", "Microdiscectomy"],
+        "pathologies": ["Lumbar Disc Herniation"],
+        "outcomes": ["Recurrence Rate", "Recovery Time", "VAS Leg", "Return to Work"]
+      },
+      "difficulty": "standard"
+    },
+    {
+      "id": "MIS-003",
+      "question": "What are the comparative outcomes of MIS-TLIF versus open TLIF for lumbar degenerative disease in terms of perioperative morbidity, fusion rates, and long-term clinical results?",
+      "question_kr": "요추 퇴행성 질환에서 MIS-TLIF vs 개방형 TLIF의 주수술기 이환율, 유합률, 장기 임상 결과 비교는?",
+      "domain": "minimally_invasive",
+      "type": "comparison",
+      "expected_entities": {
+        "interventions": ["MIS-TLIF", "Open TLIF"],
+        "pathologies": ["Degenerative Disc Disease", "Spondylolisthesis"],
+        "outcomes": ["Blood Loss", "Fusion Rate", "ODI", "Hospital Stay"]
+      },
+      "difficulty": "standard"
+    },
+    {
+      "id": "MIS-004",
+      "question": "What are the indications, outcomes, and complications of lateral lumbar interbody fusion (OLIF/LLIF) including psoas injury rates and subsidence?",
+      "question_kr": "측방 요추 추체간 유합술(OLIF/LLIF)의 적응증, 결과, 합병증(요근 손상률 및 침하 포함)은?",
+      "domain": "minimally_invasive",
+      "type": "outcome",
+      "expected_entities": {
+        "interventions": ["OLIF", "LLIF", "XLIF"],
+        "pathologies": ["Degenerative Disc Disease", "Spondylolisthesis"],
+        "outcomes": ["Psoas Injury Rate", "Subsidence Rate", "Fusion Rate", "Lordosis Correction"]
+      },
+      "difficulty": "standard"
+    },
+    {
+      "id": "MIS-005",
+      "question": "What is the evidence for the learning curve in minimally invasive spine surgery, including the number of cases needed for proficiency and how complication rates change with experience?",
+      "question_kr": "최소침습 척추 수술의 학습 곡선에 대한 근거(숙련도 도달에 필요한 증례 수, 경험에 따른 합병증률 변화 포함)는?",
+      "domain": "minimally_invasive",
+      "type": "evidence_synthesis",
+      "expected_entities": {
+        "interventions": ["MIS-TLIF", "UBE", "FELD"],
+        "pathologies": ["Lumbar Spinal Stenosis", "Lumbar Disc Herniation"],
+        "outcomes": ["Learning Curve", "Complication Rate", "Operative Time", "Conversion Rate"]
+      },
+      "difficulty": "hard"
+    },
+    {
+      "id": "DF-001",
+      "question": "What is the incidence and risk factors for proximal junctional kyphosis (PJK) and proximal junctional failure (PJF) after adult spinal deformity surgery, and what preventive strategies exist?",
+      "question_kr": "성인 척추 변형 수술 후 근위부 접합부 후만증(PJK) 및 근위부 접합부 실패(PJF)의 발생률, 위험인자, 예방 전략은?",
+      "domain": "deformity",
+      "type": "risk_factor",
+      "expected_entities": {
+        "interventions": ["Adult Spinal Deformity Surgery", "Posterior Spinal Fusion"],
+        "pathologies": ["PJK", "PJF", "Proximal Junctional Kyphosis"],
+        "outcomes": ["PJK Incidence", "Revision Rate", "SVA", "Risk Factors"]
+      },
+      "difficulty": "standard"
+    },
+    {
+      "id": "DF-002",
+      "question": "What are the comparative outcomes of pedicle subtraction osteotomy (PSO) versus vertebral column resection (VCR) for fixed sagittal imbalance in terms of correction magnitude, complication rates, and reoperation?",
+      "question_kr": "고정된 시상면 불균형에서 척추경 감산 절골술(PSO) vs 척추주 절제술(VCR)의 교정량, 합병증률, 재수술 비교 결과는?",
+      "domain": "deformity",
+      "type": "comparison",
+      "expected_entities": {
+        "interventions": ["PSO", "VCR"],
+        "pathologies": ["Fixed Sagittal Imbalance", "Adult Spinal Deformity"],
+        "outcomes": ["Sagittal Correction", "Complication Rate", "Neurological Deficit", "Reoperation Rate"]
+      },
+      "difficulty": "hard"
+    },
+    {
+      "id": "DF-003",
+      "question": "What are the current sagittal alignment targets (PI-LL, GAP score, age-adjusted alignment) and how do they correlate with patient-reported outcomes?",
+      "question_kr": "현재 시상면 정렬 목표(PI-LL, GAP 점수, 연령 보정 정렬)와 환자 보고 결과와의 상관관계는?",
+      "domain": "deformity",
+      "type": "evidence_synthesis",
+      "expected_entities": {
+        "interventions": ["Adult Spinal Deformity Surgery"],
+        "pathologies": ["Sagittal Imbalance", "Adult Spinal Deformity"],
+        "outcomes": ["PI-LL Mismatch", "GAP Score", "ODI", "SRS-22"]
+      },
+      "difficulty": "standard"
+    },
+    {
+      "id": "DF-004",
+      "question": "What is the evidence for surgical versus conservative treatment of adolescent idiopathic scoliosis, and what are the current indications for surgery?",
+      "question_kr": "청소년 특발성 측만증에서 수술 vs 보존적 치료의 근거와 현재 수술 적응증은?",
+      "domain": "deformity",
+      "type": "indication",
+      "expected_entities": {
+        "interventions": ["Posterior Spinal Fusion", "Bracing", "Observation"],
+        "pathologies": ["Adolescent Idiopathic Scoliosis"],
+        "outcomes": ["Curve Progression", "SRS-22", "Quality of Life", "Cobb Angle"]
+      },
+      "difficulty": "standard"
+    },
+    {
+      "id": "DF-005",
+      "question": "What is the role of anterior column reconstruction (ACR/ALIF) in adult spinal deformity correction, including its effect on sagittal alignment, rod fracture prevention, and long-term durability?",
+      "question_kr": "성인 척추 변형 교정에서 전방주 재건(ACR/ALIF)의 역할(시상면 정렬, 로드 골절 예방, 장기 내구성에 대한 효과 포함)은?",
+      "domain": "deformity",
+      "type": "evidence_synthesis",
+      "expected_entities": {
+        "interventions": ["ACR", "ALIF", "Posterior Spinal Fusion"],
+        "pathologies": ["Adult Spinal Deformity", "Rod Fracture"],
+        "outcomes": ["Lordosis Restoration", "Rod Fracture Rate", "Pseudarthrosis Rate", "Revision Rate"]
+      },
+      "difficulty": "hard"
+    },
+    {
+      "id": "TR-001",
+      "question": "What is the evidence comparing short-segment versus long-segment posterior fixation for thoracolumbar burst fractures in terms of kyphosis correction, failure rates, and functional outcomes?",
+      "question_kr": "흉요추부 방출 골절에서 단분절 vs 장분절 후방 고정의 후만 교정, 실패율, 기능적 결과 비교 근거는?",
+      "domain": "trauma_infection",
+      "type": "comparison",
+      "expected_entities": {
+        "interventions": ["Short-Segment Fixation", "Long-Segment Fixation"],
+        "pathologies": ["Thoracolumbar Burst Fracture"],
+        "outcomes": ["Kyphosis Correction", "Hardware Failure", "VAS", "Functional Outcome"]
+      },
+      "difficulty": "standard"
+    },
+    {
+      "id": "TR-002",
+      "question": "What is the evidence comparing vertebroplasty and kyphoplasty versus conservative management for osteoporotic vertebral compression fractures in terms of pain relief, kyphosis progression, and adjacent fracture risk?",
+      "question_kr": "골다공증성 척추 압박골절에서 척추성형술/풍선후만성형술 vs 보존적 치료의 통증 완화, 후만 진행, 인접 골절 위험 비교 근거는?",
+      "domain": "trauma_infection",
+      "type": "comparison",
+      "expected_entities": {
+        "interventions": ["Vertebroplasty", "Kyphoplasty", "Conservative Management"],
+        "pathologies": ["Osteoporotic Compression Fracture"],
+        "outcomes": ["VAS", "Kyphosis Progression", "Adjacent Fracture Risk", "Roland-Morris"]
+      },
+      "difficulty": "standard"
+    },
+    {
+      "id": "TR-003",
+      "question": "What is the current evidence for the timing of surgical decompression in acute spinal cord injury, and what is the role of methylprednisolone?",
+      "question_kr": "급성 척수 손상에서 수술적 감압의 시점에 대한 현재 근거와 메틸프레드니솔론의 역할은?",
+      "domain": "trauma_infection",
+      "type": "evidence_synthesis",
+      "expected_entities": {
+        "interventions": ["Early Decompression", "Methylprednisolone"],
+        "pathologies": ["Acute Spinal Cord Injury"],
+        "outcomes": ["ASIA Grade Improvement", "Neurological Recovery", "Complication Rate"]
+      },
+      "difficulty": "standard"
+    },
+    {
+      "id": "TR-004",
+      "question": "What is the evidence for surgical versus antibiotic-only treatment of pyogenic spondylodiscitis, including indications for surgery and organism-specific treatment strategies?",
+      "question_kr": "화농성 척추 추간판염에서 수술 vs 항생제 단독 치료의 근거(수술 적응증 및 원인균별 치료 전략 포함)는?",
+      "domain": "trauma_infection",
+      "type": "indication",
+      "expected_entities": {
+        "interventions": ["Surgical Debridement", "Antibiotic Therapy"],
+        "pathologies": ["Pyogenic Spondylodiscitis", "Spinal Infection"],
+        "outcomes": ["Infection Eradication Rate", "Neurological Recovery", "Mortality"]
+      },
+      "difficulty": "hard"
+    },
+    {
+      "id": "TR-005",
+      "question": "What are the risk factors, prevention strategies (vancomycin powder, betadine irrigation), and treatment approaches for surgical site infection after spine surgery?",
+      "question_kr": "척추 수술 후 수술 부위 감염의 위험인자, 예방 전략(반코마이신 분말, 베타딘 세척), 치료 접근법은?",
+      "domain": "trauma_infection",
+      "type": "risk_factor",
+      "expected_entities": {
+        "interventions": ["Vancomycin Powder", "Betadine Irrigation", "Wound Debridement"],
+        "pathologies": ["Surgical Site Infection"],
+        "outcomes": ["Infection Rate", "Reoperation Rate", "Risk Factors"]
+      },
+      "difficulty": "standard"
+    },
+    {
+      "id": "TU-001",
+      "question": "What is the evidence for using the Spinal Instability Neoplastic Score (SINS) to guide surgical decision-making in metastatic spine disease within the NOMS framework?",
+      "question_kr": "NOMS 프레임워크 내에서 전이성 척추 질환의 수술적 의사결정을 위한 SINS(척추 불안정성 종양 점수) 활용 근거는?",
+      "domain": "tumor",
+      "type": "indication",
+      "expected_entities": {
+        "interventions": ["Separation Surgery", "Stabilization Surgery"],
+        "pathologies": ["Spinal Metastasis", "Spinal Instability"],
+        "outcomes": ["SINS Score", "Local Control", "Neurological Status", "Survival"]
+      },
+      "difficulty": "standard"
+    },
+    {
+      "id": "TU-002",
+      "question": "What are the outcomes of separation surgery followed by stereotactic body radiation therapy (SBRT) for metastatic spine tumors in terms of local control and survival?",
+      "question_kr": "전이성 척추 종양에서 분리 수술 후 정위체부방사선치료(SBRT)의 국소 제어율 및 생존율 결과는?",
+      "domain": "tumor",
+      "type": "outcome",
+      "expected_entities": {
+        "interventions": ["Separation Surgery", "SBRT"],
+        "pathologies": ["Metastatic Spine Tumor", "Epidural Spinal Cord Compression"],
+        "outcomes": ["Local Control", "Overall Survival", "Ambulatory Status", "Pain Relief"]
+      },
+      "difficulty": "hard"
+    },
+    {
+      "id": "TU-003",
+      "question": "What are the outcomes and prognostic factors for en bloc spondylectomy in primary spinal tumors regarding surgical margins, recurrence, and functional outcomes?",
+      "question_kr": "원발성 척추 종양에서 전절제술(en bloc spondylectomy)의 수술 변연, 재발, 기능적 결과 및 예후 인자는?",
+      "domain": "tumor",
+      "type": "outcome",
+      "expected_entities": {
+        "interventions": ["En Bloc Spondylectomy"],
+        "pathologies": ["Primary Spinal Tumor", "Chordoma", "Osteosarcoma"],
+        "outcomes": ["Recurrence Rate", "Survival", "Margin Status", "Complication Rate"]
+      },
+      "difficulty": "hard"
+    },
+    {
+      "id": "TU-004",
+      "question": "What is the evidence for minimally invasive approaches (percutaneous fixation, cement augmentation) in metastatic spine disease regarding indications, outcomes, and complications?",
+      "question_kr": "전이성 척추 질환에서 최소침습 접근법(경피적 고정, 시멘트 보강)의 적응증, 결과, 합병증에 대한 근거는?",
+      "domain": "tumor",
+      "type": "evidence_synthesis",
+      "expected_entities": {
+        "interventions": ["Percutaneous Fixation", "Cement Augmentation", "Vertebroplasty"],
+        "pathologies": ["Spinal Metastasis", "Pathologic Fracture"],
+        "outcomes": ["Pain Relief", "Functional Status", "Complication Rate", "Survival"]
+      },
+      "difficulty": "standard"
+    },
+    {
+      "id": "TU-005",
+      "question": "What are the surgical outcomes and prognostic factors for intramedullary spinal cord tumors (ependymoma vs astrocytoma) comparing gross total versus subtotal resection?",
+      "question_kr": "척수내 종양(상의세포종 vs 성상세포종)에서 전절제 vs 아전절제의 수술 결과 및 예후 인자는?",
+      "domain": "tumor",
+      "type": "comparison",
+      "expected_entities": {
+        "interventions": ["Gross Total Resection", "Subtotal Resection"],
+        "pathologies": ["Ependymoma", "Astrocytoma", "Intramedullary Spinal Cord Tumor"],
+        "outcomes": ["Recurrence Rate", "Neurological Outcome", "Progression-Free Survival"]
+      },
+      "difficulty": "hard"
+    },
+    {
+      "id": "BS-001",
+      "question": "What is the current evidence for stem cell therapy in intervertebral disc degeneration, including preclinical results, clinical trial outcomes, and barriers to translation?",
+      "question_kr": "추간판 퇴행에서 줄기세포 치료의 현재 근거(전임상 결과, 임상시험 결과, 중개 연구 장벽 포함)는?",
+      "domain": "basic_science",
+      "type": "evidence_synthesis",
+      "expected_entities": {
+        "interventions": ["Stem Cell Therapy", "MSC Injection"],
+        "pathologies": ["Disc Degeneration", "Intervertebral Disc Disease"],
+        "outcomes": ["Disc Height", "Pain Relief", "MRI T2 Signal", "Safety"]
+      },
+      "difficulty": "standard"
+    },
+    {
+      "id": "BS-002",
+      "question": "What is the comparative evidence for autograft versus allograft versus synthetic bone graft substitutes in spinal fusion regarding fusion rates, biology, and clinical outcomes?",
+      "question_kr": "척추 유합에서 자가골 vs 동종골 vs 합성 골이식 대체물의 유합률, 생물학, 임상 결과 비교 근거는?",
+      "domain": "basic_science",
+      "type": "comparison",
+      "expected_entities": {
+        "interventions": ["Autograft", "Allograft", "Synthetic Bone Graft"],
+        "pathologies": ["Pseudarthrosis", "Nonunion"],
+        "outcomes": ["Fusion Rate", "Donor Site Morbidity", "Clinical Outcome"]
+      },
+      "difficulty": "standard"
+    },
+    {
+      "id": "BS-003",
+      "question": "What are the current understanding of intervertebral disc degeneration mechanisms, including molecular pathways, biomarkers, and correlation with imaging findings?",
+      "question_kr": "추간판 퇴행 기전에 대한 현재 이해(분자 경로, 바이오마커, 영상 소견과의 상관관계 포함)는?",
+      "domain": "basic_science",
+      "type": "evidence_synthesis",
+      "expected_entities": {
+        "interventions": [],
+        "pathologies": ["Disc Degeneration", "Modic Changes"],
+        "outcomes": ["Molecular Pathways", "Biomarkers", "MRI Correlation", "Pfirrmann Grade"]
+      },
+      "difficulty": "hard"
+    },
+    {
+      "id": "BS-004",
+      "question": "What is the current evidence for spinal cord regeneration strategies including scaffolds, neurotrophic factors, and neuroprotective agents in preclinical and clinical studies?",
+      "question_kr": "전임상 및 임상 연구에서 척수 재생 전략(스캐폴드, 신경영양인자, 신경보호제 포함)에 대한 현재 근거는?",
+      "domain": "basic_science",
+      "type": "evidence_synthesis",
+      "expected_entities": {
+        "interventions": ["Scaffold Implantation", "Neurotrophic Factors", "Neuroprotective Agents"],
+        "pathologies": ["Spinal Cord Injury"],
+        "outcomes": ["Neurological Recovery", "ASIA Grade Improvement", "Safety"]
+      },
+      "difficulty": "hard"
+    },
+    {
+      "id": "BS-005",
+      "question": "What is the evidence for how cage material, design, and size affect biomechanical performance, subsidence risk, and fusion outcomes in lumbar interbody fusion?",
+      "question_kr": "요추 추체간 유합에서 케이지 재료, 디자인, 크기가 생역학적 성능, 침하 위험, 유합 결과에 미치는 영향에 대한 근거는?",
+      "domain": "basic_science",
+      "type": "evidence_synthesis",
+      "expected_entities": {
+        "interventions": ["PEEK Cage", "Titanium Cage", "3D-Printed Cage"],
+        "pathologies": ["Cage Subsidence"],
+        "outcomes": ["Subsidence Rate", "Fusion Rate", "Elastic Modulus", "Osseointegration"]
+      },
+      "difficulty": "standard"
+    },
+    {
+      "id": "DI-001",
+      "question": "What is the evidence comparing robot-assisted versus freehand and navigated pedicle screw placement in terms of accuracy, clinical outcomes, radiation exposure, and cost-effectiveness?",
+      "question_kr": "로봇 보조 vs 프리핸드 및 네비게이션 척추경 나사못 삽입의 정확도, 임상 결과, 방사선 노출, 비용효과성 비교 근거는?",
+      "domain": "diagnosis_innovation",
+      "type": "comparison",
+      "expected_entities": {
+        "interventions": ["Robotic-Assisted Surgery", "Freehand Technique", "Navigation-Assisted Surgery"],
+        "pathologies": [],
+        "outcomes": ["Screw Accuracy", "Revision Rate", "Radiation Exposure", "Cost-Effectiveness"]
+      },
+      "difficulty": "standard"
+    },
+    {
+      "id": "DI-002",
+      "question": "What is the evidence for intraoperative navigation systems (O-arm, CT navigation) in spine surgery regarding accuracy, radiation exposure, and clinical outcomes compared to fluoroscopy?",
+      "question_kr": "척추 수술에서 수술 중 네비게이션 시스템(O-arm, CT 네비게이션)의 정확도, 방사선 노출, 임상 결과(투시 대비) 근거는?",
+      "domain": "diagnosis_innovation",
+      "type": "comparison",
+      "expected_entities": {
+        "interventions": ["O-arm Navigation", "CT Navigation", "Fluoroscopy"],
+        "pathologies": [],
+        "outcomes": ["Screw Accuracy", "Radiation Exposure", "Operative Time", "Revision Rate"]
+      },
+      "difficulty": "standard"
+    },
+    {
+      "id": "DI-003",
+      "question": "What is the current evidence for artificial intelligence applications in spine imaging, including automated Cobb angle measurement, stenosis grading, and fracture detection?",
+      "question_kr": "척추 영상에서 인공지능 응용의 현재 근거(자동 Cobb 각도 측정, 협착 등급화, 골절 탐지 포함)는?",
+      "domain": "diagnosis_innovation",
+      "type": "evidence_synthesis",
+      "expected_entities": {
+        "interventions": ["AI-Assisted Imaging", "Deep Learning"],
+        "pathologies": ["Scoliosis", "Spinal Stenosis", "Vertebral Fracture"],
+        "outcomes": ["Diagnostic Accuracy", "Sensitivity", "Specificity", "Processing Time"]
+      },
+      "difficulty": "hard"
+    },
+    {
+      "id": "DI-004",
+      "question": "What is the evidence for augmented reality (AR) and virtual reality (VR) applications in spine surgery for surgical planning, intraoperative guidance, and surgical training?",
+      "question_kr": "척추 수술에서 증강현실(AR) 및 가상현실(VR) 응용의 수술 계획, 수술 중 가이드, 수술 교육에 대한 근거는?",
+      "domain": "diagnosis_innovation",
+      "type": "evidence_synthesis",
+      "expected_entities": {
+        "interventions": ["Augmented Reality", "Virtual Reality"],
+        "pathologies": [],
+        "outcomes": ["Screw Accuracy", "Operative Time", "Training Effectiveness", "User Satisfaction"]
+      },
+      "difficulty": "hard"
+    },
+    {
+      "id": "DI-005",
+      "question": "What is the evidence for machine learning-based predictive models in spine surgery for predicting complications, patient-reported outcomes, and hospital readmission?",
+      "question_kr": "척추 수술에서 머신러닝 기반 예측 모델의 합병증 예측, 환자 보고 결과 예측, 재입원 예측에 대한 근거는?",
+      "domain": "diagnosis_innovation",
+      "type": "evidence_synthesis",
+      "expected_entities": {
+        "interventions": ["Machine Learning Models", "Predictive Analytics"],
+        "pathologies": ["Surgical Complications", "Readmission"],
+        "outcomes": ["AUC", "Prediction Accuracy", "Sensitivity", "Specificity"]
+      },
+      "difficulty": "hard"
+    }
+  ]
+}

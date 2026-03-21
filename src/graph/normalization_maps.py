@@ -2479,7 +2479,7 @@ PATHOLOGY_ALIASES = {
         # v1.14.1: 소문자/동의어 추가
         "cervical spinal stenosis", "cervical stenosis",
         "Cervical spondylosis", "cervical spondylosis",
-        "Cervical spondylotic myelopathy", "CSM",
+        # v1.31.1: "CSM" removed — maps to "Cervical Myelopathy" only (alias conflict fix)
     ],
     "Foraminal Stenosis": [
         "Lateral Stenosis", "Foraminal narrowing",

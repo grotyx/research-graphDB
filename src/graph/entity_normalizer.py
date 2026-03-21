@@ -381,9 +381,21 @@ class EntityNormalizer:
         reverse = {}
         for canonical, alias_list in aliases.items():
             # 정규화된 이름도 자기 자신에 매핑
-            reverse[canonical.lower()] = canonical
+            key = canonical.lower()
+            if key in reverse and reverse[key] != canonical:
+                logger.warning(
+                    "Alias conflict: '%s' was mapped to '%s', now overwritten by '%s'",
+                    key, reverse[key], canonical
+                )
+            reverse[key] = canonical
             for alias in alias_list:
-                reverse[alias.lower()] = canonical
+                alias_key = alias.lower()
+                if alias_key in reverse and reverse[alias_key] != canonical:
+                    logger.warning(
+                        "Alias conflict: '%s' was mapped to '%s', now overwritten by '%s'",
+                        alias_key, reverse[alias_key], canonical
+                    )
+                reverse[alias_key] = canonical
         return reverse
 
     def _strip_korean_particles(self, text: str) -> str:

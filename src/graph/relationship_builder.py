@@ -960,23 +960,25 @@ class RelationshipBuilder:
                     logger.info(f"Created {applied_to_count} APPLIED_TO relations")
 
             # 4.5. Intervention → Pathology (TREATS) 관계
-            # Skip TREATS for pure review papers (no primary evidence)
+            # Review papers get TREATS with evidence_type="review" to distinguish from primary evidence
             is_review = self._is_review_paper(metadata)
-            if spine_metadata.interventions and spine_metadata.pathologies and not is_review:
+            if spine_metadata.interventions and spine_metadata.pathologies:
+                evidence_type = "review" if is_review else "primary"
                 treats_count = await self.create_treats_relations(
-                    paper_id, spine_metadata.interventions, spine_metadata.pathologies
+                    paper_id, spine_metadata.interventions, spine_metadata.pathologies,
+                    evidence_type=evidence_type
                 )
                 result.relationships_created += treats_count
-                logger.info(f"Created {treats_count} TREATS relations")
-            elif is_review and spine_metadata.interventions and spine_metadata.pathologies:
-                logger.info(f"Skipping TREATS for review paper {paper_id}")
+                logger.info(f"Created {treats_count} TREATS relations (evidence_type={evidence_type})")
 
             # 5. Intervention → Outcome (AFFECTS) 관계 (통계 포함)
             outcomes = self._extract_outcomes_from_chunks(chunks, spine_metadata)
             if outcomes:
+                is_comparative = len(spine_metadata.interventions) >= 2
                 for intervention in spine_metadata.interventions:
                     affects_count = await self.create_affects_relations(
-                        intervention, outcomes, paper_id
+                        intervention, outcomes, paper_id,
+                        attribution="cross_product" if is_comparative else None
                     )
                     result.relationships_created += affects_count
                 logger.info(f"Created AFFECTS relations for {len(outcomes)} outcomes")
@@ -1187,7 +1189,16 @@ class RelationshipBuilder:
             if not content_lower or not chunk_id:
                 continue
             for entity in entities:
-                if entity["name"].lower() in content_lower:
+                name_lower = entity["name"].lower()
+                # Use word boundary regex for short names (<5 chars) to avoid false positives
+                if len(name_lower) < 5:
+                    if re.search(r'\b' + re.escape(name_lower) + r'\b', content_lower):
+                        mentions_batch.append({
+                            "chunk_id": chunk_id,
+                            "entity_name": entity["name"],
+                            "entity_label": entity["label"],
+                        })
+                elif name_lower in content_lower:
                     mentions_batch.append({
                         "chunk_id": chunk_id,
                         "entity_name": entity["name"],
@@ -1442,14 +1453,14 @@ class RelationshipBuilder:
         """
         anatomy_lower = anatomy.lower()
 
-        # 레벨 결정
-        if any(x in anatomy_lower for x in ["l1", "l2", "l3", "l4", "l5", "lumbar"]):
+        # 레벨 결정 (word boundary regex to avoid false matches like "cl2" matching "l2")
+        if re.search(r'\b[lL][1-5]\b', anatomy) or "lumbar" in anatomy_lower:
             level = "lumbar"
-        elif any(x in anatomy_lower for x in ["c1", "c2", "c3", "c4", "c5", "c6", "c7", "cervical"]):
+        elif re.search(r'\b[cC][1-7]\b', anatomy) or "cervical" in anatomy_lower:
             level = "cervical"
-        elif any(x in anatomy_lower for x in ["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9", "t10", "t11", "t12", "thoracic"]):
+        elif re.search(r'\b[tT](1[0-2]?|[2-9])\b', anatomy) or "thoracic" in anatomy_lower:
             level = "thoracic"
-        elif any(x in anatomy_lower for x in ["s1", "s2", "s3", "s4", "s5", "sacral"]):
+        elif re.search(r'\b[sS][1-5]\b', anatomy) or "sacral" in anatomy_lower:
             level = "sacral"
         else:
             level = ""
@@ -1599,7 +1610,8 @@ class RelationshipBuilder:
         self,
         paper_id: str,
         interventions: list[str],
-        pathologies: list[str]
+        pathologies: list[str],
+        evidence_type: str = "primary"
     ) -> int:
         """Intervention → Pathology (TREATS) 관계 생성.
 
@@ -1611,6 +1623,7 @@ class RelationshipBuilder:
             paper_id: 출처 논문 ID
             interventions: 수술법 목록
             pathologies: 질환 목록
+            evidence_type: Evidence type ("primary" or "review")
 
         Returns:
             생성된 관계 수
@@ -1657,10 +1670,14 @@ class RelationshipBuilder:
             MATCH (i:Intervention {name: row.intervention})
             MATCH (p:Pathology {name: row.pathology})
             MERGE (i)-[r:TREATS]->(p)
-            ON CREATE SET r.created_at = datetime(), r.source_paper_id = $paper_id
+            ON CREATE SET r.created_at = datetime(), r.source_paper_id = $paper_id,
+                          r.paper_count = 1, r.evidence_type = $evidence_type
+            ON MATCH SET r.paper_count = COALESCE(r.paper_count, 1) + 1
             RETURN count(r) AS created
             """
-            result = await self.client.run_query(cypher, {"batch": batch, "paper_id": paper_id})
+            result = await self.client.run_query(
+                cypher, {"batch": batch, "paper_id": paper_id, "evidence_type": evidence_type}
+            )
             return result[0].get("created", 0) if result else 0
         except Exception as e:
             logger.warning(f"Failed to create TREATS relations (batch): {e}")
@@ -1670,7 +1687,8 @@ class RelationshipBuilder:
         self,
         intervention: str,
         outcomes: list[ExtractedOutcome],
-        paper_id: str
+        paper_id: str,
+        attribution: Optional[str] = None
     ) -> int:
         """Intervention → Outcome (AFFECTS) 관계 생성 (통계 포함).
 
@@ -1682,6 +1700,7 @@ class RelationshipBuilder:
             intervention: 수술법 이름
             outcomes: 결과변수 목록
             paper_id: 출처 논문 ID
+            attribution: Attribution flag (e.g., "cross_product" for comparative studies)
 
         Returns:
             생성된 관계 수
@@ -1726,6 +1745,7 @@ class RelationshipBuilder:
                     "value_difference": outcome.value_difference,
                     "category": outcome.category,
                     "timepoint": outcome.timepoint,
+                    "attribution": attribution or "",
                 },
             })
             is_a_item = self._prepare_is_a_item(outcome_name, "Outcome", norm_outcome)
@@ -1986,16 +2006,28 @@ class RelationshipBuilder:
                     for keyword in keywords:
                         norm_outcome = self._normalize_cached(keyword, "outcome")
                         if norm_outcome.confidence > 0.5:
-                            # 이미 추가되지 않은 경우만
-                            if not any(o.name == norm_outcome.normalized for o in outcomes):
+                            # Dedup check: name + timepoint (issue #5)
+                            if not any(
+                                o.name == norm_outcome.normalized and o.timepoint == ""
+                                for o in outcomes
+                            ):
                                 # p-value 파싱
                                 p_val = self._parse_p_value(p_values[0]) if p_values else None
+
+                                # Infer direction from outcome category (issue #4)
+                                inferred_direction = ""
+                                outcome_lower = norm_outcome.normalized.lower()
+                                if self._is_lower_better_outcome(outcome_lower):
+                                    # Complications/adverse outcomes: leave direction empty
+                                    inferred_direction = ""
+                                elif p_val is not None and p_val < 0.05:
+                                    inferred_direction = "improved"
 
                                 outcomes.append(ExtractedOutcome(
                                     name=norm_outcome.normalized,
                                     p_value=p_val,
                                     is_significant=p_val < 0.05 if p_val else False,
-                                    direction="improved"  # 추후 개선 필요
+                                    direction=inferred_direction
                                 ))
 
         logger.debug(f"Extracted {len(outcomes)} outcomes from chunks")
