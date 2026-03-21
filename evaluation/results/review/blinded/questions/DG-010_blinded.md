@@ -55,57 +55,52 @@
 
 ## System B
 **Papers retrieved**: 10
-**Evidence levels**: ['1a', '1b', '1b', '2a', '1a', '1a', '1a', '2b', '2b', '2b']
+**Evidence levels**: ['1a', '1b', '2a', '1a', '1a', '1a', '1a', '1a', '1a', '1a']
 
 ### Cited Papers
 - [1a] pubmed_40195641: Biportal endoscopic spinal surgery (BESS) with interbody fusion for lumbar degen
 - [1b] pubmed_40797374: Biportal Endoscopic Spine Surgery versus Conventional Open Surgery for Lumbar De
-- [1b] pubmed_40708286: Efficacy and Safety of Full Endoscopic Lumbar Discectomy Combined with Platelet-
 - [2a] pubmed_36310459: Learning Curve Analysis of Unilateral Biportal Endoscopic Lumbar Interbody Fusio
 - [1a] pubmed_41666862: Endoscopic Discectomy versus Microdiscectomy for Lumbar Disc Herniation: A Syste
-- [1a] pubmed_39895414: Network meta-analysis comparing endoscopic posterolateral fusion and lateral int
 - [1a] pubmed_31529215: Network Meta-Analysis of Complication Rates for Discectomy Techniques in Symptom
-- [2b] analyzed_fda02a83: Learning curve for biportal endoscopic transforaminal lumbar interbody fusion an
-- [2b] pubmed_41290735: Clinical outcomes and learning curve characteristics of unilateral biportal endo
-- [2b] pubmed_41565201: Modified trans-Kambin endoscopic lumbar interbody fusion: Learning curve, clinic
+- [1a] pubmed_39895414: Network meta-analysis comparing endoscopic posterolateral fusion and lateral int
+- [1a] pubmed_41189000: Unilateral Biportal Endoscopic Decompression versus Percutaneous Endoscopic Lumb
+- [1a] pubmed_38388729: Unilateral Biportal Endoscopic Discectomy versus Microdiscectomy for Lumbar Disk
+- [1a] pubmed_41452813: Unilateral Biportal Endoscopic Discectomy versus Conventional Microdiscectomy fo
+- [1a] pubmed_41420307: Clinical Efficacy and Safety of Minimally Invasive, Full Endoscopic, and Biporta
 
 ### Answer
 
-# Evidence for Full-Endoscopic Lumbar Discectomy Learning Curve and Clinical Outcomes
+# Full-Endoscopic Lumbar Discectomy (FELD/PELD) Learning Curve: Evidence Summary
 
-## Learning Curve Duration and Operative Time
+## Learning Curve Characteristics
 
-**General Endoscopic Spine Surgery Learning Curve:**
-The retrieved papers provide limited direct data on FELD/PELD specifically, but offer relevant context from related endoscopic techniques:
+### General Minimally Invasive Endoscopic Learning Patterns
+The papers document a consistent learning curve pattern across endoscopic spine procedures, though specific FELD/PELD data is limited:
 
-- **Surgeon proficiency threshold**: Approximately 20-25 cases required to move beyond initial learning phase [pubmed_40195641, systematic review, Evidence 1a]. Operative time typically decreases by **30-50%** as surgeons progress from initial to proficient cases [pubmed_36310459, evidence synthesis, Evidence 2a].
+- **General timeline**: Surgeons require approximately 20-89 procedures to achieve proficiency depending on the specific technique [pubmed_40195641, pubmed_40797374]
+- **Operative time improvement**: Documented 30-50% reduction in operative time as surgeons progress from initial experience to proficiency across endoscopic spine procedures [pubmed_36310459]
+- **Plateau achievement**: Approximately 20% decrease in operative time occurs after >20 cases for some endoscopic techniques [pubmed_40195641]
 
-- **Biportal endoscopic techniques** (related technology) show **20% operative time reduction** after >20 cases, with longer durations in early phase [pubmed_40195641, Evidence 1a].
+### Technical Complexity Contributing to Learning Curve
+The papers identify specific technical demands that extend the PELD learning curve [pubmed_39895414]:
+- Mastery of hemostasis in narrow working channels
+- Anatomical recognition and orientation
+- Instrument manipulation in confined spaces
+- Portal management (for biportal techniques)
 
-- **Transforaminal variants**: Percutaneous uniportal full-endoscopic TLIF reached learning curve peak at **23 cases** with mean operative time of 199.14 ± 45.64 minutes [pubmed_41290735, multicenter cohort, Evidence 2b].
+## Impact on Outcomes
 
-## Impact on Complication Rates
-
-**Learning Phase Effects:**
-- Early-phase surgeons reported **significantly higher complication rates** and **higher dural tear rates** during initial learning phase, which decreased with proficiency [pubmed_40195641, Evidence 1a].
-
-- **Surgeon experience significantly influences complication incidence**; whether operators achieve learning curve plateau substantially affects outcomes [pubmed_39895414, network meta-analysis, Evidence 1a].
-
-- Technical complexity factors requiring mastery include: hemostasis, orientation, anatomical recognition, and instrument manipulation in narrow working channels [pubmed_39895414, Evidence 1a].
-
-## Recurrence Risk
-
-**Endoscopic Discectomy Outcomes:**
-- Transforaminal endoscopic lumbar discectomy (TELD) demonstrated **approximately double the recurrence rate** compared to microdiscectomy (OR ~2.0) [pubmed_41666862, systematic review/meta-analysis, Evidence 1a].
-- Endoscopic approaches showed **reduced surgical site complications** but higher recurrence risk [pubmed_41666862, Evidence 1a].
+### Complication Rates
+- **Early vs. experienced surgeons**: Dural tear rates initially higher during learning phase, then decreased with surgeon proficiency [pubmed_40195641]
+- **TELD recurrence**: Transforaminal endoscopic lumbar discectomy demonstrated approximately double the recurrence rate compared to microdiscectomy (OR ~2.0), though unclear if this reflects learning curve or technique-specific factors [pubmed_41666862]
 
 ## Evidence Gaps
 
-The literature does not provide:
-- **Specific FELD/PELD learning curve data**: Studies focus primarily on biportal endoscopic fusion (BESS/UBE) rather than pure discectomy procedures
-- **Complication rates stratified by surgeon experience level** for FELD/PELD specifically
-- **Direct comparison of complication trajectories** during FELD/PELD learning curve phases
+**Critical limitations**: 
+- No specific prospective learning curve analysis exclusively for FELD/PELD identified in retrieved papers
+- Most learning curve data applies to biportal endoscopic techniques (BESS, UBE) rather than full-endoscopic uniportal approaches
+- Network meta-analysis papers do not stratify outcomes by surgeon experience level
+- Lack of defined benchmarks for PELD-specific proficiency achievement
 
----
-
-**Summary**: While robust data exists for biportal fusion learning curves (20-25 cases), direct evidence for FELD/PELD learning curve and outcomes is limited in this collection. Available evidence suggests minimally invasive endoscopic techniques require substantial learning phases with improvement in operative time and safety profiles after 20+ cases, though recurrence rates remain higher than conventional techniques.
+**Recommendation**: Dedicated prospective studies analyzing FELD/PELD learning curves with stratified outcome analysis are needed.

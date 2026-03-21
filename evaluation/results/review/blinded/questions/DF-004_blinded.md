@@ -60,64 +60,53 @@
 
 ## System B
 **Papers retrieved**: 10
-**Evidence levels**: ['1b', '1a', '1b', '1b', '2b', '2b', '2b', '2b', '2b', '2b']
+**Evidence levels**: ['1b', '1a', '2b', '2b', '2b', '2b', '2b', '2b', '2b', '2a']
 
 ### Cited Papers
 - [1b] pubmed_40551470: Long-term outcomes of conservative management of moderate adolescent idiopathic 
 - [1a] pubmed_40932300: Robot-Assisted Versus Conventional Surgery for Pedicle Screw Instrumentation in 
-- [1b] pubmed_40391862: Effects of dexamethasone and dexmedetomidine as adjuvants to erector spinae plan
-- [1b] pubmed_40152429: Safety and Efficacy of Surgeon-Directed Intraoperative Subfascial Cocktail Analg
 - [2b] pubmed_41636888: Posterior-Only Fusion versus Anterior Release with Posterior Fusion for Large-Ma
 - [2b] pubmed_38690524: Automated Lenke Classification System for Adolescent Idiopathic Scoliosis Using 
+- [2b] pubmed_41506453: A fully autonomous AI system for accurate and reproducible Cobb angle measuremen
 - [2b] pubmed_38961674: Artificial Intelligence System for Cobb Angle and Lenke Classification Measureme
 - [2b] pubmed_41389104: Accuracy of Artificial Intelligence in Measuring Cobb Angles in Adolescent Idiop
 - [2b] pubmed_36455162: Robotic-Assisted Navigation with O-Arm or 3D C-Arm versus Freehand Technique for
-- [2b] pubmed_41075991: Perioperative Mental Health Disorders in Adolescent Idiopathic Scoliosis: Preval
+- [2b] pubmed_41718808: Large language models with image processing in automated Cobb angle
+- [2a] pubmed_39688663: Accuracy of Automatic Cobb Angle Measurements by Deep Learning on Full Spine Rad
 
 ### Answer
 
-# Evidence for Surgical Versus Conservative Treatment of AIS (Cobb Angle 40-50°)
+# Evidence for Surgical vs Conservative Treatment of AIS with Cobb Angle 40-50°
 
 ## Summary
-The provided papers contain **insufficient direct evidence** comparing surgical versus conservative treatment for AIS in the 40-50° Cobb angle range. The evidence is fragmented across different treatment domains without comparative effectiveness data.
+The provided papers do **not contain direct comparative evidence** for surgical versus conservative management of AIS in the 40-50° Cobb angle range. This is a significant gap in the available evidence.
 
----
+## What the Evidence Shows
 
-## Conservative Management Evidence
+### Conservative Management (Bracing)
+[pubmed_40551470] - Systematic review and meta-analysis (Evidence: 1b)
+- Clinical guidelines recommend bracing for moderate curves between 25-30° and 40-45°
+- States that "bracing aims to prevent curve progression through external force application"
+- **Critical limitation**: The paper notes that "its long-term efficacy and impact on curve behavior after removal remain unclear"
+- No specific outcome data provided for the 40-50° range
 
-### Bracing for Moderate Curves
-[pubmed_40551470] is a **systematic review and meta-analysis (Evidence: 1b)** that addresses conservative management of moderate AIS. The paper notes that:
-- Clinical guidelines recommend bracing for moderate curves between **25-30° and 40-45°**
-- **Critical gap**: The authors explicitly state that "bracing aims to prevent curve progression through external force application, but its **long-term efficacy and impact on curve behavior after removal remain unclear**"
+### Surgical Intervention
+The surgical papers provided focus on:
+- **Technique comparisons** (robot-assisted vs conventional; posterior-only vs anterior-posterior fusion) rather than surgical vs conservative comparisons [pubmed_40932300, pubmed_41636888]
+- **Large-magnitude curves (≥70°)** [pubmed_41636888], which are beyond the 40-50° range in question
+- Curve correction metrics without comparative non-operative arms
 
-This is the highest level of evidence available in the provided papers on conservative treatment, but it acknowledges uncertainty about outcomes in the 40-50° range.
+## Cobb Angle Classification Context
+[pubmed_41389104] categorizes severity as:
+- Moderate scoliosis: 20-39°
+- Severe scoliosis: 40-59° (includes the 40-50° range)
+- Extreme scoliosis: ≥60°
 
----
-
-## Surgical Management Evidence
-
-### Surgical Outcomes Available
-Multiple papers describe surgical techniques and outcomes:
-
-- **[pubmed_40932300]** (Systematic review and meta-analysis, Evidence: 1a): Compares robot-assisted versus conventional pedicle screw instrumentation. Found **no significant difference in Cobb angle correction (MD -0.59°, 95% CI -2.14 to 0.96, p=0.46)**, but does not provide comparative data versus conservative treatment.
-
-- **[pubmed_41636888]** (Evidence: 2b): Addresses surgical management of **large-magnitude curves (≥70°)** - beyond your range of interest.
-
-- **[pubmed_36455162]** (Evidence: 2b): Includes patients with **main curve Cobb angle <90°**, but does not compare surgery versus bracing.
-
----
-
-## Critical Evidence Gaps
-
-1. **No direct comparative studies**: None of the provided papers present head-to-head comparisons of surgery versus conservative treatment for the 40-50° Cobb angle range.
-
-2. **Long-term bracing outcomes unclear**: [pubmed_40551470] identifies this as an explicit knowledge gap.
-
-3. **Prognostic data absent**: The provided papers do not include natural history data or risk of progression without treatment in this specific angle range.
-
-4. **Decision-making thresholds unstudied**: The papers note guideline recommendations (25-30° to 40-45° for bracing) but provide no evidence supporting outcomes at different thresholds.
-
----
+## Gaps in Evidence
+1. **No direct surgical vs conservative RCTs** for the 40-50° range
+2. **No long-term follow-up data** on bracing efficacy in this specific range
+3. **Missing outcome comparisons** on curve progression, complications, and functional outcomes
+4. The knowledge graph mentions conservative treatments (bracing types) and surgical approaches, but the retrieved papers do not contain comparative effectiveness data
 
 ## Recommendation
-This clinical question **cannot be adequately answered from the provided papers alone**. Evidence-based guidance for the 40-50° Cobb angle range would require studies not included in this collection.
+Evidence-based guidance for the 40-50° Cobb angle range requires clinical practice guidelines and comparative effectiveness studies not present in this paper set.

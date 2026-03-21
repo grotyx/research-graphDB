@@ -196,9 +196,10 @@ async def generate_answer_b4_graphrag(
         },
     )
 
+    # v14: Paper diversity — request more chunks to find more unique papers
     search_input = SearchInput(
         query=question,
-        top_k=top_k * 3,
+        top_k=top_k * 5,  # v14: 3→5배로 증가, paper diversity 확보
         tier_strategy=SearchTier.TIER1_THEN_TIER2,
         use_hyde=True,
         use_reranker=True,
@@ -206,7 +207,7 @@ async def generate_answer_b4_graphrag(
 
     output = await search.search(search_input)
 
-    # Dedup by paper from hybrid search
+    # Dedup by paper — 논문당 best chunk 1개만 (diversity 핵심)
     seen: dict[str, dict] = {}
     for r in output.results:
         pid = r.chunk.document_id or ""
@@ -221,12 +222,13 @@ async def generate_answer_b4_graphrag(
                 "content": r.chunk.text[:500] if r.chunk.text else "",
                 "score": score,
             }
+    hybrid_paper_count = len(seen)
 
-    # v10: Multi-vector search — abstract 임베딩으로 추가 논문 보충
+    # Multi-vector search — paper-level 검색으로 추가 diversity 확보
     try:
         embedding = await _get_embedding(question)
         mv_rows = await neo4j_client.search.multi_vector_search(
-            embedding=embedding, top_k=top_k * 2, min_score=0.3
+            embedding=embedding, top_k=top_k * 3, min_score=0.3  # v14: 2→3배
         )
         for r in mv_rows:
             pid = r.get("paper_id", "")
@@ -236,28 +238,55 @@ async def generate_answer_b4_graphrag(
                     "title": r.get("paper_title", "Unknown"),
                     "evidence_level": r.get("evidence_level", "unknown"),
                     "content": r.get("content", "")[:500],
-                    "score": r.get("score", 0.0) * 0.9,  # 약간 낮은 가중치
+                    "score": r.get("score", 0.0) * 0.9,
                 }
-        logger.info("Multi-vector added %d new papers", len(seen) - len([r for r in output.results if r.chunk.document_id]))
+        logger.info("Direct search: %d hybrid + %d multi-vector = %d unique papers",
+                     hybrid_paper_count, len(seen) - hybrid_paper_count, len(seen))
     except Exception as e:
         logger.warning("Multi-vector search failed (non-critical): %s", e)
+        logger.info("Direct search: %d unique papers (hybrid only)", len(seen))
 
-    # v12: IS_A expansion + keyword filter — depth=1만, 질문 키워드 포함 논문만
+    # v13: IS_A expansion + pathology check + re-scoring
+    # Fix 2: pathology 일치 확인, Fix 3: 직접 검색 최하위보다 나을 때만 교체
+    isa_additions = []
     try:
         found_pids = set(seen.keys())
         isa_additions = await _isa_expand_search(neo4j_client, found_pids, top_k, question)
-        for r in isa_additions:
-            pid = r.get("paper_id", "")
-            if pid and pid not in seen:
-                seen[pid] = r
         if isa_additions:
-            new_count = len([r for r in isa_additions if r.get("paper_id") not in found_pids])
-            if new_count > 0:
-                logger.info("IS_A expansion added %d new papers (keyword filtered)", new_count)
+            logger.info("IS_A expansion candidates: %d (pathology+keyword filtered)", len(isa_additions))
     except Exception as e:
         logger.warning("IS_A expansion failed (non-critical): %s", e)
 
-    papers_list = sorted(seen.values(), key=lambda x: x.get("score", 0), reverse=True)[:top_k]
+    # Fix 3: 직접 검색 결과 먼저 확정, IS_A는 최하위 교체만
+    direct_papers = sorted(seen.values(), key=lambda x: x.get("score", 0), reverse=True)[:top_k]
+    if isa_additions and len(direct_papers) >= top_k:
+        min_direct_score = direct_papers[-1].get("score", 0)
+        replaced = 0
+        for isa_p in sorted(isa_additions, key=lambda x: x.get("score", 0), reverse=True):
+            pid = isa_p.get("paper_id", "")
+            if pid in seen:
+                continue
+            if isa_p.get("score", 0) > min_direct_score:
+                direct_papers[-1] = isa_p
+                seen[pid] = isa_p
+                direct_papers.sort(key=lambda x: x.get("score", 0), reverse=True)
+                min_direct_score = direct_papers[-1].get("score", 0)
+                replaced += 1
+            else:
+                break  # 이후 IS_A 논문은 더 낮으므로 중단
+        if replaced:
+            logger.info("IS_A re-scoring: replaced %d lowest direct papers", replaced)
+    elif isa_additions:
+        # 직접 검색이 top_k 미만이면 IS_A로 보충
+        for isa_p in isa_additions:
+            pid = isa_p.get("paper_id", "")
+            if pid not in seen and len(direct_papers) < top_k:
+                direct_papers.append(isa_p)
+                seen[pid] = isa_p
+        direct_papers.sort(key=lambda x: x.get("score", 0), reverse=True)
+        logger.info("IS_A supplemented %d papers (direct < top_k)", len(direct_papers))
+
+    papers_list = direct_papers
 
     if not papers_list:
         return "No relevant papers found for this query.", []
@@ -525,11 +554,12 @@ async def _get_graph_traversal_summary(neo4j_client: Any, question: str) -> str:
 async def _isa_expand_search(
     neo4j_client: Any, existing_pids: set[str], top_k: int, question: str = ""
 ) -> list[dict]:
-    """IS_A expansion v2 — depth=1 + keyword filter.
+    """IS_A expansion v3 — depth=1 + pathology check + keyword filter.
 
     검색된 논문의 IS_A sibling으로 추가 논문 보충하되:
     1. depth=1만 (직접 parent의 sibling만, grandparent 금지)
-    2. 추가 논문 제목이 질문 키워드를 포함해야 함 (무관 논문 차단)
+    2. Fix 2: sibling 논문이 원래 논문과 같은 pathology 계열인지 확인
+    3. 추가 논문 제목이 질문 키워드를 포함해야 함 (무관 논문 차단)
     """
     if not existing_pids:
         return []
@@ -549,7 +579,8 @@ async def _isa_expand_search(
         if w.lower() not in stop_words and len(w) >= 3
     ]
 
-    # depth=1: intervention → IS_A(1 hop) → parent → sibling
+    # Fix 2: pathology-aware IS_A expansion
+    # 원래 논문의 pathology를 수집한 후, sibling 논문도 같은 pathology를 다루는지 확인
     query = """
     UNWIND $pids AS pid
     MATCH (p:Paper {paper_id: pid})-[:INVESTIGATES]->(i:Intervention)-[:IS_A]->(parent:Intervention)
@@ -557,6 +588,15 @@ async def _isa_expand_search(
     WHERE sibling <> i
     MATCH (sibling)<-[:INVESTIGATES]-(p2:Paper)
     WHERE NOT p2.paper_id IN $pids
+    // Fix 2: pathology 일치 확인 — 원래 논문과 sibling 논문이 같은 pathology 계열
+    MATCH (p)-[:STUDIES]->(origPath:Pathology)
+    WHERE (p2)-[:STUDIES]->(origPath)
+       OR EXISTS {
+           MATCH (p2)-[:STUDIES]->(sibPath:Pathology)-[:IS_A*..2]->(origPath)
+       }
+       OR EXISTS {
+           MATCH (p2)-[:STUDIES]->(sibPath:Pathology)<-[:IS_A*..2]-(origPath)
+       }
     RETURN DISTINCT p2.paper_id AS paper_id, p2.title AS title,
            p2.evidence_level AS evidence_level, p2.year AS year,
            0.6 AS score
@@ -564,7 +604,7 @@ async def _isa_expand_search(
     """
     try:
         rows = await neo4j_client.run_query(query, {
-            "pids": pid_list, "limit": top_k * 3  # 많이 가져와서 필터링
+            "pids": pid_list, "limit": top_k * 3
         })
         results = []
         for r in rows:

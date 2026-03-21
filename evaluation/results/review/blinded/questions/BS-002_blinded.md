@@ -56,76 +56,60 @@ The literature lacks robust evidence demonstrating structural/biological disc re
 
 ## System B
 **Papers retrieved**: 10
-**Evidence levels**: ['2a', '5', '5', '5', '4', '5', '4', '1a', '2b', '1a']
+**Evidence levels**: ['2a', '1b', '1b', '1a', '1a', '1b', '1b', '1b', '1a', '1b']
 
 ### Cited Papers
 - [2a] pubmed_41608524: Stem Cell-Based Strategies for Intervertebral Disc Regeneration: A Systematic Re
-- [5] pubmed_41163783: Endogenous Stem Cell-Mediated Repair of Degenerated Intervertebral Disc Annulus 
-- [5] pubmed_41450738: Mesenchymal Stem Cell Therapy for Intervertebral Disc Regeneration: Microenviron
-- [5] pubmed_41595972: Degenerative Disc Disease: Pathophysiology, Epidemiology, and Emerging Regenerat
-- [4] pubmed_41459417: Extracellular Vesicles in Intervertebral Disc Degeneration: A Scoping Review on 
-- [5] pubmed_41683563: Immunometabolism in Intervertebral Disc Degeneration and Regeneration: Pathophys
-- [4] pubmed_41242964: Hydrogel-based growth factors for treatment of intervertebral disc degeneration:
-- [1a] pubmed_21729796: Recombinant Human Bone Morphogenetic Protein-2 in Spinal Fusion Surgery: A Syste
-- [2b] pubmed_28841904: One-Year Outcomes of Anterior Lumbar Interbody Fusion Using map3 Cellular Alloge
-- [1a] pubmed_39399091: Bone graft substitutes used in anterior lumbar interbody fusion: a systematic re
+- [1b] pubmed_40708286: Efficacy and Safety of Full Endoscopic Lumbar Discectomy Combined with Platelet-
+- [1b] pubmed_29652784: Vertebral Fusion Success Rates Following Posterolateral Fusion Surgery: A Prospe
+- [1a] pubmed_39131613: Postoperative Modic Changes Transformation After Lumbar Discectomy: A Systematic
+- [1a] pubmed_41666867: Annular Repair Strategies for Disc Reherniation: A Systematic Review and Meta-An
+- [1b] pubmed_12394656: Lumbar fusion using rhBMP-2 and tapered titanium fusion cage: 2-year prospective
+- [1b] pubmed_40066868: Impact of SI-6603 (Condoliase) on Health-Related Quality of Life Outcomes in Pat
+- [1b] pubmed_40993700: Efficacy of Bifidobacterium adolescentis in treating chronic low back pain assoc
+- [1a] pubmed_31593923: Electrical Stimulation for Spinal Fusion: A Systematic Review and Meta-Analysis 
+- [1b] pubmed_39593144: Application of Recombinant Human Bone Morphogenetic Protein-2 (RhBMP-2) in Percu
 
 ### Answer
 
-# Evidence Summary: Stem Cell Therapy for Intervertebral Disc Degeneration
+# Evidence for Stem Cell Therapy in Intervertebral Disc Degeneration
+
+## Summary of Evidence
+
+The current evidence base for stem cell therapy in intervertebral disc degeneration is predominantly **preclinical**, with **limited clinical translation data available** in the provided literature.
+
+---
 
 ## Preclinical Evidence
 
-**Strong Regenerative Potential Demonstrated**
+### Regenerative Capacity and Structural Outcomes
 
-Animal models and in vitro studies consistently show promising results [pubmed_41608524, Evidence 2a]:
-- Restoration of biomechanical and structural properties in degenerated discs
-- Improvements in disc height index, water content, and proteoglycan/collagen composition
-- Evidence suggests biological potential to reverse disc degeneration
+[pubmed_41608524] provides a **systematic review (Evidence level: 2a)** documenting promising preclinical findings:
 
-## Clinical Trial Evidence
+- **Biomechanical restoration**: Animal models and in vitro studies consistently demonstrated improvements in disc structural properties
+- **Specific outcomes measured**:
+  - Increased disc height index
+  - Enhanced water content
+  - Improved proteoglycan/collagen composition
 
-**Limited Clinical Translation with Modest Outcomes**
+### Biological Mechanism
 
-As of January 2025, 18 registered clinical strategies exist for MSC-based treatments of lumbar intervertebral disc degeneration [pubmed_41450738, Evidence 5]:
-- 13 trials focus on bone marrow-derived MSCs (BM-MSCs)
-- 3 trials investigate adipose-derived stem cells (ADSCs)
-- 2 trials explore umbilical cord-derived MSCs
+[pubmed_41608524] indicates that stem cell approaches demonstrate **biological potential to reverse disc degeneration** through these structural and compositional improvements.
 
-**Specific Clinical Outcomes:**
+---
 
-Phase I/II trial data (NCT01513694) with tricalcium phosphate scaffolds combined with MSCs [pubmed_41163783, Evidence 5]:
-- 80% lumbar fusion rates achieved
-- No severe adverse events reported
+## Critical Gaps in Evidence
 
-Autologous bone marrow-derived MSC injection trials [pubmed_41163783, Evidence 5]:
-- 70% pain reduction (VAS) at 12 months
-- 35% MRI T2-signal improvement at 12 months
-- Disc height restoration remained **below 15%** (limited structural recovery)
+The provided literature reveals several important limitations:
 
-## Mechanisms of Action
+1. **No clinical trial data**: The stem cell therapy review [pubmed_41608524] explicitly addresses only **preclinical evidence and clinical translation potential**, without reporting completed human trials in the provided papers.
 
-**Paracrine and Immunomodulatory Functions** [pubmed_41595972, pubmed_41683563, Evidence 5]:
-- Anti-inflammatory cytokine secretion (IL-10, TGF-β)
-- Growth factor production (bFGF, VEGF)
-- Oxidative stress reduction
-- ECM synthesis promotion
+2. **Disease progression context**: While [pubmed_39131613] documents that disc degeneration progression is significant post-operatively (with Modic changes exceeding natural population rates), no stem cell intervention outcomes are reported.
 
-**Extracellular Vesicle (EV) Effects** [pubmed_41459417, Evidence 4]:
+3. **Alternative approaches dominate clinical evidence**: The clinical literature focuses on established interventions (PRP [pubmed_40708286], condoliase [pubmed_40066868], rhBMP-2 [pubmed_12394656], electrical stimulation [pubmed_31593923]) rather than stem cell therapies.
 
-Human adipose tissue-derived MSC-EVs demonstrated:
-- Counteraction of TNF-induced pro-inflammatory gene expression (IL1B, IL6, IL17)
-- Increased neurotrophic factors (BDNF, NGF)
-- Enhanced MMP-3 and MMP-13 expression in TNF-conditioned cells
+---
 
-## Evidence Gaps
+## Conclusion
 
-1. **No direct comparison studies** between different stem cell sources in clinical trials
-2. **Limited long-term follow-up** data beyond 12 months
-3. **Incomplete disc height restoration** - clinical outcomes fall short of preclinical promise
-4. **Heterogeneous trial designs** preventing meta-analysis
-5. **Unknown optimal cell dosing, delivery method, and scaffold combinations** for clinical use
-
-## Clinical Relevance
-
-While preclinical evidence is promising, clinical translation remains preliminary. Pain reduction is encouraging, but structural disc regeneration (height restoration) remains suboptimal, suggesting current approaches may address symptoms through anti-inflammatory mechanisms rather than true structural regeneration [pubmed_41163783].
+Current evidence suggests stem cell therapy is **biologically plausible** but remains at the **preclinical stage** with significant gaps before clinical implementation can be recommended.
