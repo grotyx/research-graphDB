@@ -1,0 +1,81 @@
+judge,query_id,system,R1,R2,R3,R4,R5,total,comment
+Claude,DG-001,System A,4,4,4,4,4,20,Well-organized with quantitative data; honestly acknowledges fusion rate gap
+Claude,DG-001,System B,4,5,5,4,5,23,Comprehensive adding fusion rates and cost-effectiveness; 97.8% ALIF fusion with rhBMP-2
+Claude,DG-002,System A,4,3,4,4,3,18,Accurate Herkowitz citation; misses slip magnitude threshold
+Claude,DG-002,System B,4,4,4,4,4,20,Adds 3mm slip threshold; biomechanical data; ML cluster analysis
+Claude,DG-003,System A,4,3,4,4,3,18,Limited ESI efficacy portrayal; only 6 papers; lacks NNT
+Claude,DG-003,System B,4,4,4,4,4,20,Specific NNT values (4 short-term 8 long-term); SRD percentages
+Claude,DG-004,System A,4,4,3,4,4,19,Good cage design factors; lower evidence quality papers
+Claude,DG-004,System B,4,5,4,4,5,22,3D-pTi vs PEEK (p=0.003); fixation method subsidence rates
+Claude,DG-005,System A,4,4,4,4,4,20,Good dose-dependent data; cancer risk absent; HO not quantified
+Claude,DG-005,System B,4,4,4,4,4,20,Adds HO incidence (1.7% revision); cancer risk addressed
+Claude,CV-001,System A,4,4,4,4,4,20,Solid OR data for ASD (0.27-0.56); lacks ROM measurements
+Claude,CV-001,System B,5,5,5,5,5,25,ROM WMD 10.37 degrees; constraint-level analysis; NNT; publishable
+Claude,CV-002,System A,3,3,3,3,3,15,Irrelevant trauma papers; no LP vs LF comparison
+Claude,CV-002,System B,4,5,4,4,5,22,LP vs LF vs LA comparison; OPLL canal occupying ratio guidance
+Claude,CV-003,System A,5,5,5,5,5,25,OR 0.26 for C5 palsy; operative time 19.57 min; OPLL pattern
+Claude,CV-003,System B,4,4,4,4,4,20,Accurate but less comprehensive on OPLL trade-offs
+Claude,CV-004,System A,3,2,4,3,2,14,Papers don't address trauma; CSM data as surrogate
+Claude,CV-004,System B,4,4,3,4,4,19,Actual subaxial injury papers; ASIA 43.9% improvement; SCBS
+Claude,CV-005,System A,4,4,5,5,4,22,2.9%/yr incidence; ASD ORs; all Level 1a; prevention limited to CDA
+Claude,CV-005,System B,4,4,3,3,3,17,Adds T1 slope risk factor; only 5 papers; less comprehensive
+Claude,MIS-001,System A,4,4,5,4,4,21,RR 0.63 dural tear; RR 0.23 SSI; SUCRA rankings
+Claude,MIS-001,System B,3,4,3,3,3,16,Lacks quantitative data; cervical paper irrelevant
+Claude,MIS-002,System A,4,4,4,3,4,19,TELD vs BED recurrence OR ~2.0; patient selection guidance
+Claude,MIS-002,System B,3,3,3,3,3,15,Key finding identified but limited quantitative data
+Claude,MIS-003,System A,4,5,4,4,5,22,Blood loss 206 mL reduction; LOS 3.46 days; cost $42,635 vs $226,304/QALY
+Claude,MIS-003,System B,4,4,3,4,4,19,14.8% vs 6.2% complications; fusion 88.5-92%; missing cost data
+Claude,MIS-004,System A,4,4,3,3,3,17,Psoas injury 5.7-8.8% OLIF vs 19.7-21.2% XLIF
+Claude,MIS-004,System B,3,4,4,3,4,18,Better high-level evidence; practical LLIF recommendations
+Claude,MIS-005,System A,4,5,3,4,4,20,31-51 cases proficiency; 17% to 2.6% complication reduction
+Claude,MIS-005,System B,4,5,4,4,4,21,Table format 6 procedures; differential learning phases
+Claude,DF-001,System A,4,4,4,4,4,20,PJK 20-40% PJF 2-18%; Roussouly OR 1.59; 3 prevention strategies
+Claude,DF-001,System B,4,5,3,3,4,19,Broader risk factors (sarcopenia BMI); pharmaceutical prevention
+Claude,DF-002,System A,2,2,3,3,2,12,Only 3 papers; major evidence gaps
+Claude,DF-002,System B,4,4,3,4,4,19,VCR 49 vs PSO 31 RKA; sagittal balance durability
+Claude,DF-003,System A,4,5,4,4,4,21,4 alignment strategies; PI-stratified ORs; paradoxical GAP finding
+Claude,DF-003,System B,4,4,3,4,4,19,Specific PI-LL/SVA/PT targets; MCID rates 70.6% vs 44.8%
+Claude,DF-004,System A,3,2,3,3,2,13,Poor retrieval; robotic screw data irrelevant
+Claude,DF-004,System B,3,2,2,3,2,12,Similar retrieval problem; AI/bone graft irrelevant
+Claude,DF-005,System A,3,2,3,3,2,13,Only 4 papers; ALIF lordosis 5.86 greater; rod fracture not quantified
+Claude,DF-005,System B,4,5,4,4,5,22,Rod fracture 4.4%; fusion with rhBMP-2 97.8% vs 88.2%; PJK prevention
+Claude,TR-001,System A,4,4,4,5,4,21,Specific CIs/p-values from meta-analysis; covers 3 outcome domains
+Claude,TR-001,System B,4,4,4,4,4,20,Summary table; some tangential papers
+Claude,TR-002,System A,4,3,3,5,3,18,Honest about retrieval gap; PVP vs PKP data
+Claude,TR-002,System B,4,3,3,4,3,17,Same limitation; risk factor data tangential
+Claude,TR-003,System A,4,4,4,4,4,20,Surgical timing with specific findings; methylprednisolone limited to animal
+Claude,TR-003,System B,5,5,4,4,5,23,SCI-POEM QoL; OR 2.30 for ultra-early; registry data
+Claude,TR-004,System A,4,3,3,4,3,17,Surgical indications adequate; organism-specific thin
+Claude,TR-004,System B,4,4,4,4,4,20,Conservative vs surgical comparison; antibiotic durations; culture-negative
+Claude,TR-005,System A,4,4,4,4,4,20,SSI epidemiology risk factors vancomycin and prophylaxis
+Claude,TR-005,System B,3,3,3,3,2,14,Narrowly focused on vancomycin only; misses risk factors and treatment
+Claude,TU-001,System A,4,4,3,4,4,19,SINS prognostic data; intermediate zone challenge
+Claude,TU-001,System B,4,4,4,4,4,20,Better evidence hierarchy; SBRT prognostic model; SINS 9 cutoff
+Claude,TU-002,System A,4,3,3,3,3,16,84% local control; limited survival data
+Claude,TU-002,System B,4,4,4,4,4,20,Local failure 7.9% vs 20% (p=0.051); median OS 16 months; PRO
+Claude,TU-003,System A,4,4,3,4,3,18,77.8% marginal margins; recurrence 8-27.8%; 89% ambulation
+Claude,TU-003,System B,4,4,3,4,4,19,Margin adequacy 82.4%; histology-specific GTR rates
+Claude,TU-004,System A,3,3,3,3,3,15,Limited quantitative outcomes; mostly reviews
+Claude,TU-004,System B,4,4,3,4,4,19,PRO data; SINS-stratified outcomes; cement contraindications
+Claude,TU-005,System A,4,3,3,4,3,17,GTR rates by histology; pediatric astrocytoma survival HR
+Claude,TU-005,System B,4,5,4,4,4,21,Ependymoma GTR HR 0.050; deformity risk factors; comprehensive
+Claude,BS-001,System A,4,3,3,4,3,17,Limited 4 papers; preclinical-clinical gap
+Claude,BS-001,System B,4,5,4,4,5,22,RCT sham-control data; cell type comparison; translation gap
+Claude,BS-002,System A,5,5,5,5,5,25,Procedure-specific fusion rates ORs from meta-analyses; comprehensive
+Claude,BS-002,System B,4,4,4,4,4,20,Good hierarchy but fewer quantitative specifics
+Claude,BS-003,System A,4,4,3,4,3,18,Molecular pathways; biomarker panel; limited imaging correlation
+Claude,BS-003,System B,4,4,3,4,4,19,T2 relaxation; microenvironment values; diabetes biomarkers with AUC
+Claude,BS-004,System A,4,4,3,4,3,18,6 preclinical strategies; surgical timing meta-analysis ORs
+Claude,BS-004,System B,4,4,3,4,4,19,Electrospun scaffolds; clinical case of chronic SCI; pharmacologic
+Claude,BS-005,System A,4,4,3,4,4,19,ROM increase 9.4-44.97% short cages; endplate displacement 33%
+Claude,BS-005,System B,5,4,4,5,5,23,Subsidence 0.195 vs 0.328 vs 0.538 mm; p=0.003; 0% reoperation
+Claude,DI-001,System A,4,4,4,5,4,21,RCT metrics 0.86 vs 2.55 mm; radiation 7.35 vs 30.28 uSv
+Claude,DI-001,System B,4,4,4,4,4,20,FJV 4.79% vs 19.45%; contradictory meta-analysis; broader scope
+Claude,DI-002,System A,4,4,3,4,4,19,O-arm radiation 91% reduction; hybrid OR comparison
+Claude,DI-002,System B,3,4,4,3,3,17,Drifts toward robotic; radiation NOT reported; partial topic mismatch
+Claude,DI-003,System A,5,4,4,5,4,22,CMAE 2.99 deg; ICC 0.98; sensitivity 0.67-1.00; AUC >=0.90
+Claude,DI-003,System B,3,3,3,3,3,15,No stenosis or fracture detection; LLM MAE 18.8-58.6 deg
+Claude,DI-004,System A,4,4,3,4,4,19,3 domains (training planning guidance); remote/telesurgical 63.6%
+Claude,DI-004,System B,3,2,3,3,2,13,Only 3 papers; no quantitative outcomes; insufficient
+Claude,DI-005,System A,4,4,3,4,4,19,AUC 0.67-0.92; mortality 0.721; SHAP; preoperative risk 0.89
+Claude,DI-005,System B,5,5,4,4,5,23,SVM 0.95 vs NSQIP 0.38; multinational external validation
