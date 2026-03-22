@@ -38,3 +38,4 @@ htmlcov/
 
 # Tmux
 tmux-*.log
+data/fulltext/

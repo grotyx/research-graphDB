@@ -2,6 +2,47 @@
 
 ## Version History
 
+### v1.32.0: v2 평가 프레임워크 완성 + 1,030편 DB + 3-Judge 평가 (2026-03-22)
+
+**DB 확충**
+- 773편 → 1,030편 (TR/TU/BS/DI 4분야 258편 추가)
+- SNOMED 매핑 + TREATS 백필 완료
+
+**Import Pipeline 수정 (12건)**
+- TREATS paper_count 추적, MENTIONS 단어경계 regex, Anatomy hints
+- Outcome direction 추론, dedup timepoint, AFFECTS cross_product attribution
+- Normalization conflict 감지, LLM 추출 검증, Review TREATS evidence_type
+- Anatomy regex, Vocab 토큰 제한, CSM alias 수정
+
+**평가 프레임워크 v2**
+- 40문항 8분야 × 5문항 (DG/CV/MIS/DF/TR/TU/BS/DI)
+- 4-baseline 블라인드 평가 (B1/B2/B3/B4 → System A/B/C/D)
+- R1-R5 채점 rubric + calibration guide
+- H1-H5 Hallucination 평가 rubric
+- 전문의 E1-E5 rubric (임상 판단 중심, LLM과 차별화)
+
+**B4 v20 파이프라인 (최종)**
+- HyDE + Hybrid Search(5×) + Reranker + Multi-vector(3×)
+- IS_A expansion (pathology + keyword filter, re-scoring)
+- Direct search 1-keyword filter + 정량 데이터 추출 프롬프트
+- Graph traversal summary + Graph hint
+
+**3-Judge 평가 결과 (Claude/GPT/Gemini)**
+- B4: 21.7/25, B2: 19.3/25, 차이: +2.3 (p<0.001, d=1.24)
+- B4 승률: 76% (30.3/40 평균)
+- 4-baseline 순위: B4(21.7) > B2(19.3) > B1(14.4) ≈ B3(14.0)
+- LMM: β=2.38, 95% CI [1.66, 3.09], Friedman χ²=97.98
+
+**Hallucination 분석 (3-Judge)**
+- B4 fabricated refs: 0 (B3: 751) → 100% 제거
+- B4 unsupported claims: 27 (B3: 448) → 94% 감소
+- B4 H5(Overall Risk): 4.7/5 (B3: 1.4/5)
+
+**Pipeline Ablation (v10-v20, 11버전)**
+- v17(정량 프롬프트): +2.7 최고 margin
+- v20(v16+v17): 15승 최고 승률(65%)
+- 핵심 발견: 프롬프트 > 검색최적화 > 모델업그레이드
+
 ### v1.31.1: QA 전체 스캔 + 데이터 무결성 수정 (2026-03-21)
 
 - **IS_A 순환 수정**: Outcome VAS ↔ Pain Outcome 순환 제거
@@ -12,7 +53,7 @@
 - **고아 Chunk 삭제**: 테스트 잔여물 10건 + 비존재 paper_id 참조 10건
 - **study_design 정규화**: "other" → "Other" 164건
 - **TREATS paper_count 재계산**: 7,563건 수정
-- **버전 동기화**: 13개 파일 v1.31.1 일괄 동기화
+- **버전 동기화**: 13개 파일 v1.32.0 일괄 동기화
 
 ### v1.31.0: Graph 품질 개선 + B4 v10 확정 (2026-03-21)
 
