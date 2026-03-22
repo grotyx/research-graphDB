@@ -84,3 +84,25 @@ After all questions, provide a summary:
 | 1 | Poor — fails to address the question | ~5% |
 
 A well-functioning system should average 3.5–4.0 per rubric across diverse questions.
+
+## Result Recording
+
+After completing ALL evaluations, record your results in the following files:
+
+### 1. CSV File (`scoring_v2_{judge}.csv`)
+Fill in the blank columns for each row (160 rows = 40 questions × 4 systems):
+- R1_accuracy, R2_coverage, R3_evidence_level, R4_citation_verify, R5_clinical_usefulness, total, comment
+
+### 2. Markdown File (`scoring_v2_{judge}.md`)
+Fill in:
+- Per-question scoring tables (R1-R5 for each System A/B/C/D)
+- Best/Worst system per question
+- Summary section: Total scores, Win/Loss/Tie, Domain-level scores, Key Observations
+
+### File Locations
+All files are in the same directory as the blinded answer files:
+- `scoring_v2_claude.csv` / `scoring_v2_claude.md`
+- `scoring_v2_gpt.csv` / `scoring_v2_gpt.md`
+- `scoring_v2_gemini.csv` / `scoring_v2_gemini.md`
+
+Replace `{judge}` with your judge name (claude/gpt/gemini).
