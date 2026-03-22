@@ -1,0 +1,161 @@
+judge,query_id,question_kr,system,R1_accuracy,R2_coverage,R3_evidence_level,R4_citation_verify,R5_clinical_usefulness,total,comment
+Claude,BS-001,"추간판 퇴행에서 줄기세포 치료의 현재 근거(전임상 결과, 임상시험 결과, 중개 연구 장벽 포함)는?",System A,3,4,2,1,3,13,0 papers retrieved; LLM-only response with plausible but unverifiable citations
+Claude,BS-001,"추간판 퇴행에서 줄기세포 치료의 현재 근거(전임상 결과, 임상시험 결과, 중개 연구 장벽 포함)는?",System B,3,3,3,4,3,16,4 papers retrieved; covers translation gap and clinical landscape; less comprehensive
+Claude,BS-001,"추간판 퇴행에서 줄기세포 치료의 현재 근거(전임상 결과, 임상시험 결과, 중개 연구 장벽 포함)는?",System C,4,4,4,4,4,20,10 papers (1b-5); Phase IIB RCT finding radiological-clinical disconnect; well-cited
+Claude,BS-001,"추간판 퇴행에서 줄기세포 치료의 현재 근거(전임상 결과, 임상시험 결과, 중개 연구 장벽 포함)는?",System D,2,1,1,2,1,7,10 papers but 9/10 irrelevant; only senescence study relevant; honest acknowledgment
+Claude,BS-002,"척추 유합에서 자가골 vs 동종골 vs 합성 골이식 대체물의 유합률, 생물학, 임상 결과 비교 근거는?",System A,5,5,5,5,5,25,10 papers all 1a; comprehensive fusion rate hierarchy with ORs and p-values; procedure-specific data
+Claude,BS-002,"척추 유합에서 자가골 vs 동종골 vs 합성 골이식 대체물의 유합률, 생물학, 임상 결과 비교 근거는?",System B,3,4,2,1,3,13,0 papers; LLM-only with named citations from memory; plausible but unverifiable
+Claude,BS-002,"척추 유합에서 자가골 vs 동종골 vs 합성 골이식 대체물의 유합률, 생물학, 임상 결과 비교 근거는?",System C,1,1,1,3,1,7,10 papers all irrelevant (surgical technique comparisons); honestly states no evidence
+Claude,BS-002,"척추 유합에서 자가골 vs 동종골 vs 합성 골이식 대체물의 유합률, 생물학, 임상 결과 비교 근거는?",System D,4,4,4,4,4,20,8 papers relevant; network meta-analysis hierarchy; fusion rates 88.5-100% for rhBMP-2
+Claude,BS-003,"추간판 퇴행 기전에 대한 현재 이해(분자 경로, 바이오마커, 영상 소견과의 상관관계 포함)는?",System A,4,3,3,4,3,17,10 papers; specific biomarkers (MMP9/HPGD/UCHL1); quantitative values; imaging correlation limited
+Claude,BS-003,"추간판 퇴행 기전에 대한 현재 이해(분자 경로, 바이오마커, 영상 소견과의 상관관계 포함)는?",System B,4,4,3,4,3,18,10 papers; comprehensive inflammatory cascade and ferroptosis pathway; well-cited biomarker panel
+Claude,BS-003,"추간판 퇴행 기전에 대한 현재 이해(분자 경로, 바이오마커, 영상 소견과의 상관관계 포함)는?",System C,4,5,2,1,4,16,0 papers; extremely comprehensive LLM response covering genetics/epigenetics; all citations from memory
+Claude,BS-003,"추간판 퇴행 기전에 대한 현재 이해(분자 경로, 바이오마커, 영상 소견과의 상관관계 포함)는?",System D,3,3,3,3,2,14,10 papers mixed relevance; ferroptosis pathway and radiomic signatures covered; limited imaging correlation
+Claude,BS-004,"전임상 및 임상 연구에서 척수 재생 전략(스캐폴드, 신경영양인자, 신경보호제 포함)에 대한 현재 근거는?",System A,4,4,3,4,3,18,10 papers; covers stem cells scaffolds neurotrophic factors; clinical evidence limited but honest
+Claude,BS-004,"전임상 및 임상 연구에서 척수 재생 전략(스캐폴드, 신경영양인자, 신경보호제 포함)에 대한 현재 근거는?",System B,3,5,2,1,4,15,0 papers; comprehensive LLM response including NASCIS riluzole 4-AP; all citations unverifiable
+Claude,BS-004,"전임상 및 임상 연구에서 척수 재생 전략(스캐폴드, 신경영양인자, 신경보호제 포함)에 대한 현재 근거는?",System C,1,1,1,2,1,6,10 papers all irrelevant (SINS C5 palsy deformity); honestly states no relevant evidence
+Claude,BS-004,"전임상 및 임상 연구에서 척수 재생 전략(스캐폴드, 신경영양인자, 신경보호제 포함)에 대한 현재 근거는?",System D,4,4,4,4,3,19,10 papers; 7 relevant preclinical + 2 meta-analyses on surgical timing; good scaffold coverage
+Claude,BS-005,"요추 추체간 유합에서 케이지 재료, 디자인, 크기가 생역학적 성능, 침하 위험, 유합 결과에 미치는 영향에 대한 근거는?",System A,4,5,3,4,4,20,10 papers; design over material priority; specific ROM and stress data; clear cage selection hierarchy
+Claude,BS-005,"요추 추체간 유합에서 케이지 재료, 디자인, 크기가 생역학적 성능, 침하 위험, 유합 결과에 미치는 영향에 대한 근거는?",System B,3,5,2,1,4,15,0 papers; comprehensive LLM with subsidence ORs and footprint data; all citations unverifiable
+Claude,BS-005,"요추 추체간 유합에서 케이지 재료, 디자인, 크기가 생역학적 성능, 침하 위험, 유합 결과에 미치는 영향에 대한 근거는?",System C,4,4,4,4,4,20,10 papers relevant; 3D-Ti vs PEEK subsidence 0.195 vs 0.328mm p<0.05; BGS-7 and SiCaP data
+Claude,BS-005,"요추 추체간 유합에서 케이지 재료, 디자인, 크기가 생역학적 성능, 침하 위험, 유합 결과에 미치는 영향에 대한 근거는?",System D,3,3,3,3,3,15,10 papers; endplate quality predictor; expandable cage data; less quantitative than A or C
+Claude,CV-001,"1-2분절 경추 추간판 질환에서 CDR vs ACDF의 인접분절 퇴행, 재수술률, 운동범위 보존 비교 근거는?",System A,4,4,4,4,4,20,Good quantitative data (ORs/CIs) for ASD and reoperation; ROM section thin
+Claude,CV-001,"1-2분절 경추 추간판 질환에서 CDR vs ACDF의 인접분절 퇴행, 재수술률, 운동범위 보존 비교 근거는?",System B,4,5,5,5,5,24,Excellent tabulated data including ROM WMD 10.37 NNT VAS scores; most actionable
+Claude,CV-001,"1-2분절 경추 추간판 질환에서 CDR vs ACDF의 인접분절 퇴행, 재수술률, 운동범위 보존 비교 근거는?",System C,3,4,2,1,3,13,LLM-only; plausible but unverifiable citations; 0 papers retrieved
+Claude,CV-001,"1-2분절 경추 추간판 질환에서 CDR vs ACDF의 인접분절 퇴행, 재수술률, 운동범위 보존 비교 근거는?",System D,1,1,2,3,1,8,10 irrelevant papers; honest acknowledgment but fails to answer question
+Claude,CV-002,"다분절 경추 척추증성 척수증에 대한 최적 수술 접근법(전방, 후방, 복합)과 접근법 선택을 결정하는 요인은?",System A,3,4,2,1,4,14,LLM-only with extensive decision algorithm; 0 papers; plausible but unverifiable
+Claude,CV-002,"다분절 경추 척추증성 척수증에 대한 최적 수술 접근법(전방, 후방, 복합)과 접근법 선택을 결정하는 요인은?",System B,3,3,3,3,3,15,Mixed retrieval; adequate synthesis but some trauma citations misapplied to CSM
+Claude,CV-002,"다분절 경추 척추증성 척수증에 대한 최적 수술 접근법(전방, 후방, 복합)과 접근법 선택을 결정하는 요인은?",System C,1,1,2,3,1,8,Retrieved mostly irrelevant papers; honestly stated cannot answer
+Claude,CV-002,"다분절 경추 척추증성 척수증에 대한 최적 수술 접근법(전방, 후방, 복합)과 접근법 선택을 결정하는 요인은?",System D,4,5,5,4,5,23,Excellent retrieval of 8+ meta-analyses; comprehensive LP vs LF with OPLL stratification
+Claude,CV-003,"다분절 경추 척수증에서 후궁성형술 vs 후궁절제+유합술의 비교 결과(C5 마비율, 운동범위, OPLL 고려사항 포함)는?",System A,4,4,4,4,4,20,Good meta-analysis retrieval; C5 palsy OR 0.26 p<0.001; ROM and OPLL covered
+Claude,CV-003,"다분절 경추 척수증에서 후궁성형술 vs 후궁절제+유합술의 비교 결과(C5 마비율, 운동범위, OPLL 고려사항 포함)는?",System B,4,5,5,5,5,24,Most comprehensive; operative time 19.57min p=0.002; OPLL patterns; long-term lordosis
+Claude,CV-003,"다분절 경추 척수증에서 후궁성형술 vs 후궁절제+유합술의 비교 결과(C5 마비율, 운동범위, OPLL 고려사항 포함)는?",System C,1,1,2,3,1,8,All 10 papers irrelevant; honestly stated cannot answer
+Claude,CV-003,"다분절 경추 척수증에서 후궁성형술 vs 후궁절제+유합술의 비교 결과(C5 마비율, 운동범위, OPLL 고려사항 포함)는?",System D,2,4,2,1,3,12,LLM-only; CRITICAL ERROR reversing C5 palsy direction contradicting meta-analysis evidence
+Claude,CV-004,하부 경추 손상의 수술적 관리에서 전방 vs 후방 접근법의 신경학적 회복 및 안정성 비교 근거는?,System A,3,3,3,3,3,15,Relevant trauma papers; honest about limited comparative data; identifies key factors
+Claude,CV-004,하부 경추 손상의 수술적 관리에서 전방 vs 후방 접근법의 신경학적 회복 및 안정성 비교 근거는?,System B,3,4,2,1,4,14,LLM-only; comprehensive but unverifiable; 0 papers retrieved
+Claude,CV-004,하부 경추 손상의 수술적 관리에서 전방 vs 후방 접근법의 신경학적 회복 및 안정성 비교 근거는?,System C,4,4,3,4,4,19,Good retrieval; specific ASIA data 43.9% improvement; SCBS protocol; practical
+Claude,CV-004,하부 경추 손상의 수술적 관리에서 전방 vs 후방 접근법의 신경학적 회복 및 안정성 비교 근거는?,System D,3,3,4,2,2,14,Retrieved CSM papers not trauma; honestly acknowledged mismatch
+Claude,CV-005,"경추 유합술 후 인접분절 질환의 발생률, 위험인자, 예방 전략은?",System A,3,4,2,1,4,14,LLM-only; comprehensive incidence/risk factors/prevention; 0 papers; unverifiable
+Claude,CV-005,"경추 유합술 후 인접분절 질환의 발생률, 위험인자, 예방 전략은?",System B,4,4,5,5,4,22,Excellent retrieval of 10 meta-analyses; specific ASD rates and ORs; CDA prevention
+Claude,CV-005,"경추 유합술 후 인접분절 질환의 발생률, 위험인자, 예방 전략은?",System C,1,1,2,3,1,8,Nearly all papers irrelevant; only tangential lumbar ASD paper
+Claude,CV-005,"경추 유합술 후 인접분절 질환의 발생률, 위험인자, 예방 전략은?",System D,4,3,4,4,3,18,Good retrieval; accurate incidence 2.9%/yr; risk factors; prevention gap noted
+Claude,DF-001,"성인 척추 변형 수술 후 근위부 접합부 후만증(PJK) 및 근위부 접합부 실패(PJF)의 발생률, 위험인자, 예방 전략은?",System A,3,4,2,1,4,14,Accurate but 0 papers; all citations from LLM memory
+Claude,DF-001,"성인 척추 변형 수술 후 근위부 접합부 후만증(PJK) 및 근위부 접합부 실패(PJF)의 발생률, 위험인자, 예방 전략은?",System B,4,4,4,4,3,19,Good retrieval of relevant SRs; solid incidence/risk factor coverage
+Claude,DF-001,"성인 척추 변형 수술 후 근위부 접합부 후만증(PJK) 및 근위부 접합부 실패(PJF)의 발생률, 위험인자, 예방 전략은?",System C,4,4,5,4,4,21,Best retrieval (5x Level 1a); OR 1.59 CI 1.07-2.38; summary table
+Claude,DF-001,"성인 척추 변형 수술 후 근위부 접합부 후만증(PJK) 및 근위부 접합부 실패(PJF)의 발생률, 위험인자, 예방 전략은?",System D,2,1,2,2,1,8,Mostly irrelevant papers; honest acknowledgment
+Claude,DF-002,"고정된 시상면 불균형에서 척추경 감산 절골술(PSO) vs 척추주 절제술(VCR)의 교정량, 합병증률, 재수술 비교 결과는?",System A,4,4,3,4,4,19,Good retrieval; VCR 17.3 vs PSO 13.9 lordosis; meta-analysis cited
+Claude,DF-002,"고정된 시상면 불균형에서 척추경 감산 절골술(PSO) vs 척추주 절제술(VCR)의 교정량, 합병증률, 재수술 비교 결과는?",System B,3,4,2,1,4,14,0 papers; detailed LLM response; all citations unverifiable
+Claude,DF-002,"고정된 시상면 불균형에서 척추경 감산 절골술(PSO) vs 척추주 절제술(VCR)의 교정량, 합병증률, 재수술 비교 결과는?",System C,3,2,3,3,2,13,Only 3 papers; VAS/ODI data but major gaps in correction comparison
+Claude,DF-002,"고정된 시상면 불균형에서 척추경 감산 절골술(PSO) vs 척추주 절제술(VCR)의 교정량, 합병증률, 재수술 비교 결과는?",System D,2,1,2,2,1,8,Irrelevant papers; honest about evidence gap
+Claude,DF-003,"현재 시상면 정렬 목표(PI-LL, GAP 점수, 연령 보정 정렬)와 환자 보고 결과와의 상관관계는?",System A,4,5,4,4,4,21,Excellent retrieval; GAP paradox; OR 13.4 for lordosis deterioration
+Claude,DF-003,"현재 시상면 정렬 목표(PI-LL, GAP 점수, 연령 보정 정렬)와 환자 보고 결과와의 상관관계는?",System B,4,4,4,4,4,20,Strong retrieval; MCID 70.6% vs 44.8% p=0.002; all alignment frameworks
+Claude,DF-003,"현재 시상면 정렬 목표(PI-LL, GAP 점수, 연령 보정 정렬)와 환자 보고 결과와의 상관관계는?",System C,2,2,2,2,2,10,Poor retrieval; papers on lumbar fusion not ASD alignment targets
+Claude,DF-003,"현재 시상면 정렬 목표(PI-LL, GAP 점수, 연령 보정 정렬)와 환자 보고 결과와의 상관관계는?",System D,3,4,2,1,4,14,Comprehensive LLM with r-values and formulas; 0 papers; unverifiable
+Claude,DF-004,청소년 특발성 측만증에서 수술 vs 보존적 치료의 근거와 현재 수술 적응증은?,System A,3,4,2,1,4,14,Accurate LLM; BrAIST 72% vs 48% p=0.004; 0 papers; memory citations
+Claude,DF-004,청소년 특발성 측만증에서 수술 vs 보존적 치료의 근거와 현재 수술 적응증은?,System B,3,2,3,3,2,13,Conservative SR retrieved but no quantitative data; tangential surgical papers
+Claude,DF-004,청소년 특발성 측만증에서 수술 vs 보존적 치료의 근거와 현재 수술 적응증은?,System C,3,2,3,3,2,13,Similar to B; identifies >45 degree threshold; missing comparative data
+Claude,DF-004,청소년 특발성 측만증에서 수술 vs 보존적 치료의 근거와 현재 수술 적응증은?,System D,2,1,2,2,1,8,Mostly irrelevant; only 1 AIS paper; cannot answer
+Claude,DF-005,"성인 척추 변형 교정에서 전방주 재건(ACR/ALIF)의 역할(시상면 정렬, 로드 골절 예방, 장기 내구성에 대한 효과 포함)은?",System A,2,1,2,2,1,8,All cervical papers; completely off-topic; honest acknowledgment
+Claude,DF-005,"성인 척추 변형 교정에서 전방주 재건(ACR/ALIF)의 역할(시상면 정렬, 로드 골절 예방, 장기 내구성에 대한 효과 포함)은?",System B,4,3,3,3,3,16,4 relevant papers; ALIF lordosis 5.86deg p<0.001; rod fracture noted
+Claude,DF-005,"성인 척추 변형 교정에서 전방주 재건(ACR/ALIF)의 역할(시상면 정렬, 로드 골절 예방, 장기 내구성에 대한 효과 포함)은?",System C,4,5,4,4,4,21,Excellent retrieval; rod fracture 4.4%; fusion 97.8% with rhBMP-2; comprehensive
+Claude,DF-005,"성인 척추 변형 교정에서 전방주 재건(ACR/ALIF)의 역할(시상면 정렬, 로드 골절 예방, 장기 내구성에 대한 효과 포함)은?",System D,3,4,2,1,4,14,Detailed LLM; rod fracture comparisons; 0 papers; unverifiable
+Claude,DG-001,"요추 퇴행성 척추전방전위증에서 TLIF vs PLIF vs OLIF vs ALIF의 유합률, 시상면 정렬 회복, 합병증 프로파일 비교 근거는?",System A,4,4,5,5,4,22,10 relevant 1a papers; quantitative fusion/alignment/cost data; complication gap noted
+Claude,DG-001,"요추 퇴행성 척추전방전위증에서 TLIF vs PLIF vs OLIF vs ALIF의 유합률, 시상면 정렬 회복, 합병증 프로파일 비교 근거는?",System B,2,1,2,3,1,9,Most papers irrelevant (vertebroplasty/kyphoplasty); honest but fails to answer
+Claude,DG-001,"요추 퇴행성 척추전방전위증에서 TLIF vs PLIF vs OLIF vs ALIF의 유합률, 시상면 정렬 회복, 합병증 프로파일 비교 근거는?",System C,3,5,2,1,4,15,0 papers; extensive LLM coverage; all citations unverifiable
+Claude,DG-001,"요추 퇴행성 척추전방전위증에서 TLIF vs PLIF vs OLIF vs ALIF의 유합률, 시상면 정렬 회복, 합병증 프로파일 비교 근거는?",System D,4,4,4,4,4,20,Good retrieval; quantitative alignment/outcome data; fusion rate gap noted
+Claude,DG-002,퇴행성 요추 척추전방전위증에서 감압술 단독 vs 감압+유합술의 근거와 유합술 추가 적응증은?,System A,3,3,3,3,3,15,Addresses with Herkowitz data; some tangential papers; moderate coverage
+Claude,DG-002,퇴행성 요추 척추전방전위증에서 감압술 단독 vs 감압+유합술의 근거와 유합술 추가 적응증은?,System B,4,4,4,4,4,20,Strong synthesis; evidence hierarchy table; short vs long-term conflict insight
+Claude,DG-002,퇴행성 요추 척추전방전위증에서 감압술 단독 vs 감압+유합술의 근거와 유합술 추가 적응증은?,System C,3,5,2,1,4,15,0 papers; SLIP trial/Forsth/patient selection; all LLM memory
+Claude,DG-002,퇴행성 요추 척추전방전위증에서 감압술 단독 vs 감압+유합술의 근거와 유합술 추가 적응증은?,System D,1,1,2,3,1,8,Irrelevant papers; honest acknowledgment but fails to answer
+Claude,DG-003,"요추 척추관 협착증에서 경막외 스테로이드 주사의 효과, 반복 주사의 영향, 수술 의뢰 최적 시점에 대한 현재 근거는?",System A,4,3,4,4,3,18,Good ESI synthesis with mechanistic explanation; weak on repeated injections/timing
+Claude,DG-003,"요추 척추관 협착증에서 경막외 스테로이드 주사의 효과, 반복 주사의 영향, 수술 의뢰 최적 시점에 대한 현재 근거는?",System B,4,5,4,4,5,22,Excellent all sub-questions; NNT/SRD data; actionable surgical timing
+Claude,DG-003,"요추 척추관 협착증에서 경막외 스테로이드 주사의 효과, 반복 주사의 영향, 수술 의뢰 최적 시점에 대한 현재 근거는?",System C,2,2,2,2,1,9,Most papers irrelevant; minimal useful content
+Claude,DG-003,"요추 척추관 협착증에서 경막외 스테로이드 주사의 효과, 반복 주사의 영향, 수술 의뢰 최적 시점에 대한 현재 근거는?",System D,3,5,2,1,4,15,0 papers; comprehensive algorithm with SPORT data; all LLM memory
+Claude,DG-004,"요추 추체간 유합술 후 케이지 침하의 위험인자와 케이지 디자인, 재료, 종판 준비가 침하율 및 임상 결과에 미치는 영향은?",System A,4,4,4,4,4,20,Quantitative subsidence data 3D-Ti vs PEEK p=0.003; covers all factors
+Claude,DG-004,"요추 추체간 유합술 후 케이지 침하의 위험인자와 케이지 디자인, 재료, 종판 준비가 침하율 및 임상 결과에 미치는 영향은?",System B,3,5,2,1,4,15,0 papers; extraordinarily detailed; all LLM memory; unverifiable
+Claude,DG-004,"요추 추체간 유합술 후 케이지 침하의 위험인자와 케이지 디자인, 재료, 종판 준비가 침하율 및 임상 결과에 미치는 영향은?",System C,3,3,3,4,3,16,Good biomechanical insights; limited clinical outcome data
+Claude,DG-004,"요추 추체간 유합술 후 케이지 침하의 위험인자와 케이지 디자인, 재료, 종판 준비가 침하율 및 임상 결과에 미치는 영향은?",System D,1,1,2,3,1,8,Irrelevant papers; honest acknowledgment but fails to answer
+Claude,DG-005,"요추 추체간 유합술에서 BMP-2 사용의 유합률, 용량 의존적 합병증, 이소성 골화, 암 위험에 대한 근거는?",System A,4,3,3,4,3,17,Good fusion rate data; limited dose/HO/cancer coverage
+Claude,DG-005,"요추 추체간 유합술에서 BMP-2 사용의 유합률, 용량 의존적 합병증, 이소성 골화, 암 위험에 대한 근거는?",System B,4,5,4,4,5,22,Comprehensive all sub-questions; procedure-specific dosing; publication bias caveat
+Claude,DG-005,"요추 추체간 유합술에서 BMP-2 사용의 유합률, 용량 의존적 합병증, 이소성 골화, 암 위험에 대한 근거는?",System C,3,5,2,1,4,15,0 papers; covers all sub-questions; all LLM memory
+Claude,DG-005,"요추 추체간 유합술에서 BMP-2 사용의 유합률, 용량 의존적 합병증, 이소성 골화, 암 위험에 대한 근거는?",System D,4,4,4,4,4,20,Strong evidence; FDA vs industry discrepancy; procedure-specific fusion rates
+Claude,DI-001,"로봇 보조 vs 프리핸드 및 네비게이션 척추경 나사못 삽입의 정확도, 임상 결과, 방사선 노출, 비용효과성 비교 근거는?",System A,3,2,3,3,2,13,Honest about retrieval failure; papers irrelevant to direct comparison
+Claude,DI-001,"로봇 보조 vs 프리핸드 및 네비게이션 척추경 나사못 삽입의 정확도, 임상 결과, 방사선 노출, 비용효과성 비교 근거는?",System B,3,5,2,1,4,15,0 papers; comprehensive LLM response; all citations fabricated
+Claude,DI-001,"로봇 보조 vs 프리핸드 및 네비게이션 척추경 나사못 삽입의 정확도, 임상 결과, 방사선 노출, 비용효과성 비교 근거는?",System C,4,4,5,4,4,21,Excellent retrieval of meta-analyses/RCTs; notes manufacturer bias
+Claude,DI-001,"로봇 보조 vs 프리핸드 및 네비게이션 척추경 나사못 삽입의 정확도, 임상 결과, 방사선 노출, 비용효과성 비교 근거는?",System D,4,4,4,5,4,21,Strong retrieval; guide pin deviation 0.86 vs 2.55mm p<0.001; excellent citation alignment
+Claude,DI-002,"척추 수술에서 수술 중 네비게이션 시스템(O-arm, CT 네비게이션)의 정확도, 방사선 노출, 임상 결과(투시 대비) 근거는?",System A,1,1,1,2,1,6,Retrieved irrelevant papers (NIR fluorescence tranexamic acid); honest failure
+Claude,DI-002,"척추 수술에서 수술 중 네비게이션 시스템(O-arm, CT 네비게이션)의 정확도, 방사선 노출, 임상 결과(투시 대비) 근거는?",System B,4,4,4,3,3,18,Robot-focused retrieval with navigation data; good metrics; missing radiation
+Claude,DI-002,"척추 수술에서 수술 중 네비게이션 시스템(O-arm, CT 네비게이션)의 정확도, 방사선 노출, 임상 결과(투시 대비) 근거는?",System C,4,5,2,1,4,16,0 papers; comprehensive LLM covering all domains; unverifiable
+Claude,DI-002,"척추 수술에서 수술 중 네비게이션 시스템(O-arm, CT 네비게이션)의 정확도, 방사선 노출, 임상 결과(투시 대비) 근거는?",System D,4,4,3,4,4,19,Good retrieval; radiation 91% reduction; emerging technologies; comparison table
+Claude,DI-003,"척추 영상에서 인공지능 응용의 현재 근거(자동 Cobb 각도 측정, 협착 등급화, 골절 탐지 포함)는?",System A,3,3,3,3,3,15,Relevant Cobb angle retrieval; notes LLM limitation MAE 18.8-58.6; missing stenosis/fracture
+Claude,DI-003,"척추 영상에서 인공지능 응용의 현재 근거(자동 Cobb 각도 측정, 협착 등급화, 골절 탐지 포함)는?",System B,4,4,4,4,4,20,Excellent meta-analysis CMAE 2.99 95% CI; stenosis AUC>=0.90; missing fracture
+Claude,DI-003,"척추 영상에서 인공지능 응용의 현재 근거(자동 Cobb 각도 측정, 협착 등급화, 골절 탐지 포함)는?",System C,4,5,2,1,4,16,0 papers; comprehensive all 3 domains; all LLM citations
+Claude,DI-003,"척추 영상에서 인공지능 응용의 현재 근거(자동 Cobb 각도 측정, 협착 등급화, 골절 탐지 포함)는?",System D,3,3,3,3,3,15,Relevant but less quantitative; missing fracture; one irrelevant paper
+Claude,DI-004,"척추 수술에서 증강현실(AR) 및 가상현실(VR) 응용의 수술 계획, 수술 중 가이드, 수술 교육에 대한 근거는?",System A,3,4,2,1,3,13,0 papers; comprehensive LLM response; fabricated citations
+Claude,DI-004,"척추 수술에서 증강현실(AR) 및 가상현실(VR) 응용의 수술 계획, 수술 중 가이드, 수술 교육에 대한 근거는?",System B,3,3,3,3,2,14,Some relevant AR/VR reviews; also irrelevant papers; limited quantitative data
+Claude,DI-004,"척추 수술에서 증강현실(AR) 및 가상현실(VR) 응용의 수술 계획, 수술 중 가이드, 수술 교육에 대한 근거는?",System C,3,4,4,3,3,17,Best retrieval for AR/VR; honest about limited quantitative data in abstracts
+Claude,DI-004,"척추 수술에서 증강현실(AR) 및 가상현실(VR) 응용의 수술 계획, 수술 중 가이드, 수술 교육에 대한 근거는?",System D,2,2,3,3,2,12,Only 3 papers; minimal synthesis; limited content
+Claude,DI-005,"척추 수술에서 머신러닝 기반 예측 모델의 합병증 예측, 환자 보고 결과 예측, 재입원 예측에 대한 근거는?",System A,3,4,2,1,3,13,0 papers; comprehensive LLM; fabricated citations
+Claude,DI-005,"척추 수술에서 머신러닝 기반 예측 모델의 합병증 예측, 환자 보고 결과 예측, 재입원 예측에 대한 근거는?",System B,3,3,3,3,3,15,Good retrieval; complications and PROs covered; missing readmission
+Claude,DI-005,"척추 수술에서 머신러닝 기반 예측 모델의 합병증 예측, 환자 보고 결과 예측, 재입원 예측에 대한 근거는?",System C,4,4,4,4,4,20,Excellent retrieval; AUC 0.67-0.92 accuracy 75.4%; covers all domains
+Claude,DI-005,"척추 수술에서 머신러닝 기반 예측 모델의 합병증 예측, 환자 보고 결과 예측, 재입원 예측에 대한 근거는?",System D,5,5,4,5,5,24,Outstanding retrieval; detailed AUROC tables; external validation; most comprehensive
+Claude,MIS-001,"요추 척추관 협착증에서 UBE(이중포탈 내시경) vs 기존 감압술의 임상 결과, 합병증, 학습 곡선 비교 근거는?",System A,3,3,3,3,2,14,Relevant papers but shallow extraction; many findings noted as not available
+Claude,MIS-001,"요추 척추관 협착증에서 UBE(이중포탈 내시경) vs 기존 감압술의 임상 결과, 합병증, 학습 곡선 비교 근거는?",System B,4,5,5,4,5,23,Excellent meta-analyses; blood loss RR 0.63 durotomy RR 0.23 SSI; RCT functional paradox
+Claude,MIS-001,"요추 척추관 협착증에서 UBE(이중포탈 내시경) vs 기존 감압술의 임상 결과, 합병증, 학습 곡선 비교 근거는?",System C,2,1,2,2,1,8,Most papers tangential; almost no UBE vs conventional data
+Claude,MIS-001,"요추 척추관 협착증에서 UBE(이중포탈 내시경) vs 기존 감압술의 임상 결과, 합병증, 학습 곡선 비교 근거는?",System D,3,4,2,1,3,13,0 papers; detailed plausible LLM; all citations from memory
+Claude,MIS-002,"요추 추간판 탈출증에서 전내시경 추간판절제술(FELD/PELD) vs 미세현미경 추간판절제술의 재발률, 회복 시간, 환자 선택 비교 근거는?",System A,4,4,4,3,4,19,Good retrieval; TELD 2x recurrence vs microdiscectomy; distinguishes TELD from BED
+Claude,MIS-002,"요추 추간판 탈출증에서 전내시경 추간판절제술(FELD/PELD) vs 미세현미경 추간판절제술의 재발률, 회복 시간, 환자 선택 비교 근거는?",System B,3,4,2,1,4,14,0 papers; comprehensive LLM; all citations unverifiable
+Claude,MIS-002,"요추 추간판 탈출증에서 전내시경 추간판절제술(FELD/PELD) vs 미세현미경 추간판절제술의 재발률, 회복 시간, 환자 선택 비교 근거는?",System C,4,3,3,3,3,16,Good retrieval of key meta-analysis; covers recurrence and complications
+Claude,MIS-002,"요추 추간판 탈출증에서 전내시경 추간판절제술(FELD/PELD) vs 미세현미경 추간판절제술의 재발률, 회복 시간, 환자 선택 비교 근거는?",System D,2,1,2,2,1,8,Retrieved mostly irrelevant papers; only 1 relevant; honest about gap
+Claude,MIS-003,"요추 퇴행성 질환에서 MIS-TLIF vs 개방형 TLIF의 주수술기 이환율, 유합률, 장기 임상 결과 비교는?",System A,4,4,4,4,4,20,Specific data blood loss 256 vs 550mL; LOS 3.2 vs 6.7d; fusion 88.5-92%; radiation trade-off
+Claude,MIS-003,"요추 퇴행성 질환에서 MIS-TLIF vs 개방형 TLIF의 주수술기 이환율, 유합률, 장기 임상 결과 비교는?",System B,5,5,4,4,5,23,Outstanding; meta-analysis 206mL blood loss reduction; cost $42635 vs $226304/QALY; comprehensive
+Claude,MIS-003,"요추 퇴행성 질환에서 MIS-TLIF vs 개방형 TLIF의 주수술기 이환율, 유합률, 장기 임상 결과 비교는?",System C,1,1,2,2,1,7,Irrelevant papers; honestly states no evidence
+Claude,MIS-003,"요추 퇴행성 질환에서 MIS-TLIF vs 개방형 TLIF의 주수술기 이환율, 유합률, 장기 임상 결과 비교는?",System D,3,4,2,1,4,14,0 papers; well-organized LLM; plausible but unverifiable
+Claude,MIS-004,"측방 요추 추체간 유합술(OLIF/LLIF)의 적응증, 결과, 합병증(요근 손상률 및 침하 포함)은?",System A,3,3,3,3,3,15,Relevant retrieval; indications and radiographic outcomes; lacks specific psoas rates
+Claude,MIS-004,"측방 요추 추체간 유합술(OLIF/LLIF)의 적응증, 결과, 합병증(요근 손상률 및 침하 포함)은?",System B,4,4,4,4,4,20,Good retrieval; psoas OLIF 5.7-8.8% vs XLIF 19.7-21.2%; endplate and subsidence data
+Claude,MIS-004,"측방 요추 추체간 유합술(OLIF/LLIF)의 적응증, 결과, 합병증(요근 손상률 및 침하 포함)은?",System C,1,1,2,2,1,7,Irrelevant papers; honestly acknowledges no OLIF/LLIF evidence
+Claude,MIS-004,"측방 요추 추체간 유합술(OLIF/LLIF)의 적응증, 결과, 합병증(요근 손상률 및 침하 포함)은?",System D,4,5,2,1,4,16,0 papers; very detailed LLM (psoas 0.5-3.4% subsidence 5-45%); all memory
+Claude,MIS-005,"최소침습 척추 수술의 학습 곡선에 대한 근거(숙련도 도달에 필요한 증례 수, 경험에 따른 합병증률 변화 포함)는?",System A,1,1,2,2,1,7,Irrelevant ML/AI papers; honestly states no learning curve evidence
+Claude,MIS-005,"최소침습 척추 수술의 학습 곡선에 대한 근거(숙련도 도달에 필요한 증례 수, 경험에 따른 합병증률 변화 포함)는?",System B,4,5,4,4,5,22,Excellent; BE-TLIF 39 cases UBE 31 MIS-TLIF 43; complication 17.07% to 2.6%; logarithmic model
+Claude,MIS-005,"최소침습 척추 수술의 학습 곡선에 대한 근거(숙련도 도달에 필요한 증례 수, 경험에 따른 합병증률 변화 포함)는?",System C,3,4,2,1,4,14,0 papers; detailed LLM (20-30 TLIF 40-60 endoscopic); all memory
+Claude,MIS-005,"최소침습 척추 수술의 학습 곡선에 대한 근거(숙련도 도달에 필요한 증례 수, 경험에 따른 합병증률 변화 포함)는?",System D,4,4,4,4,4,20,Good retrieval; proficiency 20-43 cases; complication 13.95% learning phase
+Claude,TR-001,"흉요추부 방출 골절에서 단분절 vs 장분절 후방 고정의 후만 교정, 실패율, 기능적 결과 비교 근거는?",System A,3,4,2,1,4,14,0 papers; comprehensive LLM; plausible numbers but unverifiable
+Claude,TR-001,"흉요추부 방출 골절에서 단분절 vs 장분절 후방 고정의 후만 교정, 실패율, 기능적 결과 비교 근거는?",System B,3,3,3,3,3,15,Relevant retrieval with 1a meta-analysis; lacks specific kyphosis data
+Claude,TR-001,"흉요추부 방출 골절에서 단분절 vs 장분절 후방 고정의 후만 교정, 실패율, 기능적 결과 비교 근거는?",System C,4,4,4,4,4,20,Strong retrieval (3 meta-analyses + RCT); 55% SSF failure rate p<0.05
+Claude,TR-001,"흉요추부 방출 골절에서 단분절 vs 장분절 후방 고정의 후만 교정, 실패율, 기능적 결과 비교 근거는?",System D,4,4,4,4,4,20,Best quantitative data; Cobb 2.52deg CI 0.35-4.70 P=.02; implant failure MD=3.43
+Claude,TR-002,"골다공증성 척추 압박골절에서 척추성형술/풍선후만성형술 vs 보존적 치료의 통증 완화, 후만 진행, 인접 골절 위험 비교 근거는?",System A,2,1,2,2,1,8,Retrieved papers cannot answer; all compare PVP vs PKP not vs conservative
+Claude,TR-002,"골다공증성 척추 압박골절에서 척추성형술/풍선후만성형술 vs 보존적 치료의 통증 완화, 후만 진행, 인접 골절 위험 비교 근거는?",System B,3,2,3,3,2,13,Some quantitative data; no conservative comparison; risk factor analysis useful
+Claude,TR-002,"골다공증성 척추 압박골절에서 척추성형술/풍선후만성형술 vs 보존적 치료의 통증 완화, 후만 진행, 인접 골절 위험 비교 근거는?",System C,3,4,2,1,4,14,0 papers; LLM covering the question; some citation errors (VERTOS misattribution)
+Claude,TR-002,"골다공증성 척추 압박골절에서 척추성형술/풍선후만성형술 vs 보존적 치료의 통증 완화, 후만 진행, 인접 골절 위험 비교 근거는?",System D,3,2,3,3,2,13,Specific kyphosis correction data; honest about inability to answer core question
+Claude,TR-003,급성 척수 손상에서 수술적 감압의 시점에 대한 현재 근거와 메틸프레드니솔론의 역할은?,System A,3,2,3,2,2,12,6/10 papers irrelevant; no methylprednisolone; minimal synthesis
+Claude,TR-003,급성 척수 손상에서 수술적 감압의 시점에 대한 현재 근거와 메틸프레드니솔론의 역할은?,System B,4,3,4,3,4,18,Focused retrieval; OR 2.30 for ultra-early; time-is-spine concept; honest limitations
+Claude,TR-003,급성 척수 손상에서 수술적 감압의 시점에 대한 현재 근거와 메틸프레드니솔론의 역할은?,System C,3,5,2,1,4,15,0 papers; covers timing AND methylprednisolone; STASCIS misidentified as RCT
+Claude,TR-003,급성 척수 손상에서 수술적 감압의 시점에 대한 현재 근거와 메틸프레드니솔론의 역할은?,System D,4,3,4,4,4,19,Best retrieval (3x 1a); OR 2.30; unique SCI-POEM QOL finding; no methylprednisolone data
+Claude,TR-004,화농성 척추 추간판염에서 수술 vs 항생제 단독 치료의 근거(수술 적응증 및 원인균별 치료 전략 포함)는?,System A,3,3,3,3,3,15,Relevant retrieval; 90% conservative success; timing framework; limited organism-specific
+Claude,TR-004,화농성 척추 추간판염에서 수술 vs 항생제 단독 치료의 근거(수술 적응증 및 원인균별 치료 전략 포함)는?,System B,4,4,4,4,4,20,Excellent; 31 vs 46 days antibiotics; culture-negative strategy; most comprehensive
+Claude,TR-004,화농성 척추 추간판염에서 수술 vs 항생제 단독 치료의 근거(수술 적응증 및 원인균별 치료 전략 포함)는?,System C,3,3,3,3,2,14,Good retrieval but vague synthesis; mentions predictors without detailing
+Claude,TR-004,화농성 척추 추간판염에서 수술 vs 항생제 단독 치료의 근거(수술 적응증 및 원인균별 치료 전략 포함)는?,System D,4,5,2,1,5,17,0 papers; extraordinarily detailed organism-specific protocols; all LLM memory
+Claude,TR-005,"척추 수술 후 수술 부위 감염의 위험인자, 예방 전략(반코마이신 분말, 베타딘 세척), 치료 접근법은?",System A,3,3,3,3,2,14,Relevant vancomycin retrieval; SSI incidence; no betadine or treatment data
+Claude,TR-005,"척추 수술 후 수술 부위 감염의 위험인자, 예방 전략(반코마이신 분말, 베타딘 세척), 치료 접근법은?",System B,4,5,2,1,5,17,0 papers; comprehensive risk factors + prevention + treatment with doses; all LLM
+Claude,TR-005,"척추 수술 후 수술 부위 감염의 위험인자, 예방 전략(반코마이신 분말, 베타딘 세척), 치료 접근법은?",System C,1,1,1,2,1,6,10 completely irrelevant papers; total retrieval failure; honest
+Claude,TR-005,"척추 수술 후 수술 부위 감염의 위험인자, 예방 전략(반코마이신 분말, 베타딘 세척), 치료 접근법은?",System D,4,4,4,4,4,20,Best retrieval (2x 1a + RCT); cefazolin vs vancomycin; pathogen info; IVP evidence
+Claude,TU-001,NOMS 프레임워크 내에서 전이성 척추 질환의 수술적 의사결정을 위한 SINS(척추 불안정성 종양 점수) 활용 근거는?,System A,4,4,3,4,4,19,Good retrieval; SINS data 5.3 vs 8.6mo survival; mostly review evidence
+Claude,TU-001,NOMS 프레임워크 내에서 전이성 척추 질환의 수술적 의사결정을 위한 SINS(척추 불안정성 종양 점수) 활용 근거는?,System B,3,4,2,1,3,13,0 papers; LLM with named citations; specific kappa values likely fabricated
+Claude,TU-001,NOMS 프레임워크 내에서 전이성 척추 질환의 수술적 의사결정을 위한 SINS(척추 불안정성 종양 점수) 활용 근거는?,System C,4,5,4,4,4,21,Best retrieval (1a+2a+2b); SINS 9 cutoff; SBRT prognostic data
+Claude,TU-001,NOMS 프레임워크 내에서 전이성 척추 질환의 수술적 의사결정을 위한 SINS(척추 불안정성 종양 점수) 활용 근거는?,System D,1,1,1,2,1,6,Complete retrieval failure; all 10 papers irrelevant; honest
+Claude,TU-002,전이성 척추 종양에서 분리 수술 후 정위체부방사선치료(SBRT)의 국소 제어율 및 생존율 결과는?,System A,4,4,3,4,4,19,Specific LC 84% 1yr; mostly review evidence; adjacent level progression covered
+Claude,TU-002,전이성 척추 종양에서 분리 수술 후 정위체부방사선치료(SBRT)의 국소 제어율 및 생존율 결과는?,System B,3,2,3,3,2,13,Mixed retrieval; lacks specific outcome numbers; honest about gaps
+Claude,TU-002,전이성 척추 종양에서 분리 수술 후 정위체부방사선치료(SBRT)의 국소 제어율 및 생존율 결과는?,System C,4,5,2,1,4,16,0 papers; detailed LC/OS/PFS numbers; all LLM citations
+Claude,TU-002,전이성 척추 종양에서 분리 수술 후 정위체부방사선치료(SBRT)의 국소 제어율 및 생존율 결과는?,System D,4,5,4,4,5,22,Best response; LC 84% 1yr; 7.9% vs 20% LF p=0.051; OS 16mo; PROs; summary table
+Claude,TU-003,"원발성 척추 종양에서 전절제술(en bloc spondylectomy)의 수술 변연, 재발, 기능적 결과 및 예후 인자는?",System A,2,2,2,2,2,10,Only 1-2 relevant of 10; honestly admits gaps; fails to answer meaningfully
+Claude,TU-003,"원발성 척추 종양에서 전절제술(en bloc spondylectomy)의 수술 변연, 재발, 기능적 결과 및 예후 인자는?",System B,4,5,2,1,4,16,0 papers; comprehensive tumor-specific data; plausible but unverifiable
+Claude,TU-003,"원발성 척추 종양에서 전절제술(en bloc spondylectomy)의 수술 변연, 재발, 기능적 결과 및 예후 인자는?",System C,4,4,3,4,4,19,All 6 papers relevant; 77.8% marginal margins; 8% LR; 89% ambulation; 63.6% 5yr OS
+Claude,TU-003,"원발성 척추 종양에서 전절제술(en bloc spondylectomy)의 수술 변연, 재발, 기능적 결과 및 예후 인자는?",System D,4,4,3,4,4,19,Good retrieval; 82.4% adequate margins; 22.3% recurrence; GTR by histology
+Claude,TU-004,"전이성 척추 질환에서 최소침습 접근법(경피적 고정, 시멘트 보강)의 적응증, 결과, 합병증에 대한 근거는?",System A,3,3,3,3,3,15,Moderate retrieval; covers indications/advantages; lacks specific complication data
+Claude,TU-004,"전이성 척추 질환에서 최소침습 접근법(경피적 고정, 시멘트 보강)의 적응증, 결과, 합병증에 대한 근거는?",System B,1,1,1,2,1,6,Complete retrieval failure; all papers about degenerative MIS-TLIF; honest
+Claude,TU-004,"전이성 척추 질환에서 최소침습 접근법(경피적 고정, 시멘트 보강)의 적응증, 결과, 합병증에 대한 근거는?",System C,4,4,3,4,4,19,Strong retrieval; PRO improvements; cement contraindications; SINS-based selection
+Claude,TU-004,"전이성 척추 질환에서 최소침습 접근법(경피적 고정, 시멘트 보강)의 적응증, 결과, 합병증에 대한 근거는?",System D,4,5,2,1,5,17,0 papers; extremely detailed LLM with specific numbers; all memory
+Claude,TU-005,척수내 종양(상의세포종 vs 성상세포종)에서 전절제 vs 아전절제의 수술 결과 및 예후 인자는?,System A,4,5,3,4,4,20,Excellent; GTR rates by histology; pediatric ependymoma HR 0.050; en bloc rates
+Claude,TU-005,척수내 종양(상의세포종 vs 성상세포종)에서 전절제 vs 아전절제의 수술 결과 및 예후 인자는?,System B,4,3,3,4,3,17,4 papers all relevant; astrocytoma no GTR-STR survival difference p=0.42; concise
+Claude,TU-005,척수내 종양(상의세포종 vs 성상세포종)에서 전절제 vs 아전절제의 수술 결과 및 예후 인자는?,System C,4,5,2,1,4,16,0 papers; comprehensive tumor-specific tables; all LLM citations
+Claude,TU-005,척수내 종양(상의세포종 vs 성상세포종)에서 전절제 vs 아전절제의 수술 결과 및 예후 인자는?,System D,1,1,2,2,1,7,Near-complete retrieval failure; only 1 marginally relevant paper
